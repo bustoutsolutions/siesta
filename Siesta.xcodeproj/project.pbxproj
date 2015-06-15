@@ -10,6 +10,10 @@
 		DA336E531B2E6DDB006F702A /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
 		DA336E5F1B2E6DDB006F702A /* SiestaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E5E1B2E6DDB006F702A /* SiestaTests.swift */; };
+		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
+		DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; };
+		DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,13 +26,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		DA60F5F81B2F728900D76DC6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */,
+				DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		DA336E4F1B2E6DDB006F702A /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E521B2E6DDB006F702A /* Siesta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Siesta.h; sourceTree = "<group>"; };
 		DA336E541B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E5E1B2E6DDB006F702A /* SiestaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiestaTests.swift; sourceTree = "<group>"; };
 		DA336E601B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../../siesta/Siesta/Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
+				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
 				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,6 +78,7 @@
 			children = (
 				DA336E511B2E6DDB006F702A /* Siesta */,
 				DA336E5D1B2E6DDB006F702A /* SiestaTests */,
+				DA336E6F1B2F65D2006F702A /* Frameworks */,
 				DA336E501B2E6DDB006F702A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +97,7 @@
 			children = (
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
 				DA336E541B2E6DDB006F702A /* Info.plist */,
+				DA336E701B2F6659006F702A /* Service.swift */,
 			);
 			path = Siesta;
 			sourceTree = "<group>";
@@ -84,6 +109,15 @@
 				DA336E601B2E6DDB006F702A /* Info.plist */,
 			);
 			path = SiestaTests;
+			sourceTree = "<group>";
+		};
+		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
+				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +159,7 @@
 				DA336E551B2E6DDB006F702A /* Sources */,
 				DA336E561B2E6DDB006F702A /* Frameworks */,
 				DA336E571B2E6DDB006F702A /* Resources */,
+				DA60F5F81B2F728900D76DC6 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -142,6 +177,7 @@
 		DA336E461B2E6DDB006F702A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Bust Out Solutions";
 				TargetAttributes = {
@@ -193,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +344,7 @@
 		DA336E641B2E6DDB006F702A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -317,12 +355,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		DA336E651B2E6DDB006F702A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -339,6 +379,7 @@
 		DA336E671B2E6DDB006F702A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = SiestaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
@@ -349,6 +390,7 @@
 		DA336E681B2E6DDB006F702A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = SiestaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
@@ -375,6 +417,7 @@
 				DA336E651B2E6DDB006F702A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests" */ = {
 			isa = XCConfigurationList;
@@ -383,6 +426,7 @@
 				DA336E681B2E6DDB006F702A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
