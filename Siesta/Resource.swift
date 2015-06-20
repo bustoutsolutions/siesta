@@ -10,7 +10,7 @@ import Foundation
 
 public class Resource
     {
-    public unowned let service: Service
+    public let service: Service
     public let url: NSURL?
     
     init(service: Service, url: NSURL?)
