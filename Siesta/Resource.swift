@@ -16,6 +16,6 @@ public class Resource
     init(service: Service, url: NSURL?)
         {
         self.service = service
-        self.url = url?.absoluteURL;
+        self.url = url?.absoluteURL
         }
     }

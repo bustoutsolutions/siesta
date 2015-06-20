@@ -18,53 +18,94 @@ class SiestaTests: QuickSpec
         {
         describe("init()")
             {
-            func checkBaseURLExpansion(base: String, _ expectedExpansion: String)
+            it("enforces a trailing slash on baseURL")
                 {
-                let service = Service(base: base)
-                expect(service.baseURL?.absoluteString).to(equal(expectedExpansion))
-                }
-            
-            it("removes the trailing slash from baseURL")
-                {
-                checkBaseURLExpansion("http://foo.bar/",     "http://foo.bar")
-                checkBaseURLExpansion("http://foo.bar/baz/", "http://foo.bar/baz")
+                expect("http://foo.bar")     .to(expandToBaseURL("http://foo.bar/"))
+                expect("http://foo.bar/")    .to(expandToBaseURL("http://foo.bar/"))
+                expect("http://foo.bar/baz") .to(expandToBaseURL("http://foo.bar/baz/"))
+                expect("http://foo.bar/baz/").to(expandToBaseURL("http://foo.bar/baz/"))
                 }
                 
             it("preserves baseURL query parameters")
                 {
-                checkBaseURLExpansion("http://foo.bar/baz?you=mysunshine",  "http://foo.bar/baz?you=mysunshine")
-                checkBaseURLExpansion("http://foo.bar/baz/?you=mysunshine", "http://foo.bar/baz?you=mysunshine")
+                expect("http://foo.bar?you=mysunshine")     .to(expandToBaseURL("http://foo.bar/?you=mysunshine"))
+                expect("http://foo.bar/?you=mysunshine")    .to(expandToBaseURL("http://foo.bar/?you=mysunshine"))
+                expect("http://foo.bar/baz?you=mysunshine") .to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
+                expect("http://foo.bar/baz/?you=mysunshine").to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 }
             }
         
         describe("resource()")
             {
-            // Checks baseURL with and without a trailing slash, and resourcePath with and without a leading slash.
-            // Because Service.resource(path:) resolves everything as a subpath of the base URL, these four cases
-            // should always give identical results.
-            
-            func checkPathExpansion(base: String, _ resourcePath: String, _ expectedExpansion: String)
+            it("resolves all paths as subpaths of baseURL")
                 {
-                for baseVariant in [base, base + "/"]
-                    {
-                    for resourcePathVariant in [resourcePath, "/" + resourcePath]
-                        {
-                        let service = Service(base: baseVariant)
-                        let resource = service.resource(resourcePathVariant)
-                        expect(resource.url?.absoluteString)
-                            .to(equal(expectedExpansion))
-                        }
-                    }
+                // Note that checkPathExpansion tests both with & without leading slash
+                checkPathExpansion("https://foo.bar",    path:"",         expect:"https://foo.bar/")
+                checkPathExpansion("https://foo.bar",    path:"baz",      expect:"https://foo.bar/baz")
+                checkPathExpansion("https://foo.bar",    path:"baz/fez",  expect:"https://foo.bar/baz/fez")
+                checkPathExpansion("https://foo.bar",    path:"baz/fez/", expect:"https://foo.bar/baz/fez/")
+                checkPathExpansion("https://foo.bar/v1", path:"baz",      expect:"https://foo.bar/v1/baz")
+                checkPathExpansion("https://foo.bar/v1", path:"baz/fez",  expect:"https://foo.bar/v1/baz/fez")
+                // TODO: Should there be special handling for paths starting with "." and ".."?
                 }
-            
-            it("resolves all paths as subpaths of base URL")
+
+            it("preserves baseURL query params")
                 {
-                checkPathExpansion("https://foo.bar",    "baz",      "https://foo.bar/baz")
-                checkPathExpansion("https://foo.bar",    "baz/fez",  "https://foo.bar/baz/fez")
-                checkPathExpansion("https://foo.bar",    "baz/fez/", "https://foo.bar/baz/fez/")
-                checkPathExpansion("https://foo.bar/v1", "baz",      "https://foo.bar/v1/baz")
-                checkPathExpansion("https://foo.bar/v1", "baz/fez",  "https://foo.bar/v1/baz/fez")
+                checkPathExpansion("https://foo.bar/?a=b&x=y",   path:"baz/fez/", expect:"https://foo.bar/baz/fez/?a=b&x=y")
+                checkPathExpansion("https://foo.bar/v1?a=b&x=y", path:"baz",      expect:"https://foo.bar/v1/baz?a=b&x=y")
                 }
             }
+        }
+    }
+
+
+// ------ Custom matchers ------
+
+func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
+    {
+    return MatcherFunc
+        {
+        actual, failureMessage in
+
+        let base = actual.evaluate() ?? "",
+            service = Service(base: base),
+            actualURL = service.baseURL?.absoluteString
+        failureMessage.stringValue =
+            "expected baseURL \(base.debugDescription)"
+            + " to expand to \(expectedURL.debugDescription),"
+            + " but got \(actualURL.debugDescription)"
+        return actualURL == expectedURL
+        }
+    }
+
+func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
+    {
+    return MatcherFunc
+        {
+        inputs, failureMessage in
+        
+        let (base, resourcePath) = inputs.evaluate()!,
+            service = Service(base: base),
+            resource = service.resource(resourcePath),
+            actualURL = resource.url?.absoluteString
+        failureMessage.stringValue =
+            "expected base \(base.debugDescription)"
+            + " and resource path \(resourcePath.debugDescription)"
+            + " to expand to \(expectedURL.debugDescription),"
+            + " but got \(actualURL.debugDescription)"
+        return actualURL == expectedURL
+        }
+    }
+
+// Checks resourcePath with and without a leading slash.
+// Because Service.resource(path:) resolves everything as a subpath of the base URL, these four cases
+// should always give identical results.
+
+func checkPathExpansion(base: String, path resourcePath: String, expect expectedExpansion: String)
+    {
+    for resourcePathVariant in [resourcePath, "/" + resourcePath]
+        {
+        expect((base, resourcePathVariant))
+            .to(expandToResourceURL(expectedExpansion))
         }
     }

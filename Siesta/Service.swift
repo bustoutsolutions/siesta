@@ -14,7 +14,13 @@ public class Service: NSObject
     
     public init(baseURL: NSURL?)
         {
-        self.baseURL = Service.normalizeBaseURL(baseURL)
+        self.baseURL = alterURLPath(baseURL)
+            {
+            path in
+            !path.hasSuffix("/")
+                ? path + "/"
+                : path
+            }
         }
 
     public convenience init(base: String)
@@ -29,21 +35,30 @@ public class Service: NSObject
     
     public func resource(path: String) -> Resource
         {
-        return resource(baseURL?.URLByAppendingPathComponent(path))
+        return resource(
+            alterURLPath(baseURL)
+                {
+                basePath in
+
+                // Alas, stringByAppendingPathComponent strips trailing slashes, so we have to do this by hand.
+                let pathTrimmed =
+                    path.hasPrefix("/")
+                        ? path[path.startIndex.successor() ..< path.endIndex]
+                        : path
+                return basePath + pathTrimmed
+                }
+            )
         }
+    }
+
+private func alterURLPath(url: NSURL?, pathMutator: String -> String) -> NSURL?
+    {
+    guard let url = url,
+              components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
+    else { return nil }
     
-    private static func normalizeBaseURL(baseURL: NSURL?) -> NSURL?
-        {
-        guard let baseURL = baseURL,
-                  components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: true)
-        else { return nil }
+    let path = pathMutator(components.path ?? "")
+    components.path = (path == "") ? nil : path
         
-        if let path = components.path
-        where path.hasSuffix("/")
-            {
-            components.path = path[path.startIndex ..< path.endIndex.predecessor()]
-            }
-            
-        return components.URL
-        }
+    return components.URL
     }
