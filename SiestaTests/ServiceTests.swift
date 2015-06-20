@@ -1,6 +1,6 @@
 //
-//  SiestaTests.swift
-//  SiestaTests
+//  ServiceTests.swift
+//  ServiceTests
 //
 //  Created by Paul on 2015/6/14.
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
@@ -10,10 +10,8 @@ import Siesta
 import Quick
 import Nimble
 
-class SiestaTests: QuickSpec
+class ServiceTests: QuickSpec
     {
-    lazy var serviceWithInvalidBase = Service(baseURL: nil)
-    
     override func spec()
         {
         describe("init()")
