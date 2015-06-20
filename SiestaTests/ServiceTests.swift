@@ -14,6 +14,8 @@ class ServiceTests: QuickSpec
     {
     override func spec()
         {
+        let service  = lazy { Service(base: "https://zingle.frotz") }
+        
         describe("init()")
             {
             it("enforces a trailing slash on baseURL")
@@ -35,6 +37,12 @@ class ServiceTests: QuickSpec
         
         describe("resource()")
             {
+            it("returns a resource that belongs to this service")
+                {
+                expect(service().resource("/foo").service)
+                    .to(equal(service()))
+                }
+            
             it("resolves all paths as subpaths of baseURL")
                 {
                 // Note that checkPathExpansion tests both with & without leading slash

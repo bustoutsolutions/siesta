@@ -18,4 +18,14 @@ public class Resource
         self.service = service
         self.url = url?.absoluteURL
         }
+    
+    public func child(path: String) -> Resource
+        {
+        return service.resource(url?.URLByAppendingPathComponent(path))
+        }
+    
+    public func relative(path: String) -> Resource
+        {
+        return service.resource(NSURL(string: path, relativeToURL: url))
+        }
     }
