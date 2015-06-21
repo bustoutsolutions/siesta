@@ -89,16 +89,19 @@ class ResourceTests: QuickSpec
         }
     }
 
-func expandToChildURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
+func resourceExpansionMatcher(
+             expectedURL: String,
+        relationshipName: String,
+            relationship: (Resource,String) -> Resource)
+    -> MatcherFunc<(Resource,String)>
     {
     return MatcherFunc
-        {
-        inputs, failureMessage in
+        { inputs, failureMessage in
         
-        let (resource, childPath) = inputs.evaluate()!,
-            actualURL = resource.child(childPath).url?.absoluteString
+        let (resource, path) = inputs.evaluate()!,
+            actualURL = relationship(resource, path).url?.absoluteString
         failureMessage.stringValue =
-            "expected child \(childPath.debugDescription)"
+            "expected \(relationshipName) \(path.debugDescription)"
             + " of resource \(resource.url)"
             + " to expand to \(expectedURL.debugDescription),"
             + " but got \(actualURL.debugDescription)"
@@ -106,20 +109,14 @@ func expandToChildURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
         }
     }
 
+func expandToChildURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
+    {
+    return resourceExpansionMatcher(expectedURL, relationshipName: "child")
+        { resource, path in resource.child(path) }
+    }
 
 func expandToRelativeURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
     {
-    return MatcherFunc
-        {
-        inputs, failureMessage in
-        
-        let (resource, relativePath) = inputs.evaluate()!,
-            actualURL = resource.relative(relativePath).url?.absoluteString
-        failureMessage.stringValue =
-            "expected relative \(relativePath.debugDescription)"
-            + " of resource \(resource.url)"
-            + " to expand to \(expectedURL.debugDescription),"
-            + " but got \(actualURL.debugDescription)"
-        return actualURL == expectedURL
-        }
+    return resourceExpansionMatcher(expectedURL, relationshipName: "relative")
+        { resource, path in resource.relative(path) }
     }
