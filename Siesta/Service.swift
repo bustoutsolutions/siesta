@@ -35,19 +35,7 @@ public class Service: NSObject
     
     public func resource(path: String) -> Resource
         {
-        return resource(
-            alterURLPath(baseURL)
-                {
-                basePath in
-
-                // Alas, stringByAppendingPathComponent strips trailing slashes, so we have to do this by hand.
-                let pathTrimmed =
-                    path.hasPrefix("/")
-                        ? path[path.startIndex.successor() ..< path.endIndex]
-                        : path
-                return basePath + pathTrimmed
-                }
-            )
+        return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
     }
 
