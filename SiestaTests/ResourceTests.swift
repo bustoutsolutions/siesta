@@ -92,7 +92,7 @@ class ResourceTests: QuickSpec
                 }
             }
         
-        it("does a Alamofire + Nocilla sanity check") // TODO: remove
+        it("does an Alamofire + Nocilla sanity check") // TODO: remove
             {
             stubRequest("GET", "https://zingle.frotz/v1")
                 .andReturn(200)
