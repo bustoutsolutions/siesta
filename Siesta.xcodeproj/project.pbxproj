@@ -18,6 +18,10 @@
 		DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60F5FB1B30B2F800D76DC6 /* Resource.swift */; };
+		DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; };
+		DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +43,8 @@
 			files = (
 				DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */,
 				DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */,
+				DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */,
+				DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +63,8 @@
 		DA49EA7D1B35FE7E00AE1B8F /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
 		DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quick+Siesta.swift"; sourceTree = "<group>"; };
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +79,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */,
 				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
 				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
+				DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */,
 				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,10 +134,20 @@
 		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
-				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
+				DA612E421B38AD1000DE9A9F /* Alamofire.framework */,
+				DA612E411B38ACB900DE9A9F /* Test-only */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA612E411B38ACB900DE9A9F /* Test-only */ = {
+			isa = PBXGroup;
+			children = (
+				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
+				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
+				DA612E441B38AD2100DE9A9F /* Nocilla.framework */,
+			);
+			name = "Test-only";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

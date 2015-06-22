@@ -9,12 +9,17 @@
 import Siesta
 import Quick
 import Nimble
-
+import Nocilla
+import Alamofire
 
 class ResourceTests: QuickSpec
     {
     override func spec()
         {
+        beforeSuite { LSNocilla.sharedInstance().start() }
+        afterSuite  { LSNocilla.sharedInstance().stop() }
+        afterEach   { LSNocilla.sharedInstance().clearStubs() }
+        
         let service  = lazy { Service(base: "https://zingle.frotz/v1") },
             resource = lazy { service().resource("/a/b") }
         
@@ -85,6 +90,22 @@ class ResourceTests: QuickSpec
                 expect((resource(), "//other.host/c")).to(expandToRelativeURL("https://other.host/c"))
                 expect((resource(), "ftp://other.host/c")).to(expandToRelativeURL("ftp://other.host/c"))
                 }
+            }
+        
+        it("does a Alamofire + Nocilla sanity check") // TODO: remove
+            {
+            stubRequest("GET", "https://zingle.frotz/v1")
+                .andReturn(200)
+                .withBody("hello")
+            
+            let expectation = QuickSpec.current().expectationWithDescription("network call")
+            let req = Alamofire.request(.GET, URLString: "https://zingle.frotz/v1")
+            req.response
+                { (request, response, data, error) in
+                print("\n\n ------> got response to test network call: \(data)\n\n")
+                }
+            req.response { _ in expectation.fulfill() }
+            QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
             }
         }
     }
