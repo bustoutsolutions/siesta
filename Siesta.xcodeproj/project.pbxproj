@@ -112,10 +112,9 @@
 		DA336E511B2E6DDB006F702A /* Siesta */ = {
 			isa = PBXGroup;
 			children = (
-				DA336E521B2E6DDB006F702A /* Siesta.h */,
-				DA336E541B2E6DDB006F702A /* Info.plist */,
 				DA336E701B2F6659006F702A /* Service.swift */,
 				DA60F5FB1B30B2F800D76DC6 /* Resource.swift */,
+				DA99B5C61B38C356009C6937 /* Support */,
 			);
 			path = Siesta;
 			sourceTree = "<group>";
@@ -125,8 +124,7 @@
 			children = (
 				DA49EA7B1B35FE5F00AE1B8F /* ServiceTests.swift */,
 				DA49EA7D1B35FE7E00AE1B8F /* ResourceTests.swift */,
-				DA336E601B2E6DDB006F702A /* Info.plist */,
-				DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */,
+				DA99B5C71B38C36A009C6937 /* Support */,
 			);
 			path = SiestaTests;
 			sourceTree = "<group>";
@@ -148,6 +146,24 @@
 				DA612E441B38AD2100DE9A9F /* Nocilla.framework */,
 			);
 			name = "Test-only";
+			sourceTree = "<group>";
+		};
+		DA99B5C61B38C356009C6937 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				DA336E521B2E6DDB006F702A /* Siesta.h */,
+				DA336E541B2E6DDB006F702A /* Info.plist */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		DA99B5C71B38C36A009C6937 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				DA336E601B2E6DDB006F702A /* Info.plist */,
+				DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
