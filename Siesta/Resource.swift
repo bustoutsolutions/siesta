@@ -6,12 +6,12 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-import Foundation
+import Alamofire
 
 public class Resource
     {
     public let service: Service
-    public let url: NSURL?
+    public let url: NSURL? // TODO: figure out what to do about invalid URLs
     
     init(service: Service, url: NSURL?)
         {
@@ -28,4 +28,14 @@ public class Resource
         {
         return service.resource(NSURL(string: path, relativeToURL: url))
         }
+    
+    public func request(method: Alamofire.Method) -> Request
+        {
+        let req = service.sessionManager.request(method, url!).response
+            { req, res, data, error in
+            
+            }
+        return req
+        }
+    
     }

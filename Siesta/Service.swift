@@ -7,25 +7,28 @@
 //
 
 import Foundation
+import Alamofire
 
 public class Service: NSObject
     {
     public let baseURL: NSURL?
+    public let sessionManager: Manager
     
-    public init(baseURL: NSURL?)
+    public init(base: URLStringConvertible, sessionManager: Manager = Manager.sharedInstance)
         {
-        self.baseURL = alterURLPath(baseURL)
+        self.baseURL = alterURLPath(NSURL(string: base.URLString))
             {
             path in
             !path.hasSuffix("/")
                 ? path + "/"
                 : path
             }
+        self.sessionManager = sessionManager
         }
-
-    public convenience init(base: String)
+    
+    public convenience init(base: URLStringConvertible, configuration: NSURLSessionConfiguration)
         {
-        self.init(baseURL: NSURL(string: base))
+        self.init(base: base, sessionManager: Manager(configuration: configuration))
         }
     
     public func resource(url: NSURL?) -> Resource

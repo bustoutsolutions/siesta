@@ -23,6 +23,21 @@ class ResourceTests: QuickSpec
         let service  = lazy { Service(base: "https://zingle.frotz/v1") },
             resource = lazy { service().resource("/a/b") }
         
+        func stubSuccess(method: String, _ res: Resource)
+            {
+            stubRequest(method, res.url!.absoluteString)
+                .andReturn(200)
+                .withHeader("Content-Type", "text/plain")
+                .withBody("hello")
+            }
+        
+        func awaitResponse(req: Request)
+            {
+            let expectation = QuickSpec.current().expectationWithDescription("network call: \(req)")
+            req.response { _ in expectation.fulfill() }
+            QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
+            }
+        
         describe("child()")
             {
             it("returns a resource with the same service")
@@ -92,20 +107,13 @@ class ResourceTests: QuickSpec
                 }
             }
         
-        it("does an Alamofire + Nocilla sanity check") // TODO: remove
+        describe("request()")
             {
-            stubRequest("GET", "https://zingle.frotz/v1")
-                .andReturn(200)
-                .withBody("hello")
-            
-            let expectation = QuickSpec.current().expectationWithDescription("network call")
-            let req = Alamofire.request(.GET, URLString: "https://zingle.frotz/v1")
-            req.response
-                { (request, response, data, error) in
-                print("\n\n ------> got response to test network call: \(data)\n\n")
+            it("fetches the resource")
+                {
+                stubSuccess("GET", resource())
+                awaitResponse(resource().request(.GET))
                 }
-            req.response { _ in expectation.fulfill() }
-            QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
             }
         }
     }
