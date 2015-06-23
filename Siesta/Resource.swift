@@ -13,6 +13,9 @@ public class Resource
     public let service: Service
     public let url: NSURL? // TODO: figure out what to do about invalid URLs
     
+    public var loading: Bool { return !requests.isEmpty }
+    public private(set) var requests = Set<Request>()
+    
     init(service: Service, url: NSURL?)
         {
         self.service = service
@@ -31,11 +34,26 @@ public class Resource
     
     public func request(method: Alamofire.Method) -> Request
         {
-        let req = service.sessionManager.request(method, url!).response
-            { req, res, data, error in
-            
-            }
-        return req
+        let request = service.sessionManager.request(method, url!)
+        requests.insert(request)
+        request.response
+                {
+                [weak self, weak request]
+                nsreq, nsres, data, error in
+                
+                if let request = request
+                    { self?.requests.remove(request) }
+                }
+        return request
         }
     
+    }
+
+public func ==(lhs: Request, rhs: Request) -> Bool
+    { return lhs === rhs }
+
+extension Request: Hashable
+    {
+    public var hashValue: Int
+        { return ObjectIdentifier(self).hashValue }
     }

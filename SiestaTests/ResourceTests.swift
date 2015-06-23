@@ -109,12 +109,44 @@ class ResourceTests: QuickSpec
         
         describe("request()")
             {
+            beforeEach { stubSuccess("GET", resource()) }
+            
             it("fetches the resource")
                 {
-                stubSuccess("GET", resource())
                 awaitResponse(resource().request(.GET))
                 }
+            
+            it("marks that the resource is loading")
+                {
+                expect(resource().loading).to(beFalse())
+                
+                let req = resource().request(.GET)
+                expect(resource().loading).to(beTrue())
+                
+                awaitResponse(req)
+                expect(resource().loading).to(beFalse())
+                }
+            
+            it("tracks concurrent requests")
+                {
+                service().sessionManager.startRequestsImmediately = false
+                let req0 = resource().request(.GET),
+                    req1 = resource().request(.GET)
+                expect(resource().loading).to(beTrue())
+                expect(resource().requests).to(equal([req0, req1]))
+                
+                req0.resume()
+                awaitResponse(req0)
+                expect(resource().loading).to(beTrue())
+                expect(resource().requests).to(equal([req1]))
+                
+                req1.resume()
+                awaitResponse(req1)
+                expect(resource().loading).to(beFalse())
+                expect(resource().requests).to(equal([]))
+                }
             }
+        
         }
     }
 
