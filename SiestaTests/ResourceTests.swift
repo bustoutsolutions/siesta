@@ -23,12 +23,11 @@ class ResourceTests: QuickSpec
         let service  = lazy { Service(base: "https://zingle.frotz/v1") },
             resource = lazy { service().resource("/a/b") }
         
-        func stubSuccess(method: String, _ res: Resource)
+        let stubResourceReqest =
             {
-            stubRequest(method, res.url!.absoluteString)
-                .andReturn(200)
-                .withHeader("Content-Type", "text/plain")
-                .withBody("hello")
+            (method: String, resultCode: Int) in
+            return stubRequest(method, resource().url!.absoluteString)
+                .andReturn(resultCode)
             }
         
         func awaitResponse(req: Request)
@@ -36,6 +35,16 @@ class ResourceTests: QuickSpec
             let expectation = QuickSpec.current().expectationWithDescription("network call: \(req)")
             req.response { _ in expectation.fulfill() }
             QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
+            }
+        
+        it("starts in a blank state")
+            {
+            expect(resource().data).to(beNil())
+            expect(resource().state.latestData).to(beNil())
+            expect(resource().state.latestError).to(beNil())
+            
+            expect(resource().loading).to(beFalse())
+            expect(resource().requests).to(equal([]))
             }
         
         describe("child()")
@@ -109,17 +118,23 @@ class ResourceTests: QuickSpec
         
         describe("request()")
             {
-            beforeEach { stubSuccess("GET", resource()) }
-            
             it("fetches the resource")
                 {
+                stubResourceReqest("GET", 200)
                 awaitResponse(resource().request(.GET))
+                }
+            
+            it("handles various HTTP methods")
+                {
+                stubResourceReqest("PATCH", 200)
+                awaitResponse(resource().request(.PATCH))
                 }
             
             it("marks that the resource is loading")
                 {
                 expect(resource().loading).to(beFalse())
                 
+                stubResourceReqest("GET", 200)
                 let req = resource().request(.GET)
                 expect(resource().loading).to(beTrue())
                 
@@ -130,6 +145,9 @@ class ResourceTests: QuickSpec
             it("tracks concurrent requests")
                 {
                 service().sessionManager.startRequestsImmediately = false
+                defer { service().sessionManager.startRequestsImmediately = true }
+                
+                stubResourceReqest("GET", 200)
                 let req0 = resource().request(.GET),
                     req1 = resource().request(.GET)
                 expect(resource().loading).to(beTrue())
@@ -145,8 +163,61 @@ class ResourceTests: QuickSpec
                 expect(resource().loading).to(beFalse())
                 expect(resource().requests).to(equal([]))
                 }
+            
+            it("does not update the resource state")
+                {
+                stubResourceReqest("GET", 200)
+                awaitResponse(resource().request(.GET))
+                expect(resource().state.latestData).to(beNil())
+                expect(resource().state.latestError).to(beNil())
+                }
             }
-        
+
+        describe("load()")
+            {
+            it("stores the response data")
+                {
+                stubResourceReqest("GET", 200)
+                    .withBody("eep eep")
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData).notTo(beNil())
+                expect(dataAsString(resource().data)).to(equal("eep eep"))
+                }
+            
+            it("stores the content type")
+                {
+                stubResourceReqest("GET", 200)
+                    .withHeader("cOnTeNt-TyPe", "text/monkey")
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData?.mimeType).to(equal("text/monkey"))
+                }
+            
+            it("defaults content type to raw binary")
+                {
+                stubResourceReqest("GET", 200)
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData?.mimeType).to(equal("application/octet-stream"))
+                }
+                
+            it("stores the etag")
+                {
+                stubResourceReqest("GET", 200).withHeader("eTaG", "123 456 xyz")
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
+                }
+            
+            it("handles missing etag")
+                {
+                stubResourceReqest("GET", 200)
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData?.etag).to(beNil())
+                }
+            }
         }
     }
 
@@ -180,4 +251,12 @@ func expandToRelativeURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
     {
     return resourceExpansionMatcher(expectedURL, relationshipName: "relative")
         { resource, path in resource.relative(path) }
+    }
+
+func dataAsString(data: AnyObject?) -> String?
+    {
+    guard let nsdata = data as? NSData else
+        { return nil }
+    
+    return NSString(data: nsdata, encoding: NSUTF8StringEncoding) as? String
     }
