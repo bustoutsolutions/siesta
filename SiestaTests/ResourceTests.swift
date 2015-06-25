@@ -23,11 +23,9 @@ class ResourceTests: QuickSpec
         let service  = lazy { Service(base: "https://zingle.frotz/v1") },
             resource = lazy { service().resource("/a/b") }
         
-        let stubResourceReqest =
+        func stubResourceReqest(method: String) -> LSStubRequestDSL
             {
-            (method: String, resultCode: Int) in
             return stubRequest(method, resource().url!.absoluteString)
-                .andReturn(resultCode)
             }
         
         func awaitResponse(req: Request)
@@ -120,13 +118,13 @@ class ResourceTests: QuickSpec
             {
             it("fetches the resource")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().request(.GET))
                 }
             
             it("handles various HTTP methods")
                 {
-                stubResourceReqest("PATCH", 200)
+                stubResourceReqest("PATCH").andReturn(200)
                 awaitResponse(resource().request(.PATCH))
                 }
             
@@ -134,7 +132,7 @@ class ResourceTests: QuickSpec
                 {
                 expect(resource().loading).to(beFalse())
                 
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 let req = resource().request(.GET)
                 expect(resource().loading).to(beTrue())
                 
@@ -147,7 +145,7 @@ class ResourceTests: QuickSpec
                 service().sessionManager.startRequestsImmediately = false
                 defer { service().sessionManager.startRequestsImmediately = true }
                 
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 let req0 = resource().request(.GET),
                     req1 = resource().request(.GET)
                 expect(resource().loading).to(beTrue())
@@ -166,7 +164,7 @@ class ResourceTests: QuickSpec
             
             it("does not update the resource state")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().request(.GET))
                 expect(resource().state.latestData).to(beNil())
                 expect(resource().state.latestError).to(beNil())
@@ -177,7 +175,7 @@ class ResourceTests: QuickSpec
             {
             it("stores the response data")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                     .withBody("eep eep")
                 awaitResponse(resource().load())
                 
@@ -187,7 +185,7 @@ class ResourceTests: QuickSpec
             
             it("stores the content type")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
                 awaitResponse(resource().load())
                 
@@ -196,27 +194,131 @@ class ResourceTests: QuickSpec
             
             it("defaults content type to raw binary")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().load())
                 
                 expect(resource().state.latestData?.mimeType).to(equal("application/octet-stream"))
                 }
                 
-            it("stores the etag")
-                {
-                stubResourceReqest("GET", 200).withHeader("eTaG", "123 456 xyz")
-                awaitResponse(resource().load())
-                
-                expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
-                }
-            
             it("handles missing etag")
                 {
-                stubResourceReqest("GET", 200)
+                stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().load())
                 
                 expect(resource().state.latestData?.etag).to(beNil())
                 }
+            
+            func sendAndWaitForSuccessfulRequest()
+                {
+                stubResourceReqest("GET")
+                    .andReturn(200)
+                    .withHeader("eTaG", "123 456 xyz")
+                    .withHeader("Content-Type", "applicaiton/zoogle+plotz")
+                    .withBody("zoogleplotz")
+                awaitResponse(resource().load())
+                LSNocilla.sharedInstance().clearStubs()
+                }
+            
+            func expectDataToBeUnchanged()
+                {
+                expect(dataAsString(resource().data)).to(equal("zoogleplotz"))
+                expect(resource().state.latestData?.mimeType).to(equal("applicaiton/zoogle+plotz"))
+                expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
+                }
+            
+            context("receiving an etag")
+                {
+                beforeEach(sendAndWaitForSuccessfulRequest)
+                
+                it("stores the etag")
+                    {
+                    expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
+                    }
+                
+                it("sends the etag with subsequent requests")
+                    {
+                    stubResourceReqest("GET")
+                        .withHeader("If-None-Match", "123 456 xyz")
+                        .andReturn(304)
+                    awaitResponse(resource().load())
+                    }
+                
+                it("handles subsequent 200 by replacing data")
+                    {
+                    stubResourceReqest("GET")
+                        .andReturn(200)
+                        .withHeader("eTaG", "ABC DEF 789")
+                        .withHeader("Content-Type", "applicaiton/ploogle+zotz")
+                        .withBody("plooglezotz")
+                    awaitResponse(resource().load())
+                        
+                    expect(dataAsString(resource().data)).to(equal("plooglezotz"))
+                    expect(resource().state.latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
+                    expect(resource().state.latestData?.etag).to(equal("ABC DEF 789"))
+                    }
+                
+                it("handles subsequent 304 by keeping existing data")
+                    {
+                    stubResourceReqest("GET").andReturn(304)
+                    awaitResponse(resource().load())
+                    
+                    expectDataToBeUnchanged()
+                    expect(resource().state.latestError).to(beNil())
+                    }
+                }
+            
+            it("handles request errors")
+                {
+                let sampleError = NSError(domain: "TestDomain", code: 12345, userInfo: nil)
+                stubResourceReqest("GET").andFailWithError(sampleError)
+                awaitResponse(resource().load())
+                
+                expect(resource().state.latestData).to(beNil())
+                expect(resource().state.latestError).notTo(beNil())
+                expect(resource().state.latestError?.nsError).to(equal(sampleError))
+                }
+            
+            // Testing all these HTTP codes individually because Apple likes
+            // to treat specific ones as special cases.
+            
+            for statusCode in Array(400...410) + (500...505)
+                {
+                it("treats HTTP \(statusCode) as an error")
+                    {
+                    stubResourceReqest("GET").andReturn(statusCode)
+                    awaitResponse(resource().load())
+                    
+                    expect(resource().state.latestData).to(beNil())
+                    expect(resource().state.latestError).notTo(beNil())
+                    expect(resource().state.latestError?.httpStatusCode).to(equal(statusCode))
+                    }
+                }
+            
+            it("preserves last valid data after error")
+                {
+                sendAndWaitForSuccessfulRequest()
+
+                stubResourceReqest("GET").andReturn(500)
+                awaitResponse(resource().load())
+                
+                expectDataToBeUnchanged()
+                }
+
+            it("leaves everything unchanged after a cancelled request")  // TODO: should be separate instead?
+                {
+                sendAndWaitForSuccessfulRequest()
+                
+                let req = resource().load()
+                req.cancel()
+                awaitResponse(req)
+
+                expectDataToBeUnchanged()
+                expect(resource().state.latestError).to(beNil())
+                }
+            
+            // TODO: test no internet connnection if possible
+            
+            // TODO: how should it handle redirects?
             }
         }
     }

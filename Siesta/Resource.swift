@@ -36,9 +36,16 @@ public class Resource
         return service.resource(NSURL(string: path, relativeToURL: url))
         }
     
-    public func request(method: Alamofire.Method) -> Request
+    public func request(
+            method:          Alamofire.Method,
+            requestMutation: NSMutableURLRequest -> () = { _ in })
+        -> Request
         {
-        let request = service.sessionManager.request(method, url!)
+        let nsreq = NSMutableURLRequest(URL: url!)
+        nsreq.HTTPMethod = method.rawValue
+        requestMutation(nsreq)
+
+        let request = service.sessionManager.request(nsreq)
         requests.insert(request)
         request.response
             {
@@ -53,21 +60,26 @@ public class Resource
     
     public func load() -> Request
         {
-        return request(.GET).response
-            {
-            [weak self]
-            nsreq, nsres, data, error in
-            
-            if let data = data
-                where error == nil
+        return request(.GET)
                 {
-                self?.updateStateWithData(data, response: nsres)
+                nsreq in
+                if let etag = self.state.latestData?.etag
+                    { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
                 }
-            else
+            .response
                 {
-                self?.updateStateWithError(error, response: nsres)
+                [weak self]
+                nsreq, nsres, data, error in
+                
+                if nsres?.statusCode >= 400
+                    { self?.updateStateWithHttpError(nsres) }
+                else if nsres?.statusCode == 304
+                    { self?.updateStateWithDataNotModified() }
+                else if let error = error
+                    { self?.updateStateWithNSError(error, response: nsres) }
+                else if let data = data
+                    { self?.updateStateWithData(data, response: nsres) }
                 }
-            }
         }
     
     private func updateStateWithData(data: AnyObject, response: NSHTTPURLResponse?)
@@ -83,11 +95,31 @@ public class Resource
             etag:     header("ETag"))
         self.state = newState
         }
+
+    private func updateStateWithDataNotModified()
+        {
+        var newState = self.state
+        newState.latestError = nil
+        newState.latestData?.touch()
+        self.state = newState
+        }
     
-    private func updateStateWithError(error: NSError?, response: NSHTTPURLResponse?)
+    private func updateStateWithHttpError(response: NSHTTPURLResponse?)
         {
         var newState = self.state
         newState.latestError = Error()
+        newState.latestError?.httpStatusCode = response?.statusCode
+        self.state = newState
+        }
+    
+    private func updateStateWithNSError(error: NSError, response: NSHTTPURLResponse?)
+        {
+        if error.domain == "NSURLErrorDomain" && error.code == NSURLErrorCancelled
+            { return }
+        
+        var newState = self.state
+        newState.latestError = Error()
+        newState.latestError?.nsError = error
         self.state = newState
         }
     
@@ -110,13 +142,26 @@ public class Resource
                                       // Probably service-wide default data type + per-resource override that requires “as?”
         public var mimeType: String
         public var etag: String?
-        public let timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        public var timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        
+        public init(payload: AnyObject, mimeType: String, etag: String? = nil)
+            {
+            self.payload = payload
+            self.mimeType = mimeType
+            self.etag = etag
+            self.timestamp = 0
+            self.touch()
+            }
+        
+        public mutating func touch()
+            { timestamp = NSDate.timeIntervalSinceReferenceDate() }
         }
 
     public struct Error
         {
-//        var nsError: String
-//        var payload: AnyObject
+        public var httpStatusCode: Int?
+        public var nsError: NSError?
+//        public var payload: AnyObject
         public let timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
         }
     }
