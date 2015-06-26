@@ -20,7 +20,7 @@ extension Request: Hashable
 extension Request
     {
     public func resourceResponse(
-            resource: Resource,
+            resource:    Resource,
             success:     Resource.Data -> Void = { _ in },
             notModified: (Void -> Void)? = nil,
             error:       Resource.Error -> Void = { _ in })
@@ -48,7 +48,7 @@ extension Request
                 success(Resource.Data(nsres, payload))
                 }
             else
-                {} // TODO: how to handle empty success response?
+                { } // TODO: how to handle empty success response?
             }
         return self
         }
