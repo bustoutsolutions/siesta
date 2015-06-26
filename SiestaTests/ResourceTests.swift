@@ -318,6 +318,27 @@ class ResourceTests: QuickSpec
             
             // TODO: test no internet connnection if possible
             
+            it("generates error messages from NSError message")
+                {
+                let sampleError = NSError(
+                    domain: "TestDomain", code: 12345,
+                    userInfo: [NSLocalizedDescriptionKey: "KABOOM"])
+                stubResourceReqest("GET").andFailWithError(sampleError)
+                awaitResponse(resource().load())
+                
+                expect(resource().latestError?.userMessage).to(equal("KABOOM"))
+                }
+            
+            it("generates error messages from HTTP status codes")
+                {
+                stubResourceReqest("GET").andReturn(404)
+                awaitResponse(resource().load())
+                
+                expect(resource().latestError?.userMessage).to(equal("Server error: not found"))
+                }
+            
+            // TODO: support custom error message extraction
+            
             // TODO: how should it handle redirects?
             }
         }

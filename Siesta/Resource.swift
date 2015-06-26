@@ -81,29 +81,23 @@ public class Resource
             .response
                 {
                 [weak self]
-                nsreq, nsres, data, error in
+                nsreq, nsres, payload, error in
                 
-                if nsres?.statusCode >= 400
-                    { self?.updateStateWithHttpError(nsres) }
+                if nsres?.statusCode >= 400 || error != nil
+                    { self?.updateStateWithError(nsres, error, payload) }
                 else if nsres?.statusCode == 304
                     { self?.updateStateWithDataNotModified() }
-                else if let error = error
-                    { self?.updateStateWithNSError(error, response: nsres) }
-                else if let data = data
-                    { self?.updateStateWithData(data, response: nsres) }
+                else if let payload = payload
+                    { self?.updateStateWithData(nsres, payload) }
+                else
+                    {} // TODO: how to handle empty success response?
                 }
         }
     
-    private func updateStateWithData(data: AnyObject, response: NSHTTPURLResponse?)
+    private func updateStateWithData(response: NSHTTPURLResponse?, _ payload: AnyObject)
         {
-        func header(key: String) -> String?
-            { return response?.allHeaderFields[key] as? String }
-        
         self.latestError = nil
-        self.latestData = Data(
-            payload:  data,
-            mimeType: header("Content-Type") ?? "application/octet-stream",
-            etag:     header("ETag"))
+        self.latestData = Data(response, payload)
         }
 
     private func updateStateWithDataNotModified()
@@ -112,19 +106,17 @@ public class Resource
         self.latestData?.touch()
         }
     
-    private func updateStateWithHttpError(response: NSHTTPURLResponse?)
+    private func updateStateWithError(
+            response: NSHTTPURLResponse?,
+            _ error: NSError?,
+            _ payload: AnyObject?)
         {
-        self.latestError = Error()
-        self.latestError?.httpStatusCode = response?.statusCode
-        }
-    
-    private func updateStateWithNSError(error: NSError, response: NSHTTPURLResponse?)
-        {
-        if error.domain == "NSURLErrorDomain" && error.code == NSURLErrorCancelled
+        if let error = error
+            where error.domain == "NSURLErrorDomain"
+               && error.code == NSURLErrorCancelled
             { return }
         
-        self.latestError = Error()
-        self.latestError?.nsError = error
+        self.latestError = Error(response, payload, error)
         }
     
     public struct Data
@@ -133,7 +125,7 @@ public class Resource
                                       // Probably service-wide default data type + per-resource override that requires “as?”
         public var mimeType: String
         public var etag: String?
-        public var timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        public private(set) var timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
         
         public init(payload: AnyObject, mimeType: String, etag: String? = nil)
             {
@@ -144,6 +136,17 @@ public class Resource
             self.touch()
             }
         
+        public init(_ response: NSHTTPURLResponse?, _ payload: AnyObject)
+            {
+            func header(key: String) -> String?
+                { return response?.allHeaderFields[key] as? String }
+            
+            self.init(
+                payload:  payload,
+                mimeType: header("Content-Type") ?? "application/octet-stream",
+                etag:     header("ETag"))
+            }
+        
         public mutating func touch()
             { timestamp = NSDate.timeIntervalSinceReferenceDate() }
         }
@@ -152,8 +155,31 @@ public class Resource
         {
         public var httpStatusCode: Int?
         public var nsError: NSError?
-//        public var payload: AnyObject
+        public var userMessage: String
+        public var data: Data?
         public let timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        
+        public init(
+                _ response: NSHTTPURLResponse?,
+                _ payload: AnyObject?,
+                _ error: NSError?,
+                userMessage: String? = nil)
+            {
+            self.httpStatusCode = response?.statusCode
+            self.nsError = error
+            
+            if let payload = payload
+                { self.data = Data(response, payload) }
+            
+            if let message = userMessage
+                { self.userMessage = message }
+            else if let message = error?.localizedDescription
+                { self.userMessage = message }
+            else if let code = self.httpStatusCode
+                { self.userMessage = "Server error: \(NSHTTPURLResponse.localizedStringForStatusCode(code))" }
+            else
+                { self.userMessage = "Request failed" }   // Is this reachable?
+            }
         }
     }
 
