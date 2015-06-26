@@ -78,26 +78,16 @@ public class Resource
                 if let etag = self.latestData?.etag
                     { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
                 }
-            .response
-                {
-                [weak self]
-                nsreq, nsres, payload, error in
-                
-                if nsres?.statusCode >= 400 || error != nil
-                    { self?.updateStateWithError(nsres, error, payload) }
-                else if nsres?.statusCode == 304
-                    { self?.updateStateWithDataNotModified() }
-                else if let payload = payload
-                    { self?.updateStateWithData(nsres, payload) }
-                else
-                    {} // TODO: how to handle empty success response?
-                }
+            .resourceResponse(self,
+                success:     self.updateStateWithData,
+                notModified: self.updateStateWithDataNotModified,
+                error:       self.updateStateWithError)
         }
     
-    private func updateStateWithData(response: NSHTTPURLResponse?, _ payload: AnyObject)
+    private func updateStateWithData(data: Data)
         {
         self.latestError = nil
-        self.latestData = Data(response, payload)
+        self.latestData = data
         }
 
     private func updateStateWithDataNotModified()
@@ -106,17 +96,14 @@ public class Resource
         self.latestData?.touch()
         }
     
-    private func updateStateWithError(
-            response: NSHTTPURLResponse?,
-            _ error: NSError?,
-            _ payload: AnyObject?)
+    private func updateStateWithError(error: Error)
         {
-        if let error = error
-            where error.domain == "NSURLErrorDomain"
-               && error.code == NSURLErrorCancelled
+        if let nserror = error.nsError
+            where nserror.domain == "NSURLErrorDomain"
+               && nserror.code == NSURLErrorCancelled
             { return }
         
-        self.latestError = Error(response, payload, error)
+        self.latestError = error
         }
     
     public struct Data
@@ -181,13 +168,4 @@ public class Resource
                 { self.userMessage = "Request failed" }   // Is this reachable?
             }
         }
-    }
-
-public func ==(lhs: Request, rhs: Request) -> Bool
-    { return lhs === rhs }
-
-extension Request: Hashable
-    {
-    public var hashValue: Int
-        { return ObjectIdentifier(self).hashValue }
     }
