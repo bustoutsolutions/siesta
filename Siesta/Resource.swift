@@ -10,20 +10,32 @@ import Alamofire
 
 public class Resource
     {
+    // Configuration
+    
     public let service: Service
     public let url: NSURL? // TODO: figure out what to do about invalid URLs
     
+    // Request management
+    
     public var loading: Bool { return !requests.isEmpty }
     public private(set) var requests = Set<Request>()
+    
+    // Resource state
 
-    public private(set) var state: State
-    public var data: AnyObject? { return state.latestData?.payload }
+    public private(set) var latestData: Data?
+    public private(set) var latestError: Error?
+    public var data: AnyObject? { return latestData?.payload }
+    public var timestamp: NSTimeInterval
+        {
+        return max(
+            latestData?.timestamp ?? 0,
+            latestError?.timestamp ?? 0)
+        }
     
     init(service: Service, url: NSURL?)
         {
         self.service = service
         self.url = url?.absoluteURL
-        self.state = State()
         }
     
     public func child(path: String) -> Resource
@@ -63,7 +75,7 @@ public class Resource
         return request(.GET)
                 {
                 nsreq in
-                if let etag = self.state.latestData?.etag
+                if let etag = self.latestData?.etag
                     { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
                 }
             .response
@@ -87,29 +99,23 @@ public class Resource
         func header(key: String) -> String?
             { return response?.allHeaderFields[key] as? String }
         
-        var newState = self.state
-        newState.latestError = nil
-        newState.latestData = Data(
+        self.latestError = nil
+        self.latestData = Data(
             payload:  data,
             mimeType: header("Content-Type") ?? "application/octet-stream",
             etag:     header("ETag"))
-        self.state = newState
         }
 
     private func updateStateWithDataNotModified()
         {
-        var newState = self.state
-        newState.latestError = nil
-        newState.latestData?.touch()
-        self.state = newState
+        self.latestError = nil
+        self.latestData?.touch()
         }
     
     private func updateStateWithHttpError(response: NSHTTPURLResponse?)
         {
-        var newState = self.state
-        newState.latestError = Error()
-        newState.latestError?.httpStatusCode = response?.statusCode
-        self.state = newState
+        self.latestError = Error()
+        self.latestError?.httpStatusCode = response?.statusCode
         }
     
     private func updateStateWithNSError(error: NSError, response: NSHTTPURLResponse?)
@@ -117,25 +123,10 @@ public class Resource
         if error.domain == "NSURLErrorDomain" && error.code == NSURLErrorCancelled
             { return }
         
-        var newState = self.state
-        newState.latestError = Error()
-        newState.latestError?.nsError = error
-        self.state = newState
+        self.latestError = Error()
+        self.latestError?.nsError = error
         }
     
-    public struct State
-        {
-        public var latestData: Data?
-        public var latestError: Error?
-
-        public var timestamp: NSTimeInterval
-            {
-            return max(
-                latestData?.timestamp ?? 0,
-                latestError?.timestamp ?? 0)
-            }
-        }
-
     public struct Data
         {
         public var payload: AnyObject // TODO: Can result transformer + generics fix AnyObject?

@@ -38,8 +38,8 @@ class ResourceTests: QuickSpec
         it("starts in a blank state")
             {
             expect(resource().data).to(beNil())
-            expect(resource().state.latestData).to(beNil())
-            expect(resource().state.latestError).to(beNil())
+            expect(resource().latestData).to(beNil())
+            expect(resource().latestError).to(beNil())
             
             expect(resource().loading).to(beFalse())
             expect(resource().requests).to(equal([]))
@@ -166,8 +166,8 @@ class ResourceTests: QuickSpec
                 {
                 stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().request(.GET))
-                expect(resource().state.latestData).to(beNil())
-                expect(resource().state.latestError).to(beNil())
+                expect(resource().latestData).to(beNil())
+                expect(resource().latestError).to(beNil())
                 }
             }
 
@@ -179,7 +179,7 @@ class ResourceTests: QuickSpec
                     .withBody("eep eep")
                 awaitResponse(resource().load())
                 
-                expect(resource().state.latestData).notTo(beNil())
+                expect(resource().latestData).notTo(beNil())
                 expect(dataAsString(resource().data)).to(equal("eep eep"))
                 }
             
@@ -189,7 +189,7 @@ class ResourceTests: QuickSpec
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
                 awaitResponse(resource().load())
                 
-                expect(resource().state.latestData?.mimeType).to(equal("text/monkey"))
+                expect(resource().latestData?.mimeType).to(equal("text/monkey"))
                 }
             
             it("defaults content type to raw binary")
@@ -197,7 +197,7 @@ class ResourceTests: QuickSpec
                 stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().load())
                 
-                expect(resource().state.latestData?.mimeType).to(equal("application/octet-stream"))
+                expect(resource().latestData?.mimeType).to(equal("application/octet-stream"))
                 }
                 
             it("handles missing etag")
@@ -205,7 +205,7 @@ class ResourceTests: QuickSpec
                 stubResourceReqest("GET").andReturn(200)
                 awaitResponse(resource().load())
                 
-                expect(resource().state.latestData?.etag).to(beNil())
+                expect(resource().latestData?.etag).to(beNil())
                 }
             
             func sendAndWaitForSuccessfulRequest()
@@ -222,8 +222,8 @@ class ResourceTests: QuickSpec
             func expectDataToBeUnchanged()
                 {
                 expect(dataAsString(resource().data)).to(equal("zoogleplotz"))
-                expect(resource().state.latestData?.mimeType).to(equal("applicaiton/zoogle+plotz"))
-                expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
+                expect(resource().latestData?.mimeType).to(equal("applicaiton/zoogle+plotz"))
+                expect(resource().latestData?.etag).to(equal("123 456 xyz"))
                 }
             
             context("receiving an etag")
@@ -232,7 +232,7 @@ class ResourceTests: QuickSpec
                 
                 it("stores the etag")
                     {
-                    expect(resource().state.latestData?.etag).to(equal("123 456 xyz"))
+                    expect(resource().latestData?.etag).to(equal("123 456 xyz"))
                     }
                 
                 it("sends the etag with subsequent requests")
@@ -253,8 +253,8 @@ class ResourceTests: QuickSpec
                     awaitResponse(resource().load())
                         
                     expect(dataAsString(resource().data)).to(equal("plooglezotz"))
-                    expect(resource().state.latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
-                    expect(resource().state.latestData?.etag).to(equal("ABC DEF 789"))
+                    expect(resource().latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
+                    expect(resource().latestData?.etag).to(equal("ABC DEF 789"))
                     }
                 
                 it("handles subsequent 304 by keeping existing data")
@@ -263,7 +263,7 @@ class ResourceTests: QuickSpec
                     awaitResponse(resource().load())
                     
                     expectDataToBeUnchanged()
-                    expect(resource().state.latestError).to(beNil())
+                    expect(resource().latestError).to(beNil())
                     }
                 }
             
@@ -273,9 +273,9 @@ class ResourceTests: QuickSpec
                 stubResourceReqest("GET").andFailWithError(sampleError)
                 awaitResponse(resource().load())
                 
-                expect(resource().state.latestData).to(beNil())
-                expect(resource().state.latestError).notTo(beNil())
-                expect(resource().state.latestError?.nsError).to(equal(sampleError))
+                expect(resource().latestData).to(beNil())
+                expect(resource().latestError).notTo(beNil())
+                expect(resource().latestError?.nsError).to(equal(sampleError))
                 }
             
             // Testing all these HTTP codes individually because Apple likes
@@ -288,9 +288,9 @@ class ResourceTests: QuickSpec
                     stubResourceReqest("GET").andReturn(statusCode)
                     awaitResponse(resource().load())
                     
-                    expect(resource().state.latestData).to(beNil())
-                    expect(resource().state.latestError).notTo(beNil())
-                    expect(resource().state.latestError?.httpStatusCode).to(equal(statusCode))
+                    expect(resource().latestData).to(beNil())
+                    expect(resource().latestError).notTo(beNil())
+                    expect(resource().latestError?.httpStatusCode).to(equal(statusCode))
                     }
                 }
             
@@ -313,7 +313,7 @@ class ResourceTests: QuickSpec
                 awaitResponse(req)
 
                 expectDataToBeUnchanged()
-                expect(resource().state.latestError).to(beNil())
+                expect(resource().latestError).to(beNil())
                 }
             
             // TODO: test no internet connnection if possible
