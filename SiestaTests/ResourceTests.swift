@@ -32,7 +32,7 @@ class ResourceTests: QuickSpec
             {
             let expectation = QuickSpec.current().expectationWithDescription("network call: \(req)")
             req.response { _ in expectation.fulfill() }
-            QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
+            QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
             }
         
         it("starts in a blank state")
