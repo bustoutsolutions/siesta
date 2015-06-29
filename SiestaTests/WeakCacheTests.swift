@@ -1,0 +1,92 @@
+//
+//  WeakCacheSpec.swift
+//  Siesta
+//
+//  Created by Paul on 2015/6/27.
+//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//
+
+@testable import Siesta
+import Quick
+import Nimble
+
+class WeakCacheTests: QuickSpec
+    {
+    override func spec()
+        {
+        let cache = lazy { WeakCache<String,Doodad>() }
+        
+        describe("get()")
+            {
+            let doodad0 = self.lazy { Doodad() }
+            let doodad1 = self.lazy { Doodad() }
+            let doodad2 = self.lazy { Doodad() }
+            
+            it("returns a newly created instance")
+                {
+                let retrieved = cache().get("foo") { return doodad0() }
+                expect(retrieved).to(beIdenticalTo(doodad0()))
+                }
+            
+            it("returns the same instance on the second fetch")
+                {
+                cache().get("foo") { return doodad0() }
+                let retrieved = cache().get("foo") { return doodad1() }
+                expect(retrieved).to(beIdenticalTo(doodad0()))
+                }
+            
+            it("does not call the cache miss block on the second fetch")
+                {
+                cache().get("foo") { return doodad0() }
+                cache().get("foo")
+                    {
+                    XCTFail("Block should not have been called")
+                    return doodad0()
+                    }
+                }
+            
+            it("returns different instances for different keys")
+                {
+                cache().get("foo") { return doodad0() }
+                cache().get("bar") { return doodad1() }
+
+                let retrieved1 = cache().get("bar") { return doodad2() }
+                let retrieved0 = cache().get("foo") { return doodad2() }
+                expect(retrieved0).to(beIdenticalTo(doodad0()))
+                expect(retrieved1).to(beIdenticalTo(doodad1()))
+                }
+            }
+        
+        describe("flushUnused()")
+            {
+            var expandable: Doodad?
+            
+            beforeEach
+                {
+                expandable = Doodad()
+                cache().get("foo") { return expandable! }
+                }
+            
+            it("discards unused instances")
+                {
+                expandable = nil
+                cache().flushUnused()
+                let newDoodad = Doodad()
+                let secondFetch = cache().get("foo") { return newDoodad }
+                expect(secondFetch).to(beIdenticalTo(newDoodad))
+                }
+            
+            it("holds on to retained instances")
+                {
+                cache().flushUnused()
+                let newDoodad = Doodad()
+                let secondFetch = cache().get("foo") { return newDoodad }
+                expect(secondFetch).to(beIdenticalTo(expandable))
+                }
+            }
+        }
+    }
+
+private class Doodad
+    {
+    }

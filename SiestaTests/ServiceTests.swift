@@ -61,6 +61,21 @@ class ServiceTests: QuickSpec
                 checkPathExpansion("https://foo.bar/v1?a=b&x=y", path:"baz",      expect:"https://foo.bar/v1/baz?a=b&x=y")
                 }
             }
+        
+        describe("caching")
+            {
+            it("gives the same Resource instance for the same path")
+                {
+                expect(service().resource("/foo"))
+                    .to(beIdenticalTo(service().resource("/foo")))
+                }
+            
+            it("gives the same Resource instance no matter how it’s constructed")
+                {
+                expect(service().resource("/foo").child("oogle").child("baz").relative("../bar"))
+                    .to(beIdenticalTo(service().resource("/foo/bar")))
+                }
+            }
         }
     }
 

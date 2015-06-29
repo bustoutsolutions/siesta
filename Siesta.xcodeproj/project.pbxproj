@@ -25,6 +25,8 @@
 		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
 		DA99B5CA1B38C9DF009C6937 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
+		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
+		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheTests.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Resource.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */; };
 		DAFB3C4F1B3DEFE8009CF96C /* Resource.Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +74,8 @@
 		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
+		DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCache.swift; sourceTree = "<group>"; };
+		DA9F4BDD1B3F8E2E00E8966F /* WeakCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCacheTests.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.Data.swift; sourceTree = "<group>"; };
 		DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +131,7 @@
 				DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */,
 				DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */,
 				DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */,
+				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA99B5C61B38C356009C6937 /* Support */,
 			);
 			path = Siesta;
@@ -137,6 +142,7 @@
 			children = (
 				DA49EA7B1B35FE5F00AE1B8F /* ServiceTests.swift */,
 				DA49EA7D1B35FE7E00AE1B8F /* ResourceTests.swift */,
+				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheTests.swift */,
 				DA99B5C71B38C36A009C6937 /* Support */,
 			);
 			path = SiestaTests;
@@ -291,6 +297,7 @@
 			files = (
 				DA517A8D1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
+				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Resource.Error.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Resource.Data.swift in Sources */,
@@ -303,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA49EA801B36174700AE1B8F /* Quick+Siesta.swift in Sources */,
+				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheTests.swift in Sources */,
 				DA49EA7C1B35FE5F00AE1B8F /* ServiceTests.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceTests.swift in Sources */,
 			);

@@ -14,6 +14,8 @@ public class Service: NSObject
     public let baseURL: NSURL?
     public let sessionManager: Manager
     
+    private var resourceCache = WeakCache<String,Resource>()
+    
     public init(base: URLStringConvertible, sessionManager: Manager = Manager.sharedInstance)
         {
         self.baseURL = alterURLPath(NSURL(string: base.URLString))
@@ -33,7 +35,11 @@ public class Service: NSObject
     
     public func resource(url: NSURL?) -> Resource
         {
-        return Resource(service: self, url: url)
+        let key = url?.absoluteString ?? ""  // TODO: handle invalid URLs
+        return resourceCache.get(key)
+            {
+            Resource(service: self, url: url)
+            }
         }
     
     public func resource(path: String) -> Resource
