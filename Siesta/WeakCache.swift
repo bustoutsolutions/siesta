@@ -6,14 +6,18 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/**
+    A cache for maintaining a unique instance for a given key as long as any other objects
+    retain references to it.
+*/
 class WeakCache<K: Hashable, V: AnyObject>
     {
     private var entries = [K : WeakCacheEntry<V>]()
-    private var lowMemoryObserver: NSObjectProtocol?
     
     init()
         {
-        lowMemoryObserver = NSNotificationCenter.defaultCenter().addObserverForName(
+        // TODO: Apparently no longer necessary to call removeObserver() explicitly?
+        NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
                 queue: nil)
@@ -22,13 +26,7 @@ class WeakCache<K: Hashable, V: AnyObject>
             self?.flushUnused()
             }
         }
-    
-    deinit
-        {
-        if let lowMemoryObserver = lowMemoryObserver
-            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
-        }
-    
+
     func get(key: K, onMiss: () -> V) -> V
         {
         return entries[key]?.value ??
@@ -41,13 +39,14 @@ class WeakCache<K: Hashable, V: AnyObject>
     
     func flushUnused()
         {
-        for entry in entries.values
-            { entry.allowRemoval() }
         for (key, entry) in entries
-            where entry.value == nil
             {
-            // TODO: double lookup is inefficient; also, Swift dictionary allows concurrent mod??
-            entries.removeValueForKey(key)
+            entry.allowRemoval()
+            if entry.value == nil
+                {
+                // TODO: double lookup is inefficient; does Swift have a mutating iterator?
+                entries.removeValueForKey(key)
+                }
             }
         }
     }

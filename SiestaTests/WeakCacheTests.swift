@@ -59,18 +59,24 @@ class WeakCacheTests: QuickSpec
         
         describe("flushUnused()")
             {
-            var expandable: Doodad?
+            var expendable: Doodad?
             
             beforeEach
                 {
-                expandable = Doodad()
-                cache().get("foo") { return expandable! }
+                Doodad.count = 0
+                expendable = Doodad()
+                cache().get("foo") { return expendable! }
                 }
+                
+            afterEach
+                { expendable = nil }
             
             it("discards unused instances")
                 {
-                expandable = nil
+                expendable = nil
                 cache().flushUnused()
+                expect(Doodad.count).to(equal(0))
+                
                 let newDoodad = Doodad()
                 let secondFetch = cache().get("foo") { return newDoodad }
                 expect(secondFetch).to(beIdenticalTo(newDoodad))
@@ -79,9 +85,18 @@ class WeakCacheTests: QuickSpec
             it("holds on to retained instances")
                 {
                 cache().flushUnused()
+                expect(Doodad.count).to(equal(1))
+                
                 let newDoodad = Doodad()
                 let secondFetch = cache().get("foo") { return newDoodad }
-                expect(secondFetch).to(beIdenticalTo(expandable))
+                expect(secondFetch).to(beIdenticalTo(expendable))
+                }
+            
+            it("responds to low memory events")
+                {
+                expendable = nil
+                NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+                expect(Doodad.count).to(equal(0))
                 }
             }
         }
@@ -89,4 +104,8 @@ class WeakCacheTests: QuickSpec
 
 private class Doodad
     {
+    static var count: Int = 0
+    
+    init() { Doodad.count++ }
+    deinit { Doodad.count-- }
     }
