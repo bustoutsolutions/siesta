@@ -14,13 +14,13 @@ class WeakCacheTests: QuickSpec
     {
     override func spec()
         {
-        let cache = lazy { WeakCache<String,Doodad>() }
+        let cache = specVar { WeakCache<String,Doodad>() }
         
         describe("get()")
             {
-            let doodad0 = self.lazy { Doodad() }
-            let doodad1 = self.lazy { Doodad() }
-            let doodad2 = self.lazy { Doodad() }
+            let doodad0 = specVar { Doodad() }
+            let doodad1 = specVar { Doodad() }
+            let doodad2 = specVar { Doodad() }
             
             it("returns a newly created instance")
                 {

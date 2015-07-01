@@ -20,8 +20,8 @@ class ResourceTests: QuickSpec
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
         
-        let service  = lazy { Service(base: "https://zingle.frotz/v1") },
-            resource = lazy { service().resource("/a/b") }
+        let service  = specVar { Service(base: "https://zingle.frotz/v1") },
+            resource = specVar { service().resource("/a/b") }
         
         func stubResourceReqest(method: String) -> LSStubRequestDSL
             {
@@ -344,7 +344,7 @@ class ResourceTests: QuickSpec
         
         describe("observer")
             {
-            let testObserver = self.lazy { TestObserver() }
+            let testObserver = specVar { TestObserver() }
             
             it("prevents the resource from being deallocated")
                 {

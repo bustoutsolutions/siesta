@@ -14,7 +14,7 @@ class ServiceTests: QuickSpec
     {
     override func spec()
         {
-        let service  = lazy { Service(base: "https://zingle.frotz") }
+        let service  = specVar { Service(base: "https://zingle.frotz") }
         
         describe("init()")
             {

@@ -8,18 +8,15 @@
 
 import Quick
 
-extension QuickSpec
+public func specVar<T>(builder: () -> T) -> () -> T
     {
-    public func lazy<T>(builder: () -> T) -> () -> T
+    var value: T?
+    afterEach { value = nil }
+    return
         {
-        var value: T?
-        afterEach { value = nil }
-        return
-            {
-            let builtValue = value ?? builder()
-            value = builtValue
-            return builtValue
-            }
+        let builtValue = value ?? builder()
+        value = builtValue
+        return builtValue
         }
     }
 
