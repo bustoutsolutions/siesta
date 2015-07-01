@@ -341,7 +341,31 @@ class ResourceTests: QuickSpec
             
             // TODO: how should it handle redirects?
             }
+        
+        describe("observer")
+            {
+            let testObserver = self.lazy { TestObserver() }
+            
+            it("prevents the resource from being deallocated")
+                {
+                var resource: Resource? = service().resource("zargle")
+                weak var resourceWeak = resource
+                resource?.addObserver(testObserver())
+                resource = nil
+                
+                simulateMemoryWarning()
+                expect(resourceWeak).notTo(beNil())
+                
+                resourceWeak?.removeObservers(ownedBy: testObserver())
+                simulateMemoryWarning()
+                expect(resourceWeak).to(beNil())
+                }
+            }
         }
+    }
+
+class TestObserver: ResourceObserver
+    {
     }
 
 func resourceExpansionMatcher(

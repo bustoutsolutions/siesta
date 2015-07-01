@@ -22,3 +22,12 @@ extension QuickSpec
             }
         }
     }
+
+func simulateMemoryWarning()
+    {
+    NSNotificationCenter
+        .defaultCenter()
+        .postNotificationName(
+            UIApplicationDidReceiveMemoryWarningNotification,
+            object: nil)
+    }

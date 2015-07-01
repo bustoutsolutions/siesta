@@ -95,7 +95,7 @@ class WeakCacheTests: QuickSpec
             it("responds to low memory events")
                 {
                 expendable = nil
-                NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationDidReceiveMemoryWarningNotification, object: nil)
+                simulateMemoryWarning()
                 expect(Doodad.count).to(equal(0))
                 }
             }
