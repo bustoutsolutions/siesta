@@ -344,21 +344,110 @@ class ResourceTests: QuickSpec
         
         describe("observer")
             {
-            let testObserver = specVar { TestObserver() }
+            let observer = specVar { TestObserverWithExpectations() }
             
-            it("prevents the resource from being deallocated")
+            beforeEach
+                {
+                observer().expect(.OBSERVER_ADDED)
+                resource().addObserver(observer())
+                }
+            
+            it("receives a notification that it was added")
+                {
+                let observer2 = TestObserverWithExpectations()
+                observer2.expect(.OBSERVER_ADDED)  // only for new observer
+                resource().addObserver(observer2)
+                }
+            
+            it("receives request event")
+                {
+                stubResourceReqest("GET").andReturn(200)
+                observer().expect(.REQUESTED)
+                    {
+                    expect(resource().loading).to(beTrue())
+                    expect(resource().latestData).to(beNil())
+                    expect(resource().latestError).to(beNil())
+                    }
+                let req = resource().load()
+                
+                // Let Nocilla check off request without any further observing
+                resource().removeObservers(ownedBy: observer())
+                awaitResponse(req)
+                }
+            
+            it("receives new data event")
+                {
+                stubResourceReqest("GET").andReturn(200)
+                observer().expect(.REQUESTED)
+                observer().expect(.NEW_DATA_RESPONSE)
+                    {
+                    expect(resource().loading).to(beFalse())
+                    expect(resource().latestData).notTo(beNil())
+                    expect(resource().latestError).to(beNil())
+                    }
+                awaitResponse(resource().load())
+                }
+            
+            it("receives not modified event")
+                {
+                stubResourceReqest("GET").andReturn(304)
+                observer().expect(.REQUESTED)
+                observer().expect(.NOT_MODIFIED_RESPONSE)
+                    {
+                    expect(resource().loading).to(beFalse())
+                    }
+                awaitResponse(resource().load())
+                }
+
+            it("receives cancel event")
+                {
+                stubResourceReqest("GET").andReturn(200)
+                observer().expect(.REQUESTED)
+                observer().expect(.REQUEST_CANCELLED)
+                    {
+                    expect(resource().loading).to(beFalse())
+                    }
+                let req = resource().load()
+                req.cancel()
+                awaitResponse(req)
+                }
+            
+            it("receives failure event")
+                {
+                stubResourceReqest("GET").andReturn(500)
+                observer().expect(.REQUESTED)
+                observer().expect(.ERROR_RESPONSE)
+                    {
+                    expect(resource().loading).to(beFalse())
+                    expect(resource().latestData).to(beNil())
+                    expect(resource().latestError).notTo(beNil())
+                    }
+                awaitResponse(resource().load())
+                }
+            }
+            
+        describe("memory management")
+            {
+            it("prevents the resource from being deallocated while it has observers")
                 {
                 var resource: Resource? = service().resource("zargle")
                 weak var resourceWeak = resource
-                resource?.addObserver(testObserver())
+                let observer = TestObserver()
+                resource?.addObserver(observer)
                 resource = nil
                 
                 simulateMemoryWarning()
                 expect(resourceWeak).notTo(beNil())
                 
-                resourceWeak?.removeObservers(ownedBy: testObserver())
+                resourceWeak?.removeObservers(ownedBy: observer)
                 simulateMemoryWarning()
                 expect(resourceWeak).to(beNil())
+                }
+            
+            pending("stops observing when owner is deallocated")
+                {
+                var observer = TestObserver()
+                weak var observerWeak = observer
                 }
             }
         }
@@ -366,6 +455,47 @@ class ResourceTests: QuickSpec
 
 class TestObserver: ResourceObserver
     {
+    func resourceChanged(resource: Resource, event: ResourceEvent) { }
+    }
+
+class TestObserverWithExpectations: ResourceObserver
+    {
+    private var expectedEvents = [Expectation]()
+    
+    deinit
+        { checkForUnfulfilledExpectations() }
+    
+    func expect(event: ResourceEvent, callback: (Void -> Void) = {})
+        { expectedEvents.append(Expectation(event: event, callback: callback)) }
+    
+    func checkForUnfulfilledExpectations()
+        {
+        if !expectedEvents.isEmpty
+            { XCTFail("Expected observer events, but never received them: \(expectedEvents.map { $0.event })") }
+        }
+    
+    func resourceChanged(resource: Resource, event: ResourceEvent)
+        {
+        if expectedEvents.isEmpty
+            { XCTFail("Received unexpected observer event: \(event)") }
+        else
+            {
+            let expectation = expectedEvents.removeAtIndex(0)
+            if event != expectation.event
+                { XCTFail("Received unexpected observer event: \(event) (was expecting \(expectation.event))") }
+            else
+                { expectation.callback() }
+            }
+        }
+    
+    struct Expectation
+        {
+        let event: ResourceEvent
+        let callback: (Void -> Void)
+        
+        func description() -> String
+            { return "\(event)" }
+        }
     }
 
 func resourceExpansionMatcher(

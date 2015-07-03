@@ -8,12 +8,11 @@
 
 public protocol ResourceObserver
     {
+    func resourceChanged(resource: Resource, event: ResourceEvent)
     }
 
 extension ResourceObserver
     {
-    func resourceChanged(resource: Resource, event: ResourceEvent) { }
-    
     func resourceRequestProgress(resource: Resource) { }
     }
 
@@ -24,17 +23,21 @@ public enum ResourceEvent
     {
     case OBSERVER_ADDED  // Sent only to the newly attached observer, not all observers
     case REQUESTED
-    case REQUEST_SUCCEEDED
-    case REQUEST_FAILED
+    case REQUEST_CANCELLED
+    case NEW_DATA_RESPONSE
+    case NOT_MODIFIED_RESPONSE
+    case ERROR_RESPONSE
     
     var signalsStateChange: Bool
         {
         switch(self)
             {
-            case OBSERVER_ADDED, REQUESTED:
+            case OBSERVER_ADDED, REQUESTED, NOT_MODIFIED_RESPONSE, REQUEST_CANCELLED:
                 return false
-            case REQUEST_SUCCEEDED, REQUEST_FAILED:
-                return true
+            
+            case NEW_DATA_RESPONSE, ERROR_RESPONSE:
+                return false
             }
         }
     }
+

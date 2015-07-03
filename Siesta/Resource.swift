@@ -77,6 +77,8 @@ public class Resource
 
         let request = service.sessionManager.request(nsreq)
         requests.insert(request)
+        self.notifyObservers(.REQUESTED)  // TODO: Should this be for all requests, or load() only?
+        
         request.response
             {
             [weak self, weak request]
@@ -85,6 +87,7 @@ public class Resource
             if let request = request
                 { self?.requests.remove(request) }
             }
+
         return request
         }
     
@@ -106,12 +109,16 @@ public class Resource
         {
         self.latestError = nil
         self.latestData = data
+        
+        notifyObservers(.NEW_DATA_RESPONSE)
         }
 
     private func updateStateWithDataNotModified()
         {
         self.latestError = nil
         self.latestData?.touch()
+        
+        notifyObservers(.NOT_MODIFIED_RESPONSE)
         }
     
     private func updateStateWithError(error: Error)
@@ -119,27 +126,42 @@ public class Resource
         if let nserror = error.nsError
             where nserror.domain == "NSURLErrorDomain"
                && nserror.code == NSURLErrorCancelled
-            { return }
+            {
+            notifyObservers(.REQUEST_CANCELLED)
+            return
+            }
         
         self.latestError = error
+
+        notifyObservers(.ERROR_RESPONSE)
         }
 
     // MARK: Observers
     
+    /**
+        Adds an observer without retaining a reference to it.
+    */
     public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>)
         {
-        addObserver(observerAndOwner, owner: observerAndOwner)
+        addObserverEntry(
+            DirectObserverEntry(resource: self, observerAndOwner: observerAndOwner))
         }
     
     public func addObserver(observer: ResourceObserver, owner: AnyObject)
         {
-        observers.append(
-            ObserverEntry(resource: self, observer: observer, owner: owner))
+        addObserverEntry(
+            OwnedObjectObserverEntry(resource: self, observer: observer, owner: owner))
         }
     
     public func addObserver(owner: AnyObject, closure: ResourceObserverClosure)
         {
-        addObserver(ResourceClosureObserver(closure: closure), owner: owner)
+        addObserver(ClosureObserver(closure: closure), owner: owner)
+        }
+    
+    private func addObserverEntry(entry: ObserverEntry)
+        {
+        observers.append(entry)
+        entry.observer?.resourceChanged(self, event: .OBSERVER_ADDED)
         }
     
     public func removeObservers(ownedBy owner: AnyObject)
@@ -153,7 +175,7 @@ public class Resource
         cleanDefunctObservers()
         
         for entry in observers
-            { entry.observer.resourceChanged(self, event: event) }
+            { entry.observer?.resourceChanged(self, event: event) }
         }
     
     func cleanDefunctObservers()
@@ -161,24 +183,43 @@ public class Resource
         observers = observers.filter
             { $0.owner !== nil }
         }
-    
-    private struct ObserverEntry
-        {
-        // Intentional reference cycle to keep Resource alive as long
-        // as it has observers.
-        let resource: Resource
-        
-        let observer: ResourceObserver
-        weak var owner: AnyObject?
-        }
+    }
 
-    private struct ResourceClosureObserver: ResourceObserver
+
+
+private protocol ObserverEntry
+    {
+    var observer: ResourceObserver? { get }
+    var owner: AnyObject? { get }
+    }
+
+private struct DirectObserverEntry: ObserverEntry
+    {
+    // Intentional reference cycle to keep Resource alive as long
+    // as it has observers.
+    let resource: Resource
+    
+    weak var observerAndOwner: protocol<ResourceObserver,AnyObject>?
+    var observer: ResourceObserver? { return observerAndOwner }
+    var owner:    AnyObject?        { return observerAndOwner }
+    }
+
+private struct OwnedObjectObserverEntry: ObserverEntry
+    {
+    // Intentional reference cycle to keep Resource alive as long
+    // as it has observers.
+    let resource: Resource
+    
+    let observer: ResourceObserver?
+    weak var owner: AnyObject?
+    }
+
+private struct ClosureObserver: ResourceObserver
+    {
+    private let closure: ResourceObserverClosure
+    
+    func resourceChanged(resource: Resource, event: ResourceEvent)
         {
-        private let closure: ResourceObserverClosure
-        
-        func resourceChanged(resource: Resource, event: ResourceEvent)
-            {
-            closure(resource: resource, event: event)
-            }
+        closure(resource: resource, event: event)
         }
     }

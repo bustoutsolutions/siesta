@@ -13,7 +13,7 @@
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
 		DA49EA7C1B35FE5F00AE1B8F /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7B1B35FE5F00AE1B8F /* ServiceTests.swift */; };
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceTests.swift */; };
-		DA49EA801B36174700AE1B8F /* Quick+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */; };
+		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
 		DA517A8D1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */; };
 		DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; };
 		DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -27,6 +27,7 @@
 		DA99B5CA1B38C9DF009C6937 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
 		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheTests.swift */; };
+		DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Resource.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */; };
 		DAFB3C4F1B3DEFE8009CF96C /* Resource.Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +69,7 @@
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../../siesta/Siesta/Service.swift; sourceTree = "<group>"; };
 		DA49EA7B1B35FE5F00AE1B8F /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		DA49EA7D1B35FE7E00AE1B8F /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
-		DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quick+Siesta.swift"; sourceTree = "<group>"; };
+		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
 		DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlamoFire.Request+Siesta.swift"; sourceTree = "<group>"; };
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
 		DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCache.swift; sourceTree = "<group>"; };
 		DA9F4BDD1B3F8E2E00E8966F /* WeakCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCacheTests.swift; sourceTree = "<group>"; };
+		DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserver.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.Data.swift; sourceTree = "<group>"; };
 		DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +132,7 @@
 				DA60F5FB1B30B2F800D76DC6 /* Resource.swift */,
 				DAFB3C4C1B3DEFC2009CF96C /* Resource.Data.swift */,
 				DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */,
+				DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */,
 				DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA99B5C61B38C356009C6937 /* Support */,
@@ -181,7 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				DA336E601B2E6DDB006F702A /* Info.plist */,
-				DA49EA7F1B36174700AE1B8F /* Quick+Siesta.swift */,
+				DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA517A8D1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift in Sources */,
+				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
@@ -309,7 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA49EA801B36174700AE1B8F /* Quick+Siesta.swift in Sources */,
+				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheTests.swift in Sources */,
 				DA49EA7C1B35FE5F00AE1B8F /* ServiceTests.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceTests.swift in Sources */,
