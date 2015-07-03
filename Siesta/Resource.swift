@@ -17,8 +17,8 @@ public class Resource
     
     // MARK: Request management
     
-    public var loading: Bool { return !requests.isEmpty }
-    public private(set) var requests = Set<Request>()
+    public var loading: Bool { return !loadRequests.isEmpty }
+    public private(set) var loadRequests = Set<Request>()  // TOOD: How to handle concurrent POST & GET?
     
     // MARK: Resource state
 
@@ -75,34 +75,35 @@ public class Resource
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
 
-        let request = service.sessionManager.request(nsreq)
-        requests.insert(request)
-        self.notifyObservers(.REQUESTED)  // TODO: Should this be for all requests, or load() only?
-        
-        request.response
-            {
-            [weak self, weak request]
-            _ in
-            
-            if let request = request
-                { self?.requests.remove(request) }
-            }
-
-        return request
+        return service.sessionManager.request(nsreq)
         }
     
     public func load() -> Request
         {
-        return request(.GET)
-                {
-                nsreq in
-                if let etag = self.latestData?.etag
-                    { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
-                }
-            .resourceResponse(self,
-                success:     self.updateStateWithData,
-                notModified: self.updateStateWithDataNotModified,
-                error:       self.updateStateWithError)
+        let req = request(.GET)
+            {
+            nsreq in
+            if let etag = self.latestData?.etag
+                { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
+            }
+        
+        loadRequests.insert(req)
+        req.response
+            {
+            [weak self, weak req] _ in
+            
+            if let req = req
+                { self?.loadRequests.remove(req) }
+            }
+        
+        req.resourceResponse(self,
+            success:     self.updateStateWithData,
+            notModified: self.updateStateWithDataNotModified,
+            error:       self.updateStateWithError)
+
+        self.notifyObservers(.REQUESTED)
+
+        return req
         }
     
     private func updateStateWithData(data: Data)

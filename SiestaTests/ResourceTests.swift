@@ -42,7 +42,7 @@ class ResourceTests: QuickSpec
             expect(resource().latestError).to(beNil())
             
             expect(resource().loading).to(beFalse())
-            expect(resource().requests).to(equal([]))
+            expect(resource().loadRequests).to(equal([]))
             }
         
         describe("child()")
@@ -128,12 +128,35 @@ class ResourceTests: QuickSpec
                 awaitResponse(resource().request(.PATCH))
                 }
             
-            it("marks that the resource is loading")
+            it("does not mark that the resource is loading")
                 {
                 expect(resource().loading).to(beFalse())
                 
                 stubResourceReqest("GET").andReturn(200)
                 let req = resource().request(.GET)
+                expect(resource().loading).to(beFalse())
+                
+                awaitResponse(req)
+                expect(resource().loading).to(beFalse())
+                }
+
+            it("does not update the resource state")
+                {
+                stubResourceReqest("GET").andReturn(200)
+                awaitResponse(resource().request(.GET))
+                expect(resource().latestData).to(beNil())
+                expect(resource().latestError).to(beNil())
+                }
+            }
+
+        describe("load()")
+            {
+            it("marks that the resource is loading")
+                {
+                expect(resource().loading).to(beFalse())
+                
+                stubResourceReqest("GET").andReturn(200)
+                let req = resource().load()
                 expect(resource().loading).to(beTrue())
                 
                 awaitResponse(req)
@@ -146,33 +169,22 @@ class ResourceTests: QuickSpec
                 defer { service().sessionManager.startRequestsImmediately = true }
                 
                 stubResourceReqest("GET").andReturn(200)
-                let req0 = resource().request(.GET),
-                    req1 = resource().request(.GET)
+                let req0 = resource().load(),
+                    req1 = resource().load()
                 expect(resource().loading).to(beTrue())
-                expect(resource().requests).to(equal([req0, req1]))
+                expect(resource().loadRequests).to(equal([req0, req1]))
                 
                 req0.resume()
                 awaitResponse(req0)
                 expect(resource().loading).to(beTrue())
-                expect(resource().requests).to(equal([req1]))
+                expect(resource().loadRequests).to(equal([req1]))
                 
                 req1.resume()
                 awaitResponse(req1)
                 expect(resource().loading).to(beFalse())
-                expect(resource().requests).to(equal([]))
+                expect(resource().loadRequests).to(equal([]))
                 }
             
-            it("does not update the resource state")
-                {
-                stubResourceReqest("GET").andReturn(200)
-                awaitResponse(resource().request(.GET))
-                expect(resource().latestData).to(beNil())
-                expect(resource().latestError).to(beNil())
-                }
-            }
-
-        describe("load()")
-            {
             it("stores the response data")
                 {
                 stubResourceReqest("GET").andReturn(200)
@@ -423,6 +435,12 @@ class ResourceTests: QuickSpec
                     expect(resource().latestError).notTo(beNil())
                     }
                 awaitResponse(resource().load())
+                }
+            
+            it("does not receive notifications for request(), only load()")
+                {
+                stubResourceReqest("GET").andReturn(200)
+                awaitResponse(resource().request(.GET))
                 }
             }
             
