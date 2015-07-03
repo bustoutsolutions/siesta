@@ -462,10 +462,39 @@ class ResourceTests: QuickSpec
                 expect(resourceWeak).to(beNil())
                 }
             
-            pending("stops observing when owner is deallocated")
+            it("stops observing when observer is deallocated")
                 {
-                var observer = TestObserver()
+                var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
                 weak var observerWeak = observer
+                observer!.expect(.OBSERVER_ADDED)
+                observer!.expect(.REQUESTED)
+                resource().addObserver(observer!)
+                
+                let req = resource().load()
+                observer!.checkForUnfulfilledExpectations()
+                
+                observer = nil
+                expect(observerWeak).to(beNil())  // resource should not have retained it
+                
+                // No expectations, so this will fail if Resource still notifies observer
+                stubResourceReqest("GET").andReturn(200)
+                awaitResponse(req)
+                }
+            
+            it("stops observing when owner is deallocated")
+                {
+                let observer = TestObserverWithExpectations()
+                var owner: AnyObject? = "foo"
+                observer.expect(.OBSERVER_ADDED)
+                resource().addObserver(observer, owner: owner!)
+                
+                observer.expect(.REQUESTED)
+                let req = resource().load()
+                observer.checkForUnfulfilledExpectations()
+                
+                owner = nil
+                stubResourceReqest("GET").andReturn(200)
+                awaitResponse(req)  // make sure Resource doesn't blow up
                 }
             }
         }

@@ -91,7 +91,6 @@ public class Resource
         req.response
             {
             [weak self, weak req] _ in
-            
             if let req = req
                 { self?.loadRequests.remove(req) }
             }
