@@ -10,7 +10,7 @@
 import Quick
 import Nimble
 
-class WeakCacheTests: QuickSpec
+class WeakCacheSpec: QuickSpec
     {
     override func spec()
         {

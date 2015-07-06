@@ -10,7 +10,7 @@ import Siesta
 import Quick
 import Nimble
 
-class ServiceTests: QuickSpec
+class ServiceSpec: QuickSpec
     {
     override func spec()
         {
@@ -80,7 +80,7 @@ class ServiceTests: QuickSpec
     }
 
 
-// ------ Custom matchers ------
+// MARK: - Custom matchers
 
 func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
     {
