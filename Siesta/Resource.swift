@@ -8,6 +8,9 @@
 
 import Alamofire
 
+// Overridable for testing
+internal var now = { return NSDate.timeIntervalSinceReferenceDate() }
+
 public class Resource
     {
     // MARK: Configuration
@@ -19,6 +22,9 @@ public class Resource
     
     public var loading: Bool { return !loadRequests.isEmpty }
     public private(set) var loadRequests = Set<Request>()  // TOOD: How to handle concurrent POST & GET?
+    
+    public var expirationTime: NSTimeInterval?
+    public var retryTime: NSTimeInterval?
     
     // MARK: Resource state
 
@@ -42,6 +48,7 @@ public class Resource
         {
         self.service = service
         self.url = url?.absoluteURL
+        
         NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
@@ -76,6 +83,21 @@ public class Resource
         requestMutation(nsreq)
 
         return service.sessionManager.request(nsreq)
+        }
+    
+    public func loadIfNeeded() -> Request?
+        {
+        if(loading)
+            { return nil }  // TODO: return existing request instead?
+        
+        let maxAge = (latestError == nil)
+            ? expirationTime ?? service.defaultExpirationTime
+            : retryTime      ?? service.defaultRetryTime
+        
+        if(now() - timestamp <= maxAge)
+            { return nil }
+        
+        return self.load()
         }
     
     public func load() -> Request

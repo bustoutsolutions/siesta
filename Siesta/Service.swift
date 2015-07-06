@@ -14,6 +14,9 @@ public class Service: NSObject
     public let baseURL: NSURL?
     public let sessionManager: Manager
     
+    public var defaultExpirationTime: NSTimeInterval = 300
+    public var defaultRetryTime: NSTimeInterval = 10
+    
     private var resourceCache = WeakCache<String,Resource>()
     
     public init(base: URLStringConvertible, sessionManager: Manager = Manager.sharedInstance)

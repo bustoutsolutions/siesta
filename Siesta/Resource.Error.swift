@@ -14,7 +14,7 @@ extension Resource
         public var nsError: NSError?
         public var userMessage: String
         public var data: Data?
-        public let timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        public let timestamp: NSTimeInterval = now()
         
         public init(
                 _ response: NSHTTPURLResponse?,

@@ -14,7 +14,7 @@ extension Resource
                                       // Probably service-wide default data type + per-resource override that requires “as?”
         public var mimeType: String
         public var etag: String?
-        public private(set) var timestamp: NSTimeInterval = NSDate.timeIntervalSinceReferenceDate()
+        public private(set) var timestamp: NSTimeInterval = 0
         
         public init(payload: AnyObject, mimeType: String, etag: String? = nil)
             {
@@ -37,6 +37,6 @@ extension Resource
             }
         
         public mutating func touch()
-            { timestamp = NSDate.timeIntervalSinceReferenceDate() }
+            { timestamp = now() }
         }
     }

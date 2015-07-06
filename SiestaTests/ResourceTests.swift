@@ -6,7 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+@testable import Siesta
 import Quick
 import Nimble
 import Nocilla
@@ -19,6 +19,10 @@ class ResourceTests: QuickSpec
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
+        
+        var originalNowProvider = now
+        beforeEach { originalNowProvider = now }
+        afterEach  { now = originalNowProvider }
         
         let service  = specVar { Service(base: "https://zingle.frotz/v1") },
             resource = specVar { service().resource("/a/b") }
@@ -352,6 +356,85 @@ class ResourceTests: QuickSpec
             // TODO: support custom error message extraction
             
             // TODO: how should it handle redirects?
+            }
+        
+        describe("loadIfNeeded()")
+            {
+            func expectToLoad(req: Request?)
+                {
+                expect(req).notTo(beNil())
+                expect(resource().loading).to(beTrue())
+                stubResourceReqest("GET").andReturn(200)
+                awaitResponse(resource().load())
+                }
+            
+            func expectNotToLoad(req: Request?)
+                {
+                expect(req).to(beNil())
+                expect(resource().loading).to(beFalse())
+                }
+            
+            it("loads a resource never before loaded")
+                {
+                expectToLoad(resource().loadIfNeeded())
+                }
+            
+            context("with data present")
+                {
+                beforeEach
+                    {
+                    now = { 1000 }
+                    expectToLoad(resource().load())
+                    }
+                
+                it("does not load again soon")
+                    {
+                    now = { 1010 }
+                    expectNotToLoad(resource().loadIfNeeded())
+                    }
+                
+                it("loads again later")
+                    {
+                    now = { 2000 }
+                    expectToLoad(resource().loadIfNeeded())
+                    }
+                
+                it("respects custom expiration time")
+                    {
+                    now = { 1002 }
+                    resource().expirationTime = 1
+                    expectToLoad(resource().loadIfNeeded())
+                    }
+                }
+            
+            context("with an error present")
+                {
+                beforeEach
+                    {
+                    now = { 1000 }
+                    stubResourceReqest("GET").andReturn(404)
+                    awaitResponse(resource().load())
+                    }
+                
+                it("does not retry soon")
+                    {
+                    now = { 1001 }
+                    expectNotToLoad(resource().loadIfNeeded())
+                    }
+                
+                it("retries later")
+                    {
+                    now = { 2000 }
+                    expectToLoad(resource().loadIfNeeded())
+                    }
+                
+                it("respects custom retry time")
+                    {
+                    now = { 1002 }
+                    resource().retryTime = 1
+                    expectToLoad(resource().loadIfNeeded())
+                    }
+                }
             }
         
         describe("observer")
