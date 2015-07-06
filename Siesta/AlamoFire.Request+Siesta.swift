@@ -17,7 +17,7 @@ extension Request: Hashable
         { return ObjectIdentifier(self).hashValue }
     }
 
-extension Request
+public extension Request
     {
     public func resourceResponse(
             resource:    Resource,

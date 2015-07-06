@@ -11,7 +11,7 @@ public protocol ResourceObserver
     func resourceChanged(resource: Resource, event: ResourceEvent)
     }
 
-extension ResourceObserver
+public extension ResourceObserver
     {
     func resourceRequestProgress(resource: Resource) { }
     }
@@ -28,7 +28,7 @@ public enum ResourceEvent
     case NOT_MODIFIED_RESPONSE
     case ERROR_RESPONSE
     
-    var signalsStateChange: Bool
+    public var signalsStateChange: Bool
         {
         switch(self)
             {

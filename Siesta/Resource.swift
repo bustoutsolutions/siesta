@@ -200,7 +200,7 @@ public class Resource
             { entry.observer?.resourceChanged(self, event: event) }
         }
     
-    func cleanDefunctObservers()
+    private func cleanDefunctObservers()
         {
         observers = observers.filter
             { $0.owner !== nil }

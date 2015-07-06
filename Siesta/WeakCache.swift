@@ -10,7 +10,7 @@
     A cache for maintaining a unique instance for a given key as long as any other objects
     retain references to it.
 */
-class WeakCache<K: Hashable, V: AnyObject>
+internal class WeakCache<K: Hashable, V: AnyObject>
     {
     private var entries = [K : WeakCacheEntry<V>]()
     

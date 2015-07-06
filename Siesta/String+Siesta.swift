@@ -6,9 +6,9 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-extension String
+internal extension String
     {
-    public func stripPrefix(prefix: String) -> String
+    func stripPrefix(prefix: String) -> String
         {
         return hasPrefix(prefix)
             ? self[advance(startIndex, prefix.characters.count) ..< endIndex]
