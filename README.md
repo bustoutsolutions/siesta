@@ -55,32 +55,42 @@ MyAPI.instance.resource("/items").child("123").child("related")
 MyAPI.instance.resource("/items/123/related") // returns same object as above
 ```
 
-These resources initally come back empty — no data, no error, not loading. To trigger a network request:
+Add convenience accessors for commonly used resources:
 
 ```swift
-MyAPI.instance.resource("/profile").loadIfNeeded()
+class MyAPI: Service {
+    static let instance = MyAPI(base: "https://api.example.com")
+
+    var profile: Resource { return resource("profile") }
+}
+```
+
+Resources start out empty — no data, no error, not loading. To trigger a network request:
+
+```swift
+MyAPI.instance.profile.loadIfNeeded()
 ```
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to user events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
 
-UI components can observe change to a resource, either by implementing the `ResourceObserver` protocol…
+UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
 
 ```swift
-MyAPI.instance.resource("/profile").addObserver(self)
+MyAPI.instance.profile.addObserver(self)
 ```
 
-…or by providing an observer closure.
+…or by providing an observer closure:
 
 ```swift
-MyAPI.instance.resource("/profile").addObserver(self) {
+MyAPI.instance.profile.addObserver(self) {
     resource, event in
     …
 }
 ```
 
-Observers get pinged every time a resource starts loading, receives new data, or receives an error. Each observer is also called immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
+Observers receive a notification when a resource starts loading, receives new data, or receives an error. Each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
-The simplest way to implement your observer is to update the whole UI, regardless of the triggering event:
+The simplest way to implement your observer is to ignore triggering event, and take an idempotent “update everything” approach:
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
@@ -96,7 +106,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 }
 ```
 
-Note the pleasantly reactive flavor the code takes on with this approach.
+Note the pleasantly reactive flavor the code has — without the overhead of adopting full-on Reactive programming with captial R.
 
 If updating the whole UI is an expensive operation (but it rarely is; benchmark first!), you can use the `event` parameter and the metadata in `latestData` and `latestError` to fine-tune your UI updates.
 
@@ -110,11 +120,11 @@ class ProfileViewController: UIViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        MyAPI.instance.resource("/profile").addObserver(self)
+        MyAPI.instance.profile.addObserver(self)
     }
 
     override func viewWillAppear(animated: Bool) {
-        MyAPI.instance.resource("/profile").loadIfNeeded()
+        MyAPI.instance.profile.loadIfNeeded()
     }
 
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
