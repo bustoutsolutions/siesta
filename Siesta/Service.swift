@@ -14,12 +14,16 @@ public class Service: NSObject
     public let baseURL: NSURL?
     public let sessionManager: Manager
     
+    public let responseTransformers: TransformerSequence = TransformerSequence()
+    
     public var defaultExpirationTime: NSTimeInterval = 300
     public var defaultRetryTime: NSTimeInterval = 10
     
     private var resourceCache = WeakCache<String,Resource>()
     
-    public init(base: URLStringConvertible, sessionManager: Manager = Manager.sharedInstance)
+    public init(
+            base: URLStringConvertible,
+            sessionManager: Manager = Manager.sharedInstance)
         {
         self.baseURL = alterURLPath(NSURL(string: base.URLString))
             {
@@ -29,6 +33,8 @@ public class Service: NSObject
                 : path
             }
         self.sessionManager = sessionManager
+        
+        responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
         }
     
     public convenience init(base: URLStringConvertible, configuration: NSURLSessionConfiguration)

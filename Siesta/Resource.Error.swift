@@ -37,5 +37,26 @@ extension Resource
             else
                 { self.userMessage = "Request failed" }   // Is this reachable?
             }
+        
+        public init(
+                userMessage: String,
+                error: NSError? = nil,
+                httpStatusCode: Int? = nil,
+                data: Data? = nil)
+            {
+            self.userMessage = userMessage
+            self.nsError = error
+            self.httpStatusCode = httpStatusCode
+            self.data = data
+            }
+
+        public init(
+                userMessage: String,
+                debugMessage: String,
+                data: Data? = nil)
+            {
+            let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
+            self.init(userMessage: userMessage, error: nserror, data: data)
+            }
         }
     }

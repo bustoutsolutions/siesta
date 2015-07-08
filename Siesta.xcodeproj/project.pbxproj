@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
+		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
+		DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex.swift */; };
+		DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */; };
 		DA336E531B2E6DDB006F702A /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
@@ -64,6 +67,9 @@
 /* Begin PBXFileReference section */
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
+		DA33142E1B4DBADA00A7A175 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataHandlingSpec.swift; sourceTree = "<group>"; };
 		DA336E4F1B2E6DDB006F702A /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E521B2E6DDB006F702A /* Siesta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Siesta.h; sourceTree = "<group>"; };
 		DA336E541B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 				DAFB3C4E1B3DEFE8009CF96C /* Resource.Error.swift */,
 				DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */,
 				DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */,
+				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA99B5C61B38C356009C6937 /* Support */,
 			);
@@ -154,6 +161,7 @@
 				DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */,
 				DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */,
 				DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */,
+				DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */,
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
 				DA99B5C71B38C36A009C6937 /* Support */,
 			);
@@ -185,6 +193,7 @@
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA336E541B2E6DDB006F702A /* Info.plist */,
+				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -308,10 +317,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA517A8D1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift in Sources */,
+				DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
+				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Resource.Error.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Resource.Data.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
@@ -326,6 +337,7 @@
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */,
+				DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */,
 				DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */,
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */,

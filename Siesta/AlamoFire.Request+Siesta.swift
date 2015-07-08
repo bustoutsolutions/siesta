@@ -30,9 +30,11 @@ public extension Request
             {
             nsreq, nsres, payload, nserror in
             
+            var response: Response?
+            
             if nsres?.statusCode >= 400 || nserror != nil
                 {
-                error(Resource.Error(nsres, payload, nserror))
+                response = .ERROR(Resource.Error(nsres, payload, nserror))
                 }
             else if nsres?.statusCode == 304
                 {
@@ -45,10 +47,21 @@ public extension Request
                 }
             else if let payload = payload
                 {
-                success(Resource.Data(nsres, payload))
+                response = .DATA(Resource.Data(nsres, payload))
                 }
             else
-                { } // TODO: how to handle empty success response?
+                {
+                response = .ERROR(Resource.Error(userMessage: "Empty response"))
+                }
+            
+            if let response = response
+                {
+                switch(resource.service.responseTransformers.process(response))
+                    {
+                    case .DATA(let result):  success(result)
+                    case .ERROR(let result): error(result)
+                    }
+                }
             }
         return self
         }
