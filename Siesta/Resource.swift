@@ -30,7 +30,6 @@ public class Resource
 
     public private(set) var latestData: Data?
     public private(set) var latestError: Error?
-    public var data: AnyObject? { return latestData?.payload }
     public var timestamp: NSTimeInterval
         {
         return max(
@@ -38,6 +37,18 @@ public class Resource
             latestError?.timestamp ?? 0)
         }
     
+    // MARK: Data convenience accessors
+
+    public var data: AnyObject? { return latestData?.payload }
+    
+    public func typedData<T>(blankValue: T) -> T
+        {
+        return (data as? T) ?? blankValue
+        }
+    
+    public var json: [String:AnyObject] { return typedData([:]) }
+    public var text: String             { return typedData("") }
+
     // MARK: Observers
 
     private var observers = [ObserverEntry]()

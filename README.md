@@ -115,6 +115,9 @@ Note that a resource might have failed on the last request, have older valid dat
 Putting it all together:
 
 ```swift
+import Siesta
+import SwiftyJSON
+
 class ProfileViewController: UIViewController, ResourceObserver {
 
     override func viewDidLoad() {
@@ -130,7 +133,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         activityIndicator.hidden = !resource.loading
 
-        let json = (resource.data as? JSON) ?? JSON([:])
+        let json = JSON(resource.json)   // convenience access returns empty dictionary if no data
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
 
