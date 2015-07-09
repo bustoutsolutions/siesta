@@ -12,11 +12,13 @@ What could possibly go wrong?
 
 ## The Solution
 
-Siesta ends this headache by providing an observable model of a RESTful resource’s state, which answers three basic questions:
+Siesta ends this headache by providing an observable model of a RESTful resource’s state. The model answers three basic questions:
 
 * What is the latest data for this resource, if any?
 * Did the latest request result in an error?
 * Is there a request in progress?
+
+…then provides notifications whenever the answers to these questions change.
 
 Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.
 
@@ -35,7 +37,7 @@ Coming soon…er or later:
 
 * Intelligent progress reporting that accounts for request, latency, and response
 * Customizable data caching
-* Prepacked UI components for error overlay and progress bar
+* Prebaked UI components for error overlay and progress bar
 
 ## Usage
 
@@ -54,8 +56,10 @@ Retrieve `Resource` objects from the service:
 ```swift
 MyAPI.instance.resource("/profile")
 MyAPI.instance.resource("/items").child("123").child("related")
-MyAPI.instance.resource("/items/123/related") // returns same object as above
+MyAPI.instance.resource("/items/123/related") // same as previous
 ```
+
+Within the context of a `Service`, you will keep getting the same `Resource` instance for the same URL, no matter how you navigate to it.
 
 Add convenience accessors for commonly used resources:
 
@@ -67,13 +71,13 @@ class MyAPI: Service {
 }
 ```
 
-Resources start out empty — no data, no error, not loading. To trigger a network request:
+Resources start out empty — no data, no error, not loading. To trigger a GET request:
 
 ```swift
 MyAPI.instance.profile.loadIfNeeded()
 ```
 
-Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to user events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
+Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
 
 UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
 
@@ -92,14 +96,15 @@ MyAPI.instance.profile.addObserver(self) {
 
 Observers receive a notification when a resource starts loading, receives new data, or receives an error. Each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
-The simplest way to implement your observer is to ignore triggering event, and take an idempotent “update everything” approach:
+The simplest way to implement your observer is to ignore the triggering event, and take an idempotent “update everything” approach:
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
     activityIndicator.hidden = !resource.loading
 
-    // use empty JSON if there is no data, so that fields get cleared
-    let json = (resource.data as? JSON) ?? JSON([:])
+    // The convenience .json accessor returns empty dict if no data,
+    // so the same code can both populate and clear fields.
+    let json = JSON(resource.json)
     nameLabel.text = json["name"].string
     favoriteColorLabel.text = json["favoriteColor"].string
 
@@ -135,7 +140,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         activityIndicator.hidden = !resource.loading
 
-        let json = JSON(resource.json)   // convenience .json accessor returns empty dict if no data
+        let json = JSON(resource.json)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
 
