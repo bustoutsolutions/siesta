@@ -116,10 +116,25 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.mimeType).to(equal("text/monkey"))
                 }
             
+            it("parses the charset")
+                {
+                let monkeyType = "text/monkey; body=fuzzy; charset=euc-jp; arms=long"
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-type", monkeyType)
+                awaitResponse(resource().load())
+                
+                expect(resource().latestData?.mimeType).to(equal(monkeyType))
+                expect(resource().latestData?.charset).to(equal("euc-jp"))
+                }
+            
             it("defaults content type to raw binary")
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 awaitResponse(resource().load())
+                
+                // Although Apple's NSURLResponse.MIMEType defaults to text/plain,
+                // the correct default content type for HTTP is application/octet-stream.
+                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
                 
                 expect(resource().latestData?.mimeType).to(equal("application/octet-stream"))
                 }

@@ -33,12 +33,8 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             NSRegularExpression.escapedPatternForString($0)
                 .stringByReplacingOccurrencesOfString("\\*", withString:"[^/+]+")
             }
-        let pattern = "^" + "|".join(contentTypeRegexps) + "$"
-        do  {
-            self.contentTypeMatcher = try NSRegularExpression(pattern: pattern, options: [])
-            }
-        catch
-            { fatalError("Pattern compilation failed: \(contentTypes) → \(pattern)") }
+        let pattern = "^" + "|".join(contentTypeRegexps) + "($|;)"
+        self.contentTypeMatcher = NSRegularExpression.compile(pattern)
         }
 
     func process(response: Response) -> Response
@@ -139,6 +135,45 @@ public extension ResponseTransformer
     }
 
 // MARK: Transformers for standard types
+
+public struct TextTransformer: ResponseDataTransformer
+    {
+    public func processData(data: Resource.Data) -> Response
+        {
+        if data.payload as? String != nil
+            { return .DATA(data) }
+        
+        return requireDataType(data)
+            {
+            (nsdata: NSData) in
+            
+            let charsetName = data.charset ?? "ISO-8859-1"
+            let encoding = CFStringConvertEncodingToNSStringEncoding(
+                CFStringConvertIANACharSetNameToEncoding(charsetName))
+            
+            if encoding == UInt(kCFStringEncodingInvalidId)
+                {
+                return .ERROR(
+                    Resource.Error(
+                        userMessage: "Cannot parse text response",
+                        debugMessage: "Invalid encoding: \(charsetName)"))
+                }
+            else if let string = NSString(data: nsdata, encoding: encoding) as? String
+                {
+                var newData = data
+                newData.payload = string
+                return .DATA(newData)
+                }
+            else
+                {
+                return .ERROR(
+                    Resource.Error(
+                        userMessage: "Cannot parse text response",
+                        debugMessage: "Using encoding: \(charsetName)"))
+                }
+            }
+        }
+    }
 
 public struct JsonTransformer: ResponseDataTransformer
     {

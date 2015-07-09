@@ -16,6 +16,72 @@ class ResponseDataHandlingSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
+        describe("plain text handling")
+            {
+            func stubText(string: String? = "zwobble", contentType: String = "text/plain")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-Type", contentType)
+                    .withBody(string)
+                awaitResponse(resource().load())
+                }
+            
+            for textType in ["text/plain", "text/foo"]
+                {
+                it("parses \(textType) as text")
+                    {
+                    stubText(contentType: textType)
+                    expect(resource().data as? String).to(equal("zwobble"))
+                    }
+                }
+
+            it("defaults to ISO-8859-1")
+                {
+                stubText("ý", contentType: "text/plain")
+                expect(resource().text).to(equal("Ã½"))
+                }
+
+            it("handles UTF-8")
+                {
+                stubText("ý", contentType: "text/plain; charset=utf-8")
+                expect(resource().text).to(equal("ý"))
+                }
+            
+            it("handles more unusual charsets")
+                {
+                stubText("ý", contentType: "text/plain; charset=EUC-JP")
+                expect(resource().text).to(equal("箪"))  // bamboo rice basket
+                }
+
+            it("does not parse everything as text")
+                {
+                stubText(contentType: "application/monkey")
+                expect(resource().latestData).notTo(beNil())
+                expect(resource().data as? String).to(beNil())
+                }
+            
+            describe("via .text convenience")
+                {
+                it("gives a string")
+                    {
+                    stubText()
+                    expect(resource().text).to(equal("zwobble"))
+                    }
+
+                it("gives empty string for non-text response")
+                    {
+                    stubText(contentType: "application/octet-stream")
+                    expect(resource().text).to(equal(""))
+                    }
+
+                it("gives empty string on error")
+                    {
+                    stubReqest(resource, "GET").andReturn(404)
+                    expect(resource().text).to(equal(""))
+                    }
+                }
+            }
+        
         describe("JSON handling")
             {
             let jsonStr = "{\"foo\":[\"bar\",42]}"
@@ -67,7 +133,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().json).to(equal(jsonVal))
                     }
 
-                it("gives empty dict on non-JSON response")
+                it("gives empty dict for non-JSON response")
                     {
                     stubJson(contentType: "text/plain")
                     expect(resource().json).to(equal(NSDictionary()))

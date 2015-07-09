@@ -27,10 +27,12 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 * Coordinates requests and data sharing across ViewControllers
 * Eliminates redundant network requests
 * Provides transparent Etag / If-Modified-Since handling
+* Painless built-in response parsing for JSON, XML, plain text
+* Customizable response transformation
+* Unified reporting for connection errors, server errors, and client-side parsing errors
 
 Coming soon…er or later:
 
-* Configurable API-wide data parsing
 * Intelligent progress reporting that accounts for request, latency, and response
 * Customizable data caching
 * Prepacked UI components for error overlay and progress bar
@@ -133,7 +135,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         activityIndicator.hidden = !resource.loading
 
-        let json = JSON(resource.json)   // convenience access returns empty dictionary if no data
+        let json = JSON(resource.json)   // convenience .json accessor returns empty dict if no data
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
 

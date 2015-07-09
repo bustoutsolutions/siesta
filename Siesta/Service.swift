@@ -35,6 +35,7 @@ public class Service: NSObject
         self.sessionManager = sessionManager
         
         responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
+        responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
         }
     
     public convenience init(base: URLStringConvertible, configuration: NSURLSessionConfiguration)

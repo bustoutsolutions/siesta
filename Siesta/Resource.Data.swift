@@ -13,13 +13,15 @@ extension Resource
         public var payload: AnyObject // TODO: Can result transformer + generics fix AnyObject?
                                       // Probably service-wide default data type + per-resource override that requires “as?”
         public var mimeType: String
+        public var charset: String?
         public var etag: String?
         public private(set) var timestamp: NSTimeInterval = 0
         
-        public init(payload: AnyObject, mimeType: String, etag: String? = nil)
+        public init(payload: AnyObject, mimeType: String, charset: String? = nil, etag: String? = nil)
             {
             self.payload = payload
             self.mimeType = mimeType
+            self.charset = charset
             self.etag = etag
             self.timestamp = 0
             self.touch()
@@ -33,6 +35,7 @@ extension Resource
             self.init(
                 payload:  payload,
                 mimeType: header("Content-Type") ?? "application/octet-stream",
+                charset:  response?.textEncodingName,
                 etag:     header("ETag"))
             }
         
