@@ -165,7 +165,7 @@ The code above is already easy — but the business of showing the activity ind
 
 The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
 
-![Standard error overlay view](Docs/images/standard-error-overlay@2x.png =320x136)
+<img alt="Standard error overlay view" src="Docs/images/standard-error-overlay@2x.png" width=320 height=136>
 
 …and you can also provide your own custom .xib.
 
