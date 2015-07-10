@@ -32,12 +32,12 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 * Painless built-in response parsing for JSON, XML, plain text
 * Customizable response transformation
 * Unified reporting for connection errors, server errors, and client-side parsing errors
+* Prebaked UI components for error overlay and progress bar
 
 Coming soon…er or later:
 
 * Intelligent progress reporting that accounts for request, latency, and response
 * Customizable data caching
-* Prebaked UI components for error overlay and progress bar
 
 ## Usage
 
@@ -100,15 +100,18 @@ The simplest way to implement your observer is to ignore the triggering event, a
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    activityIndicator.hidden = !resource.loading
-
     // The convenience .json accessor returns empty dict if no data,
     // so the same code can both populate and clear fields.
     let json = JSON(resource.json)
     nameLabel.text = json["name"].string
     favoriteColorLabel.text = json["favoriteColor"].string
 
-    errorOverlay.visible = (resource.latestError != nil)
+    if resource.loading {
+        activityIndicator.startAnimating()
+    } else {
+        activityIndicator.stopAnimating()
+    }
+
     errorLabel.text = resource.latestError?.userMessage
 }
 ```
@@ -127,6 +130,11 @@ import SwiftyJSON
 
 class ProfileViewController: UIViewController, ResourceObserver {
 
+    @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -138,14 +146,62 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
-        activityIndicator.hidden = !resource.loading
-
         let json = JSON(resource.json)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
 
-        errorOverlay.visible = (resource.latestError != nil)
+        if resource.loading {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
+
         errorLabel.text = resource.latestError?.userMessage
+    }
+}
+```
+
+## UI Components
+
+The code above is already easy — but the business of showing the activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
+
+The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
+
+![Standard error overlay view](Docs/images/standard-error-overlay@2x.png =320x136)
+
+…and you can also provide your own custom .xib.
+
+Using the standard overlay, the example above becomes:
+
+```swift
+class ProfileViewController: UIViewController, ResourceObserver {
+
+    @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
+
+    var statusOverlay: ResourceStatusOverlay!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        statusOverlay = ResourceStatusOverlay().embedIn(self)
+
+        MyAPI.instance.profile
+            .addObserver(self)
+            .addObserver(statusOverlay)
+    }
+
+    override func viewDidLayoutSubviews() {
+        statusOverlay.positionToCoverParent()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        MyAPI.instance.profile.loadIfNeeded()
+    }
+
+    func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
+        let json = JSON(resource.json)
+        nameLabel.text = json["name"].string
+        favoriteColorLabel.text = json["favoriteColor"].string
     }
 }
 ```
