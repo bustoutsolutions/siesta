@@ -129,9 +129,7 @@ import Siesta
 import SwiftyJSON
 
 class ProfileViewController: UIViewController, ResourceObserver {
-
     @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
-
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorLabel: UILabel!
 
@@ -175,9 +173,7 @@ Using the standard overlay, the example above becomes:
 
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
-
     @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
-
     var statusOverlay: ResourceStatusOverlay!
 
     override func viewDidLoad() {
