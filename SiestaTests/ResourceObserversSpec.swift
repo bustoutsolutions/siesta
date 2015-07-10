@@ -33,6 +33,15 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
                 }
             
+            it("is chainable")
+                {
+                let observer2 = TestObserverWithExpectations(),
+                    observer3 = TestObserverWithExpectations()
+                observer2.expect(.OBSERVER_ADDED)
+                observer3.expect(.OBSERVER_ADDED)
+                resource().addObserver(observer2).addObserver(observer3)
+                }
+            
             it("receives request event")
                 {
                 stubReqest(resource, "GET").andReturn(200)

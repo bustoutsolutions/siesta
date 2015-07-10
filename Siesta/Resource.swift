@@ -174,27 +174,28 @@ public class Resource
     /**
         Adds an observer without retaining a reference to it.
     */
-    public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>)
+    public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
         {
-        addObserverEntry(
+        return addObserverEntry(
             DirectObserverEntry(resource: self, observerAndOwner: observerAndOwner))
         }
     
-    public func addObserver(observer: ResourceObserver, owner: AnyObject)
+    public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        addObserverEntry(
+        return addObserverEntry(
             OwnedObjectObserverEntry(resource: self, observer: observer, owner: owner))
         }
     
-    public func addObserver(owner: AnyObject, closure: ResourceObserverClosure)
+    public func addObserver(owner: AnyObject, closure: ResourceObserverClosure) -> Self
         {
-        addObserver(ClosureObserver(closure: closure), owner: owner)
+        return addObserver(ClosureObserver(closure: closure), owner: owner)
         }
     
-    private func addObserverEntry(entry: ObserverEntry)
+    private func addObserverEntry(entry: ObserverEntry) -> Self
         {
         observers.append(entry)
         entry.observer?.resourceChanged(self, event: .OBSERVER_ADDED)
+        return self
         }
     
     public func removeObservers(ownedBy owner: AnyObject)
