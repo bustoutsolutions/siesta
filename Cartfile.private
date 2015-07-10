@@ -1,3 +1,3 @@
-github "pcantrell/Quick" "swift-2.0"
+github "pcantrell/Quick" "330-xctexpectations-option-3"
 github "Quick/Nimble" "swift-2.0"
 github "luisobo/Nocilla"

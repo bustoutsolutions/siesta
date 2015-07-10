@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Siesta
 
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
@@ -37,7 +36,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         showSuccess()
         }
 
-    public required init(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
