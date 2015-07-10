@@ -9,11 +9,14 @@
 public protocol ResourceObserver
     {
     func resourceChanged(resource: Resource, event: ResourceEvent)
+    func resourceRequestProgress(resource: Resource)
+    func stoppedObservingResource(resource: Resource)
     }
 
 public extension ResourceObserver
     {
     func resourceRequestProgress(resource: Resource) { }
+    func stoppedObservingResource(resource: Resource) { }
     }
 
 public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()

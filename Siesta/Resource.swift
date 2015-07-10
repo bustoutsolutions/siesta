@@ -200,8 +200,10 @@ public class Resource
     
     public func removeObservers(ownedBy owner: AnyObject)
         {
-        observers = observers.filter
-            { $0.owner !== owner }
+        let stopped = observers.filter { $0.owner === owner }
+        observers = observers.filter { $0.owner !== owner }
+        for entry in stopped
+            { entry.observer?.stoppedObservingResource(self) }
         }
     
     private func notifyObservers(event: ResourceEvent)

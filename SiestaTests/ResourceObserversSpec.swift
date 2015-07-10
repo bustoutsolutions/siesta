@@ -33,6 +33,17 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
                 }
             
+            it("receives a notification that it was removed")
+                {
+                let observer2 = TestObserverWithExpectations()
+                observer2.expect(.OBSERVER_ADDED)  // only for new observer
+                resource().addObserver(observer2)
+                
+                resource().removeObservers(ownedBy: observer())
+                expect(observer().stoppedObservingCalled).to(beTrue())
+                expect(observer2.stoppedObservingCalled ).to(beFalse())
+                }
+            
             it("is chainable")
                 {
                 let observer2 = TestObserverWithExpectations(),
@@ -183,6 +194,7 @@ private class TestObserver: ResourceObserver
 private class TestObserverWithExpectations: ResourceObserver
     {
     private var expectedEvents = [Expectation]()
+    public var stoppedObservingCalled = false
     
     deinit
         { checkForUnfulfilledExpectations() }
@@ -208,6 +220,11 @@ private class TestObserverWithExpectations: ResourceObserver
             else
                 { expectation.callback() }
             }
+        }
+    
+    private func stoppedObservingResource(resource: Resource)
+        {
+        stoppedObservingCalled = true
         }
     
     struct Expectation
