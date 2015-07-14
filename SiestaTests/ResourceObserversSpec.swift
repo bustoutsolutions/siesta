@@ -22,21 +22,21 @@ class ResourceObserversSpec: ResourceSpecBase
             
             beforeEach
                 {
-                observer().expect(.OBSERVER_ADDED)
+                observer().expect(.ObserverAdded)
                 resource().addObserver(observer())
                 }
             
             it("receives a notification that it was added")
                 {
                 let observer2 = TestObserverWithExpectations()
-                observer2.expect(.OBSERVER_ADDED)  // only for new observer
+                observer2.expect(.ObserverAdded)  // only for new observer
                 resource().addObserver(observer2)
                 }
             
             it("receives a notification that it was removed")
                 {
                 let observer2 = TestObserverWithExpectations()
-                observer2.expect(.OBSERVER_ADDED)  // only for new observer
+                observer2.expect(.ObserverAdded)  // only for new observer
                 resource().addObserver(observer2)
                 
                 resource().removeObservers(ownedBy: observer())
@@ -48,15 +48,15 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 let observer2 = TestObserverWithExpectations(),
                     observer3 = TestObserverWithExpectations()
-                observer2.expect(.OBSERVER_ADDED)
-                observer3.expect(.OBSERVER_ADDED)
+                observer2.expect(.ObserverAdded)
+                observer3.expect(.ObserverAdded)
                 resource().addObserver(observer2).addObserver(observer3)
                 }
             
             it("receives request event")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                observer().expect(.REQUESTED)
+                observer().expect(.Requested)
                     {
                     expect(resource().loading).to(beTrue())
                     expect(resource().latestData).to(beNil())
@@ -72,8 +72,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives new data event")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                observer().expect(.REQUESTED)
-                observer().expect(.NEW_DATA_RESPONSE)
+                observer().expect(.Requested)
+                observer().expect(.NewDataResponse)
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
@@ -85,8 +85,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives not modified event")
                 {
                 stubReqest(resource, "GET").andReturn(304)
-                observer().expect(.REQUESTED)
-                observer().expect(.NOT_MODIFIED_RESPONSE)
+                observer().expect(.Requested)
+                observer().expect(.NotModifiedResponse)
                     {
                     expect(resource().loading).to(beFalse())
                     }
@@ -96,8 +96,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives cancel event")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                observer().expect(.REQUESTED)
-                observer().expect(.REQUEST_CANCELLED)
+                observer().expect(.Requested)
+                observer().expect(.RequestCancelled)
                     {
                     expect(resource().loading).to(beFalse())
                     }
@@ -109,8 +109,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives failure event")
                 {
                 stubReqest(resource, "GET").andReturn(500)
-                observer().expect(.REQUESTED)
-                observer().expect(.ERROR_RESPONSE)
+                observer().expect(.Requested)
+                observer().expect(.ErrorResponse)
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).to(beNil())
@@ -148,8 +148,8 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
                 weak var observerWeak = observer
-                observer!.expect(.OBSERVER_ADDED)
-                observer!.expect(.REQUESTED)
+                observer!.expect(.ObserverAdded)
+                observer!.expect(.Requested)
                 resource().addObserver(observer!)
                 
                 let req = resource().load()
@@ -167,10 +167,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 let observer = TestObserverWithExpectations()
                 var owner: AnyObject? = "foo"
-                observer.expect(.OBSERVER_ADDED)
+                observer.expect(.ObserverAdded)
                 resource().addObserver(observer, owner: owner!)
                 
-                observer.expect(.REQUESTED)
+                observer.expect(.Requested)
                 let req = resource().load()
                 observer.checkForUnfulfilledExpectations()
                 
@@ -194,7 +194,7 @@ private class TestObserver: ResourceObserver
 private class TestObserverWithExpectations: ResourceObserver
     {
     private var expectedEvents = [Expectation]()
-    public var stoppedObservingCalled = false
+    private var stoppedObservingCalled = false
     
     deinit
         { checkForUnfulfilledExpectations() }

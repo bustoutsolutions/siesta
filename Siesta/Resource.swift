@@ -119,8 +119,8 @@ public class Resource
             if let etag = self.latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
-        
         loadRequests.insert(req)
+        
         req.response
             {
             [weak self, weak req] _ in
@@ -133,7 +133,7 @@ public class Resource
             notModified: self.updateStateWithDataNotModified,
             error:       self.updateStateWithError)
 
-        self.notifyObservers(.REQUESTED)
+        self.notifyObservers(.Requested)
 
         return req
         }
@@ -143,7 +143,7 @@ public class Resource
         self.latestError = nil
         self.latestData = data
         
-        notifyObservers(.NEW_DATA_RESPONSE)
+        notifyObservers(.NewDataResponse)
         }
 
     private func updateStateWithDataNotModified()
@@ -151,7 +151,7 @@ public class Resource
         self.latestError = nil
         self.latestData?.touch()
         
-        notifyObservers(.NOT_MODIFIED_RESPONSE)
+        notifyObservers(.NotModifiedResponse)
         }
     
     private func updateStateWithError(error: Error)
@@ -160,13 +160,13 @@ public class Resource
             where nserror.domain == "NSURLErrorDomain"
                && nserror.code == NSURLErrorCancelled
             {
-            notifyObservers(.REQUEST_CANCELLED)
+            notifyObservers(.RequestCancelled)
             return
             }
         
         self.latestError = error
 
-        notifyObservers(.ERROR_RESPONSE)
+        notifyObservers(.ErrorResponse)
         }
 
     // MARK: Observers
@@ -194,7 +194,7 @@ public class Resource
     private func addObserverEntry(entry: ObserverEntry) -> Self
         {
         observers.append(entry)
-        entry.observer?.resourceChanged(self, event: .OBSERVER_ADDED)
+        entry.observer?.resourceChanged(self, event: .ObserverAdded)
         return self
         }
     
@@ -220,7 +220,6 @@ public class Resource
             { $0.owner !== nil }
         }
     }
-
 
 
 private protocol ObserverEntry
