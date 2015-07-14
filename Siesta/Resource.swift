@@ -11,6 +11,7 @@ import Alamofire
 // Overridable for testing
 internal var now = { return NSDate.timeIntervalSinceReferenceDate() }
 
+@objc(BOSResource)
 public class Resource
     {
     // MARK: Configuration

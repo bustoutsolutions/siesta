@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+// TODO: Need prefix in Obj-C?
+@objc(BOSService)
 public class Service: NSObject
     {
     public let baseURL: NSURL?
@@ -43,6 +45,7 @@ public class Service: NSObject
         self.init(base: base, sessionManager: Manager(configuration: configuration))
         }
     
+    @objc(resourceWithURL:)
     public func resource(url: NSURL?) -> Resource
         {
         let key = url?.absoluteString ?? ""  // TODO: handle invalid URLs
@@ -52,6 +55,7 @@ public class Service: NSObject
             }
         }
     
+    @objc(resourceWithPath:)
     public func resource(path: String) -> Resource
         {
         return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))

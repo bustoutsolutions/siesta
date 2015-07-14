@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(BOSResourceStatusOverlay)
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
     @IBOutlet var containerView: UIView?
@@ -19,14 +20,18 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     
     private var observedResources = [Resource]()
     
-    public init(
-            xibName: String = "ResourceStatusOverlay",
+    override init(frame: CGRect)
+        { super.init(frame: frame) }
+    
+    public convenience init(
+            nibName: String = "ResourceStatusOverlay",
             bundle: NSBundle = NSBundle(forClass: ResourceStatusOverlay.self))
         {
-        super.init(frame: CGRectZero)
-        bundle.loadNibNamed(xibName, owner: self as NSObject, options: [:])
+        self.init(frame: CGRectZero)
+        
+        bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
         guard let containerView = containerView else
-            { fatalError("WARNING: xib \"\(xibName)\" did not set contentView of \(self)") }
+            { fatalError("WARNING: xib \"\(nibName)\" did not set contentView of \(self)") }
         
         addSubview(containerView)
         containerView.frame = bounds
@@ -36,9 +41,8 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         showSuccess()
         }
 
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    public required init?(coder: NSCoder)
+        { super.init(coder: coder) }
     
     public func embedIn(parentViewController: UIViewController)
         -> Self

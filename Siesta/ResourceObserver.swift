@@ -22,7 +22,7 @@ public extension ResourceObserver
 public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
 public typealias ResourceProgressObserverClosure = (resource: Resource) -> ()
 
-public enum ResourceEvent
+public enum ResourceEvent: String
     {
     case ObserverAdded  // Sent only to the newly attached observer, not all observers
     case Requested

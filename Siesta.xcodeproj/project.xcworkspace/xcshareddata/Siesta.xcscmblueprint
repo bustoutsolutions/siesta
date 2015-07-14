@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B6E16A6BE5489C8A768B73EF44C6CBBE77F988FD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DFB786B353391D7273D909FD672EC2246D42231A" : 0,
+    "B6E16A6BE5489C8A768B73EF44C6CBBE77F988FD" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0DA03A74-F828-4091-A588-8C8F817DBF45",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DFB786B353391D7273D909FD672EC2246D42231A" : "snow\/",
+    "B6E16A6BE5489C8A768B73EF44C6CBBE77F988FD" : "siesta\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Siesta",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Siesta.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:bustoutsolutions\/siesta.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B6E16A6BE5489C8A768B73EF44C6CBBE77F988FD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:bustoutsolutions\/snow.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DFB786B353391D7273D909FD672EC2246D42231A"
+    }
+  ]
+}

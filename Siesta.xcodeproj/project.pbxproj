@@ -14,6 +14,7 @@
 		DA336E531B2E6DDB006F702A /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
+		DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */; };
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
@@ -78,6 +79,7 @@
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E601B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../../siesta/Siesta/Service.swift; sourceTree = "<group>"; };
+		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
 		DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSpec.swift; sourceTree = "<group>"; };
 		DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceSpecBase.swift; sourceTree = "<group>"; };
 		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
@@ -195,9 +197,10 @@
 		DA99B5C61B38C356009C6937 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				DA336E521B2E6DDB006F702A /* Siesta.h */,
-				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA336E541B2E6DDB006F702A /* Info.plist */,
+				DA336E521B2E6DDB006F702A /* Siesta.h */,
+				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
+				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
 			);
 			name = Support;
@@ -341,6 +344,7 @@
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Resource.Error.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Resource.Data.swift in Sources */,
+				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +476,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Siesta/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -490,6 +495,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Siesta/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
