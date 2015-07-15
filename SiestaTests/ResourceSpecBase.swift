@@ -19,9 +19,13 @@ class ResourceSpecBase: QuickSpec
     
     override final func spec()
         {
+        beforeSuite { Siesta.debug = true }
+        
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
+        
+        beforeEach  { Manager.sharedInstance.startRequestsImmediately = true }  // default, but some tests change it
         
         var originalNowProvider = now
         beforeEach { originalNowProvider = now }

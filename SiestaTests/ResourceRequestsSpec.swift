@@ -247,8 +247,11 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
                 
+                service().sessionManager.startRequestsImmediately = false  // prevents race condition between cancel() and Nocilla
+                
                 let req = resource().load()
                 req.cancel()
+                req.resume()
                 awaitResponse(req)
 
                 expectDataToBeUnchanged()
@@ -283,11 +286,12 @@ class ResourceRequestsSpec: ResourceSpecBase
         
         describe("loadIfNeeded()")
             {
-            func expectToLoad(req: Request?)
+            func expectToLoad(@autoclosure req: () -> Request?)
                 {
-                expect(req).notTo(beNil())
+                stubReqest(resource, "GET").andReturn(200) // Stub first...
+                let reqMaterialized = req()                // ...then allow loading
+                expect(reqMaterialized).notTo(beNil())
                 expect(resource().loading).to(beTrue())
-                stubReqest(resource, "GET").andReturn(200)
                 awaitResponse(resource().load())
                 }
             

@@ -95,6 +95,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives cancel event")
                 {
+                service().sessionManager.startRequestsImmediately = false  // prevents race condition between cancel() and Nocilla
+                
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
@@ -103,6 +105,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
+                req.resume()
                 awaitResponse(req)
                 }
             
@@ -152,14 +155,16 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer!.expect(.Requested)
                 resource().addObserver(observer!)
                 
+                Manager.sharedInstance.startRequestsImmediately = false
                 let req = resource().load()
                 observer!.checkForUnfulfilledExpectations()
                 
                 observer = nil
                 expect(observerWeak).to(beNil())  // resource should not have retained it
                 
-                // No expectations, so this will fail if Resource still notifies observer
+                // No observer expectations left, so this will fail if Resource still notifies observer
                 stubReqest(resource, "GET").andReturn(200)
+                req.resume()
                 awaitResponse(req)
                 }
             
@@ -171,11 +176,13 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer, owner: owner!)
                 
                 observer.expect(.Requested)
+                Manager.sharedInstance.startRequestsImmediately = false
                 let req = resource().load()
                 observer.checkForUnfulfilledExpectations()
                 
                 owner = nil
                 stubReqest(resource, "GET").andReturn(200)
+                req.resume()
                 awaitResponse(req)  // make sure Resource doesn't blow up
                 }
             }
