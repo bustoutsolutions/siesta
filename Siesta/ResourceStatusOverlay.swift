@@ -56,7 +56,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         layer.zPosition = 10000
         parentVC?.view.addSubview(self)
         
-        containerView?.backgroundColor = parentVC?.view.backgroundColor
+        backgroundColor = parentVC?.view.backgroundColor
         
         positionToCoverParent()
         
