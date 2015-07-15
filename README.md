@@ -4,9 +4,10 @@ iOS REST Client Framework
 
 **TL;DR**: Drastically simplifies app code by providing an observer-based model for RESTful resources.
 
-* **Compatible with:** iOS 8+
-* **Language compatibility:** Swift, Objective-C
-* **Status:** Pre-alpha
+* **OS:** iOS 8+
+* **Languages:** Written in Swift, supports Swift and Objective-C
+* **Build requirements:** Xcode 7 beta, Carthage
+* **Status:** Pre-alpha, in active development
 
 ## The Problem
 
