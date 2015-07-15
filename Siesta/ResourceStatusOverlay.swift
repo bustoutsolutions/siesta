@@ -67,13 +67,36 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         if let parentVC = parentVC
             {
-            let parentSize = parentVC.view.frame.size
+            let parentSize = parentVC.view.bounds.size
             let top = parentVC.topLayoutGuide.length,
                 bot = parentVC.bottomLayoutGuide.length
-            frame = CGRectMake(0, 0, parentSize.width, parentSize.height - top - bot)
+            self.positionToCoverRect(
+                CGRectMake(top, 0, parentSize.width, parentSize.height - top - bot),
+                inView: parentVC.view)
             }
         }
 
+    public func positionToCover(view: UIView)
+        {
+        self.positionToCoverRect(view.bounds, inView: view)
+        }
+    
+    /// Positions this view within its current superview so that it covers
+    /// the given rect in the local coordinates of the given view.
+    
+    public func positionToCoverRect(rect: CGRect, inView srcView: UIView)
+        {
+        if let superview = self.superview
+            {
+            let ul = superview.convertPoint(rect.origin, fromView: srcView),
+                br = superview.convertPoint(
+                    CGPoint(x: rect.origin.x + rect.size.width,
+                            y: rect.origin.y + rect.size.height),
+                    fromView: srcView)
+            frame = CGRectMake(ul.x, ul.y, br.x - ul.x, br.y - ul.y)  // Doesn’t handle crazy transforms. Too bad so sad!
+            }
+        }
+    
     public func resourceChanged(resource: Resource, event: ResourceEvent)
         {
         if event == .ObserverAdded

@@ -197,12 +197,13 @@ Using the standard overlay, the example above becomes:
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
     @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
-    var statusOverlay: ResourceStatusOverlay!
+    
+    let statusOverlay = ResourceStatusOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        statusOverlay = ResourceStatusOverlay().embedIn(self)
+        statusOverlay.embedIn(self)
 
         MyAPI.instance.profile
             .addObserver(self)
