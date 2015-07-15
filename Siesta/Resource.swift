@@ -197,13 +197,13 @@ public class Resource: CustomDebugStringConvertible
     public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
         {
         return addObserverEntry(
-            DirectObserverEntry(resource: self, observerAndOwner: observerAndOwner))
+            SelfOwnedObserverEntry(resource: self, observerAndOwner: observerAndOwner))
         }
     
     public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
         return addObserverEntry(
-            OwnedObjectObserverEntry(resource: self, observer: observer, owner: owner))
+            SeparateOwnerObserverEntry(resource: self, observer: observer, owner: owner))
         }
     
     public func addObserver(owner: AnyObject, closure: ResourceObserverClosure) -> Self
@@ -243,7 +243,7 @@ public class Resource: CustomDebugStringConvertible
         {
         let removedCount = removeObservers(ownedBy: nil)
         if removedCount > 0
-            { debugLog([self, "removed", removedCount, "observers"]) }
+            { debugLog([self, "removed", removedCount, "observers whose owners were deallocated"]) }
         }
     
     // MARK: Debug
@@ -267,7 +267,7 @@ private protocol ObserverEntry
     var owner: AnyObject? { get }
     }
 
-private struct DirectObserverEntry: ObserverEntry
+private struct SelfOwnedObserverEntry: ObserverEntry
     {
     // Intentional reference cycle to keep Resource alive as long
     // as it has observers.
@@ -278,10 +278,8 @@ private struct DirectObserverEntry: ObserverEntry
     var owner:    AnyObject?        { return observerAndOwner }
     }
 
-private struct OwnedObjectObserverEntry: ObserverEntry
+private struct SeparateOwnerObserverEntry: ObserverEntry
     {
-    // Intentional reference cycle to keep Resource alive as long
-    // as it has observers.
     let resource: Resource
     
     let observer: ResourceObserver?
