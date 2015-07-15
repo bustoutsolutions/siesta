@@ -15,6 +15,7 @@
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
 		DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
+		DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBDB01B55BF0E00161A25 /* Logging.swift */; };
 		DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */; };
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
@@ -80,6 +81,7 @@
 		DA336E601B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../../siesta/Siesta/Service.swift; sourceTree = "<group>"; };
 		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
+		DA3FBDB01B55BF0E00161A25 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSpec.swift; sourceTree = "<group>"; };
 		DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceSpecBase.swift; sourceTree = "<group>"; };
 		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
+				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA517A8D1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift in Sources */,
+				DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */,
 				DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,

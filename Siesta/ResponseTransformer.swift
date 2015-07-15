@@ -6,15 +6,33 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-public enum Response
+public enum Response: CustomStringConvertible
     {
     case DATA(Resource.Data)
     case ERROR(Resource.Error)
+    
+    public var description: String
+        {
+        switch(self)
+            {
+            case .DATA(let value):  return debugStr(value)
+            case .ERROR(let value): return debugStr(value)
+            }
+        }
     }
 
 public protocol ResponseTransformer
     {
     func process(response: Response) -> Response
+    }
+
+public extension ResponseTransformer
+    {
+    func logTransformation(result: Response) -> Response
+        {
+        debugLog([self, "→", result])
+        return result
+        }
     }
 
 // MARK: Chaining
@@ -43,7 +61,10 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             {
             case .DATA(let data):
                 if contentTypeMatcher.matches(data.mimeType)
-                    { return delegate.process(response) }
+                    {
+                    debugLog([delegate, "matches content type", debugStr(data.mimeType)])
+                    return delegate.process(response)
+                    }
                 else
                     { return response }
             
@@ -117,7 +138,7 @@ public extension ResponseTransformer
     {
     func requireDataType<T>(
             data: Resource.Data,
-            process: T -> Response)
+            @noescape process: T -> Response)
         -> Response
         {
         if let typedData = data.payload as? T
@@ -126,10 +147,10 @@ public extension ResponseTransformer
             }
         else
             {
-            return .ERROR(
-                Resource.Error(
+            return logTransformation(
+                .ERROR(Resource.Error(
                     userMessage: "Cannot parse response",
-                    debugMessage: "Expected \(T.self), but got \(data.payload.dynamicType)"))
+                    debugMessage: "Expected \(T.self), but got \(data.payload.dynamicType)")))
             }
         }
     }
@@ -141,7 +162,10 @@ public struct TextTransformer: ResponseDataTransformer
     public func processData(data: Resource.Data) -> Response
         {
         if data.payload as? String != nil
-            { return .DATA(data) }
+            {
+            debugLog([self, "ignoring payload because it is already a String"])
+            return .DATA(data)
+            }
         
         return requireDataType(data)
             {
@@ -153,23 +177,24 @@ public struct TextTransformer: ResponseDataTransformer
             
             if encoding == UInt(kCFStringEncodingInvalidId)
                 {
-                return .ERROR(
-                    Resource.Error(
+                return logTransformation(
+                    .ERROR(Resource.Error(
                         userMessage: "Cannot parse text response",
-                        debugMessage: "Invalid encoding: \(charsetName)"))
+                        debugMessage: "Invalid encoding: \(charsetName)")))
                 }
             else if let string = NSString(data: nsdata, encoding: encoding) as? String
                 {
                 var newData = data
                 newData.payload = string
-                return .DATA(newData)
+                return logTransformation(
+                    .DATA(newData))
                 }
             else
                 {
-                return .ERROR(
-                    Resource.Error(
+                return logTransformation(
+                    .ERROR(Resource.Error(
                         userMessage: "Cannot parse text response",
-                        debugMessage: "Using encoding: \(charsetName)"))
+                        debugMessage: "Using encoding: \(charsetName)")))
                 }
             }
         }
@@ -186,12 +211,13 @@ public struct JsonTransformer: ResponseDataTransformer
             do  {
                 var newData = data
                 newData.payload = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
-                return .DATA(newData)
+                return logTransformation(
+                    .DATA(newData))
                 }
             catch let err
                 {
-                return .ERROR(
-                    Resource.Error(userMessage: "Cannot parse JSON", error: err as NSError))
+                return logTransformation(
+                    .ERROR(Resource.Error(userMessage: "Cannot parse JSON", error: err as NSError)))
                 }
             }
         }

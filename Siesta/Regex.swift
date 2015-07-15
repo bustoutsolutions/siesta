@@ -24,6 +24,11 @@ extension String
             regex, withString: replacement, options: .RegularExpressionSearch, range: nil)
         }
     
+    func replaceRegex(regex: NSRegularExpression, _ template: String) -> String
+        {
+        return regex.stringByReplacingMatchesInString(self, options: [], range: fullRange, withTemplate: template)
+        }
+    
     var fullRange: NSRange
         {
         return NSRange(location: 0, length: (self as NSString).length)

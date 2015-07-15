@@ -12,7 +12,7 @@ import Alamofire
 internal var now = { return NSDate.timeIntervalSinceReferenceDate() }
 
 @objc(BOSResource)
-public class Resource
+public class Resource: CustomDebugStringConvertible
     {
     // MARK: Configuration
     
@@ -93,22 +93,35 @@ public class Resource
         let nsreq = NSMutableURLRequest(URL: url!)
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
+        debugLog([nsreq.HTTPMethod, nsreq.URL])
 
         return service.sessionManager.request(nsreq)
+            .response
+                {
+                nsreq, nsres, payload, nserror in
+                debugLog([nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
+                }
         }
     
     public func loadIfNeeded() -> Request?
         {
         if(loading)
-            { return nil }  // TODO: return existing request instead?
+            {
+            debugLog([self, "loadIfNeeded(): is up to date; no need to load"])
+            return nil
+            }
         
         let maxAge = (latestError == nil)
             ? expirationTime ?? service.defaultExpirationTime
             : retryTime      ?? service.defaultRetryTime
         
         if(now() - timestamp <= maxAge)
-            { return nil }
+            {
+            debugLog([self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
+            return nil
+            }
         
+        debugLog([self, "loadIfNeeded() triggered load()"])
         return self.load()
         }
     
@@ -141,6 +154,8 @@ public class Resource
     
     private func updateStateWithData(data: Data)
         {
+        debugLog([self, "has new data:", data])
+        
         self.latestError = nil
         self.latestData = data
         
@@ -149,6 +164,8 @@ public class Resource
 
     private func updateStateWithDataNotModified()
         {
+        debugLog([self, "existing data is still valid"])
+        
         self.latestError = nil
         self.latestData?.touch()
         
@@ -164,6 +181,8 @@ public class Resource
             notifyObservers(.RequestCancelled)
             return
             }
+
+        debugLog([self, "received error:", error])
         
         self.latestError = error
 
@@ -199,26 +218,45 @@ public class Resource
         return self
         }
     
-    public func removeObservers(ownedBy owner: AnyObject)
+    public func removeObservers(ownedBy owner: AnyObject?) -> Int
         {
-        let stopped = observers.filter { $0.owner === owner }
+        let removed = observers.filter { $0.owner === owner }
         observers = observers.filter { $0.owner !== owner }
-        for entry in stopped
+        for entry in removed
             { entry.observer?.stoppedObservingResource(self) }
+        return removed.count
         }
     
     private func notifyObservers(event: ResourceEvent)
         {
         cleanDefunctObservers()
         
+        debugLog([self, "sending", event, "to", observers.count, "observers"])
         for entry in observers
-            { entry.observer?.resourceChanged(self, event: event) }
+            {
+            debugLog([self, "sending", event, "to", entry.observer])
+            entry.observer?.resourceChanged(self, event: event)
+            }
         }
     
     private func cleanDefunctObservers()
         {
-        observers = observers.filter
-            { $0.owner !== nil }
+        let removedCount = removeObservers(ownedBy: nil)
+        if removedCount > 0
+            { debugLog([self, "removed", removedCount, "observers"]) }
+        }
+    
+    // MARK: Debug
+    
+    public var debugDescription: String
+        {
+        return "Siesta.Resource("
+            + debugStr(url)
+            + ")["
+            + (loading ? "L" : "")
+            + (latestData != nil ? "D" : "")
+            + (latestError != nil ? "E" : "")
+            + "]"
         }
     }
 

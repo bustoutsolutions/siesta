@@ -56,6 +56,7 @@ public extension Request
             
             if let response = response
                 {
+                debugLog(["Raw response:", response])
                 switch(resource.service.responseTransformers.process(response))
                     {
                     case .DATA(let result):  success(result)

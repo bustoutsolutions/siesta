@@ -27,7 +27,7 @@ internal class WeakCache<K: Hashable, V: AnyObject>
             }
         }
 
-    func get(key: K, onMiss: () -> V) -> V
+    func get(key: K, @noescape onMiss: () -> V) -> V
         {
         return entries[key]?.value ??
             {
