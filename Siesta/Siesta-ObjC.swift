@@ -26,27 +26,35 @@ public protocol ResourceObserverObjc
     optional func stoppedObservingResource(resource: Resource)
     }
 
-private class ResourceObserverObjcGlue: ResourceObserver
+private class ResourceObserverObjcGlue: ResourceObserver, CustomDebugStringConvertible
     {
-    let objcObserver: ResourceObserverObjc
+    weak var objcObserver: ResourceObserverObjc?
     
     init(objcObserver: ResourceObserverObjc)
         { self.objcObserver = objcObserver }
 
     func resourceChanged(resource: Resource, event: ResourceEvent)
-        { objcObserver.resourceChanged(resource, event: event.rawValue) }
+        { objcObserver?.resourceChanged(resource, event: event.rawValue) }
     
     func resourceRequestProgress(resource: Resource)
-        { objcObserver.resourceRequestProgress?(resource) }
+        { objcObserver?.resourceRequestProgress?(resource) }
     
     func stoppedObservingResource(resource: Resource)
-        { objcObserver.stoppedObservingResource?(resource) }
+        { objcObserver?.stoppedObservingResource?(resource) }
+    
+    var debugDescription: String
+        {
+        if objcObserver != nil
+            { return debugStr(objcObserver) }
+        else
+            { return "ResourceObserverObjcGlue<deallocated delegate>" }
+        }
     }
 
 public extension Resource
     {
     public func addObserver(objcObserverAndOwner: protocol<ResourceObserverObjc, AnyObject>) -> Self
-        { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserverAndOwner)) }
+        { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserverAndOwner), owner: objcObserverAndOwner) }
 
     public func addObserver(objcObserver: ResourceObserverObjc, owner: AnyObject) -> Self
         { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserver), owner: owner) }
