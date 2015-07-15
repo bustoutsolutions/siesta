@@ -1,6 +1,12 @@
 # Siesta
 
-Swift-based iOS REST Client Framework
+iOS REST Client Framework
+
+**TL;DR**: Drastically simplifies app code by providing and observer-based model for RESTful resources.
+
+* **Compatible with:** iOS 8+
+* **Language compatibility:** Swift, Objective-C
+* **Status:** Pre-alpha
 
 ## The Problem
 
@@ -28,16 +34,19 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 * Observer model eliminates complex, error-prone state tracking logic
 * Coordinates requests and data sharing across ViewControllers
 * Eliminates redundant network requests
-* Provides transparent Etag / If-Modified-Since handling
-* Painless built-in response parsing for JSON, XML, plain text
-* Customizable response transformation
 * Unified reporting for connection errors, server errors, and client-side parsing errors
-* Prebaked UI components for error overlay and progress bar
+* Transparent Etag / If-Modified-Since handling
+* Painless built-in response parsing for JSON and plain text
+* Customizable response transformation
+* Prebaked UI components for error overlay
+* Use with both Swift and Objective-C
 
 Coming soon…er or later:
 
 * Intelligent progress reporting that accounts for request, latency, and response
+* Prebaked progress bar UI components
 * Customizable data caching
+* Built-in XML parsing
 
 ## Usage
 
@@ -51,6 +60,8 @@ class MyAPI: Service {
 }
 ```
 
+Your service subclass must be written in Swift. You can use it from both Objective-C and Swift code.
+
 Retrieve `Resource` objects from the service:
 
 ```swift
@@ -58,10 +69,15 @@ MyAPI.instance.resource("/profile")
 MyAPI.instance.resource("/items").child("123").child("related")
 MyAPI.instance.resource("/items/123/related") // same as previous
 ```
+```objc
+[MyAPI.instance resource:@"/profile"];
+[[[MyAPI.instance resource:@"/items"] child:@"123"] child:@"related"];
+[MyAPI.instance resource:@"/items/123/related"]; // same as previous
+```
 
-Within the context of a `Service`, you will keep getting the same `Resource` instance for the same URL, no matter how you navigate to it.
+Within the context of a `Service`, there is at most one `Resource` object for a given URL, no matter how you navigate to that URL.
 
-Add convenience accessors for commonly used resources:
+You may add convenience accessors to your service for commonly used resources:
 
 ```swift
 class MyAPI: Service {
@@ -76,16 +92,22 @@ Resources start out empty — no data, no error, not loading. To trigger a GET 
 ```swift
 MyAPI.instance.profile.loadIfNeeded()
 ```
+```objc
+[MyAPI.instance.profile loadIfNeeded];
+```
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
 
-UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
+UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol (or its counterpart `ResourceObserverObjc` in Objective-C):
 
 ```swift
 MyAPI.instance.profile.addObserver(self)
 ```
+```objc
+[MyAPI.instance.profile addObserver:self];
+```
 
-…or by providing an observer closure:
+…or by providing an observer closure (Swift only):
 
 ```swift
 MyAPI.instance.profile.addObserver(self) {
@@ -143,7 +165,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
         MyAPI.instance.profile.loadIfNeeded()
     }
 
-    func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
+    func resourceChanged(resource: Resource, event: ResourceEvent) {
         let json = JSON(resource.json)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
@@ -191,13 +213,52 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         MyAPI.instance.profile.loadIfNeeded()
     }
 
-    func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
+    func resourceChanged(resource: Resource, event: ResourceEvent) {
         let json = JSON(resource.json)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
     }
 }
+```
+
+Or in Objective-C:
+
+```objc
+@interface ProfileViewController: UIViewController <ResourceObserverObjc>
+@property (weak,nonatomic) IBOutlet UILabel *nameLabel, *favoriteColorLabel;
+@property (strong,nonatomic) ResourceStatusOverlay *statusOverlay;
+@end
+
+@implementation ProfileViewController
+
+- (void) viewDidLoad {
+    super.viewDidLoad()
+
+    self.statusOverlay = [[[ResourceStatusOverlay alloc] init] embedIn:self];
+
+    [[MyAPI.instance.profile
+        addObserver:self]
+        addObserver:statusOverlay];
+}
+
+- (void) viewDidLayoutSubviews {
+    [_statusOverlay positionToCoverParent];
+}
+
+- (void) viewWillAppear: (BOOL) animated {
+    [super viewWillAppear:animated];    
+    [MyAPI.instance.profile loadIfNeeded];
+}
+
+- (void) resourceChanged: (Resource*) resource event: (NSString*) event {
+    id json = resource.json;
+    nameLabel.text = json[@"name"];
+    favoriteColorLabel.text = json[@"favoriteColor"];
+}
+
+@end
 ```
