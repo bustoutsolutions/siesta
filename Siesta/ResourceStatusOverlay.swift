@@ -23,9 +23,14 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     override init(frame: CGRect)
         { super.init(frame: frame) }
     
+    public convenience init()
+        {
+        self.init(nibName: "ResourceStatusOverlay", bundle: NSBundle(forClass: ResourceStatusOverlay.self))
+        }
+    
     public convenience init(
-            nibName: String = "ResourceStatusOverlay",
-            bundle: NSBundle = NSBundle(forClass: ResourceStatusOverlay.self))
+            nibName: String,
+            bundle: NSBundle = NSBundle.mainBundle())
         {
         self.init(frame: CGRectZero)
         
@@ -44,8 +49,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     public required init?(coder: NSCoder)
         { super.init(coder: coder) }
     
-    public func embedIn(parentViewController: UIViewController)
-        -> Self
+    public func embedIn(parentViewController: UIViewController) -> Self
         {
         self.parentVC = parentViewController
         
