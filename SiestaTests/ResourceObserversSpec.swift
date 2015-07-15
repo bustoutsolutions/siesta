@@ -127,6 +127,19 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                 awaitResponse(resource().request(.GET))
                 }
+            
+            // TODO: Decide whether ResourceObservers should be Equatable, always be objects, or neither
+            pending("is not added twice")
+                {
+                resource().addObserver(observer())
+
+                stubReqest(resource, "GET").andReturn(200)
+                observer().expect(.Requested)
+                observer().expect(.NewDataResponse)
+                awaitResponse(resource().load())
+                }
+            
+            // TODO: How to handle same observer with two different owners?
             }
             
         describe("memory management")
