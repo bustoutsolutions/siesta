@@ -53,10 +53,12 @@ private class ResourceObserverObjcGlue: ResourceObserver, CustomDebugStringConve
 
 public extension Resource
     {
-    public func addObserver(objcObserverAndOwner: protocol<ResourceObserverObjc, AnyObject>) -> Self
+    @objc(addObserver:)
+    public func addObserverObjc(objcObserverAndOwner: protocol<ResourceObserverObjc, AnyObject>) -> Self
         { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserverAndOwner), owner: objcObserverAndOwner) }
 
-    public func addObserver(objcObserver: ResourceObserverObjc, owner: AnyObject) -> Self
+    @objc(addObserver:owner:)
+    public func addObserverObjc(objcObserver: ResourceObserverObjc, owner: AnyObject) -> Self
         { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserver), owner: owner) }
     }
 
