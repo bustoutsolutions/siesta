@@ -92,7 +92,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         if(anyLoading)
             {
             showLoading()
-            return;
+            return
             }
         
         showSuccess()
