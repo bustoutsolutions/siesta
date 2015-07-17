@@ -14,6 +14,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     @IBOutlet weak var userInfoView: UIView!
     @IBOutlet weak var usernameLabel, fullNameLabel: UILabel!
+    var repoListVC: RepositoryListViewController?
     
     var statusOverlay = ResourceStatusOverlay()
     
@@ -46,9 +47,18 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     
     func resourceChanged(resource: Resource, event: ResourceEvent) {
         userInfoView.hidden = (resource.latestData == nil)
+        
         let json = JSON(resource.json)
         usernameLabel.text = json["login"].string
         fullNameLabel.text = json["name"].string
+        
+        repoListVC?.resource = resource.relative(json["repos_url"].string)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "repoList" {
+            repoListVC = segue.destinationViewController as? RepositoryListViewController
+        }
     }
     
     @IBAction func reload() {

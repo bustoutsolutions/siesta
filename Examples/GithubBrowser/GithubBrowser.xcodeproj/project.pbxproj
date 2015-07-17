@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA2DDA7B1B59868000294A72 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */; };
 		DA74623D1B4C768B00406D67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA74623C1B4C768B00406D67 /* AppDelegate.swift */; };
 		DA74623F1B4C768B00406D67 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA74623E1B4C768B00406D67 /* UserViewController.swift */; };
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
 		DA7462391B4C768B00406D67 /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA74623C1B4C768B00406D67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA74623E1B4C768B00406D67 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +45,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA2DDA771B5984CA00294A72 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DA7462401B4C768B00406D67 /* Main.storyboard */,
+				DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */,
+				DA7462431B4C768B00406D67 /* Assets.xcassets */,
+				DA7462481B4C768B00406D67 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		DA7462301B4C768B00406D67 = {
 			isa = PBXGroup;
 			children = (
@@ -63,13 +76,11 @@
 		DA74623B1B4C768B00406D67 /* GithubBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				DA74623C1B4C768B00406D67 /* AppDelegate.swift */,
-				DA74623E1B4C768B00406D67 /* UserViewController.swift */,
-				DA7462401B4C768B00406D67 /* Main.storyboard */,
-				DA7462431B4C768B00406D67 /* Assets.xcassets */,
-				DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */,
-				DA7462481B4C768B00406D67 /* Info.plist */,
 				DA7462541B4C7A3E00406D67 /* GithubAPI.swift */,
+				DA74623E1B4C768B00406D67 /* UserViewController.swift */,
+				DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */,
+				DA74623C1B4C768B00406D67 /* AppDelegate.swift */,
+				DA2DDA771B5984CA00294A72 /* Resources */,
 			);
 			path = GithubBrowser;
 			sourceTree = "<group>";
@@ -173,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA2DDA7B1B59868000294A72 /* RepositoryListViewController.swift in Sources */,
 				DA74623F1B4C768B00406D67 /* UserViewController.swift in Sources */,
 				DA7462551B4C7A3E00406D67 /* GithubAPI.swift in Sources */,
 				DA74623D1B4C768B00406D67 /* AppDelegate.swift in Sources */,
