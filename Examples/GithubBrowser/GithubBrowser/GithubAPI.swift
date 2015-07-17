@@ -14,6 +14,7 @@ class GithubAPI: Service {
     
     init() {
         super.init(base: "https://api.github.com")
+        Siesta.debug = true
     }
     
     // Resource convenience accessors
