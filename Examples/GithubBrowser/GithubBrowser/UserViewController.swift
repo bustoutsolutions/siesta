@@ -52,7 +52,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         usernameLabel.text = json["login"].string
         fullNameLabel.text = json["name"].string
         
-        repoListVC?.resource = resource.relative(json["repos_url"].string)
+        repoListVC?.resource = resource.optionalRelative(json["repos_url"].string)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

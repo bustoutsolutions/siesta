@@ -84,6 +84,19 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect((resource(), "ftp://other.host/c")).to(expandToRelativeURL("ftp://other.host/c"))
                 }
             }
+
+        describe("optionalRelative()")
+            {
+            it("works like relative() if arg is present")
+                {
+                expect(resource().optionalRelative("c")).to(beIdenticalTo(resource().relative("c")))
+                }
+
+            it("returns nil if arg is absent")
+                {
+                expect(resource().optionalRelative(nil)).to(beNil())
+                }
+            }
         }
     }
 

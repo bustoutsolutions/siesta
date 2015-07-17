@@ -83,6 +83,14 @@ public class Resource: CustomDebugStringConvertible
         return service.resource(NSURL(string: path, relativeToURL: url))
         }
     
+    public func optionalRelative(path: String?) -> Resource?
+        {
+        if let path = path
+            { return relative(path) }
+        else
+            { return nil }
+        }
+    
     // MARK: Requests
     
     public func request(
@@ -108,7 +116,7 @@ public class Resource: CustomDebugStringConvertible
         if(loading)
             {
             debugLog([self, "loadIfNeeded(): is up to date; no need to load"])
-            return nil
+            return nil  // TODO: should this return existing request instead?
             }
         
         let maxAge = (latestError == nil)
