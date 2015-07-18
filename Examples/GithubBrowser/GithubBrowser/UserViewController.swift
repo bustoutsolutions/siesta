@@ -34,14 +34,13 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         user?.removeObservers(ownedBy: self)
-        user?.removeObservers(ownedBy: statusOverlay)
         user = nil
         
         if let searchText = searchBar.text {
             user = GithubAPI.instance.user(searchText)
             user?.addObserver(self)
-            user?.addObserver(statusOverlay)
-            user?.loadIfNeeded()
+                 .addObserver(statusOverlay, owner: self)
+                 .loadIfNeeded()
         }
     }
     
@@ -51,8 +50,11 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         let json = JSON(resource.json)
         usernameLabel.text = json["login"].string
         fullNameLabel.text = json["name"].string
-        
-        repoListVC?.resource = resource.optionalRelative(json["repos_url"].string)
+
+        repoListVC?.repoList = resource
+            .optionalRelative(json["repos_url"].string)?
+            .withParam("type", "all")
+            .withParam("sort", "updated")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

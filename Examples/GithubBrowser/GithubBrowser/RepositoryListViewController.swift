@@ -12,18 +12,21 @@ import SwiftyJSON
 
 class RepositoryListViewController: UITableViewController, ResourceObserver {
 
-    var resource: Resource? {
+    var repoList: Resource? {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
-            resource?.addObserver(self)
+            repoList?.addObserver(self)
+                     .addObserver(statusOverlay, owner: self)
                      .loadIfNeeded()
         }
     }
+
+    var statusOverlay = ResourceStatusOverlay()
     
     var repoArray: JSON {
-        return JSON(resource?.data ?? [])
+        return JSON(repoList?.data ?? [])
     }
-
+    
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         tableView.reloadData()
     }
@@ -31,11 +34,17 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        statusOverlay.embedIn(self)
+        
         self.clearsSelectionOnViewWillAppear = false
     }
 
+    override func viewDidLayoutSubviews() {
+        statusOverlay.positionToCoverParent()
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return (resource != nil) ? 1 : 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
