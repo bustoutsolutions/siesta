@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
+		DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
 		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex.swift */; };
 		DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Siesta.swift"; sourceTree = "<group>"; };
 		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
 		DA33142E1B4DBADA00A7A175 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataHandlingSpec.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
+				DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
 				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
 			);
@@ -342,6 +345,7 @@
 				DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
+				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
 				DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,

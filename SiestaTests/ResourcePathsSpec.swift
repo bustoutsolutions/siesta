@@ -97,6 +97,45 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect(resource().optionalRelative(nil)).to(beNil())
                 }
             }
+
+        describe("withParam()")
+            {
+            it("adds params")
+                {
+                expect(resource().withParam("foo", "bar").url?.absoluteString).to(equal("https://zingle.frotz/v1/a/b?foo=bar"))
+                }
+
+            it("escapes params")
+                {
+                expect(resource().withParam("fo=o", "ba r").url?.absoluteString).to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
+                }
+                
+            let resourceWithParams = specVar { resource().withParam("foo", "bar").withParam("zoogle", "oogle") }
+            
+            it("alphabetizes params (to help with resource uniqueness)")
+                {
+                expect(resourceWithParams().withParam("plop", "blop").url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar&plop=blop&zoogle=oogle"))
+                }
+                
+            it("modifies existing params without affecting others")
+                {
+                expect(resourceWithParams().withParam("zoogle", "zonk").url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"))
+                }
+                
+            it("treats nil value as removal")
+                {
+                expect(resourceWithParams().withParam("foo", nil).url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?zoogle=oogle"))
+                }
+                
+            it("drops query string if all params removed")
+                {
+                expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b"))
+                }
+            }
         }
     }
 

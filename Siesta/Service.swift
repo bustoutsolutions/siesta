@@ -27,7 +27,7 @@ public class Service: NSObject
             base: URLStringConvertible,
             sessionManager: Manager = Manager.sharedInstance)
         {
-        self.baseURL = alterURLPath(NSURL(string: base.URLString))
+        self.baseURL = NSURL(string: base.URLString)?.alterPath
             {
             path in
             !path.hasSuffix("/")
@@ -60,16 +60,4 @@ public class Service: NSObject
         {
         return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
-    }
-
-private func alterURLPath(url: NSURL?, pathMutator: String -> String) -> NSURL?
-    {
-    guard let url = url,
-              components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
-    else { return nil }
-    
-    let path = pathMutator(components.path ?? "")
-    components.path = (path == "") ? nil : path
-        
-    return components.URL
     }

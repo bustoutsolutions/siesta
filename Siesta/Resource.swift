@@ -90,6 +90,17 @@ public class Resource: CustomDebugStringConvertible
         else
             { return nil }
         }
+
+    public func withParam(name: String, _ value: String?) -> Resource
+        {
+        return service.resource(
+            url?.alterQuery
+                {
+                (var params) in
+                params[name] = value
+                return params
+                })
+        }
     
     // MARK: Requests
     
