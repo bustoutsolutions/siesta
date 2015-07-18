@@ -123,9 +123,9 @@ The simplest way to implement your observer is to ignore the triggering event, a
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    // The convenience .json accessor returns empty dict if no data,
+    // The convenience .dict accessor returns empty dict if no data,
     // so the same code can both populate and clear fields.
-    let json = JSON(resource.json)
+    let json = JSON(resource.dict)
     nameLabel.text = json["name"].string
     favoriteColorLabel.text = json["favoriteColor"].string
 
@@ -167,7 +167,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let json = JSON(resource.json)
+        let json = JSON(resource.dict)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
 
@@ -220,7 +220,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let json = JSON(resource.json)
+        let json = JSON(resource.dict)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
     }
@@ -257,7 +257,7 @@ Or in Objective-C:
 }
 
 - (void) resourceChanged: (Resource*) resource event: (NSString*) event {
-    id json = resource.json;
+    id json = resource.dict;
     nameLabel.text = json[@"name"];
     favoriteColorLabel.text = json[@"favoriteColor"];
 }

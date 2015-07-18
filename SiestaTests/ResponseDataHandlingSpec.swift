@@ -125,24 +125,42 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.nsError?.code).to(equal(3840))
                 }
             
-            describe("via .json convenience")
+            describe("via .dict convenience")
                 {
                 it("gives JSON data")
                     {
                     stubJson()
-                    expect(resource().json).to(equal(jsonVal))
+                    expect(resource().dict).to(equal(jsonVal))
                     }
 
                 it("gives empty dict for non-JSON response")
                     {
                     stubJson(contentType: "text/plain")
-                    expect(resource().json).to(equal(NSDictionary()))
+                    expect(resource().dict).to(equal(NSDictionary()))
                     }
 
                 it("gives empty dict on error")
                     {
                     stubReqest(resource, "GET").andReturn(500)
-                    expect(resource().json).to(equal(NSDictionary()))
+                    expect(resource().dict).to(equal(NSDictionary()))
+                    }
+                }
+            
+            describe("via .array convenience")
+                {
+                it("gives JSON data")
+                    {
+                    stubReqest(resource, "GET").andReturn(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("[1,\"two\"]")
+                    awaitResponse(resource().load())
+                    expect(resource().array).to(equal([1,"two"] as NSArray))
+                    }
+
+                it("gives empty dict for non-dict response")
+                    {
+                    stubJson()
+                    expect(resource().array).to(equal(NSArray()))
                     }
                 }
             }

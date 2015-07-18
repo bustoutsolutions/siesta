@@ -23,10 +23,6 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
 
     var statusOverlay = ResourceStatusOverlay()
     
-    var repoArray: JSON {
-        return JSON(repoList?.data ?? [])
-    }
-    
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         tableView.reloadData()
     }
@@ -48,13 +44,13 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repoArray.count ?? 0
+        return repoList?.array.count ?? 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("repo", forIndexPath: indexPath)
-        if let cell = cell as? RepositoryTableViewCell {
-            let repo = repoArray[indexPath.row]
+        if let cell = cell as? RepositoryTableViewCell, let repoList = repoList {
+            let repo = JSON(repoList.array)[indexPath.row]
             cell.userLabel.text = repo["owner"]["login"].string
             cell.repoLabel.text = repo["name"].string
         }

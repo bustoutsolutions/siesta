@@ -47,8 +47,9 @@ public class Resource: CustomDebugStringConvertible
         return (data as? T) ?? blankValue
         }
     
-    public var json: [String:AnyObject] { return typedData([:]) }
-    public var text: String             { return typedData("") }
+    public var dict:  [String:AnyObject] { return typedData([:]) }
+    public var array: [AnyObject]        { return typedData([]) }
+    public var text:  String             { return typedData("") }
 
     // MARK: Observers
 
