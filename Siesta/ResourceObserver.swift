@@ -42,14 +42,29 @@ public extension Resource
     */
     public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
         {
-        return addObserverEntry(
-            SelfOwnedObserverEntry(resource: self, observerAndOwner: observerAndOwner))
+        return addObserver(observerAndOwner, owner: observerAndOwner)
         }
     
     public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        return addObserverEntry(
-            SeparateOwnerObserverEntry(resource: self, observer: observer, owner: owner))
+        if let observerObj = observer as? AnyObject
+            {
+            for (i, entry) in observers.enumerate()
+                where entry.observer != nil
+                   && observerObj === (entry.observer as? AnyObject)
+                    {
+                    // have to use observers[i] instead of loop var to
+                    // make mutator actually change struct in place in array
+                    observers[i].addOwner(owner)
+                    return self
+                    }
+            }
+        
+        var newEntry = ObserverEntry(observer: observer, resource: self)
+        newEntry.addOwner(owner)
+        observers.append(newEntry)
+        observer.resourceChanged(self, event: .ObserverAdded)
+        return self
         }
     
     public func addObserver(owner: AnyObject, closure: ResourceObserverClosure) -> Self
@@ -57,21 +72,16 @@ public extension Resource
         return addObserver(ClosureObserver(closure: closure), owner: owner)
         }
     
-    private func addObserverEntry(entry: ObserverEntry) -> Self
-        {
-        observers.append(entry)
-        entry.observer?.resourceChanged(self, event: .ObserverAdded)
-        return self
-        }
-    
     @objc(removeObserversOwnedBy:)
-    public func removeObservers(ownedBy owner: AnyObject?) -> Int
+    public func removeObservers(ownedBy owner: AnyObject?)
         {
-        let removed = observers.filter { $0.owner === owner }
-        observers = observers.filter { $0.owner !== owner }
-        for entry in removed
-            { entry.observer?.stoppedObservingResource(self) }
-        return removed.count
+        guard let owner = owner else
+            { return }
+        
+        for i in observers.indices
+            { observers[i].removeOwner(owner) }
+        
+        cleanDefunctObservers()
         }
     
     internal func notifyObservers(event: ResourceEvent)
@@ -88,38 +98,21 @@ public extension Resource
     
     internal func cleanDefunctObservers()
         {
-        let removedCount = removeObservers(ownedBy: nil)
-        if removedCount > 0
-            { debugLog([self, "removed", removedCount, "observers whose owners were deallocated"]) }
+        for i in observers.indices
+            { observers[i].cleanUp() }
+        
+        let removed = observers.filter { $0.isDefunct }
+        observers = observers.filter { !$0.isDefunct }
+        
+        if !removed.isEmpty
+            { debugLog([self, "removing observers whose owners were deallocated:", removed.map { $0.observer }]) }
+
+        for entry in removed
+            { entry.observer?.stoppedObservingResource(self) }
         }
     }
 
 // MARK: - Internals
-
-internal protocol ObserverEntry
-    {
-    var observer: ResourceObserver? { get }
-    var owner: AnyObject? { get }
-    }
-
-private struct SelfOwnedObserverEntry: ObserverEntry
-    {
-    // Intentional reference cycle to keep Resource alive as long
-    // as it has observers.
-    let resource: Resource
-    
-    weak var observerAndOwner: protocol<ResourceObserver,AnyObject>?
-    var observer: ResourceObserver? { return observerAndOwner }
-    var owner:    AnyObject?        { return observerAndOwner }
-    }
-
-private struct SeparateOwnerObserverEntry: ObserverEntry
-    {
-    let resource: Resource
-    
-    let observer: ResourceObserver?
-    weak var owner: AnyObject?
-    }
 
 private struct ClosureObserver: ResourceObserver
     {
@@ -130,3 +123,54 @@ private struct ClosureObserver: ResourceObserver
         closure(resource: resource, event: event)
         }
     }
+
+internal struct ObserverEntry
+    {
+    private let resource: Resource  // keeps resource around as long as it has observers
+    
+    private var observerRef: StrongOrWeakRef<ResourceObserver>
+    var observer: ResourceObserver?
+        { return observerRef.value }
+    
+    private var owners = Set<WeakRef<AnyObject>>()
+    private var observerIsOwner: Bool = false
+
+    init(observer: ResourceObserver, resource: Resource)
+        {
+        self.observerRef = StrongOrWeakRef<ResourceObserver>(observer)
+        self.resource = resource
+        }
+
+    mutating func addOwner(owner: AnyObject)
+        {
+        if owner === (observer as? AnyObject)
+            { observerIsOwner = true }
+        else
+            { owners.insert(WeakRef(owner)) }
+        cleanUp()
+        }
+    
+    mutating func removeOwner(owner: AnyObject)
+        {
+        if owner === (observer as? AnyObject)
+            { observerIsOwner = false }
+        else
+            { owners.remove(WeakRef(owner)) }
+        cleanUp()
+        }
+    
+    mutating func cleanUp()
+        {
+        // Look for weak refs which refer to objects that are now gone
+        owners = Set(owners.filter { $0.value != nil })  // TODO: improve performance (Can Swift modify Set while iterating?)
+        
+        observerRef.strong = !owners.isEmpty
+        }
+    
+    var isDefunct: Bool
+        {
+        return observer == nil
+            || (!observerIsOwner && owners.isEmpty)
+        }
+    }
+
