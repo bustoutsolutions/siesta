@@ -51,6 +51,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubText("ý", contentType: "text/plain; charset=EUC-JP")
                 expect(resource().text).to(equal("箪"))  // bamboo rice basket
+                // Note: assertion above fails on iPhone 4S and 5 simulators (apparently an Apple bug?)
                 }
 
             it("does not parse everything as text")
