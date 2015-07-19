@@ -101,38 +101,28 @@ public extension Resource
         for i in observers.indices
             { observers[i].cleanUp() }
         
-        let removed = observers.filter { $0.isDefunct }
-        observers = observers.filter { !$0.isDefunct }
+        let (removed, kept) = observers.bipartition { $0.isDefunct }
+        observers = kept
         
-        if !removed.isEmpty
-            { debugLog([self, "removing observers whose owners were deallocated:", removed.map { $0.observer }]) }
-
         for entry in removed
-            { entry.observer?.stoppedObservingResource(self) }
+            {
+            debugLog([self, "removing observer whose owners are all gone:", entry.observer ?? "<observer deallocated>"])
+            entry.observer?.stoppedObservingResource(self)
+            }
         }
     }
 
 // MARK: - Internals
 
-private struct ClosureObserver: ResourceObserver
-    {
-    private let closure: ResourceObserverClosure
-    
-    func resourceChanged(resource: Resource, event: ResourceEvent)
-        {
-        closure(resource: resource, event: event)
-        }
-    }
-
 internal struct ObserverEntry
     {
     private let resource: Resource  // keeps resource around as long as it has observers
     
-    private var observerRef: StrongOrWeakRef<ResourceObserver>
+    private var observerRef: StrongOrWeakRef<ResourceObserver>  // strong iff there are external owners
     var observer: ResourceObserver?
         { return observerRef.value }
     
-    private var owners = Set<WeakRef<AnyObject>>()
+    private var externalOwners = Set<WeakRef<AnyObject>>()
     private var observerIsOwner: Bool = false
 
     init(observer: ResourceObserver, resource: Resource)
@@ -146,7 +136,7 @@ internal struct ObserverEntry
         if owner === (observer as? AnyObject)
             { observerIsOwner = true }
         else
-            { owners.insert(WeakRef(owner)) }
+            { externalOwners.insert(WeakRef(owner)) }
         cleanUp()
         }
     
@@ -155,22 +145,31 @@ internal struct ObserverEntry
         if owner === (observer as? AnyObject)
             { observerIsOwner = false }
         else
-            { owners.remove(WeakRef(owner)) }
+            { externalOwners.remove(WeakRef(owner)) }
         cleanUp()
         }
     
     mutating func cleanUp()
         {
         // Look for weak refs which refer to objects that are now gone
-        owners = Set(owners.filter { $0.value != nil })  // TODO: improve performance (Can Swift modify Set while iterating?)
+        externalOwners = Set(externalOwners.filter { $0.value != nil })  // TODO: improve performance (Can Swift modify Set in place while iterating?)
         
-        observerRef.strong = !owners.isEmpty
+        observerRef.strong = !externalOwners.isEmpty
         }
     
     var isDefunct: Bool
         {
         return observer == nil
-            || (!observerIsOwner && owners.isEmpty)
+            || (!observerIsOwner && externalOwners.isEmpty)
         }
     }
 
+private struct ClosureObserver: ResourceObserver
+    {
+    private let closure: ResourceObserverClosure
+    
+    func resourceChanged(resource: Resource, event: ResourceEvent)
+        {
+        closure(resource: resource, event: event)
+        }
+    }

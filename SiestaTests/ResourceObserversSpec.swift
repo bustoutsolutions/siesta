@@ -184,38 +184,82 @@ class ResourceObserversSpec: ResourceSpecBase
                 }
             }
             
-        describe("memory management")
+        describe("resource memory management")
             {
-            it("prevents the resource from being deallocated while it has observers")
+            weak var resourceWeak: Resource?
+            let observer = TestObserver()
+            
+            beforeEach
                 {
                 var resource: Resource? = service().resource("zargle")
-                weak var resourceWeak = resource
-                let observer = TestObserver()
+                resourceWeak = resource
                 resource?.addObserver(observer)
                 resource = nil
-                
+                }
+            
+            afterEach
+                { resourceWeak = nil }
+            
+            func expectResourceToBeRetained()
+                {
                 simulateMemoryWarning()
                 expect(resourceWeak).notTo(beNil())
-                
-                resourceWeak?.removeObservers(ownedBy: observer)
+                }
+            
+            func expectResourceNotToBeRetained()
+                {
                 simulateMemoryWarning()
                 expect(resourceWeak).to(beNil())
                 }
             
-            it("stops observing when observer is deallocated")
+            it("prevents the resource from being deallocated while it has observers")
                 {
-                var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
-                weak var observerWeak = observer
-                observer!.expect(.ObserverAdded)
+                expectResourceToBeRetained()
+                }
+            
+            it("allows resource deallocation when no observers left")
+                {
+                resourceWeak?.removeObservers(ownedBy: observer)
+                expectResourceNotToBeRetained()
+                }
+            
+            it("re-retains resource when observers added again")
+                {
+                resourceWeak?.removeObservers(ownedBy: observer)
+                resourceWeak?.addObserver(observer)
+                expectResourceToBeRetained()
+                }
+
+            it("reeastablishes strong observer ref when owner re-added")
+                {
+                var observer2: TestObserver? = TestObserver()
+                weak var weakObserver2 = observer2
+                
+                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref to observer2
+                resourceWeak?.addObserver(observer2!)
+                resourceWeak?.removeObservers(ownedBy: observer)        // now only has weak ref to observer2
+                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref reestablished
+                
+                observer2 = nil
+                expect(weakObserver2).notTo(beNil())
+                expectResourceToBeRetained()
+                }
+            }
+        
+        describe("observer auto-removal")
+            {
+            func expectToStopObservation(
+                    var observer: TestObserverWithExpectations?,
+                    @noescape callback: Void -> Void)
+                {
                 observer!.expect(.Requested)
-                resource().addObserver(observer!)
                 
                 Manager.sharedInstance.startRequestsImmediately = false
                 let req = resource().load()
                 observer!.checkForUnfulfilledExpectations()
-                
                 observer = nil
-                expect(observerWeak).to(beNil())  // resource should not have retained it
+                
+                callback()
                 
                 // No observer expectations left, so this will fail if Resource still notifies observer
                 stubReqest(resource, "GET").andReturn(200)
@@ -223,22 +267,30 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(req)
                 }
             
+            it("stops observing when observer is deallocated")
+                {
+                var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
+                weak var observerWeak = observer
+                
+                observer!.expect(.ObserverAdded)
+                resource().addObserver(observer!)
+                
+                expectToStopObservation(observer)
+                    { observer = nil }
+                
+                expect(observerWeak).to(beNil())  // resource should not have retained it
+                }
+            
             it("stops observing when owner is deallocated")
                 {
                 let observer = TestObserverWithExpectations()
                 var owner: AnyObject? = "foo"
+                
                 observer.expect(.ObserverAdded)
                 resource().addObserver(observer, owner: owner!)
                 
-                observer.expect(.Requested)
-                Manager.sharedInstance.startRequestsImmediately = false
-                let req = resource().load()
-                observer.checkForUnfulfilledExpectations()
-                
-                owner = nil
-                stubReqest(resource, "GET").andReturn(200)
-                req.resume()
-                awaitResponse(req)  // make sure Resource doesn't blow up
+                expectToStopObservation(observer)
+                    { owner = nil }
                 }
             }
         }
