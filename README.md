@@ -9,7 +9,9 @@ iOS REST Client Framework
 * **Build requirements:** Xcode 7 beta, Carthage
 * **Status:** Pre-alpha, in active development
 
-## The Problem
+## What’s it for?
+
+### The Problem
 
 Want your app to talk to an API? Welcome to your state nightmare!
 
@@ -17,7 +19,7 @@ You need to display response data whenever it arrives, unless the requesting Vie
 
 What could possibly go wrong?
 
-## The Solution
+### The Solution
 
 Siesta ends this headache by providing an observable model of a RESTful resource’s state. The model answers three basic questions:
 
@@ -29,25 +31,32 @@ Siesta ends this headache by providing an observable model of a RESTful resource
 
 Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.
 
+## Design Philosophy
+
+* Make the default thing usually be the right thing.
+* Make the right thing easy all of the time.
+* Make client code easy to read. Provide convenices.
+* Build from need. Don’t invent solutions in search of problems.
+* Eliminate boilerplate.
+
 ## Features
 
-* Decouples UI state from network request state
-* Observer model eliminates complex, error-prone state tracking logic
-* Coordinates requests and data sharing across ViewControllers
-* Eliminates redundant network requests
-* Unified reporting for connection errors, server errors, and client-side parsing errors
-* Transparent Etag / If-Modified-Since handling
-* Painless built-in response parsing for JSON and plain text
-* Customizable response transformation
-* Prebaked UI components for error overlay
-* Use with both Swift and Objective-C
+- [x] Decouples UI state from network request state
+- [x] Observer model eliminates complex, error-prone state tracking logic
+- [x] Coordinates requests and data sharing across ViewControllers
+- [x] Eliminates redundant network requests
+- [x] Unified reporting for connection errors, server errors, and client-side parsing errors
+- [x] Transparent Etag / If-Modified-Since handling
+- [x] Painless built-in response parsing for JSON and plain text
+- [x] Customizable response transformation
+- [x] Prebaked UI components for error overlay
+- [x] Use with both Swift and Objective-C
+- [ ] Intelligent progress reporting that accounts for request, latency, and response
+- [ ] Prebaked progress bar UI components
+- [ ] Customizable data caching
+- [ ] Built-in XML parsing
 
-Coming soon…er or later:
-
-* Intelligent progress reporting that accounts for request, latency, and response
-* Prebaked progress bar UI components
-* Customizable data caching
-* Built-in XML parsing
+---
 
 ## Usage
 
@@ -88,6 +97,8 @@ class MyAPI: Service {
 }
 ```
 
+### Requests
+
 Resources start out empty — no data, no error, not loading. To trigger a GET request:
 
 ```swift
@@ -98,6 +109,47 @@ MyAPI.instance.profile.loadIfNeeded()
 ```
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
+
+### Resource state
+
+A resource keeps a local cache of the latest valid data:
+
+```swift
+resource.data       // Gives a string, dict/array (for JSON), NSData, or
+                    // nil if no data is available. You can also configure
+                    // custom data types (e.g. model objects).
+
+resource.text       // Typed accessors return an empty string/dict/array
+resource.dict       // if data is either unavailable or not of the expected
+resource.array      // type. This reduces futzing with optionals.
+
+resource.latestData // Full metadata, in case you need the gory details.
+```
+
+A resource knows whether it is currently loading, which lets you show/hide a spinner or progress bar:
+
+```swift
+resource.loading  // True if network request in progress
+```
+
+…and it knows whether the last request resulted in an error:
+
+```swift
+resource.latestError               // Present if latest load attempt failed
+resource.latestError?.userMessage  // String suitable for display in UI
+```
+
+That `latestError` rolls up many different kinds of error — transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
+
+Note that data, error, and loading are not mutually exclusive. For example, consider the following scenario:
+
+* You load a resource, and the request succeeds.
+* You refresh it later, and that second request fails.
+* You initiate a third request.
+
+At this point, `loading` is true, `latestError` holds information about the previously failed request, and `data` still gives the old cached data. You can decide which of these things your UI prioritizes over the others.
+
+### Observers
 
 UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol (or its counterpart `ResourceObserverObjc` in Objective-C):
 
@@ -182,7 +234,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-## UI Components
+### UI Components
 
 The code above is already easy — but the business of showing the activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
 
@@ -264,3 +316,7 @@ Or in Objective-C:
 
 @end
 ```
+
+## Memory Management
+
+Note that in the examples above, no code calls any sort of “removeObserver” method.
