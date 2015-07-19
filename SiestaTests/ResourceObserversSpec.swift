@@ -128,8 +128,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(resource().request(.GET))
                 }
             
-            // TODO: Decide whether ResourceObservers should be Equatable, always be objects, or neither
-            pending("is not added twice")
+            it("is not added twice if it is an object")
                 {
                 resource().addObserver(observer())
 
@@ -139,7 +138,50 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(resource().load())
                 }
             
-            // TODO: How to handle same observer with two different owners?
+            context("with multiple owners")
+                {
+                let owner1 = UIView(),
+                    owner2 = NSString()
+                
+                beforeEach
+                    {
+                    resource().addObserver(observer(), owner: owner1)
+                    resource().addObserver(observer(), owner: owner2)
+                    }
+                
+                func expectStillObserving(stillObserving: Bool)
+                    {
+                    stubReqest(resource, "GET").andReturn(200)
+                    if(stillObserving)
+                        {
+                        observer().expect(.Requested)
+                        observer().expect(.NewDataResponse)
+                        }
+                    awaitResponse(resource().load())
+                    }
+                    
+                it("is not removed if self-ownership is not removed")
+                    {
+                    resource().removeObservers(ownedBy: owner1)
+                    resource().removeObservers(ownedBy: owner2)
+                    expectStillObserving(true)
+                    }
+                
+                it("is not removed if external owner is not removed")
+                    {
+                    resource().removeObservers(ownedBy: observer())
+                    resource().removeObservers(ownedBy: owner2)
+                    expectStillObserving(true)
+                    }
+                
+                it("is removed when all owners are removed")
+                    {
+                    resource().removeObservers(ownedBy: observer())
+                    resource().removeObservers(ownedBy: owner1)
+                    resource().removeObservers(ownedBy: owner2)
+                    expectStillObserving(false)
+                    }
+                }
             }
             
         describe("memory management")
