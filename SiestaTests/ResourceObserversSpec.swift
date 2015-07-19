@@ -267,7 +267,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(req)
                 }
             
-            it("stops observing when observer is deallocated")
+            it("stops observing when self-owned observer is deallocated")
                 {
                 var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
                 weak var observerWeak = observer
@@ -295,7 +295,6 @@ class ResourceObserversSpec: ResourceSpecBase
             }
         }
     }
-
 
 
 // MARK: - Observer stubs/mocks
@@ -341,7 +340,7 @@ private class TestObserverWithExpectations: ResourceObserver
         stoppedObservingCalled = true
         }
     
-    struct Expectation
+    private struct Expectation
         {
         let event: ResourceEvent
         let callback: (Void -> Void)

@@ -21,9 +21,6 @@ public extension ResourceObserver
     func stoppedObservingResource(resource: Resource) { }
     }
 
-public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
-public typealias ResourceProgressObserverClosure = (resource: Resource) -> ()
-
 public enum ResourceEvent: String
     {
     case ObserverAdded  // Sent only to the newly attached observer, not all observers
@@ -34,6 +31,7 @@ public enum ResourceEvent: String
     case ErrorResponse
     }
 
+public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
 
 public extension Resource
     {
@@ -111,6 +109,7 @@ public extension Resource
             }
         }
     }
+
 
 // MARK: - Internals
 

@@ -118,10 +118,8 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
         }
     }
 
-// Checks resourcePath with and without a leading slash.
-// Because Service.resource(path:) resolves everything as a subpath of the base URL, these four cases
-// should always give identical results.
-
+/// Checks resourcePath with and without a leading slash.
+///
 func checkPathExpansion(base: String, path resourcePath: String, expect expectedExpansion: String)
     {
     for resourcePathVariant in [resourcePath, "/" + resourcePath]

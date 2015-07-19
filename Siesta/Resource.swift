@@ -55,6 +55,7 @@ public class Resource: CustomDebugStringConvertible
 
     internal var observers = [ObserverEntry]()
     
+    
     // MARK: -
     
     init(service: Service, url: NSURL?)

@@ -279,7 +279,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestError?.userMessage).to(equal("Server error: not found"))
                 }
             
-            // TODO: support custom error message extraction
+            // TODO: test custom error message extraction
             
             // TODO: how should it handle redirects?
             }
