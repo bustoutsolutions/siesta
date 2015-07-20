@@ -85,7 +85,7 @@
 		DA336E541B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E601B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../../siesta/Siesta/Service.swift; sourceTree = "<group>"; };
+		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
 		DA3FBDB01B55BF0E00161A25 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSpec.swift; sourceTree = "<group>"; };
@@ -135,8 +135,8 @@
 		DA336E451B2E6DDB006F702A = {
 			isa = PBXGroup;
 			children = (
-				DA336E511B2E6DDB006F702A /* Siesta */,
-				DA336E5D1B2E6DDB006F702A /* SiestaTests */,
+				DA336E511B2E6DDB006F702A /* Source */,
+				DA336E5D1B2E6DDB006F702A /* Tests */,
 				DA336E6F1B2F65D2006F702A /* Frameworks */,
 				DA336E501B2E6DDB006F702A /* Products */,
 			);
@@ -151,7 +151,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DA336E511B2E6DDB006F702A /* Siesta */ = {
+		DA336E511B2E6DDB006F702A /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				DA336E701B2F6659006F702A /* Service.swift */,
@@ -164,10 +164,10 @@
 				DAE490981B4E51AA004D97D6 /* UI */,
 				DA99B5C61B38C356009C6937 /* Support */,
 			);
-			path = Siesta;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		DA336E5D1B2E6DDB006F702A /* SiestaTests */ = {
+		DA336E5D1B2E6DDB006F702A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */,
@@ -179,7 +179,7 @@
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
 				DA99B5C71B38C36A009C6937 /* Support */,
 			);
-			path = SiestaTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
@@ -490,7 +490,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Siesta/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -509,7 +509,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Siesta/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -522,7 +522,7 @@
 		DA336E671B2E6DDB006F702A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SiestaTests/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -532,7 +532,7 @@
 		DA336E681B2E6DDB006F702A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SiestaTests/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
