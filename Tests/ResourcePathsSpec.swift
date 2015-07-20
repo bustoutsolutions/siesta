@@ -10,7 +10,6 @@ import Siesta
 import Quick
 import Nimble
 import Nocilla
-import Alamofire
 
 class ResourcePathsSpec: ResourceSpecBase
     {

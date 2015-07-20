@@ -22,7 +22,7 @@ public class Resource: CustomDebugStringConvertible
     // MARK: Request management
     
     public var loading: Bool { return !loadRequests.isEmpty }
-    public private(set) var loadRequests = Set<Request>()  // TOOD: How to handle concurrent POST & GET?
+    public private(set) var loadRequests = [Request]()  // TOOD: How to handle concurrent POST & GET?
     
     public var expirationTime: NSTimeInterval?
     public var retryTime: NSTimeInterval?
@@ -116,12 +116,13 @@ public class Resource: CustomDebugStringConvertible
         requestMutation(nsreq)
         debugLog([nsreq.HTTPMethod, nsreq.URL])
 
-        return service.sessionManager.request(nsreq)
+        let alamoReq = service.sessionManager.request(nsreq)
             .response
                 {
                 nsreq, nsres, payload, nserror in
                 debugLog([nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
                 }
+        return AlamofireSiestaRequest(resource: self, alamofireRequest: alamoReq)
         }
     
     public func loadIfNeeded() -> Request?
@@ -154,19 +155,17 @@ public class Resource: CustomDebugStringConvertible
             if let etag = self.latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
-        loadRequests.insert(req)
+        loadRequests.append(req)
         
         req.response
             {
             [weak self, weak req] _ in
-            if let req = req
-                { self?.loadRequests.remove(req) }
+            if let resource = self
+                { resource.loadRequests = resource.loadRequests.filter { $0 !== req } }
             }
-        
-        req.resourceResponse(self,
-            success:     self.updateStateWithData,
-            notModified: self.updateStateWithDataNotModified,
-            error:       self.updateStateWithError)
+        req.newData(self.updateStateWithData)
+        req.notModified(self.updateStateWithDataNotModified)
+        req.error(self.updateStateWithError)
 
         self.notifyObservers(.Requested)
 

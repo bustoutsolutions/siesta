@@ -46,13 +46,22 @@ func stubReqest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     return stubRequest(method, resource().url!.absoluteString)
     }
 
-func awaitResponse(req: Request)
+func awaitResponse(req: Siesta.Request)
     {
     let expectation = QuickSpec.current().expectationWithDescription("network call: \(req)")
     req.response { _ in expectation.fulfill() }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     }
 
+func delayRequestsForThisSpec()
+    {
+    Manager.sharedInstance.startRequestsImmediately = false
+    }
+
+func startDelayedRequest(req: Siesta.Request)
+    {
+    (req as? AlamofireSiestaRequest)?.alamofireRequest?.resume()
+    }
 
 // MARK: - Clock stubbing
 

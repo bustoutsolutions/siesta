@@ -10,7 +10,6 @@ import Siesta
 import Quick
 import Nimble
 import Nocilla
-import Alamofire
 
 class ResourceObserversSpec: ResourceSpecBase
     {
@@ -81,9 +80,15 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 awaitResponse(resource().load())
                 }
-            
+
             it("receives not modified event")
                 {
+                stubReqest(resource, "GET").andReturn(200)
+                observer().expect(.Requested)
+                observer().expect(.NewDataResponse)
+                awaitResponse(resource().load())
+                LSNocilla.sharedInstance().clearStubs()
+                
                 stubReqest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
                 observer().expect(.NotModifiedResponse)
@@ -92,10 +97,18 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 awaitResponse(resource().load())
                 }
+            
+            it("receives error if server sends not modified but no local data")
+                {
+                stubReqest(resource, "GET").andReturn(304)
+                observer().expect(.Requested)
+                observer().expect(.ErrorResponse)
+                awaitResponse(resource().load())
+                }
 
             it("receives cancel event")
                 {
-                service().sessionManager.startRequestsImmediately = false  // prevents race condition between cancel() and Nocilla
+                delayRequestsForThisSpec()  // prevents race condition between cancel() and Nocilla
                 
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
@@ -105,7 +118,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
-                req.resume()
+                startDelayedRequest(req)
                 awaitResponse(req)
                 }
             
@@ -273,7 +286,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 observer!.expect(.Requested)
                 
-                Manager.sharedInstance.startRequestsImmediately = false
+                delayRequestsForThisSpec()
                 let req = resource().load()
                 observer!.checkForUnfulfilledExpectations()
                 observer = nil
@@ -282,7 +295,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 
                 // No observer expectations left, so this will fail if Resource still notifies observer
                 stubReqest(resource, "GET").andReturn(200)
-                req.resume()
+                startDelayedRequest(req)
                 awaitResponse(req)
                 }
             

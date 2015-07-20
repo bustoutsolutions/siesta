@@ -10,7 +10,6 @@ import Siesta
 import Quick
 import Nimble
 import Nocilla
-import Alamofire
 
 class ResourceRequestsSpec: ResourceSpecBase
     {
@@ -23,7 +22,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             expect(resource().latestError).to(beNil())
             
             expect(resource().loading).to(beFalse())
-            expect(resource().loadRequests).to(equal([]))
+            expect(resource().loadRequests).to(beIdentialObjects([]))
             }
         
         describe("request()")
@@ -77,24 +76,24 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("tracks concurrent requests")
                 {
-                service().sessionManager.startRequestsImmediately = false
+                delayRequestsForThisSpec()
                 defer { service().sessionManager.startRequestsImmediately = true }
                 
                 stubReqest(resource, "GET").andReturn(200)
                 let req0 = resource().load(),
                     req1 = resource().load()
                 expect(resource().loading).to(beTrue())
-                expect(resource().loadRequests).to(equal([req0, req1]))
+                expect(resource().loadRequests).to(beIdentialObjects([req0, req1]))
                 
-                req0.resume()
+                startDelayedRequest(req0)
                 awaitResponse(req0)
                 expect(resource().loading).to(beTrue())
-                expect(resource().loadRequests).to(equal([req1]))
+                expect(resource().loadRequests).to(beIdentialObjects([req1]))
                 
-                req1.resume()
+                startDelayedRequest(req1)
                 awaitResponse(req1)
                 expect(resource().loading).to(beFalse())
-                expect(resource().loadRequests).to(equal([]))
+                expect(resource().loadRequests).to(beIdentialObjects([]))
                 }
             
             it("stores the response data")
@@ -247,11 +246,11 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
                 
-                service().sessionManager.startRequestsImmediately = false  // prevents race condition between cancel() and Nocilla
+                delayRequestsForThisSpec()  // prevents race condition between cancel() and Nocilla
                 
                 let req = resource().load()
                 req.cancel()
-                req.resume()
+                startDelayedRequest(req)
                 awaitResponse(req)
 
                 expectDataToBeUnchanged()

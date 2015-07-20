@@ -7,6 +7,7 @@
 //
 
 import Quick
+import Nimble
 
 public func specVar<T>(builder: () -> T) -> () -> T
     {
@@ -27,4 +28,26 @@ func simulateMemoryWarning()
         .postNotificationName(
             UIApplicationDidReceiveMemoryWarningNotification,
             object: nil)
+    }
+
+func beIdentialObjects<T:AnyObject>(expectedArray: [T]) -> MatcherFunc<[T]>
+    {
+    return MatcherFunc
+        { inputs, failureMessage in
+        
+        let actualArray = inputs.evaluate()!
+        failureMessage.stringValue =
+            "expected \(expectedArray)"
+            + " but got \(actualArray)"
+        
+        if expectedArray.count != actualArray.count
+            { return false }
+        
+        for i in expectedArray.indices
+            {
+            if expectedArray[i] !== actualArray[i]
+                { return false }
+            }
+        return true
+        }
     }
