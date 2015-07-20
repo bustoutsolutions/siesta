@@ -29,6 +29,7 @@ iOS REST Client Framework
   - [Observers](#observers)
   - [UI Components](#ui-components)
   - [Memory Management](#memory-management)
+- [Examples](#examples)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
