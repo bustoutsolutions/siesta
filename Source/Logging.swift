@@ -15,18 +15,31 @@ internal func debugLog(@autoclosure messageParts: () -> [Any?])
     {
     if debug
         {
-        let message = " ".join(
-            messageParts().map { ($0 as? String) ?? debugStr($0) })
-        print("[Siesta] \(message)")
+        print("[Siesta] \(debugStr(messageParts()))")
         }
     }
 
 private let whitespacePat = NSRegularExpression.compile("\\s+")
 
 internal func debugStr(
-        x: Any?,
+        messageParts: [Any?],
+        join: String = " ",
         consolidateWhitespace: Bool = true,
         truncate: Int? = 300)
+    -> String
+    {
+    return " ".join(
+        messageParts.map
+            {
+            ($0 as? String)
+                ?? debugStr($0, consolidateWhitespace: consolidateWhitespace, truncate: truncate)
+            })
+    }
+
+internal func debugStr(
+        x: Any?,
+        consolidateWhitespace: Bool = false,
+        truncate: Int? = 500)
     -> String
     {
     guard let x = x else

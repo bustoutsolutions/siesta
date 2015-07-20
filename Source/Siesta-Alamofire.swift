@@ -8,7 +8,7 @@
 
 import Alamofire
 
-internal class AlamofireSiestaRequest: Request
+internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
     {
     private let resource: Resource
     internal weak var alamofireRequest: Alamofire.Request?
@@ -98,6 +98,15 @@ internal class AlamofireSiestaRequest: Request
                 callback(resp, isNew: isNew)
                 }
             }
+        }
+
+    var debugDescription: String
+        {
+        return "Siesta.Request:"
+            + String(ObjectIdentifier(self).uintValue, radix: 16)
+            + "("
+            + debugStr([alamofireRequest?.request?.HTTPMethod, resource.url])
+            + ")"
         }
     }
 

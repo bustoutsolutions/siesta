@@ -40,14 +40,7 @@ func beIdentialObjects<T:AnyObject>(expectedArray: [T]) -> MatcherFunc<[T]>
             "expected \(expectedArray)"
             + " but got \(actualArray)"
         
-        if expectedArray.count != actualArray.count
-            { return false }
-        
-        for i in expectedArray.indices
-            {
-            if expectedArray[i] !== actualArray[i]
-                { return false }
-            }
-        return true
+        return expectedArray.map { ObjectIdentifier($0).uintValue }
+            ==   actualArray.map { ObjectIdentifier($0).uintValue }
         }
     }
