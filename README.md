@@ -6,7 +6,7 @@ iOS REST Client Framework
 
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
-* **Build requirements:** Xcode 7 beta, Carthage
+* **Build requirements:** Xcode 7 beta, Swift 2.0, Carthage
 * **Status:** Pre-alpha, in active development
 
 
@@ -19,6 +19,9 @@ iOS REST Client Framework
   - [The Solution](#the-solution)
 - [Design Philosophy](#design-philosophy)
 - [Features](#features)
+- [Installation](#installation)
+  - [Carthage](#carthage)
+  - [CocoaPods](#cocoapods)
 - [Usage](#usage)
   - [Services and Resources](#services-and-resources)
   - [Requests](#requests)
@@ -79,6 +82,34 @@ Planned:
 - [ ] Prebaked progress bar UI components
 - [ ] Customizable data caching
 - [ ] Built-in XML parsing
+
+## Installation
+
+### Carthage
+
+[Install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+
+Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), and point the command line tools at it:
+
+    sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer
+
+Create a `Cartfile` in the root of your project if it don’t already exist, and add:
+
+    github "bustoutsolutions/siesta" "master"
+
+(Adding `master` keeps you on the bleeding edge, which is necessary until Siesta has an official release.)
+
+Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
+
+As of this writing, there is one additional step you need to follow for Xcode 7 beta that isn’t in the Carthage docs:
+
+* Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
+
+(In-depth discussion of Carthage on XC7 is [here](https://github.com/Carthage/Carthage/issues/536).)
+
+### CocoaPods
+
+Will add support when Xcode 7 is released. (Pull request welcome!)
 
 ## Usage
 
