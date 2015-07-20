@@ -403,9 +403,10 @@ var displayedResource: Resource? {
 
 #### Detailed ownership rules
 
-* An observer’s observation of a resource is contingent upon one or more owners. (Owners can be any kind of object.)
+* An observer’s observation of a resource is contingent upon one or more owners.
+* Owners can be any kind of object.
 * An observer may be its own owner.
-* A resource keeps a strong reference to an observer as long as it has owner other than itself.
+* A resource keeps a strong reference to an observer as long as it has owners other than itself.
 * An observer stops observing a resource as soon as all of its owners have been deallocated (or explicitly removed).
 
 Observers affect the lifecycle of resources:
