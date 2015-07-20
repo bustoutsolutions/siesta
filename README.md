@@ -9,6 +9,27 @@ iOS REST Client Framework
 * **Build requirements:** Xcode 7 beta, Carthage
 * **Status:** Pre-alpha, in active development
 
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [What’s it for?](#what%E2%80%99s-it-for)
+  - [The Problem](#the-problem)
+  - [The Solution](#the-solution)
+- [Design Philosophy](#design-philosophy)
+- [Features](#features)
+- [Usage](#usage)
+  - [Requests](#requests)
+  - [Resource state](#resource-state)
+  - [Observers](#observers)
+  - [UI Components](#ui-components)
+  - [Memory Management](#memory-management)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<a name="what%E2%80%99s-it-for"></a> <!-- deals w/bogus TOC anchor -->
 ## What’s it for?
 
 ### The Problem
@@ -58,8 +79,6 @@ Planned:
 - [ ] Prebaked progress bar UI components
 - [ ] Customizable data caching
 - [ ] Built-in XML parsing
-
----
 
 ## Usage
 
@@ -322,13 +341,13 @@ Or in Objective-C:
 
 Note that this small amount of code is a fully armed and operational REST-backed UI.
 
-## Memory Management
+### Memory Management
 
 Note that in the examples above, no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.
 
 Siesta achieves this by introducing a notion of **observer ownership,** which ties an observer to the life cycle of an object. Here’s how this mechanism plays out in a few common cases:
 
-### Self-owned observer
+#### Self-owned observer
 
 An observer can register as its own owner using the single-argument flavor of `addObserver()`. This essentialy means, “Someone else owns this observer object. Keep only a weak reference to it. Send it notifications until it is deallocated.”
 
@@ -344,7 +363,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-### Observer with an external owner
+#### Observer with an external owner
 
 An observer can also regiser with `addObserver(observer:, owner:)`. This means, “This observer’s only purpose is to be an observer. Keep a strong reference and send it notifications until it its _owner_ is deallocated.”
 
@@ -359,7 +378,7 @@ someResource.addObserver(someViewController) {
 
 In the code about, the print statement will continue logging until `someViewController` is deallocated.
 
-### Manually removing observers
+#### Manually removing observers
 
 Sometimes you’ll want to remove an observer explicitly, usually because you want to point the same observer at a different resource.
 
@@ -380,7 +399,7 @@ var displayedResource: Resource? {
 }
 ```
 
-### Detailed ownership rules
+#### Detailed ownership rules
 
 * An observer’s observation of a resource is contingent upon one or more owners. (Owners can be any kind of object.)
 * An observer may be its own owner.
