@@ -20,6 +20,7 @@ iOS REST Client Framework
 - [Design Philosophy](#design-philosophy)
 - [Features](#features)
 - [Usage](#usage)
+  - [Services and Resources](#services-and-resources)
   - [Requests](#requests)
   - [Resource state](#resource-state)
   - [Observers](#observers)
