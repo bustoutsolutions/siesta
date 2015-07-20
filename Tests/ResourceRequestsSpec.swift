@@ -58,6 +58,37 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
+            
+            context("post/put/patch body")
+                {
+                it("handles raw data")
+                    {
+                    let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
+                    let nsdata = NSData(bytes: bytes, length: bytes.count)
+                    
+                    stubReqest(resource, "POST")
+                        .withHeader("Content-Type", "application/monkey")
+                        .withBody(nsdata)
+                        .andReturn(200)
+
+                    awaitResponse(resource().request(.POST, body: nsdata, mimeType: "application/monkey"))
+                    }
+                
+                it("handles string data")
+                    {
+                    stubReqest(resource, "POST")
+                        .withHeader("Content-Type", "text/plain; charset=utf-8")
+                        .withBody("Très bien!")
+                        .andReturn(200)
+
+                    awaitResponse(resource().request(.POST, body: "Très bien!"))
+                    }
+                
+                it("handles string encoding errors")
+                    {
+                    awaitFailure(resource().request(.POST, body: "Hélas!", encoding: NSASCIIStringEncoding))
+                    }
+                }
             }
 
         describe("load()")

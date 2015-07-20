@@ -53,6 +53,18 @@ func awaitResponse(req: Siesta.Request)
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     }
 
+func awaitFailure(req: Siesta.Request)
+    {
+    let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response: \(req)")
+    let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure: \(req)")
+    req.error       { _ in responseExpectation.fulfill() }
+       .response    { _ in errorExpectation.fulfill() }
+       .success     { _ in fail("success callback should not be called") }
+       .newData     { _ in fail("newData callback should not be called") }
+       .notModified { _ in fail("notModified callback should not be called") }
+    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    }
+
 func delayRequestsForThisSpec()
     {
     Manager.sharedInstance.startRequestsImmediately = false

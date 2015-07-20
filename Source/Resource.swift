@@ -125,6 +125,43 @@ public class Resource: CustomDebugStringConvertible
         return AlamofireSiestaRequest(resource: self, alamofireRequest: alamoReq)
         }
     
+    public func request(
+            method:          Alamofire.Method,
+            body:            NSData,
+            mimeType:        String,
+            requestMutation: NSMutableURLRequest -> () = { _ in })
+        -> Request
+        {
+        return request(method)
+            {
+            nsreq in
+            
+            nsreq.addValue(mimeType, forHTTPHeaderField: "Content-Type")
+            nsreq.HTTPBody = body
+            
+            requestMutation(nsreq)
+            }
+        }
+    
+    public func request(
+            method:          Alamofire.Method,
+            body:            String,
+            encoding:        NSStringEncoding = NSUTF8StringEncoding,
+            requestMutation: NSMutableURLRequest -> () = { _ in })
+        -> Request
+        {
+        let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
+        if let rawBody = body.dataUsingEncoding(encoding)
+            { return request(method, body: rawBody, mimeType: "text/plain; charset=\(encodingName)") }
+        else
+            {
+            return FailedRequest(
+                Resource.Error(
+                    userMessage: "Unable to create request",
+                    debugMessage: "Cannot encode text body using \(encodingName)"))
+            }
+        }
+    
     public func loadIfNeeded() -> Request?
         {
         if(loading)
@@ -221,4 +258,34 @@ public class Resource: CustomDebugStringConvertible
             + (latestError != nil ? "E" : "")
             + "]"
         }
+    }
+
+
+/// For requests that failed before they even made it to the transport layer
+private class FailedRequest: Request
+    {
+    private let error: Resource.Error
+    
+    init(_ error: Resource.Error)
+        { self.error = error }
+    
+    func response(callback: AnyResponseCalback) -> Self
+        {
+        dispatch_async(dispatch_get_main_queue(), { callback(.ERROR(self.error)) })
+        return self
+        }
+    
+    func error(callback: ErrorCallback) -> Self
+        {
+        dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
+        return self
+        }
+    
+    // Everything else is a noop
+    
+    func success(callback: SuccessCallback) -> Self { return self }
+    func newData(callback: SuccessCallback) -> Self { return self }
+    func notModified(callback: NotModifiedCallback) -> Self { return self }
+    
+    func cancel() { }
     }
