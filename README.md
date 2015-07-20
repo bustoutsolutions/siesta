@@ -231,7 +231,7 @@ MyAPI.instance.profile.addObserver(self)
 [MyAPI.instance.profile addObserver:self];
 ```
 
-…or by providing an observer closure (Swift only):
+…or by providing a callback closure (Swift only):
 
 ```swift
 MyAPI.instance.profile.addObserver(owner: self) {
