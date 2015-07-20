@@ -58,10 +58,21 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Design Philosophy
 
-* Make the default thing the right thing most of the time.
-* Make the right thing easy all of the time.
-* Prioritize making app code that uses Siesta easy to **read**.
-* Build from need. Don’t invent solutions in search of problems.
+
+Make the default thing the right thing most of the time.
+
+Make the right thing easy all of the time.
+
+Build from need. Don’t invent solutions in search of problems.
+
+Design the API with these goals:
+
+1. Make client code easy to **read**.
+2. Make client code easy to **write**.
+3. Keep the API clean.
+4. Keep the implementation tidy.
+
+_…in that order of priority._
 
 ## Features
 
