@@ -57,11 +57,10 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Design Philosophy
 
-* Make the default thing usually be the right thing.
+* Make the default thing the right thing most of the time.
 * Make the right thing easy all of the time.
-* Make client code easy to read. Provide conveniences.
+* Prioritize making the code that uses Siesta easy to **read**.
 * Build from need. Don’t invent solutions in search of problems.
-* Eliminate boilerplate.
 
 ## Features
 
@@ -75,8 +74,9 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [x] Customizable response transformation
 - [x] Prebaked UI components for error overlay
 - [x] Use with both Swift and Objective-C
+- [x] Thorough regression testing
 
-Planned:
+**Planned:**
 
 - [ ] Intelligent progress reporting that accounts for request, latency, and response
 - [ ] Prebaked progress bar UI components
