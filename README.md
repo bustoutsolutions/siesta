@@ -56,7 +56,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 * Make the default thing usually be the right thing.
 * Make the right thing easy all of the time.
-* Make client code easy to read. Provide convenices.
+* Make client code easy to read. Provide conveniences.
 * Build from need. Don’t invent solutions in search of problems.
 * Eliminate boilerplate.
 
@@ -123,7 +123,7 @@ class MyAPI: Service {
 
 ### Requests
 
-Resources start out empty — no data, no error, not loading. To trigger a GET request:
+Resources start out empty — no data, no error, not loading. To trigger a GET request:
 
 ```swift
 MyAPI.instance.profile.loadIfNeeded()
