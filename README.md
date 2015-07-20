@@ -29,7 +29,6 @@ iOS REST Client Framework
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-<a name="what%E2%80%99s-it-for"></a> <!-- deals w/bogus TOC anchor -->
 ## What’s it for?
 
 ### The Problem
@@ -81,6 +80,8 @@ Planned:
 - [ ] Built-in XML parsing
 
 ## Usage
+
+### Services and Resources
 
 Create a `Service` singleton for each API your app uses:
 
