@@ -88,9 +88,11 @@ _…in that order of priority._
 - [x] Use with both Swift and Objective-C
 - [x] Thorough regression testing
 
-**Planned:**
+**Forthcoming:**
 
+- [ ] Graceful handling for authenticated sessions
 - [ ] Intelligent progress reporting that accounts for request, latency, and response
+- [ ] Local data override, optimistic pre-updating to better support POST/PUT/PATCH
 - [ ] Prebaked progress bar UI components
 - [ ] Customizable data caching
 - [ ] Built-in XML parsing
