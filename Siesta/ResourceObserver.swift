@@ -65,7 +65,7 @@ public extension Resource
         return self
         }
     
-    public func addObserver(owner: AnyObject, closure: ResourceObserverClosure) -> Self
+    public func addObserver(owner owner: AnyObject, closure: ResourceObserverClosure) -> Self
         {
         return addObserver(ClosureObserver(closure: closure), owner: owner)
         }

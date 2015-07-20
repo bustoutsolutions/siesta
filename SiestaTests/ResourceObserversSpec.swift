@@ -128,6 +128,25 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(resource().request(.GET))
                 }
             
+            it("can be a closure")
+                {
+                resource().removeObservers(ownedBy: observer())
+                
+                let dummy = UIView()
+                var events = [ResourceEvent]()
+                resource().addObserver(owner: dummy)
+                    {
+                    resource, event in
+                    events.append(event)
+                    }
+                
+                stubReqest(resource, "GET").andReturn(200)
+                awaitResponse(resource().load())
+                
+                expect(events.map {$0.rawValue }).to(equal(
+                    ["ObserverAdded", "Requested", "NewDataResponse"]))
+                }
+            
             it("is not added twice if it is an object")
                 {
                 resource().addObserver(observer())
