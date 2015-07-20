@@ -161,7 +161,6 @@
 				DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */,
 				DA517A8C1B3DDDE800B4A71A /* AlamoFire.Request+Siesta.swift */,
 				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
-				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DAE490981B4E51AA004D97D6 /* UI */,
 				DA99B5C61B38C356009C6937 /* Support */,
 			);
@@ -210,10 +209,11 @@
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */,
+				DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */,
 				DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */,
+				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
 				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
-				DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";

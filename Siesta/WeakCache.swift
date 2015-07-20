@@ -53,23 +53,21 @@ internal class WeakCache<K: Hashable, V: AnyObject>
 
 private class WeakCacheEntry<V: AnyObject>
     {
-    private(set) weak var valueWeak: V?
-    private(set) var valueStrong: V?
+    private var ref: StrongOrWeakRef<V>
     
     init(_ value: V)
         {
-        valueWeak   = value
-        valueStrong = value
+        ref = StrongOrWeakRef(value)
         }
     
     var value: V?
         {
-        valueStrong = valueWeak
-        return valueWeak
+        ref.strong = true
+        return ref.value
         }
     
     func allowRemoval()
         {
-        valueStrong = nil
+        ref.strong = false
         }
     }
