@@ -59,7 +59,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 * Make the default thing the right thing most of the time.
 * Make the right thing easy all of the time.
-* Prioritize making the code that uses Siesta easy to **read**.
+* Prioritize making app code that uses Siesta easy to **read**.
 * Build from need. Don’t invent solutions in search of problems.
 
 ## Features
@@ -85,6 +85,8 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Installation
 
+We recommend adding Siesta to your project using either Carthage or Cocoapods. You can also manually build the framework yourself.
+
 ### Carthage
 
 [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
@@ -109,7 +111,7 @@ As of this writing, there is one additional step you need to follow for Xcode 7 
 
 ### CocoaPods
 
-Will add support when Xcode 7 is released. (Pull request welcome!)
+Will add support when Xcode 7 goes out of beta. (Pull request welcome!)
 
 ## Usage
 
@@ -164,6 +166,8 @@ MyAPI.instance.profile.loadIfNeeded()
 ```
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
+
+**TODO:** Document POST/PUT/PATCH/DELETE
 
 ### Resource state
 
@@ -447,3 +451,7 @@ Observers affect the lifecycle of resources:
 * At any time, there exists at _most_ one `Resource` instance per `Service` for a given URL.
 
 These rules, while tricky when all spelled out, make the right thing the easy thing most of the time.
+
+## Examples
+
+This repo includes a [simple example project](Examples/GithubBrowser).
