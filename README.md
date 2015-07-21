@@ -2,7 +2,7 @@
 
 iOS REST Client Framework
 
-**TL;DR**: Drastically simplifies app code by providing an observer-based model for RESTful resources.
+**TL;DR**: Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
@@ -95,7 +95,11 @@ _…in that order of priority._
 - [ ] Local data override, optimistic pre-updating to better support POST/PUT/PATCH
 - [ ] Prebaked progress bar UI components
 - [ ] Customizable data caching
-- [ ] Built-in XML parsing
+
+**If users express sufficient interest:**
+
+- [ ] Built-in parsing for other common types, e.g. XML
+- [ ] Injectable implementation for transport providers other than Alamofire
 
 ## Installation
 
@@ -181,7 +185,22 @@ MyAPI.instance.profile.loadIfNeeded()
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
 
-**TODO:** Document POST/PUT/PATCH/DELETE
+To force a network request, use `load()`:
+
+```swift
+MyAPI.instance.profile.load()
+```
+
+To update a resource with a POST/PUT/PATCH, use `request()`:
+
+```swift
+MyAPI.instance.profile.request(.POST, json: ["foo": [1,2,3]])
+MyAPI.instance.profile.request(.POST, urlEncoded: ["foo": "bar"])
+MyAPI.instance.profile.request(.POST, text: "Many years later, in front of the terminal...")
+MyAPI.instance.profile.request(.POST, data: nsdata)
+```
+
+See notes below on [request() vs. load()](#request-vs-load).
 
 ### Resource state
 
@@ -214,29 +233,52 @@ resource.latestError?.userMessage  // String suitable for display in UI
 
 That `latestError` rolls up many different kinds of error — transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
 
+#### The multifaceted nature of resource state
+
 Note that data, error, and loading are not mutually exclusive. For example, consider the following scenario:
 
 * You load a resource, and the request succeeds.
 * You refresh it later, and that second request fails.
 * You initiate a third request.
 
-At this point, `loading` is true, `latestError` holds information about the previously failed request, and `data` still gives the old cached data. You can decide which of these things your UI prioritizes over the others.
+At this point, `loading` is true, `latestError` holds information about the previously failed request, and `data` still gives the old cached data.
+
+Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data available, or you may prefer to always show a spinner.
+
+#### Request vs. load
+
+The `load()` and `loadIfNeeded()` methods update the resource’s state and notify observers when they receive a response. The various forms of the `request()` method, however, do not; it is up to you to say what effect if any your request had on the resource’s state.
+
+When you call `load()`, which is by default a GET request, you expect the server to return the full state of the resource. Siesta will cache that state and tell the world to display it.
+
+When you call `request()`, however, you don’t necessarily expect the server to give you the full resource back. You might be making a POST request, and the server will simply say “OK” — perhaps by returning 200 and an empty response body. In this situation, it’s up to you to update the resource state.
+
+One way to do this is to trigger a load on the heels of a successful POST/PUT/PATCH:
+
+```swift
+resource.request(.PUT, json: newState).success() {
+    _ in resource.load()
+}
+```
+
+* TODO: document local update using response data
+* TODO: document resource creation using Location header
 
 ### Observers
 
 UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol (or its counterpart `ResourceObserverObjc` in Objective-C):
 
 ```swift
-MyAPI.instance.profile.addObserver(self)
+resource.addObserver(self)
 ```
 ```objc
-[MyAPI.instance.profile addObserver:self];
+[resource addObserver:self];
 ```
 
 …or by providing a callback closure (Swift only):
 
 ```swift
-MyAPI.instance.profile.addObserver(owner: self) {
+resource.addObserver(owner: self) {
     resource, event in
     …
 }
@@ -268,7 +310,15 @@ Note the pleasantly reactive flavor this code takes on — without the overhead
 
 If updating the whole UI is an expensive operation (but it rarely is; benchmark first!), you can use the `event` parameter and the metadata in `latestData` and `latestError` to fine-tune your UI updates.
 
-Note that a resource might have failed on the last request, have older valid data, _and_ have a new request in progress. Siesta does not dictate which of these take precedence in your UI. It just tells you the current state of affairs, and leaves it to you to determine how to display it. Want to always show the latest data, even if there was a more recent error? No problem. Only show a loading indicator if no data is present? You can do that.
+Note that you can also attach callbacks to an individual request, in the manner of more familiar HTTP frameworks:
+
+```swift
+resource.load()
+    .success { data, nsUrlResponse in print("Wow! Data!") }
+    .error { error, nsUrlResponse in print("Oh, bummer.") }
+```
+
+These _response callbacks_ are one-offs, called at most once when a request completes and then discarded. Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
 
 Putting it all together:
 
