@@ -7,7 +7,7 @@ iOS REST Client Framework
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
 * **Build requirements:** Xcode 7 beta, Swift 2.0, Carthage
-* **Status:** Pre-alpha, in active development
+* **Status:** Alpha, in active development. Works well, but API still in flux. Seeking feedback. Please experiment!
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -261,8 +261,16 @@ resource.request(.PUT, json: newState).success() {
 }
 ```
 
+…or perhaps a POST request gives you the location of a new resource in a header:
+
+```swift
+resource.request(.POST, json: newState).success() {
+    let createdResource = resource.relative($0.header("Location")))
+    …
+}
+```
+
 * TODO: document local update using response data
-* TODO: document resource creation using Location header
 
 ### Observers
 
@@ -314,8 +322,8 @@ Note that you can also attach callbacks to an individual request, in the manner 
 
 ```swift
 resource.load()
-    .success { data, nsUrlResponse in print("Wow! Data!") }
-    .error { error, nsUrlResponse in print("Oh, bummer.") }
+    .success { data in print("Wow! Data!") }
+    .error { error in print("Oh, bummer.") }
 ```
 
 These _response callbacks_ are one-offs, called at most once when a request completes and then discarded. Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
