@@ -81,6 +81,19 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(resource().load())
                 }
 
+            it("receives new data event from local override")
+                {
+                // No .Requested event!
+                observer().expect(.NewData)
+                    {
+                    expect(resource().loading).to(beFalse())
+                    expect(resource().latestData).notTo(beNil())
+                    expect(resource().latestError).to(beNil())
+                    }
+                resource().localDataOverride(
+                    Resource.Data(payload: UIView(), mimeType: "crazy/test"))
+                }
+
             it("receives not modified event")
                 {
                 stubReqest(resource, "GET").andReturn(200)

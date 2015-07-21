@@ -246,18 +246,24 @@ public class Resource: CustomDebugStringConvertible
             if let resource = self
                 { resource.loadRequests = resource.loadRequests.filter { $0 !== req } }
             }
-        req.newData(self.updateStateWithData)
-        req.notModified(self.updateStateWithDataNotModified)
-        req.error(self.updateStateWithError)
+        req.newData(self.receiveData)
+        req.notModified(self.receiveDataNotModified)
+        req.error(self.receiveError)
 
         self.notifyObservers(.Requested)
 
         return req
         }
     
-    private func updateStateWithData(data: Data)
+    private func receiveData(data: Data)
+        { receiveData(data, localOverride: false) }
+    
+    public func localDataOverride(data: Data)
+        { receiveData(data, localOverride: true) }
+    
+    private func receiveData(data: Data, localOverride: Bool)
         {
-        debugLog([self, "has new data:", data])
+        debugLog([self, "received new data from", localOverride ? "a local override:" : "the network:", data])
         
         self.latestError = nil
         self.latestData = data
@@ -265,7 +271,7 @@ public class Resource: CustomDebugStringConvertible
         notifyObservers(.NewData)
         }
 
-    private func updateStateWithDataNotModified()
+    private func receiveDataNotModified()
         {
         debugLog([self, "existing data is still valid"])
         
@@ -275,7 +281,7 @@ public class Resource: CustomDebugStringConvertible
         notifyObservers(.NotModified)
         }
     
-    private func updateStateWithError(error: Error)
+    private func receiveError(error: Error)
         {
         if let nserror = error.nsError
             where nserror.domain == "NSURLErrorDomain"

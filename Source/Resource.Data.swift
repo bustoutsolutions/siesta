@@ -18,7 +18,7 @@ extension Resource
         private var headers: [String:String]
         public private(set) var timestamp: NSTimeInterval = 0
         
-        public init(
+        private init(
                 payload: AnyObject,
                 charset: String? = nil,
                 headers rawHeaders: [String:String])
@@ -35,7 +35,7 @@ extension Resource
             self.touch()
             }
         
-        /// Convenience for creation from network response
+        /// For handling network response
         
         public init(_ response: NSHTTPURLResponse?, _ payload: AnyObject)
             {
@@ -48,7 +48,7 @@ extension Resource
                 headers: headers)
             }
         
-        /// Convenience for local override
+        /// For local override
         
         public init(
                 payload: AnyObject,

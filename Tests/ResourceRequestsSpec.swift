@@ -439,6 +439,38 @@ class ResourceRequestsSpec: ResourceSpecBase
                     }
                 }
             }
+
+        describe("localDataOverride()")
+            {
+            let arbitraryMimeType = "payloads-can-be/anything"
+            let arbitraryPayload = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
+            let localData = specVar { Resource.Data(payload: arbitraryPayload(), mimeType: arbitraryMimeType) }
+            
+            it("updates the data")
+                {
+                resource().localDataOverride(localData())
+                expect(resource().data).to(beIdenticalTo(arbitraryPayload()))
+                expect(resource().latestData?.mimeType).to(equal(arbitraryMimeType))
+                }
+
+            it("clears the latest error")
+                {
+                stubReqest(resource, "GET").andReturn(500)
+                awaitResponse(resource().load())
+                expect(resource().latestError).notTo(beNil())
+
+                resource().localDataOverride(localData())
+                expect(resource().latestData).notTo(beNil())
+                expect(resource().latestError).to(beNil())
+                }
+
+            it("does not touch the transformer pipeline")
+                {
+                let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
+                resource().localDataOverride(Resource.Data(payload: rawData!, mimeType: "text/plain"))
+                expect(resource().data as? NSData).to(beIdenticalTo(rawData))
+                }
+            }
         }
     }
 
