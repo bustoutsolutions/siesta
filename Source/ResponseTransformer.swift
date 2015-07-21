@@ -214,10 +214,10 @@ public struct JsonTransformer: ResponseDataTransformer
                 return logTransformation(
                     .DATA(newData))
                 }
-            catch let err
+            catch
                 {
                 return logTransformation(
-                    .ERROR(Resource.Error(userMessage: "Cannot parse JSON", error: err as NSError)))
+                    .ERROR(Resource.Error(userMessage: "Cannot parse JSON", error: error as NSError)))
                 }
             }
         }

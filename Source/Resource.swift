@@ -127,7 +127,7 @@ public class Resource: CustomDebugStringConvertible
     
     public func request(
             method:          Alamofire.Method,
-            body:            NSData,
+            data:            NSData,
             mimeType:        String,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
@@ -137,7 +137,7 @@ public class Resource: CustomDebugStringConvertible
             nsreq in
             
             nsreq.addValue(mimeType, forHTTPHeaderField: "Content-Type")
-            nsreq.HTTPBody = body
+            nsreq.HTTPBody = data
             
             requestMutation(nsreq)
             }
@@ -145,20 +145,45 @@ public class Resource: CustomDebugStringConvertible
     
     public func request(
             method:          Alamofire.Method,
-            body:            String,
+            text:            String,
             encoding:        NSStringEncoding = NSUTF8StringEncoding,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
-        if let rawBody = body.dataUsingEncoding(encoding)
-            { return request(method, body: rawBody, mimeType: "text/plain; charset=\(encodingName)") }
+        if let rawBody = text.dataUsingEncoding(encoding)
+            { return request(method, data: rawBody, mimeType: "text/plain; charset=\(encodingName)") }
         else
             {
             return FailedRequest(
                 Resource.Error(
-                    userMessage: "Unable to create request",
+                    userMessage: "Unable to encode text",
                     debugMessage: "Cannot encode text body using \(encodingName)"))
+            }
+        }
+
+    public func request(
+            method:          Alamofire.Method,
+            json:            AnyObject,
+            requestMutation: NSMutableURLRequest -> () = { _ in })
+        -> Request
+        {
+        if(!NSJSONSerialization.isValidJSONObject(json))
+            {
+            return FailedRequest(
+                Resource.Error(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
+            }
+        
+        do  {
+            let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
+            return request(method, data: rawBody, mimeType: "application/json")
+            }
+        catch
+            {
+            // This catch block should obviate isValidJSONObject() call above, but Swift apparently
+            // doesn’t catch NSInvalidArgumentException. (radar 21913397)
+            return FailedRequest(
+                Resource.Error(userMessage: "Cannot encode JSON", error: error as NSError))
             }
         }
     

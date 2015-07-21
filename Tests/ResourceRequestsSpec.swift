@@ -59,7 +59,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestError).to(beNil())
                 }
             
-            context("post/put/patch body")
+            context("POST/PUT/PATCH body")
                 {
                 it("handles raw data")
                     {
@@ -71,7 +71,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody(nsdata)
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.POST, body: nsdata, mimeType: "application/monkey"))
+                    awaitResponse(resource().request(.POST, data: nsdata, mimeType: "application/monkey"))
                     }
                 
                 it("handles string data")
@@ -81,12 +81,27 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("Très bien!")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.POST, body: "Très bien!"))
+                    awaitResponse(resource().request(.POST, text: "Très bien!"))
                     }
                 
                 it("handles string encoding errors")
                     {
-                    awaitFailure(resource().request(.POST, body: "Hélas!", encoding: NSASCIIStringEncoding))
+                    awaitFailure(resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding))
+                    }
+                
+                it("handles JSON data")
+                    {
+                    stubReqest(resource, "POST")
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
+                        .andReturn(200)
+
+                    awaitResponse(resource().request(.POST, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
+                    }
+                
+                it("handles JSON encoding errors")
+                    {
+                    awaitFailure(resource().request(.POST, json: ["question": [2, UIView()]]))
                     }
                 }
             }
