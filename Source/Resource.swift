@@ -164,11 +164,11 @@ public class Resource: CustomDebugStringConvertible
 
     public func request(
             method:          Alamofire.Method,
-            json:            AnyObject,
+            json:            NSJSONConvertible,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
-        if(!NSJSONSerialization.isValidJSONObject(json))
+        guard NSJSONSerialization.isValidJSONObject(json) else
             {
             return FailedRequest(
                 Resource.Error(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
@@ -180,8 +180,8 @@ public class Resource: CustomDebugStringConvertible
             }
         catch
             {
-            // This catch block should obviate isValidJSONObject() call above, but Swift apparently
-            // doesn’t catch NSInvalidArgumentException. (radar 21913397)
+            // This catch block should obviate the isValidJSONObject() call above, but Swift apparently
+            // doesn’t catch NSInvalidArgumentException (radar 21913397).
             return FailedRequest(
                 Resource.Error(userMessage: "Cannot encode JSON", error: error as NSError))
             }
@@ -314,3 +314,7 @@ private class FailedRequest: Request
     
     func cancel() { }
     }
+
+public protocol NSJSONConvertible: AnyObject { }
+extension NSDictionary: NSJSONConvertible { }
+extension NSArray:      NSJSONConvertible { }
