@@ -6,10 +6,10 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-public typealias AnyResponseCalback = Response -> Void
-public typealias SuccessCallback = Resource.Data -> Void
-public typealias NotModifiedCallback = Void -> Void
-public typealias ErrorCallback = Resource.Error -> Void
+public typealias AnyResponseCalback = (Siesta.Response, NSURLResponse?) -> Void
+public typealias SuccessCallback = (Resource.Data, NSURLResponse?) -> Void
+public typealias NotModifiedCallback = NSURLResponse? -> Void
+public typealias ErrorCallback = (Resource.Error, NSURLResponse?) -> Void
 
 public protocol Request: AnyObject
     {
