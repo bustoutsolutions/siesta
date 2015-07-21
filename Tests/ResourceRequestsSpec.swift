@@ -204,6 +204,17 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.mimeType).to(equal("application/octet-stream"))
                 }
                 
+            it("stores headers")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Personal-Disposition", "Quirky")
+                awaitResponse(resource().load())
+                
+                expect(resource().latestData?.header("Personal-Disposition")).to(equal("Quirky"))
+                expect(resource().latestData?.header("pErsonal-dIsposition")).to(equal("Quirky"))
+                expect(resource().latestData?.header("pErsonaldIsposition")).to(beNil())
+                }
+            
             it("handles missing etag")
                 {
                 stubReqest(resource, "GET").andReturn(200)

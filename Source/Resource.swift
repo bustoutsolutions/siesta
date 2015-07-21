@@ -230,9 +230,9 @@ public class Resource: CustomDebugStringConvertible
         return self.load()
         }
     
-    public func load(method: Alamofire.Method = .GET) -> Request
+    public func load() -> Request
         {
-        let req = request(method)
+        let req = request(.GET)
             {
             nsreq in
             if let etag = self.latestData?.etag
@@ -255,7 +255,7 @@ public class Resource: CustomDebugStringConvertible
         return req
         }
     
-    private func updateStateWithData(data: Data, rawResp: NSURLResponse?)
+    private func updateStateWithData(data: Data)
         {
         debugLog([self, "has new data:", data])
         
@@ -265,7 +265,7 @@ public class Resource: CustomDebugStringConvertible
         notifyObservers(.NewData)
         }
 
-    private func updateStateWithDataNotModified(rawResp: NSURLResponse?)
+    private func updateStateWithDataNotModified()
         {
         debugLog([self, "existing data is still valid"])
         
@@ -275,7 +275,7 @@ public class Resource: CustomDebugStringConvertible
         notifyObservers(.NotModified)
         }
     
-    private func updateStateWithError(error: Error, rawResp: NSURLResponse?)
+    private func updateStateWithError(error: Error)
         {
         if let nserror = error.nsError
             where nserror.domain == "NSURLErrorDomain"
@@ -317,13 +317,13 @@ private class FailedRequest: Request
     
     func response(callback: AnyResponseCalback) -> Self
         {
-        dispatch_async(dispatch_get_main_queue(), { callback(.ERROR(self.error), nil) })
+        dispatch_async(dispatch_get_main_queue(), { callback(.ERROR(self.error)) })
         return self
         }
     
     func error(callback: ErrorCallback) -> Self
         {
-        dispatch_async(dispatch_get_main_queue(), { callback(self.error, nil) })
+        dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
         return self
         }
     

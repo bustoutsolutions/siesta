@@ -26,3 +26,35 @@ extension CollectionType
         return (included: included, excluded: excluded)
         }
     }
+
+extension Dictionary
+    {
+    static func fromArray<K,V>(arrayOfTuples: [(K,V)]) -> [K:V]
+        {
+        var dict = Dictionary<K,V>(minimumCapacity: arrayOfTuples.count)
+        for (k,v) in arrayOfTuples
+            { dict[k] = v }
+        return dict
+        }
+    
+    func mapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey,MappedValue))
+        -> [MappedKey:MappedValue]
+        {
+        return Dictionary.fromArray(map(transform))
+        }
+    
+    func flatMapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey?,MappedValue?))
+        -> [MappedKey:MappedValue]
+        {
+        return Dictionary.fromArray(
+            flatMap
+                {
+                let (k,v) = transform($0)
+                if let k = k, let v = v
+                    { return (k,v) }
+                else
+                    { return nil }
+                }
+            )
+        }
+    }

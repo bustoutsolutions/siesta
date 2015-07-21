@@ -15,29 +15,54 @@ extension Resource
         public var mimeType: String
         public var charset: String?
         public var etag: String?
+        private var headers: [String:String]
         public private(set) var timestamp: NSTimeInterval = 0
         
-        public init(payload: AnyObject, mimeType: String, charset: String? = nil, etag: String? = nil)
+        public init(
+                payload: AnyObject,
+                charset: String? = nil,
+                headers rawHeaders: [String:String])
             {
             self.payload = payload
-            self.mimeType = mimeType
+            
+            self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
+            
+            self.mimeType = headers["content-type"] ?? "application/octet-stream"
             self.charset = charset
-            self.etag = etag
+            self.etag = headers["etag"]
+            
             self.timestamp = 0
             self.touch()
             }
         
+        /// Convenience for creation from network response
+        
         public init(_ response: NSHTTPURLResponse?, _ payload: AnyObject)
             {
-            func header(key: String) -> String?
-                { return response?.allHeaderFields[key] as? String }
+            let headers = (response?.allHeaderFields ?? [:])
+                .flatMapDict { ($0 as? String, $1 as? String) }
             
             self.init(
-                payload:  payload,
-                mimeType: header("Content-Type") ?? "application/octet-stream",
-                charset:  response?.textEncodingName,
-                etag:     header("ETag"))
+                payload: payload,
+                charset: response?.textEncodingName,
+                headers: headers)
             }
+        
+        /// Convenience for local override
+        
+        public init(
+                payload: AnyObject,
+                mimeType: String,
+                charset: String? = nil,
+                var headers: [String:String] = [:])
+            {
+            headers["Content-Type"] = mimeType
+            
+            self.init(payload:payload, charset:charset, headers:headers)
+            }
+        
+        public func header(key: String) -> String?
+            { return headers[key.lowercaseString] }
         
         public mutating func touch()
             { timestamp = now() }

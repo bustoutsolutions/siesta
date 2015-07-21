@@ -26,8 +26,8 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         {
         responseCallback
             {
-            response, newData, nsresp in
-            callback(response, nsresp)
+            response, newData in
+            callback(response)
             }
         return self
         }
@@ -36,9 +36,9 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         {
         responseCallback
             {
-            response, newData, nsresp in
+            response, newData in
             if case .DATA(let data) = response
-                { callback(data, nsresp) }
+                { callback(data) }
             }
         return self
         }
@@ -47,9 +47,9 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         {
         responseCallback
             {
-            response, newData, nsresp in
+            response, newData in
             if case .DATA(let data) = response where newData
-                { callback(data, nsresp) }
+                { callback(data) }
             }
         return self
         }
@@ -58,9 +58,9 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         {
         responseCallback
             {
-            response, newData, nsresp in
+            response, newData in
             if case .DATA = response where !newData
-                { callback(nsresp) }
+                { callback() }
             }
         return self
         }
@@ -69,9 +69,9 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         {
         responseCallback
             {
-            response, newData, nsresp in
+            response, newData in
             if case .ERROR(let error) = response
-                { callback(error, nsresp) }
+                { callback(error) }
             }
         return self
         }
@@ -81,7 +81,7 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         alamofireRequest?.cancel()
         }
     
-    private func responseCallback(callback: (Response, isNew: Bool, NSURLResponse?) -> Void)
+    private func responseCallback(callback: (Response, isNew: Bool) -> Void)
         {
         alamofireRequest?.response
             {
@@ -89,13 +89,13 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
             
             // Crux of the whole thing here: only call processResponse the first time
             if let response = self.response
-                { callback(response, isNew: self.responseIsNewData, rawResp.1) }
+                { callback(response, isNew: self.responseIsNewData) }
             else
                 {
                 let (resp, isNew) = processResponse(self.resource, rawResp)
                 self.response = resp
                 self.responseIsNewData = isNew
-                callback(resp, isNew: isNew, rawResp.1)
+                callback(resp, isNew: isNew)
                 }
             }
         }
