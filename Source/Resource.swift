@@ -187,6 +187,27 @@ public class Resource: CustomDebugStringConvertible
             }
         }
     
+    public func request(
+            method:            Alamofire.Method,
+            urlEncoded params: [String:String],
+            requestMutation:   NSMutableURLRequest -> () = { _ in })
+        -> Request
+        {
+        func urlEscape(string: String) -> String
+            {
+            // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
+            let charsToEscape = ":#[]@!$&'()*+,;="
+            return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, charsToEscape, CFStringBuiltInEncodings.UTF8.rawValue)
+                as String
+            }
+        
+        let paramString = "&".join(
+            params.map { urlEscape($0.0) + "=" + urlEscape($0.1) }.sort())
+        return request(method,
+            data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,
+            mimeType: "application/x-www-form-urlencoded")
+        }
+
     public func loadIfNeeded() -> Request?
         {
         if(loading)

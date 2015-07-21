@@ -91,17 +91,37 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles JSON data")
                     {
-                    stubReqest(resource, "POST")
+                    stubReqest(resource, "PUT")
                         .withHeader("Content-Type", "application/json")
                         .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.POST, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
+                    awaitResponse(resource().request(.PUT, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
                     }
                 
                 it("handles JSON encoding errors")
                     {
                     awaitFailure(resource().request(.POST, json: ["question": [2, UIView()]]))
+                    }
+
+                it("handles url-encoded param data")
+                    {
+                    stubReqest(resource, "PATCH")
+                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                        .withBody("brown=cow&foo=bar&how=now")
+                        .andReturn(200)
+
+                    awaitResponse(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
+                    }
+
+                it("escapes url-encoded param data")
+                    {
+                    stubReqest(resource, "PATCH")
+                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
+                        .andReturn(200)
+
+                    awaitResponse(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
                 }
             }
