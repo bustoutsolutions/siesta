@@ -262,7 +262,7 @@ public class Resource: CustomDebugStringConvertible
         self.latestError = nil
         self.latestData = data
         
-        notifyObservers(.NewDataResponse)
+        notifyObservers(.NewData)
         }
 
     private func updateStateWithDataNotModified(rawResp: NSURLResponse?)
@@ -272,7 +272,7 @@ public class Resource: CustomDebugStringConvertible
         self.latestError = nil
         self.latestData?.touch()
         
-        notifyObservers(.NotModifiedResponse)
+        notifyObservers(.NotModified)
         }
     
     private func updateStateWithError(error: Error, rawResp: NSURLResponse?)
@@ -289,7 +289,7 @@ public class Resource: CustomDebugStringConvertible
         
         self.latestError = error
 
-        notifyObservers(.ErrorResponse)
+        notifyObservers(.Error)
         }
     
     // MARK: Debug

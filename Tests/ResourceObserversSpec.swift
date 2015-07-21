@@ -72,7 +72,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewDataResponse)
+                observer().expect(.NewData)
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
@@ -85,13 +85,13 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewDataResponse)
+                observer().expect(.NewData)
                 awaitResponse(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 
                 stubReqest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
-                observer().expect(.NotModifiedResponse)
+                observer().expect(.NotModified)
                     {
                     expect(resource().loading).to(beFalse())
                     }
@@ -102,7 +102,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
-                observer().expect(.ErrorResponse)
+                observer().expect(.Error)
                 awaitResponse(resource().load())
                 }
 
@@ -126,7 +126,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(500)
                 observer().expect(.Requested)
-                observer().expect(.ErrorResponse)
+                observer().expect(.Error)
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).to(beNil())
@@ -157,7 +157,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitResponse(resource().load())
                 
                 expect(events.map {$0.rawValue }).to(equal(
-                    ["ObserverAdded", "Requested", "NewDataResponse"]))
+                    ["ObserverAdded", "Requested", "NewData"]))
                 }
             
             it("is not added twice if it is an object")
@@ -166,7 +166,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewDataResponse)
+                observer().expect(.NewData)
                 awaitResponse(resource().load())
                 }
             
@@ -187,7 +187,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     if(stillObserving)
                         {
                         observer().expect(.Requested)
-                        observer().expect(.NewDataResponse)
+                        observer().expect(.NewData)
                         }
                     awaitResponse(resource().load())
                     }

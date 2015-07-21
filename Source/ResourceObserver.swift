@@ -23,12 +23,12 @@ public extension ResourceObserver
 
 public enum ResourceEvent: String
     {
-    case ObserverAdded  // Sent only to the newly attached observer, not all observers
+    case ObserverAdded     // Sent only to the newly attached observer, not all observers
     case Requested
     case RequestCancelled
-    case NewDataResponse
-    case NotModifiedResponse
-    case ErrorResponse
+    case NewData
+    case NotModified
+    case Error
     }
 
 public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
