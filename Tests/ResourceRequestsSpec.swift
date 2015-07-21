@@ -30,13 +30,13 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("fetches the resource")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().request(.GET))
+                awaitNewData(resource().request(.GET))
                 }
             
             it("handles various HTTP methods")
                 {
                 stubReqest(resource, "PATCH").andReturn(200)
-                awaitResponse(resource().request(.PATCH))
+                awaitNewData(resource().request(.PATCH))
                 }
             
             it("does not mark that the resource is loading")
@@ -47,14 +47,14 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().request(.GET)
                 expect(resource().loading).to(beFalse())
                 
-                awaitResponse(req)
+                awaitNewData(req)
                 expect(resource().loading).to(beFalse())
                 }
 
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().request(.GET))
+                awaitNewData(resource().request(.GET))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -71,7 +71,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody(nsdata)
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.POST, data: nsdata, mimeType: "application/monkey"))
+                    awaitNewData(resource().request(.POST, data: nsdata, mimeType: "application/monkey"))
                     }
                 
                 it("handles string data")
@@ -81,7 +81,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("Très bien!")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.POST, text: "Très bien!"))
+                    awaitNewData(resource().request(.POST, text: "Très bien!"))
                     }
                 
                 it("handles string encoding errors")
@@ -96,7 +96,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.PUT, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
+                    awaitNewData(resource().request(.PUT, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
                     }
                 
                 it("handles JSON encoding errors")
@@ -111,7 +111,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("brown=cow&foo=bar&how=now")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
+                    awaitNewData(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
                     }
 
                 it("escapes url-encoded param data")
@@ -121,7 +121,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
                         .andReturn(200)
 
-                    awaitResponse(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
+                    awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
                 }
             }
@@ -136,7 +136,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 expect(resource().loading).to(beTrue())
                 
-                awaitResponse(req)
+                awaitNewData(req)
                 expect(resource().loading).to(beFalse())
                 }
             
@@ -152,12 +152,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().loadRequests).to(beIdentialObjects([req0, req1]))
                 
                 startDelayedRequest(req0)
-                awaitResponse(req0)
+                awaitNewData(req0)
                 expect(resource().loading).to(beTrue())
                 expect(resource().loadRequests).to(beIdentialObjects([req1]))
                 
                 startDelayedRequest(req1)
-                awaitResponse(req1)
+                awaitNewData(req1)
                 expect(resource().loading).to(beFalse())
                 expect(resource().loadRequests).to(beIdentialObjects([]))
                 }
@@ -166,7 +166,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                     .withBody("eep eep")
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(resource().latestData).notTo(beNil())
                 expect(dataAsString(resource().data)).to(equal("eep eep"))
@@ -176,7 +176,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(resource().latestData?.mimeType).to(equal("text/monkey"))
                 }
@@ -186,7 +186,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let monkeyType = "text/monkey; body=fuzzy; charset=euc-jp; arms=long"
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("Content-type", monkeyType)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(resource().latestData?.mimeType).to(equal(monkeyType))
                 expect(resource().latestData?.charset).to(equal("euc-jp"))
@@ -195,7 +195,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("defaults content type to raw binary")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 // Although Apple's NSURLResponse.MIMEType defaults to text/plain,
                 // the correct default content type for HTTP is application/octet-stream.
@@ -208,7 +208,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("Personal-Disposition", "Quirky")
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(resource().latestData?.header("Personal-Disposition")).to(equal("Quirky"))
                 expect(resource().latestData?.header("pErsonal-dIsposition")).to(equal("Quirky"))
@@ -218,7 +218,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("handles missing etag")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(resource().latestData?.etag).to(beNil())
                 }
@@ -230,7 +230,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("eTaG", "123 456 xyz")
                     .withHeader("Content-Type", "applicaiton/zoogle+plotz")
                     .withBody("zoogleplotz")
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
             
@@ -255,7 +255,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     stubReqest(resource, "GET")
                         .withHeader("If-None-Match", "123 456 xyz")
                         .andReturn(304)
-                    awaitResponse(resource().load())
+                    awaitNotModified(resource().load())
                     }
                 
                 it("handles subsequent 200 by replacing data")
@@ -265,7 +265,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withHeader("eTaG", "ABC DEF 789")
                         .withHeader("Content-Type", "applicaiton/ploogle+zotz")
                         .withBody("plooglezotz")
-                    awaitResponse(resource().load())
+                    awaitNewData(resource().load())
                         
                     expect(dataAsString(resource().data)).to(equal("plooglezotz"))
                     expect(resource().latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
@@ -275,7 +275,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 it("handles subsequent 304 by keeping existing data")
                     {
                     stubReqest(resource, "GET").andReturn(304)
-                    awaitResponse(resource().load())
+                    awaitNotModified(resource().load())
                     
                     expectDataToBeUnchanged()
                     expect(resource().latestError).to(beNil())
@@ -286,7 +286,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let sampleError = NSError(domain: "TestDomain", code: 12345, userInfo: nil)
                 stubReqest(resource, "GET").andFailWithError(sampleError)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
@@ -301,7 +301,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 it("treats HTTP \(statusCode) as an error")
                     {
                     stubReqest(resource, "GET").andReturn(statusCode)
-                    awaitResponse(resource().load())
+                    awaitFailure(resource().load())
                     
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
@@ -314,7 +314,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 sendAndWaitForSuccessfulRequest()
 
                 stubReqest(resource, "GET").andReturn(500)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 
                 expectDataToBeUnchanged()
                 }
@@ -328,7 +328,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 startDelayedRequest(req)
-                awaitResponse(req)
+                awaitFailure(req)
 
                 expectDataToBeUnchanged()
                 expect(resource().latestError).to(beNil())
@@ -342,7 +342,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     domain: "TestDomain", code: 12345,
                     userInfo: [NSLocalizedDescriptionKey: "KABOOM"])
                 stubReqest(resource, "GET").andFailWithError(sampleError)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 
                 expect(resource().latestError?.userMessage).to(equal("KABOOM"))
                 }
@@ -350,7 +350,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("generates error messages from HTTP status codes")
                 {
                 stubReqest(resource, "GET").andReturn(404)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 
                 expect(resource().latestError?.userMessage).to(equal("Server error: not found"))
                 }
@@ -364,11 +364,12 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             func expectToLoad(@autoclosure req: () -> Request?)
                 {
+                LSNocilla.sharedInstance().clearStubs()
                 stubReqest(resource, "GET").andReturn(200) // Stub first...
                 let reqMaterialized = req()                // ...then allow loading
                 expect(reqMaterialized).notTo(beNil())
                 expect(resource().loading).to(beTrue())
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 }
             
             func expectNotToLoad(req: Request?)
@@ -416,7 +417,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     {
                     setResourceTime(1000)
                     stubReqest(resource, "GET").andReturn(404)
-                    awaitResponse(resource().load())
+                    awaitFailure(resource().load())
                     }
                 
                 it("does not retry soon")
@@ -456,7 +457,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("clears the latest error")
                 {
                 stubReqest(resource, "GET").andReturn(500)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
                 resource().localDataOverride(localData())

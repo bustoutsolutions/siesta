@@ -22,7 +22,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", contentType)
                     .withBody(string)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 }
             
             for textType in ["text/plain", "text/foo"]
@@ -92,7 +92,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", contentType)
                     .withBody(jsonStr)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 }
             
             for jsonType in ["application/json", "application/foo+json", "foo/json"]
@@ -116,7 +116,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "application/json")
                     .withBody("{\"foo\":•√£™˚")
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
@@ -153,7 +153,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubReqest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody("[1,\"two\"]")
-                    awaitResponse(resource().load())
+                    awaitNewData(resource().load())
                     expect(resource().array).to(equal([1,"two"] as NSArray))
                     }
 

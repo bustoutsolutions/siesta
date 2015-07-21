@@ -65,7 +65,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 
                 // Let Nocilla check off request without any further observing
                 resource().removeObservers(ownedBy: observer())
-                awaitResponse(req)
+                awaitNewData(req)
                 }
             
             it("receives new data event")
@@ -78,7 +78,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 }
 
             it("receives new data event from local override")
@@ -99,7 +99,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.NewData)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 
                 stubReqest(resource, "GET").andReturn(304)
@@ -108,7 +108,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     {
                     expect(resource().loading).to(beFalse())
                     }
-                awaitResponse(resource().load())
+                awaitNotModified(resource().load())
                 }
             
             it("receives error if server sends not modified but no local data")
@@ -116,7 +116,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
                 observer().expect(.Error)
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 }
 
             it("receives cancel event")
@@ -132,7 +132,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 startDelayedRequest(req)
-                awaitResponse(req)
+                awaitFailure(req)
                 }
             
             it("receives failure event")
@@ -145,13 +145,13 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
                     }
-                awaitResponse(resource().load())
+                awaitFailure(resource().load())
                 }
             
             it("does not receive notifications for request(), only load()")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().request(.GET))
+                awaitNewData(resource().request(.GET))
                 }
             
             it("can be a closure")
@@ -167,7 +167,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 
                 stubReqest(resource, "GET").andReturn(200)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 
                 expect(events.map {$0.rawValue }).to(equal(
                     ["ObserverAdded", "Requested", "NewData"]))
@@ -180,7 +180,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.NewData)
-                awaitResponse(resource().load())
+                awaitNewData(resource().load())
                 }
             
             context("with multiple owners")
@@ -202,7 +202,7 @@ class ResourceObserversSpec: ResourceSpecBase
                         observer().expect(.Requested)
                         observer().expect(.NewData)
                         }
-                    awaitResponse(resource().load())
+                    awaitNewData(resource().load())
                     }
                     
                 it("is not removed if self-ownership is not removed")
@@ -309,7 +309,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 // No observer expectations left, so this will fail if Resource still notifies observer
                 stubReqest(resource, "GET").andReturn(200)
                 startDelayedRequest(req)
-                awaitResponse(req)
+                awaitNewData(req)
                 }
             
             it("stops observing when self-owned observer is deallocated")
