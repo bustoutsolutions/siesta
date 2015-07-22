@@ -413,9 +413,9 @@ class ProfileViewController: UIViewController, ResourceObserver {
 Or in Objective-C:
 
 ```objc
-@interface ProfileViewController: UIViewController <ResourceObserverObjc>
+@interface ProfileViewController: UIViewController <BOSResourceObserver>
 @property (weak,nonatomic) IBOutlet UILabel *nameLabel, *favoriteColorLabel;
-@property (strong,nonatomic) ResourceStatusOverlay *statusOverlay;
+@property (strong,nonatomic) BOSResourceStatusOverlay *statusOverlay;
 @end
 
 @implementation ProfileViewController
@@ -423,7 +423,7 @@ Or in Objective-C:
 - (void) viewDidLoad {
     super.viewDidLoad()
 
-    self.statusOverlay = [[[ResourceStatusOverlay alloc] init] embedIn:self];
+    self.statusOverlay = [[[BOSResourceStatusOverlay alloc] init] embedIn:self];
 
     [[MyAPI.instance.profile
         addObserver:self]
@@ -439,7 +439,7 @@ Or in Objective-C:
     [MyAPI.instance.profile loadIfNeeded];
 }
 
-- (void) resourceChanged: (Resource*) resource event: (NSString*) event {
+- (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
     id json = resource.dict;
     nameLabel.text = json[@"name"];
     favoriteColorLabel.text = json[@"favoriteColor"];
