@@ -12,25 +12,25 @@
 
 public extension Resource
     {
-    @objc(load)         public func loadObjc() { self.load() }
-    @objc(loadIfNeeded) public func loadIfNeededObjc() { self.loadIfNeeded() }
+    @objc(load)         public func _objc_load() { self.load() }
+    @objc(loadIfNeeded) public func _objc_loadIfNeeded() { self.loadIfNeeded() }
     }
 
 // MARK: - …because ResourceEvent is an enum
 
 @objc(BOSResourceObserver)
-public protocol ResourceObserverObjc
+public protocol _objc_ResourceObserver
     {
     func resourceChanged(resource: Resource, event: String)
     optional func resourceRequestProgress(resource: Resource)
     optional func stoppedObservingResource(resource: Resource)
     }
 
-private class ResourceObserverObjcGlue: ResourceObserver, CustomDebugStringConvertible
+private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringConvertible
     {
-    weak var objcObserver: ResourceObserverObjc?
+    weak var objcObserver: _objc_ResourceObserver?
     
-    init(objcObserver: ResourceObserverObjc)
+    init(objcObserver: _objc_ResourceObserver)
         { self.objcObserver = objcObserver }
 
     func resourceChanged(resource: Resource, event: ResourceEvent)
@@ -47,22 +47,22 @@ private class ResourceObserverObjcGlue: ResourceObserver, CustomDebugStringConve
         if objcObserver != nil
             { return debugStr(objcObserver) }
         else
-            { return "ResourceObserverObjcGlue<deallocated delegate>" }
+            { return "_objc_ResourceObserverGlue<deallocated delegate>" }
         }
     }
 
 public extension Resource
     {
     @objc(addObserver:)
-    public func addObserverObjc(objcObserverAndOwner: protocol<ResourceObserverObjc, AnyObject>) -> Self
-        { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserverAndOwner), owner: objcObserverAndOwner) }
+    public func _objc_addObserver(observerAndOwner: protocol<_objc_ResourceObserver, AnyObject>) -> Self
+        { return addObserver(_objc_ResourceObserverGlue(objcObserver: observerAndOwner), owner: observerAndOwner) }
 
     @objc(addObserver:owner:)
-    public func addObserverObjc(objcObserver: ResourceObserverObjc, owner: AnyObject) -> Self
-        { return addObserver(ResourceObserverObjcGlue(objcObserver: objcObserver), owner: owner) }
+    public func _objc_addObserver(objcObserver: _objc_ResourceObserver, owner: AnyObject) -> Self
+        { return addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
     }
 
-extension ResourceStatusOverlay: ResourceObserverObjc
+extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event: String)
         { self.resourceChanged(resource, event: ResourceEvent(rawValue: event)!) }
