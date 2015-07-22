@@ -7,6 +7,7 @@ iOS REST Client Framework
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
 * **Build requirements:** Xcode 7 beta, Swift 2.0, Carthage
+* **License:** MIT
 * **Status:** Alpha, in active development. Works well, but API still in flux. Seeking feedback. Please experiment!
 
 
