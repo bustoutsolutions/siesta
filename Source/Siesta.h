@@ -15,7 +15,7 @@ FOUNDATION_EXPORT double SiestaVersionNumber;
 FOUNDATION_EXPORT const unsigned char SiestaVersionString[];
 
 // Workaround for https://github.com/bustoutsolutions/siesta/issues/1
-#define BOSService               Service
-#define BOSResource              Resource
-#define BOSResourceObserver      _objc_ResourceObserver
-#define BOSResourceStatusOverlay ResourceStatusOverlay
+#define Service                BOSService
+#define Resource               BOSResource
+#define _objc_ResourceObserver BOSResourceObserver
+#define ResourceStatusOverlay  BOSResourceStatusOverlay
