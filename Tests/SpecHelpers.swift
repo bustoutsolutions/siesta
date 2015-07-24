@@ -30,17 +30,25 @@ func simulateMemoryWarning()
             object: nil)
     }
 
-func beIdentialObjects<T:AnyObject>(expectedArray: [T]) -> MatcherFunc<[T]>
+func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
     {
-    return MatcherFunc
+    func makeIdent(x: T) -> ObjectIdentifier
+        {
+        if let obj = x as? AnyObject
+            { return ObjectIdentifier(obj) }
+        else
+            { return ObjectIdentifier(NSObject()) }   // ident not equal to anything else, so fails non-objects in Array
+        }
+    
+    return NonNilMatcherFunc
         { inputs, failureMessage in
-        
+
         let actualArray = inputs.evaluate()!
         failureMessage.stringValue =
             "expected \(expectedArray)"
             + " but got \(actualArray)"
         
-        return expectedArray.map { ObjectIdentifier($0).uintValue }
-            ==   actualArray.map { ObjectIdentifier($0).uintValue }
+        return expectedArray.map(makeIdent)
+            ==   actualArray.map(makeIdent)
         }
     }

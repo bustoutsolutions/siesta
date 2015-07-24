@@ -9,10 +9,11 @@
 import Alamofire
 
 // Overridable for testing
-internal var now = { return NSDate.timeIntervalSinceReferenceDate() }
+internal var fakeNow: NSTimeInterval?
+internal let now = { fakeNow ?? NSDate.timeIntervalSinceReferenceDate() }
 
 @objc(BOSResource)
-public class Resource: CustomDebugStringConvertible
+public class Resource: NSObject, CustomDebugStringConvertible
     {
     // MARK: Configuration
     
@@ -62,6 +63,8 @@ public class Resource: CustomDebugStringConvertible
         {
         self.service = service
         self.url = url?.absoluteURL
+        
+        super.init()
         
         NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
@@ -300,7 +303,7 @@ public class Resource: CustomDebugStringConvertible
     
     // MARK: Debug
     
-    public var debugDescription: String
+    public override var debugDescription: String
         {
         return "Siesta.Resource("
             + debugStr(url)

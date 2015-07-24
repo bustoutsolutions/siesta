@@ -27,9 +27,7 @@ class ResourceSpecBase: QuickSpec
         
         beforeEach  { Manager.sharedInstance.startRequestsImmediately = true }  // default, but some tests change it
         
-        var originalNowProvider = now
-        beforeEach { originalNowProvider = now }
-        afterEach  { now = originalNowProvider }
+        afterEach  { fakeNow = nil }
         
         let service  = specVar { Service(base: "https://zingle.frotz/v1") },
             resource = specVar { service().resource("/a/b") }
@@ -98,5 +96,5 @@ func startDelayedRequest(req: Siesta.Request)
 
 func setResourceTime(time: NSTimeInterval)
     {
-    now = { time }
+    fakeNow = time
     }
