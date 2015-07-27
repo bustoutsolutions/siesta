@@ -43,7 +43,7 @@ func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
     return NonNilMatcherFunc
         { inputs, failureMessage in
 
-        let actualArray = inputs.evaluate()!
+        let actualArray = try! inputs.evaluate()!
         failureMessage.stringValue =
             "expected \(expectedArray)"
             + " but got \(actualArray)"

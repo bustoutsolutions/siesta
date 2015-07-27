@@ -110,7 +110,7 @@ internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
         }
     }
 
-private func processResponse(resource: Resource, _ responseData: (NSURLRequest?, NSHTTPURLResponse?, AnyObject?, NSError?))
+private func processResponse(resource: Resource, _ responseData: (NSURLRequest?, NSHTTPURLResponse?, NSData?, NSError?))
     -> (response: Response, newData: Bool)
     {
     let (_, nsres, payload, nserror) = responseData

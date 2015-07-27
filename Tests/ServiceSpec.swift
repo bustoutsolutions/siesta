@@ -88,7 +88,7 @@ func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
         {
         actual, failureMessage in
 
-        let base = actual.evaluate() ?? "",
+        let base = try! actual.evaluate() ?? "",
             service = Service(base: base),
             actualURL = service.baseURL?.absoluteString
         failureMessage.stringValue =
@@ -105,7 +105,7 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
         {
         inputs, failureMessage in
         
-        let (base, resourcePath) = inputs.evaluate()!,
+        let (base, resourcePath) = try! inputs.evaluate()!,
             service = Service(base: base),
             resource = service.resource(resourcePath),
             actualURL = resource.url?.absoluteString

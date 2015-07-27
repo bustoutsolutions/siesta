@@ -1,1 +1,1 @@
-github "Alamofire/Alamofire" "swift-2.0"
+github "pcantrell/Alamofire" "fix-610-ServerTrustPolicy-compiler-crash"

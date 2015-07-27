@@ -150,7 +150,7 @@ private func resourceExpansionMatcher(
     return MatcherFunc
         { inputs, failureMessage in
         
-        let (resource, path) = inputs.evaluate()!,
+        let (resource, path) = try! inputs.evaluate()!,
             actualURL = relationship(resource, path).url?.absoluteString
         failureMessage.stringValue =
             "expected \(relationshipName) \(path.debugDescription)"
