@@ -7,15 +7,14 @@
 //
 
 import Foundation
-import Alamofire
 
 // TODO: Need prefix in Obj-C?
 @objc(BOSService)
 public class Service: NSObject
     {
     public let baseURL: NSURL?
-    public let sessionManager: Manager
     
+    public let transportProvider: TransportProvider
     public let responseTransformers: TransformerSequence = TransformerSequence()
     
     public var defaultExpirationTime: NSTimeInterval = 300
@@ -24,8 +23,8 @@ public class Service: NSObject
     private var resourceCache = WeakCache<String,Resource>()
     
     public init(
-            base: URLStringConvertible,
-            sessionManager: Manager = Manager.sharedInstance)
+            base: String,
+            transportProvider: TransportProvider = AlamofireTransportProvider())
         {
         self.baseURL = NSURL(string: base.URLString)?.alterPath
             {
@@ -34,15 +33,10 @@ public class Service: NSObject
                 ? path + "/"
                 : path
             }
-        self.sessionManager = sessionManager
+        self.transportProvider = transportProvider
         
         responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
         responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
-        }
-    
-    public convenience init(base: URLStringConvertible, configuration: NSURLSessionConfiguration)
-        {
-        self.init(base: base, sessionManager: Manager(configuration: configuration))
         }
     
     @objc(resourceWithURL:)
@@ -61,3 +55,9 @@ public class Service: NSObject
         return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
     }
+
+public protocol TransportProvider
+    {
+    func buildRequest(nsreq: NSURLRequest, resource: Resource) -> Request
+    }
+

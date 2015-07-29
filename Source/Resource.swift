@@ -6,7 +6,6 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-import Alamofire
 
 // Overridable for testing
 internal var fakeNow: NSTimeInterval?
@@ -110,7 +109,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
     // MARK: Requests
     
     public func request(
-            method:          Alamofire.Method,
+            method:          RequestMethod,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
@@ -119,17 +118,11 @@ public class Resource: NSObject, CustomDebugStringConvertible
         requestMutation(nsreq)
         debugLog([nsreq.HTTPMethod, nsreq.URL])
 
-        let alamoReq = service.sessionManager.request(nsreq)
-            .response
-                {
-                nsreq, nsres, payload, nserror in
-                debugLog([nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
-                }
-        return AlamofireSiestaRequest(resource: self, alamofireRequest: alamoReq)
+        return service.transportProvider.buildRequest(nsreq, resource: self)
         }
     
     public func request(
-            method:          Alamofire.Method,
+            method:          RequestMethod,
             data:            NSData,
             mimeType:        String,
             requestMutation: NSMutableURLRequest -> () = { _ in })
@@ -147,7 +140,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         }
     
     public func request(
-            method:          Alamofire.Method,
+            method:          RequestMethod,
             text:            String,
             encoding:        NSStringEncoding = NSUTF8StringEncoding,
             requestMutation: NSMutableURLRequest -> () = { _ in })
@@ -166,7 +159,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         }
 
     public func request(
-            method:          Alamofire.Method,
+            method:          RequestMethod,
             json:            NSJSONConvertible,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
@@ -191,7 +184,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         }
     
     public func request(
-            method:            Alamofire.Method,
+            method:            RequestMethod,
             urlEncoded params: [String:String],
             requestMutation:   NSMutableURLRequest -> () = { _ in })
         -> Request

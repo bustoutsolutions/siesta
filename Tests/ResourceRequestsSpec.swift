@@ -143,7 +143,11 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("tracks concurrent requests")
                 {
                 delayRequestsForThisSpec()
-                defer { service().sessionManager.startRequestsImmediately = true }
+                defer
+                    {
+                    let transport = service().transportProvider as! AlamofireTransportProvider
+                    transport.sessionManager.startRequestsImmediately = true
+                    }
                 
                 stubReqest(resource, "GET").andReturn(200)
                 let req0 = resource().load(),

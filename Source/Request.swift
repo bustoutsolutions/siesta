@@ -6,6 +6,15 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+public enum RequestMethod: String
+    {
+    case GET
+    case POST
+    case PUT
+    case PATCH
+    case DELETE
+    }
+
 public typealias AnyResponseCalback = Response -> Void
 public typealias SuccessCallback = Resource.Data -> Void
 public typealias NotModifiedCallback = Void -> Void

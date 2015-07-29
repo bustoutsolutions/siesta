@@ -8,6 +8,27 @@
 
 import Alamofire
 
+public class AlamofireTransportProvider: TransportProvider
+    {
+    public let sessionManager: Manager
+    
+    public init(sessionManager: Manager = Manager.sharedInstance)
+        {
+        self.sessionManager = sessionManager
+        }
+    
+    public func buildRequest(nsreq: NSURLRequest, resource: Resource) -> Request
+        {
+        let alamoReq = sessionManager.request(nsreq)
+            .response
+                {
+                nsreq, nsres, payload, nserror in
+                debugLog([nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
+                }
+        return AlamofireSiestaRequest(resource: resource, alamofireRequest: alamoReq)
+        }
+    }
+
 internal class AlamofireSiestaRequest: Request, CustomDebugStringConvertible
     {
     private let resource: Resource
