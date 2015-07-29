@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: Need prefix in Obj-C?
 @objc(BOSService)
 public class Service: NSObject
     {

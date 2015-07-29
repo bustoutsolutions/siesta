@@ -10,8 +10,7 @@ extension Resource
     {
     public struct Data
         {
-        public var payload: AnyObject // TODO: Can result transformer + generics fix AnyObject?
-                                      // Probably service-wide default data type + per-resource override that requires “as?”
+        public var payload: AnyObject
         public var mimeType: String
         public var charset: String?
         public var etag: String?
