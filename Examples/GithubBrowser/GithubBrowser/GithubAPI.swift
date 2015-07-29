@@ -14,7 +14,10 @@ class GithubAPI: Service {
     
     init() {
         super.init(base: "https://api.github.com")
-        Siesta.debug = true
+        
+        #if DEBUG
+            Siesta.enabledLogCategories = LogCategory.common
+        #endif
     }
     
     // Resource convenience accessors
