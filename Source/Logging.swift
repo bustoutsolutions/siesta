@@ -17,8 +17,9 @@ public enum LogCategory: String
     case Observers
     case Staleness
     
-    public static let all: Set<LogCategory> =
-        [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness]
+    public static let
+        common: Set<LogCategory> = [Network,                                       .StateChanges,             .Staleness],
+        all:    Set<LogCategory> = [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness]
     }
 
 public var enabledLogCategories = Set<LogCategory>()
