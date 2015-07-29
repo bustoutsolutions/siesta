@@ -30,7 +30,7 @@ public extension ResponseTransformer
     {
     func logTransformation(result: Response) -> Response
         {
-        debugLog([self, "→", result])
+        debugLog(.ResponseProcessing, [self, "→", result])
         return result
         }
     }
@@ -62,7 +62,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             case .DATA(let data):
                 if contentTypeMatcher.matches(data.mimeType)
                     {
-                    debugLog([delegate, "matches content type", debugStr(data.mimeType)])
+                    debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(data.mimeType)])
                     return delegate.process(response)
                     }
                 else
@@ -163,7 +163,7 @@ public struct TextTransformer: ResponseDataTransformer
         {
         if data.payload as? String != nil
             {
-            debugLog([self, "ignoring payload because it is already a String"])
+            debugLog(.ResponseProcessing, [self, "ignoring payload because it is already a String"])
             return .DATA(data)
             }
         

@@ -23,7 +23,7 @@ public class AlamofireTransportProvider: TransportProvider
             .response
                 {
                 nsreq, nsres, payload, nserror in
-                debugLog([nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
+                debugLog(.Network, [nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
                 }
         return AlamofireSiestaRequest(resource: resource, alamofireRequest: alamoReq)
         }
@@ -166,7 +166,7 @@ private func processResponse(resource: Resource, _ responseData: (NSURLRequest?,
         response = .ERROR(Resource.Error(userMessage: "Empty response"))
         }
     
-    debugLog(["Raw response:", response])
+    debugLog(.NetworkDetails, ["Raw response:", response])
     response = resource.service.responseTransformers.process(response)
     
     return (response, newData)

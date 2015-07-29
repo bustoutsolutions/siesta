@@ -8,15 +8,26 @@
 
 import Foundation
 
-/// Enables debug logging.
-public var debug = false
-
-internal func debugLog(@autoclosure messageParts: () -> [Any?])
+public enum LogCategory: String
     {
-    if debug
-        {
-        print("[Siesta] \(debugStr(messageParts()))")
-        }
+    case Network
+    case NetworkDetails
+    case ResponseProcessing
+    case StateChanges
+    case Observers
+    case Staleness
+    
+    public static let all: Set<LogCategory> =
+        [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness]
+    }
+
+public var enabledLogCategories = Set<LogCategory>()
+public var logger: (LogCategory, String) -> Void = { print("[Siesta:\($0.rawValue)] \($1)") }
+
+internal func debugLog(category: LogCategory, @autoclosure _ messageParts: () -> [Any?])
+    {
+    if enabledLogCategories.contains(category)
+        { logger(category, debugStr(messageParts())) }
     }
 
 private let whitespacePat = NSRegularExpression.compile("\\s+")

@@ -19,7 +19,7 @@ class ResourceSpecBase: QuickSpec
     
     override final func spec()
         {
-        beforeSuite { Siesta.debug = true }
+        beforeSuite { Siesta.enabledLogCategories = LogCategory.all }
         
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }

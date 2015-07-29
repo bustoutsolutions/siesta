@@ -116,7 +116,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         let nsreq = NSMutableURLRequest(URL: url!)
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
-        debugLog([nsreq.HTTPMethod, nsreq.URL])
+        debugLog(.Network, [nsreq.HTTPMethod, nsreq.URL])
 
         return service.transportProvider.buildRequest(nsreq, resource: self)
         }
@@ -208,7 +208,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         {
         if(loading)
             {
-            debugLog([self, "loadIfNeeded(): is up to date; no need to load"])
+            debugLog(.Staleness, [self, "loadIfNeeded(): load already in progress"])
             return nil  // TODO: should this return existing request instead?
             }
         
@@ -218,11 +218,11 @@ public class Resource: NSObject, CustomDebugStringConvertible
         
         if(now() - timestamp <= maxAge)
             {
-            debugLog([self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
+            debugLog(.Staleness, [self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
             return nil
             }
         
-        debugLog([self, "loadIfNeeded() triggered load()"])
+        debugLog(.Staleness, [self, "loadIfNeeded() triggered load()"])
         return self.load()
         }
     
@@ -259,7 +259,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
     
     private func receiveData(data: Data, localOverride: Bool)
         {
-        debugLog([self, "received new data from", localOverride ? "a local override:" : "the network:", data])
+        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", data])
         
         self.latestError = nil
         self.latestData = data
@@ -269,7 +269,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
 
     private func receiveDataNotModified()
         {
-        debugLog([self, "existing data is still valid"])
+        debugLog(.StateChanges, [self, "existing data is still valid"])
         
         self.latestError = nil
         self.latestData?.touch()
@@ -287,7 +287,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             return
             }
 
-        debugLog([self, "received error:", error])
+        debugLog(.StateChanges, [self, "received error:", error])
         
         self.latestError = error
 
