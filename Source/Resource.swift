@@ -244,7 +244,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             }
         req.newData(self.receiveData)
         req.notModified(self.receiveDataNotModified)
-        req.error(self.receiveError)
+        req.failure(self.receiveError)
 
         self.notifyObservers(.Requested)
 
@@ -319,11 +319,11 @@ private class FailedRequest: Request
     
     func response(callback: AnyResponseCalback) -> Self
         {
-        dispatch_async(dispatch_get_main_queue(), { callback(.ERROR(self.error)) })
+        dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
         return self
         }
     
-    func error(callback: ErrorCallback) -> Self
+    func failure(callback: ErrorCallback) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
         return self

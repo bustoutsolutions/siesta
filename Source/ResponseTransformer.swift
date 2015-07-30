@@ -6,21 +6,6 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-public enum Response: CustomStringConvertible
-    {
-    case DATA(Resource.Data)
-    case ERROR(Resource.Error)
-    
-    public var description: String
-        {
-        switch(self)
-            {
-            case .DATA(let value):  return debugStr(value)
-            case .ERROR(let value): return debugStr(value)
-            }
-        }
-    }
-
 public protocol ResponseTransformer
     {
     func process(response: Response) -> Response
@@ -59,7 +44,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
         {
         switch(response)
             {
-            case .DATA(let data):
+            case .Success(let data):
                 if contentTypeMatcher.matches(data.mimeType)
                     {
                     debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(data.mimeType)])
@@ -68,7 +53,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 else
                     { return response }
             
-            case .ERROR:
+            case .Failure:
                 return response
             }
         }
@@ -122,14 +107,14 @@ public protocol ResponseDataTransformer: ResponseTransformer
 public extension ResponseDataTransformer
     {
     func processData(data: Resource.Data) -> Response
-        { return .DATA(data) }
+        { return .Success(data) }
 
     final func process(response: Response) -> Response
         {
         switch(response)
             {
-            case .DATA(let data): return processData(data)
-            case .ERROR:          return response
+            case .Success(let data): return processData(data)
+            case .Failure:           return response
             }
         }
     }
@@ -148,7 +133,7 @@ public extension ResponseTransformer
         else
             {
             return logTransformation(
-                .ERROR(Resource.Error(
+                .Failure(Resource.Error(
                     userMessage: "Cannot parse response",
                     debugMessage: "Expected \(T.self), but got \(data.payload.dynamicType)")))
             }
@@ -164,7 +149,7 @@ public struct TextTransformer: ResponseDataTransformer
         if data.payload as? String != nil
             {
             debugLog(.ResponseProcessing, [self, "ignoring payload because it is already a String"])
-            return .DATA(data)
+            return .Success(data)
             }
         
         return requireDataType(data)
@@ -178,7 +163,7 @@ public struct TextTransformer: ResponseDataTransformer
             if encoding == UInt(kCFStringEncodingInvalidId)
                 {
                 return logTransformation(
-                    .ERROR(Resource.Error(
+                    .Failure(Resource.Error(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Invalid encoding: \(charsetName)")))
                 }
@@ -187,12 +172,12 @@ public struct TextTransformer: ResponseDataTransformer
                 var newData = data
                 newData.payload = string
                 return logTransformation(
-                    .DATA(newData))
+                    .Success(newData))
                 }
             else
                 {
                 return logTransformation(
-                    .ERROR(Resource.Error(
+                    .Failure(Resource.Error(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Using encoding: \(charsetName)")))
                 }
@@ -212,12 +197,12 @@ public struct JsonTransformer: ResponseDataTransformer
                 var newData = data
                 newData.payload = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
                 return logTransformation(
-                    .DATA(newData))
+                    .Success(newData))
                 }
             catch
                 {
                 return logTransformation(
-                    .ERROR(Resource.Error(userMessage: "Cannot parse JSON", error: error as NSError)))
+                    .Failure(Resource.Error(userMessage: "Cannot parse JSON", error: error as NSError)))
                 }
             }
         }

@@ -213,13 +213,13 @@ private class TestTransformer: ResponseTransformer
         callCount++
         switch(response)
             {
-            case .DATA(var data):
+            case .Success(var data):
                 data.payload = (data.payload as? String ?? "<nil>") + " processed"
-                return .DATA(data)
+                return .Success(data)
             
-            case .ERROR(var error):
+            case .Failure(var error):
                 error.userMessage += " processed"
-                return .ERROR(error)
+                return .Failure(error)
             }
         }
     }

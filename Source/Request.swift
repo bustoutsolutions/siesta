@@ -26,9 +26,24 @@ public protocol Request: AnyObject
     func success(callback: SuccessCallback) -> Self          // success, may be same data
     func newData(callback: SuccessCallback) -> Self          // success, data modified
     func notModified(callback: NotModifiedCallback) -> Self  // success, data not modified
-    func error(callback: ErrorCallback) -> Self              // failure
+    func failure(callback: ErrorCallback) -> Self            // error of any kind
     
     func cancel()
+    }
+
+public enum Response: CustomStringConvertible
+    {
+    case Success(Resource.Data)
+    case Failure(Resource.Error)
+    
+    public var description: String
+        {
+        switch(self)
+            {
+            case .Success(let value): return debugStr(value)
+            case .Failure(let value): return debugStr(value)
+            }
+        }
     }
 
 private typealias ResponseInfo = (response: Response, isNew: Bool)
@@ -63,18 +78,18 @@ public class AbstractRequest: Request
         {
         if nsres?.statusCode >= 400 || nserror != nil
             {
-            return (.ERROR(Resource.Error(nsres, body, nserror)), true)
+            return (.Failure(Resource.Error(nsres, body, nserror)), true)
             }
         else if nsres?.statusCode == 304
             {
             if let data = resource.latestData
                 {
-                return (.DATA(data), false)
+                return (.Success(data), false)
                 }
             else
                 {
                 return(
-                    .ERROR(Resource.Error(
+                    .Failure(Resource.Error(
                         userMessage: "No data",
                         debugMessage: "Received HTTP 304, but resource has no existing data")),
                     true)
@@ -82,11 +97,11 @@ public class AbstractRequest: Request
             }
         else if let body = body
             {
-            return (.DATA(Resource.Data(nsres, body)), true)
+            return (.Success(Resource.Data(nsres, body)), true)
             }
         else
             {
-            return (.ERROR(Resource.Error(userMessage: "Empty response")), true)
+            return (.Failure(Resource.Error(userMessage: "Empty response")), true)
             }
         }
     
@@ -127,7 +142,7 @@ public class AbstractRequest: Request
         addResponseCallback
             {
             response, _ in
-            if case .DATA(let data) = response
+            if case .Success(let data) = response
                 { callback(data) }
             }
         return self
@@ -138,7 +153,7 @@ public class AbstractRequest: Request
         addResponseCallback
             {
             response, isNew in
-            if case .DATA(let data) = response where isNew
+            if case .Success(let data) = response where isNew
                 { callback(data) }
             }
         return self
@@ -149,18 +164,18 @@ public class AbstractRequest: Request
         addResponseCallback
             {
             response, isNew in
-            if case .DATA = response where !isNew
+            if case .Success = response where !isNew
                 { callback() }
             }
         return self
         }
     
-    public func error(callback: ErrorCallback) -> Self
+    public func failure(callback: ErrorCallback) -> Self
         {
         addResponseCallback
             {
             response, _ in
-            if case .ERROR(let error) = response
+            if case .Failure(let error) = response
                 { callback(error) }
             }
         return self
