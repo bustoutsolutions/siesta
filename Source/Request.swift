@@ -95,9 +95,10 @@ public class AbstractRequest: Request
         let transformer = resource.service.responseTransformers
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
-            let processedInfo = (
-                transformer.process(rawInfo.response),
-                rawInfo.isNew)
+            let processedInfo =
+                rawInfo.isNew
+                    ? (transformer.process(rawInfo.response), true)
+                    : rawInfo
             
             dispatch_async(dispatch_get_main_queue())
                 { callback(processedInfo) }

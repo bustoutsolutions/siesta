@@ -188,6 +188,18 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.userMessage).to(equal("Server error: unauthorized processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
+            
+            it("does not reprocess existing data on 304")
+                {
+                stubText("ahoy")
+
+                LSNocilla.sharedInstance().clearStubs()
+                stubReqest(resource, "GET").andReturn(304)
+                awaitNotModified(resource().load())
+                
+                expect(resource().data as? String).to(equal("ahoy processed"))
+                expect(transformer().callCount).to(equal(1))
+                }
             }
         }
     }
