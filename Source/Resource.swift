@@ -118,7 +118,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         requestMutation(nsreq)
         debugLog(.Network, [nsreq.HTTPMethod, nsreq.URL])
 
-        return service.transportProvider.buildRequest(nsreq, resource: self)
+        return service.transportProvider.startRequest(nsreq, resource: self)
         }
     
     public func request(

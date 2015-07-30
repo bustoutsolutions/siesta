@@ -57,6 +57,6 @@ public class Service: NSObject
 
 public protocol TransportProvider
     {
-    func buildRequest(nsreq: NSURLRequest, resource: Resource) -> Request
+    func startRequest(nsreq: NSURLRequest, resource: Resource) -> Request
     }
 

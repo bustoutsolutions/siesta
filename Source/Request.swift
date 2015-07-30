@@ -62,15 +62,13 @@ public class AbstractRequest: Request
     
     public func handleResponse(nsreq: NSURLRequest?, nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
+        debugLog(.Network, [nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
+        
         let responseInfo = interpretResponse(nsres, body, nserror)
         
         debugLog(.NetworkDetails, ["Raw response:", responseInfo.response])
         
         processPayload(responseInfo)
-            {
-            for callback in self.responseCallbacks
-                { callback($0) }
-            }
         }
     
     private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
@@ -105,7 +103,7 @@ public class AbstractRequest: Request
             }
         }
     
-    private func processPayload(rawInfo: ResponseInfo, callback: ResponseCallback)
+    private func processPayload(rawInfo: ResponseInfo)
         {
         let transformer = resource.service.responseTransformers
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
@@ -116,7 +114,7 @@ public class AbstractRequest: Request
                     : rawInfo
             
             dispatch_async(dispatch_get_main_queue())
-                { callback(processedInfo) }
+                { self.triggerCallbacks(processedInfo) }
             }
         }
     
@@ -184,5 +182,11 @@ public class AbstractRequest: Request
     private func addResponseCallback(callback: ResponseCallback)
         {
         responseCallbacks.append(callback)
+        }
+    
+    private func triggerCallbacks(responseInfo: ResponseInfo)
+        {
+        for callback in self.responseCallbacks
+            { callback(responseInfo) }
         }
     }

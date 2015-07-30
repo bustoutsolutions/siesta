@@ -17,16 +17,11 @@ public class AlamofireTransportProvider: TransportProvider
         self.sessionManager = sessionManager
         }
     
-    public func buildRequest(nsreq: NSURLRequest, resource: Resource) -> Request
+    public func startRequest(nsreq: NSURLRequest, resource: Resource) -> Request
         {
-        let alamoReq = sessionManager
-            .request(nsreq)
-            .response
-                {
-                nsreq, nsres, body, nserror in
-                debugLog(.Network, [nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
-                }
-        return AlamofireSiestaRequest(resource: resource, alamofireRequest: alamoReq)
+        return AlamofireSiestaRequest(
+            resource: resource,
+            alamofireRequest: sessionManager.request(nsreq))
         }
     }
 
