@@ -15,16 +15,16 @@ class ResponseDataHandlingSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
+        func stubText(string: String? = "zwobble", contentType: String = "text/plain")
+            {
+            stubReqest(resource, "GET").andReturn(200)
+                .withHeader("Content-Type", contentType)
+                .withBody(string)
+            awaitNewData(resource().load())
+            }
+        
         describe("plain text handling")
             {
-            func stubText(string: String? = "zwobble", contentType: String = "text/plain")
-                {
-                stubReqest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", contentType)
-                    .withBody(string)
-                awaitNewData(resource().load())
-                }
-            
             for textType in ["text/plain", "text/foo"]
                 {
                 it("parses \(textType) as text")
@@ -163,6 +163,51 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().array).to(equal(NSArray()))
                     }
                 }
+            }
+        
+        describe("custom transformer")
+            {
+            let transformer = specVar { TestTransformer() }
+            
+            beforeEach
+                {
+                service().responseTransformers.add(transformer())
+                }
+            
+            it("can transform data")
+                {
+                stubText("greetings")
+                expect(resource().data as? String).to(equal("greetings processed"))
+                expect(transformer().callCount).to(equal(1))
+                }
+            
+            it("can transform errors")
+                {
+                stubReqest(resource, "GET").andReturn(401)
+                awaitFailure(resource().load())
+                expect(resource().latestError?.userMessage).to(equal("Server error: unauthorized processed"))
+                expect(transformer().callCount).to(equal(1))
+                }
+            }
+        }
+    }
+
+private class TestTransformer: ResponseTransformer
+    {
+    var callCount = 0
+    
+    private func process(response: Response) -> Response
+        {
+        callCount++
+        switch(response)
+            {
+            case .DATA(var data):
+                data.payload = (data.payload as? String ?? "<nil>") + " processed"
+                return .DATA(data)
+            
+            case .ERROR(var error):
+                error.userMessage += " processed"
+                return .ERROR(error)
             }
         }
     }
