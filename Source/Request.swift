@@ -22,7 +22,7 @@ public typealias ErrorCallback = Resource.Error -> Void
 
 public protocol Request: AnyObject
     {
-    func response(callback: AnyResponseCalback) -> Self      // success or failure
+    func completion(callback: AnyResponseCalback) -> Self    // success or failure
     func success(callback: SuccessCallback) -> Self          // success, may be same data
     func newData(callback: SuccessCallback) -> Self          // success, data modified
     func notModified(callback: NotModifiedCallback) -> Self  // success, data not modified
@@ -49,83 +49,39 @@ public enum Response: CustomStringConvertible
 private typealias ResponseInfo = (response: Response, isNew: Bool)
 private typealias ResponseCallback = ResponseInfo -> Void
 
-public class AbstractRequest: Request
+public final class NetworkRequest: Request, CustomDebugStringConvertible
     {
     public let resource: Resource
+    public let nsreq: NSURLRequest
+    public var transport: RequestTransport
     
     private var responseCallbacks: [ResponseCallback] = []
 
-    init(resource: Resource)
+    init(resource: Resource, nsreq: NSURLRequest)
         {
         self.resource = resource
+        self.nsreq = nsreq
+        self.transport = resource.service.transportProvider.transportForRequest(nsreq)
         }
     
-    public func handleResponse(nsreq: NSURLRequest?, nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+    public func start() -> Self
         {
-        debugLog(.Network, [nsres?.statusCode, "←", nsreq?.HTTPMethod, nsreq?.URL])
+        debugLog(.Network, [nsreq.HTTPMethod, nsreq.URL])
         
-        let responseInfo = interpretResponse(nsres, body, nserror)
-        
-        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response])
-        
-        processPayload(responseInfo)
+        transport.start(handleResponse)
+        return self
         }
     
-    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
-        -> ResponseInfo
+    public func cancel()
         {
-        if nsres?.statusCode >= 400 || nserror != nil
-            {
-            return (.Failure(Resource.Error(nsres, body, nserror)), true)
-            }
-        else if nsres?.statusCode == 304
-            {
-            if let data = resource.latestData
-                {
-                return (.Success(data), false)
-                }
-            else
-                {
-                return(
-                    .Failure(Resource.Error(
-                        userMessage: "No data",
-                        debugMessage: "Received HTTP 304, but resource has no existing data")),
-                    true)
-                }
-            }
-        else if let body = body
-            {
-            return (.Success(Resource.Data(nsres, body)), true)
-            }
-        else
-            {
-            return (.Failure(Resource.Error(userMessage: "Empty response")), true)
-            }
-        }
-    
-    private func processPayload(rawInfo: ResponseInfo)
-        {
-        let transformer = resource.service.responseTransformers
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            let processedInfo =
-                rawInfo.isNew
-                    ? (transformer.process(rawInfo.response), true)
-                    : rawInfo
-            
-            dispatch_async(dispatch_get_main_queue())
-                { self.triggerCallbacks(processedInfo) }
-            }
+        debugLog(.Network, ["Cancelled:", nsreq.HTTPMethod, nsreq.URL])
+        
+        transport.cancel()
         }
     
     // MARK: Callbacks
 
-    public func cancel()
-        {
-        fatalError("subclass must implement cancel()")
-        }
-    
-    public func response(callback: AnyResponseCalback) -> Self
+    public func completion(callback: AnyResponseCalback) -> Self
         {
         addResponseCallback
             {
@@ -188,5 +144,76 @@ public class AbstractRequest: Request
         {
         for callback in self.responseCallbacks
             { callback(responseInfo) }
+        }
+    
+    // MARK: Response handling
+    
+    private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+        {
+        debugLog(.Network, [nsres?.statusCode, "←", nsreq.HTTPMethod, nsreq.URL])
+        
+        let responseInfo = interpretResponse(nsres, body, nserror)
+        
+        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response])
+        
+        processPayload(responseInfo)
+        }
+    
+    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
+        -> ResponseInfo
+        {
+        if nsres?.statusCode >= 400 || nserror != nil
+            {
+            return (.Failure(Resource.Error(nsres, body, nserror)), true)
+            }
+        else if nsres?.statusCode == 304
+            {
+            if let data = resource.latestData
+                {
+                return (.Success(data), false)
+                }
+            else
+                {
+                return(
+                    .Failure(Resource.Error(
+                        userMessage: "No data",
+                        debugMessage: "Received HTTP 304, but resource has no existing data")),
+                    true)
+                }
+            }
+        else if let body = body
+            {
+            return (.Success(Resource.Data(nsres, body)), true)
+            }
+        else
+            {
+            return (.Failure(Resource.Error(userMessage: "Empty response")), true)
+            }
+        }
+    
+    private func processPayload(rawInfo: ResponseInfo)
+        {
+        let transformer = resource.service.responseTransformers
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            let processedInfo =
+                rawInfo.isNew
+                    ? (transformer.process(rawInfo.response), true)
+                    : rawInfo
+            
+            dispatch_async(dispatch_get_main_queue())
+                { self.triggerCallbacks(processedInfo) }
+            }
+        }
+    
+    // MARK: Debug
+
+    public var debugDescription: String
+        {
+        return "Siesta.Request:"
+            + String(ObjectIdentifier(self).uintValue, radix: 16)
+            + "("
+            + debugStr([nsreq.HTTPMethod, nsreq.URL])
+            + ")"
         }
     }

@@ -49,7 +49,7 @@ func awaitNewData(req: Siesta.Request)
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
-    req.response    { _ in responseExpectation.fulfill() }
+    req.completion  { _ in responseExpectation.fulfill() }
        .success     { _ in successExpectation.fulfill() }
        .failure     { _ in fail("error callback should not be called") }
        .newData     { _ in newDataExpectation.fulfill() }
@@ -62,7 +62,7 @@ func awaitNotModified(req: Siesta.Request)
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let notModifiedExpectation = QuickSpec.current().expectationWithDescription("awaiting notModified callback: \(req)")
-    req.response    { _ in responseExpectation.fulfill() }
+    req.completion  { _ in responseExpectation.fulfill() }
        .success     { _ in successExpectation.fulfill() }
        .failure     { _ in fail("error callback should not be called") }
        .newData     { _ in fail("newData callback should not be called") }
@@ -74,7 +74,7 @@ func awaitFailure(req: Siesta.Request)
     {
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure callback: \(req)")
-    req.response    { _ in responseExpectation.fulfill() }
+    req.completion  { _ in responseExpectation.fulfill() }
        .failure     { _ in errorExpectation.fulfill() }
        .success     { _ in fail("success callback should not be called") }
        .newData     { _ in fail("newData callback should not be called") }
@@ -89,7 +89,7 @@ func delayRequestsForThisSpec()
 
 func startDelayedRequest(req: Siesta.Request)
     {
-    (req as? AlamofireSiestaRequest)?.alamofireRequest?.resume()
+    ((req as? NetworkRequest)?.transport as? AlamofireRequestTransport)?.alamofireRequest?.resume()
     }
 
 // MARK: - Clock stubbing

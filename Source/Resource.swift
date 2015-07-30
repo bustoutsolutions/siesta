@@ -116,9 +116,8 @@ public class Resource: NSObject, CustomDebugStringConvertible
         let nsreq = NSMutableURLRequest(URL: url!)
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
-        debugLog(.Network, [nsreq.HTTPMethod, nsreq.URL])
 
-        return service.transportProvider.startRequest(nsreq, resource: self)
+        return NetworkRequest(resource: self, nsreq: nsreq).start()
         }
     
     public func request(
@@ -236,7 +235,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             }
         loadRequests.append(req)
         
-        req.response
+        req.completion
             {
             [weak self, weak req] _ in
             if let resource = self
@@ -317,7 +316,7 @@ private class FailedRequest: Request
     init(_ error: Resource.Error)
         { self.error = error }
     
-    func response(callback: AnyResponseCalback) -> Self
+    func completion(callback: AnyResponseCalback) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
         return self

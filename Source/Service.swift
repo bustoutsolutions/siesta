@@ -54,9 +54,3 @@ public class Service: NSObject
         return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
     }
-
-public protocol TransportProvider
-    {
-    func startRequest(nsreq: NSURLRequest, resource: Resource) -> Request
-    }
-
