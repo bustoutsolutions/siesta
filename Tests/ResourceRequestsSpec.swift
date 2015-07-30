@@ -356,7 +356,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(404)
                 awaitFailure(resource().load())
                 
-                expect(resource().latestError?.userMessage).to(equal("Server error: not found"))
+                expect(resource().latestError?.userMessage).to(equal("Not found"))
                 }
             
             // TODO: test custom error message extraction

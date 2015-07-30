@@ -33,7 +33,7 @@ extension Resource
             else if let message = error?.localizedDescription
                 { self.userMessage = message }
             else if let code = self.httpStatusCode
-                { self.userMessage = "Server error: \(NSHTTPURLResponse.localizedStringForStatusCode(code))" }
+                { self.userMessage = NSHTTPURLResponse.localizedStringForStatusCode(code).capitalizedFirstCharacter }
             else
                 { self.userMessage = "Request failed" }   // Is this reachable?
             }

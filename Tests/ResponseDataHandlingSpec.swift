@@ -150,7 +150,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ malformed JSON[[{{#$!@")
                 awaitFailure(resource().load())
-                expect(resource().latestError?.userMessage).to(equal("Server error: internal server error"))
+                expect(resource().latestError?.userMessage).to(equal("Internal server error"))
                 expect(resource().latestError?.data?.payload as? NSData).notTo(beNil())
                 }
 
@@ -214,7 +214,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(401)
                 awaitFailure(resource().load())
-                expect(resource().latestError?.userMessage).to(equal("Server error: unauthorized processed"))
+                expect(resource().latestError?.userMessage).to(equal("Unauthorized processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
             

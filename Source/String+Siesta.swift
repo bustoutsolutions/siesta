@@ -14,4 +14,14 @@ internal extension String
             ? self[advance(startIndex, prefix.characters.count) ..< endIndex]
             : self
         }
+    
+    var capitalizedFirstCharacter: String
+        {
+        guard !self.isEmpty else
+            { return self }
+        
+        var result = self
+        result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).uppercaseString)
+        return result
+        }
     }
