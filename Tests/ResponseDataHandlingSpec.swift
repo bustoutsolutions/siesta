@@ -53,6 +53,15 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 // Note: assertion above fails on iPhone 4S and 5 simulators (apparently an Apple bug?)
                 }
 
+            it("transforms error responses")
+                {
+                stubReqest(resource, "GET").andReturn(500)
+                    .withHeader("Content-Type", "text/plain; charset=UTF-16")
+                    .withBody(NSData(bytes: [0xD8, 0x3D, 0xDC, 0xA3] as [UInt8], length: 4))
+                awaitFailure(resource().load())
+                expect(resource().latestError?.data?.payload as? String).to(equal("💣"))
+                }
+
             it("does not parse everything as text")
                 {
                 stubText(contentType: "application/monkey")
@@ -125,6 +134,26 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.nsError?.code).to(equal(3840))
                 }
             
+            it("transforms error responses")
+                {
+                stubReqest(resource, "GET").andReturn(500)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody("{ \"error\": \"pigeon drove bus\" }")
+                awaitFailure(resource().load())
+                expect(resource().latestError?.data?.payload as? [String:String])
+                    .to(equal(["error": "pigeon drove bus"]))
+                }
+
+            it("preserves root error if error response is unparsable")
+                {
+                stubReqest(resource, "GET").andReturn(500)
+                    .withHeader("Content-Type", "application/json")
+                    .withBody("{ malformed JSON[[{{#$!@")
+                awaitFailure(resource().load())
+                expect(resource().latestError?.userMessage).to(equal("Server error: internal server error"))
+                expect(resource().latestError?.data?.payload as? NSData).notTo(beNil())
+                }
+
             describe("via .dict convenience")
                 {
                 it("gives JSON data")

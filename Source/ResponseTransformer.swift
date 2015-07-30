@@ -42,20 +42,23 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
     func process(response: Response) -> Response
         {
+        let mimeType: String?
         switch(response)
             {
             case .Success(let data):
-                if contentTypeMatcher.matches(data.mimeType)
-                    {
-                    debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(data.mimeType)])
-                    return delegate.process(response)
-                    }
-                else
-                    { return response }
+                mimeType = data.mimeType
             
-            case .Failure:
-                return response
+            case .Failure(let error):
+                mimeType = error.data?.mimeType
             }
+
+        if let mimeType = mimeType where contentTypeMatcher.matches(mimeType)
+            {
+            debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(mimeType)])
+            return delegate.process(response)
+            }
+        else
+            { return response }
         }
     }
 
@@ -102,20 +105,48 @@ public class TransformerSequence
 public protocol ResponseDataTransformer: ResponseTransformer
     {
     func processData(data: Resource.Data) -> Response
+    
+    func processError(error: Resource.Error) -> Response
     }
 
 public extension ResponseDataTransformer
     {
-    func processData(data: Resource.Data) -> Response
-        { return .Success(data) }
-
     final func process(response: Response) -> Response
         {
         switch(response)
             {
-            case .Success(let data): return processData(data)
-            case .Failure:           return response
+            case .Success(let data):
+                return processData(data)
+            
+            case .Failure(let error):
+                return processError(error)
             }
+        }
+    
+    /// Subclasses will typically override this method. Default is to leave data unchanged.
+    ///
+    /// Note that overrides can turn a success into an error, e.g. if there is a parse error.
+    ///
+    func processData(data: Resource.Data) -> Response
+        { return .Success(data) }
+
+    /// Default behavior: attempt to process error response bodies just like success bodies, but
+    /// if there is a transformation error, only log it and preserve the original error.
+    ///
+    func processError(var error: Resource.Error) -> Response
+        {
+        if let errorData = error.data
+            {
+            switch(processData(errorData))
+                {
+                case .Success(let errorDataTransformed):
+                    error.data = errorDataTransformed
+                
+                case .Failure(let error):
+                    debugLog(.ResponseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])
+                }
+            }
+        return .Failure(error)
         }
     }
 
