@@ -31,3 +31,142 @@ public protocol Request: AnyObject
     func cancel()
     }
 
+private typealias ResponseInfo = (response: Response, isNew: Bool)
+private typealias ResponseCallback = ResponseInfo -> Void
+
+public class AbstractRequest: Request
+    {
+    public let resource: Resource
+    
+    private var responseCallbacks: [ResponseCallback] = []
+
+    init(resource: Resource)
+        {
+        self.resource = resource
+        }
+    
+    public func handleResponse(nsreq: NSURLRequest?, nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+        {
+        let responseInfo = interpretResponse(nsres, body, nserror)
+        
+        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response])
+        
+        processPayload(responseInfo)
+            {
+            for callback in self.responseCallbacks
+                { callback($0) }
+            }
+        }
+    
+    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
+        -> ResponseInfo
+        {
+        if nsres?.statusCode >= 400 || nserror != nil
+            {
+            return (.ERROR(Resource.Error(nsres, body, nserror)), true)
+            }
+        else if nsres?.statusCode == 304
+            {
+            if let data = resource.latestData
+                {
+                return (.DATA(data), false)
+                }
+            else
+                {
+                return(
+                    .ERROR(Resource.Error(
+                        userMessage: "No data",
+                        debugMessage: "Received HTTP 304, but resource has no existing data")),
+                    true)
+                }
+            }
+        else if let body = body
+            {
+            return (.DATA(Resource.Data(nsres, body)), true)
+            }
+        else
+            {
+            return (.ERROR(Resource.Error(userMessage: "Empty response")), true)
+            }
+        }
+    
+    private func processPayload(rawInfo: ResponseInfo, callback: ResponseCallback)
+        {
+        let transformer = resource.service.responseTransformers
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            let processedInfo = (
+                transformer.process(rawInfo.response),
+                rawInfo.isNew)
+            
+            dispatch_async(dispatch_get_main_queue())
+                { callback(processedInfo) }
+            }
+        }
+    
+    // MARK: Callbacks
+
+    public func cancel()
+        {
+        fatalError("subclass must implement cancel()")
+        }
+    
+    public func response(callback: AnyResponseCalback) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            callback(response)
+            }
+        return self
+        }
+    
+    public func success(callback: SuccessCallback) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            if case .DATA(let data) = response
+                { callback(data) }
+            }
+        return self
+        }
+    
+    public func newData(callback: SuccessCallback) -> Self
+        {
+        addResponseCallback
+            {
+            response, isNew in
+            if case .DATA(let data) = response where isNew
+                { callback(data) }
+            }
+        return self
+        }
+    
+    public func notModified(callback: NotModifiedCallback) -> Self
+        {
+        addResponseCallback
+            {
+            response, isNew in
+            if case .DATA = response where !isNew
+                { callback() }
+            }
+        return self
+        }
+    
+    public func error(callback: ErrorCallback) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            if case .ERROR(let error) = response
+                { callback(error) }
+            }
+        return self
+        }
+    
+    private func addResponseCallback(callback: ResponseCallback)
+        {
+        responseCallbacks.append(callback)
+        }
+    }
