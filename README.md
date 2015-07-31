@@ -79,14 +79,14 @@ _…in that order of priority._
 
 - [x] Decouples UI state from network request state
 - [x] Observer model eliminates complex, error-prone state tracking logic
-- [x] Coordinates requests and data caching across ViewControllers
 - [x] Eliminates redundant network requests
-- [x] Unified reporting for connection errors, server errors, and client-side encoding and parsing errors
+- [x] Caches data across multiple ViewControllers
+- [x] Unified reporting for all errors: encoding, network, server-side, and parsing
 - [x] Transparent Etag / If-Modified-Since handling
-- [x] Painless built-in handling for JSON and plain text
+- [x] Painless handling for JSON and plain text
 - [x] Customizable response transformation
 - [x] Prebaked UI for loading & error handling
-- [x] Uses Alamofire for networking by default; injectable transport providers if you want to use a different network library
+- [x] Uses Alamofire for networking by default; injectable transport providers if you want to use other network libraries
 - [x] Thorough regression testing
 - [x] Debug-friendly, customizable logging
 - [x] Written in Swift with a great Swift-centric API, but…
