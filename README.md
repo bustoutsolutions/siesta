@@ -30,6 +30,7 @@ iOS REST Client Framework
   - [Observers](#observers)
   - [UI Components](#ui-components)
   - [Memory Management](#memory-management)
+  - [Logging](#logging)
 - [Examples](#examples)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -524,6 +525,32 @@ Observers affect the lifecycle of resources:
 * At any time, there exists at _most_ one `Resource` instance per `Service` for a given URL.
 
 These rules, while tricky when all spelled out, make the right thing the easy thing most of the time.
+
+### Logging
+
+Siesta features extensive logging. It is disabled by default, but you can turn it on with:
+
+```swift
+    Siesta.enabledLogCategories = LogCategory.common
+```
+
+…or for the full fire hose:
+
+```swift
+    Siesta.enabledLogCategories = LogCategory.all
+```
+
+Common practice is to add a DEBUG Swift compiler flag to your project (if you haven’t already done so):
+
+<p align="center"><img alt="Standard error overlay view" src="Docs/images/standard-error-overlay@2x.png" width=320 height=136></p>
+
+…and then automatically enable logging for common categories in your API’s `init()` or your `applicationDidFinishLaunching`:
+
+```swift
+    #if DEBUG
+        Siesta.enabledLogCategories = LogCategory.common
+    #endif
+```
 
 ## Examples
 
