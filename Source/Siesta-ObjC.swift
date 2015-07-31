@@ -2,21 +2,205 @@
 //  Siesta-ObjC.swift
 //  Siesta
 //
-//  Glue for using Siesta from Objective-C, quarrantined for readability.
-//
 //  Created by Paul on 2015/7/14.
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-// MARK: - …because load methods return Alamofire objects
+/*
+    Glue for using Siesta from Objective-C.
+
+    Siesta follows a Swift-first design approach. It uses the full expressiveness of the
+    language to make everything feel “Swift native,” both in interface and implementation.
+    
+    This means many Siesta APIs can’t simply be marked @objc, and require a separate
+    compatibility layer. Rather than sprinkle that mess throughout the code, it’s all
+    quarrantined here.
+    
+    Features exposed to Objective-C:
+    
+     * Resource path navigation (child, relative, etc.)
+     * Resource state
+     * Observers
+     * Request / load
+     * Request completion callbacks
+     * UI components
+    
+    Some things are not exposed in the compatibility layer, and must be done in Swift:
+    
+     * Subclassing Service
+     * Custom ResponseTransformers
+     * Custom TransportProviders
+     * Logging config
+*/
+
+// MARK: - Because Swift structs aren’t visible to Obj-C
+
+// (Why not just make Resource.Data and Resource.Error classes and avoid all these
+// shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
+// expose the full struct to Swift clients sans copying, yet still force mutations to
+// happen via localDataOverride() so that observers always know about changes.)
+
+@objc(BOSResourceData)
+public class _objc_ResourceData: NSObject
+    {
+    public var payload: AnyObject
+    public var mimeType: String
+    public var charset: String?
+    public var etag: String?
+    public var headers: [String:String]
+    public private(set) var timestamp: NSTimeInterval = 0
+    
+    public init(payload: AnyObject, mimeType: String, headers: [String:String])
+        {
+        self.payload = payload
+        self.mimeType = mimeType
+        self.headers = headers
+        }
+
+    public convenience init(payload: AnyObject, mimeType: String)
+        { self.init(payload: payload, mimeType: mimeType, headers: [:]) }
+    
+    internal init(_ data: Resource.Data)
+        {
+        self.payload  = data.payload
+        self.mimeType = data.mimeType
+        self.charset  = data.charset
+        self.etag     = data.etag
+        self.headers  = data.headers
+        }
+    }
+
+internal extension Resource.Data
+    {
+    init(data: _objc_ResourceData)
+        {
+        self.init(payload: data.payload, mimeType: data.mimeType, charset: data.charset, headers: data.headers)
+        self.etag = data.etag
+        }
+    }
+
+@objc(BOSResourceError)
+public class _objc_ResourceError: NSObject
+    {
+    public var httpStatusCode: Int?
+    public var nsError: NSError?
+    public var userMessage: String
+    public var data: _objc_ResourceData?
+    public let timestamp: NSTimeInterval
+
+    internal init(_ error: Resource.Error)
+        {
+        self.httpStatusCode = error.httpStatusCode
+        self.nsError        = error.nsError
+        self.userMessage    = error.userMessage
+        self.timestamp      = error.timestamp
+        if let errorData = error.data
+            { self.data = _objc_ResourceData(errorData) }
+        }
+    }
 
 public extension Resource
     {
-    @objc(load)         public func _objc_load() { self.load() }
-    @objc(loadIfNeeded) public func _objc_loadIfNeeded() { self.loadIfNeeded() }
+    @objc(latestData)
+    public var _objc_latestData: _objc_ResourceData?
+        {
+        if let latestData = latestData
+            { return _objc_ResourceData(latestData) }
+        else
+            { return nil }
+        }
     }
 
-// MARK: - …because ResourceEvent is an enum
+// MARK: - Because Swift closures aren’t exposed as Obj-C blocks
+
+@objc(BOSRequest)
+public class _objc_Request: NSObject
+    {
+    let request: Request
+    
+    private init(_ request: Request)
+        { self.request = request }
+    
+    public var completion: @convention(block) ((_objc_ResourceData?, _objc_ResourceError?) -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.completion
+                {
+                switch($0)
+                    {
+                    case .Success(let data):
+                        objcCallback(_objc_ResourceData(data), nil)
+                    case .Failure(let error):
+                        objcCallback(nil, _objc_ResourceError(error))
+                    }
+                }
+            return self
+            }
+        }
+
+    public var success: @convention(block) (_objc_ResourceData -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.success { data in objcCallback(_objc_ResourceData(data)) }
+            return self
+            }
+        }
+    
+    public var newData: @convention(block) (_objc_ResourceData -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.newData { data in objcCallback(_objc_ResourceData(data)) }
+            return self
+            }
+        }
+
+    public var notModified: @convention(block) (Void -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.notModified(objcCallback)
+            return self
+            }
+        }
+
+    public var failure: @convention(block) (_objc_ResourceError -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.failure { error in objcCallback(_objc_ResourceError(error)) }
+            return self
+            }
+        }
+
+    public func cancel()
+        { request.cancel() }
+    }
+
+public extension Resource
+    {
+    @objc(load)
+    public func _objc_load() -> _objc_Request
+        { return _objc_Request(self.load()) }
+    
+    @objc(loadIfNeeded)
+    public func _objc_loadIfNeeded() -> _objc_Request?
+        {
+        if let req = self.loadIfNeeded()
+            { return _objc_Request(req) }
+        else
+            { return nil }
+        }
+    }
+
+// MARK: - Because ResourceEvent is an enum
 
 @objc(BOSResourceObserver)
 public protocol _objc_ResourceObserver
@@ -67,4 +251,3 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
     public func resourceChanged(resource: Resource, event: String)
         { self.resourceChanged(resource, event: ResourceEvent(rawValue: event)!) }
     }
-

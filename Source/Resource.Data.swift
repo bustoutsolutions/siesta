@@ -14,7 +14,7 @@ extension Resource
         public var mimeType: String
         public var charset: String?
         public var etag: String?
-        private var headers: [String:String]
+        internal var headers: [String:String]
         public private(set) var timestamp: NSTimeInterval = 0
         
         private init(

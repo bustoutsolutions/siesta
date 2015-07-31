@@ -87,9 +87,10 @@ _…in that order of priority._
 - [x] Customizable response transformation
 - [x] Prebaked UI for loading & error handling
 - [x] Uses Alamofire for networking by default; injectable transport providers if you want to use a different network library
-- [x] Use from both Swift and Objective-C code
 - [x] Thorough regression testing
 - [x] Debug-friendly, customizable logging
+- [x] Written in Swift with a great Swift-centric API, but…
+- [x] …also works great from Objective-C thanks to a compatibility layer
 
 **Forthcoming:**
 
