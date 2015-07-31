@@ -17,7 +17,6 @@ class ResourceRequestsSpec: ResourceSpecBase
         {
         it("starts in a blank state")
             {
-            expect(resource().data).to(beNil())
             expect(resource().latestData).to(beNil())
             expect(resource().latestError).to(beNil())
             
@@ -178,7 +177,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().load())
                 
                 expect(resource().latestData).notTo(beNil())
-                expect(dataAsString(resource().data)).to(equal("eep eep"))
+                expect(dataAsString(resource().latestData?.payload)).to(equal("eep eep"))
                 }
             
             it("stores the content type")
@@ -245,7 +244,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             func expectDataToBeUnchanged()
                 {
-                expect(dataAsString(resource().data)).to(equal("zoogleplotz"))
+                expect(dataAsString(resource().latestData?.payload)).to(equal("zoogleplotz"))
                 expect(resource().latestData?.mimeType).to(equal("applicaiton/zoogle+plotz"))
                 expect(resource().latestData?.etag).to(equal("123 456 xyz"))
                 }
@@ -276,7 +275,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("plooglezotz")
                     awaitNewData(resource().load())
                         
-                    expect(dataAsString(resource().data)).to(equal("plooglezotz"))
+                    expect(dataAsString(resource().latestData?.payload)).to(equal("plooglezotz"))
                     expect(resource().latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
                     expect(resource().latestData?.etag).to(equal("ABC DEF 789"))
                     }
@@ -458,7 +457,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates the data")
                 {
                 resource().localDataOverride(localData())
-                expect(resource().data).to(beIdenticalTo(arbitraryPayload()))
+                expect(resource().latestData?.payload).to(beIdenticalTo(arbitraryPayload()))
                 expect(resource().latestData?.mimeType).to(equal(arbitraryMimeType))
                 }
 
@@ -477,7 +476,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
                 resource().localDataOverride(Resource.Data(payload: rawData!, mimeType: "text/plain"))
-                expect(resource().data as? NSData).to(beIdenticalTo(rawData))
+                expect(resource().latestData?.payload as? NSData).to(beIdenticalTo(rawData))
                 }
             }
         }

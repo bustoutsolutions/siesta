@@ -30,7 +30,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(textType) as text")
                     {
                     stubText(contentType: textType)
-                    expect(resource().data as? String).to(equal("zwobble"))
+                    expect(resource().latestData?.payload as? String).to(equal("zwobble"))
                     }
                 }
 
@@ -66,7 +66,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubText(contentType: "application/monkey")
                 expect(resource().latestData).notTo(beNil())
-                expect(resource().data as? String).to(beNil())
+                expect(resource().latestData?.payload as? String).to(beNil())
                 }
             
             describe("via .text convenience")
@@ -109,7 +109,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(jsonType) as JSON")
                     {
                     stubJson(contentType: jsonType)
-                    expect(resource().data as? NSDictionary).to(equal(jsonVal))
+                    expect(resource().latestData?.payload as? NSDictionary).to(equal(jsonVal))
                     }
                 }
 
@@ -117,7 +117,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubJson(contentType: "text/plain")
                 expect(resource().latestData).notTo(beNil())
-                expect(resource().data as? NSDictionary).to(beNil())
+                expect(resource().latestData?.payload as? NSDictionary).to(beNil())
                 }
             
             it("reports JSON parse errors")
@@ -206,7 +206,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("can transform data")
                 {
                 stubText("greetings")
-                expect(resource().data as? String).to(equal("greetings processed"))
+                expect(resource().latestData?.payload as? String).to(equal("greetings processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
             
@@ -226,7 +226,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(304)
                 awaitNotModified(resource().load())
                 
-                expect(resource().data as? String).to(equal("ahoy processed"))
+                expect(resource().latestData?.payload as? String).to(equal("ahoy processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
             }

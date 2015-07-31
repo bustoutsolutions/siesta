@@ -40,11 +40,9 @@ public class Resource: NSObject, CustomDebugStringConvertible
     
     // MARK: Data convenience accessors
 
-    public var data: AnyObject? { return latestData?.payload }
-    
     public func typedData<T>(blankValue: T) -> T
         {
-        return (data as? T) ?? blankValue
+        return (latestData?.payload as? T) ?? blankValue
         }
     
     public var dict:  [String:AnyObject] { return typedData([:]) }
