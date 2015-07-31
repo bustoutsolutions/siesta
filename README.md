@@ -78,28 +78,29 @@ _…in that order of priority._
 
 - [x] Decouples UI state from network request state
 - [x] Observer model eliminates complex, error-prone state tracking logic
-- [x] Coordinates requests and data sharing across ViewControllers
+- [x] Coordinates requests and data caching across ViewControllers
 - [x] Eliminates redundant network requests
-- [x] Unified reporting for connection errors, server errors, and client-side parsing errors
+- [x] Unified reporting for connection errors, server errors, and client-side encoding and parsing errors
 - [x] Transparent Etag / If-Modified-Since handling
-- [x] Painless built-in response parsing for JSON and plain text
+- [x] Painless built-in handling for JSON and plain text
 - [x] Customizable response transformation
-- [x] Prebaked UI components for error overlay
-- [x] Use with both Swift and Objective-C
+- [x] Prebaked UI for loading & error handling
+- [x] Uses Alamofire for networking by default; injectable transport providers if you want to use a different network library
+- [x] Use from both Swift and Objective-C code
 - [x] Thorough regression testing
+- [x] Debug-friendly, customizable logging
 
 **Forthcoming:**
 
 - [ ] Graceful handling for authenticated sessions
 - [ ] Intelligent progress reporting that accounts for request, latency, and response
-- [ ] Local data override, optimistic pre-updating to better support POST/PUT/PATCH
-- [ ] Prebaked progress bar UI components
 - [ ] Customizable data caching
 
 **If users express sufficient interest:**
 
 - [ ] Built-in parsing for other common types, e.g. XML
-- [ ] Injectable implementation for transport providers other than Alamofire
+- [ ] Optimistic local data updating with rollback to better support POST/PUT/PATCH
+- [ ] Prebaked progress bar UI component
 
 ## Installation
 
