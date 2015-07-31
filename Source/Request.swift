@@ -15,18 +15,13 @@ public enum RequestMethod: String
     case DELETE
     }
 
-public typealias AnyResponseCalback = Response -> Void
-public typealias SuccessCallback = Resource.Data -> Void
-public typealias NotModifiedCallback = Void -> Void
-public typealias ErrorCallback = Resource.Error -> Void
-
 public protocol Request: AnyObject
     {
-    func completion(callback: AnyResponseCalback) -> Self    // success or failure
-    func success(callback: SuccessCallback) -> Self          // success, may be same data
-    func newData(callback: SuccessCallback) -> Self          // success, data modified
-    func notModified(callback: NotModifiedCallback) -> Self  // success, data not modified
-    func failure(callback: ErrorCallback) -> Self            // error of any kind
+    func completion(callback: Response -> Void) -> Self     // success or failure
+    func success(callback: Resource.Data -> Void) -> Self   // success, may be same data
+    func newData(callback: Resource.Data -> Void) -> Self   // success, data modified
+    func notModified(callback: Void -> Void) -> Self        // success, data not modified
+    func failure(callback: Resource.Error -> Void) -> Self  // error of any kind
     
     func cancel()
     }
@@ -49,39 +44,38 @@ public enum Response: CustomStringConvertible
 private typealias ResponseInfo = (response: Response, isNew: Bool)
 private typealias ResponseCallback = ResponseInfo -> Void
 
-public final class NetworkRequest: Request, CustomDebugStringConvertible
+internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
-    public let resource: Resource
-    public let nsreq: NSURLRequest
-    public var transport: RequestTransport
-    
+    private let resource: Resource
+    private let requestDescription: String
+    private var transport: RequestTransport
     private var responseCallbacks: [ResponseCallback] = []
 
     init(resource: Resource, nsreq: NSURLRequest)
         {
         self.resource = resource
-        self.nsreq = nsreq
+        self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
         self.transport = resource.service.transportProvider.transportForRequest(nsreq)
         }
     
-    public func start() -> Self
+    func start() -> Self
         {
-        debugLog(.Network, [nsreq.HTTPMethod, nsreq.URL])
+        debugLog(.Network, [requestDescription])
         
         transport.start(handleResponse)
         return self
         }
     
-    public func cancel()
+    func cancel()
         {
-        debugLog(.Network, ["Cancelled:", nsreq.HTTPMethod, nsreq.URL])
+        debugLog(.Network, ["Cancelled:", requestDescription])
         
         transport.cancel()
         }
     
     // MARK: Callbacks
 
-    public func completion(callback: AnyResponseCalback) -> Self
+    func completion(callback: Response -> Void) -> Self
         {
         addResponseCallback
             {
@@ -91,7 +85,7 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    public func success(callback: SuccessCallback) -> Self
+    func success(callback: Resource.Data -> Void) -> Self
         {
         addResponseCallback
             {
@@ -102,7 +96,7 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    public func newData(callback: SuccessCallback) -> Self
+    func newData(callback: Resource.Data -> Void) -> Self
         {
         addResponseCallback
             {
@@ -113,7 +107,7 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    public func notModified(callback: NotModifiedCallback) -> Self
+    func notModified(callback: Void -> Void) -> Self
         {
         addResponseCallback
             {
@@ -124,7 +118,7 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    public func failure(callback: ErrorCallback) -> Self
+    func failure(callback: Resource.Error -> Void) -> Self
         {
         addResponseCallback
             {
@@ -150,7 +144,7 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
     
     private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
-        debugLog(.Network, [nsres?.statusCode, "←", nsreq.HTTPMethod, nsreq.URL])
+        debugLog(.Network, [nsres?.statusCode, "←", requestDescription])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
         
@@ -208,12 +202,42 @@ public final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // MARK: Debug
 
-    public var debugDescription: String
+    var debugDescription: String
         {
         return "Siesta.Request:"
             + String(ObjectIdentifier(self).uintValue, radix: 16)
             + "("
-            + debugStr([nsreq.HTTPMethod, nsreq.URL])
+            + requestDescription
             + ")"
         }
+    }
+
+
+/// For requests that failed before they even made it to the transport layer
+internal class FailedRequest: Request
+    {
+    private let error: Resource.Error
+    
+    init(_ error: Resource.Error)
+        { self.error = error }
+    
+    func completion(callback: Response -> Void) -> Self
+        {
+        dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
+        return self
+        }
+    
+    func failure(callback: Resource.Error -> Void) -> Self
+        {
+        dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
+        return self
+        }
+    
+    // Everything else is a noop
+    
+    func success(callback: Resource.Data -> Void) -> Self { return self }
+    func newData(callback: Resource.Data -> Void) -> Self { return self }
+    func notModified(callback: Void -> Void) -> Self { return self }
+    
+    func cancel() { }
     }

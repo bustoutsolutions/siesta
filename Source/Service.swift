@@ -13,7 +13,8 @@ public class Service: NSObject
     {
     public let baseURL: NSURL?
     
-    public let transportProvider: TransportProvider
+    internal let transportProvider: TransportProvider
+    
     public let responseTransformers: TransformerSequence = TransformerSequence()
     
     public var defaultExpirationTime: NSTimeInterval = 300

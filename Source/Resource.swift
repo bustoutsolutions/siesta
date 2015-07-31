@@ -308,35 +308,6 @@ public class Resource: NSObject, CustomDebugStringConvertible
     }
 
 
-/// For requests that failed before they even made it to the transport layer
-private class FailedRequest: Request
-    {
-    private let error: Resource.Error
-    
-    init(_ error: Resource.Error)
-        { self.error = error }
-    
-    func completion(callback: AnyResponseCalback) -> Self
-        {
-        dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
-        return self
-        }
-    
-    func failure(callback: ErrorCallback) -> Self
-        {
-        dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
-        return self
-        }
-    
-    // Everything else is a noop
-    
-    func success(callback: SuccessCallback) -> Self { return self }
-    func newData(callback: SuccessCallback) -> Self { return self }
-    func notModified(callback: NotModifiedCallback) -> Self { return self }
-    
-    func cancel() { }
-    }
-
 public protocol NSJSONConvertible: AnyObject { }
 extension NSDictionary: NSJSONConvertible { }
 extension NSArray:      NSJSONConvertible { }
