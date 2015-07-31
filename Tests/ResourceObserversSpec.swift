@@ -121,9 +121,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives cancel event")
                 {
-                delayRequestsForThisSpec()  // prevents race condition between cancel() and Nocilla
-                
-                stubReqest(resource, "GET").andReturn(200)
+                // delay prevents race condition between cancel() and Nocilla
+                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
                     {
@@ -131,7 +130,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
-                startDelayedRequest(req)
+                reqStub.go()
                 awaitFailure(req)
                 }
             
@@ -299,7 +298,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 observer!.expect(.Requested)
                 
-                delayRequestsForThisSpec()
+                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 observer!.checkForUnfulfilledExpectations()
                 observer = nil
@@ -307,8 +306,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 callback()
                 
                 // No observer expectations left, so this will fail if Resource still notifies observer
-                stubReqest(resource, "GET").andReturn(200)
-                startDelayedRequest(req)
+                reqStub.go()
                 awaitNewData(req)
                 }
             

@@ -142,25 +142,30 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("tracks concurrent requests")
                 {
-                delayRequestsForThisSpec()
-                defer
+                func stubDelayedAndLoad(etag: String) -> (LSStubResponseDSL, Request)
                     {
-                    let transport = service().transportProvider as! AlamofireTransportProvider
-                    transport.sessionManager.startRequestsImmediately = true
+                    let reqStub = stubReqest(resource, "GET")
+                        .withHeader("If-none-match", etag)
+                        .andReturn(200)
+                        .delay()
+                    resource().localDataOverride(
+                        Resource.Data(payload: "hi", mimeType: "text/plain", headers: ["Etag": etag]))
+                    let req = resource().load()
+                    return (reqStub, req)
                     }
                 
-                stubReqest(resource, "GET").andReturn(200)
-                let req0 = resource().load(),
-                    req1 = resource().load()
+                let (reqStub0, req0) = stubDelayedAndLoad("zero"),
+                    (reqStub1, req1) = stubDelayedAndLoad("one")
+                
                 expect(resource().loading).to(beTrue())
                 expect(resource().loadRequests).to(beIdentialObjects([req0, req1]))
                 
-                startDelayedRequest(req0)
+                reqStub0.go()
                 awaitNewData(req0)
                 expect(resource().loading).to(beTrue())
                 expect(resource().loadRequests).to(beIdentialObjects([req1]))
                 
-                startDelayedRequest(req1)
+                reqStub1.go()
                 awaitNewData(req1)
                 expect(resource().loading).to(beFalse())
                 expect(resource().loadRequests).to(beIdentialObjects([]))
@@ -327,11 +332,10 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
                 
-                delayRequestsForThisSpec()  // prevents race condition between cancel() and Nocilla
-                
+                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 req.cancel()
-                startDelayedRequest(req)
+                reqStub.go()
                 awaitFailure(req)
 
                 expectDataToBeUnchanged()

@@ -19,35 +19,31 @@ public class AlamofireTransportProvider: TransportProvider
     
     public func transportForRequest(request: NSURLRequest) -> RequestTransport
         {
-        return AlamofireRequestTransport(request: request, sessionManager: sessionManager)
+        sessionManager.startRequestsImmediately = false
+        return AlamofireRequestTransport(sessionManager.request(request))
         }
     }
 
 internal class AlamofireRequestTransport: RequestTransport
     {
-    private var request: NSURLRequest
-    private var sessionManager: Manager
-    internal weak var alamofireRequest: Alamofire.Request?
+    internal var alamofireRequest: Alamofire.Request
+    private(set) var isCancelled: Bool = false
     
-    init(request: NSURLRequest, sessionManager: Manager)
+    init(_ alamofireRequest: Alamofire.Request)
         {
-        self.request = request
-        self.sessionManager = sessionManager
+        self.alamofireRequest = alamofireRequest
         }
     
     func start(response: (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void)
         {
-        assert(alamofireRequest == nil, "Already started")
-        
-        alamofireRequest = sessionManager.request(request)
+        alamofireRequest
             .response { response(nsres: $1, body: $2, nserror: $3) }
+            .resume()
         }
     
     func cancel()
         {
-        alamofireRequest?.cancel()
+        alamofireRequest.cancel()
         isCancelled = true
         }
-
-    private(set) var isCancelled: Bool = false
     }

@@ -25,8 +25,6 @@ class ResourceSpecBase: QuickSpec
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
         
-        beforeEach  { Manager.sharedInstance.startRequestsImmediately = true }  // default, but some tests change it
-        
         afterEach  { fakeNow = nil }
         
         let service  = specVar { Service(base: "https://zingle.frotz/v1") },
@@ -80,16 +78,6 @@ func awaitFailure(req: Siesta.Request)
        .newData     { _ in fail("newData callback should not be called") }
        .notModified { _ in fail("notModified callback should not be called") }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
-    }
-
-func delayRequestsForThisSpec()
-    {
-    Manager.sharedInstance.startRequestsImmediately = false
-    }
-
-func startDelayedRequest(req: Siesta.Request)
-    {
-    ((req as? NetworkRequest)?.transport as? AlamofireRequestTransport)?.alamofireRequest?.resume()
     }
 
 // MARK: - Clock stubbing
