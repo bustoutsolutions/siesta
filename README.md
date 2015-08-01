@@ -326,7 +326,7 @@ Note that you can also attach callbacks to an individual request, in the manner 
 ```swift
 resource.load()
     .success { data in print("Wow! Data!") }
-    .error { error in print("Oh, bummer.") }
+    .failure { error in print("Oh, bummer.") }
 ```
 
 These _response callbacks_ are one-offs, called at most once when a request completes and then discarded. Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
