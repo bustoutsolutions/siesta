@@ -111,7 +111,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
-        let nsreq = NSMutableURLRequest(URL: url!)
+        let nsreq = NSMutableURLRequest(URL: url!)  // TODO: remove ! when invalid URLs handled
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
 
