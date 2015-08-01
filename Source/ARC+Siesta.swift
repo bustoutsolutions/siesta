@@ -43,6 +43,7 @@ internal struct StrongOrWeakRef<T>
         }
     }
 
+
 /// A weak ref suitable for use in collections. This struct maintains stable behavior for == and hashValue even
 /// after the referenced object has been deallocated, making it suitable for use as a Set member and a Dictionary key.
 ///
@@ -64,7 +65,7 @@ internal struct WeakRef<T: AnyObject>: Hashable
         { return originalHash }
     }
 
-func ==<T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
+internal func ==<T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
     {
     return lhs.originalIdentity == rhs.originalIdentity
     }

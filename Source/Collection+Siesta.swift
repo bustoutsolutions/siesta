@@ -6,7 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-extension CollectionType
+internal extension CollectionType
     {
     func bipartition(
             @noescape includeElement: (Self.Generator.Element) -> Bool)
@@ -27,7 +27,7 @@ extension CollectionType
         }
     }
 
-extension Dictionary
+internal extension Dictionary
     {
     static func fromArray<K,V>(arrayOfTuples: [(K,V)]) -> [K:V]
         {

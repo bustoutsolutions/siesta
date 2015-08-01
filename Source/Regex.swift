@@ -6,7 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-extension String
+internal extension String
     {
     func containsRegex(regex: String) -> Bool
         {
@@ -35,7 +35,7 @@ extension String
         }
     }
 
-extension NSRegularExpression
+internal extension NSRegularExpression
     {
     static func compile(pattern: String, options: NSRegularExpressionOptions = [])
         -> NSRegularExpression
