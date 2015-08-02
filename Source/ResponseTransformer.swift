@@ -104,9 +104,9 @@ public class TransformerSequence
 
 public protocol ResponseDataTransformer: ResponseTransformer
     {
-    func processData(data: Resource.Data) -> Response
+    func processData(data: ResourceData) -> Response
     
-    func processError(error: Resource.Error) -> Response
+    func processError(error: ResourceError) -> Response
     }
 
 public extension ResponseDataTransformer
@@ -127,13 +127,13 @@ public extension ResponseDataTransformer
     ///
     /// Note that overrides can turn a success into an error, e.g. if there is a parse error.
     ///
-    func processData(data: Resource.Data) -> Response
+    func processData(data: ResourceData) -> Response
         { return .Success(data) }
 
     /// Default behavior: attempt to process error response bodies just like success bodies, but
     /// if there is a transformation error, only log it and preserve the original error.
     ///
-    func processError(var error: Resource.Error) -> Response
+    func processError(var error: ResourceError) -> Response
         {
         if let errorData = error.data
             {
@@ -153,7 +153,7 @@ public extension ResponseDataTransformer
 public extension ResponseTransformer
     {
     func requireDataType<T>(
-            data: Resource.Data,
+            data: ResourceData,
             @noescape process: T -> Response)
         -> Response
         {
@@ -164,7 +164,7 @@ public extension ResponseTransformer
         else
             {
             return logTransformation(
-                .Failure(Resource.Error(
+                .Failure(ResourceError(
                     userMessage: "Cannot parse response",
                     debugMessage: "Expected \(T.self), but got \(data.payload.dynamicType)")))
             }
@@ -175,7 +175,7 @@ public extension ResponseTransformer
 
 public struct TextTransformer: ResponseDataTransformer
     {
-    public func processData(data: Resource.Data) -> Response
+    public func processData(data: ResourceData) -> Response
         {
         if data.payload as? String != nil
             {
@@ -194,7 +194,7 @@ public struct TextTransformer: ResponseDataTransformer
             if encoding == UInt(kCFStringEncodingInvalidId)
                 {
                 return logTransformation(
-                    .Failure(Resource.Error(
+                    .Failure(ResourceError(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Invalid encoding: \(charsetName)")))
                 }
@@ -208,7 +208,7 @@ public struct TextTransformer: ResponseDataTransformer
             else
                 {
                 return logTransformation(
-                    .Failure(Resource.Error(
+                    .Failure(ResourceError(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Using encoding: \(charsetName)")))
                 }
@@ -218,7 +218,7 @@ public struct TextTransformer: ResponseDataTransformer
 
 public struct JsonTransformer: ResponseDataTransformer
     {
-    public func processData(data: Resource.Data) -> Response
+    public func processData(data: ResourceData) -> Response
         {
         return requireDataType(data)
             {
@@ -233,7 +233,7 @@ public struct JsonTransformer: ResponseDataTransformer
             catch
                 {
                 return logTransformation(
-                    .Failure(Resource.Error(userMessage: "Cannot parse JSON", error: error as NSError)))
+                    .Failure(ResourceError(userMessage: "Cannot parse JSON", error: error as NSError)))
                 }
             }
         }

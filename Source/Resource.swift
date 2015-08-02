@@ -29,8 +29,8 @@ public class Resource: NSObject, CustomDebugStringConvertible
     
     // MARK: Resource state
 
-    public private(set) var latestData: Data?
-    public private(set) var latestError: Error?
+    public private(set) var latestData: ResourceData?
+    public private(set) var latestError: ResourceError?
     public var timestamp: NSTimeInterval
         {
         return max(
@@ -149,7 +149,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         else
             {
             return FailedRequest(
-                Resource.Error(
+                ResourceError(
                     userMessage: "Unable to encode text",
                     debugMessage: "Cannot encode text body using \(encodingName)"))
             }
@@ -164,7 +164,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         guard NSJSONSerialization.isValidJSONObject(json) else
             {
             return FailedRequest(
-                Resource.Error(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
+                ResourceError(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
             }
         
         do  {
@@ -176,7 +176,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             // This catch block should obviate the isValidJSONObject() call above, but Swift apparently
             // doesn’t catch NSInvalidArgumentException (radar 21913397).
             return FailedRequest(
-                Resource.Error(userMessage: "Cannot encode JSON", error: error as NSError))
+                ResourceError(userMessage: "Cannot encode JSON", error: error as NSError))
             }
         }
     
@@ -248,13 +248,13 @@ public class Resource: NSObject, CustomDebugStringConvertible
         return req
         }
     
-    private func receiveData(data: Data)
+    private func receiveData(data: ResourceData)
         { receiveData(data, localOverride: false) }
     
-    public func localDataOverride(data: Data)
+    public func localDataOverride(data: ResourceData)
         { receiveData(data, localOverride: true) }
     
-    private func receiveData(data: Data, localOverride: Bool)
+    private func receiveData(data: ResourceData, localOverride: Bool)
         {
         debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", data])
         
@@ -274,7 +274,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         notifyObservers(.NotModified)
         }
     
-    private func receiveError(error: Error)
+    private func receiveError(error: ResourceError)
         {
         if let nserror = error.nsError
             where nserror.domain == "NSURLErrorDomain"

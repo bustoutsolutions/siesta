@@ -148,7 +148,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .andReturn(200)
                         .delay()
                     resource().localDataOverride(
-                        Resource.Data(payload: "hi", mimeType: "text/plain", headers: ["Etag": etag]))
+                        ResourceData(payload: "hi", mimeType: "text/plain", headers: ["Etag": etag]))
                     let req = resource().load()
                     return (reqStub, req)
                     }
@@ -452,7 +452,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             let arbitraryMimeType = "payloads-can-be/anything"
             let arbitraryPayload = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
-            let localData = specVar { Resource.Data(payload: arbitraryPayload(), mimeType: arbitraryMimeType) }
+            let localData = specVar { ResourceData(payload: arbitraryPayload(), mimeType: arbitraryMimeType) }
             
             it("updates the data")
                 {
@@ -475,7 +475,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not touch the transformer pipeline")
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
-                resource().localDataOverride(Resource.Data(payload: rawData!, mimeType: "text/plain"))
+                resource().localDataOverride(ResourceData(payload: rawData!, mimeType: "text/plain"))
                 expect(resource().latestData?.payload as? NSData).to(beIdenticalTo(rawData))
                 }
             }

@@ -18,18 +18,18 @@ public enum RequestMethod: String
 public protocol Request: AnyObject
     {
     func completion(callback: Response -> Void) -> Self     // success or failure
-    func success(callback: Resource.Data -> Void) -> Self   // success, may be same data
-    func newData(callback: Resource.Data -> Void) -> Self   // success, data modified
+    func success(callback: ResourceData -> Void) -> Self   // success, may be same data
+    func newData(callback: ResourceData -> Void) -> Self   // success, data modified
     func notModified(callback: Void -> Void) -> Self        // success, data not modified
-    func failure(callback: Resource.Error -> Void) -> Self  // error of any kind
+    func failure(callback: ResourceError -> Void) -> Self  // error of any kind
     
     func cancel()
     }
 
 public enum Response: CustomStringConvertible
     {
-    case Success(Resource.Data)
-    case Failure(Resource.Error)
+    case Success(ResourceData)
+    case Failure(ResourceError)
     
     public var description: String
         {
@@ -85,7 +85,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    func success(callback: Resource.Data -> Void) -> Self
+    func success(callback: ResourceData -> Void) -> Self
         {
         addResponseCallback
             {
@@ -96,7 +96,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    func newData(callback: Resource.Data -> Void) -> Self
+    func newData(callback: ResourceData -> Void) -> Self
         {
         addResponseCallback
             {
@@ -118,7 +118,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    func failure(callback: Resource.Error -> Void) -> Self
+    func failure(callback: ResourceError -> Void) -> Self
         {
         addResponseCallback
             {
@@ -158,7 +158,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         {
         if nsres?.statusCode >= 400 || nserror != nil
             {
-            return (.Failure(Resource.Error(nsres, body, nserror)), true)
+            return (.Failure(ResourceError(nsres, body, nserror)), true)
             }
         else if nsres?.statusCode == 304
             {
@@ -169,7 +169,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             else
                 {
                 return(
-                    .Failure(Resource.Error(
+                    .Failure(ResourceError(
                         userMessage: "No data",
                         debugMessage: "Received HTTP 304, but resource has no existing data")),
                     true)
@@ -177,11 +177,11 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else if let body = body
             {
-            return (.Success(Resource.Data(nsres, body)), true)
+            return (.Success(ResourceData(nsres, body)), true)
             }
         else
             {
-            return (.Failure(Resource.Error(userMessage: "Empty response")), true)
+            return (.Failure(ResourceError(userMessage: "Empty response")), true)
             }
         }
     
@@ -216,9 +216,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 /// For requests that failed before they even made it to the transport layer
 internal class FailedRequest: Request
     {
-    private let error: Resource.Error
+    private let error: ResourceError
     
-    init(_ error: Resource.Error)
+    init(_ error: ResourceError)
         { self.error = error }
     
     func completion(callback: Response -> Void) -> Self
@@ -227,7 +227,7 @@ internal class FailedRequest: Request
         return self
         }
     
-    func failure(callback: Resource.Error -> Void) -> Self
+    func failure(callback: ResourceError -> Void) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
         return self
@@ -235,8 +235,8 @@ internal class FailedRequest: Request
     
     // Everything else is a noop
     
-    func success(callback: Resource.Data -> Void) -> Self { return self }
-    func newData(callback: Resource.Data -> Void) -> Self { return self }
+    func success(callback: ResourceData -> Void) -> Self { return self }
+    func newData(callback: ResourceData -> Void) -> Self { return self }
     func notModified(callback: Void -> Void) -> Self { return self }
     
     func cancel() { }

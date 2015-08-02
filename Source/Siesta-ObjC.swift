@@ -35,7 +35,7 @@
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
 
-// (Why not just make Resource.Data and Resource.Error classes and avoid all these
+// (Why not just make ResourceData and ResourceError classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via localDataOverride() so that observers always know about changes.)
@@ -60,7 +60,7 @@ public class _objc_ResourceData: NSObject
     public convenience init(payload: AnyObject, mimeType: String)
         { self.init(payload: payload, mimeType: mimeType, headers: [:]) }
     
-    internal init(_ data: Resource.Data)
+    internal init(_ data: ResourceData)
         {
         self.payload  = data.payload
         self.mimeType = data.mimeType
@@ -70,7 +70,7 @@ public class _objc_ResourceData: NSObject
         }
     }
 
-internal extension Resource.Data
+internal extension ResourceData
     {
     init(data: _objc_ResourceData)
         {
@@ -88,7 +88,7 @@ public class _objc_ResourceError: NSObject
     public var data: _objc_ResourceData?
     public let timestamp: NSTimeInterval
 
-    internal init(_ error: Resource.Error)
+    internal init(_ error: ResourceError)
         {
         self.httpStatusCode = error.httpStatusCode
         self.nsError        = error.nsError

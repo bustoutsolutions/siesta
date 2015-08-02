@@ -126,7 +126,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         observedResources = observedResources.filter { $0 !== resource }
         }
     
-    private func showError(error: Resource.Error)
+    private func showError(error: ResourceError)
         {
         hidden = false
         errorView?.hidden = false
