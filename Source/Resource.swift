@@ -28,7 +28,10 @@ public class Resource: NSObject, CustomDebugStringConvertible
     {
     // MARK: Configuration
     
+    /// The API to which this resource belongs. Provides configuration defaults and instance uniqueness.
     public let service: Service
+    
+    /// The canoncial URL of this resource.
     public let url: NSURL? // TODO: figure out what to do about invalid URLs
     
     internal var observers = [ObserverEntry]()
@@ -150,8 +153,8 @@ public class Resource: NSObject, CustomDebugStringConvertible
     // MARK: URL Navigation
     
     /**
-      Returns the resource with the given string appended to this resource’s URL, with a joining slash inserted if
-      necessary.
+      Returns the resource with the given string appended to the path of this resource’s URL, with a joining slash
+      inserted if necessary.
      
       Use this method for hierarchical resource navigation. The typical use case is constructing a resource URL from
       path components and IDs:
@@ -161,7 +164,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
             //→ /widgets/123/details
      
       This method _always_ returns a subpath of the receiving resource. It does not apply any special
-      interpretation to strings such `.`, `//` or `?` that have significance in other URL-related
+      interpretation to strings such `./`, `//` or `?` that have significance in other URL-related
       situations. Special characters are escaped when necessary, and otherwise ignored. See
       [`ResourcePathsSpec`](https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift)
       for details.
@@ -180,9 +183,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
       parameter much like an `href` attribute in an HTML document. Refer to
       [`ResourcePathsSpec`](https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift)
       for details.
-      
-      This is the method to use if you are extracting
-      
+    
       - SeeAlso:
         - `optionalRelative(_:)`
         - `child(_:)`
@@ -198,7 +199,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
       This convenience method is useful for resolving URLs returned as part of a JSON response body:
       
           let href = resource.dict["owner"]  // href is an optional
-          if let ownerResource = resource.resolve(href) {
+          if let ownerResource = resource.optionalRelative(href) {
             // ...
           }
     */
@@ -211,21 +212,21 @@ public class Resource: NSObject, CustomDebugStringConvertible
         }
 
     /**
-        Returns this resource with the given parameter added or changed in the query string.
-    
-        If `value` is an empty string, the parameter goes in the query string with no value (e.g. `?foo`).
-        If `value` is nil, the parameter is removed.
-        
-        There is no support for parameters with an equal sign but an empty value (e.g. `?foo=`).
-        There is also no support for repeated keys in the query string (e.g. `?foo=1&foo=2`).
-        If you need to circumvent either of these restrictions, you can create the query string yourself and pass
-        it to `relative(_:)` instead of using `withParam(_:_:)`.
-        
-        Note that `Service` gives out unique `Resource` instances according the full URL in string form, and thus
-        considers query string parameter order significant. Therefore, to ensure that you get the same `Resource`
-        instance no matter the order in which you specify parameters, `withParam(_:_:)` sorts all parameters by name.
-        Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
-        up to you to canonicalize your parameter order.
+      Returns this resource with the given parameter added or changed in the query string.
+  
+      If `value` is an empty string, the parameter goes in the query string with no value (e.g. `?foo`).
+      If `value` is nil, the parameter is removed.
+      
+      There is no support for parameters with an equal sign but an empty value (e.g. `?foo=`).
+      There is also no support for repeated keys in the query string (e.g. `?foo=1&foo=2`).
+      If you need to circumvent either of these restrictions, you can create the query string yourself and pass
+      it to `relative(_:)` instead of using `withParam(_:_:)`.
+      
+      Note that `Service` gives out unique `Resource` instances according the full URL in string form, and thus
+      considers query string parameter order significant. Therefore, to ensure that you get the same `Resource`
+      instance no matter the order in which you specify parameters, `withParam(_:_:)` sorts all parameters by name.
+      Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
+      up to you to canonicalize your parameter order.
     */
     public func withParam(name: String, _ value: String?) -> Resource
         {
@@ -408,15 +409,14 @@ public class Resource: NSObject, CustomDebugStringConvertible
     /**
       Initiates a GET request to update the state of this resource, unless it is already up to date.
       
-      “Up to date” means the following:
+      “Up to date” means that either:
+        - the resource has data (i.e. `latestData` is not nil),
+        - the last request succeeded (i.e. `latestError` _is_ nil), and
+        - the timestamp on `latestData` is more recent than `expirationTime` seconds ago,
       
-      - either
-          - the resource has data (i.e. `latestData` is not nil),
-          - the last request succeeded (i.e. `latestError` _is_ nil), and
-          - the timestamp on `latestData` is more recent than `expirationTime`,
-      - or
-          - the last request failed (i.e. `latestError` is not nil), and
-          - the timestamp on `latestError` is more recent than `retryTime`
+      …or:
+        - the last request failed (i.e. `latestError` is not nil), and
+        - the timestamp on `latestError` is more recent than `retryTime` seconds ago.
     
       If the resource is not up to date, this method calls `load()`.
     */
@@ -487,9 +487,11 @@ public class Resource: NSObject, CustomDebugStringConvertible
       Directly updates `latestData` without touching the network. Clears `latestError` and broadcasts
       `ResourceEvent.NewData` to observers.
       
-      This method is useful in two situations:
+      This method is useful in two situations.
       
-      First, you may want to construct a more complicated request than `load()` allows (e.g. using a method other than
+      ### Alternative to load()
+    
+      You may want to construct a more complicated request than `load()` allows (e.g. using a method other than
       GET), but still use the response body as the new state of the resource:
          
           let auth = service.resource("login")
@@ -497,8 +499,10 @@ public class Resource: NSObject, CustomDebugStringConvertible
           auth.request(method: .POST, json: authData)
             .newData { data in auth.localDataOverride(data) })
       
-      Second, you may send a request which does _not_ return the complete state of the resource in the response
-      body, but which still changes the state of the resource. You could handle this by initiating a refresh immedately
+      ### Incremental updates
+    
+      You may send a request which does _not_ return the complete state of the resource in the response body,
+      but which still changes the state of the resource. You could handle this by initiating a refresh immedately
       after success:
       
           resource.request(method: .POST, json: ["name": "Fred"])
