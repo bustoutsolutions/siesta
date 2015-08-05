@@ -57,15 +57,18 @@ class ResourcePathsSpec: ResourceSpecBase
             
         describe("relative()")
             {
+            func expectRelativeOf(resource: Resource, _ childPath: String, toResolveTo url: String)
+                { expect((resource, childPath)).to(expandToRelativeURL(url)) }
+
             func expectRelative(childPath: String, toResolveTo url: String)
-                { expect((resource(), childPath)).to(expandToRelativeURL(url)) }
+                { expectRelativeOf(resource(), childPath, toResolveTo: url) }
             
             it("returns a resource with the same service")
                 {
                 expect(resource().relative("c").service).to(equal(service()))
                 }
                 
-            it("treats bare paths like ./")
+            it("treats bare paths as if they are preceded by ./")
                 {
                 expectRelative("c",                  toResolveTo: "https://zingle.frotz/v1/a/c")
                 }
@@ -93,6 +96,25 @@ class ResourcePathsSpec: ResourceSpecBase
                 {
                 expectRelative("//other.host/c",     toResolveTo: "https://other.host/c")
                 expectRelative("ftp://other.host/c", toResolveTo: "ftp://other.host/c")
+                }
+            
+            it("can add a query string")
+                {
+                expectRelative("?foo=1",             toResolveTo: "https://zingle.frotz/v1/a/b?foo=1")
+                expectRelative("c?foo=1",            toResolveTo: "https://zingle.frotz/v1/a/c?foo=1")
+                }
+            
+            it("does not alphabetize query string params, unlike withParam(_:_:)")
+                {
+                expectRelative("?foo=1&bar=2",       toResolveTo: "https://zingle.frotz/v1/a/b?foo=1&bar=2")
+                expectRelative("c?foo=1&bar=2",      toResolveTo: "https://zingle.frotz/v1/a/c?foo=1&bar=2")
+                }
+            
+            it("entirely replaces or removes an existing query string")
+                {
+                let resourceWithParam = resource().withParam("foo", "bar")
+                expectRelativeOf(resourceWithParam, "?baz=fez", toResolveTo: "https://zingle.frotz/v1/a/b?baz=fez")
+                expectRelativeOf(resourceWithParam, "./c",      toResolveTo: "https://zingle.frotz/v1/a/c")
                 }
             }
 
