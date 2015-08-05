@@ -24,4 +24,9 @@ internal extension String
         result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).uppercaseString)
         return result
         }
+    
+    var nilIfEmpty: String?
+        {
+        return isEmpty ? nil : self
+        }
     }

@@ -137,6 +137,12 @@ class ResourcePathsSpec: ResourceSpecBase
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"))
                 }
                 
+            it("treats empty string value as empty param")
+                {
+                expect(resourceWithParams().withParam("foo", "").url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?foo&zoogle=oogle"))
+                }
+                
             it("treats nil value as removal")
                 {
                 expect(resourceWithParams().withParam("foo", nil).url?.absoluteString)

@@ -34,7 +34,7 @@ internal extension NSURL
         let newItems = queryMutator(queryDict)
             .sort { $0.0 < $1.0 }   // canonicalize order to help resource URLs be unique
             .filter { $1 != nil }
-            .map { NSURLQueryItem(name: $0.0, value: $0.1) }
+            .map { NSURLQueryItem(name: $0.0, value: $0.1?.nilIfEmpty) }
         
         components.queryItems = newItems.isEmpty ? nil : newItems
         
