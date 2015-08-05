@@ -17,6 +17,9 @@ class ResourcePathsSpec: ResourceSpecBase
         {
         describe("child()")
             {
+            func expectChild(childPath: String, toResolveTo url: String)
+                { expect((resource(), childPath)).to(expandToChildURL(url)) }
+            
             it("returns a resource with the same service")
                 {
                 expect(resource().child("c").service).to(equal(service()))
@@ -24,30 +27,39 @@ class ResourcePathsSpec: ResourceSpecBase
                 
             it("resolves bare paths as subpaths")
                 {
-                expect((resource(), "c")).to(expandToChildURL("https://zingle.frotz/v1/a/b/c"))
+                expectChild("c",                  toResolveTo: "https://zingle.frotz/v1/a/b/c")
                 }
             
             it("resolves paths with / prefix as subpaths")
                 {
-                expect((resource(), "c")).to(expandToChildURL("https://zingle.frotz/v1/a/b/c"))
+                expectChild("c",                  toResolveTo: "https://zingle.frotz/v1/a/b/c")
                 }
             
             it("does not resolve ./ or ../")
                 {
-                expect((resource(), "./c")).to(expandToChildURL("https://zingle.frotz/v1/a/b/./c"))
-                expect((resource(), "./c/./d")).to(expandToChildURL("https://zingle.frotz/v1/a/b/./c/./d"))
-                expect((resource(), "../c")).to(expandToChildURL("https://zingle.frotz/v1/a/b/../c"))
+                expectChild("./c",                toResolveTo: "https://zingle.frotz/v1/a/b/./c")
+                expectChild("./c/./d",            toResolveTo: "https://zingle.frotz/v1/a/b/./c/./d")
+                expectChild("../c",               toResolveTo: "https://zingle.frotz/v1/a/b/../c")
                 }
             
             it("treats URL-like strings as paths")
                 {
-                expect((resource(), "//other.host/c")).to(expandToChildURL("https://zingle.frotz/v1/a/b//other.host/c"))
-                expect((resource(), "ftp://other.host/c")).to(expandToChildURL("https://zingle.frotz/v1/a/b/ftp://other.host/c"))
+                expectChild("//other.host/c",     toResolveTo: "https://zingle.frotz/v1/a/b//other.host/c")
+                expectChild("ftp://other.host/c", toResolveTo: "https://zingle.frotz/v1/a/b/ftp://other.host/c")
+                }
+
+            it("escapes characters when necessary")
+                {
+                expectChild("?foo",               toResolveTo: "https://zingle.frotz/v1/a/b/%3Ffoo")
+                expectChild(" •⇶",                toResolveTo: "https://zingle.frotz/v1/a/b/%20%E2%80%A2%E2%87%B6")
                 }
             }
             
         describe("relative()")
             {
+            func expectRelative(childPath: String, toResolveTo url: String)
+                { expect((resource(), childPath)).to(expandToRelativeURL(url)) }
+            
             it("returns a resource with the same service")
                 {
                 expect(resource().relative("c").service).to(equal(service()))
@@ -55,32 +67,32 @@ class ResourcePathsSpec: ResourceSpecBase
                 
             it("treats bare paths like ./")
                 {
-                expect((resource(), "c")).to(expandToRelativeURL("https://zingle.frotz/v1/a/c"))
+                expectRelative("c",                  toResolveTo: "https://zingle.frotz/v1/a/c")
                 }
             
             it("resolves ./")
                 {
-                expect((resource(), "./c")).to(expandToRelativeURL("https://zingle.frotz/v1/a/c"))
-                expect((resource(), "././c")).to(expandToRelativeURL("https://zingle.frotz/v1/a/c"))
-                expect((resource(), "./c/./d")).to(expandToRelativeURL("https://zingle.frotz/v1/a/c/d"))
+                expectRelative("./c",                toResolveTo: "https://zingle.frotz/v1/a/c")
+                expectRelative("././c",              toResolveTo: "https://zingle.frotz/v1/a/c")
+                expectRelative("./c/./d",            toResolveTo: "https://zingle.frotz/v1/a/c/d")
                 }
             
             it("resolves ../")
                 {
-                expect((resource(), "../c")).to(expandToRelativeURL("https://zingle.frotz/v1/c"))
-                expect((resource(), "../../c")).to(expandToRelativeURL("https://zingle.frotz/c"))
-                expect((resource(), "../c/../d")).to(expandToRelativeURL("https://zingle.frotz/v1/d"))
+                expectRelative("../c",               toResolveTo: "https://zingle.frotz/v1/c")
+                expectRelative("../../c",            toResolveTo: "https://zingle.frotz/c")
+                expectRelative("../c/../d",          toResolveTo: "https://zingle.frotz/v1/d")
                 }
             
             it("resolves absolute paths relative to host root")
                 {
-                expect((resource(), "/c")).to(expandToRelativeURL("https://zingle.frotz/c"))
+                expectRelative("/c",                 toResolveTo: "https://zingle.frotz/c")
                 }
             
             it("resolves full URLs")
                 {
-                expect((resource(), "//other.host/c")).to(expandToRelativeURL("https://other.host/c"))
-                expect((resource(), "ftp://other.host/c")).to(expandToRelativeURL("ftp://other.host/c"))
+                expectRelative("//other.host/c",     toResolveTo: "https://other.host/c")
+                expectRelative("ftp://other.host/c", toResolveTo: "ftp://other.host/c")
                 }
             }
 
@@ -101,12 +113,14 @@ class ResourcePathsSpec: ResourceSpecBase
             {
             it("adds params")
                 {
-                expect(resource().withParam("foo", "bar").url?.absoluteString).to(equal("https://zingle.frotz/v1/a/b?foo=bar"))
+                expect(resource().withParam("foo", "bar").url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar"))
                 }
 
             it("escapes params")
                 {
-                expect(resource().withParam("fo=o", "ba r").url?.absoluteString).to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
+                expect(resource().withParam("fo=o", "ba r").url?.absoluteString)
+                    .to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
                 }
                 
             let resourceWithParams = specVar { resource().withParam("foo", "bar").withParam("zoogle", "oogle") }
