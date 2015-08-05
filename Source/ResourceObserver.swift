@@ -6,43 +6,89 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-// MARK: - Observer API
-
+/**
+  Something that can observe changes to the state of a `Resource`.
+*/
 public protocol ResourceObserver
     {
     func resourceChanged(resource: Resource, event: ResourceEvent)
-    func resourceRequestProgress(resource: Resource)
+    
+    /// :nodoc:
+    func resourceRequestProgress(resource: Resource) // TODO: not implemented yet
+    
     func stoppedObservingResource(resource: Resource)
     }
 
+/// :nodoc:
 public extension ResourceObserver
     {
     func resourceRequestProgress(resource: Resource) { }
     func stoppedObservingResource(resource: Resource) { }
     }
 
+/// A closure alternative to `ResourceObserver`.
+public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
+
+/**
+  The possible causes of a call to `ResourceObserver.resourceChanged(_:event:)`.
+  
+  - SeeAlso: `Resource.load()`
+*/
 public enum ResourceEvent: String
     {
-    case ObserverAdded     // Sent only to the newly attached observer, not all observers
+    /**
+      Immediately sent to a new observer when it first starts observering a resource. This event allows you to play all
+      of your “update UI from resource state” code in one place, and have that code be called both when the UI first
+      appears _and_ when the resource state changes.
+    
+      Note that this is sent only to the newly attached observer, not all observers.
+    */
+    case ObserverAdded
+    
+    /// A load request for this resource started. `Resource.loading` is now true.
     case Requested
+    
+    /// The request in progress was cancelled before it finished.
     case RequestCancelled
+    
+    /// The resource’s `latestData` property has been updated.
     case NewData
+    
+    /// The request in progress succeeded, but did not result in a change to the resource’s `latestData` (except
+    /// the timestamp). Note that you may still need to update the UI, because if `latestError` was present before, it
+    /// is now nil.
     case NotModified
+
+    /// The request in progress failed. Details are in the resource’s `latestError` property.
     case Error
     }
 
-public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
+// MARK: - Associating Observers with Resources
 
 public extension Resource
     {
     /**
-        Adds an observer without retaining a reference to it.
+      Adds an self-owned observer to this resource, which will receive notifications of changes to resource state.
+      
+      The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
+      automatically removed.
+      
+      Use this method for objects such as `UIViewController`s which already have a lifecycle of their own, are retained
+      elsewhere, and also happen to act as observers.
     */
     public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
         {
         return addObserver(observerAndOwner, owner: observerAndOwner)
         }
     
+    /**
+      Adds an observer to this resource, holding a strong reference to it as long as `owner` still exists.
+    
+      The resource holds only a weak reference to `owner`, and as soon as the owner goes away, the observer is removed.
+      
+      The typical use for this method is for glue objects whose only purpose is to act as an observer, and which would
+      not normally be retained by anything else.
+    */
     public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
         if let observerObj = observer as? AnyObject
@@ -65,11 +111,20 @@ public extension Resource
         return self
         }
     
+    /**
+      Adds a closure observer to this resource.
+
+      The resource holds a weak reference to `owner`, and the closure will receive events only as long as `owner`
+      still exists.
+    */
     public func addObserver(owner owner: AnyObject, closure: ResourceObserverClosure) -> Self
         {
         return addObserver(ClosureObserver(closure: closure), owner: owner)
         }
     
+    /**
+      Removes all observers owned by the given object.
+    */
     @objc(removeObserversOwnedBy:)
     public func removeObservers(ownedBy owner: AnyObject?)
         {

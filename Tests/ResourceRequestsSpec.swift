@@ -189,6 +189,24 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.mimeType).to(equal("text/monkey"))
                 }
             
+            it("extracts the charset if present")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-type", "text/monkey; charset=utf-8")
+                awaitNewData(resource().load())
+                
+                expect(resource().latestData?.charset).to(equal("utf-8"))
+                }
+            
+            it("includes the charset in the content type")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-type", "text/monkey; charset=utf-8")
+                awaitNewData(resource().load())
+                
+                expect(resource().latestData?.mimeType).to(equal("text/monkey; charset=utf-8"))
+                }
+            
             it("parses the charset")
                 {
                 let monkeyType = "text/monkey; body=fuzzy; charset=euc-jp; arms=long"

@@ -15,12 +15,20 @@ public enum RequestMethod: String
     case DELETE
     }
 
+/**
+  Registers hooks to receive notifications about the status of a network request, and some request control.
+  
+  Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
+  _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
+  requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
+  and `localDataOverride(_:)`.
+*/
 public protocol Request: AnyObject
     {
-    func completion(callback: Response -> Void) -> Self     // success or failure
+    func completion(callback: Response -> Void) -> Self    // success or failure
     func success(callback: ResourceData -> Void) -> Self   // success, may be same data
     func newData(callback: ResourceData -> Void) -> Self   // success, data modified
-    func notModified(callback: Void -> Void) -> Self        // success, data not modified
+    func notModified(callback: Void -> Void) -> Self       // success, data not modified
     func failure(callback: ResourceError -> Void) -> Self  // error of any kind
     
     func cancel()
@@ -142,6 +150,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // MARK: Response handling
     
+    // Entry point for response handling. Passed as a callback closure to RequestTransport.
     private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
         debugLog(.Network, [nsres?.statusCode, "←", requestDescription])

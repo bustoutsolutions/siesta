@@ -12,12 +12,12 @@ internal var fakeNow: NSTimeInterval?
 internal let now = { fakeNow ?? NSDate.timeIntervalSinceReferenceDate() }
 
 /**
-  A RESTful resource.
+  An in-memory cache of a RESTful resource, plus information about the status of network requests related to it.
 
   This class answers three basic questions about a resource:
 
-  * What is the latest data for this resource, if any?
-  * Did the latest request result in an error?
+  * What is the latest data for the resource this device has retrieved, if any?
+  * Did the last attempt to load it result in an error?
   * Is there a request in progress?
 
   …and allows multiple observer to register to be notified whenever the answers to any of these
@@ -448,15 +448,15 @@ public class Resource: NSObject, CustomDebugStringConvertible
       Sequence of events:
     
       1. This resource’s `loading` property becomes true, and remains true until the request either succeeds or fails.
-         Observers immedate receive `ResourceEvent.Requested`.
+         Observers immedately receive `ResourceEvent.Requested`.
       2. If the request is cancelled before completion, observers receive `ResourceEvent.RequestCancelled`.
       3. If the server returns a success response, that goes in `latestData`, and `latestError` becomes nil.
          Observers receive `ResourceEvent.NewData`.
       3. If the server returns a 304, `latestData`’s timestamp is updated but the data is untouched.
          `latestError` becomes nil. Observers receive `ResourceEvent.NotModified`.
-      4. If the request fails for any reason, whether an encoding error, a network timeout,
-         a server error, or client-side response parsing problems, observers receive `ResourceEvent.Error`.
-         Note that `latestData` does _not_ become nil; the last valid response always sticks around.
+      4. If the request fails for any reason, whether client-, server-, or network-related, observers receive
+         `ResourceEvent.Error`. Note that `latestData` does _not_ become nil; the last valid response always sticks
+         around until another valid response arrives.
     */
     public func load() -> Request
         {
