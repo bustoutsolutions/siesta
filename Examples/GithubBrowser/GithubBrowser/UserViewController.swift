@@ -37,7 +37,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         user = nil
         
         if let searchText = searchBar.text {
-            user = GithubAPI.instance.user(searchText)
+            user = GithubAPI.user(searchText)
             user?.addObserver(self)
                  .addObserver(statusOverlay, owner: self)
                  .loadIfNeeded()

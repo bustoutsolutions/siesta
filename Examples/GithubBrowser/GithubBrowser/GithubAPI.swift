@@ -8,10 +8,8 @@
 
 import Siesta
 
-class GithubAPI: Service {
+class GithubService: Service {
 
-    static let instance = GithubAPI()
-    
     init() {
         super.init(base: "https://api.github.com")
         
@@ -26,3 +24,6 @@ class GithubAPI: Service {
         return resource("users").child(username)
     }
 }
+
+let GithubAPI = GithubService()
+
