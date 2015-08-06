@@ -66,6 +66,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [x] Debug-friendly, customizable logging
 - [x] Written in Swift with a great [Swift-centric API](http://bustoutsolutions.github.io/siesta/api/), but…
 - [x] …also works great from Objective-C thanks to a compatibility layer
+- [x] [Documentation](Docs/index.md)
 
 **Forthcoming:**
 
@@ -131,8 +132,6 @@ We’ll add support when Xcode 7 goes out of beta (or sooner, if a suitable pull
 Make a singleton for the REST API you want to use:
 
 ```swift
-import Siesta
-
 let MyAPI = Service(base: "https://api.example.com")
 ```
 
