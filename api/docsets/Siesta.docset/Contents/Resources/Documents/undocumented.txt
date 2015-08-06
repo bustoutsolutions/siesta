@@ -1,0 +1,97 @@
+Transport-Alamofire.swift
+	public class AlamofireTransportProvider: TransportProvider
+	public let sessionManager: Manager
+	public init(sessionManager: Manager = Manager.sharedInstance)
+	public func transportForRequest(request: NSURLRequest) -> RequestTransport
+Transport.swift
+	public protocol TransportProvider
+	func transportForRequest(request: NSURLRequest) -> RequestTransport
+	public protocol RequestTransport
+	func start(response: (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void)
+	func cancel()
+	var isCancelled: Bool { get }
+Logging.swift
+	public enum LogCategory: String
+	case Network
+	case NetworkDetails
+	case ResponseProcessing
+	case StateChanges
+	case Observers
+	case Staleness
+	common: Set<LogCategory> = [Network,                                       .StateChanges,             .Staleness],
+	public var enabledLogCategories = Set<LogCategory>()
+	public var logger: (LogCategory, String) -> Void = { print("[Siesta:\($0.rawValue)] \($1)") }
+ResourceObserver.swift
+	func resourceChanged(resource: Resource, event: ResourceEvent)
+	func stoppedObservingResource(resource: Resource)
+	func resourceRequestProgress(resource: Resource) { }
+	func stoppedObservingResource(resource: Resource) { }
+Request.swift
+	public enum RequestMethod: String
+	case GET
+	case POST
+	case PUT
+	case PATCH
+	case DELETE
+	func completion(callback: Response -> Void) -> Self    // success or failure
+	func success(callback: ResourceData -> Void) -> Self   // success, may be same data
+	func newData(callback: ResourceData -> Void) -> Self   // success, data modified
+	func notModified(callback: Void -> Void) -> Self       // success, data not modified
+	func failure(callback: ResourceError -> Void) -> Self  // error of any kind
+	func cancel()
+	public enum Response: CustomStringConvertible
+	case Success(ResourceData)
+	case Failure(ResourceError)
+	public var description: String
+ResourceStatusOverlay.swift
+	public class ResourceStatusOverlay: UIView, ResourceObserver
+	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
+	@IBOutlet public var errorView: UIView?
+	@IBOutlet public var errorHeadline: UILabel?
+	@IBOutlet public var errorDetail: UILabel?
+	public convenience init()
+	public convenience init(
+            nibName: String,
+            bundle: NSBundle = NSBundle.mainBundle())
+	public required init?(coder: NSCoder)
+        { super.init(coder: coder) }
+	public func embedIn(parentViewController: UIViewController) -> Self
+	public func positionToCoverParent()
+	public func positionToCover(view: UIView)
+	public func resourceChanged(resource: Resource, event: ResourceEvent)
+	public func stoppedObservingResource(resource: Resource)
+	@IBAction public func retryFailedRequests()
+Resource.swift
+	public var loading: Bool { return !loadRequests.isEmpty }
+	public protocol NSJSONConvertible: AnyObject { }
+ResponseTransformer.swift
+	public protocol ResponseTransformer
+	func process(response: Response) -> Response
+	public protocol ResponseTransformer
+	func logTransformation(result: Response) -> Response
+	public class TransformerSequence
+	public func clear()
+        { transformers.removeAll() }
+	public func add(
+            transformer: ResponseTransformer,
+            contentTypes: [String],
+            first: Bool = false)
+        -> Self
+	public func add(
+            transformer: ResponseTransformer,
+            first: Bool = false)
+        -> Self
+	public protocol ResponseDataTransformer: ResponseTransformer
+	func processData(data: ResourceData) -> Response
+	func processError(error: ResourceError) -> Response
+	public protocol ResponseDataTransformer : ResponseTransformer
+	final func process(response: Response) -> Response
+	public protocol ResponseTransformer
+	func requireDataType<T>(
+            data: ResourceData,
+            @noescape process: T -> Response)
+        -> Response
+	public struct TextTransformer: ResponseDataTransformer
+	public func processData(data: ResourceData) -> Response
+	public struct JsonTransformer: ResponseDataTransformer
+	public func processData(data: ResourceData) -> Response

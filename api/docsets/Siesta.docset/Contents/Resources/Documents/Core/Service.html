@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Service Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Service" class="dashAnchor"></a>
+    <a title="Service Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Siesta Docs</a> (48% documented)</p>
+        <p class="header-right"><a href=""><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Siesta Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Service Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="../Core.html">Core</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Core/Service.html">Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Core/Resource.html">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Core/Resource.html">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Core/ResourceData.html">ResourceData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Core/ResourceError.html">ResourceError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Core/RequestMethod.html">RequestMethod</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Observing Results.html">Observing Results</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Observing Results/ResourceObserver.html">ResourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Observing Results/ResourceObserver.html">ResourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Observing Results/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Observing Results/Request.html">Request</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Response Parsing.html">Response Parsing</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Response Parsing/Response.html">Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/ResponseTransformer.html">ResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/ResponseTransformer.html">ResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/ResponseDataTransformer.html">ResponseDataTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/ResponseDataTransformer.html">ResponseDataTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/TextTransformer.html">TextTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/JsonTransformer.html">JsonTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing/TransformerSequence.html">TransformerSequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Network Layer.html">Network Layer</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Network Layer/TransportProvider.html">TransportProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Network Layer/RequestTransport.html">RequestTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Network Layer/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../UI Components.html">UI Components</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../UI Components/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Logging/LogCategory.html">LogCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Logging.html#/s:v6Siesta6loggerFTOS_11LogCategorySS_T_">logger</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Typealiases.html">Other Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:6Siesta23ResourceObserverClosure">ResourceObserverClosure</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Service</h1>
+            <p>A set of logically connected RESTful resources, grouped under a base URL.</p>
+
+<p>You will typically create a separate subclass of <code>Service</code> for each REST API you use.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_"></a>
+                    <a name="//apple_ref/swift/Property/baseURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The root URL of the API.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">baseURL</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta7Service20responseTransformersCS_19TransformerSequence"></a>
+                    <a name="//apple_ref/swift/Property/responseTransformers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta7Service20responseTransformersCS_19TransformerSequence">responseTransformers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A sequence of parsers to be applied to all API responses.</p>
+
+<p>You can add custom parsing using:</p>
+
+<pre class="highlight plaintext"><code>responseTransformers.add(MyCustomTransformer())
+responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
+</code></pre>
+
+<p>By default, the transformer sequence includes JSON and plain text parsing. You can
+remove this default behavior by clearing the sequence:</p>
+
+<pre class="highlight plaintext"><code>responseTransformers.clear()
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">responseTransformers</span><span class="p">:</span> <span class="kt">TransformerSequence</span> <span class="o">=</span> <span class="kt">TransformerSequence</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta7Service21defaultExpirationTimeSd"></a>
+                    <a name="//apple_ref/swift/Property/defaultExpirationTime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta7Service21defaultExpirationTimeSd">defaultExpirationTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Default for <code>Resource.expirationTime</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">defaultExpirationTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">300</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta7Service16defaultRetryTimeSd"></a>
+                    <a name="//apple_ref/swift/Property/defaultRetryTime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta7Service16defaultRetryTimeSd">defaultRetryTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Default for <code>Resource.retryTime</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">defaultRetryTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS17transportProviderPS_17TransportProvider__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(base:transportProvider:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS17transportProviderPS_17TransportProvider__S0_">init(base:transportProvider:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new service for the given API.</p>
+
+<p>Parameter: base The base URL of the API.
+Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
+    configuration. You can pass an <code>AlamofireTransportProvider</code> created with a custom configuration,
+    or provide your own networking implementation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">transportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span> <span class="o">=</span> <span class="kt">AlamofireTransportProvider</span><span class="p">())</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service8resourceFS0_FGSqCSo5NSURL_CS_8Resource"></a>
+                    <a name="//apple_ref/swift/Method/resource(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFS0_FGSqCSo5NSURL_CS_8Resource">resource(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the unique resource with the given URL.</p>
+
+<p>This method will <em>always</em> return the same instance of <code>Resource</code> for the same URL within
+the context of a <code>Service</code> as long as anyone retains a reference to that resource.
+Unreferenced resources remain in memory (with their cached data) until a low memory event
+occurs, at which point they are summarily evicted.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource"></a>
+                    <a name="//apple_ref/swift/Method/resource(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource">resource(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the unique resource with the given path relative to <code>baseURL</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-08-06)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
