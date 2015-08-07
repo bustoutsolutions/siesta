@@ -1,4 +1,8 @@
-### UI Components
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
+# UI Components
+
+## ResourceStatusOverlay
 
 The business of showing an activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
 

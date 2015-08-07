@@ -1,4 +1,6 @@
-### Observers
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
+# Observers
 
 Code can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
 

@@ -1,10 +1,12 @@
-### Memory Management
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
+# Memory Management
 
 Note that in the [example in the README](https://github.com/bustoutsolutions/siesta#basic-usage), no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.
 
 Siesta achieves this by introducing a notion of **observer ownership,** which ties an observer to the lifecycle of some object. Here’s how this mechanism plays out in a few common cases:
 
-#### Self-Owned Observer
+## Self-Owned Observer
 
 An observer can register as its own owner using the single-argument flavor of `addObserver()`. This essentialy means, “Someone else owns this observer object. Keep only a weak reference to it. Send it notifications until it is deallocated.”
 
@@ -20,7 +22,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-#### Observer with an External Owner
+## Observer with an External Owner
 
 An observer can also regiser with `addObserver(observer:, owner:)`. This means, “This observer’s only purpose is to be an observer. Keep a strong reference and send it notifications until it its _owner_ is deallocated.”
 
@@ -41,7 +43,7 @@ someResource.addObserver(someViewController) {
 
 In the code about, the print statement will continue logging until `someViewController` is deallocated.
 
-#### Manually Removing Observers
+## Manually Removing Observers
 
 Sometimes you’ll want to remove an observer explicitly, usually because you want to point the same observer at a different resource.
 
@@ -62,7 +64,7 @@ var displayedResource: Resource? {
 }
 ```
 
-#### Detailed Ownership Rules
+## Detailed Ownership Rules
 
 * An observer’s observation of a resource is contingent upon one or more owners.
 * Owners can be any kind of object.
