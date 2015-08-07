@@ -222,7 +222,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
       If you need to circumvent either of these restrictions, you can create the query string yourself and pass
       it to `relative(_:)` instead of using `withParam(_:_:)`.
       
-      Note that `Service` gives out unique `Resource` instances according the full URL in string form, and thus
+      Note that `Service` gives out unique `Resource` instances according to the full URL in string form, and thus
       considers query string parameter order significant. Therefore, to ensure that you get the same `Resource`
       instance no matter the order in which you specify parameters, `withParam(_:_:)` sorts all parameters by name.
       Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is

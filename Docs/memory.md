@@ -1,8 +1,8 @@
 ### Memory Management
 
-Note that in the examples above, no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.
+Note that in the [example in the README](https://github.com/bustoutsolutions/siesta#basic-usage), no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.
 
-Siesta achieves this by introducing a notion of **observer ownership,** which ties an observer to the life cycle of an object. Here’s how this mechanism plays out in a few common cases:
+Siesta achieves this by introducing a notion of **observer ownership,** which ties an observer to the lifecycle of some object. Here’s how this mechanism plays out in a few common cases:
 
 #### Self-Owned Observer
 
@@ -24,7 +24,13 @@ class ProfileViewController: UIViewController, ResourceObserver {
 
 An observer can also regiser with `addObserver(observer:, owner:)`. This means, “This observer’s only purpose is to be an observer. Keep a strong reference and send it notifications until it its _owner_ is deallocated.”
 
-This is the right approach to use with little glue objects that implement `ResourceObserver`. It is also the approach you _must_ use when registering structs and closures as observers:
+This is the right approach to use with little glue objects that implement `ResourceObserver`:
+
+```swift
+someResource.addObserver(MyLittleGlueObject(), owner: self)
+```
+
+This is also the approach you _must_ use when registering structs and closures as observers:
 
 ```swift
 someResource.addObserver(someViewController) {
@@ -62,7 +68,7 @@ var displayedResource: Resource? {
 * Owners can be any kind of object.
 * An observer may be its own owner.
 * A resource keeps a strong reference to an observer as long as it has owners other than itself.
-* An observer stops observing a resource as soon as all of its owners have been deallocated (or explicitly removed).
+* An observer stops observing a resource as soon as all of its owners have either been deallocated or explicitly removed.
 
 Observers affect the lifecycle of resources:
 

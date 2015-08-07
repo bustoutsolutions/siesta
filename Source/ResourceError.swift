@@ -84,7 +84,7 @@ public struct ResourceError
 
     /**
         Convenience to create a custom error with an user & debug messages. The `debugMessage` parameter is
-        wrapped and attached to the `nsError` property.
+        wrapped in the `nsError` property.
     */
     public init(
             userMessage: String,

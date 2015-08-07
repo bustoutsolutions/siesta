@@ -1,9 +1,11 @@
 # Siesta User Guide
 
-- [Services and Resources](resources.md)
+- [Services and Resources](services-resources.md)
 - [Resource State](state.md)
 - [Requests](requests.md)
 - [Observers](observers.md)
 - [UI Components](ui-components.md)
 - [Memory Management](memory.md)
 - [Logging](logging.md)
+- [Using Siesta from Objective-C](objc.md)
+- [FAQ](faq.md)

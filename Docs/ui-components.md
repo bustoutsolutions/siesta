@@ -1,14 +1,14 @@
 ### UI Components
 
-The code above is already easy — but the business of showing the activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
+The business of showing an activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
 
 The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
 
 <p align="center"><img alt="Standard error overlay view" src="images/standard-error-overlay@2x.png" width=320 height=136></p>
 
-…and you can also provide your own custom .xib.
+…and you can also provide your own custom nib.
 
-Using the standard overlay, the example above becomes:
+Here’s a simple example of overlay usage:
 
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 
         statusOverlay.embedIn(self)
 
-        MyAPI.instance.profile
+        MyAPI.profile
             .addObserver(self)
             .addObserver(statusOverlay)
     }
@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        MyAPI.instance.profile.loadIfNeeded()
+        MyAPI.profile.loadIfNeeded()
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {

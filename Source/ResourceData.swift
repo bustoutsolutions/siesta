@@ -15,15 +15,15 @@ public struct ResourceData
     {
     /**
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
-      of object according after running though the `ResponseTransformer` chain.
+      of object after running though the service’s `ResponseTransformer` chain.
       
-      Why is the type of this property `AnyObject` instead of a generic `<T>`? Because a `T` declaration would mean
+      Why is the type of this property `AnyObject` instead of a generic `T`? Because a `<T>` declaration would mean
       “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
       Swift at _compile time_ what content type a server will actually send at _runtime_.
       
       The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That is
-      exactly what Swift’s `as?` operator does — and any scheme involving a generic `<T>` ends up being equivalent to
-      an obfuscated `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
+      exactly what Swift’s `as?` operator does — and any scheme involving a generic `<T>` ends up being an obfuscated
+      equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
       Crash-o-Matic.”
       
       In short, when using `payload`, write your code to handle the payload being of an unexpected type.
@@ -36,11 +36,11 @@ public struct ResourceData
       The type of data contained in the payload.
       
       If the payload was parsed into a data structure, this property typically contains the type of the original raw
-      data. For example, the type might be `application/json` while `payload` is a `Dictionary` and not the original
-      JSON text data.
+      data. For example, the type might be `application/json` even though `payload` is a `Dictionary` and no longer the
+      original JSON text data.
       
       This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
-      for example, you might see `text/plain`, `text/plain; charset=utf-8`, or even `text/foo+plain`.
+      for example, you might see “`text/plain`”, “`text/plain; charset=utf-8`”, or even “`text/foo+plain`”.
     */
     public var mimeType: String
     

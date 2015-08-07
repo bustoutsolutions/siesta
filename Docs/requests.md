@@ -3,7 +3,7 @@
 Resources start out empty — no data, no error, not loading. To trigger a GET request:
 
 ```swift
-MyAPI.instance.profile.loadIfNeeded()
+MyAPI.profile.loadIfNeeded()
 ```
 
 Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
@@ -11,16 +11,16 @@ Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWil
 To force a network request, use `load()`:
 
 ```swift
-MyAPI.instance.profile.load()
+MyAPI.profile.load()
 ```
 
 To update a resource with a POST/PUT/PATCH, use `request()`:
 
 ```swift
-MyAPI.instance.profile.request(.POST, json: ["foo": [1,2,3]])
-MyAPI.instance.profile.request(.POST, urlEncoded: ["foo": "bar"])
-MyAPI.instance.profile.request(.POST, text: "Many years later, in front of the terminal...")
-MyAPI.instance.profile.request(.POST, data: nsdata)
+MyAPI.profile.request(.POST, json: ["foo": [1,2,3]])
+MyAPI.profile.request(.POST, urlEncoded: ["foo": "bar"])
+MyAPI.profile.request(.POST, text: "Many years later, in front of the terminal...")
+MyAPI.profile.request(.POST, data: nsdata)
 ```
 
 ## Request vs. Load

@@ -3,15 +3,15 @@
 A resource keeps a local cache of the latest valid data:
 
 ```swift
-resource.data       // Gives a string, dict/array (for JSON), NSData, or
-                    // nil if no data is available. You can also configure
-                    // custom data types (e.g. model objects).
+resource.latestData          // Full metadata, in case you need the gory details.
 
-resource.text       // Typed accessors return an empty string/dict/array
-resource.dict       // if data is either unavailable or not of the expected
-resource.array      // type. This reduces futzing with optionals.
+resource.latestData?.payload // Gives a string, dict/array (for JSON), NSData, or
+                             // nil if no data is available. You can also configure
+                             // custom data types using ResponseTransformer.
 
-resource.latestData // Full metadata, in case you need the gory details.
+resource.text                // Convenience accessors return an empty string/dict/array
+resource.dict                // if data is either unavailable or not of the expected
+resource.array               // type. This reduces futzing with optionals.
 ```
 
 A resource knows whether it is currently loading, which lets you show/hide a spinner or progress bar:
@@ -27,11 +27,11 @@ resource.latestError               // Present if latest load attempt failed
 resource.latestError?.userMessage  // String suitable for display in UI
 ```
 
-That `latestError` rolls up many different kinds of error — transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
+That `latestError` struct rolls up many different kinds of error — transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
 
 ## Resource State is Multifaceted
 
-Note that data, error, and loading are not mutually exclusive. For example, consider the following scenario:
+Note that data, error, and the loading flag are not mutually exclusive. For example, consider the following scenario:
 
 * You load a resource, and the request succeeds.
 * You refresh it later, and that second request fails.

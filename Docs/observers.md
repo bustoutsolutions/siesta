@@ -1,12 +1,12 @@
 ### Observers
 
-UI components can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
+Code can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
 
 ```swift
 resource.addObserver(self)
 ```
 
-…or by providing a callback closure (Swift only):
+…or by providing a callback closure:
 
 ```swift
 resource.addObserver(owner: self) {
@@ -17,7 +17,7 @@ resource.addObserver(owner: self) {
 
 Observers receive a notification when a resource starts loading, receives new data, or receives an error. Each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
-The simplest way to implement your observer is to ignore the triggering event, and take an idempotent “update everything” approach:
+The simplest way to implement your observer is to ignore what king of event triggered the notification, and take an idempotent “update everything” approach:
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {

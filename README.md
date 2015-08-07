@@ -23,11 +23,13 @@ iOS REST Client Framework
 - [Installation](#installation)
   - [Carthage](#carthage)
   - [CocoaPods](#cocoapods)
-- [Usage](#usage)
+- [Basic Usage](#basic-usage)
 - [Examples](#examples)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+- [User Guide](Docs/index.md)
+- [API Docs](http://bustoutsolutions.github.io/siesta/api/)
 
 ## What’s It For?
 
@@ -127,7 +129,7 @@ import Siesta
 
 We’ll add support when Xcode 7 goes out of beta (or sooner, if a suitable pull request should happen to roll in).
 
-## Usage
+## Basic Usage
 
 Make a singleton for the REST API you want to use:
 
@@ -208,7 +210,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-Note that this is not just a toy example. Together with its storyboard, **this small piece of code is a fully armed and operational REST-backed user interface**, complete with content-type-aware multithreaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
+Note that this is not just a toy example. Together with its storyboard, **this small piece of code is a fully armed and operational REST-backed user interface**, complete with an activity indicator, content-type-aware threaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
 
 See the [user guide](Docs/index.md) and [API documentation](http://bustoutsolutions.github.io/siesta/api/) for more info.
 
