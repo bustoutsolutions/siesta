@@ -200,7 +200,7 @@ public extension Resource
         }
     }
 
-// MARK: - Because ResourceEvent is an enum
+// MARK: - Because Swift enums aren’t exposed to Obj-C
 
 @objc(BOSResourceObserver)
 public protocol _objc_ResourceObserver
@@ -244,6 +244,13 @@ public extension Resource
     @objc(addObserver:owner:)
     public func _objc_addObserver(objcObserver: _objc_ResourceObserver, owner: AnyObject) -> Self
         { return addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
+
+    @objc(addObserverWithOwner:callback:)
+    public func addObserver(owner owner: AnyObject, callback: @convention(block) (Resource,String) -> Void) -> Self
+        {
+        return addObserver(owner: owner)
+            { callback($0, $1.rawValue) }
+        }
     }
 
 extension ResourceStatusOverlay: _objc_ResourceObserver
@@ -251,3 +258,100 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
     public func resourceChanged(resource: Resource, event: String)
         { self.resourceChanged(resource, event: ResourceEvent(rawValue: event)!) }
     }
+
+public extension Resource
+    {
+    @objc(requestWithMethod:requestMutation:)
+    public func _objc_request(
+            method:          String,
+            requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
+        -> _objc_Request
+        {
+        return _objc_Request(
+            request(
+                RequestMethod(rawValue: method)!)
+                    { requestMutation?($0) })
+        }
+
+
+    @objc(requestWithMethod:data:mimeType:requestMutation:)
+    public func _objc_request(
+            method:          String,
+            data:            NSData,
+            mimeType:        String,
+            requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
+        -> _objc_Request
+        {
+        return _objc_Request(
+            request(
+                RequestMethod(rawValue: method)!, data: data, mimeType: mimeType)
+                    { requestMutation?($0) })
+        }
+
+     @objc(requestWithMethod:text:)
+     public func _objc_request(
+             method:          String,
+             text:            String)
+         -> _objc_Request
+         {
+         return _objc_Request(
+             request(
+                 RequestMethod(rawValue: method)!, text: text))
+         }
+
+     @objc(requestWithMethod:text:mimeType:encoding:requestMutation:)
+     public func _objc_request(
+             method:          String,
+             text:            String,
+             mimeType:        String,
+             encoding:        NSStringEncoding = NSUTF8StringEncoding,
+             requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
+         -> _objc_Request
+         {
+         return _objc_Request(
+             request(
+                 RequestMethod(rawValue: method)!, text: text, mimeType: mimeType, encoding: encoding)
+                     { requestMutation?($0) })
+         }
+
+
+     @objc(requestWithMethod:json:)
+     public func _objc_request(
+             method:          String,
+             json:            NSObject)
+         -> _objc_Request
+         {
+         return _objc_Request(
+             request(
+                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible))
+         }
+
+     @objc(requestWithMethod:json:mimeType:requestMutation:)
+     public func _objc_request(
+             method:          String,
+             json:            NSObject,
+             mimeType:        String,
+             requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
+         -> _objc_Request
+         {
+         return _objc_Request(
+             request(
+                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible, mimeType: mimeType)
+                     { requestMutation?($0) })
+         }
+
+     @objc(requestWithMethod:urlEncoded:requestMutation:)
+     public func _objc_request(
+             method:            String,
+             urlEncoded params: [String:String],
+             requestMutation:   (@convention(block) NSMutableURLRequest -> ())?)
+         -> _objc_Request
+         {
+         return _objc_Request(
+             request(
+                 RequestMethod(rawValue: method)!)
+                     { requestMutation?($0) })
+         }
+
+    }
+
