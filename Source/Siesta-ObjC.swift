@@ -47,7 +47,7 @@ public class _objc_ResourceData: NSObject
     public var mimeType: String
     public var charset: String?
     public var etag: String?
-    public var headers: [String:String]
+    private var headers: [String:String]
     public private(set) var timestamp: NSTimeInterval = 0
     
     public init(payload: AnyObject, mimeType: String, headers: [String:String])
@@ -68,6 +68,9 @@ public class _objc_ResourceData: NSObject
         self.etag     = data.etag
         self.headers  = data.headers
         }
+    
+    public func header(key: String) -> String?
+        { return headers[key.lowercaseString] }
     }
 
 internal extension ResourceData

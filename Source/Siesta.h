@@ -13,3 +13,5 @@ FOUNDATION_EXPORT double SiestaVersionNumber;
 
 //! Project version string for Siesta.
 FOUNDATION_EXPORT const unsigned char SiestaVersionString[];
+
+#import <Siesta/Siesta-Swift.h>

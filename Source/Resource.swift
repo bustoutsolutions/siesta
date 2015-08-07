@@ -228,6 +228,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
       Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
       up to you to canonicalize your parameter order.
     */
+    @objc(withParam:value:)
     public func withParam(name: String, _ value: String?) -> Resource
         {
         return service.resource(
