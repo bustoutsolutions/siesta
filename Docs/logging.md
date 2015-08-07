@@ -1,4 +1,4 @@
-### Logging
+# Logging
 
 Siesta features extensive logging. It is disabled by default, but you can turn it on with:
 
@@ -22,4 +22,19 @@ Common practice is to add a DEBUG Swift compiler flag to your project (if you ha
     #if DEBUG
         Siesta.enabledLogCategories = LogCategory.common
     #endif
+```
+
+## Custom Log Action
+
+By default, Siesta logs to stdout using `print(...)`, but you can augment or override the default by providing your own logging closure.
+
+For example, if you want to drive yourself and everyone around you into a wild rage:
+
+```swift
+let speechSynth = AVSpeechSynthesizer()
+let originalLogger = Siesta.logger
+Siesta.logger = { category, message in
+    originalLogger(category, message)
+    speechSynth.speakUtterance(AVSpeechUtterance(string: message))
+}
 ```
