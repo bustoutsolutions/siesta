@@ -25,15 +25,33 @@ public enum RequestMethod: String
 */
 public protocol Request: AnyObject
     {
-    func completion(callback: Response -> Void) -> Self    // success or failure
-    func success(callback: ResourceData -> Void) -> Self   // success, may be same data
-    func newData(callback: ResourceData -> Void) -> Self   // success, data modified
-    func notModified(callback: Void -> Void) -> Self       // success, data not modified
-    func failure(callback: ResourceError -> Void) -> Self  // error of any kind
+    /// Call the closure once when the request finishes for any reason.
+    func completion(callback: Response -> Void) -> Self
     
+    /// Call the closure once if the request succeeds.
+    func success(callback: ResourceData -> Void) -> Self
+    
+    /// Call the closure once if the request succeeds and the data changed.
+    func newData(callback: ResourceData -> Void) -> Self
+    
+    /// Call the closure once if the request succeeds with a 304.
+    func notModified(callback: Void -> Void) -> Self
+
+    /// Call the closure once if the request fails for any reason.
+    func failure(callback: ResourceError -> Void) -> Self
+    
+    /**
+      Cancel the request if it is still in progress, at the discretion of the transport layer.
+        
+      You can call this method even after a request has completed. Even if the call comes while the request is in progress,
+      it is not guaranteed to have any effect, subject to the whims of the `TransportProvider`.
+    */
     func cancel()
     }
 
+/**
+  The outcome of a network request: either success or failure.
+*/
 public enum Response: CustomStringConvertible
     {
     case Success(ResourceData)
