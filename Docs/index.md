@@ -1,3 +1,5 @@
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
 # Siesta User Guide
 
 - [Services and Resources](services-resources.md)

@@ -1,3 +1,5 @@
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
 # Requests
 
 Resources start out empty — no data, no error, not loading. To trigger a GET request:

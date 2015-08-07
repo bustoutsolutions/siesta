@@ -1,3 +1,5 @@
+**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
+
 # Logging
 
 Siesta features extensive logging. It is disabled by default, but you can turn it on with:
