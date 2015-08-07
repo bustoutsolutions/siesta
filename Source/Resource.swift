@@ -274,10 +274,10 @@ public class Resource: NSObject, CustomDebugStringConvertible
         - `loadIfNeeded()`
     
       - SeeAlso:
-        - `request(method:data:mimeType:requestMutation:)`
-        - `request(method:text:encoding:requestMutation:)`
-        - `request(method:json:requestMutation:)`
-        - `request(method:urlEncoded:requestMutation:)`
+        - `request(_:data:mimeType:requestMutation:)`
+        - `request(_:text:encoding:requestMutation:)`
+        - `request(_:json:requestMutation:)`
+        - `request(_:urlEncoded:requestMutation:)`
     */
     public func request(
             method:          RequestMethod,
