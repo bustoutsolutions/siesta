@@ -3,13 +3,13 @@
 
 ## Capabilities
 
-### How do I do a backgrounded multipart request that switches to streaming while pulling a double shot of espresso?
+#### How do I do a backgrounded multipart request that switches to streaming while pulling a double shot of espresso?
 
 Find a lower-level networking library. And a barista.
 
 Siesta is designed to make the common behaviors of REST APIs simple to use. It’s not a general-purpose network library.
 
-### What if I’m downloading huge responses, and I don’t want them held in memory all at once?
+#### What if I’m downloading huge responses, and I don’t want them held in memory all at once?
 
 Use a lower-level networking library.
 
@@ -18,15 +18,15 @@ If you aren’t interested in holding a response entirely in memory, there’s l
 
 ## Contributing
 
-### Where do I report a bug?
+#### Where do I report a bug?
 
 [File an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
-### Where do I submit a feature request / cool idea?
+#### Where do I submit a feature request / cool idea?
 
 [File an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
-### Where can I get help?
+#### Where can I get help?
 
 Don’t file an issue!
 
