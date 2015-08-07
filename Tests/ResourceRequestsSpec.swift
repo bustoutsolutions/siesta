@@ -29,13 +29,13 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("fetches the resource")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(RequestMethod.GET))
                 }
             
             it("handles various HTTP methods")
                 {
                 stubReqest(resource, "PATCH").andReturn(200)
-                awaitNewData(resource().request(.PATCH))
+                awaitNewData(resource().request(RequestMethod.PATCH))
                 }
             
             it("does not mark that the resource is loading")
@@ -43,7 +43,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().loading).to(beFalse())
                 
                 stubReqest(resource, "GET").andReturn(200)
-                let req = resource().request(.GET)
+                let req = resource().request(RequestMethod.GET)
                 expect(resource().loading).to(beFalse())
                 
                 awaitNewData(req)
@@ -53,7 +53,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(RequestMethod.GET))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
