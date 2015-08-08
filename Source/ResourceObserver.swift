@@ -63,10 +63,10 @@ public enum ResourceEvent: String
     case Error
     }
 
-// MARK: - Associating Observers with Resources
-
 public extension Resource
     {
+    // MARK: - Observing Resources
+
     /**
       Adds an self-owned observer to this resource, which will receive notifications of changes to resource state.
       
