@@ -13,7 +13,7 @@
     <a title="Response Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,7 +142,14 @@
         <section>
           <section class="section">
             <h1>Response</h1>
-            <p>The outcome of a network request: either success or failure.</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Response</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                </div>
+              </div>
+            <p>The outcome of a network request: either success (with data), or failure (with an error).</p>
 
           </section>
           <section class="section task-group-section">
@@ -161,8 +168,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The request succeeded, and returned the given data.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Success</span><span class="p">(</span><span class="kt">ResourceData</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -184,8 +199,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The request failed because of the given error.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Failure</span><span class="p">(</span><span class="kt">ResourceError</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

@@ -13,7 +13,7 @@
     <a title="LogCategory Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,7 +142,14 @@
         <section>
           <section class="section">
             <h1>LogCategory</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogCategory</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                </div>
+              </div>
+            <p>Controls which message Siesta will log. See <code>enabledLogCategories</code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -161,8 +168,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Summary of network requests: HTTP method, URL, and result code.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Network</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -184,8 +199,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Details of network requests, including headers and bodies.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">NetworkDetails</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -207,8 +230,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Details of how the <code>ResponseTransformer</code> parses responses.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">ResponseProcessing</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -230,8 +261,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p><code>ResourceEvent</code> broadcast by resources.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">StateChanges</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -253,8 +292,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Detailed information about which events are sent to which observers, when they are added, and when they are
+removed.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Observers</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -276,8 +324,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Information about how <code>Resource.loadIfNeeded()</code> decides whether to initiate a request.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Staleness</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -285,6 +341,13 @@
               </ul>
             </div>
             <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Predefined%20subsets"></a>
+                  <a name="//apple_ref/swift/Section/Predefined subsets" class="dashAnchor"></a>
+                  <a href="#/Predefined%20subsets">
+                    <h3 class="section-name">Predefined subsets</h3>
+                  </a>
+                </div>
               <ul>
                 <li class="item">
                   <div>
@@ -299,8 +362,43 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A reasonable subset of log categories for normal debugging.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">common</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Network</span><span class="p">,</span> <span class="o">.</span><span class="kt">StateChanges</span><span class="p">,</span> <span class="o">.</span><span class="kt">Staleness</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvO6Siesta11LogCategory3allGVSs3SetS0__"></a>
+                    <a name="//apple_ref/swift/Variable/all" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvO6Siesta11LogCategory3allGVSs3SetS0__">all</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The whole schebang!</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">all</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Network</span><span class="p">,</span> <span class="o">.</span><span class="kt">NetworkDetails</span><span class="p">,</span> <span class="o">.</span><span class="kt">ResponseProcessing</span><span class="p">,</span> <span class="o">.</span><span class="kt">StateChanges</span><span class="p">,</span> <span class="o">.</span><span class="kt">Observers</span><span class="p">,</span> <span class="o">.</span><span class="kt">Staleness</span><span class="p">]</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

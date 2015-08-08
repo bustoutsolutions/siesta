@@ -13,7 +13,7 @@
     <a title="ResponseDataTransformer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,52 +142,20 @@
         <section>
           <section class="section">
             <h1>ResponseDataTransformer</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseDataTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                </div>
+              </div>
+            <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response data (whether success or failure), and
+  does not touch the surrounding error metadata if any.</p>
+
+<p>To use, implement this protocol and override the <code>processData(_:)</code> method.</p>
 
           </section>
           <section class="section task-group-section">
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response"></a>
-                    <a name="//apple_ref/swift/Method/processData(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response">processData(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response"></a>
-                    <a name="//apple_ref/swift/Method/processError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response">processError(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -205,6 +173,14 @@
                       <div class="abstract">
                         <p>Undocumented</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseDataTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

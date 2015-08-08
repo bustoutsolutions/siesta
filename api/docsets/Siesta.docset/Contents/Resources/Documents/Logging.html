@@ -12,7 +12,7 @@
     <a title="Logging  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -159,8 +159,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The set of categories to log. Can be changed at runtime.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">enabledLogCategories</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span><span class="p">()</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -178,9 +186,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Controls which message Siesta will log. See <code>enabledLogCategories</code>.</p>
 
                         <a href="Enums/LogCategory.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogCategory</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -198,8 +214,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Inject your custom logger to do something other than print to stdout.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">logger</span><span class="p">:</span> <span class="p">(</span><span class="kt">LogCategory</span><span class="p">,</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"[Siesta:</span><span class="se">\(</span><span class="nv">$0</span><span class="o">.</span><span class="n">rawValue</span><span class="se">)</span><span class="s">] </span><span class="se">\(</span><span class="nv">$1</span><span class="se">)</span><span class="s">"</span><span class="p">)</span> <span class="p">}</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

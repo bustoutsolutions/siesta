@@ -13,7 +13,7 @@
     <a title="ResourceObserver Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,11 +142,25 @@
         <section>
           <section class="section">
             <h1>ResourceObserver</h1>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResourceObserver</span></code></pre>
+
+                </div>
+              </div>
             <p>Something that can observe changes to the state of a <code>Resource</code>.</p>
 
           </section>
           <section class="section task-group-section">
             <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Required"></a>
+                  <a name="//apple_ref/swift/Section/Required" class="dashAnchor"></a>
+                  <a href="#/Required">
+                    <h3 class="section-name">Required</h3>
+                  </a>
+                </div>
               <ul>
                 <li class="item">
                   <div>
@@ -161,12 +175,32 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Called when anything happens that might change the value of the reosurce’s <code>latestData</code>, <code>latestError</code>, or
+<code>loading</code> flag. The <code>event</code> explains the reason for the notification.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">resourceChanged</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">ResourceEvent</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Optional"></a>
+                  <a name="//apple_ref/swift/Section/Optional" class="dashAnchor"></a>
+                  <a href="#/Optional">
+                    <h3 class="section-name">Optional</h3>
+                  </a>
+                </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -180,50 +214,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Called when this observer stops observering a resource. Use for making <code>removeObservers(ownedBy:)</code> trigger
+other cleanup.</p>
+
+<p>Does nothing by default.</p>
 
                       </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FeRq_6Siesta16ResourceObserver_S_S0_23resourceRequestProgressuRq_S0__Fq_FCS_8ResourceT_"></a>
-                    <a name="//apple_ref/swift/Method/resourceRequestProgress(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta16ResourceObserver_S_S0_23resourceRequestProgressuRq_S0__Fq_FCS_8ResourceT_">resourceRequestProgress(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stoppedObservingResource</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">)</span></code></pre>
 
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FeRq_6Siesta16ResourceObserver_S_S0_24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_"></a>
-                    <a name="//apple_ref/swift/Method/stoppedObservingResource(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta16ResourceObserver_S_S0_24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_">stoppedObservingResource(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
+                        </div>
                       </div>
                     </section>
                   </div>

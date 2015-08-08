@@ -13,7 +13,7 @@
     <a title="ResourceEvent Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,6 +142,13 @@
         <section>
           <section class="section">
             <h1>ResourceEvent</h1>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ResourceEvent</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                </div>
+              </div>
             <p>The possible causes of a call to <code>ResourceObserver.resourceChanged(_:event:)</code>.</p>
 
           </section>
@@ -161,8 +168,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Immediately sent to a new observer when it first starts observering a resource. This event allows you to play all
-of your “update UI from resource state” code in one place, and have that code be called both when the UI first
+                        <p>Immediately sent to a new observer when it first starts observering a resource. This event allows you to gather
+all of your “update UI from resource state” code in one place, and have that code be called both when the UI first
 appears <em>and</em> when the resource state changes.</p>
 
 <p>Note that this is sent only to the newly attached observer, not all observers.</p>

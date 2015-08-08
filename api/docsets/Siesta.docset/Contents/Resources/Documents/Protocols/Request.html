@@ -13,7 +13,7 @@
     <a title="Request Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,6 +142,13 @@
         <section>
           <section class="section">
             <h1>Request</h1>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Request</span><span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+
+                </div>
+              </div>
             <p>Registers hooks to receive notifications about the status of a network request, and some request control.</p>
 
 <p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
@@ -304,7 +311,7 @@ and <code>localDataOverride(_:)</code>.</p>
                         <p>Cancel the request if it is still in progress, at the discretion of the transport layer.</p>
 
 <p>You can call this method even after a request has completed. Even if the call comes while the request is in progress,
-it is not guaranteed to have any effect, subject to the whims of the <code>TransportProvider</code>.</p>
+  it is not guaranteed to have any effect, subject to the whims of the <code>TransportProvider</code>.</p>
 
                       </div>
                       <div class="declaration">

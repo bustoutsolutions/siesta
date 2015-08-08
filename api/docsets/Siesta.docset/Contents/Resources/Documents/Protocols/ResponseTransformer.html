@@ -13,7 +13,7 @@
     <a title="ResponseTransformer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,7 +142,18 @@
         <section>
           <section class="section">
             <h1>ResponseTransformer</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                </div>
+              </div>
+            <p>Transforms a response from a less parsed form (e.g. <code>NSData</code>) to a more parsed data structure. Responses pass through
+a chain of transformers before being sent to response hooks or observers.</p>
+
+<p>Note that transformers run in a GCD background queue, and <strong>must be thread-safe</strong>. You’re in the clear if your
+transformer touches only its input parameter.</p>
 
           </section>
           <section class="section task-group-section">
@@ -161,8 +172,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.</p>
 
+<p>Note that a <code>Response</code> can contain either data or an error, so this method can turn success into failure if the
+response fails to parse.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">process</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="kt">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -184,8 +206,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Helper to log a transformation. Call this in your custom transformer.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">logTransformation</span><span class="p">(</span><span class="nv">result</span><span class="p">:</span> <span class="kt">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -207,8 +237,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Utility method to downcast the given data payload, or return an error response if the payload is not of the
+given type.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="n">requireDataType</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+            <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">,</span>
+            <span class="k">@noescape</span> <span class="nv">process</span><span class="p">:</span> <span class="kt">T</span> <span class="o">-&gt;</span> <span class="kt">Response</span><span class="p">)</span>
+        <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

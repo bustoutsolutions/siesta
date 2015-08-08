@@ -13,7 +13,7 @@
     <a title="Resource Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,6 +142,13 @@
         <section>
           <section class="section">
             <h1>Resource</h1>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                </div>
+              </div>
             <p>An in-memory cache of a RESTful resource, plus information about the status of network requests related to it.</p>
 
 <p>This class answers three basic questions about a resource:</p>
@@ -477,8 +484,16 @@ otherwise returns an empty string.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>True if any load requests for this resource are pending.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">loadRequests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span>  <span class="c1">// TODO: Should this be any requests, load or not? Probably. Think through it.</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

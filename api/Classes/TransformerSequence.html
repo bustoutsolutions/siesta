@@ -13,7 +13,7 @@
     <a title="TransformerSequence Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -142,7 +142,15 @@
         <section>
           <section class="section">
             <h1>TransformerSequence</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">TransformerSequence</span></code></pre>
+
+                </div>
+              </div>
+            <p>A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
+  next. Transformers in the sequence can be limited by content type.</p>
 
           </section>
           <section class="section task-group-section">
@@ -164,6 +172,14 @@
                         <p>Undocumented</p>
 
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">TransformerSequence</span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -180,8 +196,31 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
+The content type matches regardles of whether the response is a success or failure.</p>
 
+<p>Content type patterns can use <code>*</code> to match subsequences. The wildcard does not cross <code>/</code> or <code>+</code> boundaries.
+Examples:</p>
+
+<pre class="highlight plaintext"><code>"text/plain"
+"text/\*"
+"application/\*+json"
+</code></pre>
+
+<p>The pattern does not match MIME parameters, so <code>&quot;text/plain&quot;</code> matches <code>&quot;text/plain; charset=utf-8&quot;</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
+            <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
+            <span class="nv">contentTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span>
+            <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+        <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -199,8 +238,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Adds a transformer to the sequence, either at the end (default) or at the beginning.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
+            <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
+            <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+        <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
