@@ -1,0 +1,38 @@
+- name: Core
+  children:
+  - Service
+  - Resource
+  - ResourceData
+  - ResourceError
+  - RequestMethod
+
+- name: Observers & Hooks
+  children:
+  - ResourceObserver
+  - ResourceEvent
+  - Request
+
+- name: Response Parsing
+  children:
+  - Response
+  - ResponseTransformer
+  - ResponseDataTransformer
+  - TextTransformer
+  - JsonTransformer
+  - TransformerSequence
+
+- name: Network Layer
+  children:
+  - TransportProvider
+  - RequestTransport
+  - AlamofireTransportProvider
+
+- name: UI Components
+  children:
+  - ResourceStatusOverlay
+
+- name: Logging
+  children:
+  - enabledLogCategories
+  - LogCategory
+  - logger
