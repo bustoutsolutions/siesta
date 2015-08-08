@@ -6,14 +6,28 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/**
+  Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
+  a chain of transformers before being sent to response hooks or observers.
+  
+  Note that transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
+  transformer touches only its input parameter.
+*/
 public protocol ResponseTransformer
     {
+    /**
+      Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.
+      
+      Note that a `Response` can contain either data or an error, so this method can turn success into failure if the
+      response fails to parse.
+    */
     func process(response: Response) -> Response
     }
 
 public extension ResponseTransformer
     {
-    func logTransformation(result: Response) -> Response
+    /// Helper to log a transformation. Call this in your custom transformer.
+    public func logTransformation(result: Response) -> Response
         {
         debugLog(.ResponseProcessing, [self, "→", result])
         return result
@@ -62,6 +76,12 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
         }
     }
 
+/**
+  A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
+  next. Transformers in the sequence can be limited by content type.
+  
+  - SeeAlso: `Service.responseTransformers`
+*/
 public class TransformerSequence
     {
     private var transformers = [ResponseTransformer]()
@@ -69,6 +89,19 @@ public class TransformerSequence
     public func clear()
         { transformers.removeAll() }
     
+    /**
+      Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
+      The content type matches regardles of whether the response is a success or failure.
+      
+      Content type patterns can use `*` to match subsequences. The wildcard does not cross `/` or `+` boundaries.
+      Examples:
+      
+          "text/plain"
+          "text/\*"
+          "application/\*+json"
+    
+      The pattern does not match MIME parameters, so `"text/plain"` matches `"text/plain; charset=utf-8"`.
+    */
     public func add(
             transformer: ResponseTransformer,
             contentTypes: [String],
@@ -80,6 +113,9 @@ public class TransformerSequence
             first: first)
         }
     
+    /**
+      Adds a transformer to the sequence, either at the end (default) or at the beginning.
+    */
     public func add(
             transformer: ResponseTransformer,
             first: Bool = false)
@@ -102,10 +138,18 @@ public class TransformerSequence
 
 // MARK: Data transformer plumbing
 
+/**
+  A utility flavor of `ResponseTransformer` that deals only with the response data (whether success or failure), and
+  does not touch the surrounding error metadata if any.
+
+  To use, implement this protocol and override the `processData(_:)` method.
+*/
 public protocol ResponseDataTransformer: ResponseTransformer
     {
+    /// :nodoc:
     func processData(data: ResourceData) -> Response
     
+    /// :nodoc:
     func processError(error: ResourceError) -> Response
     }
 
@@ -152,6 +196,8 @@ public extension ResponseDataTransformer
 
 public extension ResponseTransformer
     {
+    /// Utility method to downcast the given data payload, or return an error response if the payload is not of the
+    /// given type.
     func requireDataType<T>(
             data: ResourceData,
             @noescape process: T -> Response)
@@ -173,6 +219,7 @@ public extension ResponseTransformer
 
 // MARK: Transformers for standard types
 
+/// Parses an `NSData` payload as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public struct TextTransformer: ResponseDataTransformer
     {
     public func processData(data: ResourceData) -> Response
@@ -216,6 +263,7 @@ public struct TextTransformer: ResponseDataTransformer
         }
     }
 
+/// Parses an `NSData` payload as JSON, outputting either a dictionary or an array.
 public struct JsonTransformer: ResponseDataTransformer
     {
     public func processData(data: ResourceData) -> Response

@@ -6,12 +6,29 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/**
+  HTTP request methods.
+  
+  See the various `Resource.request(...)` methods.
+*/
 public enum RequestMethod: String
     {
+    /// GET
     case GET
+    
+    /// POST. Just POST. Doc comment is the same as the enum.
     case POST
+    
+    /// So you’re really reading the docs for all these, huh?
     case PUT
+    
+    /// OK then, I’ll reward your diligence. Or punish it, depending on your level of refinement.
+    ///
+    /// What’s the difference between a poorly maintained Greyhound terminal and a lobster with breast implants?
     case PATCH
+    
+    /// One’s a crusty bus station, and the other’s a busty crustacean.
+    /// Thank you for reading the documentation!
     case DELETE
     }
 
@@ -50,13 +67,17 @@ public protocol Request: AnyObject
     }
 
 /**
-  The outcome of a network request: either success or failure.
+  The outcome of a network request: either success (with data), or failure (with an error).
 */
 public enum Response: CustomStringConvertible
     {
+    /// The request succeeded, and returned the given data.
     case Success(ResourceData)
+    
+    /// The request failed because of the given error.
     case Failure(ResourceError)
     
+    /// :nodoc:
     public var description: String
         {
         switch(self)

@@ -110,8 +110,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
     // MARK: Request management
     
     /// True if any load requests for this resource are pending.
-    // TODO: Should this be any requests, load or not? Probably. Think through it.
-    public var loading: Bool { return !loadRequests.isEmpty }
+    public var loading: Bool { return !loadRequests.isEmpty }  // TODO: Should this be any requests, load or not? Probably. Think through it.
 
     /// All requests in progress related to this resource, in the order they were initiated.
     public private(set) var loadRequests = [Request]()  // TOOD: How to handle concurrent POST & GET?
@@ -591,6 +590,7 @@ public class Resource: NSObject, CustomDebugStringConvertible
         }
     }
 
+/// Dictionaries and arrays can both be passed to `Resource.request(_:json:mimeType:requestMutation:)`.
 public protocol NSJSONConvertible: AnyObject { }
 extension NSDictionary: NSJSONConvertible { }
 extension NSArray:      NSJSONConvertible { }

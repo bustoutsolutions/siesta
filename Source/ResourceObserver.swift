@@ -11,22 +11,42 @@
 */
 public protocol ResourceObserver
     {
+    // MARK: Required
+    
+    /**
+      Called when anything happens that might change the value of the reosurce’s `latestData`, `latestError`, or
+      `loading` flag. The `event` explains the reason for the notification.
+    */
     func resourceChanged(resource: Resource, event: ResourceEvent)
+    
+    // MARK: Optional
     
     /// :nodoc:
     func resourceRequestProgress(resource: Resource) // TODO: not implemented yet
     
+    /**
+      Called when this observer stops observering a resource. Use for making `removeObservers(ownedBy:)` trigger
+      other cleanup.
+      
+      Does nothing by default.
+    */
     func stoppedObservingResource(resource: Resource)
     }
 
-/// :nodoc:
 public extension ResourceObserver
     {
+    /// :nodoc:
     func resourceRequestProgress(resource: Resource) { }
+
+    /// :nodoc:
     func stoppedObservingResource(resource: Resource) { }
     }
 
-/// A closure alternative to `ResourceObserver`.
+/**
+  A closure alternative to `ResourceObserver`.
+  
+  See `Resource.addObserver(owner:closure:)`.
+*/
 public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
 
 /**
@@ -37,8 +57,8 @@ public typealias ResourceObserverClosure = (resource: Resource, event: ResourceE
 public enum ResourceEvent: String
     {
     /**
-      Immediately sent to a new observer when it first starts observering a resource. This event allows you to play all
-      of your “update UI from resource state” code in one place, and have that code be called both when the UI first
+      Immediately sent to a new observer when it first starts observering a resource. This event allows you to gather
+      all of your “update UI from resource state” code in one place, and have that code be called both when the UI first
       appears _and_ when the resource state changes.
     
       Note that this is sent only to the newly attached observer, not all observers.
