@@ -27,22 +27,13 @@ ResourceObserver.swift
 	func resourceRequestProgress(resource: Resource) { }
 	func stoppedObservingResource(resource: Resource) { }
 Request.swift
-	public enum RequestMethod: String
 	case GET
 	case POST
 	case PUT
 	case PATCH
 	case DELETE
-	func completion(callback: Response -> Void) -> Self    // success or failure
-	func success(callback: ResourceData -> Void) -> Self   // success, may be same data
-	func newData(callback: ResourceData -> Void) -> Self   // success, data modified
-	func notModified(callback: Void -> Void) -> Self       // success, data not modified
-	func failure(callback: ResourceError -> Void) -> Self  // error of any kind
-	func cancel()
-	public enum Response: CustomStringConvertible
 	case Success(ResourceData)
 	case Failure(ResourceError)
-	public var description: String
 ResourceStatusOverlay.swift
 	public class ResourceStatusOverlay: UIView, ResourceObserver
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?

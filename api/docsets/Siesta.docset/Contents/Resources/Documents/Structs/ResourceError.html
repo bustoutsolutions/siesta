@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ResourceError Struct Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/ResourceError" class="dashAnchor"></a>
+    <a title="ResourceError Struct Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Siesta Docs</a> (54% documented)</p>
+        <p class="header-right"><a href=""><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Siesta Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ResourceError Struct Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Resource.html">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TransformerSequence.html">TransformerSequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Global Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v6Siesta6loggerFTOS_11LogCategorySS_T_">logger</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LogCategory.html">LogCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Response.html">Response</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RequestTransport.html">RequestTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TransportProvider.html">TransportProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/JsonTransformer.html">JsonTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResourceData.html">ResourceData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResourceError.html">ResourceError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TextTransformer.html">TextTransformer</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:6Siesta23ResourceObserverClosure">ResourceObserverClosure</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ResourceError</h1>
+            <p>Information about a failed resource request.</p>
+
+<p>Siesta can encounter errors from many possible sources, including:</p>
+
+<ul>
+<li>client-side parse issues,</li>
+<li>network connectivity problems,</li>
+<li>transport layer issues (e.g. certificate problems),</li>
+<li>server errors (404, 500, etc.), and</li>
+<li>client-side parsing and data validation failures.</li>
+</ul>
+
+<p><code>ResourceError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
+which you can use to intercept specific known errors, but these diagnostic properties are all optional.
+The one ironclad guarantee that <code>ResourceError</code> makes is the presence of a <code>userMessage</code>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13ResourceError11userMessageSS"></a>
+                    <a name="//apple_ref/swift/Property/userMessage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13ResourceError11userMessageSS">userMessage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A description of this error suitable for showing to the user. Typically messages are brief and in plain language,
+e.g. “Not found,” “Invalid username or password,” or “The internet connection is offline.”</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13ResourceError14httpStatusCodeGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/httpStatusCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13ResourceError14httpStatusCodeGSqSi_">httpStatusCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The HTTP status code (e.g. 404) if this error came from an HTTP response.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">httpStatusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13ResourceError4dataGSqVS_12ResourceData_"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13ResourceError4dataGSqVS_12ResourceData_">data</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The response body if this error came from an HTTP response. Its meaning is API-specific.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13ResourceError7nsErrorGSqCSo7NSError_"></a>
+                    <a name="//apple_ref/swift/Property/nsError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13ResourceError7nsErrorGSqCSo7NSError_">nsError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Diagnostic information if the error originated or was reported locally.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">nsError</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13ResourceError9timestampSd"></a>
+                    <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13ResourceError9timestampSd">timestamp</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The time at which the error occurred.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="nf">now</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(_:_:_:userMessage:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_">init(_:_:_:userMessage:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes the error using a network response.</p>
+
+<p>If the <code>userMessage</code> parameter is nil, this initializer uses <code>error</code> or the response’s status code to generate
+  a user message. That failing, it gives a generic failure message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="n">_</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span>
+            <span class="n">_</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span>
+            <span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?,</span>
+            <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_4dataGSqVS_12ResourceData__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(userMessage:error:data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_4dataGSqVS_12ResourceData__S0_">init(userMessage:error:data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes the error using an <code>NSError</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS12debugMessageSS4dataGSqVS_12ResourceData__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(userMessage:debugMessage:data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS12debugMessageSS4dataGSqVS_12ResourceData__S0_">init(userMessage:debugMessage:data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience to create a custom error with an user &amp; debug messages. The <code>debugMessage</code> parameter is
+    wrapped in the <code>nsError</code> property.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">debugMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-08-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
