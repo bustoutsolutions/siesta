@@ -4,13 +4,11 @@
   - Resource
   - ResourceData
   - ResourceError
-  - RequestMethod
-
-- name: Observers & Hooks
-  children:
   - ResourceObserver
   - ResourceEvent
   - Request
+  - RequestMethod
+  - Configuration
 
 - name: Response Parsing
   children:
