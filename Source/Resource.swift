@@ -37,6 +37,21 @@ public class Resource: NSObject, CustomDebugStringConvertible
     internal var observers = [ObserverEntry]()
     
     
+    // MARK: Configuration
+    
+    public var config: Configuration
+        {
+        if configBaseVersion != service.globalConfigVersion
+            {
+            cachedConfig = service.configurationForResource(self)
+            configBaseVersion = service.globalConfigVersion
+            }
+        return cachedConfig
+        }
+    private var cachedConfig: Configuration = Configuration()
+    private var configBaseVersion: Int = -1
+
+    
     // MARK: Resource state
 
     /**
@@ -115,20 +130,9 @@ public class Resource: NSObject, CustomDebugStringConvertible
     /// All requests in progress related to this resource, in the order they were initiated.
     public private(set) var loadRequests = [Request]()  // TOOD: How to handle concurrent POST & GET?
     
-    /**
-      Time before valid data is considered stale by `loadIfNeeded()`.
-      
-      Defaults from `Service.defaultExpirationTime`, which defaults to 30 seconds.
-    */
-    public var expirationTime: NSTimeInterval?
-    
-    /**
-      Time `loadIfNeeded()` will wait before allowing a retry after a failed request.
-    
-      Defaults from `Service.defaultRetryTime`, which defaults to 1 second.
-    */
-    public var retryTime: NSTimeInterval?
-    
+    public var configuration: Configuration {
+        return Configuration()
+    }
     
     // MARK: -
     
@@ -429,8 +433,8 @@ public class Resource: NSObject, CustomDebugStringConvertible
             }
         
         let maxAge = (latestError == nil)
-            ? expirationTime ?? service.defaultExpirationTime
-            : retryTime      ?? service.defaultRetryTime
+            ? config.expirationTime
+            : config.retryTime
         
         if(now() - timestamp <= maxAge)
             {

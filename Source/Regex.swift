@@ -24,6 +24,12 @@ internal extension String
             regex, withString: replacement, options: .RegularExpressionSearch, range: nil)
         }
     
+    func replaceString(string: String, _ replacement: String) -> String
+        {
+        // Maybe this method name looked more reasonable in Objective-C.
+        return stringByReplacingOccurrencesOfString(string, withString: replacement)
+        }
+    
     func replaceRegex(regex: NSRegularExpression, _ template: String) -> String
         {
         return regex.stringByReplacingMatchesInString(self, options: [], range: fullRange, withTemplate: template)

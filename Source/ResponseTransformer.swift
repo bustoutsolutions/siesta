@@ -82,12 +82,12 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
   
   - SeeAlso: `Service.responseTransformers`
 */
-public class TransformerSequence
+public struct TransformerSequence
     {
     private var transformers = [ResponseTransformer]()
     
     /// Removes all transformers from this sequence and starts fresh.
-    public func clear()
+    public mutating func clear()
         { transformers.removeAll() }
     
     /**
@@ -98,16 +98,16 @@ public class TransformerSequence
       Examples:
       
           "text/plain"
-          "text/\*"
-          "application/\*+json"
+          "text/​*"
+          "application/​*+json"
     
       The pattern does not match MIME parameters, so `"text/plain"` matches `"text/plain; charset=utf-8"`.
     */
-    public func add(
+    public mutating func add(
             transformer: ResponseTransformer,
             contentTypes: [String],
             first: Bool = false)
-        -> Self
+        -> TransformerSequence
         {
         return add(
             ContentTypeMatchTransformer(transformer, contentTypes: contentTypes),
@@ -117,10 +117,10 @@ public class TransformerSequence
     /**
       Adds a transformer to the sequence, either at the end (default) or at the beginning.
     */
-    public func add(
+    public mutating func add(
             transformer: ResponseTransformer,
             first: Bool = false)
-        -> Self
+        -> TransformerSequence
         {
         transformers.insert(
             transformer,

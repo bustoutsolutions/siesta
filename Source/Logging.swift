@@ -34,13 +34,16 @@ public enum LogCategory: String
     /// Information about how `Resource.loadIfNeeded()` decides whether to initiate a request.
     case Staleness
     
+    /// Details of which configuration matches which resources, and when it is computed.
+    case Configuration
+
     // MARK: Predefined subsets
     
     /// A reasonable subset of log categories for normal debugging.
     public static let common: Set<LogCategory> = [Network, .StateChanges, .Staleness]
 
     /// The whole schebang!
-    public static let all: Set<LogCategory> = [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness]
+    public static let all: Set<LogCategory> = [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness, .Configuration]
     }
 
 /// The set of categories to log. Can be changed at runtime.

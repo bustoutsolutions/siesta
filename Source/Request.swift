@@ -235,7 +235,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     private func processPayload(rawInfo: ResponseInfo)
         {
-        let transformer = resource.service.responseTransformers
+        let transformer = resource.config.responseTransformers
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             let processedInfo =
