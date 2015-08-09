@@ -39,6 +39,16 @@ public class Resource: NSObject, CustomDebugStringConvertible
     
     // MARK: Configuration
     
+    /**
+      Configuration options for this resource.
+      
+      Note that this is a read-only property. You cannot directly change an individual resource's configuration.
+      The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
+      not in use. Any configuration applied a particular resource instance would therefore be transient.
+      
+      Instead, you must use `Service.configureResources(_:configMutator:)`. This sets up configuration to be applied to
+      resources according to their URL, whenever they are created or recreated.
+    */
     public var config: Configuration
         {
         if configBaseVersion != service.globalConfigVersion

@@ -19,22 +19,6 @@ public class Service: NSObject
     /// The root URL of the API.
     public let baseURL: NSURL?
     
-    /**
-      Configuration to apply by default to all resources in this service.
-      
-      Changes are “live,” i.e. they affect subsequent action on a resource even after it has been created.
-      
-      - SeeAlso: `configureResources(_:configMutator:)`
-    */
-    public var globalConfig: Configuration
-        {
-        didSet { configChanged() }
-        }
-    
-    private var resourceConfigurers: [Configurer] = []
-    
-    internal var globalConfigVersion: Int = 0
-    
     internal let transportProvider: TransportProvider
     private var resourceCache = WeakCache<String,Resource>()
     
@@ -91,6 +75,20 @@ public class Service: NSObject
         }
     
     // MARK: Resource Configuration
+    
+    /**
+      Configuration to apply by default to all resources in this service.
+      
+      Changes to this struct are live: they affect subsequent requests even on resource instances that already exist.
+      
+      - SeeAlso: `configureResources(_:configMutator:)`
+    */
+    public var globalConfig: Configuration
+        {
+        didSet { configChanged() }
+        }
+    internal var globalConfigVersion: Int = 0
+    private var resourceConfigurers: [Configurer] = []
     
     /**
       Applies additional configuration to resources matching the given pattern.
