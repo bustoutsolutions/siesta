@@ -12,7 +12,7 @@
     <a title="Response Parsing  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (80% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (87% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -73,10 +73,10 @@
                 <a href="Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/TextTransformer.html">TextTransformer</a>
+                <a href="Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/JsonTransformer.html">JsonTransformer</a>
+                <a href="Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/TransformerSequence.html">TransformerSequence</a>
@@ -235,7 +235,7 @@ transformer touches only its input parameter.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response data (whether success or failure), and
-  does not touch the surrounding error metadata if any.</p>
+  does not touch the surrounding error metadata (if any).</p>
 
 <p>To use, implement this protocol and override the <code>processData(_:)</code> method.</p>
 
@@ -278,7 +278,6 @@ transformer touches only its input parameter.</p>
                       <div class="abstract">
                         <p>Parses an <code>NSData</code> payload as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
 
-                        <a href="Structs/TextTransformer.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -306,7 +305,6 @@ transformer touches only its input parameter.</p>
                       <div class="abstract">
                         <p>Parses an <code>NSData</code> payload as JSON, outputting either a dictionary or an array.</p>
 
-                        <a href="Structs/JsonTransformer.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>

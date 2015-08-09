@@ -13,7 +13,7 @@
     <a title="ResponseDataTransformer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (87% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -74,10 +74,10 @@
                 <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/TextTransformer.html">TextTransformer</a>
+                <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/JsonTransformer.html">JsonTransformer</a>
+                <a href="../Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/TransformerSequence.html">TransformerSequence</a>
@@ -150,7 +150,7 @@
                 </div>
               </div>
             <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response data (whether success or failure), and
-  does not touch the surrounding error metadata if any.</p>
+  does not touch the surrounding error metadata (if any).</p>
 
 <p>To use, implement this protocol and override the <code>processData(_:)</code> method.</p>
 
@@ -161,36 +161,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_7processuRq_S0__Fq_FOS_8ResponseS1_"></a>
-                    <a name="//apple_ref/swift/Method/process(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_7processuRq_S0__Fq_FOS_8ResponseS1_">process(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseDataTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response"></a>
+                    <a name="/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response"></a>
                     <a name="//apple_ref/swift/Method/processData(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response">processData(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response">processData(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -198,7 +171,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Subclasses will typically override this method. Default is to leave data unchanged.</p>
+                        <p>Subclasses will typically override this method. The default behavior is to leave data unchanged.</p>
 
 <p>Note that overrides can turn a success into an error, e.g. if there is a parse error.</p>
 
@@ -207,8 +180,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processData</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span>
-        <span class="p">{</span> <span class="k">return</span> <span class="o">.</span><span class="kt">Success</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processData</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
                       </div>
@@ -218,9 +190,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response"></a>
+                    <a name="/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response"></a>
                     <a name="//apple_ref/swift/Method/processError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta23ResponseDataTransformer_S_S0_12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response">processError(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response">processError(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -228,15 +200,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Default behavior: attempt to process error response bodies just like success bodies, but
-if there is a transformation error, only log it and preserve the original error.</p>
+                        <p>Default behavior: attempt to process error response bodies just like success bodies, but if there is a
+transformation error, only log it and preserve the original error.</p>
+
+<p>Subclasses typically do not override this method, but they can if they wish to apply special processing to errors.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processError</span><span class="p">(</span><span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">ResourceError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processError</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">ResourceError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
                       </div>

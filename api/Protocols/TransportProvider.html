@@ -13,7 +13,7 @@
     <a title="TransportProvider Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (80% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (87% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -74,10 +74,10 @@
                 <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/TextTransformer.html">TextTransformer</a>
+                <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/JsonTransformer.html">JsonTransformer</a>
+                <a href="../Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/TransformerSequence.html">TransformerSequence</a>
@@ -142,7 +142,17 @@
         <section>
           <section class="section">
             <h1>TransportProvider</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TransportProvider</span></code></pre>
+
+                </div>
+              </div>
+            <p>If you want to use a different networking library, implement this protocol and pass your implementation to
+<code>Service.init(base:transportProvider:)</code>.</p>
+
+<p>See <code>AlamofireTransportProvider</code> for an implementation example.</p>
 
           </section>
           <section class="section task-group-section">
@@ -161,8 +171,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Create and return a <code>RequestTransport</code> which is ready to perform the request described, but will not actually
+initiate it until its <code>start(_:)</code> method is called.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transportForRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt">NSURLRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">RequestTransport</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

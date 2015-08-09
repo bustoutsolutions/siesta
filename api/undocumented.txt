@@ -1,15 +1,7 @@
 Transport-Alamofire.swift
-	public class AlamofireTransportProvider: TransportProvider
 	public let sessionManager: Manager
 	public init(sessionManager: Manager = Manager.sharedInstance)
 	public func transportForRequest(request: NSURLRequest) -> RequestTransport
-Transport.swift
-	public protocol TransportProvider
-	func transportForRequest(request: NSURLRequest) -> RequestTransport
-	public protocol RequestTransport
-	func start(response: (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void)
-	func cancel()
-	var isCancelled: Bool { get }
 ResourceStatusOverlay.swift
 	public class ResourceStatusOverlay: UIView, ResourceObserver
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
@@ -28,9 +20,3 @@ ResourceStatusOverlay.swift
 	public func resourceChanged(resource: Resource, event: ResourceEvent)
 	public func stoppedObservingResource(resource: Resource)
 	@IBAction public func retryFailedRequests()
-ResponseTransformer.swift
-	public func clear()
-        { transformers.removeAll() }
-	final func process(response: Response) -> Response
-	public func processData(data: ResourceData) -> Response
-	public func processData(data: ResourceData) -> Response
