@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>TransformerSequence Class Reference</title>
+    <title>TransformerSequence Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/TransformerSequence" class="dashAnchor"></a>
-    <a title="TransformerSequence Class Reference"></a>
+    <a name="//apple_ref/swift/Struct/TransformerSequence" class="dashAnchor"></a>
+    <a title="TransformerSequence Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (87% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        TransformerSequence Class Reference
+        TransformerSequence Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -43,14 +43,6 @@
                 <a href="../Structs/ResourceError.html">ResourceError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Enums/RequestMethod.html">RequestMethod</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Observers &amp; Hooks.html">Observers &amp; Hooks</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
               </li>
               <li class="nav-group-task">
@@ -58,6 +50,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration.html">Configuration</a>
               </li>
             </ul>
           </li>
@@ -80,7 +78,7 @@
                 <a href="../Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/TransformerSequence.html">TransformerSequence</a>
+                <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
               </li>
             </ul>
           </li>
@@ -145,7 +143,7 @@
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">TransformerSequence</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TransformerSequence</span></code></pre>
 
                 </div>
               </div>
@@ -159,9 +157,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta19TransformerSequence5clearFS0_FT_T_"></a>
+                    <a name="/s:FV6Siesta19TransformerSequence5clearFRS0_FT_T_"></a>
                     <a name="//apple_ref/swift/Method/clear()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta19TransformerSequence5clearFS0_FT_T_">clear()</a>
+                    <a class="token" href="#/s:FV6Siesta19TransformerSequence5clearFRS0_FT_T_">clear()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -176,7 +174,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">clear</span><span class="p">()</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">clear</span><span class="p">()</span>
         <span class="p">{</span> <span class="n">transformers</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span> <span class="p">}</span></code></pre>
 
                         </div>
@@ -187,9 +185,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta19TransformerSequence3addFS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_DS0_"></a>
+                    <a name="/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_S0_"></a>
                     <a name="//apple_ref/swift/Method/add(_:contentTypes:first:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta19TransformerSequence3addFS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_DS0_">add(_:contentTypes:first:)</a>
+                    <a class="token" href="#/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_S0_">add(_:contentTypes:first:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,8 +202,8 @@ The content type matches regardles of whether the response is a success or failu
 Examples:</p>
 
 <pre class="highlight plaintext"><code>"text/plain"
-"text/\*"
-"application/\*+json"
+"text/​*"
+"application/​*+json"
 </code></pre>
 
 <p>The pattern does not match MIME parameters, so <code>&quot;text/plain&quot;</code> matches <code>&quot;text/plain; charset=utf-8&quot;</code>.</p>
@@ -215,11 +213,11 @@ Examples:</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
             <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
             <span class="nv">contentTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span>
             <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
-        <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+        <span class="o">-&gt;</span> <span class="kt">TransformerSequence</span></code></pre>
 
                         </div>
                       </div>
@@ -229,9 +227,9 @@ Examples:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta19TransformerSequence3addFS0_FTPS_19ResponseTransformer_5firstSb_DS0_"></a>
+                    <a name="/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_5firstSb_S0_"></a>
                     <a name="//apple_ref/swift/Method/add(_:first:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta19TransformerSequence3addFS0_FTPS_19ResponseTransformer_5firstSb_DS0_">add(_:first:)</a>
+                    <a class="token" href="#/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_5firstSb_S0_">add(_:first:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -246,10 +244,10 @@ Examples:</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
             <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
             <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
-        <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+        <span class="o">-&gt;</span> <span class="kt">TransformerSequence</span></code></pre>
 
                         </div>
                       </div>
@@ -261,7 +259,7 @@ Examples:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-08)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

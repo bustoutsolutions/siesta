@@ -13,7 +13,7 @@
     <a title="Service Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (87% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,14 +43,6 @@
                 <a href="../Structs/ResourceError.html">ResourceError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Enums/RequestMethod.html">RequestMethod</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Observers &amp; Hooks.html">Observers &amp; Hooks</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
               </li>
               <li class="nav-group-task">
@@ -58,6 +50,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration.html">Configuration</a>
               </li>
             </ul>
           </li>
@@ -80,7 +78,7 @@
                 <a href="../Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/TransformerSequence.html">TransformerSequence</a>
+                <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
               </li>
             </ul>
           </li>
@@ -187,102 +185,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta7Service20responseTransformersCS_19TransformerSequence"></a>
-                    <a name="//apple_ref/swift/Property/responseTransformers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta7Service20responseTransformersCS_19TransformerSequence">responseTransformers</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A sequence of parsers to be applied to all API responses.</p>
-
-<p>You can add custom parsing using:</p>
-
-<pre class="highlight plaintext"><code>responseTransformers.add(MyCustomTransformer())
-responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
-</code></pre>
-
-<p>By default, the transformer sequence includes JSON and plain text parsing. You can
-remove this default behavior by clearing the sequence:</p>
-
-<pre class="highlight plaintext"><code>responseTransformers.clear()
-</code></pre>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">responseTransformers</span><span class="p">:</span> <span class="kt">TransformerSequence</span> <span class="o">=</span> <span class="kt">TransformerSequence</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta7Service21defaultExpirationTimeSd"></a>
-                    <a name="//apple_ref/swift/Property/defaultExpirationTime" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta7Service21defaultExpirationTimeSd">defaultExpirationTime</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Default for <code>Resource.expirationTime</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">defaultExpirationTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">300</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta7Service16defaultRetryTimeSd"></a>
-                    <a name="//apple_ref/swift/Property/defaultRetryTime" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta7Service16defaultRetryTimeSd">defaultRetryTime</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Default for <code>Resource.retryTime</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">defaultRetryTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS17transportProviderPS_17TransportProvider__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(base:transportProvider:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS17transportProviderPS_17TransportProvider__S0_">init(base:transportProvider:)</a>
+                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS6configVS_13Configuration17transportProviderPS_17TransportProvider__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(base:config:transportProvider:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS6configVS_13Configuration17transportProviderPS_17TransportProvider__S0_">init(base:config:transportProvider:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -292,11 +197,6 @@ remove this default behavior by clearing the sequence:</p>
                       <div class="abstract">
                         <p>Creates a new service for the given API.</p>
 
-<p>Parameter: base The base URL of the API.
-Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
-    configuration. You can pass an <code>AlamofireTransportProvider</code> created with a custom configuration,
-    or provide your own networking implementation.</p>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -304,6 +204,7 @@ Parameter: transportProvider A provider to use for networking. The default is Al
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">config</span><span class="p">:</span> <span class="kt">Configuration</span> <span class="o">=</span> <span class="kt">Configuration</span><span class="o">.</span><span class="n">withDefaultTransformers</span><span class="p">,</span>
             <span class="nv">transportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span> <span class="o">=</span> <span class="kt">AlamofireTransportProvider</span><span class="p">())</span></code></pre>
 
                         </div>
@@ -372,10 +273,179 @@ occurs, at which point they are summarily evicted.</p>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Resource%20Configuration"></a>
+                  <a name="//apple_ref/swift/Section/Resource Configuration" class="dashAnchor"></a>
+                  <a href="#/Resource%20Configuration">
+                    <h3 class="section-name">Resource Configuration</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta7Service12globalConfigVS_13Configuration"></a>
+                    <a name="//apple_ref/swift/Property/globalConfig" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta7Service12globalConfigVS_13Configuration">globalConfig</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Configuration to apply by default to all resources in this service.</p>
+
+<p>Changes to this struct are live: they affect subsequent requests even on resource instances that already exist.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">globalConfig</span><span class="p">:</span> <span class="kt">Configuration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service18configureResourcesFS0_FTSS13configMutatorFCVS_13Configuration7BuilderT__T_"></a>
+                    <a name="//apple_ref/swift/Method/configureResources(_:configMutator:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service18configureResourcesFS0_FTSS13configMutatorFCVS_13Configuration7BuilderT__T_">configureResources(_:configMutator:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Applies additional configuration to resources matching the given pattern.</p>
+
+<p>When determining configuration for a resource, the service starts with <code>globalConfig</code>, then applies any matching
+configuration mutators in the order they were added.</p>
+
+<p>For example:</p>
+
+<pre class="highlight plaintext"><code>configureResources("/items")    { $0.config.expirationTime = 5 }
+configureResources("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
+configureResources("/admin/​**") { $0.config.headers["Auth-token"] = token }
+</code></pre>
+
+<p>The <code>urlPattern</code> is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. <code>http:</code>).
+If it is relative, the leading slash is optional.</p>
+
+<p>The pattern supports two wildcards:</p>
+
+<ul>
+<li><code>*</code> matches a single path segment, and</li>
+<li><code>**</code> matches any number of paths segments, including zero. The pattern <code>/foo/**/bar</code> matches
+<code>/foo/bar</code> as well as <code>/foo/1/2/3/bar</code>.</li>
+</ul>
+
+<p>The pattern ignores the resource’s query string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configureResources</span><span class="p">(</span>
+            <span class="nv">urlPattern</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">configMutator</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service18configureResourcesFS0_FTSS9predicateFCSo5NSURLSb13configMutatorFCVS_13Configuration7BuilderT__T_"></a>
+                    <a name="//apple_ref/swift/Method/configureResources(_:predicate:configMutator:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service18configureResourcesFS0_FTSS9predicateFCSo5NSURLSb13configMutatorFCVS_13Configuration7BuilderT__T_">configureResources(_:predicate:configMutator:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the other flavor of <code>configureResources</code>
+  aren’t robust enough.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configureResources</span><span class="p">(</span>
+            <span class="nv">debugName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="n">predicate</span> <span class="nv">urlMatcher</span><span class="p">:</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">,</span>
+            <span class="nv">configMutator</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service13configChangedFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/configChanged()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service13configChangedFS0_FT_T_">configChanged()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Signals that all resources need to recompute their configuration next time they need it.</p>
+
+<p>Because <code>configureResources(_:configMutator:)</code> accepts an arbitrary closure, it is possible that the results of
+  that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
+  if you do anything that would change the result of a configuration closure, you must call <code>configChanged()</code> in
+  order for the changes to take effect.</p>
+
+<p>For example, to make a header track the value of a modifiable property:</p>
+
+<pre class="highlight plaintext"><code>  var flavor: String {
+    didSet { configChanged() }
+  }
+
+  init() {
+    super.init(base: "https://api.github.com")
+    configureResources("​**") {
+      $0.config.headers["Flavor-of-the-month"] = flavor
+    }
+  }
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configChanged</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-08)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -2,6 +2,11 @@ Transport-Alamofire.swift
 	public let sessionManager: Manager
 	public init(sessionManager: Manager = Manager.sharedInstance)
 	public func transportForRequest(request: NSURLRequest) -> RequestTransport
+Configuration.swift
+	public struct Configuration
+	public var config: Configuration
+	public init(from config: Configuration)
+            { self.config = config }
 ResourceStatusOverlay.swift
 	public class ResourceStatusOverlay: UIView, ResourceObserver
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
@@ -20,3 +25,5 @@ ResourceStatusOverlay.swift
 	public func resourceChanged(resource: Resource, event: ResourceEvent)
 	public func stoppedObservingResource(resource: Resource)
 	@IBAction public func retryFailedRequests()
+Resource.swift
+	public var configuration: Configuration

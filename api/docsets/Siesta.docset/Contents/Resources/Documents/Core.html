@@ -12,7 +12,7 @@
     <a title="Core  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (87% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -42,14 +42,6 @@
                 <a href="Structs/ResourceError.html">ResourceError</a>
               </li>
               <li class="nav-group-task">
-                <a href="Enums/RequestMethod.html">RequestMethod</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="Observers &amp; Hooks.html">Observers &amp; Hooks</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
                 <a href="Protocols/ResourceObserver.html">ResourceObserver</a>
               </li>
               <li class="nav-group-task">
@@ -57,6 +49,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Configuration.html">Configuration</a>
               </li>
             </ul>
           </li>
@@ -79,7 +77,7 @@
                 <a href="Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/TransformerSequence.html">TransformerSequence</a>
+                <a href="Structs/TransformerSequence.html">TransformerSequence</a>
               </li>
             </ul>
           </li>
@@ -306,6 +304,99 @@ The one ironclad guarantee that <code>ResourceError</code> makes is the presence
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:P6Siesta16ResourceObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/ResourceObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta16ResourceObserver">ResourceObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Something that can observe changes to the state of a <code>Resource</code>.</p>
+
+                        <a href="Protocols/ResourceObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResourceObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:O6Siesta13ResourceEvent"></a>
+                    <a name="//apple_ref/swift/Enum/ResourceEvent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:O6Siesta13ResourceEvent">ResourceEvent</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The possible causes of a call to <code>ResourceObserver.resourceChanged(_:event:)</code>.</p>
+
+                        <a href="Enums/ResourceEvent.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ResourceEvent</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Siesta7Request"></a>
+                    <a name="//apple_ref/swift/Protocol/Request" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta7Request">Request</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers hooks to receive notifications about the status of a network request, and some request control.</p>
+
+<p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
+<em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
+requests, whereas <code>ResourceObserver</code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
+and <code>localDataOverride(_:)</code>.</p>
+
+                        <a href="Protocols/Request.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Request</span><span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:O6Siesta13RequestMethod"></a>
                     <a name="//apple_ref/swift/Enum/RequestMethod" class="dashAnchor"></a>
                     <a class="token" href="#/s:O6Siesta13RequestMethod">RequestMethod</a>
@@ -335,10 +426,34 @@ The one ironclad guarantee that <code>ResourceError</code> makes is the presence
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:V6Siesta13Configuration"></a>
+                    <a name="//apple_ref/swift/Struct/Configuration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta13Configuration">Configuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Structs/Configuration.html" class="slightly-smaller">See more</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-08)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

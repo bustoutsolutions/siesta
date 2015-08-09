@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RequestTransport Protocol Reference</title>
+    <title>Configuration Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/RequestTransport" class="dashAnchor"></a>
-    <a title="RequestTransport Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/Configuration" class="dashAnchor"></a>
+    <a title="Configuration Struct Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (85% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        RequestTransport Protocol Reference
+        Configuration Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -139,21 +139,8 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>RequestTransport</h1>
-              <div class="declaration">
-                <div class="Swift">
-                  <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestTransport</span></code></pre>
-
-                </div>
-              </div>
-            <p>Network handling for a single request. Created by a <code>TransportProvider</code>. Implementations have three responsibilities:</p>
-
-<ul>
-<li>start the request when <code>start(_:)</code> is called,</li>
-<li>call the closure passed to <code>start(_:)</code> is called when the request is complete, and</li>
-<li>optionally support cancelling requests in progress.</li>
-</ul>
+            <h1>Configuration</h1>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -162,9 +149,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16RequestTransport5startuRq_S0__Fq_FFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T_T_"></a>
-                    <a name="//apple_ref/swift/Method/start(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16RequestTransport5startuRq_S0__Fq_FFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T_T_">start(_:)</a>
+                    <a name="/s:vV6Siesta13Configuration14expirationTimeSd"></a>
+                    <a name="//apple_ref/swift/Property/expirationTime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13Configuration14expirationTimeSd">expirationTime</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -172,19 +159,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Start the associated network request.</p>
+                        <p>Time before valid data is considered stale by <code>loadIfNeeded()</code>.</p>
 
-<p>Siesta will call this method at most once. Implementations <strong>must</strong> guarante that they will call the given
-response closure exactly once.</p>
-
-<p>If the request is cancelled, call the response closure with an <code>NSError</code>.</p>
+<p>Defaults from <code>Service.defaultExpirationTime</code>, which defaults to 30 seconds.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="p">(</span><span class="nv">nsres</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">body</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">?,</span> <span class="nv">nserror</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">expirationTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">30</span></code></pre>
 
                         </div>
                       </div>
@@ -194,9 +178,9 @@ response closure exactly once.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16RequestTransport6canceluRq_S0__Fq_FT_T_"></a>
-                    <a name="//apple_ref/swift/Method/cancel()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16RequestTransport6canceluRq_S0__Fq_FT_T_">cancel()</a>
+                    <a name="/s:vV6Siesta13Configuration9retryTimeSd"></a>
+                    <a name="//apple_ref/swift/Property/retryTime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13Configuration9retryTimeSd">retryTime</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,14 +188,16 @@ response closure exactly once.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Cancel this request, if possible.</p>
+                        <p>Time <code>loadIfNeeded()</code> will wait before allowing a retry after a failed request.</p>
+
+<p>Defaults from <code>Service.defaultRetryTime</code>, which defaults to 1 second.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">retryTime</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
 
                         </div>
                       </div>
@@ -221,9 +207,9 @@ response closure exactly once.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vP6Siesta16RequestTransport11isCancelledSb"></a>
-                    <a name="//apple_ref/swift/Property/isCancelled" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vP6Siesta16RequestTransport11isCancelledSb">isCancelled</a>
+                    <a name="/s:vV6Siesta13Configuration20responseTransformersVS_19TransformerSequence"></a>
+                    <a name="//apple_ref/swift/Property/responseTransformers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13Configuration20responseTransformersVS_19TransformerSequence">responseTransformers</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -231,14 +217,119 @@ response closure exactly once.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Return true if cancel() has been called. Does not guarantee that the request did not make it to the server.</p>
+                        <p>A sequence of parsers to be applied to responses.</p>
+
+<p>You can add custom parsing using:</p>
+
+<pre class="highlight plaintext"><code>responseTransformers.add(MyCustomTransformer())
+responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
+</code></pre>
+
+<p>By default, the transformer sequence includes JSON and plain text parsing. You can
+remove this default behavior by clearing the sequence:</p>
+
+<pre class="highlight plaintext"><code>responseTransformers.clear()
+</code></pre>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">isCancelled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">responseTransformers</span><span class="p">:</span> <span class="kt">TransformerSequence</span> <span class="o">=</span> <span class="kt">TransformerSequence</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13Configuration7headersGVSs10DictionarySSSS_"></a>
+                    <a name="//apple_ref/swift/Property/headers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13Configuration7headersGVSs10DictionarySSSS_">headers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Default headers to be applied to all requests.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvV6Siesta13Configuration23withDefaultTransformersS0_"></a>
+                    <a name="//apple_ref/swift/Variable/withDefaultTransformers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvV6Siesta13Configuration23withDefaultTransformersS0_">withDefaultTransformers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a configuration with Siesta’s default content parsing for text and JSON.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">withDefaultTransformers</span><span class="p">:</span> <span class="kt">Configuration</span> <span class="o">=</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:CV6Siesta13Configuration7Builder"></a>
+                    <a name="//apple_ref/swift/Class/Builder" class="dashAnchor"></a>
+                    <a class="token" href="#/s:CV6Siesta13Configuration7Builder">Builder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Holds a mutable configuration while closures passed to <code>Service.configureResources(...)</code> modify it.</p>
+
+<p>The reason that method doesn’t just accept a closure with an <code>inout</code> param is that doing so requires a messy
+flavor of closure declaration that makes the API much harder to use:</p>
+
+<pre class="highlight plaintext"><code>configureResources("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
+</code></pre>
+
+<p>This wrapper class allows usage to instead look like:</p>
+
+<pre class="highlight plaintext"><code>configureResources("/things/​*") { $0.config.retryTime = 1 }
+</code></pre>
+
+                        <a href="../Classes/Builder.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Builder</span></code></pre>
 
                         </div>
                       </div>
