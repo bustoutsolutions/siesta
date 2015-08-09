@@ -86,6 +86,7 @@ public class TransformerSequence
     {
     private var transformers = [ResponseTransformer]()
     
+    /// Removes all transformers from this sequence and starts fresh.
     public func clear()
         { transformers.removeAll() }
     
@@ -129,6 +130,7 @@ public class TransformerSequence
         return self
         }
 
+    /// :nodoc:
     func process(response: Response) -> Response
         {
         return transformers.reduce(response)
@@ -140,21 +142,31 @@ public class TransformerSequence
 
 /**
   A utility flavor of `ResponseTransformer` that deals only with the response data (whether success or failure), and
-  does not touch the surrounding error metadata if any.
+  does not touch the surrounding error metadata (if any).
 
   To use, implement this protocol and override the `processData(_:)` method.
 */
 public protocol ResponseDataTransformer: ResponseTransformer
     {
-    /// :nodoc:
+    /**
+      Subclasses will typically override this method. The default behavior is to leave data unchanged.
+     
+      Note that overrides can turn a success into an error, e.g. if there is a parse error.
+    */
     func processData(data: ResourceData) -> Response
     
-    /// :nodoc:
+    /**
+      Default behavior: attempt to process error response bodies just like success bodies, but if there is a
+      transformation error, only log it and preserve the original error.
+
+      Subclasses typically do not override this method, but they can if they wish to apply special processing to errors.
+    */
     func processError(error: ResourceError) -> Response
     }
 
 public extension ResponseDataTransformer
     {
+    /// :nodoc:
     final func process(response: Response) -> Response
         {
         switch(response)
@@ -167,16 +179,11 @@ public extension ResponseDataTransformer
             }
         }
     
-    /// Subclasses will typically override this method. Default is to leave data unchanged.
-    ///
-    /// Note that overrides can turn a success into an error, e.g. if there is a parse error.
-    ///
+    /// :nodoc:
     func processData(data: ResourceData) -> Response
         { return .Success(data) }
 
-    /// Default behavior: attempt to process error response bodies just like success bodies, but
-    /// if there is a transformation error, only log it and preserve the original error.
-    ///
+    /// :nodoc:
     func processError(var error: ResourceError) -> Response
         {
         if let errorData = error.data
@@ -222,6 +229,7 @@ public extension ResponseTransformer
 /// Parses an `NSData` payload as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public struct TextTransformer: ResponseDataTransformer
     {
+    /// :nodoc:
     public func processData(data: ResourceData) -> Response
         {
         if data.payload as? String != nil
@@ -266,6 +274,7 @@ public struct TextTransformer: ResponseDataTransformer
 /// Parses an `NSData` payload as JSON, outputting either a dictionary or an array.
 public struct JsonTransformer: ResponseDataTransformer
     {
+    /// :nodoc:
     public func processData(data: ResourceData) -> Response
         {
         return requireDataType(data)

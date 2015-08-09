@@ -8,6 +8,13 @@
 
 import Alamofire
 
+/**
+  Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking. This is Siesta’s default networking provider.
+  
+  You can create custom instances of this class with a custom
+  [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
+  in order to control caching, certificate validation rules, etc.
+*/
 public class AlamofireTransportProvider: TransportProvider
     {
     public let sessionManager: Manager
