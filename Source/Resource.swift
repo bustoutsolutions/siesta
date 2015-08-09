@@ -140,10 +140,6 @@ public class Resource: NSObject, CustomDebugStringConvertible
     /// All requests in progress related to this resource, in the order they were initiated.
     public private(set) var loadRequests = [Request]()  // TOOD: How to handle concurrent POST & GET?
     
-    public var configuration: Configuration {
-        return Configuration()
-    }
-    
     // MARK: -
     
     internal init(service: Service, url: NSURL?)
