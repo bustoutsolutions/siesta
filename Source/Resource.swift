@@ -51,15 +51,15 @@ public class Resource: NSObject, CustomDebugStringConvertible
     */
     public var config: Configuration
         {
-        if configBaseVersion != service.globalConfigVersion
+        if configVersion != service.configVersion
             {
             cachedConfig = service.configurationForResource(self)
-            configBaseVersion = service.globalConfigVersion
+            configVersion = service.configVersion
             }
         return cachedConfig
         }
     private var cachedConfig: Configuration = Configuration()
-    private var configBaseVersion: Int = -1
+    private var configVersion: UInt64 = 0
 
     
     // MARK: Resource state

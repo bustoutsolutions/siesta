@@ -200,9 +200,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             
             beforeEach
                 {
-                var conf = service().globalConfig
-                conf.responseTransformers.add(transformer())
-                service().globalConfig = conf
+                service().configureResources
+                    { $0.config.responseTransformers.add(transformer()) }
                 }
             
             it("can transform data")

@@ -43,17 +43,6 @@ public struct Configuration
     public var headers: [String:String] = [:]
     
     /**
-      Returns a configuration with Siesta’s default content parsing for text and JSON.
-    */
-    public static let withDefaultTransformers: Configuration =
-        {
-        var config = Configuration()
-        config.responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
-        config.responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
-        return config
-        }()
-    
-    /**
       Holds a mutable configuration while closures passed to `Service.configureResources(...)` modify it.
     
       The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
@@ -67,9 +56,6 @@ public struct Configuration
     */
     public class Builder
         {
-        public var config: Configuration
-        
-        public init(from config: Configuration)
-            { self.config = config }
+        public var config: Configuration = Configuration()
         }
     }

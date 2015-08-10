@@ -26,14 +26,15 @@ public class Service: NSObject
       Creates a new service for the given API.
       
       - Parameter: base The base URL of the API.
-      - Parameter: base The base URL of the API.
+      - Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
+          `NSData` (unless you add your own `ResponseTransformer` using `configureResources(...)`).
       - Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
           configuration. You can pass an `AlamofireTransportProvider` created with a custom configuration,
           or provide your own networking implementation.
     */
     public init(
             base: String,
-            config: Configuration = Configuration.withDefaultTransformers,
+            useDefaultTransformers: Bool = true,
             transportProvider: TransportProvider = AlamofireTransportProvider())
         {
         self.baseURL = NSURL(string: base.URLString)?.alterPath
@@ -43,10 +44,18 @@ public class Service: NSObject
                 ? path + "/"
                 : path
             }
-        self.globalConfig = config
         self.transportProvider = transportProvider
         
         super.init()
+        
+        if useDefaultTransformers
+            {
+            configureResources
+                {
+                $0.config.responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
+                $0.config.responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
+                }
+            }
         }
     
     /**
@@ -76,25 +85,33 @@ public class Service: NSObject
     
     // MARK: Resource Configuration
     
+    internal var configVersion: UInt64 = 0
+    private var resourceConfigurers: [Configurer] = []
+        {
+        didSet { recomputeConfigurations() }
+        }
+    
     /**
-      Configuration to apply by default to all resources in this service.
+      Adds global configuration to apply to all resources in this service.
       
-      Changes to this struct are live: they affect subsequent requests even on resource instances that already exist.
+      The passed block is evaluated every time a matching resource asks for its configuration.
+      
+      Matching configuration closures apply in the order they were added, whether global or not. That means that you
+      will usually want to apply your global configuration first, then your resource-specific configuration.
       
       - SeeAlso: `configureResources(_:configMutator:)`
+      - SeeAlso: `recomputeConfigurations()`
     */
-    public var globalConfig: Configuration
+    public func configureResources(configMutator: Configuration.Builder -> Void)
         {
-        didSet { configChanged() }
+        configureResources(
+            "global config",
+            predicate: { _ in true },
+            configMutator: configMutator)
         }
-    internal var globalConfigVersion: Int = 0
-    private var resourceConfigurers: [Configurer] = []
     
     /**
       Applies additional configuration to resources matching the given pattern.
-      
-      When determining configuration for a resource, the service starts with `globalConfig`, then applies any matching
-      configuration mutators in the order they were added.
       
       For example:
       
@@ -107,14 +124,22 @@ public class Service: NSObject
       
       The pattern supports two wildcards:
       
-      - `*` matches a single path segment, and
-      - `**` matches any number of paths segments, including zero. The pattern `/foo/**/bar` matches
-        `/foo/bar` as well as `/foo/1/2/3/bar`.
+      - `*` matches zero or more characters within a path segment, and
+      - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
+      
+      Examples:
+      
+      - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
+      - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
+      - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
     
       The pattern ignores the resource’s query string.
-    
-      - SeeAlso: `globalConfig`
-      - SeeAlso: `configChanged()`
+      
+      If you need more fine-grained URL matching, use the predicate flavor of this method.
+      
+      - SeeAlso: `configureResources(configMutator:)`
+      - SeeAlso: `configureResources(_:predicate:configMutator:)`
+      - SeeAlso: `recomputeConfigurations()`
     */
     public func configureResources(
             urlPattern: String,
@@ -128,7 +153,7 @@ public class Service: NSObject
             NSRegularExpression.escapedPatternForString(resolvedPattern)
                 .replaceString("\\*\\*\\/", "([^:?]*/|)")
                 .replaceString("\\*\\*",    "[^:?]*")
-                .replaceString("\\*",       "[^/:?]+")
+                .replaceString("\\*",       "[^/:?]*")
                 + "$|\\?")
         
         debugLog(.Configuration, ["URL pattern", urlPattern, "compiles to regex", pattern.pattern])
@@ -140,7 +165,7 @@ public class Service: NSObject
         }
     
     /**
-      Accepts an arbitrary URL matching predicate if the wildcards in the other flavor of `configureResources`
+      Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configureResources()`
       aren’t robust enough.
     */
     public func configureResources(
@@ -148,51 +173,61 @@ public class Service: NSObject
             predicate urlMatcher: NSURL -> Bool,
             configMutator: Configuration.Builder -> Void)
         {
+        debugLog(.Configuration, ["Added configuration:", debugName])
         resourceConfigurers.append(
             Configurer(
                 name: debugName,
                 urlMatcher: urlMatcher,
                 configMutator: configMutator))
-        
-        configChanged()
         }
     
     /**
       Signals that all resources need to recompute their configuration next time they need it.
       
-      Because `configureResources(_:configMutator:)` accepts an arbitrary closure, it is possible that the results of
+      Because the `configureResources(...)` methods accept an arbitrary closure, it is possible that the results of
       that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
-      if you do anything that would change the result of a configuration closure, you must call `configChanged()` in
-      order for the changes to take effect.
+      if you do anything that would change the result of a configuration closure, you must call
+      `recomputeConfigurations()` in order for the changes to take effect.
       
+      _<insert your functional reactive programming purist rant here if you so desire>_
+
+      Note that you do _not_ need to call this method after calling any of the `configureResources(...)` methods.
+      You only need to call it if one of the previously passed closures will now behave differently.
+    
       For example, to make a header track the value of a modifiable property:
 
           var flavor: String {
-            didSet { configChanged() }
+            didSet { recomputeConfigurations() }
           }
 
           init() {
             super.init(base: "https://api.github.com")
-            configureResources("​**") {
+            configureResources​ {
               $0.config.headers["Flavor-of-the-month"] = flavor
             }
           }
+    
+      Note that this method does _not_ immediately recompute all existing configurations. This is an inexpensive call.
+      Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
+      over subsequent resource interations.
     */
-    public func configChanged()
+    public func recomputeConfigurations()
         {
-        globalConfigVersion++
+        debugLog(.Configuration, ["Configurations need to be recomputed"])
+        configVersion++
         }
     
     internal func configurationForResource(resource: Resource) -> Configuration
         {
         debugLog(.Configuration, ["Recomputing configuration for", resource])
-        let builder = Configuration.Builder(from: globalConfig)
+        let builder = Configuration.Builder()
         for configurer in resourceConfigurers
             {
-            let matches = configurer.urlMatcher(resource.url!)
-            debugLog(.Configuration, [configurer.name, (matches ? "matches" : "does not match"), resource])
-            if matches
-                { configurer.configMutator(builder) }
+            if configurer.urlMatcher(resource.url!)
+                {
+                debugLog(.Configuration, ["Applying", configurer.name, "configuration to", resource])
+                configurer.configMutator(builder)
+                }
             }
         return builder.config
         }

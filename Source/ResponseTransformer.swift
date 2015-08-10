@@ -107,9 +107,8 @@ public struct TransformerSequence
             transformer: ResponseTransformer,
             contentTypes: [String],
             first: Bool = false)
-        -> TransformerSequence
         {
-        return add(
+        add(
             ContentTypeMatchTransformer(transformer, contentTypes: contentTypes),
             first: first)
         }
@@ -120,14 +119,12 @@ public struct TransformerSequence
     public mutating func add(
             transformer: ResponseTransformer,
             first: Bool = false)
-        -> TransformerSequence
         {
         transformers.insert(
             transformer,
             atIndex: first
                 ? transformers.startIndex
                 : transformers.endIndex)
-        return self
         }
 
     /// :nodoc:
