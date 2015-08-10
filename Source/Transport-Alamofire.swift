@@ -15,7 +15,7 @@ import Alamofire
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
   in order to control caching, certificate validation rules, etc.
 */
-public class AlamofireTransportProvider: TransportProvider
+public struct AlamofireTransportProvider: TransportProvider
     {
     public let sessionManager: Manager
     
