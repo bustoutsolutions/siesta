@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AlamofireTransportProvider Class Reference</title>
+    <title>AlamofireTransportProvider Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/AlamofireTransportProvider" class="dashAnchor"></a>
-    <a title="AlamofireTransportProvider Class Reference"></a>
+    <a name="//apple_ref/swift/Struct/AlamofireTransportProvider" class="dashAnchor"></a>
+    <a title="AlamofireTransportProvider Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (86% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        AlamofireTransportProvider Class Reference
+        AlamofireTransportProvider Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -92,7 +92,7 @@
                 <a href="../Protocols/RequestTransport.html">RequestTransport</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="../Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
               </li>
             </ul>
           </li>
@@ -143,15 +143,28 @@
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
 
                 </div>
               </div>
             <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking. This is Siesta’s default networking provider.</p>
 
-<p>You can create custom instances of this class with a custom
+<p>You can create instances of this class with a custom
 <a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-in order to control caching, certificate validation rules, etc.</p>
+(or, for convenience, a custom <code>NSURLSessionConfiguration</code>)
+in order to control caching, certificate validation rules, etc. For example, here is a <code>Service</code> that will not cache
+anything and will not use the cell network:</p>
+
+<pre class="highlight plaintext"><code>class MyAPI: Service {
+    init() {
+        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+        configuration.allowsCellularAccess = false
+        super.init(
+            base: "http://foo.bar/vi",
+            transportProvider: AlamofireTransportProvider(configuration: configuration))
+    }
+}
+</code></pre>
 
           </section>
           <section class="section task-group-section">
@@ -160,9 +173,9 @@ in order to control caching, certificate validation rules, etc.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta26AlamofireTransportProvider14sessionManagerC9Alamofire7Manager"></a>
-                    <a name="//apple_ref/swift/Property/sessionManager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta26AlamofireTransportProvider14sessionManagerC9Alamofire7Manager">sessionManager</a>
+                    <a name="/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager"></a>
+                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager">manager</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -177,7 +190,7 @@ in order to control caching, certificate validation rules, etc.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
 
                         </div>
                       </div>
@@ -187,9 +200,9 @@ in order to control caching, certificate validation rules, etc.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta26AlamofireTransportProvidercFMS0_FT14sessionManagerC9Alamofire7Manager_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(sessionManager:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta26AlamofireTransportProvidercFMS0_FT14sessionManagerC9Alamofire7Manager_S0_">init(sessionManager:)</a>
+                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(manager:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_">init(manager:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,7 +217,7 @@ in order to control caching, certificate validation rules, etc.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
 
                         </div>
                       </div>
@@ -214,9 +227,36 @@ in order to control caching, certificate validation rules, etc.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_"></a>
+                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(configuration:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_">init(configuration:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_"></a>
                     <a name="//apple_ref/swift/Method/transportForRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_">transportForRequest(_:)</a>
+                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_">transportForRequest(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -231,7 +271,7 @@ in order to control caching, certificate validation rules, etc.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
 
                         </div>
                       </div>
@@ -243,7 +283,7 @@ in order to control caching, certificate validation rules, etc.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-09)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

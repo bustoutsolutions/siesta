@@ -1,12 +1,9 @@
 Transport-Alamofire.swift
-	public let sessionManager: Manager
-	public init(sessionManager: Manager = Manager.sharedInstance)
+	public let manager: Manager
+	public init(manager: Manager = Manager.sharedInstance)
+	public init(configuration: NSURLSessionConfiguration)
 	public func transportForRequest(request: NSURLRequest) -> RequestTransport
-Configuration.swift
-	public struct Configuration
-	public var config: Configuration = Configuration()
 ResourceStatusOverlay.swift
-	public class ResourceStatusOverlay: UIView, ResourceObserver
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
 	@IBOutlet public var errorView: UIView?
 	@IBOutlet public var errorHeadline: UILabel?
