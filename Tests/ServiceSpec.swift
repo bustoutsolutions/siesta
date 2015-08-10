@@ -144,6 +144,8 @@ class ServiceSpec: QuickSpec
                     checkPattern("/*",     matches: true,  "/hither")
                     checkPattern("/*",     matches: false, "/hither/")
                     checkPattern("/*",     matches: false, "/hither/thither")
+                    checkPattern("/*b",    matches: true,  "/zub")
+                    checkPattern("/*b",    matches: false, "/zu/b")
                     checkPattern("/*/b",   matches: false, "/a/")
                     checkPattern("/*/b",   matches: true,  "/a/b")
                     checkPattern("/*/b",   matches: false, "/a/b/")
@@ -174,6 +176,26 @@ class ServiceSpec: QuickSpec
                     checkPattern("/*/b",  matches: true, "/a/b", params: ["foo": "bar"])
                     checkPattern("/**/b", matches: true, "/a/b", params: ["foo": "bar"])
                     }
+                }
+            
+            it("changes when service config added")
+                {
+                expect(resource0().config.expirationTime).to(equal(30))
+                service().configureResources { $0.config.expirationTime = 17 }
+                expect(resource0().config.expirationTime).to(equal(17))
+                service().configureResources("*oo") { $0.config.expirationTime = 16 }
+                expect(resource0().config.expirationTime).to(equal(16))
+                }
+
+            it("changes when recomputeConfigurations() called")
+                {
+                var x: NSTimeInterval = 3
+                service().configureResources { $0.config.expirationTime = x }
+                expect(resource0().config.expirationTime).to(equal(3))
+                x = 4
+                expect(resource0().config.expirationTime).to(equal(3))
+                service().recomputeConfigurations()
+                expect(resource0().config.expirationTime).to(equal(4))
                 }
             }
         }
