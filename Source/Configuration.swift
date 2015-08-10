@@ -6,6 +6,11 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/**
+  Options which control the behavior of a `Resource`.
+  
+  - SeeAlso: `Service.configureResources(...)`
+*/
 public struct Configuration
     {
     /**
@@ -38,7 +43,7 @@ public struct Configuration
     public var responseTransformers: TransformerSequence = TransformerSequence()
     
     /**
-      Default headers to be applied to all requests.
+      Default request headers.
     */
     public var headers: [String:String] = [:]
     
@@ -56,6 +61,7 @@ public struct Configuration
     */
     public class Builder
         {
+        /// Mutable for modification while building a resource’s config.
         public var config: Configuration = Configuration()
         }
     }
