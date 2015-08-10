@@ -76,6 +76,106 @@ class ServiceSpec: QuickSpec
                     .to(beIdenticalTo(service().resource("/foo/bar")))
                 }
             }
+        
+        describe("configuration")
+            {
+            let resource0 = specVar { service().resource("/foo") },
+                resource1 = specVar { service().resource("/bar") }
+            
+            it("applies global config to all resources")
+                {
+                service().configureResources { $0.config.expirationTime = 17 }
+                expect(resource0().config.expirationTime).to(equal(17))
+                expect(resource1().config.expirationTime).to(equal(17))
+                }
+
+            it("passes through the default configuration")
+                {
+                service().configureResources { $0.config.retryTime = 17 }
+                expect(resource0().config.expirationTime).to(equal(30))
+                }
+
+            it("applies predicate config only to matching resources")
+                {
+                service().configureResources("foo", predicate: { $0.absoluteString.hasSuffix("foo") })
+                    { $0.config.expirationTime = 17 }
+                expect(resource0().config.expirationTime).to(equal(17))
+                expect(resource1().config.expirationTime).to(equal(30))
+                }
+            
+            context("using wilcards")
+                {
+                func checkPattern(pattern: String, matches: Bool, _ path: String, params: [String:String] = [:])
+                    {
+                    let service = Service(base: "https://foo.bar/v1")
+                    service.configureResources(pattern) { $0.config.expirationTime = 6 }
+                    
+                    var resource = service.resource(path)
+                    for (k,v) in params
+                        { resource = resource.withParam(k, v) }
+                    
+                    let actual = resource.config.expirationTime,
+                        expected = matches ? 6.0 : 30.0,
+                        matchword = matches ? "to" : "not to"
+                    XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(path)")
+                    }
+                
+                it("matches against the base URL")
+                    {
+                    checkPattern("fez",  matches: true,  "https://foo.bar/v1/fez")
+                    checkPattern("/fez", matches: true,  "https://foo.bar/v1/fez")
+                    checkPattern("/fez", matches: false, "https://foo.com/v1/fez")
+                    }
+                
+                it("matches full URLs")
+                    {
+                    checkPattern("https://foo.com/*/fez", matches: false, "https://foo.bar/v1/fez")
+                    checkPattern("https://foo.com/*/fez", matches: true,  "https://foo.com/v1/fez")
+                    }
+                
+                it("ignores a leading slash")
+                    {
+                    checkPattern("hither/thither", matches: true, "/hither/thither")
+                    checkPattern("/hither/thither", matches: true, "hither/thither")
+                    }
+                
+                it("matches path segments with *")
+                    {
+                    checkPattern("/*",     matches: true,  "/hither")
+                    checkPattern("/*",     matches: false, "/hither/")
+                    checkPattern("/*",     matches: false, "/hither/thither")
+                    checkPattern("/*/b",   matches: false, "/a/")
+                    checkPattern("/*/b",   matches: true,  "/a/b")
+                    checkPattern("/*/b",   matches: false, "/a/b/")
+                    checkPattern("/a/*/c", matches: true,  "/a/blarg/c")
+                    checkPattern("/a/*/c", matches: false, "/a/c")
+                    checkPattern("/*x*/c", matches: true,  "/x/c")
+                    checkPattern("/*x*/c", matches: true,  "/foxy/c")
+                    checkPattern("/*x*/c", matches: false, "/fozzy/c")
+                    }
+                
+                it("matches across segments with **")
+                    {
+                    checkPattern("/**",     matches: true,  "/")
+                    checkPattern("/**",     matches: true,  "/hither")
+                    checkPattern("/**",     matches: true,  "/hither/thither/yon")
+                    checkPattern("/a/**/b", matches: true,  "/a/b")
+                    checkPattern("/a/**/b", matches: true,  "/a/1/2/3/b")
+                    checkPattern("/a/**/b", matches: false, "/a1/2/3/b")
+                    checkPattern("/a/**/b", matches: false, "/a/1/2/3b")
+                    checkPattern("/**x**",  matches: true,  "/how/many/tests/exactly/do/we/need")
+                    checkPattern("/**x**",  matches: false, "/just/a/health/handful")
+                    checkPattern("/**/*",   matches: true,  "/a/b")
+                    checkPattern("/**/*",   matches: true,  "/ab")
+                    }
+
+                it("ignores query strings in the matched URL")
+                    {
+                    checkPattern("/*/b",  matches: true, "/a/b", params: ["foo": "bar"])
+                    checkPattern("/**/b", matches: true, "/a/b", params: ["foo": "bar"])
+                    }
+                }
+            }
         }
     }
 

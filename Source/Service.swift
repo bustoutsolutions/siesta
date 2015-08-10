@@ -146,15 +146,15 @@ public class Service: NSObject
             configMutator: Configuration.Builder -> Void)
         {
         let prefix = urlPattern.containsRegex("^[a-z]+:")
-            ? baseURL!.absoluteString  // If pattern has a protocol, interpret as absolute URL
-            : ""                       // Already an absolute URL
+            ? ""                       // If pattern has a protocol, interpret as absolute URL
+            : baseURL!.absoluteString  // Pattern is relative to API base
         let resolvedPattern = prefix + urlPattern.stripPrefix("/")
         let pattern = NSRegularExpression.compile(
             NSRegularExpression.escapedPatternForString(resolvedPattern)
                 .replaceString("\\*\\*\\/", "([^:?]*/|)")
                 .replaceString("\\*\\*",    "[^:?]*")
                 .replaceString("\\*",       "[^/:?]*")
-                + "$|\\?")
+                + "($|\\?)")
         
         debugLog(.Configuration, ["URL pattern", urlPattern, "compiles to regex", pattern.pattern])
         
