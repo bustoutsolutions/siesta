@@ -11,23 +11,40 @@ import Alamofire
 /**
   Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking. This is Siesta’s default networking provider.
   
-  You can create custom instances of this class with a custom
+  You can create instances of this class with a custom
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
-  in order to control caching, certificate validation rules, etc.
+  (or, for convenience, a custom `NSURLSessionConfiguration`)
+  in order to control caching, certificate validation rules, etc. For example, here is a `Service` that will not cache
+  anything and will not use the cell network:
+  
+      class MyAPI: Service {
+          init() {
+              let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+              configuration.allowsCellularAccess = false
+              super.init(
+                  base: "http://foo.bar/vi",
+                  transportProvider: AlamofireTransportProvider(configuration: configuration))
+          }
+      }
 */
 public struct AlamofireTransportProvider: TransportProvider
     {
-    public let sessionManager: Manager
+    public let manager: Manager
     
-    public init(sessionManager: Manager = Manager.sharedInstance)
+    public init(manager: Manager = Manager.sharedInstance)
         {
-        self.sessionManager = sessionManager
+        self.manager = manager
+        }
+    
+    public init(configuration: NSURLSessionConfiguration)
+        {
+        self.init(manager: Alamofire.Manager(configuration: configuration))
         }
     
     public func transportForRequest(request: NSURLRequest) -> RequestTransport
         {
-        sessionManager.startRequestsImmediately = false
-        return AlamofireRequestTransport(sessionManager.request(request))
+        manager.startRequestsImmediately = false
+        return AlamofireRequestTransport(manager.request(request))
         }
     }
 
