@@ -4,9 +4,7 @@ Transport-Alamofire.swift
 	public func transportForRequest(request: NSURLRequest) -> RequestTransport
 Configuration.swift
 	public struct Configuration
-	public var config: Configuration
-	public init(from config: Configuration)
-            { self.config = config }
+	public var config: Configuration = Configuration()
 ResourceStatusOverlay.swift
 	public class ResourceStatusOverlay: UIView, ResourceObserver
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
@@ -25,5 +23,3 @@ ResourceStatusOverlay.swift
 	public func resourceChanged(resource: Resource, event: ResourceEvent)
 	public func stoppedObservingResource(resource: Resource)
 	@IBAction public func retryFailedRequests()
-Resource.swift
-	public var configuration: Configuration
