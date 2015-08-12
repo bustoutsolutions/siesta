@@ -8,6 +8,15 @@
 
 import Foundation
 
+/**
+  A ready-made UI component to show an activity indicator and/or error message for a set of `Resource`s.
+  
+  You can use this class in three ways:
+  
+  - with Siesta’s default layout,
+  - with your own `.nib` file, or
+  - using hard-coded layout.
+*/
 @objc(BOSResourceStatusOverlay)
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
