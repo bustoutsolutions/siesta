@@ -95,6 +95,14 @@ class ServiceSpec: QuickSpec
                 expect(resource0().config.expirationTime).to(equal(30))
                 }
 
+            it("applies resource-specific config only to that resource")
+                {
+                service().configure(resource0())
+                    { $0.config.expirationTime = 17 }
+                expect(resource0().config.expirationTime).to(equal(17))
+                expect(resource1().config.expirationTime).to(equal(30))
+                }
+            
             it("applies predicate config only to matching resources")
                 {
                 service().configure("foo", predicate: { $0.absoluteString.hasSuffix("foo") })

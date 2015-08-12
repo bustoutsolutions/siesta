@@ -111,6 +111,21 @@ public class Service: NSObject
         }
     
     /**
+      Adds configuration for one resource’s URL. You add configuration this way instead of setting properties directly
+      on the resource because `Resource` instances may be discarded and recreated when they are not in use.
+    */
+    public func configure(
+            resource: Resource,
+            configurer: Configuration.Builder -> Void)
+        {
+        let resourceURL = resource.url!
+        configure(
+            resourceURL.absoluteString,
+            predicate: { $0 == resourceURL },
+            configurer: configurer)
+        }
+    
+    /**
       Applies additional configuration to resources matching the given pattern.
       
       For example:
