@@ -59,7 +59,7 @@ public struct Configuration
     
           configure("/things/​*") { $0.config.retryTime = 1 }
     */
-    public class Builder
+    public final class Builder
         {
         /// Mutable for modification while building a resource’s config.
         public var config: Configuration = Configuration()

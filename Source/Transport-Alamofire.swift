@@ -48,7 +48,7 @@ public struct AlamofireTransportProvider: TransportProvider
         }
     }
 
-internal class AlamofireRequestTransport: RequestTransport
+internal final class AlamofireRequestTransport: RequestTransport
     {
     internal var alamofireRequest: Alamofire.Request
     private(set) var isCancelled: Bool = false

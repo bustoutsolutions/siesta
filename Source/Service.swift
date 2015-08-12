@@ -67,7 +67,7 @@ public class Service: NSObject
       occurs, at which point they are summarily evicted.
     */
     @objc(resourceWithURL:)
-    public func resource(url: NSURL?) -> Resource
+    public final func resource(url: NSURL?) -> Resource
         {
         let key = url?.absoluteString ?? ""  // TODO: handle invalid URLs
         return resourceCache.get(key)
@@ -78,7 +78,7 @@ public class Service: NSObject
     
     /// Return the unique resource with the given path relative to `baseURL`.
     @objc(resourceWithPath:)
-    public func resource(path: String) -> Resource
+    public final func resource(path: String) -> Resource
         {
         return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
@@ -102,7 +102,7 @@ public class Service: NSObject
       - SeeAlso: `configure(_:configurer:)`
       - SeeAlso: `recomputeConfigurations()`
     */
-    public func configure(configurer: Configuration.Builder -> Void)
+    public final func configure(configurer: Configuration.Builder -> Void)
         {
         configure(
             "global config",
@@ -114,7 +114,7 @@ public class Service: NSObject
       Adds configuration for one resource’s URL. You add configuration this way instead of setting properties directly
       on the resource because `Resource` instances may be discarded and recreated when they are not in use.
     */
-    public func configure(
+    public final func configure(
             resource: Resource,
             configurer: Configuration.Builder -> Void)
         {
@@ -156,7 +156,7 @@ public class Service: NSObject
       - SeeAlso: `configure(_:predicate:configurer:)`
       - SeeAlso: `recomputeConfigurations()`
     */
-    public func configure(
+    public final func configure(
             urlPattern: String,
             configurer: Configuration.Builder -> Void)
         {
@@ -183,7 +183,7 @@ public class Service: NSObject
       Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configure()`
       aren’t robust enough.
     */
-    public func configure(
+    public final func configure(
             debugName: String,
             predicate urlMatcher: NSURL -> Bool,
             configurer: Configuration.Builder -> Void)
@@ -226,7 +226,7 @@ public class Service: NSObject
       Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
       over subsequent resource interations.
     */
-    public func recomputeConfigurations()
+    public final func recomputeConfigurations()
         {
         debugLog(.Configuration, ["Configurations need to be recomputed"])
         configVersion++

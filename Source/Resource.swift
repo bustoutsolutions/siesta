@@ -24,7 +24,7 @@ internal let now = { fakeNow ?? NSDate.timeIntervalSinceReferenceDate() }
   questions changes.
 */
 @objc(BOSResource)
-public class Resource: NSObject, CustomDebugStringConvertible
+public final class Resource: NSObject, CustomDebugStringConvertible
     {
     // MARK: Configuration
     

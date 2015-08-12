@@ -262,7 +262,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 
 
 /// For requests that failed before they even made it to the transport layer
-internal class FailedRequest: Request
+internal final class FailedRequest: Request
     {
     private let error: ResourceError
     
