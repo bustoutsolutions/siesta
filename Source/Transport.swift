@@ -42,8 +42,5 @@ public protocol RequestTransport
     
     /// Cancel this request, if possible.
     func cancel()
-    
-    /// Return true if cancel() has been called. Does not guarantee that the request did not make it to the server.
-    var isCancelled: Bool { get }
     }
 

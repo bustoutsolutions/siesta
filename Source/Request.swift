@@ -58,10 +58,21 @@ public protocol Request: AnyObject
     func failure(callback: ResourceError -> Void) -> Self
     
     /**
-      Cancel the request if it is still in progress, at the discretion of the transport layer.
+      True if the request has either received a server response, encountered a pre-request client-side side error, or
+      been cancelled.
+    */
+    var completed: Bool { get }
+    
+    /**
+      Cancel the request if it is still in progress. Has no effect if a response has already been received.
         
-      You can call this method even after a request has completed. Even if the call comes while the request is in progress,
-      it is not guaranteed to have any effect, subject to the whims of the `TransportProvider`.
+      If this method is called while the request is in progress, it triggers the `failure`/`completion` callbacks with
+      an `NSError` with the domain `NSURLErrorDomain` and the code `NSURLErrorCancelled`.
+      
+      This method is not guaranteed to stop the server from receiving the request. In fact, it is not guaranteed to have
+      any effect at all on the underlying network request, subject to the whims of the `TransportProvider`. Therefore,
+      after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
+      the resource unknown. Is it safest to immediately call either `Resource.load()` or `Resource.wipe()`.
     */
     func cancel()
     }
@@ -97,6 +108,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     private let requestDescription: String
     private var transport: RequestTransport
     private var responseCallbacks: [ResponseCallback] = []
+    private(set) var completed: Bool = false
 
     init(resource: Resource, nsreq: NSURLRequest)
         {
@@ -115,9 +127,25 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     func cancel()
         {
+        guard !completed else
+            {
+            debugLog(.Network, ["cancel() called but request already completed:", requestDescription])
+            return
+            }
+        
         debugLog(.Network, ["Cancelled:", requestDescription])
         
+        completed = true
         transport.cancel()
+
+        dispatch_async(dispatch_get_main_queue())
+            {
+            self.triggerCallbacks((
+                response: .Failure(ResourceError(
+                    userMessage: "Request cancelled",
+                    error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
+                isNew: true))
+            }
         }
     
     // MARK: Callbacks
@@ -192,6 +220,17 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Entry point for response handling. Passed as a callback closure to RequestTransport.
     private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
+        guard !completed else
+            {
+            debugLog(.Network,
+                [
+                "Received response for request that was already completed (perhaps because it was cancelled):",
+                nsres?.statusCode, "←", requestDescription
+                ])
+            return
+            }
+        completed = true
+        
         debugLog(.Network, [nsres?.statusCode, "←", requestDescription])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
@@ -288,4 +327,6 @@ internal final class FailedRequest: Request
     func notModified(callback: Void -> Void) -> Self { return self }
     
     func cancel() { }
+
+    var completed: Bool { return true }
     }

@@ -46,6 +46,19 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestError).to(beNil())
                 }
             
+            it("can be cancelled")
+                {
+                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let req = resource().request(RequestMethod.GET)
+                req.cancel()
+                reqStub.go()
+                awaitFailure(req, alreadyCompleted: true)
+                }
+            
+            // TODO: How to reproduce these conditions in tests?
+            pending("server response has no effect if it arrives but cancel() already called") { }
+            pending("cancel() has no effect after request completed") { }
+            
             it("tracks concurrent requests")
                 {
                 func stubDelayedAndLoad(ident: String) -> (LSStubResponseDSL, Request)
@@ -103,7 +116,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles string encoding errors")
                     {
-                    awaitFailure(resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding))
+                    awaitFailure(
+                        resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding),
+                        alreadyCompleted: true)
                     }
                 
                 it("handles JSON data")
@@ -118,7 +133,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles JSON encoding errors")
                     {
-                    awaitFailure(resource().request(.POST, json: ["question": [2, UIView()]]))
+                    awaitFailure(
+                        resource().request(.POST, json: ["question": [2, UIView()]]),
+                        alreadyCompleted: true)
                     }
 
                 it("handles url-encoded param data")
@@ -332,7 +349,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expectDataToBeUnchanged()
                 }
 
-            it("leaves everything unchanged after a cancelled request")  // TODO: should be separate instead?
+            it("leaves everything unchanged after a cancelled request")
                 {
                 sendAndWaitForSuccessfulRequest()
                 
@@ -340,7 +357,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 reqStub.go()
-                awaitFailure(req)
+                awaitFailure(req, alreadyCompleted: true)
 
                 expectDataToBeUnchanged()
                 expect(resource().latestError).to(beNil())

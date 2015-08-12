@@ -44,6 +44,7 @@ func stubReqest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
 
 func awaitNewData(req: Siesta.Request)
     {
+    expect(req.completed).to(beFalse())
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
@@ -53,10 +54,12 @@ func awaitNewData(req: Siesta.Request)
        .newData     { _ in newDataExpectation.fulfill() }
        .notModified { _ in fail("notModified callback should not be called") }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    expect(req.completed).to(beTrue())
     }
 
 func awaitNotModified(req: Siesta.Request)
     {
+    expect(req.completed).to(beFalse())
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let notModifiedExpectation = QuickSpec.current().expectationWithDescription("awaiting notModified callback: \(req)")
@@ -66,10 +69,12 @@ func awaitNotModified(req: Siesta.Request)
        .newData     { _ in fail("newData callback should not be called") }
        .notModified { _ in notModifiedExpectation.fulfill() }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    expect(req.completed).to(beTrue())
     }
 
-func awaitFailure(req: Siesta.Request)
+func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
     {
+    expect(req.completed).to(equal(alreadyCompleted))
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure callback: \(req)")
     req.completion  { _ in responseExpectation.fulfill() }
@@ -78,6 +83,7 @@ func awaitFailure(req: Siesta.Request)
        .newData     { _ in fail("newData callback should not be called") }
        .notModified { _ in fail("notModified callback should not be called") }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    expect(req.completed).to(beTrue())
     }
 
 // MARK: - Clock stubbing

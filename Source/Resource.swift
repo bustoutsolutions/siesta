@@ -574,7 +574,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
     private func receiveError(error: ResourceError)
         {
         if let nserror = error.nsError
-            where nserror.domain == "NSURLErrorDomain"
+            where nserror.domain == NSURLErrorDomain
                && nserror.code == NSURLErrorCancelled
             {
             notifyObservers(.RequestCancelled)

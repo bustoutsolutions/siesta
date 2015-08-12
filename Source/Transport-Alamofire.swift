@@ -51,7 +51,6 @@ public struct AlamofireTransportProvider: TransportProvider
 internal final class AlamofireRequestTransport: RequestTransport
     {
     internal var alamofireRequest: Alamofire.Request
-    private(set) var isCancelled: Bool = false
     
     init(_ alamofireRequest: Alamofire.Request)
         {
@@ -68,6 +67,5 @@ internal final class AlamofireRequestTransport: RequestTransport
     func cancel()
         {
         alamofireRequest.cancel()
-        isCancelled = true
         }
     }
