@@ -134,11 +134,11 @@ public final class Resource: NSObject, CustomDebugStringConvertible
 
     // MARK: Request management
     
-    /// True if any load requests for this resource are pending.
-    public var loading: Bool { return !loadRequests.isEmpty }  // TODO: Should this be any requests, load or not? Probably. Think through it.
+    /// True if any requests for this resource are pending.
+    public var loading: Bool { return !requests.isEmpty }
 
     /// All requests in progress related to this resource, in the order they were initiated.
-    public private(set) var loadRequests = [Request]()  // TOOD: How to handle concurrent POST & GET?
+    public private(set) var requests = [Request]()  // TOOD: Any special handling for concurrent POST & GET?
     
     // MARK: -
     
@@ -298,7 +298,17 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
 
-        return NetworkRequest(resource: self, nsreq: nsreq).start()
+        let req = NetworkRequest(resource: self, nsreq: nsreq).start()
+
+        requests.append(req)
+        req.completion
+            {
+            [weak self, weak req] _ in
+            if let resource = self
+                { resource.requests = resource.requests.filter { $0 !== req } }
+            }
+        
+        return req
         }
     
     /**
@@ -476,14 +486,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             if let etag = self.latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
-        loadRequests.append(req)
         
-        req.completion
-            {
-            [weak self, weak req] _ in
-            if let resource = self
-                { resource.loadRequests = resource.loadRequests.filter { $0 !== req } }
-            }
         req.newData(self.receiveData)
         req.notModified(self.receiveDataNotModified)
         req.failure(self.receiveError)

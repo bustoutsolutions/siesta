@@ -21,7 +21,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             expect(resource().latestError).to(beNil())
             
             expect(resource().loading).to(beFalse())
-            expect(resource().loadRequests).to(beIdentialObjects([]))
+            expect(resource().requests).to(beIdentialObjects([]))
             }
         
         describe("request()")
@@ -38,24 +38,42 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().request(RequestMethod.PATCH))
                 }
             
-            it("does not mark that the resource is loading")
-                {
-                expect(resource().loading).to(beFalse())
-                
-                stubReqest(resource, "GET").andReturn(200)
-                let req = resource().request(RequestMethod.GET)
-                expect(resource().loading).to(beFalse())
-                
-                awaitNewData(req)
-                expect(resource().loading).to(beFalse())
-                }
-
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(RequestMethod.GET))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
+                }
+            
+            it("tracks concurrent requests")
+                {
+                func stubDelayedAndLoad(ident: String) -> (LSStubResponseDSL, Request)
+                    {
+                    let reqStub = stubReqest(resource, "GET")
+                        .withHeader("Request-ident", ident)
+                        .andReturn(200)
+                        .delay()
+                    let req = resource().request(RequestMethod.GET)
+                        { $0.setValue(ident, forHTTPHeaderField: "Request-ident") }
+                    return (reqStub, req)
+                    }
+                
+                let (reqStub0, req0) = stubDelayedAndLoad("zero"),
+                    (reqStub1, req1) = stubDelayedAndLoad("one")
+                
+                expect(resource().loading).to(beTrue())
+                expect(resource().requests).to(beIdentialObjects([req0, req1]))
+                
+                reqStub0.go()
+                awaitNewData(req0)
+                expect(resource().loading).to(beTrue())
+                expect(resource().requests).to(beIdentialObjects([req1]))
+                
+                reqStub1.go()
+                awaitNewData(req1)
+                expect(resource().loading).to(beFalse())
+                expect(resource().requests).to(beIdentialObjects([]))
                 }
             
             context("POST/PUT/PATCH body")
@@ -137,37 +155,6 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 awaitNewData(req)
                 expect(resource().loading).to(beFalse())
-                }
-            
-            it("tracks concurrent requests")
-                {
-                func stubDelayedAndLoad(etag: String) -> (LSStubResponseDSL, Request)
-                    {
-                    let reqStub = stubReqest(resource, "GET")
-                        .withHeader("If-none-match", etag)
-                        .andReturn(200)
-                        .delay()
-                    resource().localDataOverride(
-                        ResourceData(payload: "hi", mimeType: "text/plain", headers: ["Etag": etag]))
-                    let req = resource().load()
-                    return (reqStub, req)
-                    }
-                
-                let (reqStub0, req0) = stubDelayedAndLoad("zero"),
-                    (reqStub1, req1) = stubDelayedAndLoad("one")
-                
-                expect(resource().loading).to(beTrue())
-                expect(resource().loadRequests).to(beIdentialObjects([req0, req1]))
-                
-                reqStub0.go()
-                awaitNewData(req0)
-                expect(resource().loading).to(beTrue())
-                expect(resource().loadRequests).to(beIdentialObjects([req1]))
-                
-                reqStub1.go()
-                awaitNewData(req1)
-                expect(resource().loading).to(beFalse())
-                expect(resource().loadRequests).to(beIdentialObjects([]))
                 }
             
             it("stores the response data")
