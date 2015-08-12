@@ -46,8 +46,8 @@ public class Resource: NSObject, CustomDebugStringConvertible
       The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
       not in use. Any configuration applied a particular resource instance would therefore be transient.
       
-      Instead, you must use `Service.configureResources(_:configMutator:)`. This sets up configuration to be applied to
-      resources according to their URL, whenever they are created or recreated.
+      Instead, you must use the `Service.configure(...)` methods. This sets up configuration to be applied to resources
+      according to their URL, whenever they are created or recreated.
     */
     public var config: Configuration
         {

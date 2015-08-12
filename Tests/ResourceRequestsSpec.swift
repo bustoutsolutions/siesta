@@ -430,7 +430,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("respects custom expiration time")
                     {
-                    service().configureResources("**") { $0.config.expirationTime = 1 }
+                    service().configure("**") { $0.config.expirationTime = 1 }
                     expect(resource().config.expirationTime).to(equal(1))
                     setResourceTime(1002)
                     expectToLoad(resource().loadIfNeeded())
@@ -460,7 +460,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("respects custom retry time")
                     {
-                    service().configureResources("**") { $0.config.retryTime = 1 }
+                    service().configure("**") { $0.config.retryTime = 1 }
                     setResourceTime(1002)
                     expectToLoad(resource().loadIfNeeded())
                     }

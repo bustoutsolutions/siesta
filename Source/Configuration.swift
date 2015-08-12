@@ -9,7 +9,7 @@
 /**
   Options which control the behavior of a `Resource`.
   
-  - SeeAlso: `Service.configureResources(...)`
+  - SeeAlso: `Service.configure(...)`
 */
 public struct Configuration
     {
@@ -48,16 +48,16 @@ public struct Configuration
     public var headers: [String:String] = [:]
     
     /**
-      Holds a mutable configuration while closures passed to `Service.configureResources(...)` modify it.
+      Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.
     
       The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
       flavor of closure declaration that makes the API much harder to use:
       
-          configureResources("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
+          configure("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
     
       This wrapper class allows usage to instead look like:
     
-          configureResources("/things/​*") { $0.config.retryTime = 1 }
+          configure("/things/​*") { $0.config.retryTime = 1 }
     */
     public class Builder
         {

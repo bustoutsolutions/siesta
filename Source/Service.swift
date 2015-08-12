@@ -27,7 +27,7 @@ public class Service: NSObject
       
       - Parameter: base The base URL of the API.
       - Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
-          `NSData` (unless you add your own `ResponseTransformer` using `configureResources(...)`).
+          `NSData` (unless you add your own `ResponseTransformer` using `configure(...)`).
       - Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
           configuration. You can pass an `AlamofireTransportProvider` created with a custom configuration,
           or provide your own networking implementation.
@@ -50,7 +50,7 @@ public class Service: NSObject
         
         if useDefaultTransformers
             {
-            configureResources
+            configure
                 {
                 $0.config.responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
                 $0.config.responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
@@ -99,15 +99,15 @@ public class Service: NSObject
       Matching configuration closures apply in the order they were added, whether global or not. That means that you
       will usually want to apply your global configuration first, then your resource-specific configuration.
       
-      - SeeAlso: `configureResources(_:configMutator:)`
+      - SeeAlso: `configure(_:configurer:)`
       - SeeAlso: `recomputeConfigurations()`
     */
-    public func configureResources(configMutator: Configuration.Builder -> Void)
+    public func configure(configurer: Configuration.Builder -> Void)
         {
-        configureResources(
+        configure(
             "global config",
             predicate: { _ in true },
-            configMutator: configMutator)
+            configurer: configurer)
         }
     
     /**
@@ -115,9 +115,9 @@ public class Service: NSObject
       
       For example:
       
-          configureResources("/items")    { $0.config.expirationTime = 5 }
-          configureResources("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
-          configureResources("/admin/​**") { $0.config.headers["Auth-token"] = token }
+          configure("/items")    { $0.config.expirationTime = 5 }
+          configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
+          configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
     
       The `urlPattern` is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. `http:`).
       If it is relative, the leading slash is optional.
@@ -137,13 +137,13 @@ public class Service: NSObject
       
       If you need more fine-grained URL matching, use the predicate flavor of this method.
       
-      - SeeAlso: `configureResources(configMutator:)`
-      - SeeAlso: `configureResources(_:predicate:configMutator:)`
+      - SeeAlso: `configure(configurer:)`
+      - SeeAlso: `configure(_:predicate:configurer:)`
       - SeeAlso: `recomputeConfigurations()`
     */
-    public func configureResources(
+    public func configure(
             urlPattern: String,
-            configMutator: Configuration.Builder -> Void)
+            configurer: Configuration.Builder -> Void)
         {
         let prefix = urlPattern.containsRegex("^[a-z]+:")
             ? ""                       // If pattern has a protocol, interpret as absolute URL
@@ -158,40 +158,40 @@ public class Service: NSObject
         
         debugLog(.Configuration, ["URL pattern", urlPattern, "compiles to regex", pattern.pattern])
         
-        configureResources(
+        configure(
             urlPattern,
             predicate: { pattern.matches($0.absoluteString) },
-            configMutator: configMutator)
+            configurer: configurer)
         }
     
     /**
-      Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configureResources()`
+      Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configure()`
       aren’t robust enough.
     */
-    public func configureResources(
+    public func configure(
             debugName: String,
             predicate urlMatcher: NSURL -> Bool,
-            configMutator: Configuration.Builder -> Void)
+            configurer: Configuration.Builder -> Void)
         {
         debugLog(.Configuration, ["Added configuration:", debugName])
         resourceConfigurers.append(
             Configurer(
                 name: debugName,
                 urlMatcher: urlMatcher,
-                configMutator: configMutator))
+                configurer: configurer))
         }
     
     /**
       Signals that all resources need to recompute their configuration next time they need it.
       
-      Because the `configureResources(...)` methods accept an arbitrary closure, it is possible that the results of
+      Because the `configure(...)` methods accept an arbitrary closure, it is possible that the results of
       that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
       if you do anything that would change the result of a configuration closure, you must call
       `recomputeConfigurations()` in order for the changes to take effect.
       
       _<insert your functional reactive programming purist rant here if you so desire>_
 
-      Note that you do _not_ need to call this method after calling any of the `configureResources(...)` methods.
+      Note that you do _not_ need to call this method after calling any of the `configure(...)` methods.
       You only need to call it if one of the previously passed closures will now behave differently.
     
       For example, to make a header track the value of a modifiable property:
@@ -202,7 +202,7 @@ public class Service: NSObject
 
           init() {
             super.init(base: "https://api.github.com")
-            configureResources​ {
+            configure​ {
               $0.config.headers["Flavor-of-the-month"] = flavor
             }
           }
@@ -226,7 +226,7 @@ public class Service: NSObject
             if configurer.urlMatcher(resource.url!)
                 {
                 debugLog(.Configuration, ["Applying", configurer.name, "configuration to", resource])
-                configurer.configMutator(builder)
+                configurer.configurer(builder)
                 }
             }
         return builder.config
@@ -236,6 +236,6 @@ public class Service: NSObject
         {
         let name: String
         let urlMatcher: NSURL -> Bool
-        let configMutator: Configuration.Builder -> Void
+        let configurer: Configuration.Builder -> Void
         }
     }

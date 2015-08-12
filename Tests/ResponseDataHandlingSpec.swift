@@ -200,7 +200,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             
             beforeEach
                 {
-                service().configureResources
+                service().configure
                     { $0.config.responseTransformers.add(transformer()) }
                 }
             

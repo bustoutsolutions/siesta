@@ -84,20 +84,20 @@ class ServiceSpec: QuickSpec
             
             it("applies global config to all resources")
                 {
-                service().configureResources { $0.config.expirationTime = 17 }
+                service().configure { $0.config.expirationTime = 17 }
                 expect(resource0().config.expirationTime).to(equal(17))
                 expect(resource1().config.expirationTime).to(equal(17))
                 }
 
-            it("passes through the default configuration")
+            it("passes default configuration through if not overridden")
                 {
-                service().configureResources { $0.config.retryTime = 17 }
+                service().configure { $0.config.retryTime = 17 }
                 expect(resource0().config.expirationTime).to(equal(30))
                 }
 
             it("applies predicate config only to matching resources")
                 {
-                service().configureResources("foo", predicate: { $0.absoluteString.hasSuffix("foo") })
+                service().configure("foo", predicate: { $0.absoluteString.hasSuffix("foo") })
                     { $0.config.expirationTime = 17 }
                 expect(resource0().config.expirationTime).to(equal(17))
                 expect(resource1().config.expirationTime).to(equal(30))
@@ -108,7 +108,7 @@ class ServiceSpec: QuickSpec
                 func checkPattern(pattern: String, matches: Bool, _ path: String, params: [String:String] = [:])
                     {
                     let service = Service(base: "https://foo.bar/v1")
-                    service.configureResources(pattern) { $0.config.expirationTime = 6 }
+                    service.configure(pattern) { $0.config.expirationTime = 6 }
                     
                     var resource = service.resource(path)
                     for (k,v) in params
@@ -181,16 +181,16 @@ class ServiceSpec: QuickSpec
             it("changes when service config added")
                 {
                 expect(resource0().config.expirationTime).to(equal(30))
-                service().configureResources { $0.config.expirationTime = 17 }
+                service().configure { $0.config.expirationTime = 17 }
                 expect(resource0().config.expirationTime).to(equal(17))
-                service().configureResources("*oo") { $0.config.expirationTime = 16 }
+                service().configure("*oo") { $0.config.expirationTime = 16 }
                 expect(resource0().config.expirationTime).to(equal(16))
                 }
 
             it("changes when recomputeConfigurations() called")
                 {
                 var x: NSTimeInterval = 3
-                service().configureResources { $0.config.expirationTime = x }
+                service().configure { $0.config.expirationTime = x }
                 expect(resource0().config.expirationTime).to(equal(3))
                 x = 4
                 expect(resource0().config.expirationTime).to(equal(3))
