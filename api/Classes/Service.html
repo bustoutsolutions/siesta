@@ -237,7 +237,7 @@ occurs, at which point they are summarily evicted.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
@@ -264,7 +264,7 @@ occurs, at which point they are summarily evicted.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
@@ -285,9 +285,9 @@ occurs, at which point they are summarily evicted.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service18configureResourcesFS0_FFCVS_13Configuration7BuilderT_T_"></a>
-                    <a name="//apple_ref/swift/Method/configureResources(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service18configureResourcesFS0_FFCVS_13Configuration7BuilderT_T_">configureResources(_:)</a>
+                    <a name="/s:FC6Siesta7Service9configureFS0_FFCVS_13Configuration7BuilderT_T_"></a>
+                    <a name="//apple_ref/swift/Method/configure(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service9configureFS0_FFCVS_13Configuration7BuilderT_T_">configure(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -307,7 +307,7 @@ will usually want to apply your global configuration first, then your resource-s
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configureResources</span><span class="p">(</span><span class="nv">configMutator</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span><span class="nv">configurer</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -317,9 +317,39 @@ will usually want to apply your global configuration first, then your resource-s
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service18configureResourcesFS0_FTSS13configMutatorFCVS_13Configuration7BuilderT__T_"></a>
-                    <a name="//apple_ref/swift/Method/configureResources(_:configMutator:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service18configureResourcesFS0_FTSS13configMutatorFCVS_13Configuration7BuilderT__T_">configureResources(_:configMutator:)</a>
+                    <a name="/s:FC6Siesta7Service9configureFS0_FTCS_8Resource10configurerFCVS_13Configuration7BuilderT__T_"></a>
+                    <a name="//apple_ref/swift/Method/configure(_:configurer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service9configureFS0_FTCS_8Resource10configurerFCVS_13Configuration7BuilderT__T_">configure(_:configurer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds configuration for one resource’s URL. You add configuration this way instead of setting properties directly
+on the resource because <code>Resource</code> instances may be discarded and recreated when they are not in use.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
+            <span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span>
+            <span class="nv">configurer</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service9configureFS0_FTSS10configurerFCVS_13Configuration7BuilderT__T_"></a>
+                    <a name="//apple_ref/swift/Method/configure(_:configurer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service9configureFS0_FTSS10configurerFCVS_13Configuration7BuilderT__T_">configure(_:configurer:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -331,9 +361,9 @@ will usually want to apply your global configuration first, then your resource-s
 
 <p>For example:</p>
 
-<pre class="highlight plaintext"><code>configureResources("/items")    { $0.config.expirationTime = 5 }
-configureResources("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
-configureResources("/admin/​**") { $0.config.headers["Auth-token"] = token }
+<pre class="highlight plaintext"><code>configure("/items")    { $0.config.expirationTime = 5 }
+configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
+configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
 </code></pre>
 
 <p>The <code>urlPattern</code> is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. <code>http:</code>).
@@ -363,9 +393,9 @@ If it is relative, the leading slash is optional.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configureResources</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
             <span class="nv">urlPattern</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">configMutator</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+            <span class="nv">configurer</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -375,9 +405,9 @@ If it is relative, the leading slash is optional.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service18configureResourcesFS0_FTSS9predicateFCSo5NSURLSb13configMutatorFCVS_13Configuration7BuilderT__T_"></a>
-                    <a name="//apple_ref/swift/Method/configureResources(_:predicate:configMutator:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service18configureResourcesFS0_FTSS9predicateFCSo5NSURLSb13configMutatorFCVS_13Configuration7BuilderT__T_">configureResources(_:predicate:configMutator:)</a>
+                    <a name="/s:FC6Siesta7Service9configureFS0_FTSS9predicateFCSo5NSURLSb10configurerFCVS_13Configuration7BuilderT__T_"></a>
+                    <a name="//apple_ref/swift/Method/configure(_:predicate:configurer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service9configureFS0_FTSS9predicateFCSo5NSURLSb10configurerFCVS_13Configuration7BuilderT__T_">configure(_:predicate:configurer:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -385,7 +415,7 @@ If it is relative, the leading slash is optional.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the <code>urlPattern</code> flavor of <code>configureResources()</code>
+                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the <code>urlPattern</code> flavor of <code>configure()</code>
   aren’t robust enough.</p>
 
                       </div>
@@ -393,10 +423,10 @@ If it is relative, the leading slash is optional.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configureResources</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
             <span class="nv">debugName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="n">predicate</span> <span class="nv">urlMatcher</span><span class="p">:</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">,</span>
-            <span class="nv">configMutator</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+            <span class="nv">configurer</span><span class="p">:</span> <span class="kt">Configuration</span><span class="o">.</span><span class="kt">Builder</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -418,14 +448,14 @@ If it is relative, the leading slash is optional.</p>
                       <div class="abstract">
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
-<p>Because the <code>configureResources(...)</code> methods accept an arbitrary closure, it is possible that the results of
+<p>Because the <code>configure(...)</code> methods accept an arbitrary closure, it is possible that the results of
   that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
   if you do anything that would change the result of a configuration closure, you must call
   <code>recomputeConfigurations()</code> in order for the changes to take effect.</p>
 
 <p><em><insert your functional reactive programming purist rant here if you so desire></em></p>
 
-<p>Note that you do <em>not</em> need to call this method after calling any of the <code>configureResources(...)</code> methods.
+<p>Note that you do <em>not</em> need to call this method after calling any of the <code>configure(...)</code> methods.
   You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
@@ -436,7 +466,7 @@ If it is relative, the leading slash is optional.</p>
 
   init() {
     super.init(base: "https://api.github.com")
-    configureResources​ {
+    configure​ {
       $0.config.headers["Flavor-of-the-month"] = flavor
     }
   }
@@ -451,7 +481,47 @@ If it is relative, the leading slash is optional.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">recomputeConfigurations</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">recomputeConfigurations</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Wiping%20data"></a>
+                  <a name="//apple_ref/swift/Section/Wiping data" class="dashAnchor"></a>
+                  <a href="#/Wiping%20data">
+                    <h3 class="section-name">Wiping data</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service13wipeResourcesFS0_FTFCS_8ResourceSb_T_"></a>
+                    <a name="//apple_ref/swift/Method/wipeResources(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service13wipeResourcesFS0_FTFCS_8ResourceSb_T_">wipeResources(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wipes the state of this service’s resources. Typically used to handle logout.</p>
+
+<p>Applies to resources matching the predicate, or all resources by default.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">wipeResources</span><span class="p">(</span><span class="nv">predicate</span><span class="p">:</span> <span class="kt">Resource</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">=</span>  <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="kc">true</span> <span class="p">})</span></code></pre>
 
                         </div>
                       </div>
@@ -463,7 +533,7 @@ If it is relative, the leading slash is optional.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-10)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-12)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

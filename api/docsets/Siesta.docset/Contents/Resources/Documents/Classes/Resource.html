@@ -143,7 +143,7 @@
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                 </div>
               </div>
@@ -255,8 +255,8 @@ questions changes.</p>
 The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
 not in use. Any configuration applied a particular resource instance would therefore be transient.</p>
 
-<p>Instead, you must use <code>Service.configureResources(_:configMutator:)</code>. This sets up configuration to be applied to
-resources according to their URL, whenever they are created or recreated.</p>
+<p>Instead, you must use the <code>Service.configure(...)</code> methods. This sets up configuration to be applied to resources
+according to their URL, whenever they are created or recreated.</p>
 
                       </div>
                       <div class="declaration">
@@ -527,14 +527,14 @@ otherwise returns an empty string.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>True if any load requests for this resource are pending.</p>
+                        <p>True if any requests for this resource are pending.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">loadRequests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span>  <span class="c1">// TODO: Should this be any requests, load or not? Probably. Think through it.</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">requests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -544,9 +544,9 @@ otherwise returns an empty string.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__"></a>
-                    <a name="//apple_ref/swift/Property/loadRequests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__">loadRequests</a>
+                    <a name="/s:vC6Siesta8Resource8requestsGSaPS_7Request__"></a>
+                    <a name="//apple_ref/swift/Property/requests" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource8requestsGSaPS_7Request__">requests</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -561,7 +561,7 @@ otherwise returns an empty string.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">loadRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span>  <span class="c1">// TOOD: How to handle concurrent POST &amp; GET?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">requests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span>  <span class="c1">// TOOD: Any special handling for concurrent POST &amp; GET?</span></code></pre>
 
                         </div>
                       </div>
@@ -1166,6 +1166,41 @@ as if it was already parsed, not in its raw form as the server would return it. 
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource4wipeFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/wipe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource4wipeFS0_FT_T_">wipe()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Resets this resource to its pristine state, as if newly created.</p>
+
+<ul>
+<li>Sets <code>latestData</code> to nil.</li>
+<li>Sets <code>latestError</code> to nil.</li>
+<li>Cancels all resource requests in progress.</li>
+</ul>
+
+<p>Observers receive a <code>NewData</code> event. Requests in progress call completion hooks with a cancellation error.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">wipe</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1304,7 +1339,7 @@ as if it was already parsed, not in its raw form as the server would return it. 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-10)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-12)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
