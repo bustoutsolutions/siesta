@@ -64,10 +64,10 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [x] Prebaked UI for loading & error handling
 - [x] Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking by default;
         inject a custom transport provider if you want to use a different networking library
-- [x] Thorough [regression tests](https://github.com/bustoutsolutions/siesta/tree/master/Tests)
 - [x] Debug-friendly, customizable logging
 - [x] Written in Swift with a great [Swift-centric API](http://bustoutsolutions.github.io/siesta/api/), but…
 - [x] …also works great from Objective-C thanks to a compatibility layer
+- [x] [Robust regression tests](https://github.com/bustoutsolutions/siesta/tree/master/Tests)
 - [x] [Documentation](Docs/index.md)
 
 **Forthcoming:**
