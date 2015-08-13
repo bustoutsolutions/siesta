@@ -88,6 +88,18 @@ public enum Response: CustomStringConvertible
     /// The request failed because of the given error.
     case Failure(ResourceError)
     
+    /// True if this is a cancellation response
+    public var isCancellation: Bool
+        {
+        if case .Failure(let error) = self,
+            let nserror = error.nsError
+            where nserror.domain == NSURLErrorDomain
+               && nserror.code == NSURLErrorCancelled
+            { return true }
+        else
+            { return false }
+        }
+    
     /// :nodoc:
     public var description: String
         {
@@ -108,7 +120,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     private let requestDescription: String
     private var transport: RequestTransport
     private var responseCallbacks: [ResponseCallback] = []
-    private(set) var completed: Bool = false
+    
+    private var responseInfo: ResponseInfo?
+    var completed: Bool { return responseInfo != nil }
 
     init(resource: Resource, nsreq: NSURLRequest)
         {
@@ -133,19 +147,15 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             return
             }
         
-        debugLog(.Network, ["Cancelled:", requestDescription])
+        debugLog(.Network, ["Cancelled", requestDescription])
         
-        completed = true
         transport.cancel()
 
-        dispatch_async(dispatch_get_main_queue())
-            {
-            self.triggerCallbacks((
-                response: .Failure(ResourceError(
-                    userMessage: "Request cancelled",
-                    error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
-                isNew: true))
-            }
+        broadcastResponse((
+            response: .Failure(ResourceError(
+                userMessage: "Request cancelled",
+                error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
+            isNew: true))
         }
     
     // MARK: Callbacks
@@ -206,13 +216,59 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     private func addResponseCallback(callback: ResponseCallback)
         {
-        responseCallbacks.append(callback)
+        if let responseInfo = responseInfo
+            {
+            // Request already completed. Callback can run immediately, but queue it on the main thread so that the
+            // caller can finish their business first.
+            
+            dispatch_async(dispatch_get_main_queue())
+                { callback(responseInfo) }
+            }
+        else
+            {
+            // Request not yet completed.
+            
+            responseCallbacks.append(callback)
+            }
         }
     
-    private func triggerCallbacks(responseInfo: ResponseInfo)
+    private func broadcastResponse(newInfo: ResponseInfo)
         {
-        for callback in self.responseCallbacks
-            { callback(responseInfo) }
+        if let responseInfo = responseInfo
+            {
+            // We already received a response; don't broadcast another one.
+            
+            if !responseInfo.response.isCancellation
+                {
+                debugLog(.Network,
+                    [
+                    "WARNING: Received response for request that was already completed:", requestDescription,
+                    "This may indicate a bug in the TransportProvider you are using, or in Siesta.",
+                    "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
+                    "\n    Previously received:", responseInfo.response,
+                    "\n    New response:", newInfo.response
+                    ])
+                }
+            else if !newInfo.response.isCancellation
+                {
+                // Sometimes the transport layer sends a cancellation error. That’s not of interest if we already knew
+                // we were cancelled. If we received any other response after cancellation, log that we ignored it.
+                
+                debugLog(.NetworkDetails,
+                    [
+                    "Received response, but request was already cancelled:", requestDescription,
+                    "\n    New info:", newInfo.response
+                    ])
+                }
+            
+            return
+            }
+        
+        for callback in responseCallbacks
+            { callback(newInfo) }
+        
+        responseCallbacks = []   // Fly, little handlers, be free!
+        responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
         }
     
     // MARK: Response handling
@@ -220,22 +276,10 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Entry point for response handling. Passed as a callback closure to RequestTransport.
     private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
-        guard !completed else
-            {
-            debugLog(.Network,
-                [
-                "Received response for request that was already completed (perhaps because it was cancelled):",
-                nsres?.statusCode, "←", requestDescription
-                ])
-            return
-            }
-        completed = true
-        
-        debugLog(.Network, [nsres?.statusCode, "←", requestDescription])
+        debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
-        
-        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response])
+        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response, responseInfo.isNew ? "(new)" : "(unchanged)"])
         
         processPayload(responseInfo)
         }
@@ -283,7 +327,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                     : rawInfo
             
             dispatch_async(dispatch_get_main_queue())
-                { self.triggerCallbacks(processedInfo) }
+                { self.broadcastResponse(processedInfo) }
             }
         }
     
