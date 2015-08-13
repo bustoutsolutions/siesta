@@ -39,6 +39,13 @@ public enum RequestMethod: String
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
   and `localDataOverride(_:)`.
+  
+  There is no race condition between a callback being added and a response arriving. If you add a callback after the
+  response has already arrived, the callback is still called as usual.
+  
+  Request guarantees that it will call a given callback _at most_ one time.
+  
+  Callbacks are always called on the main queue.
 */
 public protocol Request: AnyObject
     {
@@ -58,21 +65,24 @@ public protocol Request: AnyObject
     func failure(callback: ResourceError -> Void) -> Self
     
     /**
-      True if the request has either received a server response, encountered a pre-request client-side side error, or
-      been cancelled.
+      True if the request has received and handled a server response, encountered a pre-request client-side side error,
+      or been cancelled.
     */
     var completed: Bool { get }
     
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
         
-      If this method is called while the request is in progress, it triggers the `failure`/`completion` callbacks with
-      an `NSError` with the domain `NSURLErrorDomain` and the code `NSURLErrorCancelled`.
+      If this method is called while the request is in progress, it immediately triggers the `failure`/`completion`
+      callbacks with an `NSError` with the domain `NSURLErrorDomain` and the code `NSURLErrorCancelled`.
       
-      This method is not guaranteed to stop the server from receiving the request. In fact, it is not guaranteed to have
-      any effect at all on the underlying network request, subject to the whims of the `TransportProvider`. Therefore,
+      Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
+      to have any effect at all on the underlying request, subject to the whims of the `TransportProvider`. Therefore,
       after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
-      the resource unknown. Is it safest to immediately call either `Resource.load()` or `Resource.wipe()`.
+      the resource to be unknown. Is it safest to immediately call either `Resource.load()` or `Resource.wipe()`.
+      
+      This method _does_ guarantee, however, that after it is called, even if a network response does arrive it will be
+      ignored and not trigger any callbacks.
     */
     func cancel()
     }
