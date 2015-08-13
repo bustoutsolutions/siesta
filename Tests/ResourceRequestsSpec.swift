@@ -502,6 +502,60 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.payload as? NSData).to(beIdenticalTo(rawData))
                 }
             }
+        
+        describe("wipe()")
+            {
+            it("clears latestData")
+                {
+                stubReqest(resource, "GET")
+                awaitNewData(resource().load())
+                expect(resource().latestData).notTo(beNil())
+                
+                resource().wipe()
+                
+                expect(resource().latestData).to(beNil())
+                }
+            
+            it("clears latestError")
+                {
+                stubReqest(resource, "GET").andReturn(500)
+                awaitFailure(resource().load())
+                expect(resource().latestError).notTo(beNil())
+                
+                resource().wipe()
+                
+                expect(resource().latestError).to(beNil())
+                }
+            
+            it("cancels all requests in progress and prevents them from updating resource state")
+                {
+                let reqStubs =
+                    [
+                    stubReqest(resource, "GET").andReturn(200).delay(),
+                    stubReqest(resource, "PUT").andReturn(200).delay(),
+                    stubReqest(resource, "POST").andReturn(500).delay()
+                    ]
+                let reqs =
+                    [
+                    resource().load(),
+                    resource().request(RequestMethod.PUT),
+                    resource().request(RequestMethod.POST)
+                    ]
+
+                expect(resource().loading).to(beTrue())
+                
+                resource().wipe()
+                
+                for reqStub in reqStubs
+                    { reqStub.go() }
+                for req in reqs
+                    { awaitFailure(req, alreadyCompleted: true) }
+                
+                expect(resource().loading).to(beFalse())
+                expect(resource().latestData).to(beNil())
+                expect(resource().latestError).to(beNil())
+                }
+            }
         }
     }
 

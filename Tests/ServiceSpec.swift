@@ -14,7 +14,9 @@ class ServiceSpec: QuickSpec
     {
     override func spec()
         {
-        let service  = specVar { Service(base: "https://zingle.frotz") }
+        let service   = specVar { Service(base: "https://zingle.frotz") }
+        let resource0 = specVar { service().resource("/foo") },
+            resource1 = specVar { service().resource("/bar") }
         
         describe("init()")
             {
@@ -79,9 +81,6 @@ class ServiceSpec: QuickSpec
         
         describe("configuration")
             {
-            let resource0 = specVar { service().resource("/foo") },
-                resource1 = specVar { service().resource("/bar") }
-            
             it("applies global config to all resources")
                 {
                 service().configure { $0.config.expirationTime = 17 }
@@ -204,6 +203,29 @@ class ServiceSpec: QuickSpec
                 expect(resource0().config.expirationTime).to(equal(3))
                 service().recomputeConfigurations()
                 expect(resource0().config.expirationTime).to(equal(4))
+                }
+            }
+
+        describe("wipeResources")
+            {
+            beforeEach
+                {
+                resource0().localDataOverride(ResourceData(payload: "foo payload", mimeType: "text/plain"))
+                resource1().localDataOverride(ResourceData(payload: "bar payload", mimeType: "text/plain"))
+                }
+            
+            it("wipes all resources by default")
+                {
+                service().wipeResources()
+                expect(resource0().latestData).to(beNil())
+                expect(resource1().latestData).to(beNil())
+                }
+            
+            it("wipes only resources matched by predicate")
+                {
+                service().wipeResources() { $0 === resource1() }
+                expect(resource0().latestData).notTo(beNil())
+                expect(resource1().latestData).to(beNil())
                 }
             }
         }

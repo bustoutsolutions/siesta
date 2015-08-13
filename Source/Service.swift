@@ -253,4 +253,22 @@ public class Service: NSObject
         let urlMatcher: NSURL -> Bool
         let configurer: Configuration.Builder -> Void
         }
+    
+    // MARK: Wiping data
+    
+    /**
+      Wipes the state of this service’s resources. Typically used to handle logout.
+      
+      Applies to resources matching the predicate, or all resources by default.
+    */
+    public final func wipeResources(predicate: Resource -> Bool =  { _ in true })
+        {
+        resourceCache.flushUnused()
+        for resource in resourceCache.values
+            {
+            if predicate(resource)
+                { resource.wipe() }
+            }
+        }
     }
+

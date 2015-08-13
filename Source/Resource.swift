@@ -588,6 +588,28 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         notifyObservers(.Error)
         }
     
+    /**
+      Resets this resource to its pristine state, as if newly created.
+    
+      - Sets `latestData` to nil.
+      - Sets `latestError` to nil.
+      - Cancels all resource requests in progress.
+      
+      Observers receive a `NewData` event. Requests in progress call completion hooks with a cancellation error.
+    */
+    public func wipe()
+        {
+        debugLog(.StateChanges, [self, "wiped"])
+        
+        self.latestError = nil
+        self.latestData = nil
+        
+        for request in requests
+            { request.cancel() }
+        
+        notifyObservers(.NewData)
+        }
+    
     // MARK: Debug
     
     /// :nodoc:

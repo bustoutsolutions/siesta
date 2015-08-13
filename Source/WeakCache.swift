@@ -12,7 +12,7 @@
 */
 internal final class WeakCache<K: Hashable, V: AnyObject>
     {
-    private var entries = [K : WeakCacheEntry<V>]()
+    private var entriesByKey = [K : WeakCacheEntry<V>]()
     
     init()
         {
@@ -29,25 +29,49 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     func get(key: K, @noescape onMiss: () -> V) -> V
         {
-        return entries[key]?.value ??
+        return entriesByKey[key]?.value ??
             {
             let value = onMiss()
-            entries[key] = WeakCacheEntry(value)
+            entriesByKey[key] = WeakCacheEntry(value)
             return value
             }()
         }
     
     func flushUnused()
         {
-        for (key, entry) in entries
+        for (key, entry) in entriesByKey
             {
             entry.allowRemoval()
             if entry.value == nil
                 {
                 // TODO: double lookup is inefficient; does Swift have a mutating iterator?
-                entries.removeValueForKey(key)
+                entriesByKey.removeValueForKey(key)
                 }
             }
+        }
+    
+    var entries: AnySequence<(K,V)>
+        {
+        return AnySequence(
+            entriesByKey.flatMap
+                {
+                (key, entry) -> (K,V)? in
+                
+                if let value = entry.value
+                    { return (key, value) }
+                else
+                    { return nil }
+                })
+        }
+    
+    var keys: AnySequence<K>
+        {
+        return AnySequence(entries.map { $0.0 })
+        }
+    
+    var values: AnySequence<V>
+        {
+        return AnySequence(entries.map { $0.1 })
         }
     }
 
