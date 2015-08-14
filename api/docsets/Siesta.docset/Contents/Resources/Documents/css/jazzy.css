@@ -206,6 +206,10 @@ header {
   .item .token {
     padding-left: 3px;
     margin-left: 15px; }
+  .item .has_default_implementation {
+    font-size: .85em;
+    color: gray;
+    font-style: italic; }
 
 .pointer-container {
   border-bottom: 1px solid #e2e2e2;
