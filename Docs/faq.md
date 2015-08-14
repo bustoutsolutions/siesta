@@ -9,7 +9,7 @@
 
 Find a lower-level networking library. And a barista.
 
-Siesta is designed to make the common behaviors of REST APIs simple to use. It’s not a general-purpose network library.
+Siesta is a high-level library designed to make the common behaviors of REST APIs simple to use. It’s an awesome way to manage your workaday REST calls, but it’s not a networking Swiss army knife.
 
 #### What if I’m downloading huge responses, and I don’t want them held in memory all at once?
 
