@@ -11,15 +11,11 @@
 */
 public protocol ResourceObserver
     {
-    // MARK: Required
-    
     /**
       Called when anything happens that might change the value of the reosurce’s `latestData`, `latestError`, or
       `loading` flag. The `event` explains the reason for the notification.
     */
     func resourceChanged(resource: Resource, event: ResourceEvent)
-    
-    // MARK: Optional
     
     /// :nodoc:
     func resourceRequestProgress(resource: Resource) // TODO: not implemented yet
@@ -27,8 +23,6 @@ public protocol ResourceObserver
     /**
       Called when this observer stops observering a resource. Use for making `removeObservers(ownedBy:)` trigger
       other cleanup.
-      
-      Does nothing by default.
     */
     func stoppedObservingResource(resource: Resource)
     }
@@ -38,7 +32,7 @@ public extension ResourceObserver
     /// :nodoc:
     func resourceRequestProgress(resource: Resource) { }
 
-    /// :nodoc:
+    /// Does nothing.
     func stoppedObservingResource(resource: Resource) { }
     }
 
