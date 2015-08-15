@@ -88,7 +88,7 @@ public class Service: NSObject
     internal var configVersion: UInt64 = 0
     private var resourceConfigurers: [Configurer] = []
         {
-        didSet { recomputeConfigurations() }
+        didSet { invalidateConfiguration() }
         }
     
     /**
@@ -100,7 +100,7 @@ public class Service: NSObject
       will usually want to apply your global configuration first, then your resource-specific configuration.
       
       - SeeAlso: `configure(_:configurer:)`
-      - SeeAlso: `recomputeConfigurations()`
+      - SeeAlso: `invalidateConfiguration()`
     */
     public final func configure(configurer: Configuration.Builder -> Void)
         {
@@ -154,7 +154,7 @@ public class Service: NSObject
       
       - SeeAlso: `configure(configurer:)`
       - SeeAlso: `configure(_:predicate:configurer:)`
-      - SeeAlso: `recomputeConfigurations()`
+      - SeeAlso: `invalidateConfiguration()`
     */
     public final func configure(
             urlPattern: String,
@@ -202,7 +202,7 @@ public class Service: NSObject
       Because the `configure(...)` methods accept an arbitrary closure, it is possible that the results of
       that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
       if you do anything that would change the result of a configuration closure, you must call
-      `recomputeConfigurations()` in order for the changes to take effect.
+      `invalidateConfiguration()` in order for the changes to take effect.
       
       _<insert your functional reactive programming purist rant here if you so desire>_
 
@@ -212,21 +212,21 @@ public class Service: NSObject
       For example, to make a header track the value of a modifiable property:
 
           var flavor: String {
-            didSet { recomputeConfigurations() }
+            didSet { invalidateConfiguration() }
           }
 
           init() {
             super.init(base: "https://api.github.com")
             configure​ {
-              $0.config.headers["Flavor-of-the-month"] = flavor
+              $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
           }
     
       Note that this method does _not_ immediately recompute all existing configurations. This is an inexpensive call.
       Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
-      over subsequent resource interations.
+      over subsequent resource interactions.
     */
-    public final func recomputeConfigurations()
+    public final func invalidateConfiguration()
         {
         debugLog(.Configuration, ["Configurations need to be recomputed"])
         configVersion++

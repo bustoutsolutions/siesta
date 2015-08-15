@@ -194,14 +194,14 @@ class ServiceSpec: QuickSpec
                 expect(resource0().config.expirationTime).to(equal(16))
                 }
 
-            it("changes when recomputeConfigurations() called")
+            it("changes when invalidateConfiguration() called")
                 {
                 var x: NSTimeInterval = 3
                 service().configure { $0.config.expirationTime = x }
                 expect(resource0().config.expirationTime).to(equal(3))
                 x = 4
                 expect(resource0().config.expirationTime).to(equal(3))
-                service().recomputeConfigurations()
+                service().invalidateConfiguration()
                 expect(resource0().config.expirationTime).to(equal(4))
                 }
             }
