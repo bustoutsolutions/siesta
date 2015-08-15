@@ -59,7 +59,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
                     .withBody(NSData(bytes: [0xD8, 0x3D, 0xDC, 0xA3] as [UInt8], length: 4))
                 awaitFailure(resource().load())
-                expect(resource().latestError?.data?.payload as? String).to(equal("💣"))
+                expect(resource().latestError?.text).to(equal("💣"))
                 }
 
             it("does not parse everything as text")
@@ -140,7 +140,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ \"error\": \"pigeon drove bus\" }")
                 awaitFailure(resource().load())
-                expect(resource().latestError?.data?.payload as? [String:String])
+                expect(resource().latestError?.dict as? [String:String])
                     .to(equal(["error": "pigeon drove bus"]))
                 }
 
@@ -151,7 +151,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody("{ malformed JSON[[{{#$!@")
                 awaitFailure(resource().load())
                 expect(resource().latestError?.userMessage).to(equal("Internal server error"))
-                expect(resource().latestError?.data?.payload as? NSData).notTo(beNil())
+                expect(resource().latestError?.entity?.payload as? NSData).notTo(beNil())
                 }
 
             describe("via .dict convenience")

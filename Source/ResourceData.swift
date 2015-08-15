@@ -120,3 +120,55 @@ public struct ResourceData
     public mutating func touch()
         { timestamp = now() }
     }
+
+
+/**
+  Provides convenience accessors
+*/
+public protocol DataContainer
+    {
+    var data: AnyObject? { get }
+    }
+
+public extension DataContainer
+    {
+    /**
+      A convenience for retrieving the data in this container when you expect it to be of a specific type.
+      Returns `latestData?.payload` if the payload can be downcast to the same type as `blankValue`;
+      otherwise returns `blankValue`.
+     
+      For example, if you expect the resource data to be a UIImage:
+     
+          let image = typedData(UIImage(named: "placeholder.png"))
+     
+      - SeeAlso: `ResponseTransformer`
+    */
+    public func typedData<T>(blankValue: T) -> T
+        {
+        return (data as? T) ?? blankValue
+        }
+    
+    /// Returns data if it is a dictionary with string keys; otherwise returns an empty dictionary.
+    public var dict:  [String:AnyObject] { return typedData([:]) }
+    
+    /// Returns data if it is an array; otherwise returns an empty array.
+    public var array: [AnyObject]        { return typedData([]) }
+
+    /// Returns data if it is a string; otherwise returns an empty string.
+    public var text:  String             { return typedData("") }
+    }
+
+extension Resource: DataContainer
+    {
+    public var data: AnyObject? { return latestData?.payload }
+    }
+
+extension ResourceData: DataContainer
+    {
+    public var data: AnyObject? { return payload }
+    }
+
+extension ResourceError: DataContainer
+    {
+    public var data: AnyObject? { return entity?.payload }
+    }

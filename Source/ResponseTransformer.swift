@@ -63,7 +63,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 mimeType = data.mimeType
             
             case .Failure(let error):
-                mimeType = error.data?.mimeType
+                mimeType = error.entity?.mimeType
             }
 
         if let mimeType = mimeType where contentTypeMatcher.matches(mimeType)
@@ -183,12 +183,12 @@ public extension ResponseDataTransformer
     /// :nodoc:
     func processError(var error: ResourceError) -> Response
         {
-        if let errorData = error.data
+        if let errorData = error.entity
             {
             switch(processData(errorData))
                 {
                 case .Success(let errorDataTransformed):
-                    error.data = errorDataTransformed
+                    error.entity = errorDataTransformed
                 
                 case .Failure(let error):
                     debugLog(.ResponseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])

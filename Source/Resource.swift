@@ -101,37 +101,6 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         }
     
     
-    // MARK: Data convenience accessors
-
-    /**
-      A convenience for retrieving the latest data when you expect it to be of a specific type.
-      Returns `latestData?.payload` if the payload can be downcast to the same type as `blankValue`;
-      otherwise returns `blankValue`.
-     
-      For example, if you expect the resource data to be a UIImage:
-     
-          let image = typedData(UIImage(named: "placeholder.png"))
-     
-      - SeeAlso: `ResponseTransformer`
-    */
-    public func typedData<T>(blankValue: T) -> T
-        {
-        return (latestData?.payload as? T) ?? blankValue
-        }
-    
-    /// Returns `latestData?.payload` if it is a dictionary with string keys;
-    /// otherwise returns an empty dictionary.
-    public var dict:  [String:AnyObject] { return typedData([:]) }
-    
-    /// Returns `latestData?.payload` if it is an array;
-    /// otherwise returns an empty array.
-    public var array: [AnyObject]        { return typedData([]) }
-
-    /// Returns `latestData?.payload` if it is a string;
-    /// otherwise returns an empty string.
-    public var text:  String             { return typedData("") }
-
-
     // MARK: Request management
     
     /// True if any requests for this resource are pending.

@@ -15,7 +15,7 @@
   - network connectivity problems,
   - transport layer issues (e.g. certificate problems),
   - server errors (404, 500, etc.), and
-  - client-side parsing and data validation failures.
+  - client-side parsing and entity validation failures.
   
   `ResourceError` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional.
@@ -33,7 +33,7 @@ public struct ResourceError
     public var httpStatusCode: Int?
     
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
-    public var data: ResourceData?
+    public var entity: ResourceData?
     
     /// Diagnostic information if the error originated or was reported locally.
     public var nsError: NSError?
@@ -57,7 +57,7 @@ public struct ResourceError
         self.nsError = error
         
         if let payload = payload
-            { self.data = ResourceData(response, payload) }
+            { self.entity = ResourceData(response, payload) }
         
         if let message = userMessage
             { self.userMessage = message }
@@ -75,11 +75,11 @@ public struct ResourceError
     public init(
             userMessage: String,
             error: NSError? = nil,
-            data: ResourceData? = nil)
+            entity: ResourceData? = nil)
         {
         self.userMessage = userMessage
         self.nsError = error
-        self.data = data
+        self.entity = entity
         }
 
     /**
@@ -89,9 +89,9 @@ public struct ResourceError
     public init(
             userMessage: String,
             debugMessage: String,
-            data: ResourceData? = nil)
+            entity: ResourceData? = nil)
         {
         let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
-        self.init(userMessage: userMessage, error: nserror, data: data)
+        self.init(userMessage: userMessage, error: nserror, entity: entity)
         }
     }

@@ -88,7 +88,7 @@ public class _objc_ResourceError: NSObject
     public var httpStatusCode: Int?
     public var nsError: NSError?
     public var userMessage: String
-    public var data: _objc_ResourceData?
+    public var entity: _objc_ResourceData?
     public let timestamp: NSTimeInterval
 
     internal init(_ error: ResourceError)
@@ -97,8 +97,8 @@ public class _objc_ResourceError: NSObject
         self.nsError        = error.nsError
         self.userMessage    = error.userMessage
         self.timestamp      = error.timestamp
-        if let errorData = error.data
-            { self.data = _objc_ResourceData(errorData) }
+        if let errorData = error.entity
+            { self.entity = _objc_ResourceData(errorData) }
         }
     }
 
@@ -112,6 +112,18 @@ public extension Resource
         else
             { return nil }
         }
+    
+    @objc(dict)
+    public var _objc_dict: [String:AnyObject]
+        { return dict }
+    
+    @objc(array)
+    public var _objc_array: [AnyObject]
+        { return array }
+    
+    @objc(text)
+    public var _objc_text: String
+        { return text }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks
@@ -316,7 +328,6 @@ public extension Resource
                  RequestMethod(rawValue: method)!, text: text, mimeType: mimeType, encoding: encoding)
                      { requestMutation?($0) })
          }
-
 
      @objc(requestWithMethod:json:)
      public func _objc_request(
