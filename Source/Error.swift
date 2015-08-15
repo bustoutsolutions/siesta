@@ -13,7 +13,7 @@
   
   - client-side parse issues,
   - network connectivity problems,
-  - transport layer issues (e.g. certificate problems),
+  - protocol issues (e.g. certificate problems),
   - server errors (404, 500, etc.), and
   - client-side parsing and entity validation failures.
   

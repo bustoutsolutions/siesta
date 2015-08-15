@@ -29,7 +29,7 @@
     
      * Subclassing Service
      * Custom ResponseTransformers
-     * Custom TransportProviders
+     * Custom NetworkingProviders
      * Logging config
 */
 

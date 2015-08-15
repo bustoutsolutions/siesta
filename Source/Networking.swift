@@ -1,5 +1,5 @@
 //
-//  Transport.swift
+//  Networking.swift
 //  Siesta
 //
 //  Created by Paul on 2015/7/30.
@@ -8,27 +8,27 @@
 
 /**
   If you want to use a different networking library, implement this protocol and pass your implementation to
-  `Service.init(base:transportProvider:)`.
+  `Service.init(base:networkingProvider:)`.
   
-  See `AlamofireTransportProvider` for an implementation example.
+  See `AlamofireProvider` for an implementation example.
 */
-public protocol TransportProvider
+public protocol NetworkingProvider
     {
     /**
-      Create and return a `RequestTransport` which is ready to perform the request described, but will not actually
+      Create and return a `RequestNetworking` which is ready to perform the request described, but will not actually
       initiate it until its `start(_:)` method is called.
     */
-    func transportForRequest(request: NSURLRequest) -> RequestTransport
+    func networkingForRequest(request: NSURLRequest) -> RequestNetworking
     }
 
 /**
-  Network handling for a single request. Created by a `TransportProvider`. Implementations have three responsibilities:
+  Network handling for a single request. Created by a `NetworkingProvider`. Implementations have three responsibilities:
   
   * start the request when `start(_:)` is called,
   * call the closure passed to `start(_:)` is called when the request is complete, and
   * optionally support cancelling requests in progress.
 */
-public protocol RequestTransport
+public protocol RequestNetworking
     {
     /**
       Start the associated network request.

@@ -1,5 +1,5 @@
 //
-//  AlamofireTransportProvider.swift
+//  AlamofireProvider.swift
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
@@ -23,11 +23,11 @@ import Alamofire
               configuration.allowsCellularAccess = false
               super.init(
                   base: "http://foo.bar/vi",
-                  transportProvider: AlamofireTransportProvider(configuration: configuration))
+                  networkingProvider: AlamofireProvider(configuration: configuration))
           }
       }
 */
-public struct AlamofireTransportProvider: TransportProvider
+public struct AlamofireProvider: NetworkingProvider
     {
     public let manager: Manager
     
@@ -41,14 +41,14 @@ public struct AlamofireTransportProvider: TransportProvider
         self.init(manager: Alamofire.Manager(configuration: configuration))
         }
     
-    public func transportForRequest(request: NSURLRequest) -> RequestTransport
+    public func networkingForRequest(request: NSURLRequest) -> RequestNetworking
         {
         manager.startRequestsImmediately = false
-        return AlamofireRequestTransport(manager.request(request))
+        return AlamofireRequestNetworking(manager.request(request))
         }
     }
 
-internal final class AlamofireRequestTransport: RequestTransport
+internal final class AlamofireRequestNetworking: RequestNetworking
     {
     internal var alamofireRequest: Alamofire.Request
     

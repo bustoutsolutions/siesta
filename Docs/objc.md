@@ -21,7 +21,7 @@ Some things are not exposed in the compatibility layer, and must be done in Swif
 
  * Subclassing Service
  * Custom ResponseTransformers
- * Custom TransportProviders
+ * Custom NetworkingProviders
  * Logging config
 
 ## Naming Conventions

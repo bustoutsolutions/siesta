@@ -19,7 +19,7 @@ public class Service: NSObject
     /// The root URL of the API.
     public let baseURL: NSURL?
     
-    internal let transportProvider: TransportProvider
+    internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
     
     /**
@@ -28,14 +28,14 @@ public class Service: NSObject
       - Parameter: base The base URL of the API.
       - Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
           `NSData` (unless you add your own `ResponseTransformer` using `configure(...)`).
-      - Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
-          configuration. You can pass an `AlamofireTransportProvider` created with a custom configuration,
+      - Parameter: networkingProvider A provider to use for networking. The default is Alamofire with its default
+          configuration. You can pass an `AlamofireProvider` created with a custom configuration,
           or provide your own networking implementation.
     */
     public init(
             base: String,
             useDefaultTransformers: Bool = true,
-            transportProvider: TransportProvider = AlamofireTransportProvider())
+            networkingProvider: NetworkingProvider = AlamofireProvider())
         {
         self.baseURL = NSURL(string: base.URLString)?.alterPath
             {
@@ -44,7 +44,7 @@ public class Service: NSObject
                 ? path + "/"
                 : path
             }
-        self.transportProvider = transportProvider
+        self.networkingProvider = networkingProvider
         
         super.init()
         

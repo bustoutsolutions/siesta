@@ -77,7 +77,7 @@ public protocol Request: AnyObject
       callbacks with an `NSError` with the domain `NSURLErrorDomain` and the code `NSURLErrorCancelled`.
       
       Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
-      to have any effect at all on the underlying request, subject to the whims of the `TransportProvider`. Therefore,
+      to have any effect at all on the underlying request, subject to the whims of the `NetworkingProvider`. Therefore,
       after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
       the resource to be unknown. Is it safest to immediately call either `Resource.load()` or `Resource.wipe()`.
       
@@ -129,7 +129,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
     private let resource: Resource
     private let requestDescription: String
-    private var transport: RequestTransport
+    private var networking: RequestNetworking
     private var responseCallbacks: [ResponseCallback] = []
     
     private var responseInfo: ResponseInfo?
@@ -139,7 +139,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         {
         self.resource = resource
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
-        self.transport = resource.service.transportProvider.transportForRequest(nsreq)
+        self.networking = resource.service.networkingProvider.networkingForRequest(nsreq)
         }
     
     func start() -> Self
@@ -147,7 +147,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         if !completed
             {
             debugLog(.Network, [requestDescription])
-            transport.start(responseReceived)
+            networking.start(responseReceived)
             }
         
         return self
@@ -163,7 +163,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         debugLog(.Network, ["Cancelled", requestDescription])
         
-        transport.cancel()
+        networking.cancel()
 
         broadcastResponse((
             response: .Failure(Error(
@@ -257,7 +257,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 debugLog(.Network,
                     [
                     "WARNING: Received response for request that was already completed:", requestDescription,
-                    "This may indicate a bug in the TransportProvider you are using, or in Siesta.",
+                    "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
                     "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
                     "\n    Previously received:", responseInfo.response,
                     "\n    New response:", newInfo.response
@@ -265,7 +265,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 }
             else if !newInfo.response.isCancellation
                 {
-                // Sometimes the transport layer sends a cancellation error. That’s not of interest if we already knew
+                // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
                 // we were cancelled. If we received any other response after cancellation, log that we ignored it.
                 
                 debugLog(.NetworkDetails,
@@ -287,7 +287,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // MARK: Response handling
     
-    // Entry point for response handling. Passed as a callback closure to RequestTransport.
+    // Entry point for response handling. Passed as a callback closure to RequestNetworking.
     private func responseReceived(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
         debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
@@ -358,7 +358,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     }
 
 
-/// For requests that failed before they even made it to the transport layer
+/// For requests that failed before they even made it to the network layer
 internal final class FailedRequest: Request
     {
     private let error: Error
