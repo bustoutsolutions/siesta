@@ -200,13 +200,13 @@ public extension ResponseEntityTransformer
 
 public extension ResponseTransformer
     {
-    /// Utility method to downcast the given entity, or return an error response if the payload is not of the given type.
+    /// Utility method to downcast the given entity, or return an error response if the content is not of the given type.
     func requireDataType<T>(
             entity: Entity,
             @noescape process: T -> Response)
         -> Response
         {
-        if let typedData = entity.payload as? T
+        if let typedData = entity.content as? T
             {
             return process(typedData)
             }
@@ -215,22 +215,22 @@ public extension ResponseTransformer
             return logTransformation(
                 .Failure(Error(
                     userMessage: "Cannot parse response",
-                    debugMessage: "Expected \(T.self), but got \(entity.payload.dynamicType)")))
+                    debugMessage: "Expected \(T.self), but got \(entity.content.dynamicType)")))
             }
         }
     }
 
 // MARK: Transformers for standard types
 
-/// Parses an `NSData` payload as text, using the encoding specified in the content type, or ISO-8859-1 by default.
+/// Parses an `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public struct TextTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
     public func processEntity(entity: Entity) -> Response
         {
-        if entity.payload as? String != nil
+        if entity.content as? String != nil
             {
-            debugLog(.ResponseProcessing, [self, "ignoring payload because it is already a String"])
+            debugLog(.ResponseProcessing, [self, "ignoring content because it is already a String"])
             return .Success(entity)
             }
         
@@ -252,7 +252,7 @@ public struct TextTransformer: ResponseEntityTransformer
             else if let string = NSString(data: nsdata, encoding: encoding) as? String
                 {
                 var newEntity = entity
-                newEntity.payload = string
+                newEntity.content = string
                 return logTransformation(
                     .Success(newEntity))
                 }
@@ -267,7 +267,7 @@ public struct TextTransformer: ResponseEntityTransformer
         }
     }
 
-/// Parses an `NSData` payload as JSON, outputting either a dictionary or an array.
+/// Parses an `NSData` content as JSON, outputting either a dictionary or an array.
 public struct JsonTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
@@ -279,7 +279,7 @@ public struct JsonTransformer: ResponseEntityTransformer
 
             do  {
                 var newEntity = entity
-                newEntity.payload = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
+                newEntity.content = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
                 return logTransformation(
                     .Success(newEntity))
                 }

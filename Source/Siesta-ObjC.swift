@@ -43,26 +43,26 @@
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
     {
-    public var payload: AnyObject
+    public var content: AnyObject
     public var mimeType: String
     public var charset: String?
     public var etag: String?
     private var headers: [String:String]
     public private(set) var timestamp: NSTimeInterval = 0
     
-    public init(payload: AnyObject, mimeType: String, headers: [String:String])
+    public init(content: AnyObject, mimeType: String, headers: [String:String])
         {
-        self.payload = payload
+        self.content = content
         self.mimeType = mimeType
         self.headers = headers
         }
 
-    public convenience init(payload: AnyObject, mimeType: String)
-        { self.init(payload: payload, mimeType: mimeType, headers: [:]) }
+    public convenience init(content: AnyObject, mimeType: String)
+        { self.init(content: content, mimeType: mimeType, headers: [:]) }
     
     internal init(_ entity: Entity)
         {
-        self.payload  = entity.payload
+        self.content  = entity.content
         self.mimeType = entity.mimeType
         self.charset  = entity.charset
         self.etag     = entity.etag
@@ -77,7 +77,7 @@ internal extension Entity
     {
     init(entity: _objc_Entity)
         {
-        self.init(payload: entity.payload, mimeType: entity.mimeType, charset: entity.charset, headers: entity.headers)
+        self.init(content: entity.content, mimeType: entity.mimeType, charset: entity.charset, headers: entity.headers)
         self.etag = entity.etag
         }
     }

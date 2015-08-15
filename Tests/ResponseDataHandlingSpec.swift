@@ -30,7 +30,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(textType) as text")
                     {
                     stubText(contentType: textType)
-                    expect(resource().latestData?.payload as? String).to(equal("zwobble"))
+                    expect(resource().latestData?.content as? String).to(equal("zwobble"))
                     }
                 }
 
@@ -66,7 +66,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubText(contentType: "application/monkey")
                 expect(resource().latestData).notTo(beNil())
-                expect(resource().latestData?.payload as? String).to(beNil())
+                expect(resource().latestData?.content as? String).to(beNil())
                 }
             
             describe("via .text convenience")
@@ -109,7 +109,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(jsonType) as JSON")
                     {
                     stubJson(contentType: jsonType)
-                    expect(resource().latestData?.payload as? NSDictionary).to(equal(jsonVal))
+                    expect(resource().latestData?.content as? NSDictionary).to(equal(jsonVal))
                     }
                 }
 
@@ -117,7 +117,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubJson(contentType: "text/plain")
                 expect(resource().latestData).notTo(beNil())
-                expect(resource().latestData?.payload as? NSDictionary).to(beNil())
+                expect(resource().latestData?.content as? NSDictionary).to(beNil())
                 }
             
             it("reports JSON parse errors")
@@ -151,7 +151,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody("{ malformed JSON[[{{#$!@")
                 awaitFailure(resource().load())
                 expect(resource().latestError?.userMessage).to(equal("Internal server error"))
-                expect(resource().latestError?.entity?.payload as? NSData).notTo(beNil())
+                expect(resource().latestError?.entity?.content as? NSData).notTo(beNil())
                 }
 
             describe("via .dict convenience")
@@ -207,7 +207,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("can transform data")
                 {
                 stubText("greetings")
-                expect(resource().latestData?.payload as? String).to(equal("greetings processed"))
+                expect(resource().latestData?.content as? String).to(equal("greetings processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
             
@@ -227,7 +227,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(304)
                 awaitNotModified(resource().load())
                 
-                expect(resource().latestData?.payload as? String).to(equal("ahoy processed"))
+                expect(resource().latestData?.content as? String).to(equal("ahoy processed"))
                 expect(transformer().callCount).to(equal(1))
                 }
             }
@@ -243,9 +243,9 @@ private class TestTransformer: ResponseTransformer
         callCount++
         switch(response)
             {
-            case .Success(var data):
-                data.payload = (data.payload as? String ?? "<nil>") + " processed"
-                return .Success(data)
+            case .Success(var entity):
+                entity.content = (entity.content as? String ?? "<nil>") + " processed"
+                return .Success(entity)
             
             case .Failure(var error):
                 error.userMessage += " processed"

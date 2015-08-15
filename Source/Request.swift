@@ -147,7 +147,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         if !completed
             {
             debugLog(.Network, [requestDescription])
-            transport.start(handleResponse)
+            transport.start(responseReceived)
             }
         
         return self
@@ -288,14 +288,14 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // MARK: Response handling
     
     // Entry point for response handling. Passed as a callback closure to RequestTransport.
-    private func handleResponse(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+    private func responseReceived(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
         debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
         debugLog(.NetworkDetails, ["Raw response:", responseInfo.response, responseInfo.isNew ? "(new)" : "(unchanged)"])
         
-        processPayload(responseInfo)
+        transformResponse(responseInfo, then: broadcastResponse)
         }
     
     private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
@@ -330,7 +330,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         }
     
-    private func processPayload(rawInfo: ResponseInfo)
+    private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
         let transformer = resource.config.responseTransformers
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
@@ -341,7 +341,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                     : rawInfo
             
             dispatch_async(dispatch_get_main_queue())
-                { self.broadcastResponse(processedInfo) }
+                { afterTransformation(processedInfo) }
             }
         }
     

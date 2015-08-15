@@ -49,15 +49,15 @@ public struct Error
     */
     public init(
             _ response: NSHTTPURLResponse?,
-            _ payload: AnyObject?,
+            _ content: AnyObject?,
             _ error: NSError?,
             userMessage: String? = nil)
         {
         self.httpStatusCode = response?.statusCode
         self.nsError = error
         
-        if let payload = payload
-            { self.entity = Entity(response, payload) }
+        if let content = content
+            { self.entity = Entity(response, content) }
         
         if let message = userMessage
             { self.userMessage = message }

@@ -495,11 +495,11 @@ public final class Resource: NSObject, CustomDebugStringConvertible
                 
                 // Make a mutable copy of the current entity
                 var updatedEntity = resource.latestData
-                var updatedPayload = resource.dict
+                var updatedContent = resource.dict
                 
                 // Do the incremental update
-                updatedPayload["name"] = parialEntity["newName"]
-                updatedEntity.payload = updatedPayload
+                updatedContent["name"] = parialEntity["newName"]
+                updatedEntity.content = updatedContent
     
                 // Make that the resource’s new entity
                 resource.localEntityOverride(updatedEntity)
@@ -509,7 +509,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       
       Note that the data you pass does _not_ go through the standard `ResponseTransformer` chain. You should pass data
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-      `updatedPayload` is a `Dictionary`, not `NSData` containing encoded JSON.
+      `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
     */
     public func localEntityOverride(entity: Entity)
         { receiveNewData(entity, localOverride: true) }

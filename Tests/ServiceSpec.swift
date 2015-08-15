@@ -210,8 +210,8 @@ class ServiceSpec: QuickSpec
             {
             beforeEach
                 {
-                resource0().localEntityOverride(Entity(payload: "foo payload", mimeType: "text/plain"))
-                resource1().localEntityOverride(Entity(payload: "bar payload", mimeType: "text/plain"))
+                resource0().localEntityOverride(Entity(content: "foo content", mimeType: "text/plain"))
+                resource1().localEntityOverride(Entity(content: "bar content", mimeType: "text/plain"))
                 }
             
             it("wipes all resources by default")

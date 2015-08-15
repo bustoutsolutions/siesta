@@ -86,7 +86,7 @@
         expect(resource.text).to(equal(@""));
         
         BOSEntity *entity = resource.latestData;
-        expect(entity.payload).to(equal(@{ @"foo": @"bar" }));
+        expect(entity.content).to(equal(@{ @"foo": @"bar" }));
         expect(entity.mimeType).to(equal(@"application/json"));
         expect([entity header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
         });

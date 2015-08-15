@@ -7,7 +7,7 @@
 //
 
 /**
-  Information about a resource’s state. Consists of a data payload plus metadata about the data’s type and freshness.
+  Information about a resource’s state. Consists of data content plus metadata about the content’s type and freshness.
 
   Typically extracted from an HTTP message body.
 */
@@ -26,17 +26,17 @@ public struct Entity
       equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
       Crash-o-Matic.”
       
-      In short, when using `payload`, write your code to handle the payload being of an unexpected type.
+      In short, when using `content`, write your code to handle it being of an unexpected type.
       
       - SeeAlso: `Resource.typedData(_:)`
     */
-    public var payload: AnyObject
+    public var content: AnyObject
     
     /**
-      The type of data contained in the payload.
+      The type of data contained in the content.
       
-      If the payload was parsed into a data structure, this property typically contains the type of the original raw
-      data. For example, the type might be `application/json` even though `payload` is a `Dictionary` and no longer the
+      If the content was parsed into a data structure, this property typically contains the type of the original raw
+      data. For example, the type might be `application/json` even though `content` is a `Dictionary` and no longer the
       original JSON text data.
       
       This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
@@ -60,11 +60,11 @@ public struct Entity
     public private(set) var timestamp: NSTimeInterval = 0
     
     private init(
-            payload: AnyObject,
+            content: AnyObject,
             charset: String? = nil,
             headers rawHeaders: [String:String])
         {
-        self.payload = payload
+        self.content = content
         
         self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
         
@@ -79,13 +79,13 @@ public struct Entity
     /**
       Extracts data from a network response.
     */
-    public init(_ response: NSHTTPURLResponse?, _ payload: AnyObject)
+    public init(_ response: NSHTTPURLResponse?, _ content: AnyObject)
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
         
         self.init(
-            payload: payload,
+            content: content,
             charset: response?.textEncodingName,
             headers: headers)
         }
@@ -96,14 +96,14 @@ public struct Entity
       - SeeAlso: `Resource.localEntityOverride(_:)`
     */
     public init(
-            payload: AnyObject,
+            content: AnyObject,
             mimeType: String,
             charset: String? = nil,
             var headers: [String:String] = [:])
         {
         headers["Content-Type"] = mimeType
         
-        self.init(payload:payload, charset:charset, headers:headers)
+        self.init(content:content, charset:charset, headers:headers)
         }
     
     /**
@@ -125,19 +125,19 @@ public struct Entity
 /**
   Provides convenience accessors
 */
-public protocol DataContainer
+public protocol ContentContainer
     {
-    var data: AnyObject? { get }
+    var content: AnyObject? { get }
     }
 
-public extension DataContainer
+public extension ContentContainer
     {
     /**
-      A convenience for retrieving the data in this container when you expect it to be of a specific type.
-      Returns `latestData?.payload` if the payload can be downcast to the same type as `blankValue`;
+      A convenience for retrieving the content in this container when you expect it to be of a specific type.
+      Returns `latestData?.content` if the content can be downcast to the same type as `blankValue`;
       otherwise returns `blankValue`.
      
-      For example, if you expect the resource data to be a UIImage:
+      For example, if you expect the content to be a UIImage:
      
           let image = typedData(UIImage(named: "placeholder.png"))
      
@@ -145,30 +145,25 @@ public extension DataContainer
     */
     public func typedData<T>(blankValue: T) -> T
         {
-        return (data as? T) ?? blankValue
+        return (content as? T) ?? blankValue
         }
     
-    /// Returns data if it is a dictionary with string keys; otherwise returns an empty dictionary.
+    /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
     public var dict:  [String:AnyObject] { return typedData([:]) }
     
-    /// Returns data if it is an array; otherwise returns an empty array.
+    /// Returns content if it is an array; otherwise returns an empty array.
     public var array: [AnyObject]        { return typedData([]) }
 
-    /// Returns data if it is a string; otherwise returns an empty string.
+    /// Returns content if it is a string; otherwise returns an empty string.
     public var text:  String             { return typedData("") }
     }
 
-extension Resource: DataContainer
+extension Resource: ContentContainer
     {
-    public var data: AnyObject? { return latestData?.payload }
+    public var content: AnyObject? { return latestData?.content }
     }
 
-extension Entity: DataContainer
+extension Error: ContentContainer
     {
-    public var data: AnyObject? { return payload }
-    }
-
-extension Error: DataContainer
-    {
-    public var data: AnyObject? { return entity?.payload }
+    public var content: AnyObject? { return entity?.content }
     }
