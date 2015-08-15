@@ -248,7 +248,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         - `loadIfNeeded()`
     
       - SeeAlso:
-        - `request(_:data:mimeType:requestMutation:)`
+        - `request(_:data:contentType:requestMutation:)`
         - `request(_:text:encoding:requestMutation:)`
         - `request(_:json:requestMutation:)`
         - `request(_:urlEncoded:requestMutation:)`
@@ -283,7 +283,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
     public func request(
             method:          RequestMethod,
             data:            NSData,
-            mimeType:        String,
+            contentType:     String,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
@@ -291,7 +291,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             {
             nsreq in
             
-            nsreq.addValue(mimeType, forHTTPHeaderField: "Content-Type")
+            nsreq.addValue(contentType, forHTTPHeaderField: "Content-Type")
             nsreq.HTTPBody = data
             
             requestMutation(nsreq)
@@ -304,20 +304,20 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       If the string cannot be encoded using the given encoding, this methods triggers the `failure(_:)` request hook
       immediately, without touching the network.
       
-      - Parameter mimeType: `text/plain` by default.
+      - Parameter contentType: `text/plain` by default.
       - Parameter encoding: UTF-8 (`NSUTF8StringEncoding`) by default.
     */
     public func request(
             method:          RequestMethod,
             text:            String,
-            mimeType:        String = "text/plain",
+            contentType:     String = "text/plain",
             encoding:        NSStringEncoding = NSUTF8StringEncoding,
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
         if let rawBody = text.dataUsingEncoding(encoding)
-            { return request(method, data: rawBody, mimeType: "\(mimeType); charset=\(encodingName)") }
+            { return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)") }
         else
             {
             return FailedRequest(
@@ -333,12 +333,12 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       If the `json` cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
       triggers the `failure(_:)` request hook immediately, without touching the network.
       
-      - Parameter mimeType: `application/json` by default.
+      - Parameter contentType: `application/json` by default.
     */
     public func request(
             method:          RequestMethod,
             json:            NSJSONConvertible,
-            mimeType:        String = "application/json",
+            contentType:     String = "application/json",
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
@@ -350,7 +350,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         
         do  {
             let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
-            return request(method, data: rawBody, mimeType: mimeType)
+            return request(method, data: rawBody, contentType: contentType)
             }
         catch
             {
@@ -389,7 +389,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             params.map { urlEscape($0.0) + "=" + urlEscape($0.1) }.sort())
         return request(method,
             data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // ! reason: ASCII guaranteed safe because of escaping
-            mimeType: "application/x-www-form-urlencoded")
+            contentType: "application/x-www-form-urlencoded")
         }
 
     /**
@@ -591,7 +591,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         }
     }
 
-/// Dictionaries and arrays can both be passed to `Resource.request(_:json:mimeType:requestMutation:)`.
+/// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
 public protocol NSJSONConvertible: AnyObject { }
 extension NSDictionary: NSJSONConvertible { }
 extension NSArray:      NSJSONConvertible { }

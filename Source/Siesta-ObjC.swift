@@ -44,29 +44,29 @@
 public class _objc_Entity: NSObject
     {
     public var content: AnyObject
-    public var mimeType: String
+    public var contentType: String
     public var charset: String?
     public var etag: String?
     private var headers: [String:String]
     public private(set) var timestamp: NSTimeInterval = 0
     
-    public init(content: AnyObject, mimeType: String, headers: [String:String])
+    public init(content: AnyObject, contentType: String, headers: [String:String])
         {
         self.content = content
-        self.mimeType = mimeType
+        self.contentType = contentType
         self.headers = headers
         }
 
-    public convenience init(content: AnyObject, mimeType: String)
-        { self.init(content: content, mimeType: mimeType, headers: [:]) }
+    public convenience init(content: AnyObject, contentType: String)
+        { self.init(content: content, contentType: contentType, headers: [:]) }
     
     internal init(_ entity: Entity)
         {
-        self.content  = entity.content
-        self.mimeType = entity.mimeType
-        self.charset  = entity.charset
-        self.etag     = entity.etag
-        self.headers  = entity.headers
+        self.content     = entity.content
+        self.contentType = entity.contentType
+        self.charset     = entity.charset
+        self.etag        = entity.etag
+        self.headers     = entity.headers
         }
     
     public func header(key: String) -> String?
@@ -77,7 +77,7 @@ internal extension Entity
     {
     init(entity: _objc_Entity)
         {
-        self.init(content: entity.content, mimeType: entity.mimeType, charset: entity.charset, headers: entity.headers)
+        self.init(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
         self.etag = entity.etag
         }
     }
@@ -289,17 +289,17 @@ public extension Resource
         }
 
 
-    @objc(requestWithMethod:data:mimeType:requestMutation:)
+    @objc(requestWithMethod:data:contentType:requestMutation:)
     public func _objc_request(
             method:          String,
             data:            NSData,
-            mimeType:        String,
+            contentType:     String,
             requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
         -> _objc_Request
         {
         return _objc_Request(
             request(
-                RequestMethod(rawValue: method)!, data: data, mimeType: mimeType)
+                RequestMethod(rawValue: method)!, data: data, contentType: contentType)
                     { requestMutation?($0) })
         }
 
@@ -314,18 +314,18 @@ public extension Resource
                  RequestMethod(rawValue: method)!, text: text))
          }
 
-     @objc(requestWithMethod:text:mimeType:encoding:requestMutation:)
+     @objc(requestWithMethod:text:contentType:encoding:requestMutation:)
      public func _objc_request(
              method:          String,
              text:            String,
-             mimeType:        String,
+             contentType:     String,
              encoding:        NSStringEncoding = NSUTF8StringEncoding,
              requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
          return _objc_Request(
              request(
-                 RequestMethod(rawValue: method)!, text: text, mimeType: mimeType, encoding: encoding)
+                 RequestMethod(rawValue: method)!, text: text, contentType: contentType, encoding: encoding)
                      { requestMutation?($0) })
          }
 
@@ -340,17 +340,17 @@ public extension Resource
                  RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible))
          }
 
-     @objc(requestWithMethod:json:mimeType:requestMutation:)
+     @objc(requestWithMethod:json:contentType:requestMutation:)
      public func _objc_request(
              method:          String,
              json:            NSObject,
-             mimeType:        String,
+             contentType:     String,
              requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
          return _objc_Request(
              request(
-                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible, mimeType: mimeType)
+                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible, contentType: contentType)
                      { requestMutation?($0) })
          }
 

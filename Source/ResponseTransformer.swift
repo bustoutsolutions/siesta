@@ -56,19 +56,19 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
     func process(response: Response) -> Response
         {
-        let mimeType: String?
+        let contentType: String?
         switch(response)
             {
             case .Success(let entity):
-                mimeType = entity.mimeType
+                contentType = entity.contentType
             
             case .Failure(let error):
-                mimeType = error.entity?.mimeType
+                contentType = error.entity?.contentType
             }
 
-        if let mimeType = mimeType where contentTypeMatcher.matches(mimeType)
+        if let contentType = contentType where contentTypeMatcher.matches(contentType)
             {
-            debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(mimeType)])
+            debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(contentType)])
             return delegate.process(response)
             }
         else

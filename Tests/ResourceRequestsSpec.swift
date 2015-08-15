@@ -101,7 +101,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody(nsdata)
                         .andReturn(200)
 
-                    awaitNewData(resource().request(.POST, data: nsdata, mimeType: "application/monkey"))
+                    awaitNewData(resource().request(.POST, data: nsdata, contentType: "application/monkey"))
                     }
                 
                 it("handles string data")
@@ -190,7 +190,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
                 awaitNewData(resource().load())
                 
-                expect(resource().latestData?.mimeType).to(equal("text/monkey"))
+                expect(resource().latestData?.contentType).to(equal("text/monkey"))
                 }
             
             it("extracts the charset if present")
@@ -208,7 +208,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Content-type", "text/monkey; charset=utf-8")
                 awaitNewData(resource().load())
                 
-                expect(resource().latestData?.mimeType).to(equal("text/monkey; charset=utf-8"))
+                expect(resource().latestData?.contentType).to(equal("text/monkey; charset=utf-8"))
                 }
             
             it("parses the charset")
@@ -218,7 +218,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Content-type", monkeyType)
                 awaitNewData(resource().load())
                 
-                expect(resource().latestData?.mimeType).to(equal(monkeyType))
+                expect(resource().latestData?.contentType).to(equal(monkeyType))
                 expect(resource().latestData?.charset).to(equal("euc-jp"))
                 }
             
@@ -227,11 +227,11 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
-                // Although Apple's NSURLResponse.MIMEType defaults to text/plain,
+                // Although Apple's NSURLResponse.contentType defaults to text/plain,
                 // the correct default content type for HTTP is application/octet-stream.
                 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
                 
-                expect(resource().latestData?.mimeType).to(equal("application/octet-stream"))
+                expect(resource().latestData?.contentType).to(equal("application/octet-stream"))
                 }
                 
             it("stores headers")
@@ -267,7 +267,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             func expectDataToBeUnchanged()
                 {
                 expect(dataAsString(resource().latestData?.content)).to(equal("zoogleplotz"))
-                expect(resource().latestData?.mimeType).to(equal("applicaiton/zoogle+plotz"))
+                expect(resource().latestData?.contentType).to(equal("applicaiton/zoogle+plotz"))
                 expect(resource().latestData?.etag).to(equal("123 456 xyz"))
                 }
             
@@ -298,7 +298,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     awaitNewData(resource().load())
                         
                     expect(dataAsString(resource().latestData?.content)).to(equal("plooglezotz"))
-                    expect(resource().latestData?.mimeType).to(equal("applicaiton/ploogle+zotz"))
+                    expect(resource().latestData?.contentType).to(equal("applicaiton/ploogle+zotz"))
                     expect(resource().latestData?.etag).to(equal("ABC DEF 789"))
                     }
                 
@@ -473,15 +473,15 @@ class ResourceRequestsSpec: ResourceSpecBase
 
         describe("localEntityOverride()")
             {
-            let arbitraryMimeType = "content-can-be/anything"
+            let arbitraryContentType = "content-can-be/anything"
             let arbitraryContent = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
-            let localData = specVar { Entity(content: arbitraryContent(), mimeType: arbitraryMimeType) }
+            let localData = specVar { Entity(content: arbitraryContent(), contentType: arbitraryContentType) }
             
             it("updates the data")
                 {
                 resource().localEntityOverride(localData())
                 expect(resource().latestData?.content).to(beIdenticalTo(arbitraryContent()))
-                expect(resource().latestData?.mimeType).to(equal(arbitraryMimeType))
+                expect(resource().latestData?.contentType).to(equal(arbitraryContentType))
                 }
 
             it("clears the latest error")
@@ -498,7 +498,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not touch the transformer pipeline")
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
-                resource().localEntityOverride(Entity(content: rawData!, mimeType: "text/plain"))
+                resource().localEntityOverride(Entity(content: rawData!, contentType: "text/plain"))
                 expect(resource().latestData?.content as? NSData).to(beIdenticalTo(rawData))
                 }
             }

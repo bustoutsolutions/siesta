@@ -49,13 +49,13 @@
         
         [resource load];
         [resource loadIfNeeded];
-        [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] mimeType:@"foo/bar" requestMutation:
+        [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
                 { req.HTTPMethod = @"POST"; }];
         [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}];
-        [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} mimeType:@"foo/bar" requestMutation:nil];
+        [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} contentType:@"foo/bar" requestMutation:nil];
         [resource requestWithMethod:@"POST" text:@"Ahoy"];
-        [resource requestWithMethod:@"POST" text:@"Ahoy" mimeType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
+        [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
         [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
@@ -87,7 +87,7 @@
         
         BOSEntity *entity = resource.latestData;
         expect(entity.content).to(equal(@{ @"foo": @"bar" }));
-        expect(entity.mimeType).to(equal(@"application/json"));
+        expect(entity.contentType).to(equal(@"application/json"));
         expect([entity header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
         });
 

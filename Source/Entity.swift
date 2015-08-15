@@ -43,7 +43,7 @@ public struct Entity
       This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
       for example, you might see “`text/plain`”, “`text/plain; charset=utf-8`”, or even “`text/foo+plain`”.
     */
-    public var mimeType: String
+    public var contentType: String
     
     /**
       The charset given with the content type, if any.
@@ -69,7 +69,7 @@ public struct Entity
         
         self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
         
-        self.mimeType = headers["content-type"] ?? "application/octet-stream"
+        self.contentType = headers["content-type"] ?? "application/octet-stream"
         self.charset = charset
         self.etag = headers["etag"]
         
@@ -98,11 +98,11 @@ public struct Entity
     */
     public init(
             content: AnyObject,
-            mimeType: String,
+            contentType: String,
             charset: String? = nil,
             var headers: [String:String] = [:])
         {
-        headers["Content-Type"] = mimeType
+        headers["Content-Type"] = contentType
         
         self.init(content:content, charset:charset, headers:headers)
         }
