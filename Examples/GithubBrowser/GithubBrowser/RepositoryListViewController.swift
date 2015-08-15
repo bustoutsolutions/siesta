@@ -8,7 +8,6 @@
 
 import UIKit
 import Siesta
-import SwiftyJSON
 
 class RepositoryListViewController: UITableViewController, ResourceObserver {
 
@@ -50,7 +49,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("repo", forIndexPath: indexPath)
         if let cell = cell as? RepositoryTableViewCell, let repoList = repoList {
-            let repo = JSON(repoList.arrayContent)[indexPath.row]
+            let repo = repoList.jsonArray[indexPath.row]
             cell.userLabel.text = repo["owner"]["login"].string
             cell.repoLabel.text = repo["name"].string
         }

@@ -8,7 +8,6 @@
 
 import UIKit
 import Siesta
-import SwiftyJSON
 
 class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserver {
 
@@ -47,7 +46,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     func resourceChanged(resource: Resource, event: ResourceEvent) {
         userInfoView.hidden = (resource.latestData == nil)
         
-        let json = JSON(resource.dictContent)
+        let json = resource.json
         usernameLabel.text = json["login"].string
         fullNameLabel.text = json["name"].string
 
