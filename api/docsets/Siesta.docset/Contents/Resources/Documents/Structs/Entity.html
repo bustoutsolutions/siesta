@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResourceData Struct Reference</title>
+    <title>Entity Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/ResourceData" class="dashAnchor"></a>
-    <a title="ResourceData Struct Reference"></a>
+    <a name="//apple_ref/swift/Struct/Entity" class="dashAnchor"></a>
+    <a title="Entity Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResourceData Struct Reference
+        Entity Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -124,6 +124,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -139,15 +142,16 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResourceData</h1>
+            <h1>Entity</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResourceData</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entity</span></code></pre>
 
                 </div>
               </div>
-            <p>Information about a resource’s state. Consists of a data payload plus metadata about the data’s type and freshness.</p>
+            <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html">HTTP entity</a>. Consists of data content plus metadata about
+the content’s type and freshness.</p>
 
 <p>Typically extracted from an HTTP message body.</p>
 
@@ -158,9 +162,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta12ResourceData7payloadPSs9AnyObject_"></a>
-                    <a name="//apple_ref/swift/Property/payload" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta12ResourceData7payloadPSs9AnyObject_">payload</a>
+                    <a name="/s:vV6Siesta6Entity7contentPSs9AnyObject_"></a>
+                    <a name="//apple_ref/swift/Property/content" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta6Entity7contentPSs9AnyObject_">content</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -180,14 +184,18 @@ exactly what Swift’s <code>as?</code> operator does — and any scheme invol
 equivalent to <code>as?</code> — or, far worse, an obfuscated <code>as!</code>, a.k.a. “The Amazing Server-Triggered Client
 Crash-o-Matic.”</p>
 
-<p>In short, when using <code>payload</code>, write your code to handle the payload being of an unexpected type.</p>
+<p>In short, when using <code>content</code>, write your code to handle it being of an unexpected type.</p>
+
+<ul>
+<li>SeeAlso: <code>Resource.typedContent(_:)</code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                         </div>
                       </div>
@@ -197,9 +205,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta12ResourceData8mimeTypeSS"></a>
-                    <a name="//apple_ref/swift/Property/mimeType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta12ResourceData8mimeTypeSS">mimeType</a>
+                    <a name="/s:vV6Siesta6Entity11contentTypeSS"></a>
+                    <a name="//apple_ref/swift/Property/contentType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta6Entity11contentTypeSS">contentType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -207,10 +215,10 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The type of data contained in the payload.</p>
+                        <p>The type of data contained in the content.</p>
 
-<p>If the payload was parsed into a data structure, this property typically contains the type of the original raw
-  data. For example, the type might be <code>application/json</code> even though <code>payload</code> is a <code>Dictionary</code> and no longer the
+<p>If the content was parsed into a data structure, this property typically contains the type of the original raw
+  data. For example, the type might be <code>application/json</code> even though <code>content</code> is a <code>Dictionary</code> and no longer the
   original JSON text data.</p>
 
 <p>This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
@@ -221,7 +229,7 @@ Crash-o-Matic.”</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">contentType</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -231,9 +239,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta12ResourceData7charsetGSqSS_"></a>
+                    <a name="/s:vV6Siesta6Entity7charsetGSqSS_"></a>
                     <a name="//apple_ref/swift/Property/charset" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta12ResourceData7charsetGSqSS_">charset</a>
+                    <a class="token" href="#/s:vV6Siesta6Entity7charsetGSqSS_">charset</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -258,9 +266,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta12ResourceData4etagGSqSS_"></a>
+                    <a name="/s:vV6Siesta6Entity4etagGSqSS_"></a>
                     <a name="//apple_ref/swift/Property/etag" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta12ResourceData4etagGSqSS_">etag</a>
+                    <a class="token" href="#/s:vV6Siesta6Entity4etagGSqSS_">etag</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -285,9 +293,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta12ResourceData9timestampSd"></a>
+                    <a name="/s:vV6Siesta6Entity9timestampSd"></a>
                     <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta12ResourceData9timestampSd">timestamp</a>
+                    <a class="token" href="#/s:vV6Siesta6Entity9timestampSd">timestamp</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -312,9 +320,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta12ResourceDatacFMS0_FTGSqCSo17NSHTTPURLResponse_PSs9AnyObject__S0_"></a>
+                    <a name="/s:FV6Siesta6EntitycFMS0_FTGSqCSo17NSHTTPURLResponse_PSs9AnyObject__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta12ResourceDatacFMS0_FTGSqCSo17NSHTTPURLResponse_PSs9AnyObject__S0_">init(_:_:)</a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFMS0_FTGSqCSo17NSHTTPURLResponse_PSs9AnyObject__S0_">init(_:_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -329,7 +337,7 @@ Crash-o-Matic.”</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="n">_</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="n">_</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -339,9 +347,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta12ResourceDatacFMS0_FT7payloadPSs9AnyObject_8mimeTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(payload:mimeType:charset:headers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta12ResourceDatacFMS0_FT7payloadPSs9AnyObject_8mimeTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_">init(payload:mimeType:charset:headers:)</a>
+                    <a name="/s:FV6Siesta6EntitycFMS0_FT7contentPSs9AnyObject_11contentTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(content:contentType:charset:headers:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFMS0_FT7contentPSs9AnyObject_11contentTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_">init(content:contentType:charset:headers:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -352,14 +360,18 @@ Crash-o-Matic.”</p>
                         <pre class="highlight plaintext"><code>  For creating ad hoc data locally.
 </code></pre>
 
+<ul>
+<li>SeeAlso: <code>Resource.localEntityOverride(_:)</code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">payload</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span>
-            <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span>
+            <span class="nv">contentType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">charset</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="k">var</span> <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:])</span></code></pre>
 
@@ -371,9 +383,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta12ResourceData6headerFS0_FSSGSqSS_"></a>
+                    <a name="/s:FV6Siesta6Entity6headerFS0_FSSGSqSS_"></a>
                     <a name="//apple_ref/swift/Method/header(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta12ResourceData6headerFS0_FSSGSqSS_">header(_:)</a>
+                    <a class="token" href="#/s:FV6Siesta6Entity6headerFS0_FSSGSqSS_">header(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -383,7 +395,11 @@ Crash-o-Matic.”</p>
                       <div class="abstract">
                         <p>Returns the value of the HTTP header with the given key.</p>
 
-<p>ResourceData does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
+<p>Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
+
+<ul>
+<li>Parameter key: The case-insensitive header name.</li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -421,9 +437,9 @@ Crash-o-Matic.”</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta12ResourceData5touchFRS0_FT_T_"></a>
+                    <a name="/s:FV6Siesta6Entity5touchFRS0_FT_T_"></a>
                     <a name="//apple_ref/swift/Method/touch()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta12ResourceData5touchFRS0_FT_T_">touch()</a>
+                    <a class="token" href="#/s:FV6Siesta6Entity5touchFRS0_FT_T_">touch()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -448,10 +464,41 @@ Crash-o-Matic.”</p>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta6Entity30entityForTypedContentAccessorsGSqS0__"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta6Entity30entityForTypedContentAccessorsGSqS0__">entityForTypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Typed content accessors apply to this entity’s content.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">return</span> <span class="k">self</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

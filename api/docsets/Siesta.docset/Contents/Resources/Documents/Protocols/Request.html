@@ -13,7 +13,7 @@
     <a title="Request Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -124,6 +124,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -152,7 +155,7 @@
 <p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
 requests, whereas <code>ResourceObserver</code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
-and <code>localDataOverride(_:)</code>.</p>
+and <code>localEntityOverride(_:)</code>.</p>
 
 <p>There is no race condition between a callback being added and a response arriving. If you add a callback after the
 response has already arrived, the callback is still called as usual.</p>
@@ -195,9 +198,9 @@ response has already arrived, the callback is still called as usual.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta7Request7successuRq_S0__Fq_FFVS_12ResourceDataT_q_"></a>
+                    <a name="/s:FP6Siesta7Request7successuRq_S0__Fq_FFVS_6EntityT_q_"></a>
                     <a name="//apple_ref/swift/Method/success(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta7Request7successuRq_S0__Fq_FFVS_12ResourceDataT_q_">success(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta7Request7successuRq_S0__Fq_FFVS_6EntityT_q_">success(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -212,7 +215,7 @@ response has already arrived, the callback is still called as usual.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">success</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">ResourceData</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">success</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Entity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -222,9 +225,9 @@ response has already arrived, the callback is still called as usual.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta7Request7newDatauRq_S0__Fq_FFVS_12ResourceDataT_q_"></a>
+                    <a name="/s:FP6Siesta7Request7newDatauRq_S0__Fq_FFVS_6EntityT_q_"></a>
                     <a name="//apple_ref/swift/Method/newData(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta7Request7newDatauRq_S0__Fq_FFVS_12ResourceDataT_q_">newData(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta7Request7newDatauRq_S0__Fq_FFVS_6EntityT_q_">newData(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -239,7 +242,7 @@ response has already arrived, the callback is still called as usual.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">newData</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">ResourceData</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">newData</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Entity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -276,9 +279,9 @@ response has already arrived, the callback is still called as usual.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta7Request7failureuRq_S0__Fq_FFVS_13ResourceErrorT_q_"></a>
+                    <a name="/s:FP6Siesta7Request7failureuRq_S0__Fq_FFVS_5ErrorT_q_"></a>
                     <a name="//apple_ref/swift/Method/failure(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta7Request7failureuRq_S0__Fq_FFVS_13ResourceErrorT_q_">failure(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta7Request7failureuRq_S0__Fq_FFVS_5ErrorT_q_">failure(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -293,7 +296,7 @@ response has already arrived, the callback is still called as usual.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">failure</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">ResourceError</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">failure</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Error</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -371,7 +374,7 @@ response has already arrived, the callback is still called as usual.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -12,7 +12,7 @@
     <a title="Other Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -36,10 +36,10 @@
                 <a href="Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ResourceData.html">ResourceData</a>
+                <a href="Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ResourceError.html">ResourceError</a>
+                <a href="Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -68,7 +68,7 @@
                 <a href="Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -123,6 +123,9 @@
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -158,7 +161,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Dictionaries and arrays can both be passed to <code>Resource.request(_:json:mimeType:requestMutation:)</code>.</p>
+                        <p>Dictionaries and arrays can both be passed to <code>Resource.request(_:json:contentType:requestMutation:)</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -174,10 +177,64 @@
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Siesta21TypedContentAccessors"></a>
+                    <a name="//apple_ref/swift/Protocol/TypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta21TypedContentAccessors">TypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mixin that provides convenience accessors for the content of an optional contained entity.</p>
+
+<p>Allows you to replace the following:</p>
+
+<pre class="highlight plaintext"><code>resource.latestData?.content as? String
+(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+</code></pre>
+
+<p>…with:</p>
+
+<pre class="highlight plaintext"><code>resource.textContent
+resource.latestError.dictContent?["error.detail"]
+</code></pre>
+
+<p>You can extend this protocol to provide your own convenience accessors. For example:</p>
+
+<pre class="highlight plaintext"><code>import SwiftyJSON
+
+extension TypedContentAccessors {
+  var jsonContent:      JSON { return JSON(dictContent) }
+  var jsonArrayContent: JSON { return JSON(arrayContent) }
+}
+</code></pre>
+
+                        <a href="Protocols/TypedContentAccessors.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

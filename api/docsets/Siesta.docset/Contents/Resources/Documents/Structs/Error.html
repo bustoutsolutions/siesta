@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResourceError Struct Reference</title>
+    <title>Error Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/ResourceError" class="dashAnchor"></a>
-    <a title="ResourceError Struct Reference"></a>
+    <a name="//apple_ref/swift/Struct/Error" class="dashAnchor"></a>
+    <a title="Error Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResourceError Struct Reference
+        Error Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -124,6 +124,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -139,11 +142,11 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResourceError</h1>
+            <h1>Error</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResourceError</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Error</span></code></pre>
 
                 </div>
               </div>
@@ -156,12 +159,12 @@
 <li>network connectivity problems,</li>
 <li>transport layer issues (e.g. certificate problems),</li>
 <li>server errors (404, 500, etc.), and</li>
-<li>client-side parsing and data validation failures.</li>
+<li>client-side parsing and entity validation failures.</li>
 </ul>
 
-<p><code>ResourceError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
+<p><code>Error</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional.
-The one ironclad guarantee that <code>ResourceError</code> makes is the presence of a <code>userMessage</code>.</p>
+The one ironclad guarantee that <code>Error</code> makes is the presence of a <code>userMessage</code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -170,9 +173,9 @@ The one ironclad guarantee that <code>ResourceError</code> makes is the presence
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13ResourceError11userMessageSS"></a>
+                    <a name="/s:vV6Siesta5Error11userMessageSS"></a>
                     <a name="//apple_ref/swift/Property/userMessage" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13ResourceError11userMessageSS">userMessage</a>
+                    <a class="token" href="#/s:vV6Siesta5Error11userMessageSS">userMessage</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -198,9 +201,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13ResourceError14httpStatusCodeGSqSi_"></a>
+                    <a name="/s:vV6Siesta5Error14httpStatusCodeGSqSi_"></a>
                     <a name="//apple_ref/swift/Property/httpStatusCode" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13ResourceError14httpStatusCodeGSqSi_">httpStatusCode</a>
+                    <a class="token" href="#/s:vV6Siesta5Error14httpStatusCodeGSqSi_">httpStatusCode</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -225,9 +228,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13ResourceError4dataGSqVS_12ResourceData_"></a>
-                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13ResourceError4dataGSqVS_12ResourceData_">data</a>
+                    <a name="/s:vV6Siesta5Error6entityGSqVS_6Entity_"></a>
+                    <a name="//apple_ref/swift/Property/entity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta5Error6entityGSqVS_6Entity_">entity</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -242,7 +245,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -252,9 +255,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13ResourceError7nsErrorGSqCSo7NSError_"></a>
+                    <a name="/s:vV6Siesta5Error7nsErrorGSqCSo7NSError_"></a>
                     <a name="//apple_ref/swift/Property/nsError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13ResourceError7nsErrorGSqCSo7NSError_">nsError</a>
+                    <a class="token" href="#/s:vV6Siesta5Error7nsErrorGSqCSo7NSError_">nsError</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -279,9 +282,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13ResourceError9timestampSd"></a>
+                    <a name="/s:vV6Siesta5Error9timestampSd"></a>
                     <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13ResourceError9timestampSd">timestamp</a>
+                    <a class="token" href="#/s:vV6Siesta5Error9timestampSd">timestamp</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -306,9 +309,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_"></a>
+                    <a name="/s:FV6Siesta5ErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(_:_:_:userMessage:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_">init(_:_:_:userMessage:)</a>
+                    <a class="token" href="#/s:FV6Siesta5ErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqCSo7NSError_11userMessageGSqSS__S0_">init(_:_:_:userMessage:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -328,7 +331,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="n">_</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span>
-            <span class="n">_</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span>
+            <span class="n">_</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span>
             <span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?,</span>
             <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
@@ -340,9 +343,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_4dataGSqVS_12ResourceData__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(userMessage:error:data:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_4dataGSqVS_12ResourceData__S0_">init(userMessage:error:data:)</a>
+                    <a name="/s:FV6Siesta5ErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_6entityGSqVS_6Entity__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(userMessage:error:entity:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta5ErrorcFMS0_FT11userMessageSS5errorGSqCSo7NSError_6entityGSqVS_6Entity__S0_">init(userMessage:error:entity:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -360,7 +363,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+            <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -370,9 +373,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS12debugMessageSS4dataGSqVS_12ResourceData__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(userMessage:debugMessage:data:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta13ResourceErrorcFMS0_FT11userMessageSS12debugMessageSS4dataGSqVS_12ResourceData__S0_">init(userMessage:debugMessage:data:)</a>
+                    <a name="/s:FV6Siesta5ErrorcFMS0_FT11userMessageSS12debugMessageSS6entityGSqVS_6Entity__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(userMessage:debugMessage:entity:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta5ErrorcFMS0_FT11userMessageSS12debugMessageSS6entityGSqVS_6Entity__S0_">init(userMessage:debugMessage:entity:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -391,7 +394,38 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">debugMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+            <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta5Error30entityForTypedContentAccessorsGSqVS_6Entity_"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta5Error30entityForTypedContentAccessorsGSqVS_6Entity_">entityForTypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Typed content accessors apply to <code>entity?.content</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">return</span> <span class="n">entity</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -403,7 +437,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

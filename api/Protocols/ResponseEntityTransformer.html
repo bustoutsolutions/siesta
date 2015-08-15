@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResponseDataTransformer Protocol Reference</title>
+    <title>ResponseEntityTransformer Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/ResponseDataTransformer" class="dashAnchor"></a>
-    <a title="ResponseDataTransformer Protocol Reference"></a>
+    <a name="//apple_ref/swift/Protocol/ResponseEntityTransformer" class="dashAnchor"></a>
+    <a title="ResponseEntityTransformer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResponseDataTransformer Protocol Reference
+        ResponseEntityTransformer Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -124,6 +124,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -139,18 +142,18 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResponseDataTransformer</h1>
+            <h1>ResponseEntityTransformer</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseDataTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseEntityTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
 
                 </div>
               </div>
-            <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response data (whether success or failure), and
+            <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response entity (whether success or failure), and
   does not touch the surrounding error metadata (if any).</p>
 
-<p>To use, implement this protocol and override the <code>processData(_:)</code> method.</p>
+<p>To use, implement this protocol and override the <code>processEntity(_:)</code> method.</p>
 
           </section>
           <section class="section task-group-section">
@@ -159,26 +162,34 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response"></a>
-                    <a name="//apple_ref/swift/Method/processData(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer11processDatauRq_S0__Fq_FVS_12ResourceDataOS_8Response">processData(_:)</a>
+                    <a name="/s:FP6Siesta25ResponseEntityTransformer13processEntityuRq_S0__Fq_FVS_6EntityOS_8Response"></a>
+                    <a name="//apple_ref/swift/Method/processEntity(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta25ResponseEntityTransformer13processEntityuRq_S0__Fq_FVS_6EntityOS_8Response">processEntity(_:)</a>
                     </code>
+                      <span class="has_default_implementation">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Subclasses will typically override this method. The default behavior is to leave data unchanged.</p>
+                        <p>Implementations will typically override this method.</p>
 
 <p>Note that overrides can turn a success into an error, e.g. if there is a parse error.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Returns success with the entity unchanged.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processData</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processEntity</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
                       </div>
@@ -188,27 +199,37 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response"></a>
+                    <a name="/s:FP6Siesta25ResponseEntityTransformer12processErroruRq_S0__Fq_FVS_5ErrorOS_8Response"></a>
                     <a name="//apple_ref/swift/Method/processError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta23ResponseDataTransformer12processErroruRq_S0__Fq_FVS_13ResourceErrorOS_8Response">processError(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta25ResponseEntityTransformer12processErroruRq_S0__Fq_FVS_5ErrorOS_8Response">processError(_:)</a>
                     </code>
+                      <span class="has_default_implementation">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Default behavior: attempt to process error response bodies just like success bodies, but if there is a
-  transformation error, only log it and preserve the original error.</p>
+                        <p>Implementations typically do not override this method, but they can if they wish to apply special processing to
+  errors. For example, an implementation might want to leave errors untouched, regardless of content type, and only
+  apply processing on success.</p>
 
-<p>Subclasses typically do not override this method, but they can if they wish to apply special processing to errors.</p>
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <pre class="highlight plaintext"><code>Attempt to process error response content the same as success content. If the processing succeeded, replace the
+</code></pre>
+
+<p>content of the error. If there was a processing error, log it but preserve the original error.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processError</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">ResourceError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processError</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
                       </div>
@@ -220,7 +241,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

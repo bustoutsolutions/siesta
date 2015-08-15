@@ -13,7 +13,7 @@
     <a title="Service Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -123,6 +123,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
               </li>
             </ul>
           </li>
@@ -196,6 +199,15 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates a new service for the given API.</p>
+
+<ul>
+<li>Parameter: base The base URL of the API.</li>
+<li>Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
+<code>NSData</code> (unless you add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</li>
+<li>Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
+configuration. You can pass an <code>AlamofireTransportProvider</code> created with a custom configuration,
+or provide your own networking implementation.</li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -302,6 +314,11 @@ occurs, at which point they are summarily evicted.</p>
 <p>Matching configuration closures apply in the order they were added, whether global or not. That means that you
 will usually want to apply your global configuration first, then your resource-specific configuration.</p>
 
+<ul>
+<li>SeeAlso: <code>configure(_:configurer:)</code></li>
+<li>SeeAlso: <code>invalidateConfiguration()</code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -388,6 +405,12 @@ If it is relative, the leading slash is optional.</p>
 
 <p>If you need more fine-grained URL matching, use the predicate flavor of this method.</p>
 
+<ul>
+<li>SeeAlso: <code>configure(configurer:)</code></li>
+<li>SeeAlso: <code>configure(_:predicate:configurer:)</code></li>
+<li>SeeAlso: <code>invalidateConfiguration()</code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -436,9 +459,9 @@ If it is relative, the leading slash is optional.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service23recomputeConfigurationsFS0_FT_T_"></a>
-                    <a name="//apple_ref/swift/Method/recomputeConfigurations()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service23recomputeConfigurationsFS0_FT_T_">recomputeConfigurations()</a>
+                    <a name="/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/invalidateConfiguration()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">invalidateConfiguration()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -451,7 +474,7 @@ If it is relative, the leading slash is optional.</p>
 <p>Because the <code>configure(...)</code> methods accept an arbitrary closure, it is possible that the results of
   that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
   if you do anything that would change the result of a configuration closure, you must call
-  <code>recomputeConfigurations()</code> in order for the changes to take effect.</p>
+  <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
 
 <p><em><insert your functional reactive programming purist rant here if you so desire></em></p>
 
@@ -461,27 +484,27 @@ If it is relative, the leading slash is optional.</p>
 <p>For example, to make a header track the value of a modifiable property:</p>
 
 <pre class="highlight plaintext"><code>  var flavor: String {
-    didSet { recomputeConfigurations() }
+    didSet { invalidateConfiguration() }
   }
 
   init() {
     super.init(base: "https://api.github.com")
     configure​ {
-      $0.config.headers["Flavor-of-the-month"] = flavor
+      $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
     }
   }
 </code></pre>
 
 <p>Note that this method does <em>not</em> immediately recompute all existing configurations. This is an inexpensive call.
   Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
-  over subsequent resource interations.</p>
+  over subsequent resource interactions.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">recomputeConfigurations</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">invalidateConfiguration</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -492,10 +515,10 @@ If it is relative, the leading slash is optional.</p>
             </div>
             <div class="task-group">
                 <div class="task-name-container">
-                  <a name="/Wiping%20data"></a>
-                  <a name="//apple_ref/swift/Section/Wiping data" class="dashAnchor"></a>
-                  <a href="#/Wiping%20data">
-                    <h3 class="section-name">Wiping data</h3>
+                  <a name="/Wiping%20state"></a>
+                  <a name="//apple_ref/swift/Section/Wiping state" class="dashAnchor"></a>
+                  <a href="#/Wiping%20state">
+                    <h3 class="section-name">Wiping state</h3>
                   </a>
                 </div>
               <ul>
@@ -533,7 +556,7 @@ If it is relative, the leading slash is optional.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

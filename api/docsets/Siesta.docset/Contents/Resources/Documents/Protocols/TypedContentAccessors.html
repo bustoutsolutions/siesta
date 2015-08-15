@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AlamofireTransportProvider Struct Reference</title>
+    <title>TypedContentAccessors Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/AlamofireTransportProvider" class="dashAnchor"></a>
-    <a title="AlamofireTransportProvider Struct Reference"></a>
+    <a name="//apple_ref/swift/Protocol/TypedContentAccessors" class="dashAnchor"></a>
+    <a title="TypedContentAccessors Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        AlamofireTransportProvider Struct Reference
+        TypedContentAccessors Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -142,30 +142,35 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>AlamofireTransportProvider</h1>
+            <h1>TypedContentAccessors</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
 
                 </div>
               </div>
-            <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking. This is Siesta’s default networking provider.</p>
+            <p>Mixin that provides convenience accessors for the content of an optional contained entity.</p>
 
-<p>You can create instances of this class with a custom
-<a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-(or, for convenience, a custom <code>NSURLSessionConfiguration</code>)
-in order to control caching, certificate validation rules, etc. For example, here is a <code>Service</code> that will not cache
-anything and will not use the cell network:</p>
+<p>Allows you to replace the following:</p>
 
-<pre class="highlight plaintext"><code>class MyAPI: Service {
-    init() {
-        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        configuration.allowsCellularAccess = false
-        super.init(
-            base: "http://foo.bar/vi",
-            transportProvider: AlamofireTransportProvider(configuration: configuration))
-    }
+<pre class="highlight plaintext"><code>resource.latestData?.content as? String
+(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+</code></pre>
+
+<p>…with:</p>
+
+<pre class="highlight plaintext"><code>resource.textContent
+resource.latestError.dictContent?["error.detail"]
+</code></pre>
+
+<p>You can extend this protocol to provide your own convenience accessors. For example:</p>
+
+<pre class="highlight plaintext"><code>import SwiftyJSON
+
+extension TypedContentAccessors {
+  var jsonContent:      JSON { return JSON(dictContent) }
+  var jsonArrayContent: JSON { return JSON(arrayContent) }
 }
 </code></pre>
 
@@ -176,9 +181,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager"></a>
-                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager">manager</a>
+                    <a name="/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqVS_6Entity_"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqVS_6Entity_">entityForTypedContentAccessors</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -186,14 +191,61 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The entity to which the convenience accessors will apply.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Extension%20Members"></a>
+                  <a name="//apple_ref/swift/Section/Extension Members" class="dashAnchor"></a>
+                  <a href="#/Extension%20Members">
+                    <h3 class="section-name">Extension Members</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FeRq_6Siesta21TypedContentAccessors_S_S0_12typedContentu__Rq_S0__Fq_Fqd__qd__"></a>
+                    <a name="//apple_ref/swift/Method/typedContent(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_12typedContentu__Rq_S0__Fq_Fqd__qd__">typedContent(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
+      Returns <code>latestData?.content</code> if the content can be downcast to the same type as <code>blankValue</code>;
+      otherwise returns <code>blankValue</code>.</p>
+
+<pre class="highlight plaintext"><code>  For example, if you expect the content to be a UIImage:
+
+      let image = typedContent(UIImage(named: "placeholder.png"))
+
+  - SeeAlso: `ResponseTransformer`
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">defaultValue</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
                       </div>
@@ -203,9 +255,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(manager:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_">init(manager:)</a>
+                    <a name="/s:veRq_6Siesta21TypedContentAccessors_S_S0_11dictContentGVSs10DictionarySSPSs9AnyObject__"></a>
+                    <a name="//apple_ref/swift/Property/dictContent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_11dictContentGVSs10DictionarySSPSs9AnyObject__">dictContent</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,14 +265,14 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">dictContent</span><span class="p">:</span>  <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">([:])</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -230,9 +282,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(configuration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_">init(configuration:)</a>
+                    <a name="/s:veRq_6Siesta21TypedContentAccessors_S_S0_12arrayContentGSaPSs9AnyObject__"></a>
+                    <a name="//apple_ref/swift/Property/arrayContent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_12arrayContentGSaPSs9AnyObject__">arrayContent</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -240,14 +292,14 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Returns content if it is an array; otherwise returns an empty array.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">arrayContent</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span>        <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">([])</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -257,9 +309,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_"></a>
-                    <a name="//apple_ref/swift/Method/transportForRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_">transportForRequest(_:)</a>
+                    <a name="/s:veRq_6Siesta21TypedContentAccessors_S_S0_11textContentSS"></a>
+                    <a name="//apple_ref/swift/Property/textContent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_11textContentSS">textContent</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -267,14 +319,14 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Returns content if it is a string; otherwise returns an empty string.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">textContent</span><span class="p">:</span>  <span class="kt">String</span>             <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">(</span><span class="s">""</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>

@@ -13,7 +13,7 @@
     <a title="Response Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -124,6 +124,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -147,7 +150,8 @@
 
                 </div>
               </div>
-            <p>The outcome of a network request: either success (with data), or failure (with an error).</p>
+            <p>The outcome of a network request: either success (with an entity representing the resource’s current state), or
+failure (with an error).</p>
 
           </section>
           <section class="section task-group-section">
@@ -156,9 +160,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO6Siesta8Response7SuccessFMS0_FVS_12ResourceDataS0_"></a>
+                    <a name="/s:FO6Siesta8Response7SuccessFMS0_FVS_6EntityS0_"></a>
                     <a name="//apple_ref/swift/Element/Success" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO6Siesta8Response7SuccessFMS0_FVS_12ResourceDataS0_">Success</a>
+                    <a class="token" href="#/s:FO6Siesta8Response7SuccessFMS0_FVS_6EntityS0_">Success</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -166,14 +170,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The request succeeded, and returned the given data.</p>
+                        <p>The request succeeded, and returned the given entity.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Success</span><span class="p">(</span><span class="kt">ResourceData</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Success</span><span class="p">(</span><span class="kt">Entity</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -187,9 +191,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO6Siesta8Response7FailureFMS0_FVS_13ResourceErrorS0_"></a>
+                    <a name="/s:FO6Siesta8Response7FailureFMS0_FVS_5ErrorS0_"></a>
                     <a name="//apple_ref/swift/Element/Failure" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO6Siesta8Response7FailureFMS0_FVS_13ResourceErrorS0_">Failure</a>
+                    <a class="token" href="#/s:FO6Siesta8Response7FailureFMS0_FVS_5ErrorS0_">Failure</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,7 +208,7 @@
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Failure</span><span class="p">(</span><span class="kt">ResourceError</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Failure</span><span class="p">(</span><span class="kt">Error</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -247,7 +251,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

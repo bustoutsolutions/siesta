@@ -12,7 +12,7 @@
     <a title="Core  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -36,10 +36,10 @@
                 <a href="Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ResourceData.html">ResourceData</a>
+                <a href="Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ResourceError.html">ResourceError</a>
+                <a href="Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -68,7 +68,7 @@
                 <a href="Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -122,6 +122,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
               </li>
             </ul>
           </li>
@@ -224,9 +227,9 @@ questions changes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V6Siesta12ResourceData"></a>
-                    <a name="//apple_ref/swift/Struct/ResourceData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta12ResourceData">ResourceData</a>
+                    <a name="/s:V6Siesta6Entity"></a>
+                    <a name="//apple_ref/swift/Struct/Entity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta6Entity">Entity</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -234,17 +237,18 @@ questions changes.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Information about a resource’s state. Consists of a data payload plus metadata about the data’s type and freshness.</p>
+                        <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html">HTTP entity</a>. Consists of data content plus metadata about
+the content’s type and freshness.</p>
 
 <p>Typically extracted from an HTTP message body.</p>
 
-                        <a href="Structs/ResourceData.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/Entity.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResourceData</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entity</span></code></pre>
 
                         </div>
                       </div>
@@ -258,9 +262,9 @@ questions changes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V6Siesta13ResourceError"></a>
-                    <a name="//apple_ref/swift/Struct/ResourceError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta13ResourceError">ResourceError</a>
+                    <a name="/s:V6Siesta5Error"></a>
+                    <a name="//apple_ref/swift/Struct/Error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta5Error">Error</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -277,20 +281,20 @@ questions changes.</p>
 <li>network connectivity problems,</li>
 <li>transport layer issues (e.g. certificate problems),</li>
 <li>server errors (404, 500, etc.), and</li>
-<li>client-side parsing and data validation failures.</li>
+<li>client-side parsing and entity validation failures.</li>
 </ul>
 
-<p><code>ResourceError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
+<p><code>Error</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional.
-The one ironclad guarantee that <code>ResourceError</code> makes is the presence of a <code>userMessage</code>.</p>
+The one ironclad guarantee that <code>Error</code> makes is the presence of a <code>userMessage</code>.</p>
 
-                        <a href="Structs/ResourceError.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/Error.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResourceError</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Error</span></code></pre>
 
                         </div>
                       </div>
@@ -344,6 +348,10 @@ The one ironclad guarantee that <code>ResourceError</code> makes is the presence
                       <div class="abstract">
                         <p>The possible causes of a call to <code>ResourceObserver.resourceChanged(_:event:)</code>.</p>
 
+<ul>
+<li>SeeAlso: <code>Resource.load()</code></li>
+</ul>
+
                         <a href="Enums/ResourceEvent.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -379,7 +387,7 @@ The one ironclad guarantee that <code>ResourceError</code> makes is the presence
 <p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
 requests, whereas <code>ResourceObserver</code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
-and <code>localDataOverride(_:)</code>.</p>
+and <code>localEntityOverride(_:)</code>.</p>
 
 <p>There is no race condition between a callback being added and a response arriving. If you add a callback after the
 response has already arrived, the callback is still called as usual.</p>
@@ -450,6 +458,10 @@ response has already arrived, the callback is still called as usual.</p>
                       <div class="abstract">
                         <p>Options which control the behavior of a <code>Resource</code>.</p>
 
+<ul>
+<li>SeeAlso: <code>Service.configure(...)</code></li>
+</ul>
+
                         <a href="Structs/Configuration.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -468,7 +480,7 @@ response has already arrived, the callback is still called as usual.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

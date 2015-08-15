@@ -13,7 +13,7 @@
     <a title="Resource Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (88% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -37,10 +37,10 @@
                 <a href="../Classes/Resource.html">Resource</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceData.html">ResourceData</a>
+                <a href="../Structs/Entity.html">Entity</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ResourceError.html">ResourceError</a>
+                <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -69,7 +69,7 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseDataTransformer.html">ResponseDataTransformer</a>
+                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
@@ -123,6 +123,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
               </li>
             </ul>
           </li>
@@ -284,9 +287,9 @@ according to their URL, whenever they are created or recreated.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta8Resource10latestDataGSqVS_12ResourceData_"></a>
+                    <a name="/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_"></a>
                     <a name="//apple_ref/swift/Property/latestData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource10latestDataGSqVS_12ResourceData_">latestData</a>
+                    <a class="token" href="#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -297,19 +300,22 @@ according to their URL, whenever they are created or recreated.</p>
                         <p>The latest valid data we have for this resource. May come from a server response, a cache,
 or a local override.</p>
 
-<p>Note that this property represents the <strong>full state</strong> of the resource.
-It therefore only holds data from <code>load()</code> and <code>loadIfNeeded()</code>, not any of the various
-flavors of <code>request(...)</code>.</p>
+<p>Note that this property represents the <strong>full state</strong> of the resource. It therefore only holds entities fetched
+with <code>load()</code> and <code>loadIfNeeded()</code>, not any of the various flavors of <code>request(...)</code>.</p>
 
-<p>Note that <code>latestData</code> will be present as long as there has <em>ever</em> been a succesful request.
-If an error occurs, <code>latestData</code> will still hold the latest (now stale) valid data.</p>
+<p>Note that <code>latestData</code> will be present as long as there has <em>ever</em> been a succesful request since the resource
+was created or wiped. If an error occurs, <code>latestData</code> will still hold the latest (now stale) valid data.</p>
+
+<ul>
+<li>SeeAlso: <code>DataContainer</code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -319,9 +325,9 @@ If an error occurs, <code>latestData</code> will still hold the latest (now stal
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta8Resource11latestErrorGSqVS_13ResourceError_"></a>
+                    <a name="/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_"></a>
                     <a name="//apple_ref/swift/Property/latestError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource11latestErrorGSqVS_13ResourceError_">latestError</a>
+                    <a class="token" href="#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -340,7 +346,7 @@ flavors of <code>request(...)</code>.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt">ResourceError</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -368,135 +374,6 @@ flavors of <code>request(...)</code>.</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-                <div class="task-name-container">
-                  <a name="/Data%20convenience%20accessors"></a>
-                  <a name="//apple_ref/swift/Section/Data convenience accessors" class="dashAnchor"></a>
-                  <a href="#/Data%20convenience%20accessors">
-                    <h3 class="section-name">Data convenience accessors</h3>
-                  </a>
-                </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Siesta8Resource9typedDataurFS0_Fq_q_"></a>
-                    <a name="//apple_ref/swift/Method/typedData(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource9typedDataurFS0_Fq_q_">typedData(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A convenience for retrieving the latest data when you expect it to be of a specific type.
-Returns <code>latestData?.payload</code> if the payload can be downcast to the same type as <code>blankValue</code>;
-otherwise returns <code>blankValue</code>.</p>
-
-<p>For example, if you expect the resource data to be a UIImage:</p>
-
-<pre class="highlight plaintext"><code>let image = typedData(UIImage(named: "placeholder.png"))
-</code></pre>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedData</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">blankValue</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta8Resource4dictGVSs10DictionarySSPSs9AnyObject__"></a>
-                    <a name="//apple_ref/swift/Property/dict" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource4dictGVSs10DictionarySSPSs9AnyObject__">dict</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns <code>latestData?.payload</code> if it is a dictionary with string keys;
-otherwise returns an empty dictionary.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">dict</span><span class="p">:</span>  <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">typedData</span><span class="p">([:])</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta8Resource5arrayGSaPSs9AnyObject__"></a>
-                    <a name="//apple_ref/swift/Property/array" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource5arrayGSaPSs9AnyObject__">array</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns <code>latestData?.payload</code> if it is an array;
-otherwise returns an empty array.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span>        <span class="p">{</span> <span class="k">return</span> <span class="nf">typedData</span><span class="p">([])</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta8Resource4textSS"></a>
-                    <a name="//apple_ref/swift/Property/text" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource4textSS">text</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns <code>latestData?.payload</code> if it is a string;
-otherwise returns an empty string.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span>  <span class="kt">String</span>             <span class="p">{</span> <span class="k">return</span> <span class="nf">typedData</span><span class="p">(</span><span class="s">""</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -609,6 +486,10 @@ situations. Special characters are escaped when necessary, and otherwise ignored
 <a href="https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift"><code>ResourcePathsSpec</code></a>
 for details.</p>
 
+<ul>
+<li>SeeAlso: <code>relative(_:)</code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -641,6 +522,15 @@ for details.</p>
   <a href="https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift"><code>ResourcePathsSpec</code></a>
   for details.</p>
 
+<ul>
+<li>SeeAlso:
+
+<ul>
+<li><code>optionalRelative(_:)</code></li>
+<li><code>child(_:)</code></li>
+</ul></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -670,7 +560,7 @@ for details.</p>
 
 <p>This convenience method is useful for resolving URLs returned as part of a JSON response body:</p>
 
-<pre class="highlight plaintext"><code>  let href = resource.dict["owner"]  // href is an optional
+<pre class="highlight plaintext"><code>  let href = resource.dictContent["owner"] as? String  // href is an optional
   if let ownerResource = resource.optionalRelative(href) {
     // ...
   }
@@ -767,6 +657,36 @@ for details.</p>
 <p>Note that, unlike load() and loadIfNeeded(), this method does <em>not</em> update latestData or latestError,
   and does not notify resource observers about the result.</p>
 
+<ul>
+<li>Parameter method: The HTTP verb to use for the request</li>
+<li><p>Parameter requestMutation:
+  An optional callback to change details of the request before it is sent. For example:</p>
+<pre class="highlight plaintext"><code>  request(.POST) { nsreq in
+    nsreq.HTTPBody = imageData
+    nsreq.addValue(
+      "image/png",
+      forHTTPHeaderField:
+        "Content-Type")
+  }
+</code></pre>
+
+<p>Does nothing by default.</p></li>
+<li><p>SeeAlso:</p>
+
+<ul>
+<li><code>load()</code></li>
+<li><code>loadIfNeeded()</code></li>
+</ul></li>
+<li><p>SeeAlso:</p>
+
+<ul>
+<li><code>request(_:data:contentType:requestMutation:)</code></li>
+<li><code>request(_:text:encoding:requestMutation:)</code></li>
+<li><code>request(_:json:requestMutation:)</code></li>
+<li><code>request(_:urlEncoded:requestMutation:)</code></li>
+</ul></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -820,9 +740,9 @@ for details.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData8mimeTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
-                    <a name="//apple_ref/swift/Method/request(_:data:mimeType:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData8mimeTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:data:mimeType:requestMutation:)</a>
+                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
+                    <a name="//apple_ref/swift/Method/request(_:data:contentType:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:data:contentType:requestMutation:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -840,7 +760,7 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
             <span class="nv">method</span><span class="p">:</span>          <span class="kt">RequestMethod</span><span class="p">,</span>
             <span class="nv">data</span><span class="p">:</span>            <span class="kt">NSData</span><span class="p">,</span>
-            <span class="nv">mimeType</span><span class="p">:</span>        <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span><span class="p">,</span>
             <span class="nv">requestMutation</span><span class="p">:</span> <span class="kt">NSMutableURLRequest</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
         <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
 
@@ -852,9 +772,9 @@ for details.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4textSS8mimeTypeSS8encodingSu15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
-                    <a name="//apple_ref/swift/Method/request(_:text:mimeType:encoding:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4textSS8mimeTypeSS8encodingSu15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:text:mimeType:encoding:requestMutation:)</a>
+                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4textSS11contentTypeSS8encodingSu15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
+                    <a name="//apple_ref/swift/Method/request(_:text:contentType:encoding:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4textSS11contentTypeSS8encodingSu15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:text:contentType:encoding:requestMutation:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -867,6 +787,11 @@ for details.</p>
 <p>If the string cannot be encoded using the given encoding, this methods triggers the <code>failure(_:)</code> request hook
   immediately, without touching the network.</p>
 
+<ul>
+<li>Parameter contentType: <code>text/plain</code> by default.</li>
+<li>Parameter encoding: UTF-8 (<code>NSUTF8StringEncoding</code>) by default.</li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -875,7 +800,7 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
             <span class="nv">method</span><span class="p">:</span>          <span class="kt">RequestMethod</span><span class="p">,</span>
             <span class="nv">text</span><span class="p">:</span>            <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">mimeType</span><span class="p">:</span>        <span class="kt">String</span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="p">,</span>
+            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="p">,</span>
             <span class="nv">encoding</span><span class="p">:</span>        <span class="kt">NSStringEncoding</span> <span class="o">=</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">,</span>
             <span class="nv">requestMutation</span><span class="p">:</span> <span class="kt">NSMutableURLRequest</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
         <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
@@ -889,7 +814,7 @@ for details.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>mimeType</em>
+                                <em>contentType</em>
                                 </code>
                               </td>
                               <td>
@@ -921,9 +846,9 @@ for details.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4jsonPS_17NSJSONConvertible_8mimeTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
-                    <a name="//apple_ref/swift/Method/request(_:json:mimeType:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4jsonPS_17NSJSONConvertible_8mimeTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:json:mimeType:requestMutation:)</a>
+                    <a name="/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4jsonPS_17NSJSONConvertible_11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_"></a>
+                    <a name="//apple_ref/swift/Method/request(_:json:contentType:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4jsonPS_17NSJSONConvertible_11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:json:contentType:requestMutation:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -936,6 +861,10 @@ for details.</p>
 <p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
   triggers the <code>failure(_:)</code> request hook immediately, without touching the network.</p>
 
+<ul>
+<li>Parameter contentType: <code>application/json</code> by default.</li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -944,7 +873,7 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
             <span class="nv">method</span><span class="p">:</span>          <span class="kt">RequestMethod</span><span class="p">,</span>
             <span class="nv">json</span><span class="p">:</span>            <span class="kt">NSJSONConvertible</span><span class="p">,</span>
-            <span class="nv">mimeType</span><span class="p">:</span>        <span class="kt">String</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="p">,</span>
+            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="p">,</span>
             <span class="nv">requestMutation</span><span class="p">:</span> <span class="kt">NSMutableURLRequest</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
         <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
 
@@ -957,7 +886,7 @@ for details.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>mimeType</em>
+                                <em>contentType</em>
                                 </code>
                               </td>
                               <td>
@@ -1070,7 +999,7 @@ Observers immedately receive <code>ResourceEvent.Requested</code>.</li>
 <li>If the request is cancelled before completion, observers receive <code>ResourceEvent.RequestCancelled</code>.</li>
 <li>If the server returns a success response, that goes in <code>latestData</code>, and <code>latestError</code> becomes nil.
 Observers receive <code>ResourceEvent.NewData</code>.</li>
-<li>If the server returns a 304, <code>latestData</code>’s timestamp is updated but the data is untouched.
+<li>If the server returns a 304, <code>latestData</code>’s timestamp is updated but the entity is otherwise untouched.
 <code>latestError</code> becomes nil. Observers receive <code>ResourceEvent.NotModified</code>.</li>
 <li>If the request fails for any reason, whether client-, server-, or network-related, observers receive
 <code>ResourceEvent.Error</code>. Note that <code>latestData</code> does <em>not</em> become nil; the last valid response always sticks
@@ -1092,9 +1021,9 @@ around until another valid response arrives.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_12ResourceDataT_"></a>
-                    <a name="//apple_ref/swift/Method/localDataOverride(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_12ResourceDataT_">localDataOverride(_:)</a>
+                    <a name="/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_"></a>
+                    <a name="//apple_ref/swift/Method/localEntityOverride(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_">localEntityOverride(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1115,7 +1044,7 @@ GET), but still use the response body as the new state of the resource:</p>
 <pre class="highlight plaintext"><code>let auth = service.resource("login")
 let authData = ["user": username, "pass": password]
 auth.request(method: .POST, json: authData)
-  .newData { data in auth.localDataOverride(data) })
+  .newData { entity in auth.localEntityOverride(entity) })
 </code></pre>
 
 <p><a href='#incremental_updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='incremental_updates'>Incremental updates</h3></p>
@@ -1129,21 +1058,21 @@ after success:</p>
 </code></pre>
 
 <p>However, if you already <em>know</em> the resulting state of the resource given a success response, you can avoid the
-second network call by updating the data yourself:</p>
+second network call by updating the entity yourself:</p>
 
 <pre class="highlight plaintext"><code>resource.request(method: .POST, json: ["name": "Fred"])
-  .success { newData in
+  .success { partialEntity in
 
-      // Make a mutable copy of the current data
-      var updatedData = resource.latestData
-      var updatedPayload = resource.dict
+      // Make a mutable copy of the current entity
+      var updatedEntity = resource.latestData
+      var updatedContent = resource.dictContent
 
       // Do the incremental update
-      updatedPayload["name"] = newData["newName"]
-      updatedData.payload = updatedPayload
+      updatedContent["name"] = parialEntity["newName"]
+      updatedEntity.content = updatedContent
 
-      // Make that the resource’s new data
-      resource.localDataOverride(updatedData)
+      // Make that the resource’s new entity
+      resource.localEntityOverride(updatedEntity)
   }
 </code></pre>
 
@@ -1151,15 +1080,15 @@ second network call by updating the data yourself:</p>
 
 <p>Note that the data you pass does <em>not</em> go through the standard <code>ResponseTransformer</code> chain. You should pass data
 as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-<code>updatedPayload</code> is a <code>Dictionary</code>, not <code>NSData</code> containing encoded JSON.</p>
+<code>updatedContent</code> is a <code>Dictionary</code>, not <code>NSData</code> containing encoded JSON.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localDataOverride</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">ResourceData</span><span class="p">)</span>
-        <span class="p">{</span> <span class="nf">receiveData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nv">localOverride</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localEntityOverride</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span>
+        <span class="p">{</span> <span class="nf">receiveNewData</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="nv">localOverride</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1336,10 +1265,41 @@ as if it was already parsed, not in its raw form as the server would return it. 
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta8Resource30entityForTypedContentAccessorsGSqVS_6Entity_"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource30entityForTypedContentAccessorsGSqVS_6Entity_">entityForTypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Typed content accessors apply to <code>latestData?.content</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">return</span> <span class="n">latestData</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-14)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
