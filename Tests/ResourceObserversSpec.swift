@@ -196,7 +196,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 func expectStillObserving(stillObserving: Bool)
                     {
                     stubReqest(resource, "GET").andReturn(200)
-                    if(stillObserving)
+                    if stillObserving
                         {
                         observer().expect(.Requested)
                         observer().expect(.NewData)

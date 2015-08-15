@@ -114,7 +114,7 @@ public enum Response: CustomStringConvertible
     /// :nodoc:
     public var description: String
         {
-        switch(self)
+        switch self
             {
             case .Success(let value): return debugStr(value)
             case .Failure(let value): return debugStr(value)

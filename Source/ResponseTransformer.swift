@@ -57,7 +57,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
     func process(response: Response) -> Response
         {
         let contentType: String?
-        switch(response)
+        switch response
             {
             case .Success(let entity):
                 contentType = entity.contentType
@@ -165,7 +165,7 @@ public extension ResponseEntityTransformer
     /// :nodoc:
     final func process(response: Response) -> Response
         {
-        switch(response)
+        switch response
             {
             case .Success(let entity):
                 return processEntity(entity)
@@ -185,7 +185,7 @@ public extension ResponseEntityTransformer
         {
         if let errorData = error.entity
             {
-            switch(processEntity(errorData))
+            switch processEntity(errorData)
                 {
                 case .Success(let errorDataTransformed):
                     error.entity = errorDataTransformed

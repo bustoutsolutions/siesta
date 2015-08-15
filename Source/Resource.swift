@@ -408,7 +408,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
     */
     public func loadIfNeeded() -> Request?
         {
-        if(loading)
+        if loading
             {
             debugLog(.Staleness, [self, "loadIfNeeded(): load already in progress"])
             return nil  // TODO: should this return existing request instead?
@@ -418,7 +418,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             ? config.expirationTime
             : config.retryTime
         
-        if(now() - timestamp <= maxAge)
+        if now() - timestamp <= maxAge
             {
             debugLog(.Staleness, [self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
             return nil

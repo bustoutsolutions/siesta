@@ -241,7 +241,7 @@ private class TestTransformer: ResponseTransformer
     private func process(response: Response) -> Response
         {
         callCount++
-        switch(response)
+        switch response
             {
             case .Success(var entity):
                 entity.content = (entity.content as? String ?? "<nil>") + " processed"

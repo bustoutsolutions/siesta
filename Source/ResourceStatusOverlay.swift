@@ -115,13 +115,13 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         
         for res in observedResources
             {
-            if(res.loading)
+            if res.loading
                 { anyLoading = true }
             else if let error = res.latestError
                 { return showError(error) }
             }
         
-        if(anyLoading)
+        if anyLoading
             {
             showLoading()
             return

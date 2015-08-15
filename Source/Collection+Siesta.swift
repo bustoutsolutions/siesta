@@ -17,7 +17,7 @@ internal extension CollectionType
         
         for elem in self
             {
-            if(includeElement(elem))
+            if includeElement(elem)
                 { included.append(elem) }
             else
                 { excluded.append(elem) }

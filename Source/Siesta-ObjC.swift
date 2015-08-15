@@ -143,7 +143,7 @@ public class _objc_Request: NSObject
             objcCallback in
             self.request.completion
                 {
-                switch($0)
+                switch $0
                     {
                     case .Success(let entity):
                         objcCallback(_objc_Entity(entity), nil)
