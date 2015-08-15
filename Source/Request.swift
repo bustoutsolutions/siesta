@@ -143,9 +143,12 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     func start() -> Self
         {
-        debugLog(.Network, [requestDescription])
+        if !completed
+            {
+            debugLog(.Network, [requestDescription])
+            transport.start(handleResponse)
+            }
         
-        transport.start(handleResponse)
         return self
         }
     

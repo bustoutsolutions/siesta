@@ -14,18 +14,38 @@
 public struct Configuration
     {
     /**
-      Time before valid data is considered stale by `loadIfNeeded()`.
+      Time before valid data is considered stale by `Resource.loadIfNeeded()`.
       
       Defaults from `Service.defaultExpirationTime`, which defaults to 30 seconds.
     */
     public var expirationTime: NSTimeInterval = 30
     
     /**
-      Time `loadIfNeeded()` will wait before allowing a retry after a failed request.
+      Time `Resource.loadIfNeeded()` will wait before allowing a retry after a failed request.
     
       Defaults from `Service.defaultRetryTime`, which defaults to 1 second.
     */
     public var retryTime: NSTimeInterval = 1
+    
+    /**
+      Default request headers.
+    */
+    public var headers: [String:String] = [:]
+    
+    /**
+      Adds a closure to be called after a `Request` is created, but before it is started. Use this to add response
+      hooks or cancel the request before sending.
+    */
+    public mutating func beforeStartingRequest(callback: (Resource,Request) -> Void)
+        { requestWillStartCallbacks.append(callback) }
+    
+    internal func willStartRequest(request: Request, forResource resource: Resource)
+        {
+        for callback in requestWillStartCallbacks
+            { callback(resource, request) }
+        }
+    
+    private var requestWillStartCallbacks: [(Resource,Request) -> Void] = []
     
     /**
       A sequence of parsers to be applied to responses.
@@ -41,11 +61,6 @@ public struct Configuration
           responseTransformers.clear()
     */
     public var responseTransformers: TransformerSequence = TransformerSequence()
-    
-    /**
-      Default request headers.
-    */
-    public var headers: [String:String] = [:]
     
     /**
       Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.

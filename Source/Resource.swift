@@ -298,7 +298,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         nsreq.HTTPMethod = method.rawValue
         requestMutation(nsreq)
 
-        let req = NetworkRequest(resource: self, nsreq: nsreq).start()
+        let req = NetworkRequest(resource: self, nsreq: nsreq)
 
         requests.append(req)
         req.completion
@@ -308,7 +308,9 @@ public final class Resource: NSObject, CustomDebugStringConvertible
                 { resource.requests = resource.requests.filter { $0 !== req } }
             }
         
-        return req
+        config.willStartRequest(req, forResource: self)
+        
+        return req.start()
         }
     
     /**
