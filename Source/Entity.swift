@@ -168,7 +168,7 @@ extension Entity: DataContainer
     public var data: AnyObject? { return payload }
     }
 
-extension ResourceError: DataContainer
+extension Error: DataContainer
     {
     public var data: AnyObject? { return entity?.payload }
     }

@@ -1,5 +1,5 @@
 //
-//  ResourceError.swift
+//  Error.swift
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
@@ -17,11 +17,11 @@
   - server errors (404, 500, etc.), and
   - client-side parsing and entity validation failures.
   
-  `ResourceError` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
+  `Error` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional.
-  The one ironclad guarantee that `ResourceError` makes is the presence of a `userMessage`.
+  The one ironclad guarantee that `Error` makes is the presence of a `userMessage`.
 */
-public struct ResourceError
+public struct Error
     {
     /**
       A description of this error suitable for showing to the user. Typically messages are brief and in plain language,

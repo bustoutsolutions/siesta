@@ -158,7 +158,7 @@ public protocol ResponseEntityTransformer: ResponseTransformer
 
       Subclasses typically do not override this method, but they can if they wish to apply special processing to errors.
     */
-    func processError(error: ResourceError) -> Response
+    func processError(error: Error) -> Response
     }
 
 public extension ResponseEntityTransformer
@@ -181,7 +181,7 @@ public extension ResponseEntityTransformer
         { return .Success(entity) }
 
     /// :nodoc:
-    func processError(var error: ResourceError) -> Response
+    func processError(var error: Error) -> Response
         {
         if let errorData = error.entity
             {
@@ -213,7 +213,7 @@ public extension ResponseTransformer
         else
             {
             return logTransformation(
-                .Failure(ResourceError(
+                .Failure(Error(
                     userMessage: "Cannot parse response",
                     debugMessage: "Expected \(T.self), but got \(entity.payload.dynamicType)")))
             }
@@ -245,7 +245,7 @@ public struct TextTransformer: ResponseEntityTransformer
             if encoding == UInt(kCFStringEncodingInvalidId)
                 {
                 return logTransformation(
-                    .Failure(ResourceError(
+                    .Failure(Error(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Invalid encoding: \(charsetName)")))
                 }
@@ -259,7 +259,7 @@ public struct TextTransformer: ResponseEntityTransformer
             else
                 {
                 return logTransformation(
-                    .Failure(ResourceError(
+                    .Failure(Error(
                         userMessage: "Cannot parse text response",
                         debugMessage: "Using encoding: \(charsetName)")))
                 }
@@ -286,7 +286,7 @@ public struct JsonTransformer: ResponseEntityTransformer
             catch
                 {
                 return logTransformation(
-                    .Failure(ResourceError(userMessage: "Cannot parse JSON", error: error as NSError)))
+                    .Failure(Error(userMessage: "Cannot parse JSON", error: error as NSError)))
                 }
             }
         }

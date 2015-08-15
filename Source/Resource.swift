@@ -85,7 +85,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       Note that this only reports error from `load()` and `loadIfNeeded()`, not any of the various
       flavors of `request(...)`.
     */
-    public private(set) var latestError: ResourceError?
+    public private(set) var latestError: Error?
     
     /// The time of the most recent update to either `latestData` or `latestError`.
     public var timestamp: NSTimeInterval
@@ -321,7 +321,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         else
             {
             return FailedRequest(
-                ResourceError(
+                Error(
                     userMessage: "Unable to encode text",
                     debugMessage: "Cannot encode text body using \(encodingName)"))
             }
@@ -345,7 +345,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         guard NSJSONSerialization.isValidJSONObject(json) else
             {
             return FailedRequest(
-                ResourceError(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
+                Error(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
             }
         
         do  {
@@ -360,7 +360,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             // but we catch the exception anyway instead of using try! and crashing.
             
             return FailedRequest(
-                ResourceError(userMessage: "Cannot encode JSON", error: error as NSError))
+                Error(userMessage: "Cannot encode JSON", error: error as NSError))
             }
         }
     
@@ -537,7 +537,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         notifyObservers(.NotModified)
         }
     
-    private func receiveError(error: ResourceError)
+    private func receiveError(error: Error)
         {
         if let nserror = error.nsError
             where nserror.domain == NSURLErrorDomain

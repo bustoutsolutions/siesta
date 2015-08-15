@@ -61,12 +61,12 @@
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [resource load]
             .completion(
-                ^(BOSEntity *entity, BOSResourceError *error)
+                ^(BOSEntity *entity, BOSError *error)
                     { [expectation fulfill]; })
             .success(^(BOSEntity *entity) { } )
             .newData(^(BOSEntity *entity) { } )
             .notModified(^{ } )
-            .failure(^(BOSResourceError *error) { } );
+            .failure(^(BOSError *error) { } );
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         });
     

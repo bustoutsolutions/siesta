@@ -35,7 +35,7 @@
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
 
-// (Why not just make Entity and ResourceError classes and avoid all these
+// (Why not just make Entity and Error classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via localEntityOverride() so that observers always know about changes.)
@@ -82,8 +82,8 @@ internal extension Entity
         }
     }
 
-@objc(BOSResourceError)
-public class _objc_ResourceError: NSObject
+@objc(BOSError)
+public class _objc_Error: NSObject
     {
     public var httpStatusCode: Int?
     public var nsError: NSError?
@@ -91,7 +91,7 @@ public class _objc_ResourceError: NSObject
     public var entity: _objc_Entity?
     public let timestamp: NSTimeInterval
 
-    internal init(_ error: ResourceError)
+    internal init(_ error: Error)
         {
         self.httpStatusCode = error.httpStatusCode
         self.nsError        = error.nsError
@@ -136,7 +136,7 @@ public class _objc_Request: NSObject
     private init(_ request: Request)
         { self.request = request }
     
-    public var completion: @convention(block) ((_objc_Entity?, _objc_ResourceError?) -> Void) -> _objc_Request
+    public var completion: @convention(block) ((_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
         {
         return
             {
@@ -148,7 +148,7 @@ public class _objc_Request: NSObject
                     case .Success(let entity):
                         objcCallback(_objc_Entity(entity), nil)
                     case .Failure(let error):
-                        objcCallback(nil, _objc_ResourceError(error))
+                        objcCallback(nil, _objc_Error(error))
                     }
                 }
             return self
@@ -185,12 +185,12 @@ public class _objc_Request: NSObject
             }
         }
 
-    public var failure: @convention(block) (_objc_ResourceError -> Void) -> _objc_Request
+    public var failure: @convention(block) (_objc_Error -> Void) -> _objc_Request
         {
         return
             {
             objcCallback in
-            self.request.failure { error in objcCallback(_objc_ResourceError(error)) }
+            self.request.failure { error in objcCallback(_objc_Error(error)) }
             return self
             }
         }

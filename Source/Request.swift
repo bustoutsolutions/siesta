@@ -62,7 +62,7 @@ public protocol Request: AnyObject
     func notModified(callback: Void -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
-    func failure(callback: ResourceError -> Void) -> Self
+    func failure(callback: Error -> Void) -> Self
     
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
@@ -97,7 +97,7 @@ public enum Response: CustomStringConvertible
     case Success(Entity)
     
     /// The request failed because of the given error.
-    case Failure(ResourceError)
+    case Failure(Error)
     
     /// True if this is a cancellation response
     public var isCancellation: Bool
@@ -166,7 +166,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         transport.cancel()
 
         broadcastResponse((
-            response: .Failure(ResourceError(
+            response: .Failure(Error(
                 userMessage: "Request cancelled",
                 error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
             isNew: true))
@@ -217,7 +217,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    func failure(callback: ResourceError -> Void) -> Self
+    func failure(callback: Error -> Void) -> Self
         {
         addResponseCallback
             {
@@ -303,7 +303,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         {
         if nsres?.statusCode >= 400 || nserror != nil
             {
-            return (.Failure(ResourceError(nsres, body, nserror)), true)
+            return (.Failure(Error(nsres, body, nserror)), true)
             }
         else if nsres?.statusCode == 304
             {
@@ -314,7 +314,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             else
                 {
                 return(
-                    .Failure(ResourceError(
+                    .Failure(Error(
                         userMessage: "No data",
                         debugMessage: "Received HTTP 304, but resource has no existing data")),
                     true)
@@ -326,7 +326,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else
             {
-            return (.Failure(ResourceError(userMessage: "Empty response")), true)
+            return (.Failure(Error(userMessage: "Empty response")), true)
             }
         }
     
@@ -361,9 +361,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 /// For requests that failed before they even made it to the transport layer
 internal final class FailedRequest: Request
     {
-    private let error: ResourceError
+    private let error: Error
     
-    init(_ error: ResourceError)
+    init(_ error: Error)
         { self.error = error }
     
     func completion(callback: Response -> Void) -> Self
@@ -372,7 +372,7 @@ internal final class FailedRequest: Request
         return self
         }
     
-    func failure(callback: ResourceError -> Void) -> Self
+    func failure(callback: Error -> Void) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
         return self
