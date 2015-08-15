@@ -155,7 +155,7 @@ public extension Resource
         {
         cleanDefunctObservers()
         
-        debugLog(.Observers, [self, "sending", event, "to", observers.count, "observers"])
+        debugLog(.Observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
             {
             debugLog(.Observers, [self, "sending", event, "to", entry.observer])
