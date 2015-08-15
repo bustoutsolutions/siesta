@@ -206,9 +206,9 @@ public extension ResponseTransformer
             @noescape process: T -> Response)
         -> Response
         {
-        if let typedData = entity.content as? T
+        if let typedContent = entity.content as? T
             {
-            return process(typedData)
+            return process(typedContent)
             }
         else
             {

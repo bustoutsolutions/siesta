@@ -81,9 +81,9 @@
         [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
-        expect(resource.dict).to(equal(@{ @"foo": @"bar" }));
-        expect(resource.array).to(equal(@[]));
-        expect(resource.text).to(equal(@""));
+        expect(resource.dictContent).to(equal(@{ @"foo": @"bar" }));
+        expect(resource.arrayContent).to(equal(@[]));
+        expect(resource.textContent).to(equal(@""));
         
         BOSEntity *entity = resource.latestData;
         expect(entity.content).to(equal(@{ @"foo": @"bar" }));

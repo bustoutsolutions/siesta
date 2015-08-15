@@ -23,9 +23,9 @@ The simplest way to implement your observer is to ignore what king of event trig
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    // The convenience .dict accessor returns empty dict if no data,
+    // The convenience .dictContent accessor returns empty dict if no data,
     // so the same code can both populate and clear fields.
-    let json = resource.dict
+    let json = resource.dictContent
     nameLabel.text = json["name"] as? String
     favoriteColorLabel.text = json["favoriteColor"] as? String
 

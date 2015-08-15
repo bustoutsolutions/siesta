@@ -113,17 +113,17 @@ public extension Resource
             { return nil }
         }
     
-    @objc(dict)
-    public var _objc_dict: [String:AnyObject]
-        { return dict }
+    @objc(dictContent)
+    public var _objc_dictContent: [String:AnyObject]
+        { return dictContent }
     
-    @objc(array)
-    public var _objc_array: [AnyObject]
-        { return array }
+    @objc(arrayContent)
+    public var _objc_arrayContent: [AnyObject]
+        { return arrayContent }
     
-    @objc(text)
-    public var _objc_text: String
-        { return text }
+    @objc(textContent)
+    public var _objc_textContent: String
+        { return textContent }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks

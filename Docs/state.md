@@ -7,13 +7,13 @@ A resource keeps a local cache of the latest valid data:
 ```swift
 resource.latestData          // Full metadata, in case you need the gory details.
 
-resource.latestData?.payload // Gives a string, dict/array (for JSON), NSData, or
+resource.latestData?.content // Gives a string, dict/array (for JSON), NSData, or
                              // nil if no data is available. You can also configure
                              // custom data types using ResponseTransformer.
 
-resource.text                // Convenience accessors return an empty string/dict/array
-resource.dict                // if data is either unavailable or not of the expected
-resource.array               // type. This reduces futzing with optionals.
+resource.textContent         // Convenience accessors return an empty string/dict/array
+resource.dictContent         // if data is either unavailable or not of the expected
+resource.arrayContent        // type. This reduces futzing with optionals.
 ```
 
 A resource knows whether it is currently loading, which lets you show/hide a spinner or progress bar:

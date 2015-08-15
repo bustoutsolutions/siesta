@@ -28,7 +28,7 @@ public struct Entity
       
       In short, when using `content`, write your code to handle it being of an unexpected type.
       
-      - SeeAlso: `Resource.typedData(_:)`
+      - SeeAlso: `Resource.typedContent(_:)`
     */
     public var content: AnyObject
     
@@ -139,23 +139,23 @@ public extension ContentContainer
      
       For example, if you expect the content to be a UIImage:
      
-          let image = typedData(UIImage(named: "placeholder.png"))
+          let image = typedContent(UIImage(named: "placeholder.png"))
      
       - SeeAlso: `ResponseTransformer`
     */
-    public func typedData<T>(blankValue: T) -> T
+    public func typedContent<T>(defaultValue: T) -> T
         {
-        return (content as? T) ?? blankValue
+        return (_entity?.content as? T) ?? defaultValue
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var dict:  [String:AnyObject] { return typedData([:]) }
+    public var dictContent:  [String:AnyObject] { return typedContent([:]) }
     
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var array: [AnyObject]        { return typedData([]) }
+    public var arrayContent: [AnyObject]        { return typedContent([]) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text:  String             { return typedData("") }
+    public var textContent:  String             { return typedContent("") }
     }
 
 extension Resource: ContentContainer

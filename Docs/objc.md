@@ -30,8 +30,8 @@ In Swift, everything is namespaced to the framework (`Service` is shorthand for 
 
  * `BOSService`
  * `BOSRequest`
- * `BOSResourceData`
- * `BOSResourceError`
+ * `BOSEntity`
+ * `BOSError`
  * `BOSResourceObserver`
 
 Siesta structs are exposed as Objective-C classes. This incurs a _very_ slight performance overhead, which will not be a problem 99.9% of the time — but if for some reason you need to iterate over a massive number of resources and examine their `latestData`, it _might_ be better to write that bit of code in Swift. Benchmark it and find out.
@@ -103,7 +103,7 @@ resource.request(.POST, json: ["color": "green"])
 
 ```objc
 [resource.requestWithMethod:@"POST" json:@{@"color": @"mauve"}]
-    .completion:(^(BOSResourceData *data, BOSResourceError *error) {
+    .completion:(^(BOSEntity *data, BOSError *error) {
         ...
     });
 ```

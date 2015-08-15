@@ -144,7 +144,7 @@ override func viewDidLoad() {
     super.viewDidLoad()
 
     MyAPI.resource("/profile").addObserver(self) { resource, event in
-        let json = resource.dict
+        let json = resource.dictContent
         nameLabel.text = json["name"] as? String
         favoriteColorLabel.text = json["favoriteColor"] as? String
 
@@ -203,7 +203,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let json = resource.dict
+        let json = resource.dictContent
         nameLabel.text = json["name"] as? String
         favoriteColorLabel.text = json["favoriteColor"] as? String
     }

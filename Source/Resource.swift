@@ -171,7 +171,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       
       This convenience method is useful for resolving URLs returned as part of a JSON response body:
       
-          let href = resource.dict["owner"]  // href is an optional
+          let href = resource.dictContent["owner"] as? String  // href is an optional
           if let ownerResource = resource.optionalRelative(href) {
             // ...
           }
@@ -495,7 +495,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
                 
                 // Make a mutable copy of the current entity
                 var updatedEntity = resource.latestData
-                var updatedContent = resource.dict
+                var updatedContent = resource.dictContent
                 
                 // Do the incremental update
                 updatedContent["name"] = parialEntity["newName"]
