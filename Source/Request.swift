@@ -38,7 +38,7 @@ public enum RequestMethod: String
   Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
-  and `localDataOverride(_:)`.
+  and `localEntityOverride(_:)`.
   
   There is no race condition between a callback being added and a response arriving. If you add a callback after the
   response has already arrived, the callback is still called as usual.
@@ -53,10 +53,10 @@ public protocol Request: AnyObject
     func completion(callback: Response -> Void) -> Self
     
     /// Call the closure once if the request succeeds.
-    func success(callback: ResourceData -> Void) -> Self
+    func success(callback: Entity -> Void) -> Self
     
     /// Call the closure once if the request succeeds and the data changed.
-    func newData(callback: ResourceData -> Void) -> Self
+    func newData(callback: Entity -> Void) -> Self
     
     /// Call the closure once if the request succeeds with a 304.
     func notModified(callback: Void -> Void) -> Self
@@ -88,12 +88,13 @@ public protocol Request: AnyObject
     }
 
 /**
-  The outcome of a network request: either success (with data), or failure (with an error).
+  The outcome of a network request: either success (with an entity representing the resource’s current state), or
+  failure (with an error).
 */
 public enum Response: CustomStringConvertible
     {
-    /// The request succeeded, and returned the given data.
-    case Success(ResourceData)
+    /// The request succeeded, and returned the given entity.
+    case Success(Entity)
     
     /// The request failed because of the given error.
     case Failure(ResourceError)
@@ -183,24 +184,24 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         return self
         }
     
-    func success(callback: ResourceData -> Void) -> Self
+    func success(callback: Entity -> Void) -> Self
         {
         addResponseCallback
             {
             response, _ in
-            if case .Success(let data) = response
-                { callback(data) }
+            if case .Success(let entity) = response
+                { callback(entity) }
             }
         return self
         }
     
-    func newData(callback: ResourceData -> Void) -> Self
+    func newData(callback: Entity -> Void) -> Self
         {
         addResponseCallback
             {
             response, isNew in
-            if case .Success(let data) = response where isNew
-                { callback(data) }
+            if case .Success(let entity) = response where isNew
+                { callback(entity) }
             }
         return self
         }
@@ -306,9 +307,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else if nsres?.statusCode == 304
             {
-            if let data = resource.latestData
+            if let entity = resource.latestData
                 {
-                return (.Success(data), false)
+                return (.Success(entity), false)
                 }
             else
                 {
@@ -321,7 +322,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else if let body = body
             {
-            return (.Success(ResourceData(nsres, body)), true)
+            return (.Success(Entity(nsres, body)), true)
             }
         else
             {
@@ -379,8 +380,8 @@ internal final class FailedRequest: Request
     
     // Everything else is a noop
     
-    func success(callback: ResourceData -> Void) -> Self { return self }
-    func newData(callback: ResourceData -> Void) -> Self { return self }
+    func success(callback: Entity -> Void) -> Self { return self }
+    func newData(callback: Entity -> Void) -> Self { return self }
     func notModified(callback: Void -> Void) -> Self { return self }
     
     func cancel() { }

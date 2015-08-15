@@ -61,12 +61,12 @@
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [resource load]
             .completion(
-                ^(BOSResourceData *data, BOSResourceError *error)
+                ^(BOSEntity *entity, BOSResourceError *error)
                     { [expectation fulfill]; })
-            .success(^(BOSResourceData *data) { } )
-            .newData(^(BOSResourceData *data) { } )
+            .success(^(BOSEntity *entity) { } )
+            .newData(^(BOSEntity *entity) { } )
             .notModified(^{ } )
-            .failure(^(BOSResourceError *data) { } );
+            .failure(^(BOSResourceError *error) { } );
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         });
     
@@ -78,17 +78,17 @@
             .withBody(@"{\"foo\": \"bar\"}");
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [resource load].success(^(BOSResourceData *data) { [expectation fulfill]; });
+        [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         expect(resource.dict).to(equal(@{ @"foo": @"bar" }));
         expect(resource.array).to(equal(@[]));
         expect(resource.text).to(equal(@""));
         
-        BOSResourceData *data = resource.latestData;
-        expect(data.payload).to(equal(@{ @"foo": @"bar" }));
-        expect(data.mimeType).to(equal(@"application/json"));
-        expect([data header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
+        BOSEntity *entity = resource.latestData;
+        expect(entity.payload).to(equal(@{ @"foo": @"bar" }));
+        expect(entity.mimeType).to(equal(@"application/json"));
+        expect([entity header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
         });
 
     // TODO: BOSResourceObserver

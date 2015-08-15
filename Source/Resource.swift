@@ -68,20 +68,15 @@ public final class Resource: NSObject, CustomDebugStringConvertible
        The latest valid data we have for this resource. May come from a server response, a cache,
        or a local override.
       
-       Note that this property represents the __full state__ of the resource.
-       It therefore only holds data from `load()` and `loadIfNeeded()`, not any of the various
-       flavors of `request(...)`.
+       Note that this property represents the __full state__ of the resource. It therefore only holds entities fetched
+       with `load()` and `loadIfNeeded()`, not any of the various flavors of `request(...)`.
       
-       Note that `latestData` will be present as long as there has _ever_ been a succesful request.
-       If an error occurs, `latestData` will still hold the latest (now stale) valid data.
+       Note that `latestData` will be present as long as there has _ever_ been a succesful request since the resource
+       was created or wiped. If an error occurs, `latestData` will still hold the latest (now stale) valid data.
  
-       - SeeAlso:
-         - `typedData(_:)`
-         - `dict`
-         - `array`
-         - `text`
+       - SeeAlso: `DataContainer`
     */
-    public private(set) var latestData: ResourceData?
+    public private(set) var latestData: Entity?
     
     /**
       Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
@@ -443,7 +438,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       2. If the request is cancelled before completion, observers receive `ResourceEvent.RequestCancelled`.
       3. If the server returns a success response, that goes in `latestData`, and `latestError` becomes nil.
          Observers receive `ResourceEvent.NewData`.
-      3. If the server returns a 304, `latestData`’s timestamp is updated but the data is untouched.
+      3. If the server returns a 304, `latestData`’s timestamp is updated but the entity is otherwise untouched.
          `latestError` becomes nil. Observers receive `ResourceEvent.NotModified`.
       4. If the request fails for any reason, whether client-, server-, or network-related, observers receive
          `ResourceEvent.Error`. Note that `latestData` does _not_ become nil; the last valid response always sticks
@@ -481,7 +476,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
           let auth = service.resource("login")
           let authData = ["user": username, "pass": password]
           auth.request(method: .POST, json: authData)
-            .newData { data in auth.localDataOverride(data) })
+            .newData { entity in auth.localEntityOverride(entity) })
       
       ### Incremental updates
     
@@ -493,21 +488,21 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             .success { _ in resource.load() }
       
       However, if you already _know_ the resulting state of the resource given a success response, you can avoid the
-      second network call by updating the data yourself:
+      second network call by updating the entity yourself:
       
           resource.request(method: .POST, json: ["name": "Fred"])
-            .success { newData in
+            .success { partialEntity in
                 
-                // Make a mutable copy of the current data
-                var updatedData = resource.latestData
+                // Make a mutable copy of the current entity
+                var updatedEntity = resource.latestData
                 var updatedPayload = resource.dict
                 
                 // Do the incremental update
-                updatedPayload["name"] = newData["newName"]
-                updatedData.payload = updatedPayload
+                updatedPayload["name"] = parialEntity["newName"]
+                updatedEntity.payload = updatedPayload
     
-                // Make that the resource’s new data
-                resource.localDataOverride(updatedData)
+                // Make that the resource’s new entity
+                resource.localEntityOverride(updatedEntity)
             }
     
       Use this technique with caution!
@@ -516,18 +511,18 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
       `updatedPayload` is a `Dictionary`, not `NSData` containing encoded JSON.
     */
-    public func localDataOverride(data: ResourceData)
-        { receiveData(data, localOverride: true) }
+    public func localEntityOverride(entity: Entity)
+        { receiveNewData(entity, localOverride: true) }
     
-    private func receiveData(data: ResourceData)
-        { receiveData(data, localOverride: false) }
+    private func receiveData(entity: Entity)
+        { receiveNewData(entity, localOverride: false) }
     
-    private func receiveData(data: ResourceData, localOverride: Bool)
+    private func receiveNewData(entity: Entity, localOverride: Bool)
         {
-        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", data])
+        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", entity])
         
         self.latestError = nil
-        self.latestData = data
+        self.latestData = entity
         
         notifyObservers(.NewData)
         }

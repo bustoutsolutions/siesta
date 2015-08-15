@@ -254,7 +254,7 @@ public class Service: NSObject
         let configurer: Configuration.Builder -> Void
         }
     
-    // MARK: Wiping data
+    // MARK: Wiping state
     
     /**
       Wipes the state of this service’s resources. Typically used to handle logout.

@@ -35,13 +35,13 @@
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
 
-// (Why not just make ResourceData and ResourceError classes and avoid all these
+// (Why not just make Entity and ResourceError classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
-// happen via localDataOverride() so that observers always know about changes.)
+// happen via localEntityOverride() so that observers always know about changes.)
 
-@objc(BOSResourceData)
-public class _objc_ResourceData: NSObject
+@objc(BOSEntity)
+public class _objc_Entity: NSObject
     {
     public var payload: AnyObject
     public var mimeType: String
@@ -60,25 +60,25 @@ public class _objc_ResourceData: NSObject
     public convenience init(payload: AnyObject, mimeType: String)
         { self.init(payload: payload, mimeType: mimeType, headers: [:]) }
     
-    internal init(_ data: ResourceData)
+    internal init(_ entity: Entity)
         {
-        self.payload  = data.payload
-        self.mimeType = data.mimeType
-        self.charset  = data.charset
-        self.etag     = data.etag
-        self.headers  = data.headers
+        self.payload  = entity.payload
+        self.mimeType = entity.mimeType
+        self.charset  = entity.charset
+        self.etag     = entity.etag
+        self.headers  = entity.headers
         }
     
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
     }
 
-internal extension ResourceData
+internal extension Entity
     {
-    init(data: _objc_ResourceData)
+    init(entity: _objc_Entity)
         {
-        self.init(payload: data.payload, mimeType: data.mimeType, charset: data.charset, headers: data.headers)
-        self.etag = data.etag
+        self.init(payload: entity.payload, mimeType: entity.mimeType, charset: entity.charset, headers: entity.headers)
+        self.etag = entity.etag
         }
     }
 
@@ -88,7 +88,7 @@ public class _objc_ResourceError: NSObject
     public var httpStatusCode: Int?
     public var nsError: NSError?
     public var userMessage: String
-    public var entity: _objc_ResourceData?
+    public var entity: _objc_Entity?
     public let timestamp: NSTimeInterval
 
     internal init(_ error: ResourceError)
@@ -98,17 +98,17 @@ public class _objc_ResourceError: NSObject
         self.userMessage    = error.userMessage
         self.timestamp      = error.timestamp
         if let errorData = error.entity
-            { self.entity = _objc_ResourceData(errorData) }
+            { self.entity = _objc_Entity(errorData) }
         }
     }
 
 public extension Resource
     {
     @objc(latestData)
-    public var _objc_latestData: _objc_ResourceData?
+    public var _objc_latestData: _objc_Entity?
         {
         if let latestData = latestData
-            { return _objc_ResourceData(latestData) }
+            { return _objc_Entity(latestData) }
         else
             { return nil }
         }
@@ -136,7 +136,7 @@ public class _objc_Request: NSObject
     private init(_ request: Request)
         { self.request = request }
     
-    public var completion: @convention(block) ((_objc_ResourceData?, _objc_ResourceError?) -> Void) -> _objc_Request
+    public var completion: @convention(block) ((_objc_Entity?, _objc_ResourceError?) -> Void) -> _objc_Request
         {
         return
             {
@@ -145,8 +145,8 @@ public class _objc_Request: NSObject
                 {
                 switch($0)
                     {
-                    case .Success(let data):
-                        objcCallback(_objc_ResourceData(data), nil)
+                    case .Success(let entity):
+                        objcCallback(_objc_Entity(entity), nil)
                     case .Failure(let error):
                         objcCallback(nil, _objc_ResourceError(error))
                     }
@@ -155,22 +155,22 @@ public class _objc_Request: NSObject
             }
         }
 
-    public var success: @convention(block) (_objc_ResourceData -> Void) -> _objc_Request
+    public var success: @convention(block) (_objc_Entity -> Void) -> _objc_Request
         {
         return
             {
             objcCallback in
-            self.request.success { data in objcCallback(_objc_ResourceData(data)) }
+            self.request.success { entity in objcCallback(_objc_Entity(entity)) }
             return self
             }
         }
     
-    public var newData: @convention(block) (_objc_ResourceData -> Void) -> _objc_Request
+    public var newData: @convention(block) (_objc_Entity -> Void) -> _objc_Request
         {
         return
             {
             objcCallback in
-            self.request.newData { data in objcCallback(_objc_ResourceData(data)) }
+            self.request.newData { entity in objcCallback(_objc_Entity(entity)) }
             return self
             }
         }

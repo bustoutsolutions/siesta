@@ -90,8 +90,8 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
-                resource().localDataOverride(
-                    ResourceData(payload: UIView(), mimeType: "crazy/test"))
+                resource().localEntityOverride(
+                    Entity(payload: UIView(), mimeType: "crazy/test"))
                 }
 
             it("receives not modified event")

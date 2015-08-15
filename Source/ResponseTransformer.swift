@@ -59,8 +59,8 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
         let mimeType: String?
         switch(response)
             {
-            case .Success(let data):
-                mimeType = data.mimeType
+            case .Success(let entity):
+                mimeType = entity.mimeType
             
             case .Failure(let error):
                 mimeType = error.entity?.mimeType
@@ -138,19 +138,19 @@ public struct TransformerSequence
 // MARK: Data transformer plumbing
 
 /**
-  A utility flavor of `ResponseTransformer` that deals only with the response data (whether success or failure), and
+  A utility flavor of `ResponseTransformer` that deals only with the response entity (whether success or failure), and
   does not touch the surrounding error metadata (if any).
 
-  To use, implement this protocol and override the `processData(_:)` method.
+  To use, implement this protocol and override the `processEntity(_:)` method.
 */
-public protocol ResponseDataTransformer: ResponseTransformer
+public protocol ResponseEntityTransformer: ResponseTransformer
     {
     /**
       Subclasses will typically override this method. The default behavior is to leave data unchanged.
      
       Note that overrides can turn a success into an error, e.g. if there is a parse error.
     */
-    func processData(data: ResourceData) -> Response
+    func processEntity(entity: Entity) -> Response
     
     /**
       Default behavior: attempt to process error response bodies just like success bodies, but if there is a
@@ -161,15 +161,15 @@ public protocol ResponseDataTransformer: ResponseTransformer
     func processError(error: ResourceError) -> Response
     }
 
-public extension ResponseDataTransformer
+public extension ResponseEntityTransformer
     {
     /// :nodoc:
     final func process(response: Response) -> Response
         {
         switch(response)
             {
-            case .Success(let data):
-                return processData(data)
+            case .Success(let entity):
+                return processEntity(entity)
             
             case .Failure(let error):
                 return processError(error)
@@ -177,15 +177,15 @@ public extension ResponseDataTransformer
         }
     
     /// :nodoc:
-    func processData(data: ResourceData) -> Response
-        { return .Success(data) }
+    func processEntity(entity: Entity) -> Response
+        { return .Success(entity) }
 
     /// :nodoc:
     func processError(var error: ResourceError) -> Response
         {
         if let errorData = error.entity
             {
-            switch(processData(errorData))
+            switch(processEntity(errorData))
                 {
                 case .Success(let errorDataTransformed):
                     error.entity = errorDataTransformed
@@ -200,14 +200,13 @@ public extension ResponseDataTransformer
 
 public extension ResponseTransformer
     {
-    /// Utility method to downcast the given data payload, or return an error response if the payload is not of the
-    /// given type.
+    /// Utility method to downcast the given entity, or return an error response if the payload is not of the given type.
     func requireDataType<T>(
-            data: ResourceData,
+            entity: Entity,
             @noescape process: T -> Response)
         -> Response
         {
-        if let typedData = data.payload as? T
+        if let typedData = entity.payload as? T
             {
             return process(typedData)
             }
@@ -216,7 +215,7 @@ public extension ResponseTransformer
             return logTransformation(
                 .Failure(ResourceError(
                     userMessage: "Cannot parse response",
-                    debugMessage: "Expected \(T.self), but got \(data.payload.dynamicType)")))
+                    debugMessage: "Expected \(T.self), but got \(entity.payload.dynamicType)")))
             }
         }
     }
@@ -224,22 +223,22 @@ public extension ResponseTransformer
 // MARK: Transformers for standard types
 
 /// Parses an `NSData` payload as text, using the encoding specified in the content type, or ISO-8859-1 by default.
-public struct TextTransformer: ResponseDataTransformer
+public struct TextTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
-    public func processData(data: ResourceData) -> Response
+    public func processEntity(entity: Entity) -> Response
         {
-        if data.payload as? String != nil
+        if entity.payload as? String != nil
             {
             debugLog(.ResponseProcessing, [self, "ignoring payload because it is already a String"])
-            return .Success(data)
+            return .Success(entity)
             }
         
-        return requireDataType(data)
+        return requireDataType(entity)
             {
             (nsdata: NSData) in
             
-            let charsetName = data.charset ?? "ISO-8859-1"
+            let charsetName = entity.charset ?? "ISO-8859-1"
             let encoding = CFStringConvertEncodingToNSStringEncoding(
                 CFStringConvertIANACharSetNameToEncoding(charsetName))
             
@@ -252,10 +251,10 @@ public struct TextTransformer: ResponseDataTransformer
                 }
             else if let string = NSString(data: nsdata, encoding: encoding) as? String
                 {
-                var newData = data
-                newData.payload = string
+                var newEntity = entity
+                newEntity.payload = string
                 return logTransformation(
-                    .Success(newData))
+                    .Success(newEntity))
                 }
             else
                 {
@@ -269,20 +268,20 @@ public struct TextTransformer: ResponseDataTransformer
     }
 
 /// Parses an `NSData` payload as JSON, outputting either a dictionary or an array.
-public struct JsonTransformer: ResponseDataTransformer
+public struct JsonTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
-    public func processData(data: ResourceData) -> Response
+    public func processEntity(entity: Entity) -> Response
         {
-        return requireDataType(data)
+        return requireDataType(entity)
             {
             (nsdata: NSData) in
 
             do  {
-                var newData = data
-                newData.payload = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
+                var newEntity = entity
+                newEntity.payload = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
                 return logTransformation(
-                    .Success(newData))
+                    .Success(newEntity))
                 }
             catch
                 {

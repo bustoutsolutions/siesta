@@ -1,5 +1,5 @@
 //
-//  ResourceData.swift
+//  Entity.swift
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
@@ -11,7 +11,7 @@
 
   Typically extracted from an HTTP message body.
 */
-public struct ResourceData
+public struct Entity
     {
     /**
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
@@ -93,7 +93,7 @@ public struct ResourceData
     /**
       For creating ad hoc data locally.
       
-      - SeeAlso: `Resource.localDataOverride(_:)`
+      - SeeAlso: `Resource.localEntityOverride(_:)`
     */
     public init(
             payload: AnyObject,
@@ -109,7 +109,7 @@ public struct ResourceData
     /**
       Returns the value of the HTTP header with the given key.
       
-      ResourceData does not support multi-valued headers (i.e. headers which occur more than once in the response).
+      Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).
       
       - Parameter key: The case-insensitive header name.
     */
@@ -163,7 +163,7 @@ extension Resource: DataContainer
     public var data: AnyObject? { return latestData?.payload }
     }
 
-extension ResourceData: DataContainer
+extension Entity: DataContainer
     {
     public var data: AnyObject? { return payload }
     }

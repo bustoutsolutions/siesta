@@ -471,15 +471,15 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
 
-        describe("localDataOverride()")
+        describe("localEntityOverride()")
             {
             let arbitraryMimeType = "payloads-can-be/anything"
             let arbitraryPayload = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
-            let localData = specVar { ResourceData(payload: arbitraryPayload(), mimeType: arbitraryMimeType) }
+            let localData = specVar { Entity(payload: arbitraryPayload(), mimeType: arbitraryMimeType) }
             
             it("updates the data")
                 {
-                resource().localDataOverride(localData())
+                resource().localEntityOverride(localData())
                 expect(resource().latestData?.payload).to(beIdenticalTo(arbitraryPayload()))
                 expect(resource().latestData?.mimeType).to(equal(arbitraryMimeType))
                 }
@@ -490,7 +490,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
-                resource().localDataOverride(localData())
+                resource().localEntityOverride(localData())
                 expect(resource().latestData).notTo(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -498,7 +498,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not touch the transformer pipeline")
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
-                resource().localDataOverride(ResourceData(payload: rawData!, mimeType: "text/plain"))
+                resource().localEntityOverride(Entity(payload: rawData!, mimeType: "text/plain"))
                 expect(resource().latestData?.payload as? NSData).to(beIdenticalTo(rawData))
                 }
             }

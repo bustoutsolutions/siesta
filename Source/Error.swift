@@ -33,7 +33,7 @@ public struct ResourceError
     public var httpStatusCode: Int?
     
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
-    public var entity: ResourceData?
+    public var entity: Entity?
     
     /// Diagnostic information if the error originated or was reported locally.
     public var nsError: NSError?
@@ -57,7 +57,7 @@ public struct ResourceError
         self.nsError = error
         
         if let payload = payload
-            { self.entity = ResourceData(response, payload) }
+            { self.entity = Entity(response, payload) }
         
         if let message = userMessage
             { self.userMessage = message }
@@ -75,7 +75,7 @@ public struct ResourceError
     public init(
             userMessage: String,
             error: NSError? = nil,
-            entity: ResourceData? = nil)
+            entity: Entity? = nil)
         {
         self.userMessage = userMessage
         self.nsError = error
@@ -89,7 +89,7 @@ public struct ResourceError
     public init(
             userMessage: String,
             debugMessage: String,
-            entity: ResourceData? = nil)
+            entity: Entity? = nil)
         {
         let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
         self.init(userMessage: userMessage, error: nserror, entity: entity)
