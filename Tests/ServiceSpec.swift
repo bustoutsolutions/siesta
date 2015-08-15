@@ -1,6 +1,6 @@
 //
-//  ServiceTests.swift
-//  ServiceTests
+//  ServiceSpec.swift
+//  Siesta
 //
 //  Created by Paul on 2015/6/14.
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.

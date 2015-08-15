@@ -1,5 +1,5 @@
 //
-//  ResourceTests.swift
+//  ResourceSpecBase.swift
 //  Siesta
 //
 //  Created by Paul on 2015/6/20.
