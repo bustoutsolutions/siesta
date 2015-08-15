@@ -134,7 +134,7 @@ public struct Entity
   …with:
 
       resource.textContent
-      resource.latestError.dictContent?["error.detail"]
+      resource.latestError?.dictContent["error.detail"]
 
   You can extend this protocol to provide your own convenience accessors. For example:
   
