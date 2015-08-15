@@ -123,14 +123,34 @@ public struct Entity
 
 
 /**
-  Provides convenience accessors
+  Mixin that provides convenience accessors for the content of an optional contained entity.
+  
+  Allows you to replace the following:
+  
+      resource.latestData?.content as? String
+      (resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+
+  …with:
+
+      resource.textContent
+      resource.latestError.dictContent?["error.detail"]
+
+  You can extend this protocol to provide your own convenience accessors. For example:
+  
+      import SwiftyJSON
+      
+      extension TypedContentAccessors {
+        var jsonContent:      JSON { return JSON(dictContent) }
+        var jsonArrayContent: JSON { return JSON(arrayContent) }
+      }
 */
-public protocol ContentContainer
+public protocol TypedContentAccessors
     {
-    var content: AnyObject? { get }
+    /// The entity to which the convenience accessors will apply.
+    var entityForTypedContentAccessors: Entity? { get }
     }
 
-public extension ContentContainer
+public extension TypedContentAccessors
     {
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
@@ -145,7 +165,7 @@ public extension ContentContainer
     */
     public func typedContent<T>(defaultValue: T) -> T
         {
-        return (_entity?.content as? T) ?? defaultValue
+        return (entityForTypedContentAccessors?.content as? T) ?? defaultValue
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
@@ -158,12 +178,20 @@ public extension ContentContainer
     public var textContent:  String             { return typedContent("") }
     }
 
-extension Resource: ContentContainer
+extension Entity: TypedContentAccessors
     {
-    public var content: AnyObject? { return latestData?.content }
+    /// Typed content accessors apply to this entity’s content.
+    public var entityForTypedContentAccessors: Entity? { return self }
     }
 
-extension Error: ContentContainer
+extension Resource: TypedContentAccessors
     {
-    public var content: AnyObject? { return entity?.content }
+    /// Typed content accessors apply to `latestData?.content`.
+    public var entityForTypedContentAccessors: Entity? { return latestData }
+    }
+
+extension Error: TypedContentAccessors
+    {
+    /// Typed content accessors apply to `entity?.content`.
+    public var entityForTypedContentAccessors: Entity? { return entity }
     }
