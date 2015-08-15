@@ -85,13 +85,13 @@
           <a href="Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Protocols/TransportProvider.html">TransportProvider</a>
+                <a href="Protocols/NetworkingProvider.html">NetworkingProvider</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/RequestTransport.html">RequestTransport</a>
+                <a href="Protocols/RequestNetworking.html">RequestNetworking</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="Structs/AlamofireProvider.html">AlamofireProvider</a>
               </li>
             </ul>
           </li>
@@ -150,9 +150,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:P6Siesta17TransportProvider"></a>
-                    <a name="//apple_ref/swift/Protocol/TransportProvider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:P6Siesta17TransportProvider">TransportProvider</a>
+                    <a name="/s:P6Siesta18NetworkingProvider"></a>
+                    <a name="//apple_ref/swift/Protocol/NetworkingProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta18NetworkingProvider">NetworkingProvider</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -161,17 +161,17 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code>Service.init(base:transportProvider:)</code>.</p>
+<code>Service.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>AlamofireTransportProvider</code> for an implementation example.</p>
+<p>See <code>AlamofireProvider</code> for an implementation example.</p>
 
-                        <a href="Protocols/TransportProvider.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/NetworkingProvider.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span></code></pre>
 
                         </div>
                       </div>
@@ -181,9 +181,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:P6Siesta16RequestTransport"></a>
-                    <a name="//apple_ref/swift/Protocol/RequestTransport" class="dashAnchor"></a>
-                    <a class="token" href="#/s:P6Siesta16RequestTransport">RequestTransport</a>
+                    <a name="/s:P6Siesta17RequestNetworking"></a>
+                    <a name="//apple_ref/swift/Protocol/RequestNetworking" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta17RequestNetworking">RequestNetworking</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -191,7 +191,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Network handling for a single request. Created by a <code>TransportProvider</code>. Implementations have three responsibilities:</p>
+                        <p>Network handling for a single request. Created by a <code>NetworkingProvider</code>. Implementations have three responsibilities:</p>
 
 <ul>
 <li>start the request when <code>start(_:)</code> is called,</li>
@@ -199,13 +199,13 @@
 <li>optionally support cancelling requests in progress.</li>
 </ul>
 
-                        <a href="Protocols/RequestTransport.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/RequestNetworking.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestTransport</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestNetworking</span></code></pre>
 
                         </div>
                       </div>
@@ -219,9 +219,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V6Siesta26AlamofireTransportProvider"></a>
-                    <a name="//apple_ref/swift/Struct/AlamofireTransportProvider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta26AlamofireTransportProvider">AlamofireTransportProvider</a>
+                    <a name="/s:V6Siesta17AlamofireProvider"></a>
+                    <a name="//apple_ref/swift/Struct/AlamofireProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta17AlamofireProvider">AlamofireProvider</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -243,18 +243,18 @@ anything and will not use the cell network:</p>
         configuration.allowsCellularAccess = false
         super.init(
             base: "http://foo.bar/vi",
-            transportProvider: AlamofireTransportProvider(configuration: configuration))
+            networkingProvider: AlamofireProvider(configuration: configuration))
     }
 }
 </code></pre>
 
-                        <a href="Structs/AlamofireTransportProvider.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/AlamofireProvider.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
 
                         </div>
                       </div>

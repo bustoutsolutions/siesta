@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>TransportProvider Protocol Reference</title>
+    <title>NetworkingProvider Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/TransportProvider" class="dashAnchor"></a>
-    <a title="TransportProvider Protocol Reference"></a>
+    <a name="//apple_ref/swift/Protocol/NetworkingProvider" class="dashAnchor"></a>
+    <a title="NetworkingProvider Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        TransportProvider Protocol Reference
+        NetworkingProvider Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -86,13 +86,13 @@
           <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/TransportProvider.html">TransportProvider</a>
+                <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/RequestTransport.html">RequestTransport</a>
+                <a href="../Protocols/RequestNetworking.html">RequestNetworking</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
               </li>
             </ul>
           </li>
@@ -142,18 +142,18 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>TransportProvider</h1>
+            <h1>NetworkingProvider</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TransportProvider</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span></code></pre>
 
                 </div>
               </div>
             <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code>Service.init(base:transportProvider:)</code>.</p>
+<code>Service.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>AlamofireTransportProvider</code> for an implementation example.</p>
+<p>See <code>AlamofireProvider</code> for an implementation example.</p>
 
           </section>
           <section class="section task-group-section">
@@ -162,9 +162,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta17TransportProvider19transportForRequestuRq_S0__Fq_FCSo12NSURLRequestPS_16RequestTransport_"></a>
-                    <a name="//apple_ref/swift/Method/transportForRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta17TransportProvider19transportForRequestuRq_S0__Fq_FCSo12NSURLRequestPS_16RequestTransport_">transportForRequest(_:)</a>
+                    <a name="/s:FP6Siesta18NetworkingProvider20networkingForRequestuRq_S0__Fq_FCSo12NSURLRequestPS_17RequestNetworking_"></a>
+                    <a name="//apple_ref/swift/Method/networkingForRequest(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta18NetworkingProvider20networkingForRequestuRq_S0__Fq_FCSo12NSURLRequestPS_17RequestNetworking_">networkingForRequest(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -172,7 +172,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Create and return a <code>RequestTransport</code> which is ready to perform the request described, but will not actually
+                        <p>Create and return a <code>RequestNetworking</code> which is ready to perform the request described, but will not actually
 initiate it until its <code>start(_:)</code> method is called.</p>
 
                       </div>
@@ -180,7 +180,7 @@ initiate it until its <code>start(_:)</code> method is called.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transportForRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt">NSURLRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">RequestTransport</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">networkingForRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt">NSURLRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">RequestNetworking</span></code></pre>
 
                         </div>
                       </div>

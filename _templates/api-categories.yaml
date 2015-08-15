@@ -21,9 +21,9 @@
 
 - name: Network Layer
   children:
-  - TransportProvider
-  - RequestTransport
-  - AlamofireTransportProvider
+  - NetworkingProvider
+  - RequestNetworking
+  - AlamofireProvider
 
 - name: UI Components
   children:

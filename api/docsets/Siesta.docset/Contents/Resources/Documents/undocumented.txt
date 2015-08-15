@@ -1,8 +1,8 @@
-Transport-Alamofire.swift
+Networking-Alamofire.swift
 	public let manager: Manager
 	public init(manager: Manager = Manager.sharedInstance)
 	public init(configuration: NSURLSessionConfiguration)
-	public func transportForRequest(request: NSURLRequest) -> RequestTransport
+	public func networkingForRequest(request: NSURLRequest) -> RequestNetworking
 ResourceStatusOverlay.swift
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
 	@IBOutlet public var errorView: UIView?

@@ -86,13 +86,13 @@
           <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/TransportProvider.html">TransportProvider</a>
+                <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/RequestTransport.html">RequestTransport</a>
+                <a href="../Protocols/RequestNetworking.html">RequestNetworking</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
               </li>
             </ul>
           </li>
@@ -350,7 +350,7 @@ response has already arrived, the callback is still called as usual.</p>
   callbacks with an <code>NSError</code> with the domain <code>NSURLErrorDomain</code> and the code <code>NSURLErrorCancelled</code>.</p>
 
 <p>Note that <code>cancel()</code> is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
-  to have any effect at all on the underlying request, subject to the whims of the <code>TransportProvider</code>. Therefore,
+  to have any effect at all on the underlying request, subject to the whims of the <code>NetworkingProvider</code>. Therefore,
   after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
   the resource to be unknown. Is it safest to immediately call either <code>Resource.load()</code> or <code>Resource.wipe()</code>.</p>
 

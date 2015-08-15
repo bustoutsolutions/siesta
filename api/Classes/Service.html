@@ -86,13 +86,13 @@
           <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/TransportProvider.html">TransportProvider</a>
+                <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/RequestTransport.html">RequestTransport</a>
+                <a href="../Protocols/RequestNetworking.html">RequestNetworking</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
               </li>
             </ul>
           </li>
@@ -188,9 +188,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb17transportProviderPS_17TransportProvider__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(base:useDefaultTransformers:transportProvider:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb17transportProviderPS_17TransportProvider__S0_">init(base:useDefaultTransformers:transportProvider:)</a>
+                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(base:useDefaultTransformers:networkingProvider:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_">init(base:useDefaultTransformers:networkingProvider:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,8 +204,8 @@
 <li>Parameter: base The base URL of the API.</li>
 <li>Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
 <code>NSData</code> (unless you add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</li>
-<li>Parameter: transportProvider A provider to use for networking. The default is Alamofire with its default
-configuration. You can pass an <code>AlamofireTransportProvider</code> created with a custom configuration,
+<li>Parameter: networkingProvider A provider to use for networking. The default is Alamofire with its default
+configuration. You can pass an <code>AlamofireProvider</code> created with a custom configuration,
 or provide your own networking implementation.</li>
 </ul>
 
@@ -217,7 +217,7 @@ or provide your own networking implementation.</li>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">useDefaultTransformers</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nv">transportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span> <span class="o">=</span> <span class="kt">AlamofireTransportProvider</span><span class="p">())</span></code></pre>
+            <span class="nv">networkingProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span> <span class="o">=</span> <span class="kt">AlamofireProvider</span><span class="p">())</span></code></pre>
 
                         </div>
                       </div>

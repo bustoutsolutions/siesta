@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AlamofireTransportProvider Struct Reference</title>
+    <title>RequestNetworking Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/AlamofireTransportProvider" class="dashAnchor"></a>
-    <a title="AlamofireTransportProvider Struct Reference"></a>
+    <a name="//apple_ref/swift/Protocol/RequestNetworking" class="dashAnchor"></a>
+    <a title="RequestNetworking Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        AlamofireTransportProvider Struct Reference
+        RequestNetworking Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -86,13 +86,13 @@
           <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/TransportProvider.html">TransportProvider</a>
+                <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/RequestTransport.html">RequestTransport</a>
+                <a href="../Protocols/RequestNetworking.html">RequestNetworking</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/AlamofireTransportProvider.html">AlamofireTransportProvider</a>
+                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
               </li>
             </ul>
           </li>
@@ -142,32 +142,21 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>AlamofireTransportProvider</h1>
+            <h1>RequestNetworking</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestNetworking</span></code></pre>
 
                 </div>
               </div>
-            <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking. This is Siesta’s default networking provider.</p>
+            <p>Network handling for a single request. Created by a <code>NetworkingProvider</code>. Implementations have three responsibilities:</p>
 
-<p>You can create instances of this class with a custom
-<a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-(or, for convenience, a custom <code>NSURLSessionConfiguration</code>)
-in order to control caching, certificate validation rules, etc. For example, here is a <code>Service</code> that will not cache
-anything and will not use the cell network:</p>
-
-<pre class="highlight plaintext"><code>class MyAPI: Service {
-    init() {
-        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        configuration.allowsCellularAccess = false
-        super.init(
-            base: "http://foo.bar/vi",
-            transportProvider: AlamofireTransportProvider(configuration: configuration))
-    }
-}
-</code></pre>
+<ul>
+<li>start the request when <code>start(_:)</code> is called,</li>
+<li>call the closure passed to <code>start(_:)</code> is called when the request is complete, and</li>
+<li>optionally support cancelling requests in progress.</li>
+</ul>
 
           </section>
           <section class="section task-group-section">
@@ -176,9 +165,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager"></a>
-                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta26AlamofireTransportProvider7managerC9Alamofire7Manager">manager</a>
+                    <a name="/s:FP6Siesta17RequestNetworking5startuRq_S0__Fq_FFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T_T_"></a>
+                    <a name="//apple_ref/swift/Method/start(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta17RequestNetworking5startuRq_S0__Fq_FFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T_T_">start(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -186,14 +175,19 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Start the associated network request.</p>
+
+<p>Siesta will call this method at most once. Implementations <strong>must</strong> guarante that they will call the given
+response closure exactly once.</p>
+
+<p>If the request is cancelled, call the response closure with an <code>NSError</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="p">(</span><span class="nv">nsres</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">body</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">?,</span> <span class="nv">nserror</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -203,9 +197,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(manager:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT7managerC9Alamofire7Manager_S0_">init(manager:)</a>
+                    <a name="/s:FP6Siesta17RequestNetworking6canceluRq_S0__Fq_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/cancel()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta17RequestNetworking6canceluRq_S0__Fq_FT_T_">cancel()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,68 +207,14 @@ anything and will not use the cell network:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Cancel this request, if possible.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(configuration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_">init(configuration:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_"></a>
-                    <a name="//apple_ref/swift/Method/transportForRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26AlamofireTransportProvider19transportForRequestFS0_FCSo12NSURLRequestPS_16RequestTransport_">transportForRequest(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireTransportProvider</span><span class="p">:</span> <span class="kt">TransportProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
