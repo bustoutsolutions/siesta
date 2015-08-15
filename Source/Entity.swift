@@ -7,7 +7,8 @@
 //
 
 /**
-  Information about a resource’s state. Consists of data content plus metadata about the content’s type and freshness.
+  An [HTTP entity](http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html). Consists of data content plus metadata about
+  the content’s type and freshness.
 
   Typically extracted from an HTTP message body.
 */

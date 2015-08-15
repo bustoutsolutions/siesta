@@ -146,17 +146,16 @@ public struct TransformerSequence
 public protocol ResponseEntityTransformer: ResponseTransformer
     {
     /**
-      Subclasses will typically override this method. The default behavior is to leave data unchanged.
+      Implementations will typically override this method.
      
       Note that overrides can turn a success into an error, e.g. if there is a parse error.
     */
     func processEntity(entity: Entity) -> Response
     
     /**
-      Default behavior: attempt to process error response bodies just like success bodies, but if there is a
-      transformation error, only log it and preserve the original error.
-
-      Subclasses typically do not override this method, but they can if they wish to apply special processing to errors.
+      Implementations typically do not override this method, but they can if they wish to apply special processing to
+      errors. For example, an implementation might want to leave errors untouched, regardless of content type, and only
+      apply processing on success.
     */
     func processError(error: Error) -> Response
     }
@@ -176,11 +175,12 @@ public extension ResponseEntityTransformer
             }
         }
     
-    /// :nodoc:
+    /// Returns success with the entity unchanged.
     func processEntity(entity: Entity) -> Response
         { return .Success(entity) }
 
-    /// :nodoc:
+    /// Attempt to process error response content the same as success content. If the processing succeeded, replace the
+    /// content of the error. If there was a processing error, log it but preserve the original error.
     func processError(var error: Error) -> Response
         {
         if let errorData = error.entity
@@ -200,7 +200,8 @@ public extension ResponseEntityTransformer
 
 public extension ResponseTransformer
     {
-    /// Utility method to downcast the given entity, or return an error response if the content is not of the given type.
+    /// Utility method to downcast the given entity’s content, or return an error response if the content object is of
+    /// the wrong type.
     func requireDataType<T>(
             entity: Entity,
             @noescape process: T -> Response)

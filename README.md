@@ -127,7 +127,7 @@ import Siesta
 
 ### CocoaPods
 
-We’ll add support when Xcode 7 goes out of beta (or sooner, if a suitable pull request should happen to roll in).
+Coming soon, no later than when Xcode 7 goes out of beta.
 
 ## Basic Usage
 
