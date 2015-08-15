@@ -2,8 +2,8 @@
   children:
   - Service
   - Resource
-  - ResourceData
-  - ResourceError
+  - Entity
+  - Error
   - ResourceObserver
   - ResourceEvent
   - Request
@@ -14,7 +14,7 @@
   children:
   - Response
   - ResponseTransformer
-  - ResponseDataTransformer
+  - ResponseEntityTransformer
   - TextTransformer
   - JsonTransformer
   - TransformerSequence
