@@ -1021,6 +1021,49 @@ around until another valid response arrives.</li>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FC6Siesta8Resource4loadFS0_FT12usingRequestPS_7Request__PS1__"></a>
+                    <a name="//apple_ref/swift/Method/load(usingRequest:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource4loadFS0_FT12usingRequestPS_7Request__PS1__">load(usingRequest:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates the state of this resource using the result of the given request. Use this method when you want a request
+to update <code>latestData</code> or <code>latestError</code> and notify observers just as <code>load()</code> would, but:</p>
+
+<ul>
+<li>you need to use a request method other than GET,</li>
+<li>you need to set headers or other request options, but just for this one request (so that <code>Service.configure</code>
+won’t work), or</li>
+<li>for some arcane reason, you want a request for a <em>different</em> resource to update the state of this one.</li>
+</ul>
+
+<p>For example, an authentication resource might return its state only in response to a POST:</p>
+
+<pre class="highlight plaintext"><code>let auth = MyAPI.authentication
+auth.load(usingRequest:
+  auth.request(
+      .POST, json: ["user": user, "password": pass]))
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="n">usingRequest</span> <span class="nv">req</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_"></a>
                     <a name="//apple_ref/swift/Method/localEntityOverride(_:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_">localEntityOverride(_:)</a>
