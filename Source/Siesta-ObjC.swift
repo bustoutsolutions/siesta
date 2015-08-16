@@ -131,7 +131,7 @@ public extension Resource
 @objc(BOSRequest)
 public class _objc_Request: NSObject
     {
-    let request: Request
+    private let request: Request
     
     private init(_ request: Request)
         { self.request = request }
@@ -261,10 +261,10 @@ public extension Resource
         { return addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
 
     @objc(addObserverWithOwner:callback:)
-    public func addObserver(owner owner: AnyObject, callback: @convention(block) (Resource,String) -> Void) -> Self
+    public func _objc_addObserver(owner owner: AnyObject, block: @convention(block) (Resource,String) -> Void) -> Self
         {
         return addObserver(owner: owner)
-            { callback($0, $1.rawValue) }
+            { block($0, $1.rawValue) }
         }
     }
 
@@ -287,7 +287,6 @@ public extension Resource
                 RequestMethod(rawValue: method)!)
                     { requestMutation?($0) })
         }
-
 
     @objc(requestWithMethod:data:contentType:requestMutation:)
     public func _objc_request(
