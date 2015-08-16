@@ -366,5 +366,11 @@ public extension Resource
                      { requestMutation?($0) })
          }
 
+    @objc(loadUsingRequest:)
+    public func _objc_load(usingRequest req: _objc_Request) -> _objc_Request
+        {
+        load(usingRequest: req.request)
+        return req
+        }
     }
 

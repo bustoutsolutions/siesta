@@ -57,6 +57,7 @@
         [resource requestWithMethod:@"POST" text:@"Ahoy"];
         [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
         [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
+        [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [resource load]

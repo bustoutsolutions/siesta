@@ -471,6 +471,37 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
 
+        describe("load(usingRequest:)")
+            {
+            let request = specVar { resource().request(RequestMethod.POST) }
+            
+            beforeEach
+                {
+                stubReqest(resource, "POST")
+                    .andReturn(200)
+                    .withHeader("Content-type", "text/plain")
+                    .withBody("Posted!")
+                }
+            
+            it("updates resource state")
+                {
+                awaitNewData(resource().load(usingRequest: request()))
+                expect(resource().textContent).to(equal("Posted!"))
+                }
+
+            it("notifies observers")
+                {
+                var observerNotified = false
+                resource().addObserver(owner: request())
+                    { _ in observerNotified = true }
+                
+                resource().load(usingRequest: request())
+                
+                awaitNewData(request())
+                expect(observerNotified).to(beTrue())
+                }
+            }
+        
         describe("localEntityOverride()")
             {
             let arbitraryContentType = "content-can-be/anything"

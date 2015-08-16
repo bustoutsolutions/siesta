@@ -453,6 +453,27 @@ public final class Resource: NSObject, CustomDebugStringConvertible
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
         
+        return load(usingRequest: req)
+        }
+    
+    /**
+      Updates the state of this resource using the result of the given request. Use this method when you want a request
+      to update `latestData` or `latestError` and notify observers just as `load()` would, but:
+      
+      - you need to use a request method other than GET,
+      - you need to set headers or other request options, but just for this one request (so that `Service.configure`
+        won’t work), or
+      - for some arcane reason, you want a request for a _different_ resource to update the state of this one.
+      
+      For example, an authentication resource might return its state only in response to a POST:
+      
+          let auth = MyAPI.authentication
+          auth.load(usingRequest:
+            auth.request(
+                .POST, json: ["user": user, "password": pass]))
+    */
+    public func load(usingRequest req: Request) -> Request
+        {
         req.newData(self.receiveData)
         req.notModified(self.receiveDataNotModified)
         req.failure(self.receiveError)
