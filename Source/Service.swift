@@ -86,15 +86,19 @@ public class Service: NSObject
     // MARK: Resource Configuration
     
     internal var configVersion: UInt64 = 0
-    private var resourceConfigurers: [Configurer] = []
+    private var configurationEntries: [ConfigurationEntry] = []
         {
         didSet { invalidateConfiguration() }
         }
     
     /**
-      Adds global configuration to apply to all resources in this service.
+      Adds global configuration to apply to all resources in this service. For example:
       
-      The passed block is evaluated every time a matching resource asks for its configuration.
+          service.configure { $0.config.headers["Foo"] = "bar" }
+      
+      The `configurer` block is evaluated every time a matching resource asks for its configuration.
+      
+      The optional `description` is used for logging purposes only.
       
       Matching configuration closures apply in the order they were added, whether global or not. That means that you
       will usually want to apply your global configuration first, then your resource-specific configuration.
@@ -102,11 +106,13 @@ public class Service: NSObject
       - SeeAlso: `configure(_:configurer:)`
       - SeeAlso: `invalidateConfiguration()`
     */
-    public final func configure(configurer: Configuration.Builder -> Void)
+    public final func configure(
+            description description: String = "global",
+            configurer: Configuration.Builder -> Void)
         {
         configure(
-            "global config",
-            predicate: { _ in true },
+            { _ in true },
+            description: description,
             configurer: configurer)
         }
     
@@ -116,12 +122,13 @@ public class Service: NSObject
     */
     public final func configure(
             resource: Resource,
+            description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
         let resourceURL = resource.url!
         configure(
-            resourceURL.absoluteString,
-            predicate: { $0 == resourceURL },
+            { $0 == resourceURL },
+            description: description ?? resourceURL.absoluteString,
             configurer: configurer)
         }
     
@@ -158,6 +165,7 @@ public class Service: NSObject
     */
     public final func configure(
             urlPattern: String,
+            description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
         let prefix = urlPattern.containsRegex("^[a-z]+:")
@@ -174,8 +182,8 @@ public class Service: NSObject
         debugLog(.Configuration, ["URL pattern", urlPattern, "compiles to regex", pattern.pattern])
         
         configure(
-            urlPattern,
-            predicate: { pattern.matches($0.absoluteString) },
+            { pattern.matches($0.absoluteString) },
+            description: description ?? urlPattern,
             configurer: configurer)
         }
     
@@ -184,16 +192,16 @@ public class Service: NSObject
       aren’t robust enough.
     */
     public final func configure(
-            debugName: String,
-            predicate urlMatcher: NSURL -> Bool,
+            urlMatcher: NSURL -> Bool,
+            description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
-        debugLog(.Configuration, ["Added configuration:", debugName])
-        resourceConfigurers.append(
-            Configurer(
-                name: debugName,
-                urlMatcher: urlMatcher,
-                configurer: configurer))
+        let entry = ConfigurationEntry(
+            description: description ?? "custom",
+            urlMatcher: urlMatcher,
+            configurer: configurer)
+        configurationEntries.append(entry)
+        debugLog(.Configuration, ["Added", entry, "config"])
         }
     
     /**
@@ -204,7 +212,7 @@ public class Service: NSObject
       if you do anything that would change the result of a configuration closure, you must call
       `invalidateConfiguration()` in order for the changes to take effect.
       
-      _<insert your functional reactive programming purist rant here if you so desire>_
+      _《insert your functional programming purist rant here if you so desire》_
 
       Note that you do _not_ need to call this method after calling any of the `configure(...)` methods.
       You only need to call it if one of the previously passed closures will now behave differently.
@@ -236,20 +244,18 @@ public class Service: NSObject
         {
         debugLog(.Configuration, ["Recomputing configuration for", resource])
         let builder = Configuration.Builder()
-        for configurer in resourceConfigurers
+        for entry in configurationEntries
+            where entry.urlMatcher(resource.url!)
             {
-            if configurer.urlMatcher(resource.url!)
-                {
-                debugLog(.Configuration, ["Applying", configurer.name, "configuration to", resource])
-                configurer.configurer(builder)
-                }
+            debugLog(.Configuration, ["Applying", entry, "config to", resource])
+            entry.configurer(builder)
             }
         return builder.config
         }
     
-    private struct Configurer
+    private struct ConfigurationEntry: CustomStringConvertible
         {
-        let name: String
+        let description: String
         let urlMatcher: NSURL -> Bool
         let configurer: Configuration.Builder -> Void
         }
