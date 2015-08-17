@@ -36,9 +36,11 @@ public class SiestaSpec: QuickSpec
             
             if currentTestFailed
                 {
-                print("Log output from failed example:")
+                print("Log output for spec:")
+                print("────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────")
                 for message in currentLogMessages
                     { print(message) }
+                print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                 print("")
                 }
             }
