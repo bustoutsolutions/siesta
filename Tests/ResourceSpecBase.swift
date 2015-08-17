@@ -12,14 +12,14 @@ import Nimble
 import Nocilla
 import Alamofire
 
-class ResourceSpecBase: QuickSpec
+class ResourceSpecBase: SiestaSpec
     {
     func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         { }
     
     override final func spec()
         {
-        beforeSuite { Siesta.enabledLogCategories = LogCategory.all }
+        super.spec()
         
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }

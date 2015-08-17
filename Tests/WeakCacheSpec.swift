@@ -10,10 +10,12 @@
 import Quick
 import Nimble
 
-class WeakCacheSpec: QuickSpec
+class WeakCacheSpec: SiestaSpec
     {
     override func spec()
         {
+        super.spec()
+        
         let cache = specVar { WeakCache<String,Doodad>() }
         
         describe("get()")

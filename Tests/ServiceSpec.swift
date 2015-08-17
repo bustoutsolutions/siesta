@@ -10,10 +10,12 @@ import Siesta
 import Quick
 import Nimble
 
-class ServiceSpec: QuickSpec
+class ServiceSpec: SiestaSpec
     {
     override func spec()
         {
+        super.spec()
+        
         let service   = specVar { Service(base: "https://zingle.frotz") }
         let resource0 = specVar { service().resource("/foo") },
             resource1 = specVar { service().resource("/bar") }

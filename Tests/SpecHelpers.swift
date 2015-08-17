@@ -52,3 +52,4 @@ func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
             ==   actualArray.map(makeIdent)
         }
     }
+
