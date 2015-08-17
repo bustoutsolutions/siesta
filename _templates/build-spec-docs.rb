@@ -49,6 +49,7 @@ def dump_results(results)
       collapse_single_child(result)
 
       li(class: PASSED_CLASSES[result["passed"]]) do
+        a(name: result["name"].gsub(' ', '_')) { }
         name = format_name(result["name"])
         if result["file"]
           a name, href: link_to_callsite(result)
