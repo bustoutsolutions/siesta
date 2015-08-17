@@ -155,7 +155,7 @@
 <p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
 requests, whereas <code>ResourceObserver</code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
-and <code>localEntityOverride(_:)</code>.</p>
+and <code>localDataOverride(_:)</code>.</p>
 
 <p>There is no race condition between a callback being added and a response arriving. If you add a callback after the
 response has already arrived, the callback is still called as usual.</p>

@@ -1064,9 +1064,9 @@ auth.load(usingRequest:
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_"></a>
-                    <a name="//apple_ref/swift/Method/localEntityOverride(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta8Resource19localEntityOverrideFS0_FVS_6EntityT_">localEntityOverride(_:)</a>
+                    <a name="/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_6EntityT_"></a>
+                    <a name="//apple_ref/swift/Method/localDataOverride(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_6EntityT_">localDataOverride(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1077,20 +1077,7 @@ auth.load(usingRequest:
                         <p>Directly updates <code>latestData</code> without touching the network. Clears <code>latestError</code> and broadcasts
 <code>ResourceEvent.NewData</code> to observers.</p>
 
-<p>This method is useful in two situations.</p>
-
-<p><a href='#alternative_to_load' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='alternative_to_load'>Alternative to load()</h3></p>
-
-<p>You may want to construct a more complicated request than <code>load()</code> allows (e.g. using a method other than
-GET), but still use the response body as the new state of the resource:</p>
-
-<pre class="highlight plaintext"><code>let auth = service.resource("login")
-let authData = ["user": username, "pass": password]
-auth.request(method: .POST, json: authData)
-  .newData { entity in auth.localEntityOverride(entity) })
-</code></pre>
-
-<p><a href='#incremental_updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='incremental_updates'>Incremental updates</h3></p>
+<p>This method is useful for incremental and optimistic updates.</p>
 
 <p>You may send a request which does <em>not</em> return the complete state of the resource in the response body,
 but which still changes the state of the resource. You could handle this by initiating a refresh immedately
@@ -1106,16 +1093,14 @@ second network call by updating the entity yourself:</p>
 <pre class="highlight plaintext"><code>resource.request(method: .POST, json: ["name": "Fred"])
   .success { partialEntity in
 
-      // Make a mutable copy of the current entity
-      var updatedEntity = resource.latestData
+      // Make a mutable copy of the current content
       var updatedContent = resource.dictContent
 
       // Do the incremental update
       updatedContent["name"] = parialEntity["newName"]
-      updatedEntity.content = updatedContent
 
       // Make that the resource’s new entity
-      resource.localEntityOverride(updatedEntity)
+      resource.localContentOverride(updatedEntity)
   }
 </code></pre>
 
@@ -1125,13 +1110,46 @@ second network call by updating the entity yourself:</p>
 as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
 <code>updatedContent</code> is a <code>Dictionary</code>, not <code>NSData</code> containing encoded JSON.</p>
 
+<ul>
+<li>SeeAlso: <code>localContentOverride(_:)</code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localEntityOverride</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localDataOverride</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span>
         <span class="p">{</span> <span class="nf">receiveNewData</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="nv">localOverride</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource20localContentOverrideFS0_FPSs9AnyObject_T_"></a>
+                    <a name="//apple_ref/swift/Method/localContentOverride(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource20localContentOverrideFS0_FPSs9AnyObject_T_">localContentOverride(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience method to replace the <code>content</code> of <code>latestData</code> without altering the content type or other headers.</p>
+
+<p>If this resource has no content, this method sets the content type to <code>application/binary</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localContentOverride</span><span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
