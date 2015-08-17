@@ -50,7 +50,7 @@ public class Service: NSObject
         
         if useDefaultTransformers
             {
-            configure
+            configure(description: "Siesta default response transformers")
                 {
                 $0.config.responseTransformers.add(JsonTransformer(), contentTypes: ["*/json", "*/*+json"])
                 $0.config.responseTransformers.add(TextTransformer(), contentTypes: ["text/*"])
@@ -197,12 +197,15 @@ public class Service: NSObject
             configurer: Configuration.Builder -> Void)
         {
         let entry = ConfigurationEntry(
-            description: description ?? "custom",
+            description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
             urlMatcher: urlMatcher,
             configurer: configurer)
         configurationEntries.append(entry)
-        debugLog(.Configuration, ["Added", entry, "config"])
+        debugLog(.Configuration, ["Added", entry])
         }
+    
+    private var configID = 0
+    private var nextConfigID: Int { return configID++ }
     
     /**
       Signals that all resources need to recompute their configuration next time they need it.
@@ -236,18 +239,24 @@ public class Service: NSObject
     */
     public final func invalidateConfiguration()
         {
-        debugLog(.Configuration, ["Configurations need to be recomputed"])
+        if anyConfigSinceLastInvalidation
+            { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
+        anyConfigSinceLastInvalidation = false
+        
         configVersion++
         }
+
+    private var anyConfigSinceLastInvalidation = false
     
     internal func configurationForResource(resource: Resource) -> Configuration
         {
-        debugLog(.Configuration, ["Recomputing configuration for", resource])
+        anyConfigSinceLastInvalidation = true
+        debugLog(.Configuration, ["Computing configuration for", resource])
         let builder = Configuration.Builder()
         for entry in configurationEntries
             where entry.urlMatcher(resource.url!)
             {
-            debugLog(.Configuration, ["Applying", entry, "config to", resource])
+            debugLog(.Configuration, ["Applying", entry, "to", resource])
             entry.configurer(builder)
             }
         return builder.config
