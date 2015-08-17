@@ -13,7 +13,7 @@ iOS REST Client Framework
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+** Overview **
 
 - [What’s It For?](#what%E2%80%99s-it-for)
   - [The Problem](#the-problem)
@@ -28,10 +28,11 @@ iOS REST Client Framework
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-- Documentation
-  - [User Guide](Docs/index.md)
-  - [API Docs](http://bustoutsolutions.github.io/siesta/api/)
-  - [Specs](http://bustoutsolutions.github.io/siesta/specs/)
+** Further Documentation **
+
+- [User Guide](Docs/index.md)
+- [API Docs](http://bustoutsolutions.github.io/siesta/api/)
+- [Specs](http://bustoutsolutions.github.io/siesta/specs/)
 
 ## What’s It For?
 
