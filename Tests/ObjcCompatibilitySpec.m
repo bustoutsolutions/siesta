@@ -93,6 +93,22 @@
 
         entity.content = @"Wild and wooly content";
         [resource localDataOverride:entity];
+        
+        expect(resource.latestError).to(beNil());
+        });
+
+    it(@"handles HTTP errors", ^
+        {
+        stubRequest(@"GET", @"http://example.api/foo")
+            .andReturn(507);
+        
+        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
+        [resource load].failure(^(BOSError *error) { [expectation fulfill]; });
+        [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+        
+        BOSError *error = resource.latestError;
+        expect(error.userMessage).to(equal(@"Server error"));
+        expect(@(error.httpStatusCode)).to(equal(@507));
         });
 
     // TODO: BOSResourceObserver

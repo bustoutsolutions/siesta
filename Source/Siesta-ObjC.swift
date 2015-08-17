@@ -85,7 +85,7 @@ internal extension Entity
 @objc(BOSError)
 public class _objc_Error: NSObject
     {
-    public var httpStatusCode: Int?
+    public var httpStatusCode: Int
     public var nsError: NSError?
     public var userMessage: String
     public var entity: _objc_Entity?
@@ -93,7 +93,7 @@ public class _objc_Error: NSObject
 
     internal init(_ error: Error)
         {
-        self.httpStatusCode = error.httpStatusCode
+        self.httpStatusCode = error.httpStatusCode ?? -1
         self.nsError        = error.nsError
         self.userMessage    = error.userMessage
         self.timestamp      = error.timestamp
@@ -113,6 +113,15 @@ public extension Resource
             { return nil }
         }
     
+    @objc(latestError)
+    public var _objc_latestError: _objc_Error?
+        {
+        if let latestError = latestError
+            { return _objc_Error(latestError) }
+        else
+            { return nil }
+        }
+    
     @objc(dictContent)
     public var _objc_dictContent: [String:AnyObject]
         { return dictContent }
@@ -124,6 +133,10 @@ public extension Resource
     @objc(textContent)
     public var _objc_textContent: String
         { return textContent }
+    
+    @objc(localDataOverride:)
+    public func _objc_localDataOverride(entity: _objc_Entity)
+        { self.localDataOverride(Entity(entity: entity)) }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks
@@ -286,6 +299,15 @@ public extension Resource
             request(
                 RequestMethod(rawValue: method)!)
                     { requestMutation?($0) })
+        }
+
+    @objc(requestWithMethod:)
+    public func _objc_request(method: String)
+        -> _objc_Request
+        {
+        return _objc_Request(
+            request(
+                RequestMethod(rawValue: method)!))
         }
 
     @objc(requestWithMethod:data:contentType:requestMutation:)
