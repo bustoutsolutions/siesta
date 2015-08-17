@@ -25,6 +25,11 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect(resource().child("c").service).to(equal(service()))
                 }
                 
+            it("resolves empty string as root")
+                {
+                expectChild("",                   toResolveTo: "https://zingle.frotz/v1/a/b/")
+                }
+            
             it("resolves bare paths as subpaths")
                 {
                 expectChild("c",                  toResolveTo: "https://zingle.frotz/v1/a/b/c")
@@ -32,7 +37,8 @@ class ResourcePathsSpec: ResourceSpecBase
             
             it("resolves paths with / prefix as subpaths")
                 {
-                expectChild("c",                  toResolveTo: "https://zingle.frotz/v1/a/b/c")
+                expectChild("/",                  toResolveTo: "https://zingle.frotz/v1/a/b/")
+                expectChild("/c",                 toResolveTo: "https://zingle.frotz/v1/a/b/c")
                 }
             
             it("does not resolve ./ or ../")
