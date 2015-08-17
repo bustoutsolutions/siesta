@@ -3,15 +3,12 @@
 require 'json'
 require 'markaby'
 
-input_json, output_html = ARGV
-
-unless input_json && output_html
+unless ARGV.size == 3
   warn "Usage: build-spec-docs.rb <input.json> <output.html>"
   exit 1
 end
 
-json = JSON.parse(File.read(input_json))
-
+json = JSON.parse(File.read(ARGV[0]))
 
 def format_name(name)
   if name =~ /Spec$/
@@ -39,7 +36,7 @@ def link_to_callsite(result)
   end
   specpath = $1
 
-  "https://github.com/bustoutsolutions/siesta/blob/master/Tests/#{specpath}#L#{result["line"]}"
+  "#{ARGV[2]}/Tests/#{specpath}#L#{result["line"]}"
 end
 
 PASSED_CLASSES = { true => "passed", false => "failed" }.freeze
@@ -129,6 +126,6 @@ mab.html do
   end
 end
 
-File.open(output_html, 'w') do |f|
+File.open(ARGV[1], 'w') do |f|
   f.puts mab
 end
