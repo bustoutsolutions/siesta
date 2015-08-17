@@ -487,19 +487,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       Directly updates `latestData` without touching the network. Clears `latestError` and broadcasts
       `ResourceEvent.NewData` to observers.
       
-      This method is useful in two situations.
-      
-      ### Alternative to load()
-    
-      You may want to construct a more complicated request than `load()` allows (e.g. using a method other than
-      GET), but still use the response body as the new state of the resource:
-         
-          let auth = service.resource("login")
-          let authData = ["user": username, "pass": password]
-          auth.request(method: .POST, json: authData)
-            .newData { entity in auth.localDataOverride(entity) })
-      
-      ### Incremental updates
+      This method is useful for incremental and optimistic updates.
     
       You may send a request which does _not_ return the complete state of the resource in the response body,
       but which still changes the state of the resource. You could handle this by initiating a refresh immedately
@@ -514,16 +502,14 @@ public final class Resource: NSObject, CustomDebugStringConvertible
           resource.request(method: .POST, json: ["name": "Fred"])
             .success { partialEntity in
                 
-                // Make a mutable copy of the current entity
-                var updatedEntity = resource.latestData
+                // Make a mutable copy of the current content
                 var updatedContent = resource.dictContent
                 
                 // Do the incremental update
                 updatedContent["name"] = parialEntity["newName"]
-                updatedEntity.content = updatedContent
     
                 // Make that the resource’s new entity
-                resource.localDataOverride(updatedEntity)
+                resource.localContentOverride(updatedEntity)
             }
     
       Use this technique with caution!
@@ -531,10 +517,24 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       Note that the data you pass does _not_ go through the standard `ResponseTransformer` chain. You should pass data
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
       `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
+      
+      - SeeAlso: `localContentOverride(_:)`
     */
     public func localDataOverride(entity: Entity)
         { receiveNewData(entity, localOverride: true) }
     
+    /**
+      Convenience method to replace the `content` of `latestData` without altering the content type or other headers.
+      
+      If this resource has no content, this method sets the content type to `application/binary`.
+    */
+    public func localContentOverride(content: AnyObject)
+        {
+        var updatedEntity = latestData ?? Entity(content: content, contentType: "application/binary")
+        updatedEntity.content = content
+        localDataOverride(updatedEntity)
+        }
+
     private func receiveData(entity: Entity)
         { receiveNewData(entity, localOverride: false) }
     

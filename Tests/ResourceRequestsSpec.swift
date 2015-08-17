@@ -534,6 +534,32 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
         
+        describe("localContentOverride()")
+            {
+            it("updates existing content without altering headers")
+                {
+                stubReqest(resource, "GET")
+                    .andReturn(200)
+                    .withHeader("Content-type", "food/pasta")
+                    .withHeader("Sauce-disposition", "garlic")
+                    .withBody("linguine")
+                
+                awaitNewData(resource().load())
+                
+                resource().localContentOverride("farfalle")
+                expect(resource().textContent).to(equal("farfalle"))
+                expect(resource().latestData?.contentType).to(equal("food/pasta"))
+                expect(resource().latestData?.header("Sauce-disposition")).to(equal("garlic"))
+                }
+            
+            it("creates new data as application/binary")
+                {
+                resource().localContentOverride("fusilli")
+                expect(resource().textContent).to(equal("fusilli"))
+                expect(resource().latestData?.contentType).to(equal("application/binary"))
+                }
+            }
+        
         describe("wipe()")
             {
             it("clears latestData")
