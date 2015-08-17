@@ -497,7 +497,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
           let auth = service.resource("login")
           let authData = ["user": username, "pass": password]
           auth.request(method: .POST, json: authData)
-            .newData { entity in auth.localEntityOverride(entity) })
+            .newData { entity in auth.localDataOverride(entity) })
       
       ### Incremental updates
     
@@ -523,7 +523,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
                 updatedEntity.content = updatedContent
     
                 // Make that the resource’s new entity
-                resource.localEntityOverride(updatedEntity)
+                resource.localDataOverride(updatedEntity)
             }
     
       Use this technique with caution!
@@ -532,7 +532,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
       `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
     */
-    public func localEntityOverride(entity: Entity)
+    public func localDataOverride(entity: Entity)
         { receiveNewData(entity, localOverride: true) }
     
     private func receiveData(entity: Entity)

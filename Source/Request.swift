@@ -38,7 +38,7 @@ public enum RequestMethod: String
   Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
-  and `localEntityOverride(_:)`.
+  and `localDataOverride(_:)`.
   
   There is no race condition between a callback being added and a response arriving. If you add a callback after the
   response has already arrived, the callback is still called as usual.

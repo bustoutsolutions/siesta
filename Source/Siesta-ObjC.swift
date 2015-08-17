@@ -38,7 +38,7 @@
 // (Why not just make Entity and Error classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
-// happen via localEntityOverride() so that observers always know about changes.)
+// happen via localDataOverride() so that observers always know about changes.)
 
 @objc(BOSEntity)
 public class _objc_Entity: NSObject

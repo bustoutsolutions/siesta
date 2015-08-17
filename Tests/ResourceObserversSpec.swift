@@ -90,7 +90,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
-                resource().localEntityOverride(
+                resource().localDataOverride(
                     Entity(content: UIView(), contentType: "crazy/test"))
                 }
 

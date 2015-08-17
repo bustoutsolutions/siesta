@@ -94,7 +94,7 @@ public struct Entity
     /**
       For creating ad hoc data locally.
       
-      - SeeAlso: `Resource.localEntityOverride(_:)`
+      - SeeAlso: `Resource.localDataOverride(_:)`
     */
     public init(
             content: AnyObject,

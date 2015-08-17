@@ -90,6 +90,9 @@
         expect(entity.content).to(equal(@{ @"foo": @"bar" }));
         expect(entity.contentType).to(equal(@"application/json"));
         expect([entity header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
+
+        entity.content = @"Wild and wooly content";
+        [resource localDataOverride:entity];
         });
 
     // TODO: BOSResourceObserver
