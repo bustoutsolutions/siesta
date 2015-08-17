@@ -139,7 +139,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
       This method _always_ returns a subpath of the receiving resource. It does not apply any special
       interpretation to strings such `./`, `//` or `?` that have significance in other URL-related
       situations. Special characters are escaped when necessary, and otherwise ignored. See
-      [`ResourcePathsSpec`](https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift)
+      [`ResourcePathsSpec`](http://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec)
       for details.
       
       - SeeAlso: `relative(_:)`
@@ -154,7 +154,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
      
       This method interprets strings such as `.`, `..`, and a leading `/` or `//` as relative URLs. It resolves its
       parameter much like an `href` attribute in an HTML document. Refer to
-      [`ResourcePathsSpec`](https://github.com/bustoutsolutions/siesta/blob/master/Tests/ResourcePathsSpec.swift)
+      [`ResourcePathsSpec`](http://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec)
       for details.
     
       - SeeAlso:

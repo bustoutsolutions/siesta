@@ -28,8 +28,10 @@ iOS REST Client Framework
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-- [User Guide](Docs/index.md)
-- [API Docs](http://bustoutsolutions.github.io/siesta/api/)
+- Documentation
+  - [User Guide](Docs/index.md)
+  - [API Docs](http://bustoutsolutions.github.io/siesta/api/)
+  - [Specs](http://bustoutsolutions.github.io/siesta/specs/)
 
 ## What’s It For?
 
@@ -67,7 +69,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [x] Debug-friendly, customizable logging
 - [x] Written in Swift with a great [Swift-centric API](http://bustoutsolutions.github.io/siesta/api/), but…
 - [x] …also works great from Objective-C thanks to a compatibility layer
-- [x] [Robust regression tests](https://github.com/bustoutsolutions/siesta/tree/master/Tests)
+- [x] [Robust regression tests](http://bustoutsolutions.github.io/siesta/specs/)
 - [x] [Documentation](Docs/index.md)
 
 **Forthcoming:**
