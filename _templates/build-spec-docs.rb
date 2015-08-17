@@ -8,7 +8,7 @@ unless ARGV.size == 3
   exit 1
 end
 
-json = JSON.parse(File.read(ARGV[0]))
+json = JSON.parse(File.read(ARGV[0], encoding: 'utf-8'))
 
 def format_name(name)
   if name =~ /Spec$/
