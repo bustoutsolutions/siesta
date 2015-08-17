@@ -38,6 +38,15 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().request(RequestMethod.PATCH))
                 }
             
+            it("sends headers from configuration")
+                {
+                service().configure { $0.config.headers["Zoogle"] = "frotz" }
+                stubReqest(resource, "GET")
+                    .withHeader("Zoogle", "frotz")
+                    .andReturn(200)
+                awaitNewData(resource().request(RequestMethod.GET))
+                }
+            
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)

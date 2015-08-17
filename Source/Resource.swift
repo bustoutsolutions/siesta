@@ -260,6 +260,9 @@ public final class Resource: NSObject, CustomDebugStringConvertible
         {
         let nsreq = NSMutableURLRequest(URL: url!)  // TODO: remove ! when invalid URLs handled
         nsreq.HTTPMethod = method.rawValue
+        for (header,value) in config.headers
+            { nsreq.setValue(value, forHTTPHeaderField:header) }
+        
         requestMutation(nsreq)
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
