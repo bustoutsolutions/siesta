@@ -175,6 +175,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("is not added twice if it is an object")
                 {
                 resource().addObserver(observer())
+                resource().addObserver(observer())
 
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)

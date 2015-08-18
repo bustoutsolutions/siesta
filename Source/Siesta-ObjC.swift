@@ -267,6 +267,14 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
         else
             { return "_objc_ResourceObserverGlue<deallocated delegate>" }
         }
+
+    func isEquivalentToObserver(other: ResourceObserver) -> Bool
+        {
+        if let otherGlue = (other as? _objc_ResourceObserverGlue)
+            { return self.objcObserver === otherGlue.objcObserver }
+        else
+            { return false }
+        }
     }
 
 public extension Resource

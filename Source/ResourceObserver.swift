@@ -25,6 +25,12 @@ public protocol ResourceObserver
       other cleanup.
     */
     func stoppedObservingResource(resource: Resource)
+    
+    /**
+      Allows you to prevent redundant observers from being added to the same resource. If an existing observer
+      says it is equivalent to a new observer passed to `Resource.addObserver(...)`, then the call has no effect.
+    */
+    func isEquivalentToObserver(other: ResourceObserver) -> Bool
     }
 
 public extension ResourceObserver
@@ -34,6 +40,10 @@ public extension ResourceObserver
 
     /// Does nothing.
     func stoppedObservingResource(resource: Resource) { }
+    
+    /// True iff self and other are (1) both objects and (2) are the _same_ object.
+    func isEquivalentToObserver(other: ResourceObserver) -> Bool
+        { return (self as? AnyObject) === (other as? AnyObject) }
     }
 
 /**
@@ -105,17 +115,16 @@ public extension Resource
     */
     public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        if let observerObj = observer as? AnyObject
+        for (i, entry) in observers.enumerate()
             {
-            for (i, entry) in observers.enumerate()
-                where entry.observer != nil
-                   && observerObj === (entry.observer as? AnyObject)
-                    {
-                    // have to use observers[i] instead of loop var to
-                    // make mutator actually change struct in place in array
-                    observers[i].addOwner(owner)
-                    return self
-                    }
+            if let existingObserver = entry.observer
+                where existingObserver.isEquivalentToObserver(observer)
+                {
+                // have to use observers[i] instead of loop var to
+                // make mutator actually change struct in place in array
+                observers[i].addOwner(owner)
+                return self
+                }
             }
         
         var newEntry = ObserverEntry(observer: observer, resource: self)

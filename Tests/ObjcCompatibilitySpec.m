@@ -15,6 +15,10 @@
 @interface ObjcCompatibilitySpec : QuickSpec
 @end
 
+@interface ObjcObserver : NSObject<BOSResourceObserver>
+@property (nonatomic,strong) NSMutableArray *eventsReceived;
+@end
+
 @implementation ObjcCompatibilitySpec
 
 - (void) spec
@@ -110,10 +114,43 @@
         expect(error.userMessage).to(equal(@"Server error"));
         expect(@(error.httpStatusCode)).to(equal(@507));
         });
-
+    
+    it(@"doesn’t add observers twice", ^   // special case because glue object obscures identity
+        {
+        ObjcObserver *observer = [[ObjcObserver alloc] init];
+        NSString *owner = @"I am a big important owner string!";
+        [resource addObserver:observer];
+        [resource addObserver:observer];
+        [resource addObserver:observer owner:owner];
+        
+        stubRequest(@"GET", @"http://example.api/foo")
+            .andReturn(200)
+            .withHeader(@"Content-type", @"application/json")
+            .withBody(@"{\"foo\": \"bar\"}");
+        
+        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
+        [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
+        [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+        
+        expect(observer.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData"]));
+        });
+    
     // TODO: BOSResourceObserver
 
     // TODO: BOSResourceStatusOverlay
+    }
+
+@end
+
+
+@implementation ObjcObserver : NSObject
+
+- (void) resourceChanged: (BOSResource*) resource
+                   event: (NSString *) event
+    {
+    if(!self.eventsReceived)
+        self.eventsReceived = [NSMutableArray array];
+    [self.eventsReceived addObject:event];
     }
 
 @end
