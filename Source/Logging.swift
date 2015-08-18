@@ -40,10 +40,10 @@ public enum LogCategory: String
     // MARK: Predefined subsets
     
     /// A reasonable subset of log categories for normal debugging.
-    public static let common: Set<LogCategory> = [Network, .StateChanges, .Staleness]
+    public static let common: Set<LogCategory> = [Network, StateChanges, Staleness]
 
     /// The whole schebang!
-    public static let all: Set<LogCategory> = [Network, .NetworkDetails, .ResponseProcessing, .StateChanges, .Observers, .Staleness, .Configuration]
+    public static let all: Set<LogCategory> = [Network, NetworkDetails, ResponseProcessing, StateChanges, Observers, Staleness, Configuration]
     }
 
 /// The set of categories to log. Can be changed at runtime.
