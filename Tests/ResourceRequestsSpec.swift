@@ -47,6 +47,56 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().request(RequestMethod.GET))
                 }
             
+            describe("beforeStartingRequest hook from configuation")
+                {
+                it("is called for every request")
+                    {
+                    var beforeHookCount = 0
+                    service().configure
+                        {
+                        $0.config.beforeStartingRequest
+                            {
+                            res, req in
+                            expect(res).to(beIdenticalTo(resource()))
+                            beforeHookCount++
+                            }
+                        }
+                    
+                    stubReqest(resource, "GET").andReturn(200)
+                    stubReqest(resource, "POST").andReturn(200)
+                    awaitNewData(resource().load())
+                    awaitNewData(resource().request(RequestMethod.POST))
+                    
+                    expect(beforeHookCount).to(equal(2))
+                    }
+                
+                it("can attach request hooks")
+                    {
+                    var successHookCalled = false
+                    service().configure
+                        {
+                        $0.config.beforeStartingRequest
+                            { $1.success { _ in successHookCalled = true } }
+                        }
+                    
+                    stubReqest(resource, "GET").andReturn(200)
+                    awaitNewData(resource().load())
+                    
+                    expect(successHookCalled).to(beTrue())
+                    }
+                
+                it("can cancel requests")
+                    {
+                    service().configure
+                        {
+                        $0.config.beforeStartingRequest
+                            { $1.cancel() }
+                        }
+                    
+                    awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                    }
+                }
+            
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)
@@ -62,6 +112,13 @@ class ResourceRequestsSpec: ResourceSpecBase
                 req.cancel()
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
+                }
+            
+            it("can be cancelled even if it never started")
+                {
+                let req = resource().request(RequestMethod.POST, json: ["unencodable": UIView()])
+                awaitFailure(req, alreadyCompleted: true)
+                req.cancel()
                 }
             
             // TODO: How to reproduce these conditions in tests?

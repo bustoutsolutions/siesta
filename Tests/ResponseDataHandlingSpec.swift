@@ -193,6 +193,27 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     }
                 }
             }
+
+        describe("with standard parsing disabled in configuration")
+            {
+            beforeEach
+                {
+                service().configure { $0.config.responseTransformers.clear() }
+                }
+            
+            for contentType in ["text/plain", "application/json"]
+                {
+                it("does not parse \(contentType)")
+                    {
+                    stubReqest(resource, "GET").andReturn(200)
+                        .withHeader("Content-Type", contentType)
+                        .withBody("]]glarble}{blargble[[")
+                    awaitNewData(resource().load())
+                    
+                    expect(resource().latestData?.content is NSData).to(beTrue())
+                    }
+                }
+            }
         
         describe("custom transformer")
             {

@@ -24,12 +24,6 @@ internal struct StrongOrWeakRef<T>
     var value: T?
         { return (strongRef as? T) ?? (weakRef as? T) }
     
-    init()
-        {
-        strongRef = nil
-        weakRef = nil
-        }
-    
     init(_ value: T)
         {
         strongRef = value
