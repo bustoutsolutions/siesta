@@ -72,6 +72,7 @@ mab.html do
       "
         body {
           font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;
+          padding: 1em 2em;
         }
         ul {
           list-style: none;
@@ -82,6 +83,9 @@ mab.html do
         li {
           margin: 0.4ex;
           font-weight: normal;
+        }
+        body > ul {
+          margin: none;
         }
         body > ul > li {
           margin-top: 2em;
@@ -122,6 +126,16 @@ mab.html do
   end
   body do
     h1 "Siesta Specs"
+
+    p "Report generated from regression tests. Click a spec to see the code."
+
+    p
+      text "See also:"
+      strong { a "Siesta Overview", href: "https://github.com/bustoutsolutions/siesta/blob/master/README.md" }
+      text "|"
+      strong { a "User Guide", href: "https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md" }
+      text "|"
+      strong { a "API Docs", href: "https://bustoutsolutions.github.io/siesta/api/" }
 
     dump_results json["results"]
   end
