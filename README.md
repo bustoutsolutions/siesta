@@ -146,12 +146,14 @@ Now register your view controller — or view, or anything you like — to rece
 override func viewDidLoad() {
     super.viewDidLoad()
 
-    MyAPI.resource("/profile").addObserver(self) { resource, event in
-        let json = resource.dictContent
-        nameLabel.text = json["name"] as? String
-        favoriteColorLabel.text = json["favoriteColor"] as? String
+    MyAPI.resource("/profile").addObserver(self) {
+        [weak self] resource, event in
 
-        errorLabel.text = resource.latestError?.userMessage
+        let json = resource.dictContent
+        self?.nameLabel.text = json["name"] as? String
+        self?.favoriteColorLabel.text = json["favoriteColor"] as? String
+
+        self?.errorLabel.text = resource.latestError?.userMessage
     }
 }
 ```
@@ -169,11 +171,13 @@ override func viewWillAppear(animated: Bool) {
 Add a loading indicator:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) { resource, event in
+MyAPI.resource("/profile").addObserver(self) {
+    [weak self] resource, event in
+
     if resource.loading {
-        activityIndicator.startAnimating()
+        self?.activityIndicator.startAnimating()
     } else {
-        activityIndicator.stopAnimating()
+        self?.activityIndicator.stopAnimating()
     }
 }
 ```
