@@ -182,7 +182,7 @@ public extension Resource
         
         for entry in removed
             {
-            debugLog(.Observers, [self, "removing observer whose owners are all gone:", entry.observer ?? "<observer deallocated>"])
+            debugLog(.Observers, [self, "removing observer whose owners are all gone:", entry])
             entry.observer?.stoppedObservingResource(self)
             }
         }
@@ -191,7 +191,7 @@ public extension Resource
 
 // MARK: - Internals
 
-internal struct ObserverEntry
+internal struct ObserverEntry: CustomStringConvertible
     {
     private let resource: Resource  // keeps resource around as long as it has observers
     
@@ -206,6 +206,7 @@ internal struct ObserverEntry
         {
         self.observerRef = StrongOrWeakRef<ResourceObserver>(observer)
         self.resource = resource
+        originalObserverDescription = debugStr(observer)  // So we know what was deallocated if it gets logged
         }
 
     mutating func addOwner(owner: AnyObject)
@@ -238,6 +239,15 @@ internal struct ObserverEntry
         {
         return observer == nil
             || (!observerIsOwner && externalOwners.isEmpty)
+        }
+    
+    private var originalObserverDescription: String
+    var description: String
+        {
+        if let observer = observer
+            { return debugStr(observer) }
+        else
+            { return "<deallocated: \(originalObserverDescription)>" }
         }
     }
 
