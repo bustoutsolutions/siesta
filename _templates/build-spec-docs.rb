@@ -85,7 +85,7 @@ mab.html do
           font-weight: normal;
         }
         body > ul {
-          margin: none;
+          margin-left: 0;
         }
         body > ul > li {
           margin-top: 2em;
@@ -95,7 +95,6 @@ mab.html do
         .failed:before {
           display: inline-block;
           padding: 0.1em 0.3em;
-          margin-left: 2ex;
           margin-right: 1ex;
           color: white;
           font-size: 80%;
@@ -121,20 +120,24 @@ mab.html do
         a:hover {
           text-decoration: underline;
         }
+        .note {
+          color: #444;
+          font-size: 92%;
+        }
       "
     end
   end
   body do
     h1 "Siesta Specs"
 
-    p "Report generated from regression tests. Click a spec to see the code."
+    p.note "Report generated from regression tests. Click a spec to see the code on Github."
 
-    p
-      text "See also:"
+    p.note
+      text "See also: "
       strong { a "Siesta Overview", href: "https://github.com/bustoutsolutions/siesta/blob/master/README.md" }
-      text "|"
+      text " | "
       strong { a "User Guide", href: "https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md" }
-      text "|"
+      text " | "
       strong { a "API Docs", href: "https://bustoutsolutions.github.io/siesta/api/" }
 
     dump_results json["results"]
