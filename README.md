@@ -31,8 +31,8 @@ iOS REST Client Framework
 **Further Documentation**
 
 - [User Guide](Docs/index.md)
-- [API Docs](http://bustoutsolutions.github.io/siesta/api/)
-- [Specs](http://bustoutsolutions.github.io/siesta/specs/)
+- [API Docs](https://bustoutsolutions.github.io/siesta/api/)
+- [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 
 ## What’s It For?
 
@@ -68,9 +68,9 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [x] Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking by default;
         inject a custom networking provider if you want to use a different networking library
 - [x] Debug-friendly, customizable logging
-- [x] Written in Swift with a great [Swift-centric API](http://bustoutsolutions.github.io/siesta/api/), but…
+- [x] Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
 - [x] …also works great from Objective-C thanks to a compatibility layer
-- [x] [Robust regression tests](http://bustoutsolutions.github.io/siesta/specs/)
+- [x] [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [x] [Documentation](Docs/index.md)
 
 **Forthcoming:**
@@ -215,7 +215,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 
 Note that this is not just a toy example. Together with its storyboard, **this small piece of code is a fully armed and operational REST-backed user interface**, complete with an activity indicator, content-type-aware threaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
 
-See the [user guide](Docs/index.md) and [API documentation](http://bustoutsolutions.github.io/siesta/api/) for more info.
+See the [user guide](Docs/index.md) and [API documentation](https://bustoutsolutions.github.io/siesta/api/) for more info.
 
 ## Examples
 

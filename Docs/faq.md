@@ -32,4 +32,4 @@ If you aren’t interested in holding a response entirely in memory, there’s l
 
 Don’t file an issue!
 
-Post your question to [Stack Overflow](http://stackoverflow.com) and tag it with **siesta-swift**. It might even end up in this FAQ.
+Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. It might even end up in this FAQ.
