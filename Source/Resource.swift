@@ -24,7 +24,7 @@ internal let now = { fakeNow ?? NSDate.timeIntervalSinceReferenceDate() }
   questions changes.
 */
 @objc(BOSResource)
-public final class Resource: NSObject, CustomDebugStringConvertible
+public final class Resource: NSObject
     {
     // MARK: Configuration
     
@@ -264,6 +264,8 @@ public final class Resource: NSObject, CustomDebugStringConvertible
             { nsreq.setValue(value, forHTTPHeaderField:header) }
         
         requestMutation(nsreq)
+
+        debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
 
@@ -603,7 +605,7 @@ public final class Resource: NSObject, CustomDebugStringConvertible
     // MARK: Debug
     
     /// :nodoc:
-    public override var debugDescription: String
+    public override var description: String
         {
         return "Siesta.Resource("
             + debugStr(url)

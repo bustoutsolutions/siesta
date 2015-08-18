@@ -278,6 +278,8 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             return
             }
         
+        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
+        
         for callback in responseCallbacks
             { callback(newInfo) }
         
@@ -291,9 +293,10 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     private func responseReceived(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
         debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
+        debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])
+        debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
-        debugLog(.NetworkDetails, ["Raw response:", responseInfo.response, responseInfo.isNew ? "(new)" : "(unchanged)"])
         
         transformResponse(responseInfo, then: broadcastResponse)
         }

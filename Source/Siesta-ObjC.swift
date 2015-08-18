@@ -71,6 +71,9 @@ public class _objc_Entity: NSObject
     
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
+    
+    public override var description: String
+        { return debugStr(Entity(entity: self)) }
     }
 
 internal extension Entity
@@ -210,6 +213,9 @@ public class _objc_Request: NSObject
 
     public func cancel()
         { request.cancel() }
+    
+    public override var description: String
+        { return debugStr(request) }
     }
 
 public extension Resource
