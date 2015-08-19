@@ -146,15 +146,19 @@ Now register your view controller — or view, or anything you like — to rece
 override func viewDidLoad() {
     super.viewDidLoad()
 
-    MyAPI.resource("/profile").addObserver(self) {
-        [weak self] resource, event in
+    MyAPI.resource("/profile").addObserver(self)
+}
+```
 
-        let json = resource.dictContent
-        self?.nameLabel.text = json["name"] as? String
-        self?.favoriteColorLabel.text = json["favoriteColor"] as? String
+…and use those notifications to populate your UI.
 
-        self?.errorLabel.text = resource.latestError?.userMessage
-    }
+```swift
+func resourceChanged(resource: Resource, event: ResourceEvent) {
+    let json = resource.dictContent
+    nameLabel.text = json["name"] as? String
+    favoriteColorLabel.text = json["favoriteColor"] as? String
+
+    errorLabel.text = resource.latestError?.userMessage
 }
 ```
 
