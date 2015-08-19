@@ -95,6 +95,7 @@ public struct Error
         self.init(userMessage: userMessage, error: nserror, entity: entity)
         }
     
+    /// True if this error represents a cancelled request
     public var isCancellation: Bool
         {
         return nsError?.domain == NSURLErrorDomain
