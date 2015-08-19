@@ -23,7 +23,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - Documentation
-  - [User Guide](Docs/index)
+  - [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
   - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
@@ -66,7 +66,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
 - …also works great from Objective-C thanks to a compatibility layer
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
-- [Documentation](Docs/index)
+- [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
 **Forthcoming:**
 
@@ -226,7 +226,7 @@ Note that this example is not toy code. Together with its storyboard, **this sma
 
 ## Documentation
 
-- **[User Guide](Docs/index)**
+- **[User Guide](https://bustoutsolutions.github.io/siesta/guide/)**
 - **[API documentation](https://bustoutsolutions.github.io/siesta/api/)**
 - **[Specs](https://bustoutsolutions.github.io/siesta/specs/)**
 
