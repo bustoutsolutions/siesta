@@ -147,8 +147,10 @@ public protocol ResponseEntityTransformer: ResponseTransformer
     {
     /**
       Implementations will typically override this method.
-     
-      Note that overrides can turn a success into an error, e.g. if there is a parse error.
+      
+      Return `.Success` if the parsing succeeded, `.Failure` if it failed. See the default implementation of
+      `processError(_:)` for information about what happens to this method’s return value when the underlying response
+      is a failure.
     */
     func processEntity(entity: Entity) -> Response
     
@@ -179,7 +181,7 @@ public extension ResponseEntityTransformer
     func processEntity(entity: Entity) -> Response
         { return .Success(entity) }
 
-    /// Attempt to process error response content the same as success content. If the processing succeeded, replace the
+    /// Attempt to process error’s `content` entity using `processEntity(_:)`. If the processing succeeded, replace the
     /// content of the error. If there was a processing error, log it but preserve the original error.
     func processError(var error: Error) -> Response
         {
