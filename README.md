@@ -17,7 +17,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
-- **Documentation**
+- Documentation
   - [User Guide](Docs/index.md)
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
   - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
@@ -217,7 +217,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-Note that this example is not toy code. Together with its storyboard, **this small class is a fully armed and operational REST-backed user interface**, complete with an activity indicator, content-type-aware threaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
+Note that this example is not toy code. Together with its storyboard, **this small class is a fully armed and operational REST-backed user interface**.
 
 ---
 
