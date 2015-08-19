@@ -72,7 +72,7 @@ extension Response
 
 extension Entity
     {
-    public func dump(indent: String = "") -> String
+    internal func dump(indent: String = "") -> String
         {
         var result =
             "\n" + indent + "contentType: \(contentType)" +
@@ -87,7 +87,7 @@ extension Entity
 
 extension Error
     {
-    public func dump(indent: String = "") -> String
+    internal func dump(indent: String = "") -> String
         {
         var result = "\n" + indent + "userMessage:    \(debugStr(userMessage, consolidateWhitespace: true, truncate: 80))"
         if httpStatusCode != nil
