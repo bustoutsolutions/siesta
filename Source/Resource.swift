@@ -171,7 +171,7 @@ public final class Resource: NSObject
       
       This convenience method is useful for resolving URLs returned as part of a JSON response body:
       
-          let href = resource.dictContent["owner"] as? String  // href is an optional
+          let href = resource.json["owner"] as? String  // href is an optional
           if let ownerResource = resource.optionalRelative(href) {
             // ...
           }
@@ -508,7 +508,7 @@ public final class Resource: NSObject
             .success { partialEntity in
                 
                 // Make a mutable copy of the current content
-                var updatedContent = resource.dictContent
+                var updatedContent = resource.json
                 
                 // Do the incremental update
                 updatedContent["name"] = parialEntity["newName"]

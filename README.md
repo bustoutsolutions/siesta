@@ -147,12 +147,11 @@ override func viewDidLoad() {
 …and use those notifications to populate your UI.
 
 ```swift
-@IBOutlet weak var nameLabel, favoriteColorLabel, errorLabel: UILabel!
+@IBOutlet weak var nameLabel, colorLabel, errorLabel: UILabel!
 
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    let json = resource.dictContent
-    nameLabel.text = json["name"] as? String
-    favoriteColorLabel.text = json["favoriteColor"] as? String
+    nameLabel.text = resource.json["name"] as? String
+    colorLabel.text = resource.json["favoriteColor"] as? String
 
     errorLabel.text = resource.latestError?.userMessage
 }
@@ -186,7 +185,7 @@ MyAPI.resource("/profile").addObserver(self) {
 
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
-    @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
+    @IBOutlet weak var nameLabel, colorLabel: UILabel!
     
     let statusOverlay = ResourceStatusOverlay()
 
@@ -210,9 +209,8 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let json = resource.dictContent
-        nameLabel.text = json["name"] as? String
-        favoriteColorLabel.text = json["favoriteColor"] as? String
+        nameLabel.text = resource.json["name"] as? String
+        colorLabel.text = resource.json["favoriteColor"] as? String
     }
 }
 ```

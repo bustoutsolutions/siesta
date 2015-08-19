@@ -133,17 +133,23 @@ public struct Entity
 
   …with:
 
-      resource.textContent
-      resource.latestError?.dictContent["error.detail"]
+      resource.text
+      resource.latestError?.json["error.detail"]
 
   You can extend this protocol to provide your own convenience accessors. For example:
   
       import SwiftyJSON
       
       extension TypedContentAccessors {
-        var jsonContent:      JSON { return JSON(dictContent) }
-        var jsonArrayContent: JSON { return JSON(arrayContent) }
+        var image: UIImage {
+          return typedContent(
+            UIImage(named: "placeholder.png")!)
+        }
       }
+  
+  Note that this is _only_ a convenience accessor. It only checks whether the entity already has a `UIImage`, and does
+  not do any parsing itself. You’d need to pair this with a custom `ResponseTransformer` that converts raw image
+  responses to `UIImage`s.
 */
 public protocol TypedContentAccessors
     {
@@ -170,13 +176,13 @@ public extension TypedContentAccessors
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var dictContent:  [String:AnyObject] { return typedContent([:]) }
+    public var json: [String:AnyObject] { return typedContent([:]) }
     
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var arrayContent: [AnyObject]        { return typedContent([]) }
+    public var jsonArray: [AnyObject]   { return typedContent([]) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var textContent:  String             { return typedContent("") }
+    public var text: String             { return typedContent("") }
     }
 
 extension Entity: TypedContentAccessors

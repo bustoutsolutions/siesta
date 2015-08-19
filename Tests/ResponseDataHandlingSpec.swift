@@ -37,19 +37,19 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("defaults to ISO-8859-1")
                 {
                 stubText("ý", contentType: "text/plain")
-                expect(resource().textContent).to(equal("Ã½"))
+                expect(resource().text).to(equal("Ã½"))
                 }
 
             it("handles UTF-8")
                 {
                 stubText("ý", contentType: "text/plain; charset=utf-8")
-                expect(resource().textContent).to(equal("ý"))
+                expect(resource().text).to(equal("ý"))
                 }
             
             it("handles more unusual charsets")
                 {
                 stubText("ý", contentType: "text/plain; charset=EUC-JP")
-                expect(resource().textContent).to(equal("箪"))  // bamboo rice basket
+                expect(resource().text).to(equal("箪"))  // bamboo rice basket
                 // Note: assertion above fails on iPhone 4S and 5 simulators (apparently an Apple bug?)
                 }
             
@@ -74,7 +74,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 service().configure
                     { $0.config.responseTransformers.add(TestTransformer(), first: true) }
                 stubText("blah blah", contentType: "text/plain")
-                expect(resource().textContent).to(equal("<non-string> processed"))
+                expect(resource().text).to(equal("<non-string> processed"))
                 }
 
             it("transforms error responses")
@@ -83,7 +83,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
                     .withBody(NSData(bytes: [0xD8, 0x3D, 0xDC, 0xA3] as [UInt8], length: 4))
                 awaitFailure(resource().load())
-                expect(resource().latestError?.textContent).to(equal("💣"))
+                expect(resource().latestError?.text).to(equal("💣"))
                 }
 
             it("does not parse everything as text")
@@ -93,24 +93,24 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestData?.content as? String).to(beNil())
                 }
             
-            describe("via .textContent convenience")
+            describe("via .text convenience")
                 {
                 it("gives a string")
                     {
                     stubText()
-                    expect(resource().textContent).to(equal("zwobble"))
+                    expect(resource().text).to(equal("zwobble"))
                     }
 
                 it("gives empty string for non-text response")
                     {
                     stubText(contentType: "application/octet-stream")
-                    expect(resource().textContent).to(equal(""))
+                    expect(resource().text).to(equal(""))
                     }
 
                 it("gives empty string on error")
                     {
                     stubReqest(resource, "GET").andReturn(404)
-                    expect(resource().textContent).to(equal(""))
+                    expect(resource().text).to(equal(""))
                     }
                 }
             }
@@ -164,7 +164,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ \"error\": \"pigeon drove bus\" }")
                 awaitFailure(resource().load())
-                expect(resource().latestError?.dictContent as? [String:String])
+                expect(resource().latestError?.json as? [String:String])
                     .to(equal(["error": "pigeon drove bus"]))
                 }
 
@@ -178,28 +178,28 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.entity?.content as? NSData).notTo(beNil())
                 }
 
-            describe("via .dictContent convenience")
+            describe("via .json convenience")
                 {
                 it("gives JSON data")
                     {
                     stubJson()
-                    expect(resource().dictContent).to(equal(jsonVal))
+                    expect(resource().json).to(equal(jsonVal))
                     }
 
                 it("gives empty dict for non-JSON response")
                     {
                     stubJson(contentType: "text/plain")
-                    expect(resource().dictContent).to(equal(NSDictionary()))
+                    expect(resource().json).to(equal(NSDictionary()))
                     }
 
                 it("gives empty dict on error")
                     {
                     stubReqest(resource, "GET").andReturn(500)
-                    expect(resource().dictContent).to(equal(NSDictionary()))
+                    expect(resource().json).to(equal(NSDictionary()))
                     }
                 }
             
-            describe("via .arrayContent convenience")
+            describe("via .jsonArray convenience")
                 {
                 it("gives JSON data")
                     {
@@ -207,13 +207,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withHeader("Content-Type", "application/json")
                         .withBody("[1,\"two\"]")
                     awaitNewData(resource().load())
-                    expect(resource().arrayContent).to(equal([1,"two"] as NSArray))
+                    expect(resource().jsonArray).to(equal([1,"two"] as NSArray))
                     }
 
                 it("gives empty dict for non-dict response")
                     {
                     stubJson()
-                    expect(resource().arrayContent).to(equal(NSArray()))
+                    expect(resource().jsonArray).to(equal(NSArray()))
                     }
                 }
             }

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DA2DDA7B1B59868000294A72 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */; };
-		DA2E1B891B7EFC25009E04A2 /* TypedContent+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2E1B881B7EFC25009E04A2 /* TypedContent+SwiftyJSON.swift */; };
 		DA74623D1B4C768B00406D67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA74623C1B4C768B00406D67 /* AppDelegate.swift */; };
 		DA74623F1B4C768B00406D67 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA74623E1B4C768B00406D67 /* UserViewController.swift */; };
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
@@ -21,7 +20,6 @@
 
 /* Begin PBXFileReference section */
 		DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
-		DA2E1B881B7EFC25009E04A2 /* TypedContent+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TypedContent+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		DA7462391B4C768B00406D67 /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA74623C1B4C768B00406D67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA74623E1B4C768B00406D67 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				DA7462541B4C7A3E00406D67 /* GithubAPI.swift */,
 				DA74623E1B4C768B00406D67 /* UserViewController.swift */,
 				DA2DDA7A1B59868000294A72 /* RepositoryListViewController.swift */,
-				DA2E1B881B7EFC25009E04A2 /* TypedContent+SwiftyJSON.swift */,
 				DA74623C1B4C768B00406D67 /* AppDelegate.swift */,
 				DA2DDA771B5984CA00294A72 /* Resources */,
 			);
@@ -188,7 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2DDA7B1B59868000294A72 /* RepositoryListViewController.swift in Sources */,
-				DA2E1B891B7EFC25009E04A2 /* TypedContent+SwiftyJSON.swift in Sources */,
 				DA74623F1B4C768B00406D67 /* UserViewController.swift in Sources */,
 				DA7462551B4C7A3E00406D67 /* GithubAPI.swift in Sources */,
 				DA74623D1B4C768B00406D67 /* AppDelegate.swift in Sources */,

@@ -11,9 +11,9 @@ resource.latestData?.content // Gives a string, dict/array (for JSON), NSData, 
                              // nil if no data is available. You can also configure
                              // custom data types using ResponseTransformer.
 
-resource.textContent         // Convenience accessors return an empty string/dict/array
-resource.dictContent         // if data is either unavailable or not of the expected
-resource.arrayContent        // type. This reduces futzing with optionals.
+resource.text                // Convenience accessors return an empty string/dict/array
+resource.json                // if data is either (1) not present or (2) not of the
+resource.jsonArray           // expected type. This reduces futzing with optionals.
 ```
 
 A resource knows whether it is currently loading, which lets you show/hide a spinner or progress bar:

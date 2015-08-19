@@ -125,17 +125,17 @@ public extension Resource
             { return nil }
         }
     
-    @objc(dictContent)
-    public var _objc_dictContent: [String:AnyObject]
-        { return dictContent }
+    @objc(json)
+    public var _objc_json: [String:AnyObject]
+        { return json }
     
-    @objc(arrayContent)
-    public var _objc_arrayContent: [AnyObject]
-        { return arrayContent }
+    @objc(jsonArray)
+    public var _objc_jsonArray: [AnyObject]
+        { return jsonArray }
     
-    @objc(textContent)
-    public var _objc_textContent: String
-        { return textContent }
+    @objc(text)
+    public var _objc_text: String
+        { return text }
     
     @objc(localDataOverride:)
     public func _objc_localDataOverride(entity: _objc_Entity)

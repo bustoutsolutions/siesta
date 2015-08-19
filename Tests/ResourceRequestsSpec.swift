@@ -561,7 +561,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates resource state")
                 {
                 awaitNewData(resource().load(usingRequest: request()))
-                expect(resource().textContent).to(equal("Posted!"))
+                expect(resource().text).to(equal("Posted!"))
                 }
 
             it("notifies observers")
@@ -622,7 +622,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().load())
                 
                 resource().localContentOverride("farfalle")
-                expect(resource().textContent).to(equal("farfalle"))
+                expect(resource().text).to(equal("farfalle"))
                 expect(resource().latestData?.contentType).to(equal("food/pasta"))
                 expect(resource().latestData?.header("Sauce-disposition")).to(equal("garlic"))
                 }
@@ -630,7 +630,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("creates new data as application/binary")
                 {
                 resource().localContentOverride("fusilli")
-                expect(resource().textContent).to(equal("fusilli"))
+                expect(resource().text).to(equal("fusilli"))
                 expect(resource().latestData?.contentType).to(equal("application/binary"))
                 }
             }
