@@ -187,18 +187,18 @@ public extension TypedContentAccessors
 
 extension Entity: TypedContentAccessors
     {
-    /// Typed content accessors apply to this entity’s content.
+    /// Typed content accessors such as `.text` and `.json` apply to this entity’s content.
     public var entityForTypedContentAccessors: Entity? { return self }
     }
 
 extension Resource: TypedContentAccessors
     {
-    /// Typed content accessors apply to `latestData?.content`.
+    /// Typed content accessors such as `.text` and `.json` apply to `latestData?.content`.
     public var entityForTypedContentAccessors: Entity? { return latestData }
     }
 
 extension Error: TypedContentAccessors
     {
-    /// Typed content accessors apply to `entity?.content`.
+    /// Typed content accessors such as `.text` and `.json` apply to `entity?.content`.
     public var entityForTypedContentAccessors: Entity? { return entity }
     }
