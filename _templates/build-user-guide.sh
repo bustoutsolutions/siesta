@@ -23,7 +23,7 @@ for src in "$siesta_dir"/{README,Docs/*}.md; do
         echo "---"
         echo
         cat "$src" | perl -pe 's/\]\(([^\]]+)\.md\)/]($1)/g'
-    ) > "./$dst/index.md"
+    ) > "$docs_dir/$dst/index.md"
 
-    cp -R "$siesta_dir"/Docs/images guide/
+    cp -R "$siesta_dir"/Docs/images "$docs_dir"/guide/
 done
