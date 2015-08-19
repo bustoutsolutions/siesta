@@ -1,3 +1,3 @@
 # Siesta API Documentation
 
-See Also: **[Siesta Overview](https://github.com/bustoutsolutions/siesta/blob/master/README.md)** | **[User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)** | **[Specs](https://bustoutsolutions.github.io/siesta/specs/)**
+See Also: **[Siesta Overview](http://bustoutsolutions.github.io/siesta/.md)** | **[User Guide](http://bustoutsolutions.github.io/siesta/guide/)** | **[Specs](https://bustoutsolutions.github.io/siesta/specs/)**

@@ -1,0 +1,10 @@
+title: Siesta
+baseurl: "/siesta"
+url: "https://bustoutsolutions.github.io"
+twitter_username: teambustout
+github_username:  bustoutsolutions/siesta
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
