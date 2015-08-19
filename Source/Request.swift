@@ -102,11 +102,8 @@ public enum Response: CustomStringConvertible
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
-        if case .Failure(let error) = self,
-            let nserror = error.nsError
-            where nserror.domain == NSURLErrorDomain
-               && nserror.code == NSURLErrorCancelled
-            { return true }
+        if case .Failure(let error) = self
+            { return error.isCancellation }
         else
             { return false }
         }

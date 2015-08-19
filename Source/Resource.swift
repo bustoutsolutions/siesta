@@ -565,9 +565,7 @@ public final class Resource: NSObject
     
     private func receiveError(error: Error)
         {
-        if let nserror = error.nsError
-            where nserror.domain == NSURLErrorDomain
-               && nserror.code == NSURLErrorCancelled
+        if error.isCancellation
             {
             notifyObservers(.RequestCancelled)
             return

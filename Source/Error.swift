@@ -94,4 +94,10 @@ public struct Error
         let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
         self.init(userMessage: userMessage, error: nserror, entity: entity)
         }
+    
+    public var isCancellation: Bool
+        {
+        return nsError?.domain == NSURLErrorDomain
+            && nsError?.code == NSURLErrorCancelled
+        }
     }

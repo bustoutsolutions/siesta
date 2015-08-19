@@ -13,11 +13,6 @@ internal extension String
         return rangeOfString(regex, options: .RegularExpressionSearch) != nil
         }
 
-    func match(regex: String) -> Bool
-        {
-        return rangeOfString(regex, options: .RegularExpressionSearch) != nil
-        }
-    
     func replaceRegex(regex: String, _ replacement: String) -> String
         {
         return stringByReplacingOccurrencesOfString(
@@ -59,15 +54,5 @@ internal extension NSRegularExpression
         {
         let match = firstMatchInString(string, options: [], range: string.fullRange)
         return match != nil && match?.range.location != NSNotFound
-        }
-    
-    func firstMatch(string: String) -> [String]?
-        {
-        guard let match = firstMatchInString(string, options: [], range: string.fullRange) else
-            { return nil }
-        
-        return (0 ..< match.numberOfRanges)
-            .map { match.rangeAtIndex($0) }
-            .map((string as NSString).substringWithRange)
         }
     }

@@ -52,6 +52,30 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().textContent).to(equal("箪"))  // bamboo rice basket
                 // Note: assertion above fails on iPhone 4S and 5 simulators (apparently an Apple bug?)
                 }
+            
+            it("treats an unknown charset as an errors")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-Type", "text/plain; charset=oodlefratz")
+                    .withBody("abc")
+                awaitFailure(resource().load())
+                }
+            
+            it("treats illegal byte sequence for encoding as an error")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-Type", "text/plain; charset=utf-8")
+                    .withBody(NSData(bytes: [0xD8] as [UInt8], length: 1))
+                awaitFailure(resource().load())
+                }
+            
+            it("bypasses response if another transformer already made it a string")
+                {
+                service().configure
+                    { $0.config.responseTransformers.add(TestTransformer(), first: true) }
+                stubText("blah blah", contentType: "text/plain")
+                expect(resource().textContent).to(equal("<non-string> processed"))
+                }
 
             it("transforms error responses")
                 {
@@ -265,7 +289,7 @@ private class TestTransformer: ResponseTransformer
         switch response
             {
             case .Success(var entity):
-                entity.content = (entity.content as? String ?? "<nil>") + " processed"
+                entity.content = (entity.content as? String ?? "<non-string>") + " processed"
                 return .Success(entity)
             
             case .Failure(var error):

@@ -114,7 +114,16 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitFailure(req, alreadyCompleted: true)
                 }
             
-            it("can be cancelled even if it never started")
+            it(".cancel() has no effect if it already succeeded")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                let req = resource().request(RequestMethod.GET)
+                awaitNewData(req)
+                req.cancel()
+                awaitNewData(req, alreadyCompleted: true)
+                }
+            
+            it(".cancel() has no effect if it never started")
                 {
                 let req = resource().request(RequestMethod.POST, json: ["unencodable": UIView()])
                 awaitFailure(req, alreadyCompleted: true)

@@ -51,8 +51,9 @@
         stubRequest(@"GET", @"http://example.api/foo").andReturn(200);
         stubRequest(@"POST", @"http://example.api/foo").andReturn(200);
         
+        expect([resource loadIfNeeded]).notTo(beNil());
+        expect([resource loadIfNeeded]).to(beNil());
         [resource load];
-        [resource loadIfNeeded];
         [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
                 { req.HTTPMethod = @"POST"; }];
@@ -64,7 +65,7 @@
         [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [resource load]
+        BOSRequest *req = [resource load]
             .completion(
                 ^(BOSEntity *entity, BOSError *error)
                     { [expectation fulfill]; })
@@ -73,6 +74,7 @@
             .notModified(^{ } )
             .failure(^(BOSError *error) { } );
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+        [req cancel];
         });
     
     it(@"handles resource data", ^
@@ -97,14 +99,16 @@
 
         entity.content = @"Wild and wooly content";
         [resource localDataOverride:entity];
+        entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack"];
+        entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack" headers: @{}];
+        [resource localDataOverride:entity];
         
         expect(resource.latestError).to(beNil());
         });
 
     it(@"handles HTTP errors", ^
         {
-        stubRequest(@"GET", @"http://example.api/foo")
-            .andReturn(507);
+        stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [resource load].failure(^(BOSError *error) { [expectation fulfill]; });
@@ -113,15 +117,38 @@
         BOSError *error = resource.latestError;
         expect(error.userMessage).to(equal(@"Server error"));
         expect(@(error.httpStatusCode)).to(equal(@507));
+
+        expect(resource.latestData).to(beNil());
+        });
+    
+    it(@"handles other errors", ^
+        {
+        BOSRequest *req = [resource loadUsingRequest:
+            [resource requestWithMethod:@"POST" json:@{@"Foo": [[UIButton alloc] init]}]];
+        
+        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
+        req.failure(^(BOSError *error) { [expectation fulfill]; });
+        [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+        
+        BOSError *error = resource.latestError;
+        expect(error.userMessage).to(equal(@"Cannot encode JSON"));
+        expect(@(error.httpStatusCode)).to(equal(@-1));
         });
     
     it(@"doesn’t add observers twice", ^   // special case because glue object obscures identity
         {
-        ObjcObserver *observer = [[ObjcObserver alloc] init];
+        ObjcObserver *observer0 = [[ObjcObserver alloc] init],
+                     *observer1 = [[ObjcObserver alloc] init];
         NSString *owner = @"I am a big important owner string!";
-        [resource addObserver:observer];
-        [resource addObserver:observer];
-        [resource addObserver:observer owner:owner];
+        [resource addObserver:observer0];
+        [resource addObserver:observer0];
+        [resource addObserver:observer1];
+        [resource addObserver:observer0 owner:owner];
+
+        __block int blockObserverCalls = 0;
+        [resource addObserverWithOwner:owner callback:^(BOSResource *resource, NSString *event) {
+            blockObserverCalls++;
+        }];
         
         stubRequest(@"GET", @"http://example.api/foo")
             .andReturn(200)
@@ -132,7 +159,9 @@
         [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
-        expect(observer.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData"]));
+        expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData"]));
+        expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData"]));
+        expect(@(blockObserverCalls)).to(equal(@3));
         });
     
     // TODO: BOSResourceObserver

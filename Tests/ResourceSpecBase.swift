@@ -42,9 +42,9 @@ func stubReqest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     return stubRequest(method, resource().url!.absoluteString)
     }
 
-func awaitNewData(req: Siesta.Request)
+func awaitNewData(req: Siesta.Request, alreadyCompleted: Bool = false)
     {
-    expect(req.completed).to(beFalse())
+    expect(req.completed).to(equal(alreadyCompleted))
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
