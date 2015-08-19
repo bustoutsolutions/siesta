@@ -134,7 +134,7 @@ mab.html do
 
     p.note
       text "See also: "
-      strong { a "Siesta Overview", href: "https://bustoutsolutions.github.io/siesta/guide/" }
+      strong { a "Siesta Overview", href: "https://bustoutsolutions.github.io/siesta/" }
       text " | "
       strong { a "User Guide", href: "https://bustoutsolutions.github.io/siesta/guide/" }
       text " | "
