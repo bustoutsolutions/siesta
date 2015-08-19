@@ -1,5 +1,3 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
 # Using Siesta from Objective-C
 
 Siesta follows a Swift-first design approach. It uses the full expressiveness of the language to make everything feel “Swift native,” both in interface and implementation.

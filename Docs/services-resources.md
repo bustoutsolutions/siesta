@@ -1,5 +1,3 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
 # Services and Resources
 
 Services and resources are your entry point for interaction with Siesta. Together, they represent an API and the many RESTful resources within it.

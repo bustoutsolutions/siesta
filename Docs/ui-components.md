@@ -1,5 +1,3 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
 # UI Components
 
 ## ResourceStatusOverlay
@@ -8,7 +6,8 @@ The business of showing an activity indicator and error message can get repetiti
 
 The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
 
-<p align="center"><img alt="Standard error overlay view" src="images/standard-error-overlay@2x.png" width=320 height=136></p>
+![Standard error overlay view](/siesta/guide/images/standard-error-overlay@2x.png){:width="320"}{:height="136"}
+{:align="center"}
 
 …and you can also provide your own custom nib.
 

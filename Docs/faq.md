@@ -1,6 +1,4 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
-# FAQ
+ FAQ
 
 
 ## Capabilities

@@ -1,5 +1,3 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
 # Memory Management
 
 Note that in the [example in the README](https://github.com/bustoutsolutions/siesta#basic-usage), no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.

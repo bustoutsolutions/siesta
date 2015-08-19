@@ -1,5 +1,3 @@
-**[Siesta User Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/index.md)**
-
 # Resource State
 
 A resource keeps a local cache of the latest valid data:
