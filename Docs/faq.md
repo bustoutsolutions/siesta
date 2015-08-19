@@ -16,20 +16,3 @@ Siesta is a high-level library designed to make the common behaviors of REST API
 Use a lower-level networking library.
 
 If you aren’t interested in holding a response entirely in memory, there’s little benefit to using Siesta. Siesta’s advantage over lower-level networking is the “parse once, share everywhere” nature of its observer architecture — which implies holding on to entire responses for reuse.
-
-
-## Contributing & Communicating
-
-#### Where do I report a bug?
-
-[File an issue](https://github.com/bustoutsolutions/siesta/issues/new).
-
-#### Where do I submit a feature request / cool idea?
-
-[File an issue](https://github.com/bustoutsolutions/siesta/issues/new).
-
-#### Where can I get help?
-
-Don’t file an issue!
-
-Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. It might even end up in this FAQ.

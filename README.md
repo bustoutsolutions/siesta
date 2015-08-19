@@ -1,8 +1,8 @@
 # Siesta
 
-iOS REST Client Framework
+**iOS REST Client Framework**
 
-**TL;DR**: Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
+Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
@@ -10,29 +10,19 @@ iOS REST Client Framework
 * **License:** MIT
 * **Status:** Alpha, in active development. Works well, but API still in flux. Seeking feedback. Please experiment!
 
+**Contents**
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Overview**
-
-- [What’s It For?](#what%E2%80%99s-it-for)
-  - [The Problem](#the-problem)
-  - [The Solution](#the-solution)
+- [What’s It For?](#whats-it-for)
 - [Features](#features)
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
-  - [Carthage](#carthage)
-  - [CocoaPods](#cocoapods)
 - [Basic Usage](#basic-usage)
+- **Documentation**
+  - [User Guide](Docs/index.md)
+  - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
+  - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-**Further Documentation**
-
-- [User Guide](Docs/index.md)
-- [API Docs](https://bustoutsolutions.github.io/siesta/api/)
-- [Specs](https://bustoutsolutions.github.io/siesta/specs/)
+- [Contributing & Getting Help](#contributing-getting-help)
 
 ## What’s It For?
 
@@ -58,26 +48,26 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Features
 
-- [x] Decouples UI component lifecycles from network request lifecycles
-- [x] Eliminates error-prone state tracking logic
-- [x] Eliminates redundant network requests
-- [x] Unified reporting for all errors: encoding, network, server-side, and parsing
-- [x] Transparent Etag / If-Modified-Since handling
-- [x] Painless handling for JSON and plain text, plus customizable response transformation
-- [x] Prebaked UI for loading & error handling
-- [x] Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking by default;
-        inject a custom networking provider if you want to use a different networking library
-- [x] Debug-friendly, customizable logging
-- [x] Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
-- [x] …also works great from Objective-C thanks to a compatibility layer
-- [x] [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
-- [x] [Documentation](Docs/index.md)
+- Decouples UI component lifecycles from network request lifecycles
+- Eliminates error-prone state tracking logic
+- Eliminates redundant network requests
+- Unified reporting for all errors: encoding, network, server-side, and parsing
+- Transparent Etag / If-Modified-Since handling
+- Painless handling for JSON and plain text, plus customizable response transformation
+- Prebaked UI for loading & error handling
+- Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking by default;
+    inject a custom networking provider if you want to use a different networking library
+- Debug-friendly, customizable logging
+- Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
+- …also works great from Objective-C thanks to a compatibility layer
+- [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
+- [Documentation](Docs/index.md)
 
 **Forthcoming:**
 
-- [ ] Graceful handling for authenticated sessions
-- [ ] Intelligent progress reporting that accounts for request, latency, and response
-- [ ] Customizable data caching
+- Graceful handling for authenticated sessions
+- Intelligent progress reporting that accounts for request, latency, and response
+- Customizable data caching
 
 ## Design Philosophy
 
@@ -95,6 +85,8 @@ Design the API with these goals:
 4. Keep the implementation tidy.
 
 _…in that order of priority._
+
+---
 
 ## Installation
 
@@ -132,6 +124,8 @@ import Siesta
 
 Coming soon, no later than when Xcode 7 goes out of beta.
 
+---
+
 ## Basic Usage
 
 Make a singleton for the REST API you want to use:
@@ -153,6 +147,8 @@ override func viewDidLoad() {
 …and use those notifications to populate your UI.
 
 ```swift
+@IBOutlet weak var nameLabel, favoriteColorLabel, errorLabel: UILabel!
+
 func resourceChanged(resource: Resource, event: ResourceEvent) {
     let json = resource.dictContent
     nameLabel.text = json["name"] as? String
@@ -186,7 +182,7 @@ MyAPI.resource("/profile").addObserver(self) {
 }
 ```
 
-…or better yet, use Siesta’s prebaked UI component to get an activity indicator, a nicely formatted error message, and a retry button for free:
+…or better yet, use Siesta’s prebaked `ResourceStatusOverlay` view to get an activity indicator, a nicely formatted error message, and a retry button for free:
 
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
@@ -221,10 +217,24 @@ class ProfileViewController: UIViewController, ResourceObserver {
 }
 ```
 
-Note that this is not just a toy example. Together with its storyboard, **this small piece of code is a fully armed and operational REST-backed user interface**, complete with an activity indicator, content-type-aware threaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
+Note that this example is not toy code. Together with its storyboard, **this small class is a fully armed and operational REST-backed user interface**, complete with an activity indicator, content-type-aware threaded parsing, robust error handling, refresh throttling, and app-wide response data sharing.
 
-See the [user guide](Docs/index.md) and [API documentation](https://bustoutsolutions.github.io/siesta/api/) for more info.
+---
+
+## Documentation
+
+- **[User Guide](Docs/index.md)**
+- **[API documentation](https://bustoutsolutions.github.io/siesta/api/)**
+- **[Specs](https://bustoutsolutions.github.io/siesta/specs/)**
 
 ## Examples
 
-This repo includes a [simple example project](Examples/GithubBrowser).
+This repo includes a [simple example project](Examples/GithubBrowser). Use Carthage to build its dependencies.
+
+## Contributing & Getting Help
+
+To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+
+To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+
+To get help, please don’t file an issue! Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
