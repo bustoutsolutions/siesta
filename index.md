@@ -232,7 +232,7 @@ Note that this example is not toy code. Together with its storyboard, **this sma
 
 ## Examples
 
-This repo includes a [simple example project](Examples/GithubBrowser). Use Carthage to build its dependencies.
+This repo includes a [simple example project](https://github.com/bustoutsolutions/siesta/tree/master/Examples/GithubBrowser). Use Carthage to build its dependencies.
 
 ## Contributing & Getting Help
 
