@@ -3,9 +3,6 @@ Networking-Alamofire.swift
 	public init(manager: Manager = Manager.sharedInstance)
 	public init(configuration: NSURLSessionConfiguration)
 	public func networkingForRequest(request: NSURLRequest) -> RequestNetworking
-DebugFormatting.swift
-	public func dump(indent: String = "") -> String
-	public func dump(indent: String = "") -> String
 ResourceStatusOverlay.swift
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
 	@IBOutlet public var errorView: UIView?
