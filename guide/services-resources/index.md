@@ -21,7 +21,7 @@ You don’t necessarily need to make it a singleton, but don’t just instantiat
 
 Although it’s not strictly necessary, it can be pleasant to subclass `Service` to add convenience accessors for commonly used resources:
 
-```
+```swift
 class MyAPI: Service {
   init() {
     super.init(base: "https://api.example.com")
@@ -71,9 +71,8 @@ For more details, see the documentation for [`child(_:)`](http://bustoutsolution
 
 ## The Golden Rule of Resources
 
-At any given time, **there is at most one `Resource` object for a given URL** within the context of a `Service`.
+> Within the context of a `Service` instance, at any given time there is at most one `Resource` object for a given URL.
 
 This is true no matter how you navigate to a resource, no matter whether you retain it or re-request it, no matter what — just as long as the resource came (directly or indirectly) from the same `Service` instance.
 
 Note that the rule is “at _most_ one.” If memory is low and no code references a particular resource, a service may choose to discard it and recreate it later if needed. This is transparent to client code; as long as you retain a reference to a resource, you will always keep getting only that reference. However, it does mean that resource objects are ephemeral, created and recreated on demand.
-

@@ -11,9 +11,9 @@ Resources start out empty — no data, no error, not loading. To trigger a GET 
 MyAPI.profile.loadIfNeeded()
 ```
 
-Don’t worry about calling `loadIfNeeded()` too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
+Don’t worry about calling [`loadIfNeeded()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__) too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
 
-To force a network request, use `load()`:
+To force a network request, use [`load()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_):
 
 ```swift
 MyAPI.profile.load()
@@ -27,6 +27,22 @@ MyAPI.profile.request(.POST, urlEncoded: ["foo": "bar"])
 MyAPI.profile.request(.POST, text: "Many years later, in front of the terminal...")
 MyAPI.profile.request(.POST, data: nsdata)
 ```
+
+## Response Hooks
+
+Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
+
+However, you can also attach callbacks to an individual request, in the manner of more familiar HTTP frameworks:
+
+```swift
+resource.load()
+    .success { data in print("Wow! Data!") }
+    .failure { error in print("Oh, bummer.") }
+```
+
+Though they are a secondary feature, these request hooks are quite robust (and better-behaved than similar hooks in some of the frameworks in which they are the primary feature). See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
+
+These _response callbacks_ are one-offs, called at most once when a request completes and then discarded.
 
 ## Request vs. Load
 
@@ -53,4 +69,4 @@ resource.request(.POST, json: newState).success() {
 }
 ```
 
-* TODO: document local update using response data
+You can also pass a custom request directly to [`load(usingRequest:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT12usingRequestPS_7Request__PS1__).

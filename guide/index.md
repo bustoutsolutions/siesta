@@ -7,8 +7,9 @@ layout: default
 
 - [Services and Resources](services-resources)
 - [Resource State](state)
-- [Requests](requests)
 - [Observers](observers)
+- [Requests](requests)
+- [Configuration](configuration)
 - [UI Components](ui-components)
 - [Memory Management](memory)
 - [Logging](logging)
