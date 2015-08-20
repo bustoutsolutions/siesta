@@ -1,8 +1,8 @@
 # Configuration
 
-Siesta decouples request options from request initiation. Any code can request a resource without knowing all the details of _how_ it is requested: “I want to display the user’s profile. Request it if necessary. Tell me any time it changes.” You can therefore customize the behavior of a resource to fit your application and the API you are using.
+Siesta decouples request _configuration_ from request _initiation_. Any code can request a resource without knowing all the details of _how_ to request it, e.g.: “I want to display the user’s profile. Request it if necessary; you know what to do. Tell me whenever it changes.”
 
-However, because of the ephemeral nature of `Resource` instances, you cannot configure them by setting properties on a resource. Any such changes would vanish unpredictably during periods of low memory. Notice that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.
+Siesta therefore needs to let you customize requests on a per-resource basis, not just a per-request basis. However, because of the ephemeral nature of `Resource` instances, you cannot configure them by setting properties on a resource. Any such changes would vanish unpredictably during periods of low memory. Notice that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.
 
 All of a resource’s customizable options are in the [Configuration](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html) struct. This struct appears as a property of `Resource`, but it is read-only (and thus immutable — Swift’s most brilliant feature). To change configuration options, you provide closures to [`Service.configure(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/Resource%20Configuration).
 
