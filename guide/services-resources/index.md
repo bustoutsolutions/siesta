@@ -5,11 +5,11 @@ layout: default
 
 # Services and Resources
 
-Services and resources are your entry point for interaction with Siesta. Together, they represent an API and the many RESTful resources within it.
+Services and resources are your entry point for interaction with Siesta. Together, they represent a REST API and the many resources within it.
 
 ## Services
 
-A service represents an API, that is, a set of related RESTful resources which tend to share common rules about response structure, authentication, and other conventions.
+A [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html) represents an API, that is, a set of related resources which tend to share common rules about request and response structure, authentication, and other conventions.
 
 You’ll typically create a `Service` singleton for each API your app uses:
 
@@ -17,54 +17,32 @@ You’ll typically create a `Service` singleton for each API your app uses:
 let myAPI = Service(base: "https://api.example.com")  // top level
 ```
 
-You don’t necessarily need to make it a singleton, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource receives the same notifications. That happens within the context of one `Service` instance.
+You don’t necessarily need to make it a singleton, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource is working with the same object, and receives the same notifications. That happens within the context of one `Service` instance.
 
-You can subclass `Service` to provide custom configuration in the initializer:
+Although it’s not strictly necessary, it can be pleasant to subclass `Service` to add convenience accessors for commonly used resources:
 
-```swift
-class MyAPI: Service {
-  init() {
-    super.init(base: "https://api.example.com")
-
-    defaultExpirationTime = 10  // seconds before data considered stale
-    responseTransformers.add(MyAPISpecialFancyErrorMessageExtractor())
-  }
-}
-
-let myAPI = MyAPI()
 ```
-
-You may also want to add convenience accessors for commonly used resources:
-
-```swift
 class MyAPI: Service {
   init() {
     super.init(base: "https://api.example.com")
   }
 
-  var profile: Resource {
-    return resource("profile")
-  }
-  var items: Resource {
-    return resource("items")
-  }
+  var profile: Resource { return resource("/profile") }
+  var items:   Resource { return resource("/items") }
+
   func item(id: String) -> Resource {
-    return resource("items").child(id)
+    return items.child(id)
   }
 }
 
 let myAPI = MyAPI()
 ```
 
-## Resources
+Note the use of computed properties instead of read-only (`let`) properties. This lets the service discard resources not currently in use if memory gets low — which brings us to…
 
-A `Resource` is a local cache of a RESTful resource. It holds a representation of the the resource’s data, plus information about the status of network requests related to it.
+## Getting Resources
 
-This class answers three basic questions about a resource:
-
-* What is the latest data for the resource we have, if any?
-* Did the last attempt to load it result in an error?
-* Is there a request in progress?
+A [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is a local cache of a RESTful resource. It holds a representation of the the resource’s data, plus information about the status of network requests related to it.
 
 Retrieve resources from a service by providing paths relative to the service’s base URL:
 
@@ -89,4 +67,13 @@ myAPI.resource("/items/456").relative("../123/detail")
 myAPI.resource("/doodads").relative("/items/123/detail")
 ```
 
-Within the context of a `Service`, there is at most one `Resource` object for a given URL, no matter how you navigate to it.
+For more details, see the documentation for [`child(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_) and [`relative(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_), and the [related specs](https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec).
+
+## The Golden Rule of Resources
+
+At any given time, **there is at most one `Resource` object for a given URL** within the context of a `Service`.
+
+This is true no matter how you navigate to a resource, no matter whether you retain it or re-request it, no matter what — just as long as the resource came (directly or indirectly) from the same `Service` instance.
+
+Note that the rule is “at _most_ one.” If memory is low and no code references a particular resource, a service may choose to discard it and recreate it later if needed. This is transparent to client code; as long as you retain a reference to a resource, you will always keep getting only that reference. However, it does mean that resource objects are ephemeral, created and recreated on demand.
+
