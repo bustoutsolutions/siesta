@@ -42,7 +42,7 @@ public final class Resource: NSObject
     /**
       Configuration options for this resource.
       
-      Note that this is a read-only property. You cannot directly change an individual resource's configuration.
+      Note that this is a read-only computed property. You cannot directly change an individual resource's configuration.
       The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
       not in use. Any configuration applied a particular resource instance would therefore be transient.
       
