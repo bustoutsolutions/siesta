@@ -1,15 +1,17 @@
 # Resource State
 
-`Resource` answers three basic questions:
+The `Resource` class answers three basic questions:
 
 **Q.** What is the latest data for the resource we have locally, if any?
-**A.** [`latestData`](http://localhost:4000/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](http://localhost:4000/siesta/api/Protocols/TypedContentAccessors.html)
+**A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
 
 **Q.** Did the last attempt to load it result in an error?
-**A.** [`latestError`](http://localhost:4000/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
+**A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
 **Q.** Is there a request in progress?
-**A.** [`loading`](http://localhost:4000/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb)
+**A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb)
+
+## The Resource State Properties
 
 ```swift
 resource.latestData          // Full metadata, in case you need the gory details.

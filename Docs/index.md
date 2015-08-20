@@ -2,8 +2,9 @@
 
 - [Services and Resources](services-resources.md)
 - [Resource State](state.md)
-- [Requests](requests.md)
 - [Observers](observers.md)
+- [Requests](requests.md)
+- [Configuration](configuration.md)
 - [UI Components](ui-components.md)
 - [Memory Management](memory.md)
 - [Logging](logging.md)

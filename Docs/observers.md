@@ -1,6 +1,6 @@
 # Observers
 
-Code can observe changes to a resource, either by implementing the `ResourceObserver` protocol:
+Code can observe changes to a resource’s state, either by implementing the [`ResourceObserver`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResourceObserver.html) protocol:
 
 ```swift
 resource.addObserver(self)
@@ -14,6 +14,8 @@ resource.addObserver(owner: self) {
     …
 }
 ```
+
+(Note that you’ll often need `[weak self]` in the closure to prevent a memory leak.)
 
 Observers receive a notification when a resource starts loading, receives new data, or receives an error. Each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
@@ -35,12 +37,4 @@ Note the pleasantly reactive flavor this code takes on — without the overhead
 
 If updating the whole UI is an expensive operation (but it rarely is; benchmark first!), you can use the `event` parameter and the metadata in `latestData` and `latestError` to fine-tune your UI updates.
 
-Note that you can also attach callbacks to an individual request, in the manner of more familiar HTTP frameworks:
-
-```swift
-resource.load()
-    .success { data in print("Wow! Data!") }
-    .failure { error in print("Oh, bummer.") }
-```
-
-These _response callbacks_ are one-offs, called at most once when a request completes and then discarded. Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
+See the [`Resource` API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources) for more information.
