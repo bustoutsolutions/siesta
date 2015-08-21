@@ -647,6 +647,93 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.contentType).to(equal("application/binary"))
                 }
             }
+
+        describe("invalidate()")
+            {
+            let dataTimestamp  = NSTimeInterval(1000),
+                errorTimestamp = NSTimeInterval(2000)
+            
+            beforeEach
+                {
+                setResourceTime(dataTimestamp)
+                stubReqest(resource, "GET")
+                awaitNewData(resource().load())
+                LSNocilla.sharedInstance().clearStubs()
+                
+                setResourceTime(errorTimestamp)
+                stubReqest(resource, "GET").andReturn(500)
+                awaitFailure(resource().load())
+                LSNocilla.sharedInstance().clearStubs()
+                }
+
+            it("does not trigger an immediate request")
+                {
+                resource().invalidate()
+                }
+            
+            it("causes loadIfNeeded() to trigger a request")
+                {
+                resource().invalidate()
+                
+                stubReqest(resource, "GET")
+                let req = resource().loadIfNeeded()
+                expect(req).notTo(beNil())
+                awaitNewData(req!)
+                }
+            
+            describe("only affects loadIfNeeded() once")
+                {
+                beforeEach
+                    { resource().invalidate() }
+                
+                afterEach
+                    {
+                    LSNocilla.sharedInstance().clearStubs()
+                    let req = resource().loadIfNeeded()
+                    expect(req).to(beNil())
+                    }
+                
+                it("if loadIfNeeded() succeeds")
+                    {
+                    stubReqest(resource, "GET")
+                    awaitNewData(resource().loadIfNeeded()!)
+                    }
+                
+                it("if loadIfNeeded() fails")
+                    {
+                    stubReqest(resource, "GET").andReturn(500)
+                    awaitFailure(resource().loadIfNeeded()!)
+                    }
+
+                it("if load() completes")
+                    {
+                    stubReqest(resource, "GET")
+                    awaitNewData(resource().load())
+                    }
+
+                it("if local*Override() called")
+                    {
+                    resource().localContentOverride("I am a banana")
+                    }
+                }
+            
+            it("leaves latestData and latestError intact")
+                {
+                resource().invalidate()
+                
+                expect(resource().latestData).notTo(beNil())
+                expect(resource().latestError).notTo(beNil())
+                }
+
+            it("leaves timestamps intact")
+                {
+                resource().invalidate()
+                
+                expect(resource().latestData?.timestamp).to(equal(dataTimestamp))
+                expect(resource().latestError?.timestamp).to(equal(errorTimestamp))
+                expect(resource().timestamp).to(equal(errorTimestamp))
+                }
+            }
         
         describe("wipe()")
             {

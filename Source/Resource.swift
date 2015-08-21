@@ -77,6 +77,7 @@ public final class Resource: NSObject
        - SeeAlso: `DataContainer`
     */
     public private(set) var latestData: Entity?
+        { didSet { invalidated = false } }
     
     /**
       Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
@@ -86,6 +87,7 @@ public final class Resource: NSObject
       flavors of `request(...)`.
     */
     public private(set) var latestError: Error?
+        { didSet { invalidated = false } }
     
     /// The time of the most recent update to either `latestData` or `latestError`.
     public var timestamp: NSTimeInterval
@@ -94,6 +96,8 @@ public final class Resource: NSObject
             latestData?.timestamp ?? 0,
             latestError?.timestamp ?? 0)
         }
+    
+    private var invalidated = false
     
     
     // MARK: Request management
@@ -423,7 +427,7 @@ public final class Resource: NSObject
             ? config.expirationTime
             : config.retryTime
         
-        if now() - timestamp <= maxAge
+        if !invalidated && now() - timestamp <= maxAge
             {
             debugLog(.Staleness, [self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
             return nil
@@ -582,6 +586,17 @@ public final class Resource: NSObject
         }
 
     /**
+      Forces the next call to `loadIfNeeded()` to trigger a request, even if the current content is fresh.
+      Leaves the current values of `latestData` and `latestError` intact (including their timestamps).
+      
+      - SeeAlso: `wipe()`
+    */
+    public func invalidate()
+        {
+        invalidated = true
+        }
+    
+    /**
       Resets this resource to its pristine state, as if newly created.
     
       - Sets `latestData` to nil.
@@ -589,6 +604,8 @@ public final class Resource: NSObject
       - Cancels all resource requests in progress.
       
       Observers receive a `NewData` event. Requests in progress call completion hooks with a cancellation error.
+      
+      - SeeAlso: `invalidate()`
     */
     public func wipe()
         {
