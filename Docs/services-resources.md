@@ -1,6 +1,6 @@
 # Services and Resources
 
-Services and resources are your entry point for interaction with Siesta. Together, they represent a REST API and the many resources within it.
+Services and resources are the heart of Siesta.
 
 ## Services
 
