@@ -123,7 +123,7 @@ public final class Resource: NSObject
             }
         }
     
-    // MARK: URL Navigation
+    // MARK: URL navigation
     
     /**
       Returns the resource with the given string appended to the path of this resource’s URL, with a joining slash
@@ -488,6 +488,46 @@ public final class Resource: NSObject
         return req
         }
     
+    private func receiveData(entity: Entity)
+        { receiveNewData(entity, localOverride: false) }
+    
+    private func receiveNewData(entity: Entity, localOverride: Bool)
+        {
+        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", entity])
+        
+        self.latestError = nil
+        self.latestData = entity
+        
+        notifyObservers(.NewData)
+        }
+
+    private func receiveDataNotModified()
+        {
+        debugLog(.StateChanges, [self, "existing data is still valid"])
+        
+        self.latestError = nil
+        self.latestData?.touch()
+        
+        notifyObservers(.NotModified)
+        }
+    
+    private func receiveError(error: Error)
+        {
+        if error.isCancellation
+            {
+            notifyObservers(.RequestCancelled)
+            return
+            }
+
+        debugLog(.StateChanges, [self, "received error:", error])
+        
+        self.latestError = error
+
+        notifyObservers(.Error)
+        }
+    
+    // MARK: Local state changes
+    
     /**
       Directly updates `latestData` without touching the network. Clears `latestError` and broadcasts
       `ResourceEvent.NewData` to observers.
@@ -540,44 +580,6 @@ public final class Resource: NSObject
         localDataOverride(updatedEntity)
         }
 
-    private func receiveData(entity: Entity)
-        { receiveNewData(entity, localOverride: false) }
-    
-    private func receiveNewData(entity: Entity, localOverride: Bool)
-        {
-        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", entity])
-        
-        self.latestError = nil
-        self.latestData = entity
-        
-        notifyObservers(.NewData)
-        }
-
-    private func receiveDataNotModified()
-        {
-        debugLog(.StateChanges, [self, "existing data is still valid"])
-        
-        self.latestError = nil
-        self.latestData?.touch()
-        
-        notifyObservers(.NotModified)
-        }
-    
-    private func receiveError(error: Error)
-        {
-        if error.isCancellation
-            {
-            notifyObservers(.RequestCancelled)
-            return
-            }
-
-        debugLog(.StateChanges, [self, "received error:", error])
-        
-        self.latestError = error
-
-        notifyObservers(.Error)
-        }
-    
     /**
       Resets this resource to its pristine state, as if newly created.
     
