@@ -611,7 +611,7 @@ class ResourceRequestsSpec: ResourceSpecBase
         
         describe("localContentOverride()")
             {
-            it("updates existing content without altering headers")
+            it("updates latestData’s content without altering headers")
                 {
                 stubReqest(resource, "GET")
                     .andReturn(200)
@@ -627,7 +627,20 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData?.header("Sauce-disposition")).to(equal("garlic"))
                 }
             
-            it("creates new data as application/binary")
+            it("updates latestData’s timestamp")
+                {
+                setResourceTime(1000)
+                stubReqest(resource, "GET").andReturn(200).withBody("hello")
+                awaitNewData(resource().load())
+                
+                setResourceTime(2000)
+                resource().localContentOverride("ahoy")
+                
+                expect(resource().latestData?.timestamp).to(equal(2000))
+                expect(resource().timestamp).to(equal(2000))
+                }
+            
+            it("creates new application/binary entity if latestData is nil")
                 {
                 resource().localContentOverride("fusilli")
                 expect(resource().text).to(equal("fusilli"))

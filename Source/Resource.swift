@@ -577,6 +577,7 @@ public final class Resource: NSObject
         {
         var updatedEntity = latestData ?? Entity(content: content, contentType: "application/binary")
         updatedEntity.content = content
+        updatedEntity.touch()
         localDataOverride(updatedEntity)
         }
 
