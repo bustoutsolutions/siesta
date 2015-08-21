@@ -46,7 +46,7 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
 
   print "  #{src} → #{dst} "
 
-  content = File.read(src)
+  content = File.read(src, encoding: 'utf-8')
 
   unless content =~ /^# (.*)/
       puts
