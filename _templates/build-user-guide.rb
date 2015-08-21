@@ -65,7 +65,13 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
     f.puts "layout: default"
     f.puts "---"
     f.puts
-    f.puts content.gsub(/\]\(([^\]]+)\.md\)/, '](\1)')
+    f.puts(
+      content.gsub(/\]\(([^\)]+)\.md\)/) do
+        path = dst_path_for.call(
+          siesta_dir,
+          File.expand_path(File.join(File.dirname(src), $1)))
+        "](/siesta/#{path})"
+      end)
 
     toc_info = toc[File.expand_path(src)]
     if toc_info
