@@ -430,7 +430,7 @@ public final class Resource: NSObject
             }
         
         debugLog(.Staleness, [self, "loadIfNeeded() triggered load()"])
-        return self.load()
+        return load()
         }
     
     /**
@@ -479,24 +479,24 @@ public final class Resource: NSObject
     */
     public func load(usingRequest req: Request) -> Request
         {
-        req.newData(self.receiveData)
-        req.notModified(self.receiveDataNotModified)
-        req.failure(self.receiveError)
+        req.newData(receiveNewData)
+        req.notModified(receiveDataNotModified)
+        req.failure(receiveError)
 
-        self.notifyObservers(.Requested)
+        notifyObservers(.Requested)
 
         return req
         }
     
-    private func receiveData(entity: Entity)
+    private func receiveNewData(entity: Entity)
         { receiveNewData(entity, localOverride: false) }
     
     private func receiveNewData(entity: Entity, localOverride: Bool)
         {
         debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", entity])
         
-        self.latestError = nil
-        self.latestData = entity
+        latestError = nil
+        latestData = entity
         
         notifyObservers(.NewData)
         }
@@ -505,8 +505,8 @@ public final class Resource: NSObject
         {
         debugLog(.StateChanges, [self, "existing data is still valid"])
         
-        self.latestError = nil
-        self.latestData?.touch()
+        latestError = nil
+        latestData?.touch()
         
         notifyObservers(.NotModified)
         }
@@ -521,7 +521,7 @@ public final class Resource: NSObject
 
         debugLog(.StateChanges, [self, "received error:", error])
         
-        self.latestError = error
+        latestError = error
 
         notifyObservers(.Error)
         }
@@ -593,8 +593,8 @@ public final class Resource: NSObject
         {
         debugLog(.StateChanges, [self, "wiped"])
         
-        self.latestError = nil
-        self.latestData = nil
+        latestError = nil
+        latestData = nil
         
         for request in requests
             { request.cancel() }
