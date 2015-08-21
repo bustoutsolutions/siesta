@@ -43,3 +43,6 @@ Note the pleasantly reactive flavor this code takes on — without the overhead
 If updating the whole UI is an expensive operation (but it rarely is; benchmark first!), you can use the `event` parameter and the metadata in `latestData` and `latestError` to fine-tune your UI updates.
 
 See the [`Resource` API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources) for more information.
+
+Next: **[Requests](../requests)**
+{: .guide-next}

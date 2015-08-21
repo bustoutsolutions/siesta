@@ -82,3 +82,6 @@ Observers affect the lifecycle of resources:
 * At any time, there exists at _most_ one `Resource` instance per `Service` for a given URL.
 
 These rules, while tricky when all spelled out, make the right thing the easy thing most of the time.
+
+Next: **[Logging](../logging)**
+{: .guide-next}

@@ -57,3 +57,6 @@ At this point, `loading` is true, `latestError` holds information about the prev
 
 Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data available, or you may prefer to always show a spinner.
 
+
+Next: **[Observers](../observers)**
+{: .guide-next}

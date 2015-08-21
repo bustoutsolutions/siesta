@@ -44,3 +44,6 @@ Siesta.logger = { category, message in
     speechSynth.speakUtterance(AVSpeechUtterance(string: message))
 }
 ```
+
+Next: **[Using Siesta from Objective-C](../objc)**
+{: .guide-next}

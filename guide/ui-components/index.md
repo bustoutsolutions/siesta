@@ -88,3 +88,6 @@ Or in Objective-C:
 
 @end
 ```
+
+Next: **[Memory Management](../memory)**
+{: .guide-next}

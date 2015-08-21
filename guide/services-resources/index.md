@@ -76,3 +76,6 @@ For more details, see the documentation for [`child(_:)`](http://bustoutsolution
 This is true no matter how you navigate to a resource, no matter whether you retain it or re-request it, no matter what — just as long as the resource came (directly or indirectly) from the same `Service` instance.
 
 Note that the rule is “at _most_ one.” If memory is low and no code references a particular resource, a service may choose to discard it and recreate it later if needed. This is transparent to client code; as long as you retain a reference to a resource, you will always keep getting only that reference. However, it does mean that resource objects are ephemeral, created and recreated on demand.
+
+Next: **[Resource State](../state)**
+{: .guide-next}

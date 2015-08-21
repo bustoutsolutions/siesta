@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require 'ostruct'
 
 siesta_dir = ENV['siesta_dir']
 docs_dir=File.dirname(File.dirname(__FILE__))
@@ -13,13 +14,33 @@ end
 
 puts "Building user guide in $docs_dir ..."
 
-Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
-  dst = src.
-    gsub(/^#{siesta_dir}\/?/, '').
+toc = Hash[
+  File.read(File.join(siesta_dir, 'Docs/index.md')).
+    scan(/^- \[(.*)\]\((.*)\)/).
+    map do |title, file|
+      file = File.expand_path("#{siesta_dir}/Docs/#{file}")
+      warn "Nonexistent file in toc: #{file}" unless File.exists?(file)
+      [file, OpenStruct.new(title: title, file: file)]
+    end
+]
+
+prev_info = nil
+toc.each do |file, info|
+  prev_info.next = info if prev_info
+  prev_info = info
+end
+
+dst_path_for = lambda do |parent_dir, srcfile|
+  File.expand_path(srcfile).
+    gsub(/^#{File.expand_path(parent_dir)}\/?/, '').
     gsub(/\.md$/, '').
     gsub('README', 'index').
     gsub('Docs/', 'guide/').
     gsub(/index$/, '')
+end
+
+Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
+  dst = dst_path_for.call(siesta_dir, src)
 
   dst = File.join(docs_dir, dst)
 
@@ -45,6 +66,19 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
     f.puts "---"
     f.puts
     f.puts content.gsub(/\]\(([^\]]+)\.md\)/, '](\1)')
+
+    toc_info = toc[File.expand_path(src)]
+    if toc_info
+      if toc_info.title != title
+        warn "    Mismatched title in TOC: #{toc_info.title} != #{title}"
+      end
+      if toc_info.next
+        next_file = '../' + dst_path_for.call("#{siesta_dir}/Docs/", toc_info.next.file)
+        f.puts
+        f.puts "Next: **[#{toc_info.next.title}](#{next_file})**"
+        f.puts '{: .guide-next}'
+      end
+    end
   end
 
   FileUtils.cp_r File.join(siesta_dir, 'Docs/images'), File.join(docs_dir, "/guide/")
