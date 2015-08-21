@@ -589,6 +589,11 @@ public final class Resource: NSObject
       Forces the next call to `loadIfNeeded()` to trigger a request, even if the current content is fresh.
       Leaves the current values of `latestData` and `latestError` intact (including their timestamps).
       
+      Use this if you know the current content is stale, but don’t want to trigger a network request right away.
+      
+      Any update to `latestData` or `latestError` — including a call to `localDataOverride()` or
+      `localContentOverride()` — clears the invalidation.
+      
       - SeeAlso: `wipe()`
     */
     public func invalidate()
