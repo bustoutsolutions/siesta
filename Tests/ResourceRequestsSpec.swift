@@ -717,6 +717,19 @@ class ResourceRequestsSpec: ResourceSpecBase
                     }
                 }
             
+            it("still affects the next loadIfNeeded() if load cancelled")
+                {
+                resource().invalidate()
+                
+                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let req = resource().load()
+                req.cancel()
+                reqStub.go()
+                awaitFailure(req)
+
+                awaitNewData(resource().loadIfNeeded()!)
+                }
+            
             it("leaves latestData and latestError intact")
                 {
                 resource().invalidate()
