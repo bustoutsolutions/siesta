@@ -64,13 +64,18 @@ var displayedResource: Resource? {
 
 ## Detailed Ownership Rules
 
+Observers have owners.
+
 * An observer’s observation of a resource is contingent upon one or more owners.
 * Owners can be any kind of object.
 * An observer may be its own owner.
+
+Ownership affects the observer lifecycle.
+
 * A resource keeps a strong reference to an observer as long as it has owners other than itself.
 * An observer stops observing a resource as soon as all of its owners have either been deallocated or explicitly removed.
 
-Observers affect the lifecycle of resources:
+Observers affect the resource lifecycle.
 
 * A resource is eligible for deallocation if and only if it has no observers _and_ there are no other strong references to it from outside the Siesta framework.
 * Eligible resources are only deallocated if there is memory pressure.

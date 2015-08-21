@@ -11,7 +11,7 @@ The `Resource` class answers three basic questions:
 **Q.** Is there a request in progress?
 **A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb)
 
-## The Resource State Properties
+## The State Properties
 
 ```swift
 resource.latestData          // Full metadata, in case you need the gory details.
@@ -50,5 +50,4 @@ Note that data, error, and the loading flag are not mutually exclusive. For exam
 
 At this point, `loading` is true, `latestError` holds information about the previously failed request, and `data` still gives the old cached data.
 
-Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data available, or you may prefer to always show a spinner.
-
+Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data displayed, or you may prefer to show a spinner on refresh. You may prefer to show a modal error message, an unobtrusive error popup, or existing data with no error message at all. It’s up to you.

@@ -17,9 +17,10 @@ Features exposed to Objective-C:
 
 Some things are not exposed in the compatibility layer, and must be done in Swift:
 
- * Subclassing Service
- * Custom ResponseTransformers
- * Custom NetworkingProviders
+ * Subclassing `Service`
+ * Configuration
+ * Custom `ResponseTransformer`s
+ * Custom `NetworkingProvider`s
  * Logging config
 
 ## Naming Conventions

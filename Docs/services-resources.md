@@ -33,7 +33,7 @@ class MyAPI: Service {
 let myAPI = MyAPI()
 ```
 
-Note the use of computed properties instead of read-only (`let`) properties. This lets the service discard resources not currently in use if memory gets low — which brings us to…
+Note the use of computed properties instead of read-only (`let`) properties. This lets the service discard resources not currently in use if memory gets low.
 
 ## Getting Resources
 
@@ -58,7 +58,8 @@ myAPI.resource("/items").child("123").child("detail")
 myAPI.resource("/items").child("123/detail")
 
 myAPI.resource("/items").relative("./123/detail")
-myAPI.resource("/items/456").relative("../123/detail")
+myAPI.resource("/items/456").relative("./123/detail")
+myAPI.resource("/items/456/detail").relative("../123/detail")
 myAPI.resource("/doodads").relative("/items/123/detail")
 ```
 

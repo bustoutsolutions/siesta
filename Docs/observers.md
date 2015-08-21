@@ -17,7 +17,7 @@ resource.addObserver(owner: self) {
 
 (Note that you’ll often need `[weak self]` in the closure to prevent a memory leak.)
 
-Observers receive a notification when a resource starts loading, receives new data, or receives an error. Each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
+Observers receive a notification whenever a resource’s state changes: when it starts loading, receives new data, or receives an error. Addditionally, each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
 The simplest way to implement your observer is to ignore what king of event triggered the notification, and take an idempotent “update everything” approach:
 

@@ -20,9 +20,9 @@ Common practice is to add a DEBUG Swift compiler flag to your project (if you ha
 …and then automatically enable logging for common categories in your API’s `init()` or your `applicationDidFinishLaunching`:
 
 ```swift
-    #if DEBUG
-        Siesta.enabledLogCategories = LogCategory.common
-    #endif
+#if DEBUG
+    Siesta.enabledLogCategories = LogCategory.common
+#endif
 ```
 
 ## Custom Log Action

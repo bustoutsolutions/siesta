@@ -2,11 +2,11 @@
 
 Siesta decouples request _configuration_ from request _initiation_. Any code can request a resource without knowing all the details of _how_ to request it, e.g.: “I want to display the user’s profile. Request it if necessary; you know what to do. Tell me whenever it changes.”
 
-Siesta therefore needs to let you customize requests on a per-resource basis, not just a per-request basis. However, because of the ephemeral nature of `Resource` instances, you cannot configure them by setting properties of `Resource`. Any such changes would vanish unpredictably during periods of low memory. Notice that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.
+To accomplish this, Siesta lets you customize requests on a _per-resource_ basis, not just a _per-request_ basis. Because of the ephemeral nature of `Resource` instances, you cannot configure them by directly setting properties of `Resource`. Any such changes would vanish unpredictably during periods of low memory. (Note that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.)
 
 Instead, all of a resource’s customizable options are in the [Configuration](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html) struct. This struct appears as a property of `Resource`, but it is a read-only property (and thus immutable — Swift’s most brilliant feature). To change configuration options, you provide closures to [`Service.configure(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/Resource%20Configuration).
 
-Your configuration closures receive a _mutable_ copy of the configuration, which they reference as `$0.config`. Each closure can apply globally across the service, a single resource, or a subset of resources specified by shell-like pattern or custom predicate. Closures can modify the mutable configuration before the resource receives it and it becomes immutable.
+Your configuration closures receive a _mutable_ copy of the configuration, which they reference as `$0.config`. Each closure can apply globally across the service, to a single resource, or to a subset of resources. You can specify resource subsets with a wildcard pattern or a custom predicate. Closures can modify the mutable configuration before the resource receives it and it becomes immutable.
 
 Configuration closures are run:
 
@@ -16,7 +16,7 @@ Configuration closures are run:
 
 ## Example! Please!
 
-Yes, that was all a little heady. Here you go:
+Yes, that was all a little heady. An example will help make it clear:
 
 ```swift
 class MyAPI: Service {
