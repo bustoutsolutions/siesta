@@ -11,7 +11,7 @@ Resources start out empty — no data, no error, not loading. To trigger a GET 
 MyAPI.profile.loadIfNeeded()
 ```
 
-Don’t worry about calling [`loadIfNeeded()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__) too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is configurable on a per-service and per-resource level.)
+Don’t worry about calling [`loadIfNeeded()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__) too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is [configurable](/siesta/guide/configuration).)
 
 To force a network request, use [`load()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_):
 
@@ -28,11 +28,11 @@ MyAPI.profile.request(.POST, text: "Many years later, in front of the terminal..
 MyAPI.profile.request(.POST, data: nsdata)
 ```
 
-## Response Hooks
+## Request Hooks
 
-Siesta’s important distinguishing feature is that an _observer_ will keep receiving notifications about a resource, no matter who requests it, no matter when the responses arrive.
+Siesta’s important distinguishing feature is that **observers** receive ongoing notifications about _all_ changes to a resource, no matter who initiated the change or when it arrived.
 
-However, you can also attach callbacks to an individual request, in the manner of more familiar HTTP frameworks:
+However, you can also attach **hooks** to an individual request, in the manner of more familiar HTTP frameworks:
 
 ```swift
 resource.load()
@@ -40,9 +40,9 @@ resource.load()
     .failure { error in print("Oh, bummer.") }
 ```
 
-Though they are a secondary feature, these request hooks are quite robust (and better-behaved than similar hooks in some of the frameworks in which they are the primary feature). See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
+These hooks are one-offs, called at most once when a request completes and then discarded.
 
-These _response callbacks_ are one-offs, called at most once when a request completes and then discarded.
+Though they are a secondary feature, these request hooks are quite robust. They have several advantages over similar hooks in other lower-level frameworks; for example, they parse responses only once (instead of repeatedly for each callback). See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
 
 ## Request vs. Load
 
