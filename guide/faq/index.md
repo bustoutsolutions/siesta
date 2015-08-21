@@ -1,9 +1,9 @@
 ---
-title: ''
+title: 'FAQ'
 layout: default
 ---
 
- FAQ
+# FAQ
 
 
 ## Capabilities
