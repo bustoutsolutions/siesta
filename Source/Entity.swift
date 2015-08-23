@@ -147,9 +147,9 @@ public struct Entity
         }
       }
   
-  Note that this is _only_ a convenience accessor. It only checks whether the entity already has a `UIImage`, and does
-  not do any parsing itself. You’d need to pair this with a custom `ResponseTransformer` that converts raw image
-  responses to `UIImage`s.
+  Note that the sample code above is _only_ a convenience accessor. It checks whether the entity already has a `UIImage`,
+  but does not do any parsing to put a `UIImage` there in the first place. You’d need to pair this with a custom
+  `ResponseTransformer` that converts raw image responses to `UIImage`s.
 */
 public protocol TypedContentAccessors
     {
