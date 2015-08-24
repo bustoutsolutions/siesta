@@ -406,14 +406,15 @@ flavors of <code>request(...)</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>True if any requests for this resource are pending.</p>
+                        <p>True if any load requests  (i.e. from calls to <code>load(...)</code> and <code>loadIfNeeded()</code>)
+for this resource are in progress.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">requests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">loadRequests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -423,9 +424,63 @@ flavors of <code>request(...)</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta8Resource8requestsGSaPS_7Request__"></a>
-                    <a name="//apple_ref/swift/Property/requests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta8Resource8requestsGSaPS_7Request__">requests</a>
+                    <a name="/s:vC6Siesta8Resource10requestingSb"></a>
+                    <a name="//apple_ref/swift/Property/requesting" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource10requestingSb">requesting</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>True if any requests for this resource are in progress.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">requesting</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">allRequests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__"></a>
+                    <a name="//apple_ref/swift/Property/loadRequests" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__">loadRequests</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All load requests in progress, in the order they were initiated.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">loadRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta8Resource11allRequestsGSaPS_7Request__"></a>
+                    <a name="//apple_ref/swift/Property/allRequests" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource11allRequestsGSaPS_7Request__">allRequests</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -440,7 +495,7 @@ flavors of <code>request(...)</code>.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">requests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span>  <span class="c1">// TOOD: Any special handling for concurrent POST &amp; GET?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">allRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span>  <span class="c1">// TOOD: Any special handling for concurrent POST &amp; GET?</span></code></pre>
 
                         </div>
                       </div>
@@ -942,6 +997,48 @@ for details.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:vC6Siesta8Resource10isUpToDateSb"></a>
+                    <a name="//apple_ref/swift/Property/isUpToDate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta8Resource10isUpToDateSb">isUpToDate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>True if the resource’s local state is up to date according to staleness configuration.</p>
+
+<p>“Up to date” means that either:</p>
+
+<ul>
+<li>the resource has data (i.e. <code>latestData</code> is not nil),</li>
+<li>the last request succeeded (i.e. <code>latestError</code> <em>is</em> nil), and</li>
+<li>the timestamp on <code>latestData</code> is more recent than <code>expirationTime</code> seconds ago,</li>
+</ul>
+
+<p>…or:</p>
+
+<ul>
+<li>the last request failed (i.e. <code>latestError</code> is not nil), and</li>
+<li>the timestamp on <code>latestError</code> is more recent than <code>retryTime</code> seconds ago.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isUpToDate</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__"></a>
                     <a name="//apple_ref/swift/Method/loadIfNeeded()" class="dashAnchor"></a>
                     <a class="token" href="#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a>
@@ -952,19 +1049,18 @@ for details.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Initiates a GET request to update the state of this resource, unless it is already up to date.</p>
+                        <p>Ensures that there is a load request in progress for this resource, unless the resource is already up to date.</p>
 
-<pre class="highlight plaintext"><code> “Up to date” means that either:
-   - the resource has data (i.e. `latestData` is not nil),
-   - the last request succeeded (i.e. `latestError` _is_ nil), and
-   - the timestamp on `latestData` is more recent than `expirationTime` seconds ago,
+<p>If the resource is not up to date and there is no load request already in progress, this method calls <code>load()</code>.</p>
 
- …or:
-   - the last request failed (i.e. `latestError` is not nil), and
-   - the timestamp on `latestError` is more recent than `retryTime` seconds ago.
+<ul>
+<li>SeeAlso:
 
- If the resource is not up to date, this method calls `load()`.
-</code></pre>
+<ul>
+<li><code>isUpToDate</code></li>
+<li><code>load()</code></li>
+</ul></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -1414,7 +1510,7 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-21)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-24)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
