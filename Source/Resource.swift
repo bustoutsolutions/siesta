@@ -280,7 +280,9 @@ public final class Resource: NSObject
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
         trackRequest(req, using: &allRequests)
-        config.willStartRequest(req, forResource: self)
+        for callback in config.beforeStartingRequestCallbacks
+            { callback(self, req) }
+        
         return req.start()
         }
     

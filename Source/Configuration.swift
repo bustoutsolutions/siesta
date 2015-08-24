@@ -37,15 +37,9 @@ public struct Configuration
       hooks or cancel the request before sending.
     */
     public mutating func beforeStartingRequest(callback: (Resource,Request) -> Void)
-        { requestWillStartCallbacks.append(callback) }
+        { beforeStartingRequestCallbacks.append(callback) }
     
-    internal func willStartRequest(request: Request, forResource resource: Resource)
-        {
-        for callback in requestWillStartCallbacks
-            { callback(resource, request) }
-        }
-    
-    private var requestWillStartCallbacks: [(Resource,Request) -> Void] = []
+    internal var beforeStartingRequestCallbacks: [(Resource,Request) -> Void] = []
     
     /**
       A sequence of parsers to be applied to responses.
