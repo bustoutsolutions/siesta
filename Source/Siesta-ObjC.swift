@@ -81,7 +81,6 @@ internal extension Entity
     init(entity: _objc_Entity)
         {
         self.init(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
-        self.etag = entity.etag
         }
     }
 

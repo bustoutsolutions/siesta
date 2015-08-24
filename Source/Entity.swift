@@ -44,6 +44,7 @@ public struct Entity
       for example, you might see “`text/plain`”, “`text/plain; charset=utf-8`”, or even “`text/foo+plain`”.
     */
     public var contentType: String
+        { return headers["content-type"] ?? "application/octet-stream" }
     
     /**
       The charset given with the content type, if any.
@@ -54,6 +55,7 @@ public struct Entity
       The etag of this data. If non-nil, Siesta will send an `If-modified-since` header with subsequent loads.
     */
     public var etag: String?
+        { return headers["etag"] }
 
     internal var headers: [String:String]
     
@@ -69,9 +71,7 @@ public struct Entity
         
         self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
         
-        self.contentType = headers["content-type"] ?? "application/octet-stream"
         self.charset = charset
-        self.etag = headers["etag"]
         
         self.timestamp = 0
         self.touch()
