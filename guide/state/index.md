@@ -14,7 +14,7 @@ The `Resource` class answers three basic questions:
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
 **Q.** Is there a request in progress?
-**A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`requesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7requestingSb)
+**A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`requesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10requestingSb)
 
 ## The State Properties
 
@@ -25,16 +25,19 @@ resource.latestData?.content // Gives a string, dict/array (for JSON), NSData, 
                              // nil if no data is available. You can also configure
                              // custom data types using ResponseTransformer.
 
-resource.text                // Convenience accessors return an empty string/dict/array
+resource.text                // Convenience accessors return empty string/dict/array
 resource.json                // if data is either (1) not present or (2) not of the
 resource.jsonArray           // expected type. This reduces futzing with optionals.
+
+resource.latestData?.headers // Because metadata matters too
 ```
 
 A resource knows whether it is currently has requests in progress, which lets you show/hide a spinner or progress bar:
 
 ```swift
-resource.requesting // True if any network requests in progress
-resource.loading    // True if any requests in progress will update latestData / latestError
+resource.requesting          // True if any requests for this resource are in progress
+resource.loading             // True if any requests in progress will update
+                             // latestData / latestError upon completion.
 ```
 
 …and it knows whether the last request resulted in an error:
