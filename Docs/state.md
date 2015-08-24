@@ -9,7 +9,7 @@ The `Resource` class answers three basic questions:
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
 **Q.** Is there a request in progress?
-**A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb)
+**A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`requesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7requestingSb)
 
 ## The State Properties
 
@@ -25,10 +25,11 @@ resource.json                // if data is either (1) not present or (2) not of 
 resource.jsonArray           // expected type. This reduces futzing with optionals.
 ```
 
-A resource knows whether it is currently loading, which lets you show/hide a spinner or progress bar:
+A resource knows whether it is currently has requests in progress, which lets you show/hide a spinner or progress bar:
 
 ```swift
-resource.loading  // True if network request in progress
+resource.requesting // True if any network requests in progress
+resource.loading    // True if any requests in progress will update latestData / latestError
 ```
 
 …and it knows whether the last request resulted in an error:

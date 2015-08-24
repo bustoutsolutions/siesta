@@ -27,6 +27,24 @@ internal extension CollectionType
         }
     }
 
+internal extension Array
+    {
+    mutating func remove(@noescape predicate: Generator.Element -> Bool)
+        {
+        var dst = startIndex
+        for src in indices
+            {
+            let elem = self[src]
+            if !predicate(elem)
+                {
+                self[dst] = elem
+                dst = dst.advancedBy(1)
+                }
+            }
+        removeRange(dst ..< endIndex)
+        }
+    }
+
 internal extension Dictionary
     {
     static func fromArray<K,V>(arrayOfTuples: [(K,V)]) -> [K:V]

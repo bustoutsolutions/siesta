@@ -277,11 +277,11 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
         
+        responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
+
         for callback in responseCallbacks
             { callback(newInfo) }
-        
         responseCallbacks = []   // Fly, little handlers, be free!
-        responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
         }
     
     // MARK: Response handling

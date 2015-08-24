@@ -102,11 +102,18 @@ public final class Resource: NSObject
     
     // MARK: Request management
     
-    /// True if any requests for this resource are pending.
-    public var loading: Bool { return !requests.isEmpty }
+    /// True if any load requests  (i.e. from calls to `load(...)` and `loadIfNeeded()`)
+    /// for this resource are in progress.
+    public var loading: Bool { return !loadRequests.isEmpty }
+
+    /// True if any requests for this resource are in progress.
+    public var requesting: Bool { return !allRequests.isEmpty }
+    
+    /// All load requests in progress, in the order they were initiated.
+    public private(set) var loadRequests = [Request]()
 
     /// All requests in progress related to this resource, in the order they were initiated.
-    public private(set) var requests = [Request]()  // TOOD: Any special handling for concurrent POST & GET?
+    public private(set) var allRequests = [Request]()  // TOOD: Any special handling for concurrent POST & GET?
     
     // MARK: -
     
@@ -272,17 +279,8 @@ public final class Resource: NSObject
         debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
-
-        requests.append(req)
-        req.completion
-            {
-            [weak self, weak req] _ in
-            if let resource = self
-                { resource.requests = resource.requests.filter { $0 !== req } }
-            }
-        
+        trackRequest(req, using: &allRequests)
         config.willStartRequest(req, forResource: self)
-        
         return req.start()
         }
     
@@ -466,10 +464,10 @@ public final class Resource: NSObject
     */
     public func loadIfNeeded() -> Request?
         {
-        if loading
+        if !loadRequests.isEmpty
             {
             debugLog(.Staleness, [self, "loadIfNeeded() using load already in progress"])
-            return nil  // TODO: should this return existing request instead?
+            return loadRequests[0]
             }
         
         if isUpToDate
@@ -524,6 +522,8 @@ public final class Resource: NSObject
     */
     public func load(usingRequest req: Request) -> Request
         {
+        trackRequest(req, using: &loadRequests)
+        
         req.newData(receiveNewData)
         req.notModified(receiveDataNotModified)
         req.failure(receiveError)
@@ -531,6 +531,17 @@ public final class Resource: NSObject
         notifyObservers(.Requested)
 
         return req
+        }
+
+    private func trackRequest(req: Request, inout using array: [Request])
+        {
+        array.append(req)
+        req.completion
+            {
+            [weak self] _ in
+            self?.allRequests.remove { $0.completed }
+            self?.loadRequests.remove { $0.completed }
+            }
         }
     
     private func receiveNewData(entity: Entity)
@@ -660,7 +671,7 @@ public final class Resource: NSObject
         latestError = nil
         latestData = nil
         
-        for request in requests
+        for request in allRequests + loadRequests  // need to do both because load(usingRequest:) can cross resource boundaries
             { request.cancel() }
         
         notifyObservers(.NewData)

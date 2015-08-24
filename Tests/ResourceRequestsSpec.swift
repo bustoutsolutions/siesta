@@ -21,7 +21,8 @@ class ResourceRequestsSpec: ResourceSpecBase
             expect(resource().latestError).to(beNil())
             
             expect(resource().loading).to(beFalse())
-            expect(resource().requests).to(beIdentialObjects([]))
+            expect(resource().allRequests).to(beIdentialObjects([]))
+            expect(resource().loadRequests).to(beIdentialObjects([]))
             }
         
         describe("request()")
@@ -136,7 +137,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("tracks concurrent requests")
                 {
-                func stubDelayedAndLoad(ident: String) -> (LSStubResponseDSL, Request)
+                func stubDelayedAndRequest(ident: String) -> (LSStubResponseDSL, Request)
                     {
                     let reqStub = stubReqest(resource, "GET")
                         .withHeader("Request-ident", ident)
@@ -147,21 +148,21 @@ class ResourceRequestsSpec: ResourceSpecBase
                     return (reqStub, req)
                     }
                 
-                let (reqStub0, req0) = stubDelayedAndLoad("zero"),
-                    (reqStub1, req1) = stubDelayedAndLoad("one")
+                let (reqStub0, req0) = stubDelayedAndRequest("zero"),
+                    (reqStub1, req1) = stubDelayedAndRequest("one")
                 
-                expect(resource().loading).to(beTrue())
-                expect(resource().requests).to(beIdentialObjects([req0, req1]))
+                expect(resource().requesting).to(beTrue())
+                expect(resource().allRequests).to(beIdentialObjects([req0, req1]))
                 
                 reqStub0.go()
                 awaitNewData(req0)
-                expect(resource().loading).to(beTrue())
-                expect(resource().requests).to(beIdentialObjects([req1]))
+                expect(resource().requesting).to(beTrue())
+                expect(resource().allRequests).to(beIdentialObjects([req1]))
                 
                 reqStub1.go()
                 awaitNewData(req1)
                 expect(resource().loading).to(beFalse())
-                expect(resource().requests).to(beIdentialObjects([]))
+                expect(resource().allRequests).to(beIdentialObjects([]))
                 }
             
             context("POST/PUT/PATCH body")
@@ -466,14 +467,19 @@ class ResourceRequestsSpec: ResourceSpecBase
         
         describe("loadIfNeeded()")
             {
-            func expectToLoad(@autoclosure req: () -> Request?)
+            func expectToLoad(@autoclosure reqClosure: () -> Request?, returning loadReq: Request? = nil)
                 {
-                LSNocilla.sharedInstance().clearStubs()
                 stubReqest(resource, "GET").andReturn(200) // Stub first...
-                let reqMaterialized = req()                // ...then allow loading
-                expect(reqMaterialized).notTo(beNil())
+                let reqReturned = reqClosure()             // ...then allow loading
                 expect(resource().loading).to(beTrue())
-                awaitNewData(resource().load())
+                expect(reqReturned).notTo(beNil())
+                if loadReq != nil
+                    {
+                    expect(reqReturned as? AnyObject)
+                        .to(beIdenticalTo(loadReq as? AnyObject))
+                    }
+                if let reqReturned = reqReturned
+                    { awaitNewData(reqReturned) }
                 }
             
             func expectNotToLoad(req: Request?)
@@ -485,6 +491,21 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("loads a resource never before loaded")
                 {
                 expectToLoad(resource().loadIfNeeded())
+                }
+            
+            it("returns the existing request if one is already in progress")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                let existingReq = resource().load()
+                expectToLoad(resource().loadIfNeeded(), returning: existingReq)
+                }
+            
+            it("initiates a new request if a non-load request is in progress")
+                {
+                stubReqest(resource, "POST").andReturn(200)
+                let postReq = resource().request(RequestMethod.POST)
+                expectToLoad(resource().loadIfNeeded())
+                awaitNewData(postReq, alreadyCompleted: true)
                 }
             
             context("with data present")
@@ -523,6 +544,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     setResourceTime(1000)
                     stubReqest(resource, "GET").andReturn(404)
                     awaitFailure(resource().load())
+                    LSNocilla.sharedInstance().clearStubs()
                     }
                 
                 it("does not retry soon")
@@ -799,6 +821,20 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().loading).to(beFalse())
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
+                }
+
+            it("cancels requests attached with load(usingRequest:) even if they came from another resource")
+                {
+                let otherResource = resource().relative("/second_cousin_twice_removed")
+                let stub = stubReqest({ otherResource }, "PUT").andReturn(200).delay()
+                let otherResourceReq = otherResource.request(RequestMethod.PUT)
+                resource().load(usingRequest: otherResourceReq)
+                
+                resource().wipe()
+                
+                stub.go()
+                awaitFailure(otherResourceReq, alreadyCompleted: true)
+                expect(resource().loadRequests.count).to(equal(0))
                 }
             }
         }

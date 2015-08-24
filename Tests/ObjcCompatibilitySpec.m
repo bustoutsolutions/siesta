@@ -52,7 +52,6 @@
         stubRequest(@"POST", @"http://example.api/foo").andReturn(200);
         
         expect([resource loadIfNeeded]).notTo(beNil());
-        expect([resource loadIfNeeded]).to(beNil());
         [resource load];
         [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
