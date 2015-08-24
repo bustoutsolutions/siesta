@@ -65,6 +65,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - Debug-friendly, customizable logging
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
 - …also works great from Objective-C thanks to a compatibility layer
+- Lightweight (~2000 LOC). Won’t achieve sentience and attempt to destroy you.
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
