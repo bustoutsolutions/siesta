@@ -15,7 +15,7 @@ end
 puts "Building user guide in $docs_dir ..."
 
 toc = Hash[
-  File.read(File.join(siesta_dir, 'Docs/index.md')).
+  File.read(File.join(siesta_dir, 'Docs/index.md'), encoding: 'utf-8').
     scan(/^- \[(.*)\]\((.*)\)/).
     map do |title, file|
       file = File.expand_path("#{siesta_dir}/Docs/#{file}")
