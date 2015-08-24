@@ -725,7 +725,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 reqStub.go()
-                awaitFailure(req)
+                awaitFailure(req, alreadyCompleted: true)
 
                 awaitNewData(resource().loadIfNeeded()!)
                 }
