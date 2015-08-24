@@ -400,40 +400,81 @@ public final class Resource: NSObject
             data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // ! reason: ASCII guaranteed safe because of escaping
             contentType: "application/x-www-form-urlencoded")
         }
-
+    
     /**
-      Initiates a GET request to update the state of this resource, unless it is already up to date.
-      
+      True if the resource’s local state is up to date according to staleness configuration.
+    
       “Up to date” means that either:
+    
         - the resource has data (i.e. `latestData` is not nil),
         - the last request succeeded (i.e. `latestError` _is_ nil), and
         - the timestamp on `latestData` is more recent than `expirationTime` seconds ago,
       
       …or:
+      
         - the last request failed (i.e. `latestError` is not nil), and
         - the timestamp on `latestError` is more recent than `retryTime` seconds ago.
+    */
+    public var isUpToDate: Bool
+        {
+        let maxAge = (latestError == nil)
+                ? config.expirationTime
+                : config.retryTime,
+            currentTime = now(),
+            result = !invalidated && currentTime - timestamp <= maxAge
+        
+        logStaleness(result, atTime: currentTime)
+        
+        return result
+        }
     
-      If the resource is not up to date, this method calls `load()`.
+    private func logStaleness(result: Bool, atTime currentTime: NSTimeInterval)
+        {
+        // Logging this is far more complicated than computing it!
+        
+        func formatExpirationTime(
+                name: String,
+                _ timestamp: NSTimeInterval?,
+                _ expirationTime: NSTimeInterval)
+            -> [Any?]
+            {
+            guard let timestamp = timestamp else
+                { return ["no", name] }
+            
+            let delta = timestamp + expirationTime - currentTime,
+                deltaFormatted = String(format: "%1.1lf", fabs(delta))
+            return delta >= 0
+                ? [name, "is valid for another", deltaFormatted, "sec"]
+                : [name, "expired", deltaFormatted, "sec ago"]
+            }
+        
+        debugLog(.Staleness,
+            [self, (result ? "is" : "is not"), "up to date:"]
+            + formatExpirationTime("error", latestError?.timestamp, config.retryTime)
+            + ["|"]
+            + formatExpirationTime("data",  latestData?.timestamp,  config.expirationTime))
+        }
+
+    /**
+      Ensures that there is a load request in progress for this resource, unless the resource is already up to date.
+      
+      If the resource is not up to date and there is no load request already in progress, this method calls `load()`.
+      
+      - SeeAlso:
+        - `isUpToDate`
+        - `load()`
     */
     public func loadIfNeeded() -> Request?
         {
         if loading
             {
-            debugLog(.Staleness, [self, "loadIfNeeded(): load already in progress"])
+            debugLog(.Staleness, [self, "loadIfNeeded() using load already in progress"])
             return nil  // TODO: should this return existing request instead?
             }
         
-        let maxAge = (latestError == nil)
-            ? config.expirationTime
-            : config.retryTime
+        if isUpToDate
+            { return nil }
         
-        if !invalidated && now() - timestamp <= maxAge
-            {
-            debugLog(.Staleness, [self, "loadIfNeeded(): data still fresh for", maxAge - (now() - timestamp), "more seconds"])
-            return nil
-            }
-        
-        debugLog(.Staleness, [self, "loadIfNeeded() triggered load()"])
         return load()
         }
     
