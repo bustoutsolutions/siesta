@@ -77,7 +77,9 @@ public final class Resource: NSObject
        - SeeAlso: `DataContainer`
     */
     public private(set) var latestData: Entity?
-        { didSet { invalidated = false } }
+        {
+        didSet { invalidated = false }
+        }
     
     /**
       Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
@@ -87,7 +89,9 @@ public final class Resource: NSObject
       flavors of `request(...)`.
     */
     public private(set) var latestError: Error?
-        { didSet { invalidated = false } }
+        {
+        didSet { invalidated = false }
+        }
     
     /// The time of the most recent update to either `latestData` or `latestError`.
     public var timestamp: NSTimeInterval
@@ -132,6 +136,8 @@ public final class Resource: NSObject
             [weak self] _ in
             self?.cleanDefunctObservers()
             }
+        
+        initializeDataFromCache()
         }
 
     // MARK: URL navigation
@@ -576,6 +582,7 @@ public final class Resource: NSObject
         
         latestError = nil
         latestData?.touch()
+        writeDataToCache()
         
         notifyObservers(.NotModified)
         }
@@ -688,7 +695,47 @@ public final class Resource: NSObject
         latestData = nil
         
         notifyObservers(.NewData(.Wipe))
+
+        initializeDataFromCache()
         }
+    
+    // MARK: Caching
+
+    private func initializeDataFromCache()
+        {
+        guard let url = url, let cache = config.persistentCache else
+            { return }
+
+        debugLog(.Cache, ["Looking for cached data for", self, "in", cache])
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            guard let entity = cache.readEntity(forUrl: url) else
+                { return }
+
+            dispatch_async(dispatch_get_main_queue())
+                {
+                [weak self] in
+                if let resource = self where resource.latestData == nil
+                    {
+                    debugLog(.Cache, ["Cache hit for", self, "in", cache])
+                    resource.receiveNewData(entity, source: .Cache)
+                    }
+                else
+                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it already has data"]) }
+                }
+            }
+        }
+    
+    private func writeDataToCache()
+        {
+        if let url = url, let cache = config.persistentCache, let entity = latestData
+            {
+            debugLog(.Cache, ["Caching data for", self, "in", cache])
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+                {
+                cache.writeEntity(entity, forUrl: url)
+                }
+            }
         }
     
     // MARK: Debug

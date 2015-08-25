@@ -60,21 +60,25 @@ public struct Entity
     internal var headers: [String:String]
     
     /// The time at which this data was last known to be valid.
-    public private(set) var timestamp: NSTimeInterval = 0
+    public private(set) var timestamp: NSTimeInterval
     
-    private init(
+    internal init(
             content: AnyObject,
             charset: String? = nil,
-            headers rawHeaders: [String:String])
+            headers rawHeaders: [String:String],
+            timestamp: NSTimeInterval? = nil)
         {
         self.content = content
-        
         self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
-        
         self.charset = charset
         
-        self.timestamp = 0
-        self.touch()
+        if let timestamp = timestamp
+            { self.timestamp = timestamp }
+        else
+            {
+            self.timestamp = 0
+            self.touch()
+            }
         }
     
     /**

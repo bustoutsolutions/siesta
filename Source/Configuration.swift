@@ -57,6 +57,11 @@ public struct Configuration
     public var responseTransformers: TransformerSequence = TransformerSequence()
     
     /**
+      An optional store to maintain the state of resources between app launches.
+    */
+    public var persistentCache: EntityCache? = nil
+    
+    /**
       Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.
     
       The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
