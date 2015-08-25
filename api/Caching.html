@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>UI Components  Reference</title>
+    <title>Caching  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,7 +9,7 @@
     <script src="js/jazzy.js" defer></script>
   </head>
   <body>
-    <a title="UI Components  Reference"></a>
+    <a title="Caching  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
@@ -20,7 +20,7 @@
       <p id="breadcrumbs">
         <a href="index.html">Siesta Reference</a>
         <img id="carat" src="img/carat.png" />
-        UI Components  Reference
+        Caching  Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -160,7 +160,7 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>UI Components</h1>
+            <h1>Caching</h1>
             
           </section>
           <section class="section task-group-section">
@@ -169,9 +169,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C6Siesta21ResourceStatusOverlay"></a>
-                    <a name="//apple_ref/swift/Class/ResourceStatusOverlay" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C6Siesta21ResourceStatusOverlay">ResourceStatusOverlay</a>
+                    <a name="/s:P6Siesta11EntityCache"></a>
+                    <a name="//apple_ref/swift/Protocol/EntityCache" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta11EntityCache">EntityCache</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -179,23 +179,107 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A ready-made UI component to show an activity indicator and/or error message for a set of <code>Resource</code>s.</p>
-
-<p>You can use this class in three ways:</p>
+                        <p>A strategy for saving entities between runs of the app. Allows apps to:</p>
 
 <ul>
-<li>with Siesta’s default layout,</li>
-<li>with your own <code>.nib</code> file, or</li>
-<li>using hard-coded layout.</li>
+<li>launch with the UI in a valid and populated (though possibly stale) state,</li>
+<li>recover from low memory situations with fewer reissued network requests, and</li>
+<li>work offline.</li>
 </ul>
 
-                        <a href="Classes/ResourceStatusOverlay.html" class="slightly-smaller">See more</a>
+<p>Siesta uses any HTTP request caching provided by the networking layer (e.g. <code>NSURLCache</code>). Why another type of
+caching, then? Because <code>NSURLCache</code> has a subtle but significant mismatch with the use cases above:</p>
+
+<ul>
+<li>The purpose of HTTP caching is to <em>prevent</em> network requests, but what we need is a way to show old data <em>while
+issuing new requests</em>. This is the real deal-killer.</li>
+</ul>
+
+<p>Additionally, but less crucially:</p>
+
+<ul>
+<li>HTTP caching is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html">complex</a>, and was designed around a set of
+goals relating to static assets and shared proxy caches — goals that look very different from reinflating Siesta
+resources’ in-memory state. It’s difficult to guarantee that <code>NSURLCache</code> interacting with the HTTP spec will
+exhibit the behavior we want; the logic involved is far more tangled and brittle than implementing a separate cache.</li>
+<li>Precisely because of the complexity of these rules, APIs frequently disable all caching via headers.</li>
+<li>HTTP caching does not preserve Siesta’s timestamps, which thwarts the staleness logic.</li>
+<li>HTTP caching stores raw responses; storing parsed responses offers the opportunity for faster app launch.</li>
+</ul>
+
+<p>Siesta currently does not include any implementations of <code>EntityCache</code>, but a future version will.</p>
+
+<ul>
+<li>SeeAlso: <code>Configuration.persistentCache</code></li>
+</ul>
+
+                        <a href="Protocols/EntityCache.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EntityCache</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Siesta13EntityEncoder"></a>
+                    <a name="//apple_ref/swift/Protocol/EntityEncoder" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta13EntityEncoder">EntityEncoder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A strategy for transforming <code>Entity</code> instances to and from raw byte data.</p>
+
+<p>Provided primarily to help <code>EntityCache</code> implementations.</p>
+
+                        <a href="Protocols/EntityEncoder.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EntityEncoder</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:V6Siesta17JSONEntityEncoder"></a>
+                    <a name="//apple_ref/swift/Struct/JSONEntityEncoder" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta17JSONEntityEncoder">JSONEntityEncoder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Encodes <code>Entity</code> instances</p>
+
+<p>Do not confuse this class with <code>JSONTransformer</code>.</p>
+
+                        <a href="Structs/JSONEntityEncoder.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONEntityEncoder</span><span class="p">:</span> <span class="kt">EntityEncoder</span></code></pre>
 
                         </div>
                       </div>

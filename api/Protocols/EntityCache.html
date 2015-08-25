@@ -13,7 +13,7 @@
     <a title="EntityCache Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (86% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -75,9 +75,6 @@
                 <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
               </li>
             </ul>
@@ -105,6 +102,20 @@
             </ul>
           </li>
           <li class="nav-group-name">
+          <a href="../Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
           <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -122,12 +133,6 @@
           <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
@@ -139,7 +144,7 @@
           <a href="../Other Structs.html">Other Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
+                <a href="../Other Structs.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
             </ul>
           </li>
@@ -157,7 +162,46 @@
         <section>
           <section class="section">
             <h1>EntityCache</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EntityCache</span></code></pre>
+
+                </div>
+              </div>
+            <p>A strategy for saving entities between runs of the app. Allows apps to:</p>
+
+<ul>
+<li>launch with the UI in a valid and populated (though possibly stale) state,</li>
+<li>recover from low memory situations with fewer reissued network requests, and</li>
+<li>work offline.</li>
+</ul>
+
+<p>Siesta uses any HTTP request caching provided by the networking layer (e.g. <code>NSURLCache</code>). Why another type of
+caching, then? Because <code>NSURLCache</code> has a subtle but significant mismatch with the use cases above:</p>
+
+<ul>
+<li>The purpose of HTTP caching is to <em>prevent</em> network requests, but what we need is a way to show old data <em>while
+issuing new requests</em>. This is the real deal-killer.</li>
+</ul>
+
+<p>Additionally, but less crucially:</p>
+
+<ul>
+<li>HTTP caching is <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html">complex</a>, and was designed around a set of
+goals relating to static assets and shared proxy caches — goals that look very different from reinflating Siesta
+resources’ in-memory state. It’s difficult to guarantee that <code>NSURLCache</code> interacting with the HTTP spec will
+exhibit the behavior we want; the logic involved is far more tangled and brittle than implementing a separate cache.</li>
+<li>Precisely because of the complexity of these rules, APIs frequently disable all caching via headers.</li>
+<li>HTTP caching does not preserve Siesta’s timestamps, which thwarts the staleness logic.</li>
+<li>HTTP caching stores raw responses; storing parsed responses offers the opportunity for faster app launch.</li>
+</ul>
+
+<p>Siesta currently does not include any implementations of <code>EntityCache</code>, but a future version will.</p>
+
+<ul>
+<li>SeeAlso: <code>Configuration.persistentCache</code></li>
+</ul>
 
           </section>
           <section class="section task-group-section">
@@ -166,9 +210,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta11EntityCache10readEntityuRq_S0__Fq_FT6forUrlCSo5NSURL_GSqVS_6Entity_"></a>
-                    <a name="//apple_ref/swift/Method/readEntity(forUrl:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta11EntityCache10readEntityuRq_S0__Fq_FT6forUrlCSo5NSURL_GSqVS_6Entity_">readEntity(forUrl:)</a>
+                    <a name="/s:FP6Siesta11EntityCache10readEntityuRq_S0__Fq_FT6forKeySS_GSqVS_6Entity_"></a>
+                    <a name="//apple_ref/swift/Method/readEntity(forKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta11EntityCache10readEntityuRq_S0__Fq_FT6forKeySS_GSqVS_6Entity_">readEntity(forKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -176,8 +220,18 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Return the entity associated with the given key, or nil if it is not in the cache.</p>
 
+<p>The method may be called on a background thread. Make sure your implementation is threadsafe.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">readEntity</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -185,9 +239,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta11EntityCache11writeEntityuRq_S0__Fq_FTVS_6Entity6forUrlCSo5NSURL_T_"></a>
-                    <a name="//apple_ref/swift/Method/writeEntity(_:forUrl:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta11EntityCache11writeEntityuRq_S0__Fq_FTVS_6Entity6forUrlCSo5NSURL_T_">writeEntity(_:forUrl:)</a>
+                    <a name="/s:FP6Siesta11EntityCache11writeEntityuRq_S0__Fq_FTVS_6Entity6forKeySS_T_"></a>
+                    <a name="//apple_ref/swift/Method/writeEntity(_:forKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta11EntityCache11writeEntityuRq_S0__Fq_FTVS_6Entity6forKeySS_T_">writeEntity(_:forKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -195,8 +249,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
+  to Siesta. (OK, it’s just the resource’s URL, but you should pretend you don’t know that in your implementation.)</p>
 
+<p>Implementations are under no obligation to actually perform the write. This method can — and should — examine the
+  entity’s content and/or headers and ignore it if it is not encodable. While they can apply <em>type-based</em> rules,
+  however, cache implementations should not apply <em>resource-based</em> or <em>url-based</em> rules; use
+  <code>Resource.configure(...)</code> to select which resources are cached and by whom.</p>
+
+<p>The method may be called on a background thread. Make sure your implementation is threadsafe.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">writeEntity</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">,</span> <span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

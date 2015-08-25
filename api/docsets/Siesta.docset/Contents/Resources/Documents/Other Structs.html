@@ -12,7 +12,7 @@
     <a title="Other Structs  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (86% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -74,9 +74,6 @@
                 <a href="Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Structs/TransformerSequence.html">TransformerSequence</a>
               </li>
             </ul>
@@ -104,6 +101,20 @@
             </ul>
           </li>
           <li class="nav-group-name">
+          <a href="Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
           <a href="Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -121,12 +132,6 @@
           <a href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
@@ -138,7 +143,7 @@
           <a href="Other Structs.html">Other Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
+                <a href="Other Structs.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
               </li>
             </ul>
           </li>
@@ -161,13 +166,20 @@
           </section>
           <section class="section task-group-section">
             <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Transformers%20for%20standard%20types"></a>
+                  <a name="//apple_ref/swift/Section/Transformers for standard types" class="dashAnchor"></a>
+                  <a href="#/Transformers%20for%20standard%20types">
+                    <h3 class="section-name">Transformers for standard types</h3>
+                  </a>
+                </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V6Siesta17JSONEntityEncoder"></a>
-                    <a name="//apple_ref/swift/Struct/JSONEntityEncoder" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta17JSONEntityEncoder">JSONEntityEncoder</a>
+                    <a name="/s:V6Siesta15JsonTransformer"></a>
+                    <a name="//apple_ref/swift/Struct/JsonTransformer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -175,9 +187,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Parses an <code>NSData</code> content as JSON, outputting either a dictionary or an array.</p>
 
-                        <a href="Structs/JSONEntityEncoder.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JsonTransformer</span><span class="p">:</span> <span class="kt">ResponseEntityTransformer</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
