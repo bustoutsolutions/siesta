@@ -16,7 +16,7 @@
   - ResponseTransformer
   - ResponseEntityTransformer
   - TextTransformer
-  - JsonTransformer
+  - JSONTransformer
   - TransformerSequence
 
 - name: Network Layer
@@ -28,6 +28,12 @@
 - name: UI Components
   children:
   - ResourceStatusOverlay
+
+- name: Caching
+  children:
+  - EntityCache
+  - EntityEncoder
+  - JSONEntityEncoder
 
 - name: Logging
   children:
