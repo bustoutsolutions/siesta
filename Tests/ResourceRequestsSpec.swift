@@ -30,13 +30,13 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("fetches the resource")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(RequestMethod.GET))
+                awaitNewData(resource().request(.GET))
                 }
             
             it("handles various HTTP methods")
                 {
                 stubReqest(resource, "PATCH").andReturn(200)
-                awaitNewData(resource().request(RequestMethod.PATCH))
+                awaitNewData(resource().request(.PATCH))
                 }
             
             it("sends headers from configuration")
@@ -45,7 +45,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubReqest(resource, "GET")
                     .withHeader("Zoogle", "frotz")
                     .andReturn(200)
-                awaitNewData(resource().request(RequestMethod.GET))
+                awaitNewData(resource().request(.GET))
                 }
             
             describe("beforeStartingRequest hook from configuation")
@@ -66,7 +66,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     stubReqest(resource, "GET").andReturn(200)
                     stubReqest(resource, "POST").andReturn(200)
                     awaitNewData(resource().load())
-                    awaitNewData(resource().request(RequestMethod.POST))
+                    awaitNewData(resource().request(.POST))
                     
                     expect(beforeHookCount).to(equal(2))
                     }
@@ -101,7 +101,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not update the resource state")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(RequestMethod.GET))
+                awaitNewData(resource().request(.GET))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -109,7 +109,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("can be cancelled")
                 {
                 let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
-                let req = resource().request(RequestMethod.GET)
+                let req = resource().request(.GET)
                 req.cancel()
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
@@ -118,7 +118,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it(".cancel() has no effect if it already succeeded")
                 {
                 stubReqest(resource, "GET").andReturn(200)
-                let req = resource().request(RequestMethod.GET)
+                let req = resource().request(.GET)
                 awaitNewData(req)
                 req.cancel()
                 awaitNewData(req, alreadyCompleted: true)
@@ -126,7 +126,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it(".cancel() has no effect if it never started")
                 {
-                let req = resource().request(RequestMethod.POST, json: ["unencodable": UIView()])
+                let req = resource().request(.POST, json: ["unencodable": UIView()])
                 awaitFailure(req, alreadyCompleted: true)
                 req.cancel()
                 }
@@ -143,7 +143,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withHeader("Request-ident", ident)
                         .andReturn(200)
                         .delay()
-                    let req = resource().request(RequestMethod.GET)
+                    let req = resource().request(.GET)
                         { $0.setValue(ident, forHTTPHeaderField: "Request-ident") }
                     return (reqStub, req)
                     }
@@ -503,7 +503,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("initiates a new request if a non-load request is in progress")
                 {
                 stubReqest(resource, "POST").andReturn(200)
-                let postReq = resource().request(RequestMethod.POST)
+                let postReq = resource().request(.POST)
                 expectToLoad(resource().loadIfNeeded())
                 awaitNewData(postReq, alreadyCompleted: true)
                 }
@@ -570,7 +570,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
         describe("load(usingRequest:)")
             {
-            let request = specVar { resource().request(RequestMethod.POST) }
+            let request = specVar { resource().request(.POST) }
             
             beforeEach
                 {
@@ -805,8 +805,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let reqs =
                     [
                     resource().load(),
-                    resource().request(RequestMethod.PUT),
-                    resource().request(RequestMethod.POST)
+                    resource().request(.PUT),
+                    resource().request(.POST)
                     ]
 
                 expect(resource().loading).to(beTrue())
@@ -827,7 +827,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let otherResource = resource().relative("/second_cousin_twice_removed")
                 let stub = stubReqest({ otherResource }, "PUT").andReturn(200).delay()
-                let otherResourceReq = otherResource.request(RequestMethod.PUT)
+                let otherResourceReq = otherResource.request(.PUT)
                 resource().load(usingRequest: otherResourceReq)
                 
                 resource().wipe()
