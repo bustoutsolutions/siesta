@@ -13,7 +13,7 @@
     <a title="LogCategory Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (86% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -122,10 +122,24 @@
           <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
               </li>
             </ul>
           </li>
@@ -350,6 +364,37 @@ removed.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FO6Siesta11LogCategory5CacheFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/Cache" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO6Siesta11LogCategory5CacheFMS0_S0_">Cache</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Details of when resource data is read from &amp; saved to a persistent cache</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Cache</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FO6Siesta11LogCategory13ConfigurationFMS0_S0_"></a>
                     <a name="//apple_ref/swift/Element/Configuration" class="dashAnchor"></a>
                     <a class="token" href="#/s:FO6Siesta11LogCategory13ConfigurationFMS0_S0_">Configuration</a>
@@ -415,6 +460,33 @@ removed.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ZvO6Siesta11LogCategory8detailedGVSs3SetS0__"></a>
+                    <a name="//apple_ref/swift/Variable/detailed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvO6Siesta11LogCategory8detailedGVSs3SetS0__">detailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Everything except full request/response data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">detailed</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span><span class="p">(</span><span class="n">all</span><span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">!=</span> <span class="kt">NetworkDetails</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ZvO6Siesta11LogCategory3allGVSs3SetS0__"></a>
                     <a name="//apple_ref/swift/Variable/all" class="dashAnchor"></a>
                     <a class="token" href="#/s:ZvO6Siesta11LogCategory3allGVSs3SetS0__">all</a>
@@ -432,7 +504,7 @@ removed.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">all</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Network</span><span class="p">,</span> <span class="kt">NetworkDetails</span><span class="p">,</span> <span class="kt">ResponseProcessing</span><span class="p">,</span> <span class="kt">StateChanges</span><span class="p">,</span> <span class="kt">Observers</span><span class="p">,</span> <span class="kt">Staleness</span><span class="p">,</span> <span class="kt">Configuration</span><span class="p">]</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">all</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">LogCategory</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Network</span><span class="p">,</span> <span class="kt">NetworkDetails</span><span class="p">,</span> <span class="kt">ResponseProcessing</span><span class="p">,</span> <span class="kt">StateChanges</span><span class="p">,</span> <span class="kt">Observers</span><span class="p">,</span> <span class="kt">Staleness</span><span class="p">,</span> <span class="kt">Cache</span><span class="p">,</span> <span class="kt">Configuration</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -444,7 +516,7 @@ removed.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-24)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

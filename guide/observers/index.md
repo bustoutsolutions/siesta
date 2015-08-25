@@ -40,9 +40,32 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 
 Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with captial R.
 
+## Resource Events
+
 If updating the whole UI is an expensive operation (but it rarely is; benchmark first!), you can use the `event` parameter and the metadata in `latestData` and `latestError` to fine-tune your UI updates.
 
-See the [`Resource` API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources) for more information.
+For example, if you have an expensive update you want to perform only when `latestData` changes:
+
+```swift
+func resourceChanged(resource: Resource, event: ResourceEvent) {
+    if case .NewData = event {
+        // Do expensive update
+    }
+}
+```
+
+If your API supports the `ETag` header, you could also use the `Entity.etag` property:
+
+```swift
+func resourceChanged(resource: Resource, event: ResourceEvent) {
+    if displayedEtag != resource.latestData?.etag {
+        displayedEtag = resource.latestData?.etag
+        // Do expensive update
+    }
+}
+```
+
+See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](http://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
 
 Next: **[Requests](../requests)**
 {: .guide-next}

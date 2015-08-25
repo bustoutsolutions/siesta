@@ -13,7 +13,7 @@
     <a title="Configuration Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (86% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -122,10 +122,24 @@
           <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
               </li>
             </ul>
           </li>
@@ -267,7 +281,7 @@ hooks or cancel the request before sending.</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">beforeStartingRequest</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="p">(</span><span class="kt">Resource</span><span class="p">,</span><span class="kt">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span>
-        <span class="p">{</span> <span class="n">requestWillStartCallbacks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span> <span class="p">}</span></code></pre>
+        <span class="p">{</span> <span class="n">beforeStartingRequestCallbacks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -307,6 +321,33 @@ remove this default behavior by clearing the sequence:</p>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">responseTransformers</span><span class="p">:</span> <span class="kt">TransformerSequence</span> <span class="o">=</span> <span class="kt">TransformerSequence</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta13Configuration15persistentCacheGSqPS_11EntityCache__"></a>
+                    <a name="//apple_ref/swift/Property/persistentCache" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta13Configuration15persistentCacheGSqPS_11EntityCache__">persistentCache</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An optional store to maintain the state of resources between app launches.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">persistentCache</span><span class="p">:</span> <span class="kt">EntityCache</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span></code></pre>
 
                         </div>
                       </div>
@@ -357,7 +398,7 @@ flavor of closure declaration that makes the API much harder to use:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-24)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

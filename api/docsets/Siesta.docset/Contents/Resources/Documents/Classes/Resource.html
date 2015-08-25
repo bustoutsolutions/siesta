@@ -13,7 +13,7 @@
     <a title="Resource Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (86% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -122,10 +122,24 @@
           <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
               </li>
             </ul>
           </li>
@@ -315,8 +329,7 @@ was created or wiped. If an error occurs, <code>latestData</code> will still hol
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span>
-        <span class="p">{</span> <span class="k">didSet</span> <span class="p">{</span> <span class="n">invalidated</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">}</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -347,8 +360,7 @@ flavors of <code>request(...)</code>.</p>
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?</span>
-        <span class="p">{</span> <span class="k">didSet</span> <span class="p">{</span> <span class="n">invalidated</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">}</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -1229,7 +1241,7 @@ auth.load(usingRequest:
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localDataOverride</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span>
-        <span class="p">{</span> <span class="nf">receiveNewData</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="nv">localOverride</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">}</span></code></pre>
+        <span class="p">{</span> <span class="nf">receiveNewData</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="nv">source</span><span class="p">:</span> <span class="o">.</span><span class="kt">LocalOverride</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1367,11 +1379,12 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
                       <div class="abstract">
                         <p>Adds an self-owned observer to this resource, which will receive notifications of changes to resource state.</p>
 
-<p>The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
-  automatically removed.</p>
+<pre class="highlight plaintext"><code> The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
+ automatically removed.
 
-<p>Use this method for objects such as <code>UIViewController</code>s which already have a lifecycle of their own, are retained
-  elsewhere, and also happen to act as observers.</p>
+ Use this method for objects such as `UIViewController`s which already have a lifecycle of their own, are retained
+ elsewhere, and also happen to act as observers.
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -1403,7 +1416,7 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
 <p>The resource holds only a weak reference to <code>owner</code>, and as soon as the owner goes away, the observer is removed.</p>
 
 <p>The typical use for this method is for glue objects whose only purpose is to act as an observer, and which would
-  not normally be retained by anything else.</p>
+ not normally be retained by anything else.</p>
 
                       </div>
                       <div class="declaration">
@@ -1433,7 +1446,7 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
                         <p>Adds a closure observer to this resource.</p>
 
 <p>The resource holds a weak reference to <code>owner</code>, and the closure will receive events only as long as <code>owner</code>
-  still exists.</p>
+ still exists.</p>
 
                       </div>
                       <div class="declaration">
@@ -1510,7 +1523,7 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-24)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

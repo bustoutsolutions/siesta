@@ -60,11 +60,11 @@ You can then do:
 
 ## Observers
 
-Objective-C cannot see Swift enums, and `ResourceEvent` is an enum. Objective-C methods that deal with events take strings instead:
+Objective-C cannot see Swift enums, and `ResourceEvent` and `RequestMethod` are both enums. Objective-C methods that deal with events take strings instead. In the case of `ResourceEvent.NewData`, the string you receive also contains the nested source of the data in parentheses, e.g. `NewData(Network)`. If you just want to check whether new data arrived and don’t care where it came from, look for the `NewData` prefix:
 
 ```objc
 -  (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
-  if([event isEqual:@"NewData"]) {
+  if([event hasPrefix:@"NewData"]) {
     ...
   }
 }
