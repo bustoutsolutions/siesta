@@ -72,7 +72,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewData)
+                observer().expect(.NewData(.Network))
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
@@ -84,7 +84,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives new data event from local override")
                 {
                 // No .Requested event!
-                observer().expect(.NewData)
+                observer().expect(.NewData(.LocalOverride))
                     {
                     expect(resource().loading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
@@ -98,7 +98,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewData)
+                observer().expect(.NewData(.Network))
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 
@@ -168,8 +168,8 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubReqest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
-                expect(events.map {$0.rawValue }).to(equal(
-                    ["ObserverAdded", "Requested", "NewData"]))
+                expect(events.map { $0.description }).to(equal(
+                    ["ObserverAdded", "Requested", "NewData(Network)"]))
                 }
             
             it("is not added twice if it is an object")
@@ -179,7 +179,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 stubReqest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
-                observer().expect(.NewData)
+                observer().expect(.NewData(.Network))
                 awaitNewData(resource().load())
                 }
             
@@ -200,7 +200,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     if stillObserving
                         {
                         observer().expect(.Requested)
-                        observer().expect(.NewData)
+                        observer().expect(.NewData(.Network))
                         }
                     awaitNewData(resource().load())
                     }
@@ -372,7 +372,7 @@ private class TestObserverWithExpectations: ResourceObserver
         else
             {
             let expectation = expectedEvents.removeAtIndex(0)
-            if event != expectation.event
+            if event.description != expectation.event.description
                 { XCTFail("Received unexpected observer event: \(event) (was expecting \(expectation.event))") }
             else
                 { expectation.callback() }

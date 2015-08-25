@@ -108,7 +108,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     
     public func resourceChanged(resource: Resource, event: ResourceEvent)
         {
-        if event == .ObserverAdded
+        if case .ObserverAdded = event
             { observedResources.append(resource) }
         
         var anyLoading = false

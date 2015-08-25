@@ -251,7 +251,7 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
         { self.objcObserver = objcObserver }
 
     func resourceChanged(resource: Resource, event: ResourceEvent)
-        { objcObserver?.resourceChanged(resource, event: event.rawValue) }
+        { objcObserver?.resourceChanged(resource, event: event.description) }
     
     func resourceRequestProgress(resource: Resource)
         { objcObserver?.resourceRequestProgress?(resource) }
@@ -290,14 +290,14 @@ public extension Resource
     public func _objc_addObserver(owner owner: AnyObject, block: @convention(block) (Resource,String) -> Void) -> Self
         {
         return addObserver(owner: owner)
-            { block($0, $1.rawValue) }
+            { block($0, $1.description) }
         }
     }
 
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event: String)
-        { self.resourceChanged(resource, event: ResourceEvent(rawValue: event)!) }
+        { self.resourceChanged(resource, event: ResourceEvent.fromDescription(event)!) }
     }
 
 public extension Resource

@@ -58,7 +58,7 @@ public typealias ResourceObserverClosure = (resource: Resource, event: ResourceE
   
   - SeeAlso: `Resource.load()`
 */
-public enum ResourceEvent: String
+public enum ResourceEvent: CustomStringConvertible
     {
     /**
       Immediately sent to a new observer when it first starts observering a resource. This event allows you to gather
@@ -76,7 +76,7 @@ public enum ResourceEvent: String
     case RequestCancelled
     
     /// The resource’s `latestData` property has been updated.
-    case NewData
+    case NewData(NewDataSource)
     
     /// The request in progress succeeded, but did not result in a change to the resource’s `latestData` (except
     /// the timestamp). Note that you may still need to update the UI, because if `latestError` was present before, it
@@ -85,6 +85,46 @@ public enum ResourceEvent: String
 
     /// The request in progress failed. Details are in the resource’s `latestError` property.
     case Error
+
+    /// :nodoc:
+    public var description: String
+        {
+        // If anyone knows a way around this monstrosity, please send me a PR. -PPC
+        switch self
+            {
+            case ObserverAdded:       return "ObserverAdded"
+            case Requested:           return "Requested"
+            case RequestCancelled:    return "RequestCancelled"
+            case NewData(let source): return "NewData(\(source))"
+            case NotModified:         return "NotModified"
+            case Error:               return "Error"
+            }
+        }
+    
+    internal static let all = [ObserverAdded, Requested, RequestCancelled, NotModified, Error,
+                               NewData(.Network), NewData(.Cache), NewData(.LocalOverride)]
+    
+    internal static func fromDescription(description: String) -> ResourceEvent?
+        {
+        let matching = all.filter { $0.description == description }
+        return (matching.count == 1) ? matching[0] : nil
+        }
+    
+    /// Possible sources of `ResourceEvent.NewData`.
+    public enum NewDataSource
+        {
+        /// The new value of `latestData` comes from a successful network request.
+        case Network
+        
+        /// The new value of `latestData` comes from this resource’s `Configuration.persistentCache`.
+        case Cache
+
+        /// The new value of `latestData` came from a call to `Resource.localDataOverride(_:)`
+        case LocalOverride
+
+        /// The resource was wiped, and `latestData` is now nil.
+        case Wipe
+        }
     }
 
 public extension Resource

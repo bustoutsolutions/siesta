@@ -133,7 +133,7 @@ public final class Resource: NSObject
             self?.cleanDefunctObservers()
             }
         }
-    
+
     // MARK: URL navigation
     
     /**
@@ -526,7 +526,7 @@ public final class Resource: NSObject
         {
         trackRequest(req, using: &loadRequests)
         
-        req.newData(receiveNewData)
+        req.newData(receiveNewDataFromNetwork)
         req.notModified(receiveDataNotModified)
         req.failure(receiveError)
 
@@ -546,17 +546,28 @@ public final class Resource: NSObject
             }
         }
     
-    private func receiveNewData(entity: Entity)
-        { receiveNewData(entity, localOverride: false) }
+    private func receiveNewDataFromNetwork(entity: Entity)
+        { receiveNewData(entity, source: .Network) }
     
-    private func receiveNewData(entity: Entity, localOverride: Bool)
+    private func receiveNewData(entity: Entity, source: ResourceEvent.NewDataSource)
         {
-        debugLog(.StateChanges, [self, "received new data from", localOverride ? "a local override:" : "the network:", entity])
+        debugLog(.StateChanges, [self, "received new data from", source, ":", entity])
         
         latestError = nil
         latestData = entity
         
-        notifyObservers(.NewData)
+        switch source
+            {
+            case .Network, .LocalOverride:
+                writeDataToCache()
+            
+            case .Cache, .Wipe:
+                // Don't write back data just read from cache.
+                // Wipe doesn't wipe cache.
+                break
+            }
+        
+        notifyObservers(.NewData(source))
         }
 
     private func receiveDataNotModified()
@@ -624,7 +635,7 @@ public final class Resource: NSObject
       - SeeAlso: `localContentOverride(_:)`
     */
     public func localDataOverride(entity: Entity)
-        { receiveNewData(entity, localOverride: true) }
+        { receiveNewData(entity, source: .LocalOverride) }
     
     /**
       Convenience method to replace the `content` of `latestData` without altering the content type or other headers.
@@ -670,13 +681,14 @@ public final class Resource: NSObject
         {
         debugLog(.StateChanges, [self, "wiped"])
         
-        latestError = nil
-        latestData = nil
-        
         for request in allRequests + loadRequests  // need to do both because load(usingRequest:) can cross resource boundaries
             { request.cancel() }
         
-        notifyObservers(.NewData)
+        latestError = nil
+        latestData = nil
+        
+        notifyObservers(.NewData(.Wipe))
+        }
         }
     
     // MARK: Debug
