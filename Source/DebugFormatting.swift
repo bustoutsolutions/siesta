@@ -28,7 +28,7 @@ internal func debugStr(
         { s = s.replaceRegex(whitespacePat, " ") }
     
     if let truncate = truncate where s.characters.count > truncate
-        { s = s.substringToIndex(advance(s.startIndex, truncate)) + "…" }
+        { s = s.substringToIndex(s.startIndex.advancedBy(truncate)) + "…" }
     
     return s
     }
@@ -40,12 +40,13 @@ internal func debugStr(
         truncate: Int? = 300)
     -> String
     {
-    return " ".join(
-        messageParts.map
+    return messageParts
+        .map
             {
             ($0 as? String)
                 ?? debugStr($0, consolidateWhitespace: consolidateWhitespace, truncate: truncate)
-            })
+            }
+        .joinWithSeparator(" ")
     }
 
 internal func dumpHeaders(headers: [String:String], indent: String = "") -> String

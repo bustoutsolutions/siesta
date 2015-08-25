@@ -400,8 +400,10 @@ public final class Resource: NSObject
                 as String
             }
         
-        let paramString = "&".join(
-            params.map { urlEscape($0.0) + "=" + urlEscape($0.1) }.sort())
+        let paramString =
+            params.map { urlEscape($0.0) + "=" + urlEscape($0.1) }
+                  .sort()
+                  .joinWithSeparator("&")
         return request(method,
             data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // ! reason: ASCII guaranteed safe because of escaping
             contentType: "application/x-www-form-urlencoded")

@@ -50,7 +50,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             NSRegularExpression.escapedPatternForString($0)
                 .stringByReplacingOccurrencesOfString("\\*", withString:"[^/+]+")
             }
-        let pattern = "^" + "|".join(contentTypeRegexps) + "($|;)"
+        let pattern = "^" + contentTypeRegexps.joinWithSeparator("|") + "($|;)"
         self.contentTypeMatcher = NSRegularExpression.compile(pattern)
         }
 

@@ -11,7 +11,7 @@ internal extension String
     func stripPrefix(prefix: String) -> String
         {
         return hasPrefix(prefix)
-            ? self[advance(startIndex, prefix.characters.count) ..< endIndex]
+            ? self[startIndex.advancedBy(prefix.characters.count) ..< endIndex]
             : self
         }
     
