@@ -285,5 +285,15 @@ public class Service: NSObject
                 { resource.wipe() }
             }
         }
+
+    /**
+      Wipes the state of this service’s resources matching on URLs instead of `Resource` instances.
+      
+      Useful for making shared predicates that you can pass to both `configure(_:)` and this method.
+    */
+    public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
+        {
+        wipeResources { (res: Resource) in predicate(res.url!) }
+        }
     }
 
