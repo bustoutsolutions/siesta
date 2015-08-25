@@ -6,20 +6,77 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/**
+  A strategy for saving entities between runs of the app. Allows apps to:
+  
+  - launch with the UI in a valid and populated (though possibly stale) state,
+  - recover from low memory situations with fewer reissued network requests, and
+  - work offline.
+  
+  Siesta uses any HTTP request caching provided by the networking layer (e.g. `NSURLCache`). Why another type of
+  caching, then? Because `NSURLCache` has a subtle but significant mismatch with the use cases above:
+  
+  * The purpose of HTTP caching is to _prevent_ network requests, but what we need is a way to show old data _while
+    issuing new requests_. This is the real deal-killer.
+  
+  Additionally, but less crucially:
+
+  * HTTP caching is [complex](http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html), and was designed around a set of
+    goals relating to static assets and shared proxy caches — goals that look very different from reinflating Siesta
+    resources’ in-memory state. It’s difficult to guarantee that `NSURLCache` interacting with the HTTP spec will
+    exhibit the behavior we want; the logic involved is far more tangled and brittle than implementing a separate cache.
+  * Precisely because of the complexity of these rules, APIs frequently disable all caching via headers.
+  * HTTP caching does not preserve Siesta’s timestamps, which thwarts the staleness logic.
+  * HTTP caching stores raw responses; storing parsed responses offers the opportunity for faster app launch.
+  
+  Siesta currently does not include any implementations of `EntityCache`, but a future version will.
+  
+  - SeeAlso: `Configuration.persistentCache`
+*/
 public protocol EntityCache
     {
-    func readEntity(forUrl url: NSURL) -> Entity?
-    func writeEntity(entity: Entity, forUrl: NSURL)
+    /**
+      Return the entity associated with the given key, or nil if it is not in the cache.
+      
+      The method may be called on a background thread. Make sure your implementation is threadsafe.
+    */
+    func readEntity(forKey key: String) -> Entity?
+    
+    /**
+      Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
+      to Siesta. (OK, it’s just the resource’s URL, but you should pretend you don’t know that in your implementation.)
+      
+      Implementations are under no obligation to actually perform the write. This method can — and should — examine the
+      entity’s content and/or headers and ignore it if it is not encodable. While they can apply _type-based_ rules,
+      however, cache implementations should not apply _resource-based_ or _url-based_ rules; use
+      `Resource.configure(...)` to select which resources are cached and by whom.
+      
+      The method may be called on a background thread. Make sure your implementation is threadsafe.
+    */
+    func writeEntity(entity: Entity, forKey key: String)
     }
 
 
-
+/**
+  A strategy for transforming `Entity` instances to and from raw byte data.
+  
+  Provided primarily to help `EntityCache` implementations.
+*/
 public protocol EntityEncoder
     {
+    /// Returns entity, including all of its metadata, serialized as raw data. Returns nil if this encoder does not know
+    /// how to encode the entity.
     func encodeEntity(entity: Entity) -> NSData?
+    
+    /// Decodes the data as an entity. Returns nil if the decoding fails for any reason.
     func decodeEntity(data: NSData) -> Entity?
     }
 
+/**
+  Encodes `Entity` instances
+  
+  Do not confuse this class with `JSONTransformer`.
+*/
 public struct JSONEntityEncoder: EntityEncoder
     {
     public init() { }

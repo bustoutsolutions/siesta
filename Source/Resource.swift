@@ -711,7 +711,7 @@ public final class Resource: NSObject
         debugLog(.Cache, ["Looking for cached data for", self, "in", cache])
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
-            guard let entity = cache.readEntity(forUrl: url) else
+            guard let entity = cache.readEntity(forKey: url.absoluteString) else
                 { return }
 
             dispatch_async(dispatch_get_main_queue())
@@ -735,7 +735,7 @@ public final class Resource: NSObject
             debugLog(.Cache, ["Caching data for", self, "in", cache])
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
                 {
-                cache.writeEntity(entity, forUrl: url)
+                cache.writeEntity(entity, forKey: url.absoluteString)
                 }
             }
         }
