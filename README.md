@@ -59,8 +59,8 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
     inject a custom networking provider if you want to use a different networking library
 - Debug-friendly, customizable logging
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
-- …also works great from Objective-C thanks to a compatibility layer
-- Lightweight (~2000 LOC). Won’t achieve sentience and attempt to destroy you.
+- …also works great from Objective-C thanks to a compatibility layer.
+- Lightweight. Won’t achieve sentience and attempt to destroy you.
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
@@ -68,7 +68,6 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 - Graceful handling for authenticated sessions
 - Intelligent progress reporting that accounts for request, latency, and response
-- Customizable data caching
 
 ## Design Philosophy
 
