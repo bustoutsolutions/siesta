@@ -20,7 +20,3 @@ ResourceStatusOverlay.swift
 	public func resourceChanged(resource: Resource, event: ResourceEvent)
 	public func stoppedObservingResource(resource: Resource)
 	@IBAction public func retryFailedRequests()
-PersistentCache.swift
-	public init() { }
-	public func encodeEntity(entity: Entity) -> NSData?
-	public func decodeEntity(data: NSData) -> Entity?

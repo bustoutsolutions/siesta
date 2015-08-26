@@ -15,8 +15,8 @@
   - Response
   - ResponseTransformer
   - ResponseEntityTransformer
-  - TextTransformer
-  - JSONTransformer
+  - TextResponseTransformer
+  - JSONResponseTransformer
   - TransformerSequence
 
 - name: Network Layer

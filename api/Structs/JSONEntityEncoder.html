@@ -13,7 +13,7 @@
     <a title="JSONEntityEncoder Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (91% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -72,7 +72,10 @@
                 <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta15TextTransformer">TextTransformer</a>
+                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
@@ -141,14 +144,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Other Structs.html#/s:V6Siesta15JsonTransformer">JsonTransformer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
           <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -169,41 +164,19 @@
 
                 </div>
               </div>
-            <p>Encodes <code>Entity</code> instances</p>
+            <p>Encodes <code>Entity</code> instances with JSON content for storage.</p>
 
-<p>Do not confuse this class with <code>JSONTransformer</code>.</p>
+<p>Do not confuse this class with <code>JSONResponseTransformer</code>. They have different purposes:</p>
+
+<ul>
+<li><code>JSONResponseTransformer</code>: HTTP response ⟶ <code>Entity</code></li>
+<li><code>JSONEntityEncoder</code>: <code>Entity</code> ⟷ persistent storage</li>
+</ul>
 
           </section>
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta17JSONEntityEncodercFMS0_FT_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta17JSONEntityEncodercFMS0_FT_S0_">init()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONEntityEncoder</span><span class="p">:</span> <span class="kt">EntityEncoder</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -217,14 +190,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Encodes the entity iff its <code>content</code> is a valid JSON object.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONEntityEncoder</span><span class="p">:</span> <span class="kt">EntityEncoder</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encodeEntity</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSData</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -244,14 +217,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Decodes an entity with JSON content.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONEntityEncoder</span><span class="p">:</span> <span class="kt">EntityEncoder</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">decodeEntity</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -263,7 +236,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-25)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-26)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
