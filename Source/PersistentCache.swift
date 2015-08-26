@@ -73,14 +73,19 @@ public protocol EntityEncoder
     }
 
 /**
-  Encodes `Entity` instances
+  Encodes `Entity` instances with JSON content for storage.
   
-  Do not confuse this class with `JSONTransformer`.
+  Do not confuse this class with `JSONResponseTransformer`. They have different purposes:
+  
+  - `JSONResponseTransformer`: HTTP response ⟶ `Entity`
+  - `JSONEntityEncoder`: `Entity` ⟷ persistent storage
 */
 public struct JSONEntityEncoder: EntityEncoder
     {
+    /// :nodoc:
     public init() { }
     
+    /// Encodes the entity iff its `content` is a valid JSON object.
     public func encodeEntity(entity: Entity) -> NSData?
         {
         guard NSJSONSerialization.isValidJSONObject(entity.content) else
@@ -96,6 +101,7 @@ public struct JSONEntityEncoder: EntityEncoder
         catch { return nil }
         }
     
+    /// Decodes an entity with JSON content.
     public func decodeEntity(data: NSData) -> Entity?
         {
         let decoded: AnyObject

@@ -226,7 +226,7 @@ public extension ResponseTransformer
 // MARK: Transformers for standard types
 
 /// Parses an `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
-public struct TextTransformer: ResponseEntityTransformer
+public struct TextResponseTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
     public func processEntity(entity: Entity) -> Response
@@ -271,7 +271,7 @@ public struct TextTransformer: ResponseEntityTransformer
     }
 
 /// Parses an `NSData` content as JSON, outputting either a dictionary or an array.
-public struct JsonTransformer: ResponseEntityTransformer
+public struct JSONResponseTransformer: ResponseEntityTransformer
     {
     /// :nodoc:
     public func processEntity(entity: Entity) -> Response
