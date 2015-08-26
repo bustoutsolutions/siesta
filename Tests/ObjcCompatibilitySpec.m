@@ -35,6 +35,12 @@
         resource = [service resourceWithPath:@"/foo"];
         });
     
+    afterEach(^
+        {
+        service = nil;
+        resource = nil;
+        });
+    
     beforeSuite(^{ [LSNocilla.sharedInstance start]; });
     afterSuite( ^{ [LSNocilla.sharedInstance stop]; });
     afterEach(  ^{ [LSNocilla.sharedInstance clearStubs]; });
@@ -69,7 +75,7 @@
                 ^(BOSEntity *entity, BOSError *error)
                     { [expectation fulfill]; })
             .success(^(BOSEntity *entity) { } )
-            .newData(^(BOSEntity *entity) { } )
+            .newData(^(BOSEntity *entity) { } )  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
             .notModified(^{ } )
             .failure(^(BOSError *error) { } );
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
@@ -138,7 +144,7 @@
         {
         ObjcObserver *observer0 = [[ObjcObserver alloc] init],
                      *observer1 = [[ObjcObserver alloc] init];
-        NSString *owner = @"I am a big important owner string!";
+        NSString *owner = [@"I am a big important owner string!" mutableCopy];  // copy b/c string literal never released!
         [resource addObserver:observer0];
         [resource addObserver:observer0];
         [resource addObserver:observer1];

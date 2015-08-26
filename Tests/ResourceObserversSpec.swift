@@ -185,13 +185,13 @@ class ResourceObserversSpec: ResourceSpecBase
             
             context("with multiple owners")
                 {
-                let owner1 = UIView(),
-                    owner2 = NSString()
+                let owner1 = specVar { UIView() },
+                    owner2 = specVar { NSString() }
                 
                 beforeEach
                     {
-                    resource().addObserver(observer(), owner: owner1)
-                    resource().addObserver(observer(), owner: owner2)
+                    resource().addObserver(observer(), owner: owner1())
+                    resource().addObserver(observer(), owner: owner2())
                     }
                 
                 func expectStillObserving(stillObserving: Bool)
@@ -207,23 +207,23 @@ class ResourceObserversSpec: ResourceSpecBase
                     
                 it("is not removed if self-ownership is not removed")
                     {
-                    resource().removeObservers(ownedBy: owner1)
-                    resource().removeObservers(ownedBy: owner2)
+                    resource().removeObservers(ownedBy: owner1())
+                    resource().removeObservers(ownedBy: owner2())
                     expectStillObserving(true)
                     }
                 
                 it("is not removed if external owner is not removed")
                     {
                     resource().removeObservers(ownedBy: observer())
-                    resource().removeObservers(ownedBy: owner2)
+                    resource().removeObservers(ownedBy: owner2())
                     expectStillObserving(true)
                     }
                 
                 it("is removed when all owners are removed")
                     {
                     resource().removeObservers(ownedBy: observer())
-                    resource().removeObservers(ownedBy: owner1)
-                    resource().removeObservers(ownedBy: owner2)
+                    resource().removeObservers(ownedBy: owner1())
+                    resource().removeObservers(ownedBy: owner2())
                     expectStillObserving(false)
                     }
                 }
@@ -232,13 +232,13 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("resource memory management")
             {
             weak var resourceWeak: Resource?
-            let observer = TestObserver()
+            let observer = specVar { TestObserver() }
             
             beforeEach
                 {
                 var resource: Resource? = service().resource("zargle")
                 resourceWeak = resource
-                resource?.addObserver(observer)
+                resource?.addObserver(observer())
                 resource = nil
                 }
             
@@ -264,14 +264,14 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("allows resource deallocation when no observers left")
                 {
-                resourceWeak?.removeObservers(ownedBy: observer)
+                resourceWeak?.removeObservers(ownedBy: observer())
                 expectResourceNotToBeRetained()
                 }
             
             it("re-retains resource when observers added again")
                 {
-                resourceWeak?.removeObservers(ownedBy: observer)
-                resourceWeak?.addObserver(observer)
+                resourceWeak?.removeObservers(ownedBy: observer())
+                resourceWeak?.addObserver(observer())
                 expectResourceToBeRetained()
                 }
 
@@ -280,10 +280,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 var observer2: TestObserver? = TestObserver()
                 weak var weakObserver2 = observer2
                 
-                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref to observer2
+                resourceWeak?.addObserver(observer2!, owner: observer())  // strong ref to observer2
                 resourceWeak?.addObserver(observer2!)
-                resourceWeak?.removeObservers(ownedBy: observer)        // now only has weak ref to observer2
-                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref reestablished
+                resourceWeak?.removeObservers(ownedBy: observer())        // now only has weak ref to observer2
+                resourceWeak?.addObserver(observer2!, owner: observer())  // strong ref reestablished
                 
                 observer2 = nil
                 expect(weakObserver2).notTo(beNil())
