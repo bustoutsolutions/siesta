@@ -38,7 +38,9 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 }
 ```
 
-Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with captial R.
+Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with captial R.
+
+(Aside: It would be the most natural thing in the world to wire a Siesta resource up as an RxSwift Sequence. Someone should do that.)
 
 ## Resource Events
 
@@ -64,6 +66,21 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
     }
 }
 ```
+
+Here’s how the various `ResourceEvent` values map to `Resource` state changes:
+
+|                    | `observers`    | `latestData` | `latestError` | `loading` | `timestamp` |
+|:-------------------|:--------------:|:------------:|:-------------:|:---------:|:-----------:|
+| `ObserverAdded`    |  one added     |  –           |  –            |  –        |  –          |
+| `Requested`        |  –             |  –           |  –            | `true`    |  –          |
+| `RequestCancelled` |  –             |  –           |  –            | `false`*  |  –          |
+| `NewData`          |  –             |  updated     | `nil`         | `false`*  |  updated    |
+| `NotModified`      |  –             |  –           | `nil`         | `false`*  |  updated    |
+| `Error`            |  –             |  –           |  updated      | `false`*  |  updated    |
+{:style='margin: 2em auto; background: #f4f4f4'}
+
+<small>* If calls to load(...) forced multiple simultaneous load requests, the loading property may still be true even after an event that signals the completion of a request.</small>
+{:style='margin: 0 auto 2em auto; width: 80%'}
 
 See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](http://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
 
