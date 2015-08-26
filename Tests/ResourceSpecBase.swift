@@ -27,10 +27,21 @@ class ResourceSpecBase: SiestaSpec
         
         afterEach  { fakeNow = nil }
         
-        let service  = specVar { Service(base: "https://zingle.frotz/v1") },
+        let service  = specVar { Service(base: "https://\(self.apiHostname)/v1") },
             resource = specVar { service().resource("/a/b") }
         
         resourceSpec(service, resource)
+        }
+    
+    var apiHostname: String
+        {
+        // Embedding the spec name in the API’s URL makes it easier to track down unstubbed requests, which sometimes
+        // don’t arrive until a following spec has already started.
+        
+        return QuickSpec.current().description
+            .replaceRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
+            .replaceRegex("[^A-Za-z0-9_]+", ".")
+            .replaceRegex("^\\.+|\\.+$", "")
         }
     }
 

@@ -13,6 +13,9 @@ import Nocilla
 
 class ResourcePathsSpec: ResourceSpecBase
     {
+    override var apiHostname: String
+        { return "zingle.frotz" }
+    
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
         describe("child()")
