@@ -16,6 +16,7 @@ echo "Building docs in $docs_dir ..."
 
 "$jazzy_bin" \
     --clean \
+    --swift-version 2.0 \
     --source-directory "$siesta_dir" \
     --exclude          "$siesta_dir"/Source/Siesta-ObjC.swift \
     \

@@ -28,6 +28,7 @@
 - name: UI Components
   children:
   - ResourceStatusOverlay
+  - RemoteImageView
 
 - name: Caching
   children:
