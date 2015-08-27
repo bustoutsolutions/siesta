@@ -204,7 +204,7 @@ public extension ResponseTransformer
     {
     /// Utility method to downcast the given entity’s content, or return an error response if the content object is of
     /// the wrong type.
-    func requireDataType<T>(
+    func downcastContent<T>(
             entity: Entity,
             @noescape process: T -> Response)
         -> Response
@@ -237,7 +237,7 @@ public struct TextResponseTransformer: ResponseEntityTransformer
             return .Success(entity)
             }
         
-        return requireDataType(entity)
+        return downcastContent(entity)
             {
             (nsdata: NSData) in
             
@@ -276,7 +276,7 @@ public struct JSONResponseTransformer: ResponseEntityTransformer
     /// :nodoc:
     public func processEntity(entity: Entity) -> Response
         {
-        return requireDataType(entity)
+        return downcastContent(entity)
             {
             (nsdata: NSData) in
 
