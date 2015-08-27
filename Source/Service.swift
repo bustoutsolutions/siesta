@@ -26,8 +26,8 @@ public class Service: NSObject
       Creates a new service for the given API.
       
       - Parameter: base The base URL of the API.
-      - Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
-          `NSData` (unless you add your own `ResponseTransformer` using `configure(...)`).
+      - Parameter: useDefaultTransformers If true, include handling for JSON, text, and images. If false, leave all
+          responses as `NSData` (unless you add your own `ResponseTransformer` using `configure(...)`).
       - Parameter: networkingProvider A provider to use for networking. The default is Alamofire with its default
           configuration. You can pass an `AlamofireProvider` created with a custom configuration,
           or provide your own networking implementation.
@@ -52,8 +52,9 @@ public class Service: NSObject
             {
             configure(description: "Siesta default response transformers")
                 {
-                $0.config.responseTransformers.add(JSONResponseTransformer(), contentTypes: ["*/json", "*/*+json"])
-                $0.config.responseTransformers.add(TextResponseTransformer(), contentTypes: ["text/*"])
+                $0.config.responseTransformers.add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
+                $0.config.responseTransformers.add(TextResponseTransformer(),  contentTypes: ["text/*"])
+                $0.config.responseTransformers.add(ImageResponseTransformer(), contentTypes: ["image/*"])
                 }
             }
         }

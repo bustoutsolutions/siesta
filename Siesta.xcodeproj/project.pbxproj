@@ -47,6 +47,7 @@
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
 		DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
+		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; settings = {ASSET_TAGS = (); }; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
@@ -118,6 +119,7 @@
 		DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserversSpec.swift; sourceTree = "<group>"; };
 		DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceStatusOverlay.swift; sourceTree = "<group>"; };
 		DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceStatusOverlay.xib; sourceTree = "<group>"; };
+		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugFormatting.swift; sourceTree = "<group>"; };
 		DAFA89271B8172920090D283 /* SiestaSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaSpec.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */,
 				DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */,
+				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
+				DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Error.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,

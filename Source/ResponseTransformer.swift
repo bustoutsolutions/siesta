@@ -294,3 +294,29 @@ public struct JSONResponseTransformer: ResponseEntityTransformer
             }
         }
     }
+
+/// Attempts to parse responses as images, yielding a `UIImage`.
+public struct ImageResponseTransformer: ResponseEntityTransformer
+    {
+    /// :nodoc:
+    public func processEntity(entity: Entity) -> Response
+        {
+        return downcastContent(entity)
+            {
+            (nsdata: NSData) in
+            
+            if let image = UIImage(data: nsdata)
+                {
+                var newEntity = entity
+                newEntity.content = image
+                return logTransformation(
+                    .Success(newEntity))
+                }
+            else
+                {
+                return logTransformation(
+                    .Failure(Error(userMessage: "Cannot decode image")))
+                }
+            }
+        }
+    }
