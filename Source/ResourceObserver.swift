@@ -43,7 +43,13 @@ public extension ResourceObserver
     
     /// True iff self and other are (1) both objects and (2) are the _same_ object.
     func isEquivalentToObserver(other: ResourceObserver) -> Bool
-        { return (self as? AnyObject) === (other as? AnyObject) }
+        {
+        if let selfObj = self as? AnyObject,
+           let otherObj = other as? AnyObject
+            { return selfObj === otherObj }
+        else
+            { return false }
+        }
     }
 
 /**

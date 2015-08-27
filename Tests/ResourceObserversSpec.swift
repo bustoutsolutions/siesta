@@ -158,18 +158,40 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().removeObservers(ownedBy: observer())
                 
                 let dummy = UIView()
-                var events = [ResourceEvent]()
+                var events = [String]()
                 resource().addObserver(owner: dummy)
                     {
                     resource, event in
-                    events.append(event)
+                    events.append(event.description)
                     }
                 
                 stubReqest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
-                expect(events.map { $0.description }).to(equal(
-                    ["ObserverAdded", "Requested", "NewData(Network)"]))
+                expect(events).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
+                }
+            
+            it("can have multiple closure observers")
+                {
+                observer().expect(.Requested, .NewData(.Network), .Requested, .NewData(.Network))
+                
+                let dummy = UIView()
+                var events0 = [String](),
+                    events1 = [String]()
+                
+                resource().addObserver(owner: dummy)
+                    { _, event in events0.append(event.description) }
+                
+                stubReqest(resource, "GET").andReturn(200).delay
+                awaitNewData(resource().load())
+                
+                resource().addObserver(owner: dummy)
+                    { _, event in events1.append(event.description) }
+                
+                awaitNewData(resource().load())
+                
+                expect(events0).to(equal(["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]))
+                expect(events1).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
                 }
             
             it("is not added twice if it is an object")
@@ -356,8 +378,11 @@ private class TestObserverWithExpectations: ResourceObserver
     deinit
         { checkForUnfulfilledExpectations() }
     
-    func expect(event: ResourceEvent, callback: (Void -> Void) = {})
-        { expectedEvents.append(Expectation(event: event, callback: callback)) }
+    func expect(events: ResourceEvent..., callback: (Void -> Void) = {})
+        {
+        for event in events
+            { expectedEvents.append(Expectation(event: event, callback: callback)) }
+        }
     
     func checkForUnfulfilledExpectations()
         {
