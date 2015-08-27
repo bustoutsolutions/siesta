@@ -1,195 +1,128 @@
-/**
- * Reset some basic elements
- */
-body, h1, h2, h3, h4, h5, h6,
-p, blockquote, pre, hr,
-dl, dd, ol, ul, figure {
-    margin: 0;
-    padding: 0;
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-
-
-/**
- * Basic styling
- */
 body {
+    color: $gray-color;
     font-family: $base-font-family;
     font-size: $base-font-size;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
     line-height: $base-line-height;
-    color: $text-color;
-    background-color: $background-color;
     -webkit-text-size-adjust: 100%;
+    background-color: $blue-color;
+    @include background-image-retina('../images/grunge.png', '../images/grunge@2x.png', 1436px);
+    background-position: center top;
+    background-repeat: repeat;
+    text-rendering: optimizeLegibility;
 }
 
-strong {
-    font-weight: 600;
-}
-
-/**
- * Set `margin-bottom` to maintain vertical rhythm
- */
-h1, h2, h3, h4, h5, h6,
-p, blockquote, pre,
-ul, ol, dl, figure,
-%vertical-rhythm {
-    margin-bottom: $spacing-unit / 2;
-}
 
 
 /**
- * Images
+ * Hyperlinks
  */
+
+a {
+    color: $turquoise-color;
+    text-decoration: none;
+
+    .icon > svg path {
+        fill: $turquoise-color;
+    }
+
+    &:hover {
+        color: lighten($turquoise-color, 20%);
+
+        .icon > svg path {
+            fill: lighten($turquoise-color, 20%);
+        }
+    }
+}
+
+
+
+/**
+ * Headers
+ */
+
+h1, h2, h3 {
+    font-family: $heading-font-family;
+    font-weight: bold;
+}
+
+h2 {
+    color: $orange-color;
+    @include adjust-font-size-to(32px, 2);
+    text-transform: uppercase;
+}
+
+h3 {
+    color: $yellow-color;
+    @include adjust-font-size-to(24px, 2);
+}
+
+
+/**
+ * Block Elements
+ */
+
 img {
     max-width: 100%;
     vertical-align: middle;
 }
 
-
-
-/**
- * Figures
- */
-figure > img {
-    display: block;
-}
-
-figcaption {
-    font-size: $small-font-size;
-}
-
-
-
-/**
- * Lists
- */
-ul, ol {
-    margin-left: $spacing-unit;
-}
-
-li {
-    > ul,
-    > ol {
-         margin-bottom: 0;
-    }
-}
-
-
-
-/**
- * Headings
- */
-h1, h2 {
-    font-weight: 700;
-}
-
-h3, h4, h5, h6 {
-    font-weight: 600;
+pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: rhythm(grid-padding());
+    background-color: rgba($black, 0.12);
 }
 
 hr {
-    margin: 2em 0;
+    margin: 0;
+    height: 1em;
+    @include background-image-retina('../images/horizontal-rule.png', '../images/horizontal-rule@2x.png', 1440px);
+    background-position: center;
+    background-repeat: no-repeat;
     border: none;
-    height: 2px;
-    background: $grey-color-light;
-}
-
-
-/**
- * Links
- */
-a {
-    color: $brand-color;
-    text-decoration: none;
-
-    &:visited {
-        color: darken($brand-color, 15%);
-    }
-
-    &:hover {
-        color: $text-color;
-        text-decoration: underline;
-    }
 }
 
 
 
 /**
- * Blockquotes
+ * Inline Elements
  */
-blockquote {
-    border-left: 1ex solid $grey-color-light;
-    border-right: 1ex solid $grey-color-light;
-    border-radius: 2ex;
-    padding: $spacing-unit/4 $spacing-unit/2;
 
-    > :last-child {
-        margin-bottom: 0;
-    }
+strong {
+    font-weight: bold;
 }
 
-
-
-/**
- * Code formatting
- */
-pre,
-code {
-    font-size: 14px;
-    line-height: 1.45;
-    border-radius: 3px;
-    background-color: #f4f4f4;
-    font-family: Menlo, Consolas, 'Liberation Mono', Courier, monospace;
-}
-
-.line-numbers {
-    display: none;
+em {
+    font-style: italic;
 }
 
 code {
-    padding: 1px 5px;
-}
+    color: $gray-color-light;
+    @include adjust-font-size-to(15px, 1.5);
+    font-family: $mono-font-family;
 
-pre {
-    padding: 8px 12px;
-    overflow-x: scroll;
-
-    > code {
-        border: 0;
-        padding-right: 0;
-        padding-left: 0;
+    p &,
+    li & {
+        padding: 2px 4px;
+        background-color: rgba($black, 0.12);
     }
 }
 
 
 
 /**
- * Wrapper
+ * Custom Elements
  */
-.wrapper {
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: $spacing-unit;
-    padding-left: $spacing-unit;
-    @extend %clearfix;
 
-    @include media-query($on-laptop) {
-        max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit}));
-        max-width:         calc(#{$content-width} - (#{$spacing-unit}));
-        padding-right: $spacing-unit / 2;
-        padding-left: $spacing-unit / 2;
-    }
-}
-
-
-
-/**
- * Clearfix
- */
 %clearfix {
-
     &:after {
         content: "";
         display: table;
@@ -197,21 +130,89 @@ pre {
     }
 }
 
+.label {
+    display: block;
+    margin-bottom: rhythm(0.75, $small-font-size);
+    color: $gray-color-dark;
+    font-family: $heading-font-family;
+    @include adjust-font-size-to($small-font-size, $small-line-height);
+    font-weight: bold;
+    text-transform: uppercase;
+}
 
-
-/**
- * Icons
- */
 .icon {
 
     > svg {
         display: inline-block;
         width: 16px;
         height: 16px;
-        vertical-align: middle;
+        vertical-align: top;
 
         path {
-            fill: $grey-color;
+            fill: $gray-color;
         }
+    }
+}
+
+.link-list {
+    li {
+        margin-bottom: rhythm(0.5);
+    }
+}
+
+
+
+/**
+ * Content Blocks
+ */
+
+.content {
+    h2 {
+        margin: rhythm($spacing-unit * 3, 32px) rhythm(grid-padding() * -1, 32px) rhythm($spacing-unit * 1.5, 32px);
+        padding: rhythm(1, 32px) rhythm(1.5, 32px) 0;
+        border-top: 2px solid $orange-color;
+    }
+
+    h3 {
+        margin: rhythm($spacing-unit * 1.5, 24px) 0 rhythm($spacing-unit, 24px);
+    }
+
+    p, li, dd {
+        @include adjust-font-size-to($normal-font-size, $normal-line-height);
+
+        strong {
+            color: $gray-color-light;
+        }
+    }
+
+    p {
+        margin-bottom: rhythm($spacing-unit, $normal-font-size);
+    }
+
+    ul, ol, dl, pre {
+        margin-bottom: rhythm($spacing-unit);
+    }
+
+    ul, ol {
+        padding-left: rhythm(2);
+
+        ul, ol {
+            margin-bottom: 0;
+        }
+    }
+
+    ul {
+        list-style: disc outside;
+    }
+
+    ol {
+        list-style: decimal outside;
+    }
+
+    pre {
+        margin: {
+            left: rhythm(grid-padding()) * -1;
+            right: rhythm(grid-padding()) * -1;
+        };
     }
 }

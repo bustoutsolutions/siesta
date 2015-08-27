@@ -1,87 +1,109 @@
+%container {
+    margin: {
+        left: auto;
+        right: auto;
+    };
+    padding: {
+        left: map-get($mobile-layout, grid-padding);
+        right: map-get($mobile-layout, grid-padding);
+    };
+
+    /* Breakpoints */
+
+    @include breakpoint($desktop, $desktop-layout) {
+        padding: {
+            left: map-get($desktop-layout, grid-padding);
+            right: map-get($desktop-layout, grid-padding);
+        };
+        max-width: $desktop-width;
+    }
+}
+
+
+
 /**
- * Site header
+ * Header
  */
-.site-header {
-    border-top: 5px solid $grey-color-dark;
-    border-bottom: 1px solid $grey-color-light;
-    min-height: 56px;
 
-    // Positioning context for the mobile navigation icon
-    position: relative;
-}
+.header {
+    padding-top: rhythm($spacing-unit * 2);
+    @include background-image-retina('../images/pattern.png', '../images/pattern@2x.png', 138px);
+    background-repeat: repeat-x;
 
-.site-title {
-    font-size: 26px;
-    line-height: 56px;
-    letter-spacing: -1px;
-    margin-bottom: 0;
-    float: left;
-
-    &,
-    &:visited {
-        color: $grey-color-dark;
-    }
-}
-
-.site-nav {
-    float: right;
-    line-height: 56px;
-
-    .menu-icon {
-        display: none;
+    &__inner {
+        @extend %container;
     }
 
-    .page-link {
-        color: $text-color;
-        line-height: $base-line-height;
+    &__title {
+        margin: 0 auto rhythm($spacing-unit);
+        display: block;
+        height: 88px;
+        width: 256px;
+        @include background-image-retina('../images/logo.png', '../images/logo@2x.png', 256px);
+        background-repeat: no-repeat;
+        text-indent: -9999px;
+    }
 
-        // Gaps between nav items, but not on the first one
-        &:not(:first-child) {
-            margin-left: 20px;
+    &__nav {
+        margin-bottom: rhythm($spacing-unit);
+        text-align: center;
+
+        &__menu {
+            @extend %clearfix;
+            display: inline-block;
+
+            li {
+                float: left;
+                color: $orange-color;
+                font-weight: bold;
+                text-transform: uppercase;
+
+                &:after {
+                    content: '♦';
+                }
+
+                &:last-child:after {
+                    content: '';
+                }
+            }
+
+            a {
+                margin: 0 rhythm(0.5, $small-font-size);
+                @include adjust-font-size-to($small-font-size, $small-line-height);
+            }
+
+            li:first-child a {
+                margin-left: 0;
+            }
+
+            li:last-child a {
+                margin-right: 0;
+            }
         }
     }
 
-    @include media-query($on-palm) {
-        position: absolute;
-        top: 9px;
-        right: 30px;
-        background-color: $background-color;
-        border: 1px solid $grey-color-light;
-        border-radius: 5px;
-        text-align: right;
+    hr {
+        margin: 0 rhythm(grid-padding() * -1);
+    }
 
-        .menu-icon {
-            display: block;
-            float: right;
-            width: 36px;
-            height: 26px;
-            line-height: 0;
-            padding-top: 10px;
-            text-align: center;
+    /* Breakpoints */
 
-            > svg {
-                width: 18px;
-                height: 15px;
+    @include breakpoint($desktop, $desktop-layout) {
+        padding-top: rhythm($spacing-unit * 3);
 
-                path {
-                    fill: $grey-color-dark;
+        &__nav {
+            margin-bottom: rhythm($spacing-unit * 2);
+
+            &__menu {
+                a {
+                    margin: 0 rhythm(1, $normal-font-size);
+                    @include adjust-font-size-to($normal-font-size, $normal-line-height);
                 }
             }
         }
 
-        .trigger {
-            clear: both;
-            display: none;
-        }
-
-        &:hover .trigger {
-            display: block;
-            padding-bottom: 5px;
-        }
-
-        .page-link {
-            display: block;
-            padding: 5px 10px;
+        hr {
+            margin: 0;
         }
     }
 }
@@ -89,143 +111,94 @@
 
 
 /**
- * Site footer
+ * Main
  */
-.site-footer {
-    border-top: 1px solid $grey-color-light;
-    padding: $spacing-unit 0;
-}
 
-.footer-heading {
-    font-size: 18px;
-    margin-bottom: $spacing-unit / 2;
-}
+.main {
+    @extend %container;
+    overflow: hidden;
+    padding: {
+        top: rhythm($spacing-unit * 2);
+        bottom: rhythm($spacing-unit * 2);
+    };
 
-.contact-list,
-.social-media-list {
-    list-style: none;
-    margin-left: 0;
-}
+    #siesta {
+        display: none;
 
-.footer-col-wrapper {
-    font-size: 15px;
-    color: $grey-color;
-    margin-left: -$spacing-unit / 2;
-    @extend %clearfix;
-}
+        + p {
+            padding: rhythm(0.125, $normal-font-size) rhythm(0.625, $normal-font-size) 0;
+            text-align: center;
+            background-color: $yellow-color;
 
-.footer-col {
-    float: left;
-    margin-bottom: $spacing-unit / 2;
-    padding-left: $spacing-unit / 2;
-}
-
-.footer-col-1 {
-    width: -webkit-calc(33% - (#{$spacing-unit} / 2));
-    width:         calc(33% - (#{$spacing-unit} / 2));
-}
-
-.footer-col-2 {
-    width: -webkit-calc(67% - (#{$spacing-unit} / 2));
-    width:         calc(67% - (#{$spacing-unit} / 2));
-}
-
-@include media-query($on-laptop) {
-    .footer-col-1,
-    .footer-col-2 {
-        width: -webkit-calc(50% - (#{$spacing-unit} / 2));
-        width:         calc(50% - (#{$spacing-unit} / 2));
+            &, strong {
+                color: $blue-color;
+            }
+        }
     }
 
-    .footer-col-3 {
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
+    hr {
+        display: none;
     }
-}
 
-@include media-query($on-palm) {
-    .footer-col {
-        float: none;
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
+    /* Breakpoints */
+
+    @include breakpoint($desktop, $desktop-layout) {
+        &__inner {
+            padding: {
+                left: columns(1) + gutter();
+                right: columns(1) + gutter();
+            };
+        }
     }
 }
 
 
 
 /**
- * Page content
+ * Footer
  */
-.page-content {
-    padding: $spacing-unit 0;
-}
 
-.page-heading {
-    font-size: 20px;
-}
+.footer {
+    @extend %container;
+    padding-bottom: rhythm($spacing-unit);
 
-.post-list {
-    margin-left: 0;
-    list-style: none;
-
-    > li {
-        margin-bottom: $spacing-unit;
+    hr {
+        margin: 0 rhythm(grid-padding() * -1);
     }
-}
 
-.post-meta {
-    font-size: $small-font-size;
-    color: $grey-color;
-}
-
-.post-link {
-    display: block;
-    font-size: 24px;
-}
-
-
-
-/**
- * Posts
- */
-.post-header {
-    margin-bottom: $spacing-unit;
-}
-
-.post-title {
-    font-size: 42px;
-    letter-spacing: -1px;
-    line-height: 1;
-
-    @include media-query($on-laptop) {
-        font-size: 36px;
+    &__main {
+        @extend %clearfix;
+        padding-top: rhythm($spacing-unit);
     }
-}
 
-.post-content {
-    margin-bottom: $spacing-unit;
+    &__content {
+        margin-bottom: rhythm($spacing-unit);
+    }
 
-    h2 {
-        font-size: 32px;
+    .bust-out-solutions {
+        height: 51px;
+        width: 192px;
+    }
 
-        @include media-query($on-laptop) {
-            font-size: 28px;
+    /* Breakpoints */
+
+    @include breakpoint($desktop, $desktop-layout) {
+        padding-bottom: rhythm($spacing-unit * 2);
+
+        hr {
+            margin: 0;
         }
-    }
 
-    h3 {
-        font-size: 26px;
-
-        @include media-query($on-laptop) {
-            font-size: 22px;
+        &__content {
+            margin-bottom: 0;
+            @include span(7);
+            padding-left: columns(1) + gutter();
         }
-    }
 
-    h4 {
-        font-size: 20px;
-
-        @include media-query($on-laptop) {
-            font-size: 18px;
+        &__aside {
+            @include span(map-get($desktop-layout, columns) - 7);
+            margin-right: 0;
+            padding-right: columns(1) + gutter();
         }
     }
 }

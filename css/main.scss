@@ -3,56 +3,77 @@
 ---
 @charset "utf-8";
 
-
-// Our variables
-$base-font-family: source-sans-pro, 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$base-font-size:   16px;
-$small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
-
-$spacing-unit:     30px;
-
-$text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
-
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-// Width of the content area
-$content-width:    800px;
-
-$on-palm:          600px;
-$on-laptop:        800px;
+@import "utilities";
 
 
 
-// Using media queries with like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
-}
+/**
+ * Typography
+ */
+
+// Families: Bitter & Roboto Condensed
+@import url(http://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Roboto+Condensed:700);
+$base-font-family: Bitter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$heading-font-family: 'Roboto Condensed', serif;
+$mono-font-family: Menlo, Consolas, Courier, monospace;
+
+// Sizes
+$base-font-size:     16px;
+$base-line-height:   1;
+$normal-font-size:   18px;
+$normal-line-height: 1.75;
+$small-font-size:    14px;
+$small-line-height:  1.25;
 
 
 
-// Import partials from `sass_dir` (defaults to `_sass`)
+/**
+ * Colors
+ */
+
+$orange-color:     #ef653a;
+$turquoise-color:  #1bb7b2;
+$yellow-color:     #f6b854;
+$blue-color:       #2e3c44;
+
+// Grayscale
+$white-color:      #ffffff;
+$gray-color:       mix($white-color, $blue-color, 54%);
+$gray-color-light: mix($white-color, $blue-color, 87%);
+$gray-color-dark:  mix($white-color, $blue-color, 26%);
+$black:            #000000;
+
+
+
+/**
+ * Layouts
+ */
+
+$mobile-layout: (
+    columns:      2,
+    column-width: 20em,
+    gutter-width: 2em,
+    grid-padding: 1.5em
+);
+$mobile-width: layout-outer-width($mobile-layout);
+$mobile: "(max-width: #{$mobile-width})";
+
+$desktop-layout: (
+    columns:      12,
+    column-width: 3em,
+    gutter-width: 2em,
+    grid-padding: 3em
+);
+$desktop-width: layout-outer-width($desktop-layout);
+$desktop: "(min-width: #{$mobile-width})";
+
+$spacing-unit: 1.5;
+
+
+
 @import
+        "reset",
         "base",
         "layout",
         "syntax-highlighting"
 ;
-
-
-.guide-next {
-    text-align: right;
-    font-size: 110%;
-    margin-top: 30px;
-}
