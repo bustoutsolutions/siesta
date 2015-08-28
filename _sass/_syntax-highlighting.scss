@@ -10,7 +10,7 @@ $yellow:    $yellow-color;
 $orange:    $orange-color;
 $red:       #c13814;
 $magenta:   #d33682;
-$violet:    #6c71c4;
+$violet:    #999fff;
 $blue:      #268bd2;
 $cyan:      $turquoise-color;
 $green:     #859900;
@@ -24,12 +24,12 @@ $green:     #859900;
     .linenos { color: $base1; }
 
     .bp { color: $base1; } // Name.Builtin.Pseudo
-    .c { color: $base1; font-style: italic } // Comment
-    .c1 { color: $base1; font-style: italic } // Comment.Single
-    .cm { color: $base1; font-style: italic } // Comment.Multiline
+    .c,                                       // Comment
+    .c1,                                      // Comment.Single
+    .cm { color: $base2; font-style: italic } // Comment.Multiline
     .cp { color: $red; font-weight: bold } // Comment.Preproc
     .cs { color: $base1; font-weight: bold; font-style: italic } // Comment.Special
-    .err { color: $base00; background-color: $red; } // Error
+    .err { color: $violet; } // Error (but parser isn't up to snuff and flags false positives)
     .gd .x { color: $base00; background-color: $magenta; } // Generic.Deleted.Specific
     .gd { color: $base00; background-color: $magenta; } // Generic.Deleted
     .ge { font-style: italic; } // Generic.Emph
@@ -49,14 +49,14 @@ $green:     #859900;
     .kp { @extend .emphasized; } // Keyword.Pseudo
     .kr { @extend .emphasized; } // Keyword.Reserved
     .kt { color: $blue; font-weight: bold } // Keyword.Type
-    .m { color: $magenta; } // Literal.Number
-    .mf { color: $magenta; } // Literal.Number.Float
-    .mh { color: $magenta; } // Literal.Number.Hex
-    .mi { color: $magenta; } // Literal.Number.Integer
-    .mo { color: $magenta; } // Literal.Number.Oct
+    .m,                   // Literal.Number
+    .mf,                  // Literal.Number.Float
+    .mh,                  // Literal.Number.Hex
+    .mi,                  // Literal.Number.Integer
+    .mo { color: $cyan; } // Literal.Number.Oct
     .n { color: $base01; } // Name
     .na { color: $base1; } // Name.Attribute
-    .nb { color: $cyan; } // Name.Builtin
+    .nb { color: $magenta; } // Name.Builtin
     .nc { color: $blue; font-weight: bold } // Name.Class
     .ne { color: $blue; font-weight: bold } // Name.Exception
     .nf { color: $blue; font-weight: bold } // Name.Function
