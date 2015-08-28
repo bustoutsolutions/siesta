@@ -13,8 +13,8 @@ import Nocilla
 
 class ResourcePathsSpec: ResourceSpecBase
     {
-    override var apiHostname: String
-        { return "zingle.frotz" }
+    override var baseURL: String
+        { return "https://zingle.frotz/v1" }
     
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
