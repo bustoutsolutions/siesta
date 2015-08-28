@@ -1,6 +1,6 @@
 # Memory Management
 
-Note that in the [example in the README](https://github.com/bustoutsolutions/siesta#basic-usage), no code calls any sort of “removeObserver” method. Siesta automatically removes observers when they are no longer needed.
+Note that in the [first example in the README](https://bustoutsolutions.github.io/siesta/#basic-usage), no code calls any sort of “removeObserver” method. Siesta can automatically remove observers when they are no longer needed by tying them to the lifecycles of other objects.
 
 Siesta achieves this by introducing a notion of **observer ownership,** which ties an observer to the lifecycle of some object. Here’s how this mechanism plays out in a few common cases:
 
@@ -33,7 +33,7 @@ someResource.addObserver(MyLittleGlueObject(), owner: self)
 This is also the approach you _must_ use when registering structs and closures as observers:
 
 ```swift
-someResource.addObserver(someViewController) {
+someResource.addObserver(owner: someViewController) {
     resource, event in
     print("Received \(event) for \(resource)")
 }

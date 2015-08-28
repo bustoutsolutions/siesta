@@ -43,7 +43,7 @@ Objective-C can’t see Swift globals, so you’ll instead need to make your sin
 
 ```swift
 class MyAPI: Service {
-    let instance = MyAPI(base: "https://api.example.com")  // top level
+    public static let instance = MyAPI(base: "https://api.example.com")
 }
 ```
 

@@ -35,7 +35,7 @@ resource.load()
     .failure { error in print("Oh, bummer.") }
 ```
 
-These hooks are one-offs, called at most once when a request completes and then discarded.
+These hooks are one-offs, called at most once when a specific request completes.
 
 Though they are a secondary feature, these request hooks are quite robust. They have several advantages over similar hooks in other lower-level frameworks; for example, they parse responses only once (instead of repeatedly for each callback). See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
 

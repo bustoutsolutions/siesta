@@ -9,7 +9,7 @@ A [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html)
 You’ll typically create a `Service` singleton for each API your app uses:
 
 ```swift
-let myAPI = Service(base: "https://api.example.com")  // top level
+let myAPI = Service(base: "https://api.example.com")  // global var
 ```
 
 You don’t necessarily need to make it a singleton, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource is working with the same object, and receives the same notifications. That happens within the context of one `Service` instance.

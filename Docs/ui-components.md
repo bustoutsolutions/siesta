@@ -1,13 +1,12 @@
 # UI Components
 
-## ResourceStatusOverlay
+## Resource Status Overlay
 
 The business of showing an activity indicator and error message can get repetitive. Siesta provides a status overlay view that takes care of that for you.
 
 The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
 
-![Standard error overlay view](/siesta/guide/images/standard-error-overlay@2x.png){:width="320"}{:height="136"}
-{:align="center"}
+<img alt="Standard error overlay view" src="/siesta/guide/images/standard-error-overlay@2x.png" width="320" height="136">
 
 …and you can also provide your own custom nib.
 
@@ -83,3 +82,9 @@ Or in Objective-C:
 
 @end
 ```
+
+## Remote Image View
+
+TODO: document
+
+See [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html)

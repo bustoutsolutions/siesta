@@ -12,7 +12,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 **Contents**
 
-- [What’s It For?](#whats-it-for)
+- [What’s It For?](#what’s-it-for)
 - [Features](#features)
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
@@ -22,7 +22,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
   - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
-- [Contributing & Getting Help](#contributing--getting-help)
+- [Contributing & Getting Help](#contributing-amp-getting-help)
 
 ## What’s It For?
 
@@ -216,6 +216,47 @@ class ProfileViewController: UIViewController, ResourceObserver {
 ```
 
 Note that this example is not toy code. Together with its storyboard, **this small class is a fully armed and operational REST-backed user interface**.
+
+### Your socks still on?
+
+Take a look at AFNetworking’s venerable `UIImageView` utility for asynchronously loading and caching remote images on demand. Seriously, go [skim that code](https://github.com/AFNetworking/AFNetworking/blob/master/UIKit%2BAFNetworking/UIImageView%2BAFNetworking.m) and digest all the cool things it does. Take a few minutes. I’ll wait. I’m a README. I’m not going anywhere.
+
+Got it? Good.
+
+Here’s how you implement the same functionality using Siesta:
+
+```swift
+class RemoteImageView: UIImageView {
+  static var imageCache: Service = Service()
+  
+  var placeholderImage: UIImage?
+  
+  var imageURL: NSURL? {
+    get { return imageResource?.url }
+    set { imageResource = RemoteImageView.imageCache.resource(url: newValue) }
+  }
+  
+  var imageResource: Resource? {
+    willSet {
+      imageResource?.removeObservers(ownedBy: self)
+      imageResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
+    }
+    
+    didSet {
+      imageResource?.loadIfNeeded()
+      imageResource?.addObserver(owner: self) { [weak self] _ in
+        self?.image = imageResource?.contentAsType(ifNil: placeholderImage)
+      }
+    }
+  }
+}
+```
+
+The same functionality. Yes, really.
+
+<small>(Well, OK, not quite really. The version above is somewhat more robust.)</small>
+
+There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. The point is that Siesta gives you an **elegant abstraction** that **solves the problems you actually have**.
 
 ---
 

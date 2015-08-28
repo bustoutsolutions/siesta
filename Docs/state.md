@@ -2,13 +2,13 @@
 
 The `Resource` class answers three basic questions:
 
-**Q.** What is the latest data for the resource we have locally, if any?
+**Q.** What is the latest data for the resource we have locally, if any?<br>
 **A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
 
-**Q.** Did the last attempt to load it result in an error?
+**Q.** Did the last attempt to load it result in an error?<br>
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
-**Q.** Is there a request in progress?
+**Q.** Is there a request in progress?<br>
 **A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`requesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10requestingSb)
 
 ## The State Properties
