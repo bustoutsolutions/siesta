@@ -1,0 +1,9 @@
+language: objective-c
+os: osx
+osx_image: xcode7
+script:
+  - brew update
+  - brew install carthage
+  - carthage bootstrap
+  - xctool clean build -project Siesta.xcodeproj -scheme Siesta
+  - xctool test -project Siesta.xcodeproj -scheme SiestaTests
