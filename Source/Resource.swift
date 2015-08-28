@@ -32,7 +32,7 @@ public final class Resource: NSObject
     public let service: Service
     
     /// The canoncial URL of this resource.
-    public let url: NSURL? // TODO: figure out what to do about invalid URLs
+    public let url: NSURL
     
     internal var observers = [ObserverEntry]()
     
@@ -121,10 +121,10 @@ public final class Resource: NSObject
     
     // MARK: -
     
-    internal init(service: Service, url: NSURL?)
+    internal init(service: Service, url: NSURL)
         {
         self.service = service
-        self.url = url?.absoluteURL
+        self.url = url.absoluteURL
         
         super.init()
         
@@ -163,7 +163,7 @@ public final class Resource: NSObject
     */
     public func child(subpath: String) -> Resource
         {
-        return service.resource(url?.URLByAppendingPathComponent(subpath))
+        return service.resource(url: url.URLByAppendingPathComponent(subpath))
         }
     
     /**
@@ -180,7 +180,7 @@ public final class Resource: NSObject
     */
     public func relative(href: String) -> Resource
         {
-        return service.resource(NSURL(string: href, relativeToURL: url))
+        return service.resource(url: NSURL(string: href, relativeToURL: url))
         }
     
     /**
@@ -222,7 +222,7 @@ public final class Resource: NSObject
     public func withParam(name: String, _ value: String?) -> Resource
         {
         return service.resource(
-            url?.alterQuery
+            url: url.alterQuery
                 {
                 (var params) in
                 params[name] = value
@@ -275,7 +275,7 @@ public final class Resource: NSObject
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
-        let nsreq = NSMutableURLRequest(URL: url!)  // TODO: remove ! when invalid URLs handled
+        let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config.headers
             { nsreq.setValue(value, forHTTPHeaderField:header) }
@@ -557,10 +557,13 @@ public final class Resource: NSObject
             }
         }
 
-    public func cancelLoadIfUnobserved(afterDelay delay: NSTimeInterval)
+    public func cancelLoadIfUnobserved(afterDelay delay: NSTimeInterval, callback: Void -> Void = {})
         {
         dispatch_on_main_queue(after: 0.05)
-            { self.cancelLoadIfUnobserved() }
+            {
+            self.cancelLoadIfUnobserved()
+            callback()
+            }
         }
 
     private func trackRequest(req: Request, inout using array: [Request])
@@ -725,10 +728,11 @@ public final class Resource: NSObject
 
     private func initializeDataFromCache()
         {
-        guard let url = url, let cache = config.persistentCache else
+        guard let cache = config.persistentCache else
             { return }
 
-        debugLog(.Cache, ["Looking for cached data for", self, "in", cache])
+        let url = self.url
+        debugLog(.Cache, ["Looking for cached data for", url, "in", cache])
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             guard let entity = cache.readEntity(forKey: url.absoluteString) else
@@ -750,9 +754,10 @@ public final class Resource: NSObject
     
     private func writeDataToCache()
         {
-        if let url = url, let cache = config.persistentCache, let entity = latestData
+        if let cache = config.persistentCache, let entity = latestData
             {
-            debugLog(.Cache, ["Caching data for", self, "in", cache])
+            let url = self.url
+            debugLog(.Cache, ["Caching data for", url, "in", cache])
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
                 {
                 cache.writeEntity(entity, forKey: url.absoluteString)

@@ -144,13 +144,13 @@ class ResourcePathsSpec: ResourceSpecBase
             {
             it("adds params")
                 {
-                expect(resource().withParam("foo", "bar").url?.absoluteString)
+                expect(resource().withParam("foo", "bar").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar"))
                 }
 
             it("escapes params")
                 {
-                expect(resource().withParam("fo=o", "ba r").url?.absoluteString)
+                expect(resource().withParam("fo=o", "ba r").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
                 }
                 
@@ -158,31 +158,31 @@ class ResourcePathsSpec: ResourceSpecBase
             
             it("alphabetizes params (to help with resource uniqueness)")
                 {
-                expect(resourceWithParams().withParam("plop", "blop").url?.absoluteString)
+                expect(resourceWithParams().withParam("plop", "blop").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar&plop=blop&zoogle=oogle"))
                 }
                 
             it("modifies existing params without affecting others")
                 {
-                expect(resourceWithParams().withParam("zoogle", "zonk").url?.absoluteString)
+                expect(resourceWithParams().withParam("zoogle", "zonk").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"))
                 }
                 
             it("treats empty string value as empty param")
                 {
-                expect(resourceWithParams().withParam("foo", "").url?.absoluteString)
+                expect(resourceWithParams().withParam("foo", "").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo&zoogle=oogle"))
                 }
                 
             it("treats nil value as removal")
                 {
-                expect(resourceWithParams().withParam("foo", nil).url?.absoluteString)
+                expect(resourceWithParams().withParam("foo", nil).url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?zoogle=oogle"))
                 }
                 
             it("drops query string if all params removed")
                 {
-                expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url?.absoluteString)
+                expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b"))
                 }
             }
@@ -202,7 +202,7 @@ private func resourceExpansionMatcher(
         { inputs, failureMessage in
         
         let (resource, path) = try! inputs.evaluate()!,
-            actualURL = relationship(resource, path).url?.absoluteString
+            actualURL = relationship(resource, path).url.absoluteString
         failureMessage.stringValue =
             "expected \(relationshipName) \(path.debugDescription)"
             + " of resource \(resource.url)"

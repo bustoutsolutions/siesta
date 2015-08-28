@@ -37,6 +37,33 @@ class ServiceSpec: SiestaSpec
                 expect("http://foo.bar/baz?you=mysunshine") .to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 expect("http://foo.bar/baz/?you=mysunshine").to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 }
+            
+            context("with no baseURL")
+                {
+                let bareService = specVar { Service() }
+                
+                it("returns a nil baseURL")
+                    {
+                    expect(bareService().baseURL).to(beNil())
+                    }
+
+                it("fails requests for path-based resources")
+                    {
+                    expectInvalidResource(bareService().resource("foo"))
+                    }
+
+                it("fails requests for relative URLs")
+                    {
+                    expectInvalidResource(bareService().resource(url: "/foo"))
+                    }
+
+                it("allows requests for absolute URLs")
+                    {
+                    let resource = bareService().resource(url: "http://foo.bar")
+                    stubReqest({ resource }, "GET").andReturn(200)
+                    awaitNewData(resource.load())
+                    }
+                }
             }
         
         describe("resource()")
@@ -63,6 +90,14 @@ class ServiceSpec: SiestaSpec
                 {
                 checkPathExpansion("https://foo.bar/?a=b&x=y",   path:"baz/fez/", expect:"https://foo.bar/baz/fez/?a=b&x=y")
                 checkPathExpansion("https://foo.bar/v1?a=b&x=y", path:"baz",      expect:"https://foo.bar/v1/baz?a=b&x=y")
+                }
+            
+            it("gives a non-nil but invalid resource for invalid URLs")
+                {
+                expectInvalidResource(service().resource(url: "http://[URL syntax error]"))
+                expectInvalidResource(service().resource(url: "\0"))
+                expectInvalidResource(service().resource(url: nil as NSURL?))
+                expectInvalidResource(service().resource(url: nil as String?))
                 }
             }
         
@@ -262,7 +297,7 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
         let (base, resourcePath) = try! inputs.evaluate()!,
             service = Service(base: base),
             resource = service.resource(resourcePath),
-            actualURL = resource.url?.absoluteString
+            actualURL = resource.url.absoluteString
         failureMessage.stringValue =
             "expected base \(base.debugDescription)"
             + " and resource path \(resourcePath.debugDescription)"
@@ -281,4 +316,9 @@ func checkPathExpansion(base: String, path resourcePath: String, expect expected
         expect((base, resourcePathVariant))
             .to(expandToResourceURL(expectedExpansion))
         }
+    }
+
+func expectInvalidResource(resource: Resource)
+    {
+    awaitFailure(resource.load())
     }

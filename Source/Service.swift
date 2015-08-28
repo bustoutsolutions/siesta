@@ -25,25 +25,32 @@ public class Service: NSObject
     /**
       Creates a new service for the given API.
       
-      - Parameter: base The base URL of the API.
-      - Parameter: useDefaultTransformers If true, include handling for JSON, text, and images. If false, leave all
-          responses as `NSData` (unless you add your own `ResponseTransformer` using `configure(...)`).
-      - Parameter: networkingProvider A provider to use for networking. The default is Alamofire with its default
-          configuration. You can pass an `AlamofireProvider` created with a custom configuration,
-          or provide your own networking implementation.
+      - Parameter base:
+          The base URL of the API. If nil, there is no base URL, and thus `resource(_:)` will require absolute URLs.
+      - Parameter useDefaultTransformers:
+          If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
+          add your own `ResponseTransformer` using `configure(...)`).
+      - Parameter networkingProvider:
+          A provider to use for networking. The default is Alamofire with its default configuration. You can pass an
+          `AlamofireProvider` created with a custom configuration, or provide your own networking implementation.
     */
     public init(
-            base: String,
+            base: String? = nil,
             useDefaultTransformers: Bool = true,
             networkingProvider: NetworkingProvider = AlamofireProvider())
         {
-        self.baseURL = NSURL(string: base.URLString)?.alterPath
+        if let base = base
             {
-            path in
-            !path.hasSuffix("/")
-                ? path + "/"
-                : path
+            self.baseURL = NSURL(string: base)?.alterPath
+                {
+                path in
+                !path.hasSuffix("/")
+                    ? path + "/"
+                    : path
+                }
             }
+        else
+            { self.baseURL = nil }
         self.networkingProvider = networkingProvider
         
         super.init()
@@ -66,22 +73,42 @@ public class Service: NSObject
       the context of a `Service` as long as anyone retains a reference to that resource.
       Unreferenced resources remain in memory (with their cached data) until a low memory event
       occurs, at which point they are summarily evicted.
+      
+      If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
+      return a resource — but that resource will give errors for all requests without touching the network.
     */
     @objc(resourceWithURL:)
-    public final func resource(url: NSURL?) -> Resource
+    public final func resource(url url: NSURL?) -> Resource
         {
-        let key = url?.absoluteString ?? ""  // TODO: handle invalid URLs
+        let key = url?.absoluteString ?? ""
         return resourceCache.get(key)
             {
-            Resource(service: self, url: url)
+            Resource(service: self, url: url ?? Service.invalidURL)
             }
         }
+
+    /// Convenience to parse a URL and return its resource.
+    @objc(resourceWithURLString:)
+    public final func resource(url urlString: String?) -> Resource
+        {
+        if let urlString = urlString, let nsurl = NSURL(string: urlString)
+            { return resource(url: nsurl) }
+        else
+            {
+            debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"])
+            return resource(url: Service.invalidURL)
+            }
+        }
+
+    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
     
-    /// Return the unique resource with the given path relative to `baseURL`.
+    /// Return the unique resource with the given path appended to `baseURL`.
+    /// Leading slash is optional, and has no effect.
     @objc(resourceWithPath:)
     public final func resource(path: String) -> Resource
         {
-        return resource(baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+        return resource(url:
+            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
     
     // MARK: Resource Configuration
@@ -126,7 +153,7 @@ public class Service: NSObject
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
-        let resourceURL = resource.url!
+        let resourceURL = resource.url
         configure(
             { $0 == resourceURL },
             description: description ?? resourceURL.absoluteString,
@@ -255,7 +282,7 @@ public class Service: NSObject
         debugLog(.Configuration, ["Computing configuration for", resource])
         let builder = Configuration.Builder()
         for entry in configurationEntries
-            where entry.urlMatcher(resource.url!)
+            where entry.urlMatcher(resource.url)
             {
             debugLog(.Configuration, ["Applying", entry, "to", resource])
             entry.configurer(builder)
@@ -294,7 +321,7 @@ public class Service: NSObject
     */
     public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
         {
-        wipeResources { (res: Resource) in predicate(res.url!) }
+        wipeResources { (res: Resource) in predicate(res.url) }
         }
     }
 

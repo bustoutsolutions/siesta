@@ -50,7 +50,7 @@ class ResourceSpecBase: SiestaSpec
 
 func stubReqest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    return stubRequest(method, resource().url!.absoluteString)
+    return stubRequest(method, resource().url.absoluteString)
     }
 
 func awaitNewData(req: Siesta.Request, alreadyCompleted: Bool = false)
