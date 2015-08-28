@@ -17,7 +17,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 **Contents**
 
-- [What’s It For?](#whats-it-for)
+- [What’s It For?](#what’s-it-for)
 - [Features](#features)
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
@@ -27,7 +27,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
   - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
-- [Contributing & Getting Help](#contributing--getting-help)
+- [Contributing & Getting Help](#contributing-amp-getting-help)
 
 ## What’s It For?
 

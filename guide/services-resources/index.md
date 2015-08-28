@@ -14,7 +14,7 @@ A [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html)
 You’ll typically create a `Service` singleton for each API your app uses:
 
 ```swift
-let myAPI = Service(base: "https://api.example.com")  // top level
+let myAPI = Service(base: "https://api.example.com")  // global var
 ```
 
 You don’t necessarily need to make it a singleton, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource is working with the same object, and receives the same notifications. That happens within the context of one `Service` instance.
@@ -79,4 +79,3 @@ This is true no matter how you navigate to a resource, no matter whether you ret
 Note that the rule is “at _most_ one.” If memory is low and no code references a particular resource, a service may choose to discard it and recreate it later if needed. This is transparent to client code; as long as you retain a reference to a resource, you will always keep getting only that reference. However, it does mean that resource objects are ephemeral, created and recreated on demand.
 
 Next: **[Resource State](../state)**
-{: .guide-next}

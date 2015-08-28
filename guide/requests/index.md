@@ -72,4 +72,3 @@ resource.request(.POST, json: newState).success() {
 You can also pass a custom request directly to [`load(usingRequest:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT12usingRequestPS_7Request__PS1__).
 
 Next: **[Configuration](../configuration)**
-{: .guide-next}

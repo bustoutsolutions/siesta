@@ -48,7 +48,7 @@ Objective-C can’t see Swift globals, so you’ll instead need to make your sin
 
 ```swift
 class MyAPI: Service {
-    let instance = MyAPI(base: "https://api.example.com")  // top level
+    public static let instance = MyAPI(base: "https://api.example.com")
 }
 ```
 
@@ -115,4 +115,3 @@ resource.request(.POST, json: ["color": "green"])
 Exactly one of the completion block’s two arguments will be non-nil.
 
 Next: **[FAQ](../faq)**
-{: .guide-next}

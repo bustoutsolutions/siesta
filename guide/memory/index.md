@@ -89,4 +89,3 @@ Observers affect the resource lifecycle.
 These rules, while tricky when all spelled out, make the right thing the easy thing most of the time.
 
 Next: **[Logging](../logging)**
-{: .guide-next}

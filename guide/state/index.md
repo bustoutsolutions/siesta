@@ -7,13 +7,13 @@ layout: default
 
 The `Resource` class answers three basic questions:
 
-**Q.** What is the latest data for the resource we have locally, if any?
+**Q.** What is the latest data for the resource we have locally, if any?<br>
 **A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
 
-**Q.** Did the last attempt to load it result in an error?
+**Q.** Did the last attempt to load it result in an error?<br>
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
-**Q.** Is there a request in progress?
+**Q.** Is there a request in progress?<br>
 **A.** [`loading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`requesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10requestingSb)
 
 ## The State Properties
@@ -62,4 +62,3 @@ At this point, `loading` is true, `latestError` holds information about the prev
 Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data displayed, or you may prefer to show a spinner on refresh. You may prefer to show a modal error message, an unobtrusive error popup, or existing data with no error message at all. It’s up to you.
 
 Next: **[Observers](../observers)**
-{: .guide-next}

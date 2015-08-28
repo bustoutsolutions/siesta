@@ -77,12 +77,9 @@ Here’s how the various `ResourceEvent` values map to `Resource` state changes:
 | `NewData`          |  –             |  updated     | `nil`         | `false`*  |  updated    |
 | `NotModified`      |  –             |  –           | `nil`         | `false`*  |  updated    |
 | `Error`            |  –             |  –           |  updated      | `false`*  |  updated    |
-{:style='margin: 2em auto; background: #f4f4f4'}
 
-<small>* If calls to load(...) forced multiple simultaneous load requests, the loading property may still be true even after an event that signals the completion of a request.</small>
-{:style='margin: 0 auto 2em auto; width: 80%'}
+<small><strong>*</strong> If calls to load(...) forced multiple simultaneous load requests, the loading property may still be true even after an event that signals the completion of a request.</small>
 
 See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](http://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
 
 Next: **[Requests](../requests)**
-{: .guide-next}
