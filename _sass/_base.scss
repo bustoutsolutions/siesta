@@ -189,8 +189,7 @@ code {
 }
 
 .guide-next {
-    padding-top: rhythm(1);
-    border-top: 2px solid rgba($black, 0.12);
+
 }
 
 
@@ -265,11 +264,13 @@ code {
         };
     }
 
-    .guide-next {
-        margin-top: rhythm($spacing-unit * 2);
-        padding: {
-            left: rhythm(grid-padding());
-            right: rhythm(grid-padding());
+    p.guide-next {
+        margin: {
+            top: rhythm($spacing-unit * 2, $normal-font-size);
+            left: rhythm(grid-padding() * -1, $normal-font-size);
+            right: rhythm(grid-padding() * -1, $normal-font-size);
         };
+        padding: rhythm(1, $normal-font-size) rhythm(grid-padding(), $normal-font-size) 0;
+        border-top: 2px solid rgba($black, 0.12);
     }
 }
