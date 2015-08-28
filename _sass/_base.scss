@@ -91,7 +91,7 @@ pre {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding: rhythm(grid-padding());
-    background-color: rgba($black, 0.12);
+    background-color: rgba($black-color, 0.12);
 }
 
 table {
@@ -104,12 +104,17 @@ table {
     }
 
     th {
-        background-color: rgba($black, 0.12);
+        background-color: rgba($black-color, 0.12);
     }
 
     td {
-        border-bottom: 1px solid rgba($black, 0.12);
+        border-bottom: 1px solid mix($black-color, $blue-color, 12%);
     }
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 hr {
@@ -143,7 +148,7 @@ code {
     p &,
     li & {
         padding: 2px 4px;
-        background-color: rgba($black, 0.12);
+        background-color: rgba($black-color, 0.12);
     }
 }
 
@@ -192,10 +197,6 @@ small {
     li {
         margin-bottom: rhythm(0.5);
     }
-}
-
-.guide-next {
-
 }
 
 
@@ -247,6 +248,23 @@ small {
         margin-bottom: rhythm($spacing-unit) !important;
     }
 
+    .table-container {
+        margin: {
+            left: rhythm(grid-padding()) * -1;
+            right: rhythm(grid-padding()) * -1;
+        };
+
+        th, td {
+            &:first-child {
+                padding-left: rhythm(grid-padding());
+            }
+
+            &:last-child {
+                padding-right: rhythm(grid-padding());
+            }
+        }
+    }
+
     ul, ol {
         padding-left: rhythm(2);
 
@@ -277,6 +295,6 @@ small {
             right: rhythm(grid-padding() * -1, $normal-font-size);
         };
         padding: rhythm(1, $normal-font-size) rhythm(grid-padding(), $normal-font-size) 0;
-        border-top: 2px solid rgba($black, 0.12);
+        border-top: 2px solid rgba($black-color, 0.12);
     }
 }

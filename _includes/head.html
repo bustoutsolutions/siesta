@@ -9,4 +9,38 @@
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+
+    <script type="text/javascript">
+        /**
+         * @src http://stackoverflow.com/a/13169465
+         */
+        HTMLElement.prototype.wrap = function(elms) {
+            if (!elms.length) elms = [elms];
+
+            for (var i = elms.length - 1; i >= 0; i--) {
+                var child = (i > 0) ? this.cloneNode(true) : this;
+                var el    = elms[i];
+
+                var parent  = el.parentNode;
+                var sibling = el.nextSibling;
+
+                child.appendChild(el);
+
+                if (sibling) {
+                    parent.insertBefore(child, sibling);
+                } else {
+                    parent.appendChild(child);
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Wrap tables to allow overflow scrolling
+            var tables = document.getElementsByTagName('table');
+            var tableContainer = document.createElement('div');
+            tableContainer.setAttribute('class', 'table-container');
+            tableContainer.wrap(tables);
+        });
+    </script>
 </head>
