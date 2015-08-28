@@ -254,7 +254,7 @@ class RemoteImageView: UIImageView {
 
 The same functionality. Yes, really.
 
-<small>(Well, OK, not quite really. The version above is somewhat more robust.)</small>
+<small>(Well, OK, they’re not quite identical. The Siesta version above has more robust caching & updating behavior.)</small>
 
 There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. The point is that Siesta gives you an **elegant abstraction** that **solves the problems you actually have**.
 
