@@ -13,7 +13,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **Languages:** Written in Swift, supports Swift and Objective-C
 * **Build requirements:** Xcode 7 beta 6, Swift 2.0, Carthage
 * **License:** MIT
-* **Status:** Alpha, in active development. Works well, but API still in flux. Seeking feedback. Please experiment!
+* **Status:** 1.0 release now in beta. Seeking feedback. Please experiment!
 
 **Contents**
 
