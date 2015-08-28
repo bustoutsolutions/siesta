@@ -48,9 +48,14 @@ a {
  * Headers
  */
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
     font-family: $heading-font-family;
     font-weight: bold;
+}
+
+h1 {
+    color: $orange-color;
+    @include adjust-font-size-to(40px, 2.5);
 }
 
 h2 {
@@ -62,6 +67,11 @@ h2 {
 h3 {
     color: $yellow-color;
     @include adjust-font-size-to(24px, 2);
+}
+
+h4 {
+    color: $gray-color-light;
+    @include adjust-font-size-to(20px, 1.5);
 }
 
 
@@ -79,6 +89,24 @@ pre {
     -webkit-overflow-scrolling: touch;
     padding: rhythm(grid-padding());
     background-color: rgba($black, 0.12);
+}
+
+table {
+    margin: 0 !important;
+    width: 100%;
+    background: transparent !important;
+
+    th, td {
+        padding: rhythm(0.5);
+    }
+
+    th {
+        background-color: rgba($black, 0.12);
+    }
+
+    td {
+        border-bottom: 1px solid rgba($black, 0.12);
+    }
 }
 
 hr {
@@ -160,6 +188,11 @@ code {
     }
 }
 
+.guide-next {
+    padding-top: rhythm(1);
+    border-top: 2px solid rgba($black, 0.12);
+}
+
 
 
 /**
@@ -167,6 +200,14 @@ code {
  */
 
 .content {
+    h1 {
+        margin: rhythm($spacing-unit * 2, 40px) 0 rhythm($spacing-unit * 1.5, 40px);
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
     h2 {
         margin: rhythm($spacing-unit * 3, 32px) rhythm(grid-padding() * -1, 32px) rhythm($spacing-unit * 1.5, 32px);
         padding: rhythm(1, 32px) rhythm(1.5, 32px) 0;
@@ -175,6 +216,10 @@ code {
 
     h3 {
         margin: rhythm($spacing-unit * 1.5, 24px) 0 rhythm($spacing-unit, 24px);
+    }
+
+    h4 {
+        margin-bottom: rhythm($spacing-unit, 24px);
     }
 
     p, li, dd {
@@ -193,6 +238,10 @@ code {
         margin-bottom: rhythm($spacing-unit);
     }
 
+    table {
+        margin-bottom: rhythm($spacing-unit) !important;
+    }
+
     ul, ol {
         padding-left: rhythm(2);
 
@@ -209,10 +258,18 @@ code {
         list-style: decimal outside;
     }
 
-    pre {
+    pre, .guide-next {
         margin: {
             left: rhythm(grid-padding()) * -1;
             right: rhythm(grid-padding()) * -1;
+        };
+    }
+
+    .guide-next {
+        margin-top: rhythm($spacing-unit * 2);
+        padding: {
+            left: rhythm(grid-padding());
+            right: rhythm(grid-padding());
         };
     }
 }

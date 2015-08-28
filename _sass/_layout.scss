@@ -116,7 +116,6 @@
 
 .main {
     @extend %container;
-    overflow: hidden;
     padding: {
         top: rhythm($spacing-unit * 2);
         bottom: rhythm($spacing-unit * 2);
