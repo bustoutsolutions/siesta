@@ -88,4 +88,10 @@ Or in Objective-C:
 @end
 ```
 
-Next: **[Memory Management](../memory)**
+## Remote Image View
+
+TODO: document
+
+See [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html)
+
+<p class='guide-next'>Next: <strong><a href='../memory'>Memory Management</a></p>

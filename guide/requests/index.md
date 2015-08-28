@@ -40,7 +40,7 @@ resource.load()
     .failure { error in print("Oh, bummer.") }
 ```
 
-These hooks are one-offs, called at most once when a request completes and then discarded.
+These hooks are one-offs, called at most once when a specific request completes.
 
 Though they are a secondary feature, these request hooks are quite robust. They have several advantages over similar hooks in other lower-level frameworks; for example, they parse responses only once (instead of repeatedly for each callback). See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
 
@@ -71,4 +71,4 @@ resource.request(.POST, json: newState).success() {
 
 You can also pass a custom request directly to [`load(usingRequest:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT12usingRequestPS_7Request__PS1__).
 
-Next: **[Configuration](../configuration)**
+<p class='guide-next'>Next: <strong><a href='../configuration'>Configuration</a></p>

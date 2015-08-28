@@ -102,6 +102,9 @@
               <li class="nav-group-task">
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -140,6 +143,14 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Structs.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
               </li>
             </ul>
           </li>
@@ -202,9 +213,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_"></a>
+                    <a name="/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(base:useDefaultTransformers:networkingProvider:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseSS22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_">init(base:useDefaultTransformers:networkingProvider:)</a>
+                    <a class="token" href="#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_">init(base:useDefaultTransformers:networkingProvider:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -215,12 +226,14 @@
                         <p>Creates a new service for the given API.</p>
 
 <ul>
-<li>Parameter: base The base URL of the API.</li>
-<li>Parameter: useDefaultTransformers If true, include handling for JSON and text. If false, leave all responses as
-<code>NSData</code> (unless you add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</li>
-<li>Parameter: networkingProvider A provider to use for networking. The default is Alamofire with its default
-configuration. You can pass an <code>AlamofireProvider</code> created with a custom configuration,
-or provide your own networking implementation.</li>
+<li>Parameter base:
+The base URL of the API. If nil, there is no base URL, and thus <code>resource(_:)</code> will require absolute URLs.</li>
+<li>Parameter useDefaultTransformers:
+If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you
+add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</li>
+<li>Parameter networkingProvider:
+A provider to use for networking. The default is Alamofire with its default configuration. You can pass an
+<code>AlamofireProvider</code> created with a custom configuration, or provide your own networking implementation.</li>
 </ul>
 
                       </div>
@@ -229,11 +242,57 @@ or provide your own networking implementation.</li>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="nv">useDefaultTransformers</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
             <span class="nv">networkingProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span> <span class="o">=</span> <span class="kt">AlamofireProvider</span><span class="p">())</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>base</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The base URL of the API. If nil, there is no base URL, and thus <code>resource(_:)</code> will require absolute URLs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>useDefaultTransformers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>networkingProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A provider to use for networking. The default is Alamofire with its default configuration. You can pass an <code>AlamofireProvider</code> created with a custom configuration, or provide your own networking implementation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -241,9 +300,9 @@ or provide your own networking implementation.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service8resourceFS0_FGSqCSo5NSURL_CS_8Resource"></a>
-                    <a name="//apple_ref/swift/Method/resource(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service8resourceFS0_FGSqCSo5NSURL_CS_8Resource">resource(_:)</a>
+                    <a name="/s:FC6Siesta7Service8resourceFS0_FT3urlGSqCSo5NSURL__CS_8Resource"></a>
+                    <a name="//apple_ref/swift/Method/resource(url:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFS0_FT3urlGSqCSo5NSURL__CS_8Resource">resource(url:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -258,12 +317,42 @@ the context of a <code>Service</code> as long as anyone retains a reference to t
 Unreferenced resources remain in memory (with their cached data) until a low memory event
 occurs, at which point they are summarily evicted.</p>
 
+<p>If the given resource is nil (likely indicating that it came from a malformed URL string), this method <em>does</em>
+return a resource — but that resource will give errors for all requests without touching the network.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">url</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service8resourceFS0_FT3urlGSqSS__CS_8Resource"></a>
+                    <a name="//apple_ref/swift/Method/resource(url:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFS0_FT3urlGSqSS__CS_8Resource">resource(url:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience to parse a URL and return its resource.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">url</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
@@ -283,7 +372,8 @@ occurs, at which point they are summarily evicted.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Return the unique resource with the given path relative to <code>baseURL</code>.</p>
+                        <p>Return the unique resource with the given path appended to <code>baseURL</code>.
+Leading slash is optional, and has no effect.</p>
 
                       </div>
                       <div class="declaration">
@@ -495,32 +585,32 @@ If it is relative, the leading slash is optional.</p>
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
 <p>Because the <code>configure(...)</code> methods accept an arbitrary closure, it is possible that the results of
-  that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
-  if you do anything that would change the result of a configuration closure, you must call
-  <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
+ that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
+ if you do anything that would change the result of a configuration closure, you must call
+ <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
 
 <p><em>《insert your functional programming purist rant here if you so desire》</em></p>
 
 <p>Note that you do <em>not</em> need to call this method after calling any of the <code>configure(...)</code> methods.
-  You only need to call it if one of the previously passed closures will now behave differently.</p>
+ You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
 
-<pre class="highlight plaintext"><code>  var flavor: String {
-    didSet { invalidateConfiguration() }
-  }
+<pre class="highlight plaintext"><code> var flavor: String {
+   didSet { invalidateConfiguration() }
+ }
 
-  init() {
-    super.init(base: "https://api.github.com")
-    configure​ {
-      $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
-    }
-  }
+ init() {
+   super.init(base: "https://api.github.com")
+   configure​ {
+     $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
+   }
+ }
 </code></pre>
 
 <p>Note that this method does <em>not</em> immediately recompute all existing configurations. This is an inexpensive call.
-  Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
-  over subsequent resource interactions.</p>
+ Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
+ over subsequent resource interactions.</p>
 
                       </div>
                       <div class="declaration">
@@ -587,7 +677,8 @@ If it is relative, the leading slash is optional.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Wipes the state of this service’s resources matching on URLs instead of <code>Resource</code> instances.</p>
+                        <pre class="highlight plaintext"><code>  Wipes the state of this service’s resources matching on URLs instead of `Resource` instances.
+</code></pre>
 
 <p>Useful for making shared predicates that you can pass to both <code>configure(_:)</code> and this method.</p>
 
@@ -608,7 +699,7 @@ If it is relative, the leading slash is optional.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-26)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -44,4 +44,4 @@ Siesta.logger = { category, message in
 }
 ```
 
-Next: **[Using Siesta from Objective-C](../objc)**
+<p class='guide-next'>Next: <strong><a href='../objc'>Using Siesta from Objective-C</a></p>

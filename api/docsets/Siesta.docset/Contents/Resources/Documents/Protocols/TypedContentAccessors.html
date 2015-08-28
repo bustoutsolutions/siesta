@@ -102,6 +102,9 @@
               <li class="nav-group-task">
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -144,6 +147,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Structs.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
           <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -180,19 +191,16 @@ resource.latestError?.json["error.detail"]
 
 <p>You can extend this protocol to provide your own convenience accessors. For example:</p>
 
-<pre class="highlight plaintext"><code>import SwiftyJSON
-
-extension TypedContentAccessors {
-  var image: UIImage {
-    return typedContent(
-      UIImage(named: "placeholder.png")!)
+<pre class="highlight plaintext"><code>extension TypedContentAccessors {
+  var doorknob: UIDoorknob {
+    return contentAsType(ifNone: placeholderKnob))
   }
 }
 </code></pre>
 
-<p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a <code>UIImage</code>,
-but does not do any parsing to put a <code>UIImage</code> there in the first place. You’d need to pair this with a custom
-<code>ResponseTransformer</code> that converts raw image responses to <code>UIImage</code>s.</p>
+<p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
+<code>UIDoorknob</code>, but does not do any parsing to put a <code>UIDoorknob</code> there in the first place. You’d need to pair this with
+a custom <code>ResponseTransformer</code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
 
           </section>
           <section class="section task-group-section">
@@ -239,9 +247,9 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FeRq_6Siesta21TypedContentAccessors_S_S0_12typedContentu__Rq_S0__Fq_Fqd__qd__"></a>
-                    <a name="//apple_ref/swift/Method/typedContent(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_12typedContentu__Rq_S0__Fq_Fqd__qd__">typedContent(_:)</a>
+                    <a name="/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneqd___qd__"></a>
+                    <a name="//apple_ref/swift/Method/contentAsType(ifNone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneqd___qd__">contentAsType(ifNone:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -250,12 +258,11 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
-      Returns <code>latestData?.content</code> if the content can be downcast to the same type as <code>blankValue</code>;
-      otherwise returns <code>blankValue</code>.</p>
+      Returns the content if it can be downcast to the same type as <code>blankValue</code>; otherwise returns <code>ifNone</code>.</p>
 
 <pre class="highlight plaintext"><code>  For example, if you expect the content to be a UIImage:
 
-      let image = typedContent(UIImage(named: "placeholder.png"))
+      let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
 
   - SeeAlso: `ResponseTransformer`
 </code></pre>
@@ -265,7 +272,34 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">defaultValue</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">contentAsType</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneGSqqd____GSqqd___"></a>
+                    <a name="//apple_ref/swift/Method/contentAsType(ifNone:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneGSqqd____GSqqd___">contentAsType(ifNone:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Variant of <code>contentAsType(ifNone: _:)</code> with optional input &amp; output.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">contentAsType</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kt">T</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -292,7 +326,7 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">([:])</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">contentAsType</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="p">[:])</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -319,7 +353,7 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span>   <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">([])</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span>   <span class="p">{</span> <span class="k">return</span> <span class="nf">contentAsType</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="p">[])</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -346,7 +380,7 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span>             <span class="p">{</span> <span class="k">return</span> <span class="nf">typedContent</span><span class="p">(</span><span class="s">""</span><span class="p">)</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span>             <span class="p">{</span> <span class="k">return</span> <span class="nf">contentAsType</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -358,7 +392,7 @@ but does not do any parsing to put a <code>UIImage</code> there in the first pla
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-26)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-08-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

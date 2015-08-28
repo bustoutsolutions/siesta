@@ -61,4 +61,4 @@ At this point, `loading` is true, `latestError` holds information about the prev
 
 Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data displayed, or you may prefer to show a spinner on refresh. You may prefer to show a modal error message, an unobtrusive error popup, or existing data with no error message at all. It’s up to you.
 
-Next: **[Observers](../observers)**
+<p class='guide-next'>Next: <strong><a href='../observers'>Observers</a></p>

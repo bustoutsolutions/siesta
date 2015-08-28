@@ -7,9 +7,9 @@ layout: default
 
 Siesta decouples request _configuration_ from request _initiation_. Any code can request a resource without knowing all the details of _how_ to request it, e.g.: “I want to display the user’s profile. Request it if necessary; you know what to do. Tell me whenever it changes.”
 
-To accomplish this, Siesta lets you customize requests on a _per-resource_ basis, not just a _per-request_ basis. Because of the ephemeral nature of `Resource` instances, you cannot configure them by directly setting properties of `Resource`. Any such changes would vanish unpredictably during periods of low memory. (Note that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.)
+To accomplish this, Siesta lets you customize requests on a _per-resource_ basis, not just a _per-request_ basis. However, because of the ephemeral nature of `Resource` instances, it wouldn’t work to configure them by directly setting properties of `Resource`. Any such changes would vanish unpredictably during periods of low memory. (Note that everything in [the `Resource` class’s API](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is either (1) read-only or (2) related to requesting and updating content, not configuration.)
 
-Instead, all of a resource’s customizable options are in the [Configuration](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html) struct. This struct appears as a property of `Resource`, but it is a read-only property (and thus immutable — Swift’s most brilliant feature). To change configuration options, you provide closures to [`Service.configure(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/Resource%20Configuration).
+Instead, all of a resource’s customizable options are in the [`Configuration`](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html) struct. This struct appears as a property of `Resource`, but it is a read-only property (and thus immutable — Swift’s most brilliant feature). To change configuration options, you provide closures to [`Service.configure(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/Resource%20Configuration).
 
 Your configuration closures receive a _mutable_ copy of the configuration, which they reference as `$0.config`. Each closure can apply globally across the service, to a single resource, or to a subset of resources. You can specify resource subsets with a wildcard pattern or a custom predicate. Closures can modify the mutable configuration before the resource receives it and it becomes immutable.
 
@@ -35,11 +35,11 @@ class MyAPI: Service {
       $0.config.headers["Accept"] = "application/json"
     }
 
-    configure("/**/image") {
+    configure("/**/knob") {
       // At this point, global config above has already run.
       // We change one header, but leave the others untouched.
-      $0.config.headers["Accept"] = "image/png, image/jpeg, */*"
-      $0.config.responseTransformers.add(MyCustomImageParser())
+      $0.config.headers["Accept"] = "doorknob/round, doorknob/handle, */*"
+      $0.config.responseTransformers.add(MyCustomDoorknobParser())
     }
 
     configure("/volcanos/*/status") {
@@ -67,4 +67,4 @@ configure({ url in url != authURL }, description: "catch auth failures") {
 
 See the documentation for [`Service.invalidateConfiguration()`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_) for information about dynamic configuration, e.g. authentication tokens.
 
-Next: **[UI Components](../ui-components)**
+<p class='guide-next'>Next: <strong><a href='../ui-components'>UI Components</a></p>

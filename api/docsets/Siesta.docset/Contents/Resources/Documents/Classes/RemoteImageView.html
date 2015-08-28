@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResourceObserver Protocol Reference</title>
+    <title>RemoteImageView Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/ResourceObserver" class="dashAnchor"></a>
-    <a title="ResourceObserver Protocol Reference"></a>
+    <a name="//apple_ref/swift/Class/RemoteImageView" class="dashAnchor"></a>
+    <a title="RemoteImageView Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (91% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResourceObserver Protocol Reference
+        RemoteImageView Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -167,15 +167,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResourceObserver</h1>
+            <h1>RemoteImageView</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResourceObserver</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RemoteImageView</span><span class="p">:</span> <span class="kt">UIImageView</span></code></pre>
 
                 </div>
               </div>
-            <p>Something that can observe changes to the state of a <code>Resource</code>.</p>
+            <p>A <code>UIImageView</code> that asynchronously loads and displays remote images.</p>
 
           </section>
           <section class="section task-group-section">
@@ -184,9 +184,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16ResourceObserver15resourceChangeduRq_S0__Fq_FTCS_8Resource5eventOS_13ResourceEvent_T_"></a>
-                    <a name="//apple_ref/swift/Method/resourceChanged(_:event:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver15resourceChangeduRq_S0__Fq_FTCS_8Resource5eventOS_13ResourceEvent_T_">resourceChanged(_:event:)</a>
+                    <a name="/s:vC6Siesta15RemoteImageView11loadingViewXwGSqCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/loadingView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView11loadingViewXwGSqCSo6UIView_">loadingView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -194,15 +194,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Called when anything happens that might change the value of the reosurce’s <code>latestData</code>, <code>latestError</code>, or
-<code>loading</code> flag. The <code>event</code> explains the reason for the notification.</p>
+                        <p>Optional view to show while image is loading.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">resourceChanged</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">ResourceEvent</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">@IBOutlet</span> <span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">loadingView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -212,33 +211,24 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16ResourceObserver24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_"></a>
-                    <a name="//apple_ref/swift/Method/stoppedObservingResource(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_">stoppedObservingResource(_:)</a>
+                    <a name="/s:vC6Siesta15RemoteImageView13alternateViewXwGSqCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/alternateView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView13alternateViewXwGSqCSo6UIView_">alternateView</a>
                     </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Called when this observer stops observering a resource. Use for making <code>removeObservers(ownedBy:)</code> trigger
-other cleanup.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>Does nothing.</p>
+                        <p>Optional view to show if image is unavailable. Not shown while image is loading.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stoppedObservingResource</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">@IBOutlet</span> <span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">alternateView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -248,33 +238,135 @@ other cleanup.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16ResourceObserver22isEquivalentToObserveruRq_S0__Fq_FPS0__Sb"></a>
-                    <a name="//apple_ref/swift/Method/isEquivalentToObserver(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver22isEquivalentToObserveruRq_S0__Fq_FPS0__Sb">isEquivalentToObserver(_:)</a>
+                    <a name="/s:vC6Siesta15RemoteImageView16placeholderImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Property/placeholderImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView16placeholderImageGSqCSo7UIImage_">placeholderImage</a>
                     </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Allows you to prevent redundant observers from being added to the same resource. If an existing observer
-says it is equivalent to a new observer passed to <code>Resource.addObserver(...)</code>, then the call has no effect.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>True iff self and other are (1) both objects and (2) are the <em>same</em> object.</p>
+                        <p>Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isEquivalentToObserver</span><span class="p">(</span><span class="nv">other</span><span class="p">:</span> <span class="kt">ResourceObserver</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="k">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">placeholderImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC6Siesta15RemoteImageView19defaultImageServiceCS_7Service"></a>
+                    <a name="//apple_ref/swift/Variable/defaultImageService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC6Siesta15RemoteImageView19defaultImageServiceCS_7Service">defaultImageService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default service to cache <code>RemoteImageView</code> images.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">defaultImageService</span><span class="p">:</span> <span class="kt">Service</span> <span class="o">=</span> <span class="kt">Service</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta15RemoteImageView12imageServiceCS_7Service"></a>
+                    <a name="//apple_ref/swift/Property/imageService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView12imageServiceCS_7Service">imageService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The service this view should use to request &amp; cache its images.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageService</span><span class="p">:</span> <span class="kt">Service</span> <span class="o">=</span> <span class="kt">RemoteImageView</span><span class="o">.</span><span class="n">defaultImageService</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta15RemoteImageView8imageURLGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/imageURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView8imageURLGSqSS_">imageURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A URL whose content is the image to display in this view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageURL</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta15RemoteImageView13imageResourceGSqCS_8Resource_"></a>
+                    <a name="//apple_ref/swift/Property/imageResource" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta15RemoteImageView13imageResourceGSqCS_8Resource_">imageResource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A remote resource whose content is the image to display in this view.</p>
+
+<p>If this image is already in memory, it is displayed synchronously (no flicker!). If the image is missing or
+potentially stale, setting this property triggers a load.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageResource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>

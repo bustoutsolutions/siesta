@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>UI Components  Reference</title>
+    <title>Other Structs  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,7 +9,7 @@
     <script src="js/jazzy.js" defer></script>
   </head>
   <body>
-    <a title="UI Components  Reference"></a>
+    <a title="Other Structs  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">Siesta Docs</a> (91% documented)</p>
@@ -20,7 +20,7 @@
       <p id="breadcrumbs">
         <a href="index.html">Siesta Reference</a>
         <img id="carat" src="img/carat.png" />
-        UI Components  Reference
+        Other Structs  Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -166,18 +166,26 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>UI Components</h1>
-            
+            <h1>Other Structs</h1>
+            <p>The following structs are available globally.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Transformers%20for%20standard%20types"></a>
+                  <a name="//apple_ref/swift/Section/Transformers for standard types" class="dashAnchor"></a>
+                  <a href="#/Transformers%20for%20standard%20types">
+                    <h3 class="section-name">Transformers for standard types</h3>
+                  </a>
+                </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C6Siesta21ResourceStatusOverlay"></a>
-                    <a name="//apple_ref/swift/Class/ResourceStatusOverlay" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C6Siesta21ResourceStatusOverlay">ResourceStatusOverlay</a>
+                    <a name="/s:V6Siesta24ImageResponseTransformer"></a>
+                    <a name="//apple_ref/swift/Struct/ImageResponseTransformer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -185,55 +193,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A ready-made UI component to show an activity indicator and/or error message for a set of <code>Resource</code>s.</p>
+                        <p>Attempts to parse responses as images, yielding a <code>UIImage</code>.</p>
 
-<p>You can use this class in three ways:</p>
-
-<ul>
-<li>with Siesta’s default layout,</li>
-<li>with your own <code>.nib</code> file, or</li>
-<li>using hard-coded layout.</li>
-</ul>
-
-                        <a href="Classes/ResourceStatusOverlay.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:C6Siesta15RemoteImageView"></a>
-                    <a name="//apple_ref/swift/Class/RemoteImageView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C6Siesta15RemoteImageView">RemoteImageView</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A <code>UIImageView</code> that asynchronously loads and displays remote images.</p>
-
-                        <a href="Classes/RemoteImageView.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RemoteImageView</span><span class="p">:</span> <span class="kt">UIImageView</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ImageResponseTransformer</span><span class="p">:</span> <span class="kt">ResponseEntityTransformer</span></code></pre>
 
                         </div>
                       </div>
