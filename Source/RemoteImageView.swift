@@ -45,8 +45,7 @@ public class RemoteImageView: UIImageView
 
     private func updateViews()
         {
-        let image = imageResource?.latestData?.content as? UIImage
-        self.image = image
+        image = imageResource?.contentAsType(ifNone: placeholderImage)
         
         let loading = imageResource?.loading ?? false
         loadingView?.hidden = !loading

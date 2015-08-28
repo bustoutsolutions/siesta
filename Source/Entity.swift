@@ -29,7 +29,7 @@ public struct Entity
       
       In short, when using `content`, write your code to handle it being of an unexpected type.
       
-      - SeeAlso: `Resource.typedContent(_:)`
+      - SeeAlso: `Resource.contentAsType(ifNone: _:)`
     */
     public var content: AnyObject
     
@@ -142,18 +142,15 @@ public struct Entity
 
   You can extend this protocol to provide your own convenience accessors. For example:
   
-      import SwiftyJSON
-      
       extension TypedContentAccessors {
-        var image: UIImage {
-          return typedContent(
-            UIImage(named: "placeholder.png")!)
+        var doorknob: UIDoorknob {
+          return contentAsType(ifNone: placeholderKnob))
         }
       }
   
-  Note that the sample code above is _only_ a convenience accessor. It checks whether the entity already has a `UIImage`,
-  but does not do any parsing to put a `UIImage` there in the first place. You’d need to pair this with a custom
-  `ResponseTransformer` that converts raw image responses to `UIImage`s.
+  Note that the sample code above is _only_ a convenience accessor. It checks whether the entity already has a
+  `UIDoorknob`, but does not do any parsing to put a `UIDoorknob` there in the first place. You’d need to pair this with
+  a custom `ResponseTransformer` that converts raw doorknob responses to `UIDoorknob`s.
 */
 public protocol TypedContentAccessors
     {
@@ -165,28 +162,33 @@ public extension TypedContentAccessors
     {
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
-      Returns `latestData?.content` if the content can be downcast to the same type as `blankValue`;
-      otherwise returns `blankValue`.
+      Returns the content if it can be downcast to the same type as `blankValue`; otherwise returns `ifNone`.
      
       For example, if you expect the content to be a UIImage:
      
-          let image = typedContent(UIImage(named: "placeholder.png"))
+          let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
      
       - SeeAlso: `ResponseTransformer`
     */
-    public func typedContent<T>(defaultValue: T) -> T
+    public func contentAsType<T>(ifNone defaultContent: T) -> T
         {
-        return (entityForTypedContentAccessors?.content as? T) ?? defaultValue
+        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent
+        }
+
+    /// Variant of `contentAsType(ifNone: _:)` with optional input & output.
+    public func typedContent<T>(ifNone defaultContent: T?) -> T?
+        {
+        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var json: [String:AnyObject] { return typedContent([:]) }
+    public var json: [String:AnyObject] { return contentAsType(ifNone: [:]) }
     
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [AnyObject]   { return typedContent([]) }
+    public var jsonArray: [AnyObject]   { return contentAsType(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String             { return typedContent("") }
+    public var text: String             { return contentAsType(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors
