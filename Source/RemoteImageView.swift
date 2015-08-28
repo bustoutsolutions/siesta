@@ -12,17 +12,30 @@
 */
 public class RemoteImageView: UIImageView
     {
-    /// Optional view to show while image is loading
+    /// Optional view to show while image is loading.
     @IBOutlet public weak var loadingView: UIView?
     
-    /// Optional view to show if image load fails
+    /// Optional view to show if image is unavailable. Not shown while image is loading.
     @IBOutlet public weak var alternateView: UIView?
     
+    /// Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.
+    @IBOutlet public var placeholderImage: UIImage?
+    
+    public static var defaultImageService: Service = Service()
+    
+    public var imageService: Service = RemoteImageView.defaultImageService
+    
+    public var imageURL: String?
+        {
+        get { return imageResource?.url.absoluteString }
+        set { imageResource = imageService.resource(url: newValue) }
+        }
+    
     /**
-      A remote resource whose content is the image to display.
+      A remote resource whose content is the image to display in this view.
       
-      If this image has already been loaded, it is display immediately (no flicker). If the image is missing or
-      potentially stale, setting the resource triggers a server request.
+      If this image is already in memory, it is displayed synchronously (no flicker!). If the image is missing or
+      potentially stale, setting this property triggers a load.
     */
     public var imageResource: Resource?
         {
@@ -38,7 +51,7 @@ public class RemoteImageView: UIImageView
             imageResource?.addObserver(owner: self)
                 { [weak self] _ in self?.updateViews() }
             
-            if imageResource == nil
+            if imageResource == nil  // (and thus closure above was not called on ObserverAdded)
                 { updateViews() }
             }
         }
