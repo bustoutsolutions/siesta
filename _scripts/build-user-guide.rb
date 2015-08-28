@@ -81,7 +81,7 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
       if toc_info.next
         next_file = '../' + dst_path_for.call("#{siesta_dir}/Docs/", toc_info.next.file)
         f.puts
-        f.puts "Next: **[#{toc_info.next.title}](#{next_file})**"
+        f.puts "<p class='guide-next'>Next: <strong><a href='#{next_file}'>#{toc_info.next.title}</a></p>"
       end
     end
   end
