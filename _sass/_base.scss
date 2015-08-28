@@ -50,28 +50,31 @@ a {
 
 h1, h2, h3, h4 {
     font-family: $heading-font-family;
-    font-weight: bold;
 }
 
 h1 {
     color: $orange-color;
-    @include adjust-font-size-to(40px, 2.5);
+    @include adjust-font-size-to(44px, 3);
+    letter-spacing: rhythm(-0.0625, 44px);
 }
 
 h2 {
     color: $orange-color;
     @include adjust-font-size-to(32px, 2);
+    font-weight: bold;
     text-transform: uppercase;
 }
 
 h3 {
     color: $yellow-color;
     @include adjust-font-size-to(24px, 2);
+    font-weight: bold;
 }
 
 h4 {
     color: $gray-color-light;
     @include adjust-font-size-to(20px, 1.5);
+    font-weight: bold;
 }
 
 
@@ -200,7 +203,7 @@ code {
 
 .content {
     h1 {
-        margin: rhythm($spacing-unit * 2, 40px) 0 rhythm($spacing-unit * 1.5, 40px);
+        margin: rhythm($spacing-unit * 2, 44px) 0 rhythm($spacing-unit * 1.5, 44px);
 
         &:first-child {
             margin-top: 0;
