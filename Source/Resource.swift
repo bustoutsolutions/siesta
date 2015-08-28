@@ -543,6 +543,9 @@ public final class Resource: NSObject
         return req
         }
     
+    /**
+      If this resource has no observers, cancels all `loadRequests`.
+    */
     public func cancelLoadIfUnobserved()
         {
         if beingObserved
@@ -556,7 +559,12 @@ public final class Resource: NSObject
                 { req.cancel() }
             }
         }
-
+    
+    /**
+      Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
+      where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
+      views a chance to express interest in it before canceling any requests.
+    */
     public func cancelLoadIfUnobserved(afterDelay delay: NSTimeInterval, callback: Void -> Void = {})
         {
         dispatch_on_main_queue(after: 0.05)

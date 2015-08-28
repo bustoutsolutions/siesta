@@ -21,10 +21,13 @@ public class RemoteImageView: UIImageView
     /// Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.
     @IBOutlet public var placeholderImage: UIImage?
     
+    /// The default service to cache `RemoteImageView` images.
     public static var defaultImageService: Service = Service()
     
+    /// The service this view should use to request & cache its images.
     public var imageService: Service = RemoteImageView.defaultImageService
     
+    /// A URL whose content is the image to display in this view.
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
