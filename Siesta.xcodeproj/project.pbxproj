@@ -48,6 +48,7 @@
 		DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
 		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; settings = {ASSET_TAGS = (); }; };
+		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; settings = {ASSET_TAGS = (); }; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
@@ -120,6 +121,7 @@
 		DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceStatusOverlay.swift; sourceTree = "<group>"; };
 		DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceStatusOverlay.xib; sourceTree = "<group>"; };
 		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
+		DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GCD+Siesta.swift"; sourceTree = "<group>"; };
 		DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugFormatting.swift; sourceTree = "<group>"; };
 		DAFA89271B8172920090D283 /* SiestaSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaSpec.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
 				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
 				DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */,
+				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */,
 				DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */,
 				DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */,
+				DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */,
 				DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,

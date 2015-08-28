@@ -599,6 +599,83 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
         
+        describe("cancelLoadIfUnobserved()")
+            {
+            let reqStub = specVar { stubReqest(resource, "GET").andReturn(200).delay() }
+            let req = specVar { resource().load() }
+            var owner: AnyObject?
+            
+            beforeEach
+                {
+                reqStub()
+                req()
+                owner = DummyObject()
+                resource().addObserver(owner: owner!) { _ in }
+                owner = DummyObject() // replaces old one
+                // Resource now has outstanding load request & no observers
+                }
+            
+            afterEach
+                { owner = nil }
+            
+            it("cancels if resource has no observers")
+                {
+                resource().cancelLoadIfUnobserved()
+
+                reqStub().go()
+                awaitFailure(req(), alreadyCompleted: true)
+                }
+            
+            it("does not cancel if resource has an observer")
+                {
+                resource().addObserver(owner: owner!) { _ in }
+                resource().cancelLoadIfUnobserved()
+
+                reqStub().go()
+                awaitNewData(req())
+                }
+
+            it("cancels multiple load requests")
+                {
+                let req0 = resource().load(),
+                    req1 = resource().load()
+
+                resource().cancelLoadIfUnobserved()
+
+                reqStub().go()
+                awaitFailure(req0, alreadyCompleted: true)
+                awaitFailure(req1, alreadyCompleted: true)
+                }
+            
+            context("(afterDelay:)")
+                {
+                it("cancels load if resource has loses observers during delay")
+                    {
+                    let expectation = QuickSpec.current().expectationWithDescription("cancelLoadIfUnobserved(afterDelay:")
+                    resource().addObserver(owner: owner!) { _ in }
+                    resource().cancelLoadIfUnobserved(afterDelay: 0.001)
+                        { expectation.fulfill() }
+                    owner = nil
+                    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+
+                    reqStub().go()
+                    awaitFailure(req(), alreadyCompleted: true)
+                    }
+                
+                it("does not cancel load if resource gains an observer during delay")
+                    {
+                    let expectation = QuickSpec.current().expectationWithDescription("cancelLoadIfUnobserved(afterDelay:")
+                    resource().cancelLoadIfUnobserved(afterDelay: 0.001)
+                        { expectation.fulfill() }
+                    resource().addObserver(owner: owner!) { _ in }
+                    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+
+                    reqStub().go()
+                    awaitNewData(req())
+                    }
+                }
+            }
+        
         describe("localDataOverride()")
             {
             let arbitraryContentType = "content-can-be/anything"
@@ -850,3 +927,5 @@ private func dataAsString(data: AnyObject?) -> String?
     
     return NSString(data: nsdata, encoding: NSUTF8StringEncoding) as? String
     }
+
+private class DummyObject { }

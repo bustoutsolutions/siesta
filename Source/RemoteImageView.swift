@@ -29,7 +29,7 @@ public class RemoteImageView: UIImageView
         willSet
             {
             imageResource?.removeObservers(ownedBy: self)
-            // TODO: Cancel loading if unobserved after small delay
+            imageResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
             }
         
         didSet

@@ -93,9 +93,28 @@ func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
        .success     { _ in fail("success callback should not be called") }
        .newData     { _ in fail("newData callback should not be called") }
        .notModified { _ in fail("notModified callback should not be called") }
+
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     expect(req.completed).to(beTrue())
+
+    // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
+    // network layer without waiting for a response. This causes spurious spec failures if LSNocilla’s clearStubs() gets
+    // called before the network has a chance to finish, so we have to wait for the underlying request as well as Siesta.
+    
+    if alreadyCompleted
+        { awaitUnderlyingNetworkRequest(req) }
     }
+
+func awaitUnderlyingNetworkRequest(req: Siesta.Request)
+    {
+    if let alamoNetworking = (req as? NetworkRequest)?.networking as? AlamofireRequestNetworking
+        {
+        let networkExpectation = QuickSpec.current().expectationWithDescription("awaiting underlying network response: \(req)")
+        alamoNetworking.alamofireRequest.response { _ in networkExpectation.fulfill() }
+        QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
+        }
+    }
+
 
 // MARK: - Clock stubbing
 

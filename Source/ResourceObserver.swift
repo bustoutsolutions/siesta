@@ -206,6 +206,12 @@ public extension Resource
         cleanDefunctObservers()
         }
     
+    internal var beingObserved: Bool
+        {
+        cleanDefunctObservers()
+        return !observers.isEmpty
+        }
+    
     internal func notifyObservers(event: ResourceEvent)
         {
         cleanDefunctObservers()

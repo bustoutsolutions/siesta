@@ -542,6 +542,26 @@ public final class Resource: NSObject
 
         return req
         }
+    
+    public func cancelLoadIfUnobserved()
+        {
+        if beingObserved
+            { debugLog(.Network, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
+        else
+            {
+            if !loadRequests.isEmpty
+                { debugLog(.Network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+            
+            for req in loadRequests
+                { req.cancel() }
+            }
+        }
+
+    public func cancelLoadIfUnobserved(afterDelay delay: NSTimeInterval)
+        {
+        dispatch_on_main_queue(after: 0.05)
+            { self.cancelLoadIfUnobserved() }
+        }
 
     private func trackRequest(req: Request, inout using array: [Request])
         {

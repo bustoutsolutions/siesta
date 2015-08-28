@@ -126,7 +126,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
     private let resource: Resource
     private let requestDescription: String
-    private var networking: RequestNetworking
+    internal var networking: RequestNetworking
     private var responseCallbacks: [ResponseCallback] = []
     
     private var responseInfo: ResponseInfo?
