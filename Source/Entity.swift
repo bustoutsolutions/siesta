@@ -176,7 +176,7 @@ public extension TypedContentAccessors
         }
 
     /// Variant of `contentAsType(ifNone: _:)` with optional input & output.
-    public func typedContent<T>(ifNone defaultContent: T?) -> T?
+    public func contentAsType<T>(ifNone defaultContent: T?) -> T?
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent
         }
