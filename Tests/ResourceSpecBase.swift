@@ -10,6 +10,7 @@
 import Quick
 import Nimble
 import Nocilla
+import Alamofire
 
 class ResourceSpecBase: SiestaSpec
     {
@@ -26,10 +27,45 @@ class ResourceSpecBase: SiestaSpec
         
         afterEach  { fakeNow = nil }
         
-        let service  = specVar { Service(base: self.baseURL) },
+        if Int(NSProcessInfo.processInfo().environment["Siesta_TestMultipleNetworkProviders"] ?? "0") != 0
+            {
+            runSpecsWithNetworkingProvider("default NSURLSession",   networking: NSURLSessionConfiguration.defaultSessionConfiguration())
+            runSpecsWithNetworkingProvider("ephemeral NSURLSession", networking: NSURLSessionConfiguration.ephemeralSessionConfiguration())
+            runSpecsWithNetworkingProvider("threaded NSURLSession",  networking:
+                {
+                let backgroundQueue = NSOperationQueue()
+                return NSURLSession(
+                    configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+                    delegate: nil,
+                    delegateQueue: backgroundQueue)
+                }())
+            runSpecsWithNetworkingProvider("Alamofire networking", networking: Alamofire.Manager())
+            }
+        else
+            { runSpecsWithDefaultProvider() }
+        }
+
+    private func runSpecsWithNetworkingProvider(description: String?, networking: NetworkingProviderConvertible)
+        {
+        context(debugStr(["with", description]))
+            {
+            self.runSpecsWithService
+                { Service(base: self.baseURL, networking: networking) }
+            }
+        }
+
+    private func runSpecsWithDefaultProvider()
+        {
+        runSpecsWithService
+            { Service(base: self.baseURL) }
+        }
+
+    private func runSpecsWithService(serviceBuilder: Void -> Service)
+        {
+        let service  = specVar(serviceBuilder),
             resource = specVar { service().resource("/a/b") }
         
-        resourceSpec(service, resource)
+        self.resourceSpec(service, resource)
         }
     
     var baseURL: String
