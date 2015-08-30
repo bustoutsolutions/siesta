@@ -10,7 +10,6 @@
 import Quick
 import Nimble
 import Nocilla
-import Alamofire
 
 class ResourceSpecBase: SiestaSpec
     {
@@ -107,11 +106,22 @@ func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
 
 func awaitUnderlyingNetworkRequest(req: Siesta.Request)
     {
-    if let alamoNetworking = (req as? NetworkRequest)?.networking as? AlamofireRequestNetworking
+    if let netReq = req as? NetworkRequest
         {
         let networkExpectation = QuickSpec.current().expectationWithDescription("awaiting underlying network response: \(req)")
-        alamoNetworking.alamofireRequest.response { _ in networkExpectation.fulfill() }
-        QuickSpec.current().waitForExpectationsWithTimeout(0.1, handler: nil)
+        pollUnderlyingCompletion(netReq, expectation: networkExpectation)
+        QuickSpec.current().waitForExpectationsWithTimeout(1.0, handler: nil)
+        }
+    }
+
+private func pollUnderlyingCompletion(req: NetworkRequest, expectation: XCTestExpectation)
+    {
+    if req.underlyingNetworkRequestCompleted
+        { expectation.fulfill() }
+    else
+        {
+        dispatch_on_main_queue(after: 0.0001)
+            { pollUnderlyingCompletion(req, expectation: expectation) }
         }
     }
 

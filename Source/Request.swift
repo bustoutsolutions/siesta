@@ -134,6 +134,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // Result
     private var responseInfo: ResponseInfo?
+    internal var underlyingNetworkRequestCompleted = false      // so tests can wait for it to finish
     internal var completed: Bool { return responseInfo != nil }
     
     // Callbacks
@@ -154,6 +155,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         guard let nsreq = nsreq else
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
+            underlyingNetworkRequestCompleted = true
             return self
             }
         
@@ -270,6 +272,8 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
     private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
+        underlyingNetworkRequestCompleted = true
+        
         debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
         debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])
         debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
