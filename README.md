@@ -14,6 +14,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 - [What’s It For?](#what’s-it-for)
 - [Features](#features)
+- [Origin](#origin)
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
@@ -62,11 +63,11 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
-## History
+## Origin
 
 This project started as helper code we wrote out of practical need on several [Bust Out Solutions](http://bustoutsolutions.com) projects. When we found ourselves copying the code between projects, we knew it was time to open source it.
 
-For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to replace all those “good enough for utility code” decisions with elegant abstractions.
+For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to turn all those “good enough for utility code” decisions into clean abstractions.
 
 Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a green field.
 
