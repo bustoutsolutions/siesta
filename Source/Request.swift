@@ -124,15 +124,20 @@ private typealias ResponseCallback = ResponseInfo -> Void
 
 internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
+    // Basic metadata
     private let resource: Resource
     private let requestDescription: String
+    
+    // Networking
     private var nsreq: NSURLRequest?             // present only before start()
     internal var networking: RequestNetworking?  // present only after start()
     
-    private var responseCallbacks: [ResponseCallback] = []
-    
+    // Result
     private var responseInfo: ResponseInfo?
-    var completed: Bool { return responseInfo != nil }
+    internal var completed: Bool { return responseInfo != nil }
+    
+    // Callbacks
+    private var responseCallbacks: [ResponseCallback] = []
 
     init(resource: Resource, nsreq: NSURLRequest)
         {
