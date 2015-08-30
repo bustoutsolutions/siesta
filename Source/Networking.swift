@@ -10,15 +10,21 @@
   If you want to use a different networking library, implement this protocol and pass your implementation to
   `Service.init(base:networkingProvider:)`.
   
-  See `AlamofireProvider` for an implementation example.
+  See `NSURLSessionProvider` and `AlamofireProvider` for implementation examples.
 */
-public protocol NetworkingProvider
+public protocol NetworkingProvider: NetworkingProviderConvertible
     {
     /**
-      Create and return a `RequestNetworking` which is ready to perform the request described, but will not actually
-      initiate it until its `start(_:)` method is called.
+      Start the given request asynchronously, and return a `RequestNetworking` to control the request.
+
+      Implementations **must** guarante that they will call the given response closure exactly once.
+      
+      If the request is cancelled, call the response closure with an `NSError`.
     */
-    func networkingForRequest(request: NSURLRequest) -> RequestNetworking
+    func startRequest(
+            request: NSURLRequest,
+            completion: RequestNetworkingCompletionCallback)
+        -> RequestNetworking
     }
 
 /**
@@ -30,17 +36,19 @@ public protocol NetworkingProvider
 */
 public protocol RequestNetworking
     {
-    /**
-      Start the associated network request.
-      
-      Siesta will call this method at most once. Implementations **must** guarante that they will call the given
-      response closure exactly once.
-      
-      If the request is cancelled, call the response closure with an `NSError`.
-    */
-    func start(response: (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void)
-    
     /// Cancel this request, if possible.
     func cancel()
     }
 
+public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void
+
+public protocol NetworkingProviderConvertible
+    {
+    var siestaNetworkingProvider: NetworkingProvider { get }
+    }
+
+extension NetworkingProvider
+    {
+    public var siestaNetworkingProvider: NetworkingProvider
+        { return self }
+    }

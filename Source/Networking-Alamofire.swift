@@ -9,11 +9,10 @@
 import Alamofire
 
 /**
-  Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking. This is Siesta’s default networking provider.
+  Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking.
   
   You can create instances of this class with a custom
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
-  (or, for convenience, a custom `NSURLSessionConfiguration`)
   in order to control caching, certificate validation rules, etc. For example, here is a `Service` that will not cache
   anything and will not use the cell network:
   
@@ -22,29 +21,29 @@ import Alamofire
               let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
               configuration.allowsCellularAccess = false
               super.init(
-                  base: "http://foo.bar/vi",
-                  networkingProvider: AlamofireProvider(configuration: configuration))
+                  base: "http://foo.bar/v1",
+                  networking: AlamofireProvider(configuration: configuration))
           }
       }
 */
 public struct AlamofireProvider: NetworkingProvider
     {
-    public let manager: Manager
+    public let manager: Alamofire.Manager
     
-    public init(manager: Manager = Manager.sharedInstance)
-        {
-        self.manager = manager
-        }
+    public init(manager: Alamofire.Manager = Manager.sharedInstance)
+        { self.manager = manager }
     
     public init(configuration: NSURLSessionConfiguration)
-        {
-        self.init(manager: Alamofire.Manager(configuration: configuration))
-        }
+        { self.init(manager: Alamofire.Manager(configuration: configuration)) }
     
-    public func networkingForRequest(request: NSURLRequest) -> RequestNetworking
+    public func startRequest(
+            request: NSURLRequest,
+            completion: RequestNetworkingCompletionCallback)
+        -> RequestNetworking
         {
-        manager.startRequestsImmediately = false
-        return AlamofireRequestNetworking(manager.request(request))
+        return AlamofireRequestNetworking(
+            manager.request(request)
+                .response { completion(nsres: $1, body: $2, nserror: $3) })
         }
     }
 
@@ -55,17 +54,15 @@ internal final class AlamofireRequestNetworking: RequestNetworking
     init(_ alamofireRequest: Alamofire.Request)
         {
         self.alamofireRequest = alamofireRequest
-        }
-    
-    func start(response: (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void)
-        {
-        alamofireRequest
-            .response { response(nsres: $1, body: $2, nserror: $3) }
-            .resume()
+        alamofireRequest.resume()   // in case manager.startRequestsImmediately is false
         }
     
     func cancel()
-        {
-        alamofireRequest.cancel()
-        }
+        { alamofireRequest.cancel() }
+    }
+
+extension Alamofire.Manager: NetworkingProviderConvertible
+    {
+    public var siestaNetworkingProvider: NetworkingProvider
+        { return AlamofireProvider(manager: self) }
     }

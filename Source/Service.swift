@@ -31,13 +31,14 @@ public class Service: NSObject
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networkingProvider:
-          A provider to use for networking. The default is Alamofire with its default configuration. You can pass an
-          `AlamofireProvider` created with a custom configuration, or provide your own networking implementation.
+          The handler to use for networking. The default is an NSURLSession with its default configuration. You can
+          pass an `NSURLSession`, `NSURLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
+          custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(
             base: String? = nil,
             useDefaultTransformers: Bool = true,
-            networkingProvider: NetworkingProvider = AlamofireProvider())
+            networking: NetworkingProviderConvertible = NSURLSessionConfiguration.defaultSessionConfiguration())
         {
         if let base = base
             {
@@ -51,7 +52,7 @@ public class Service: NSObject
             }
         else
             { self.baseURL = nil }
-        self.networkingProvider = networkingProvider
+        self.networkingProvider = networking.siestaNetworkingProvider
         
         super.init()
         

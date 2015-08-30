@@ -126,7 +126,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
     private let resource: Resource
     private let requestDescription: String
-    internal var networking: RequestNetworking
+    private var nsreq: NSURLRequest?             // present only before start()
+    internal var networking: RequestNetworking?  // present only after start()
+    
     private var responseCallbacks: [ResponseCallback] = []
     
     private var responseInfo: ResponseInfo?
@@ -135,16 +137,28 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     init(resource: Resource, nsreq: NSURLRequest)
         {
         self.resource = resource
+        self.nsreq = nsreq
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
-        self.networking = resource.service.networkingProvider.networkingForRequest(nsreq)
         }
     
     func start() -> Self
         {
-        if !completed
+        guard networking == nil else
+            { fatalError("NetworkRequest.start() called twice") }
+        
+        guard let nsreq = nsreq else
             {
-            debugLog(.Network, [requestDescription])
-            networking.start(responseReceived)
+            debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
+            return self
+            }
+        
+        debugLog(.Network, [requestDescription])
+        
+        networking = resource.service.networkingProvider.startRequest(nsreq)
+            {
+            res, data, err in
+            dispatch_async(dispatch_get_main_queue())
+                { self.responseReceived(nsres: res, body: data, nserror: err) }
             }
         
         return self
@@ -160,7 +174,10 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         debugLog(.Network, ["Cancelled", requestDescription])
         
-        networking.cancel()
+        networking?.cancel()
+        
+        // Prevent start() from have having any effect if it hasn't been called yet
+        nsreq = nil
 
         broadcastResponse((
             response: .Failure(Error(
@@ -286,8 +303,8 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // MARK: Response handling
     
-    // Entry point for response handling. Passed as a callback closure to RequestNetworking.
-    private func responseReceived(nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+    // Entry point for response handling. Triggered by RequestNetworking completion callback.
+    private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
         {
         debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
         debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])

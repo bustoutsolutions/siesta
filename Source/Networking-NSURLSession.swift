@@ -1,0 +1,57 @@
+//
+//  Networking-NSURLSession.swift
+//  Siesta
+//
+//  Created by Paul on 2015/6/26.
+//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//
+
+
+/**
+  Uses `NSURLSessionDataTask` for Siesta networking.
+
+  This is Siesta’s default networking provider.
+*/
+public struct NSURLSessionProvider: NetworkingProvider
+    {
+    public let session: NSURLSession
+    
+    public init(session: NSURLSession)
+        { self.session = session }
+    
+    public func startRequest(
+            request: NSURLRequest,
+            completion: RequestNetworkingCompletionCallback)
+        -> RequestNetworking
+        {
+        let task = self.session.dataTaskWithRequest(request)
+            { completion(nsres: $1 as? NSHTTPURLResponse, body: $0, nserror: $2) }
+        return NSURLSessionRequestNetworking(task: task)
+        }
+    }
+
+internal final class NSURLSessionRequestNetworking: RequestNetworking
+    {
+    internal var task: NSURLSessionDataTask
+    
+    private init(task: NSURLSessionDataTask)
+        {
+        self.task = task
+        task.resume()
+        }
+    
+    func cancel()
+        { task.cancel() }
+    }
+
+extension NSURLSession: NetworkingProviderConvertible
+    {
+    public var siestaNetworkingProvider: NetworkingProvider
+        { return NSURLSessionProvider(session: self) }
+    }
+
+extension NSURLSessionConfiguration: NetworkingProviderConvertible
+    {
+    public var siestaNetworkingProvider: NetworkingProvider
+        { return NSURLSession(configuration: self).siestaNetworkingProvider }
+    }
