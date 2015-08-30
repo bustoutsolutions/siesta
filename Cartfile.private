@@ -1,4 +1,3 @@
-github "Alamofire/Alamofire" "2.0.0-beta.2"
 github "pcantrell/Quick" "expose-current-spec"
 github "Quick/Nimble" "swift-2.0"
 github "pcantrell/Nocilla" "delayed-response"
