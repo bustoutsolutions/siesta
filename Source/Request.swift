@@ -260,47 +260,6 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         }
     
-    private func broadcastResponse(newInfo: ResponseInfo)
-        {
-        if let responseInfo = responseInfo
-            {
-            // We already received a response; don't broadcast another one.
-            
-            if !responseInfo.response.isCancellation
-                {
-                debugLog(.Network,
-                    [
-                    "WARNING: Received response for request that was already completed:", requestDescription,
-                    "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
-                    "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
-                    "\n    Previously received:", responseInfo.response,
-                    "\n    New response:", newInfo.response
-                    ])
-                }
-            else if !newInfo.response.isCancellation
-                {
-                // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
-                // we were cancelled. If we received any other response after cancellation, log that we ignored it.
-                
-                debugLog(.NetworkDetails,
-                    [
-                    "Received response, but request was already cancelled:", requestDescription,
-                    "\n    New info:", newInfo.response
-                    ])
-                }
-            
-            return
-            }
-        
-        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
-        
-        responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
-
-        for callback in responseCallbacks
-            { callback(newInfo) }
-        responseCallbacks = []   // Fly, little handlers, be free!
-        }
-    
     // MARK: Response handling
     
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
@@ -311,6 +270,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
         
         let responseInfo = interpretResponse(nsres, body, nserror)
+
+        if shouldIgnoreResponse(responseInfo.response)
+            { return }
         
         transformResponse(responseInfo, then: broadcastResponse)
         }
@@ -360,6 +322,53 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             dispatch_async(dispatch_get_main_queue())
                 { afterTransformation(processedInfo) }
             }
+        }
+
+    private func broadcastResponse(newInfo: ResponseInfo)
+        {
+        if shouldIgnoreResponse(newInfo.response)
+            { return }
+        
+        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
+        
+        responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
+
+        for callback in responseCallbacks
+            { callback(newInfo) }
+        responseCallbacks = []   // Fly, little handlers, be free!
+        }
+    
+    private func shouldIgnoreResponse(newResponse: Response) -> Bool
+        {
+        guard let responseInfo = responseInfo else
+            { return false }
+
+        // We already received a response; don't broadcast another one.
+        
+        if !responseInfo.response.isCancellation
+            {
+            debugLog(.Network,
+                [
+                "WARNING: Received response for request that was already completed:", requestDescription,
+                "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
+                "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
+                "\n    Previously received:", responseInfo.response,
+                "\n    New response:", newResponse
+                ])
+            }
+        else if !newResponse.isCancellation
+            {
+            // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
+            // we were cancelled. If we received any other response after cancellation, log that we ignored it.
+            
+            debugLog(.NetworkDetails,
+                [
+                "Received response, but request was already cancelled:", requestDescription,
+                "\n    New response:", newResponse
+                ])
+            }
+        
+        return true
         }
     
     // MARK: Debug
