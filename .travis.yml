@@ -1,9 +1,47 @@
 language: objective-c
 os: osx
 osx_image: xcode7
-script:
-  - brew update
-  - brew install carthage
-  - carthage bootstrap
-  - xctool clean build -project Siesta.xcodeproj -scheme Siesta
-  - xctool test -project Siesta.xcodeproj -scheme SiestaTests
+
+script: |
+  # ------ Certificates ------
+
+  # Thanks to https://github.com/Carthage/Carthage/blob/12fb7881876b4987584e49d00befcd2a8b6b354d/script/cibuild#L29-L51
+  # but no thanks to Carthage for refusing to do simulator-only builds that would make all these keychain shenanigans unnecessary.
+
+  KEYCHAIN=ios-build.keychain
+  local password=cibuild
+
+  # Create a temporary keychain for code signing.
+
+  security create-keychain -p "$password" "$KEYCHAIN"
+  security default-keychain -s "$KEYCHAIN"
+  security unlock-keychain -p "$password" "$KEYCHAIN"
+  security set-keychain-settings -t 3600 -l "$KEYCHAIN"
+
+  # Download the certificate for the Apple cert authority
+  local certpath="/tmp/apple_wwdr.cer"
+  curl 'https://developer.apple.com/certificationauthority/AppleWWDRCA.cer' > "$certpath"
+  security import "$certpath" -k "$KEYCHAIN" -T /usr/bin/codesign
+
+  # Import our development certificate.
+  security import ".ios-dev-cert.p12" -k "$KEYCHAIN" -P "$KEY_PASSWORD" -T /usr/bin/codesign
+  echo "Available identities after import:"
+  security find-identity
+
+  # ------ Tools ------
+
+  set -x
+
+  brew update
+  brew install carthage
+  gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  set -o pipefail
+
+  # ------ Dependencies ------
+
+  carthage bootstrap --platform ios --verbose | xcpretty -c
+
+  # ------ Project build (at last!) ------
+
+  xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' | xcpretty -c
+ 
