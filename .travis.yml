@@ -35,8 +35,7 @@ script: |
   #gem install xcpretty --no-rdoc --no-ri --no-document --quiet
   # Fix parsing bug for Swift output:
   git clone -b patch-1 https://github.com/pcantrell/xcpretty.git /tmp/xcpretty
-  alias xcpretty=/tmp/xcpretty/bin/xcpretty
-
+  
   #brew update
   #brew install carthage
 
@@ -53,4 +52,4 @@ script: |
   # ------ Project build (at last!) ------
 
   set -o pipefail
-  xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' | xcpretty -c
+  xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' | /tmp/xcpretty/bin/xcpretty -c
