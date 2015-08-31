@@ -34,7 +34,7 @@ script: |
 
   #gem install xcpretty --no-rdoc --no-ri --no-document --quiet
   # Fix parsing bug for Swift output:
-  git clone -b patch-1 git@github.com:pcantrell/xcpretty.git /tmp/xcpretty
+  git clone -b patch-1 https://github.com/pcantrell/xcpretty.git /tmp/xcpretty
   alias xcpretty=/tmp/xcpretty/bin/xcpretty
 
   #brew update
