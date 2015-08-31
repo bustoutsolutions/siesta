@@ -104,9 +104,7 @@ Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://develope
 
 Create a `Cartfile` in the root of your project if it don’t already exist, and add:
 
-    github "bustoutsolutions/siesta" "master"
-
-(Adding `master` keeps you on the bleeding edge, which is necessary until Siesta’s 1.0 release is out of beta.)
+    github "bustoutsolutions/siesta" "1.0-beta.1"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
