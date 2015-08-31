@@ -8,9 +8,9 @@
 
 import Siesta
 
-class GithubService: Service {
+class _GithubAPI: Service {
 
-    init() {
+    private init() {
         super.init(base: "https://api.github.com")
         
         #if DEBUG
@@ -25,5 +25,5 @@ class GithubService: Service {
     }
 }
 
-let GithubAPI = GithubService()
+let GithubAPI = _GithubAPI()
 
