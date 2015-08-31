@@ -278,4 +278,4 @@ To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issu
 
 To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
-To get help, please don’t file an issue! Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+To get help, post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
