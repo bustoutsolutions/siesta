@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.0.0-beta.0"
+  s.version      = "1.0-beta.0"
   s.summary      = "iOS REST Client Framework"
 
   s.description  = <<-DESC
@@ -53,8 +53,20 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "8.0"
 
-  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :branch => "master" }
-  s.source_files  = "Source"
+  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.0" }
   s.resources = "Source/*.xib"
+
+  s.subspec "Core" do |s|
+    s.source_files = "Source/**"
+    s.exclude_files = "Source/Networking-Alamofire.swift"
+  end
+
+  s.subspec "Alamofire" do |s|
+    s.source_files = "Source/Networking-Alamofire.swift"
+    s.dependency "Siesta/Core"
+    s.dependency "Alamofire", "2.0.0-beta.2"
+  end
+
+  s.default_subspecs = 'Core'
 
 end
