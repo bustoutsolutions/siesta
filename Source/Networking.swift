@@ -40,13 +40,40 @@ public protocol RequestNetworking
     func cancel()
     }
 
+/// Siesta passes this callback to a `NetworkingProvider` implementation to call when the underlying network request is complete.
 public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void
 
+/**
+  A convenience to choose the correct `NetworkingProvider` implementation when  you to pass networking library
+  configuration to the `Service` initializer.
+
+  For example, instead of having to do this:
+  
+      Service(base: "http://foo.bar", networking:
+        NSURLSessionProvider(session:
+            NSURLSession(configuration:
+                NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+
+  …you can do this:
+  
+      Service(base: "http://foo.bar", networking:
+        NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+  
+  Siesta supports the following types to specify a networking provider:
+  
+  - NSURLSession
+  - NSURLSessionConfiguration
+  - Alamofire.Manager
+  
+  …and you can add to the list by writing an extension to implement `NetworkingProviderConvertible`.
+*/
 public protocol NetworkingProviderConvertible
     {
+    /// Returns a `NetworkingProvider` appropriate to the receipient.
     var siestaNetworkingProvider: NetworkingProvider { get }
     }
 
+//:nodoc:
 extension NetworkingProvider
     {
     public var siestaNetworkingProvider: NetworkingProvider

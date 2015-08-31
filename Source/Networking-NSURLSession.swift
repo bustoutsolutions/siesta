@@ -16,9 +16,11 @@ public struct NSURLSessionProvider: NetworkingProvider
     {
     public let session: NSURLSession
     
+    /// :nodoc:
     public init(session: NSURLSession)
         { self.session = session }
     
+    /// :nodoc:
     public func startRequest(
             request: NSURLRequest,
             completion: RequestNetworkingCompletionCallback)

@@ -8,6 +8,10 @@
 
 /**
   Something that can observe changes to the state of a `Resource`.
+  “State” means `latestData`, `latestError`, and `loading`.
+  
+  Any code that wants to display or process a resource’s content should register itself as an observer using
+  `Resource.addObserver(...)`.
 */
 public protocol ResourceObserver
     {
