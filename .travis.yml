@@ -32,16 +32,25 @@ script: |
 
   set -x
 
-  brew update
-  brew install carthage
-  gem install xcpretty --no-rdoc --no-ri --no-document --quiet
-  set -o pipefail
+  #gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  # Fix parsing bug for Swift output:
+  git clone -b patch-1 git@github.com:pcantrell/xcpretty.git /tmp/xcpretty
+  alias xcpretty=/tmp/xcpretty/bin/xcpretty
+
+  #brew update
+  #brew install carthage
 
   # ------ Dependencies ------
 
-  carthage bootstrap --platform ios --verbose | xcpretty -c
+  # Optional pre-download, because builds are so slow on Travis, and Carthage builds _everything_:
+  echo "Downloading prebuilt dependencies"
+  curl https://innig.net/tmp/siesta-deps.tar.bz2 | bzcat | tar xv
+
+  # Uncomment to build with Carthage instead:
+  #echo "Building dependencies"
+  #carthage bootstrap --platform ios --verbose
 
   # ------ Project build (at last!) ------
 
+  set -o pipefail
   xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' | xcpretty -c
- 
