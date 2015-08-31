@@ -2,6 +2,8 @@
 
 **iOS REST Client Framework**
 
+[![CocoaPods](https://img.shields.io/cocoapods/v/Siesta.svg)]() [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
 * **OS:** iOS 8+
