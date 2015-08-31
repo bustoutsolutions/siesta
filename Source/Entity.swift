@@ -170,15 +170,15 @@ public extension TypedContentAccessors
      
       - SeeAlso: `ResponseTransformer`
     */
-    public func contentAsType<T>(ifNone defaultContent: T) -> T
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
         {
-        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent
+        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
     /// Variant of `contentAsType(ifNone: _:)` with optional input & output.
-    public func contentAsType<T>(ifNone defaultContent: T?) -> T?
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
         {
-        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent
+        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.

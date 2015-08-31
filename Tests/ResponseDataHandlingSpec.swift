@@ -276,6 +276,54 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(transformer().callCount).to(equal(1))
                 }
             }
+        
+        describe("contentAsType()")
+            {
+            it("returns content if present")
+                {
+                stubText()
+                awaitNewData(resource().load())
+                let content = resource().contentAsType(ifNone: "default value")
+                expect(content).to(equal("zwobble"))
+                }
+            
+            it("returns default if no content")
+                {
+                let content = resource().contentAsType(ifNone: "default value")
+                expect(content).to(equal("default value"))
+                }
+            
+            it("returns content if content present but wrong type")
+                {
+                stubText(contentType: "foo/bar")  // suppresses text parsing
+                awaitNewData(resource().load())
+                let content = resource().contentAsType(ifNone: "default value")
+                expect(content).to(equal("default value"))
+                }
+            
+            it("can handle optional defaults")
+                {
+                let some: String? = "ahoy",
+                    none: String? = nil
+                expect(resource().contentAsType(ifNone: some)).to(equal("ahoy"))
+                expect(resource().contentAsType(ifNone: none)).to(beNil())
+                }
+            
+            it("does not evaluate default unless needed")
+                {
+                var suddenDeathCalled = false
+                func suddenDeath() -> String
+                    {
+                    suddenDeathCalled = true
+                    return "DOOOOM!!!"
+                    }
+                
+                stubText()
+                awaitNewData(resource().load())
+                expect(resource().contentAsType(ifNone: suddenDeath())).notTo(beNil())
+                expect(suddenDeathCalled).to(beFalse())
+                }
+            }
         }
     }
 
