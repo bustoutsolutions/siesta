@@ -1,14 +1,22 @@
-- name: Core
+- name: Resources
   children:
   - Service
   - Resource
   - Entity
   - Error
+  - Configuration
+  - TypedContentAccessors
+
+- name: Observering Resources
+  children:
   - ResourceObserver
+  - ResourceObserverClosure
   - ResourceEvent
+
+- name: Requests
+  children:
   - Request
   - RequestMethod
-  - Configuration
 
 - name: Response Parsing
   children:
@@ -17,18 +25,22 @@
   - ResponseEntityTransformer
   - TextResponseTransformer
   - JSONResponseTransformer
+  - ImageResponseTransformer
   - TransformerSequence
+
+- name: UI Helpers
+  children:
+  - ResourceStatusOverlay
+  - RemoteImageView
 
 - name: Network Layer
   children:
   - NetworkingProvider
+  - NetworkingProviderConvertible
   - RequestNetworking
+  - RequestNetworkingCompletionCallback
+  - NSURLSessionProvider
   - AlamofireProvider
-
-- name: UI Components
-  children:
-  - ResourceStatusOverlay
-  - RemoteImageView
 
 - name: Caching
   children:
