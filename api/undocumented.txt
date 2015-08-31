@@ -1,8 +1,24 @@
 Networking-Alamofire.swift
-	public let manager: Manager
-	public init(manager: Manager = Manager.sharedInstance)
+	public let manager: Alamofire.Manager
+	public init(manager: Alamofire.Manager = Manager.sharedInstance)
+        { self.manager = manager }
 	public init(configuration: NSURLSessionConfiguration)
-	public func networkingForRequest(request: NSURLRequest) -> RequestNetworking
+        { self.init(manager: Alamofire.Manager(configuration: configuration)) }
+	public func startRequest(
+            request: NSURLRequest,
+            completion: RequestNetworkingCompletionCallback)
+        -> RequestNetworking
+	public var siestaNetworkingProvider: NetworkingProvider
+        { return AlamofireProvider(manager: self) }
+Networking.swift
+	public var siestaNetworkingProvider: NetworkingProvider
+        { return self }
+Networking-NSURLSession.swift
+	public let session: NSURLSession
+	public var siestaNetworkingProvider: NetworkingProvider
+        { return NSURLSessionProvider(session: self) }
+	public var siestaNetworkingProvider: NetworkingProvider
+        { return NSURLSession(configuration: self).siestaNetworkingProvider }
 ResourceStatusOverlay.swift
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
 	@IBOutlet public var errorView: UIView?

@@ -7,6 +7,7 @@ layout: default
 
 **iOS REST Client Framework**
 
+
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
 * **OS:** iOS 8+
@@ -19,6 +20,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 - [What’s It For?](#what’s-it-for)
 - [Features](#features)
+- [Origin](#origin)
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
@@ -35,7 +37,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 Want your app to talk to an API? Welcome to your state nightmare!
 
-You need to display response data whenever it arrives, unless the requesting ViewController is no longer visible, unless some other currently visible ViewController happens to want the same data. You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds. Be sure to avoid redundant requests. Oh, and remember not to retain your ViewController by accident in your callback closures. Unless you're supposed to.
+You need to display response data whenever it arrives, unless the requesting ViewController is no longer visible, unless some other currently visible ViewController happens to want the same data. You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds. Be sure to avoid redundant requests. Oh, and remember not to retain your ViewController by accident in your callback closures. Unless you're supposed to.
 
 What could possibly go wrong?
 
@@ -60,8 +62,6 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - Transparent Etag / If-Modified-Since handling
 - Painless handling for JSON and plain text, plus customizable response transformation
 - Prebaked UI for loading & error handling
-- Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking by default;
-    inject a custom networking provider if you want to use a different networking library
 - Debug-friendly, customizable logging
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
 - …also works great from Objective-C thanks to a compatibility layer.
@@ -69,10 +69,13 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
-**Forthcoming:**
+## Origin
 
-- Graceful handling for authenticated sessions
-- Intelligent progress reporting that accounts for request, latency, and response
+This project started as helper code we wrote out of practical need on several [Bust Out Solutions](http://bustoutsolutions.com) projects. When we found ourselves copying the code between projects, we knew it was time to open source it.
+
+For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to turn all those “good enough for utility code” decisions into clean abstractions.
+
+Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a green field.
 
 ## Design Philosophy
 
@@ -95,21 +98,27 @@ _…in that order of priority._
 
 ## Installation
 
-We recommend adding Siesta to your project using Carthage. You can also manually build the framework yourself.
-
-### Carthage
-
-[Install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
-
 Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), and point the command line tools at it:
 
     sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer
 
-Create a `Cartfile` in the root of your project if it don’t already exist, and add:
+### CocoaPods
 
-    github "bustoutsolutions/siesta" "master"
+In your `Podfile`:
 
-(Adding `master` keeps you on the bleeding edge, which is necessary until Siesta has an official release.)
+    pod 'Siesta'
+
+If you want to use Alamofire as your networking provider instead of `NSURLSession`:
+
+    pod 'Siesta/Alamofire'
+
+(You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
+
+### Carthage
+
+In your `Cartfile`:
+
+    github "bustoutsolutions/siesta" "1.0-beta.1"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
@@ -118,16 +127,6 @@ As of this writing, there is one additional step you need to follow for Xcode 7 
 * Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
 
 (In-depth discussion of Carthage on XC7 is [here](https://github.com/Carthage/Carthage/issues/536).)
-
-Once you have the framework in your project, import Siesta and let the fun begin:
-
-```swift
-import Siesta
-```
-
-### CocoaPods
-
-Coming soon, no later than when Xcode 7 goes out of beta.
 
 ---
 
@@ -139,7 +138,7 @@ Make a singleton for the REST API you want to use:
 let MyAPI = Service(base: "https://api.example.com")
 ```
 
-Now register your view controller — or view, or anything you like — to receive notifications whenever the resource’s state changes:
+Now register your view controller — or view, or anything you like — to receive notifications whenever a particular resource’s state changes:
 
 ```swift
 override func viewDidLoad() {
@@ -155,8 +154,8 @@ override func viewDidLoad() {
 @IBOutlet weak var nameLabel, colorLabel, errorLabel: UILabel!
 
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    nameLabel.text = resource.json["name"] as? String
-    colorLabel.text = resource.json["favoriteColor"] as? String
+    nameLabel.text = resource.jsonDict["name"] as? String
+    colorLabel.text = resource.jsonDict["favoriteColor"] as? String
 
     errorLabel.text = resource.latestError?.userMessage
 }
@@ -214,8 +213,8 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        nameLabel.text = resource.json["name"] as? String
-        colorLabel.text = resource.json["favoriteColor"] as? String
+        nameLabel.text = resource.jsonDict["name"] as? String
+        colorLabel.text = resource.jsonDict["favoriteColor"] as? String
     }
 }
 ```
@@ -281,4 +280,4 @@ To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issu
 
 To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
-To get help, please don’t file an issue! Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+To get help, post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)

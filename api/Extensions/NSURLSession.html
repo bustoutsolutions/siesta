@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResourceObserver Protocol Reference</title>
+    <title>NSURLSession Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/ResourceObserver" class="dashAnchor"></a>
-    <a title="ResourceObserver Protocol Reference"></a>
+    <a name="//apple_ref/swift/Extension/NSURLSession" class="dashAnchor"></a>
+    <a title="NSURLSession Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResourceObserver Protocol Reference
+        NSURLSession Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -190,19 +190,8 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResourceObserver</h1>
-              <div class="declaration">
-                <div class="Swift">
-                  <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResourceObserver</span></code></pre>
-
-                </div>
-              </div>
-            <p>Something that can observe changes to the state of a <code>Resource</code>.
-“State” means <code>latestData</code>, <code>latestError</code>, and <code>loading</code>.</p>
-
-<p>Any code that wants to display or process a resource’s content should register itself as an observer using
-<code>Resource.addObserver(...)</code>.</p>
+            <h1>NSURLSession</h1>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -211,9 +200,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta16ResourceObserver15resourceChangeduRq_S0__Fq_FTCS_8Resource5eventOS_13ResourceEvent_T_"></a>
-                    <a name="//apple_ref/swift/Method/resourceChanged(_:event:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver15resourceChangeduRq_S0__Fq_FTCS_8Resource5eventOS_13ResourceEvent_T_">resourceChanged(_:event:)</a>
+                    <a name="/s:vE6SiestaCSo12NSURLSession24siestaNetworkingProviderPS_18NetworkingProvider_"></a>
+                    <a name="//apple_ref/swift/Property/siestaNetworkingProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vE6SiestaCSo12NSURLSession24siestaNetworkingProviderPS_18NetworkingProvider_">siestaNetworkingProvider</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -221,89 +210,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Called when anything happens that might change the value of the reosurce’s <code>latestData</code>, <code>latestError</code>, or
-  <code>loading</code> flag. The <code>event</code> explains the reason for the notification.</p>
+                        <p>Undocumented</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">resourceChanged</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">,</span> <span class="nv">event</span><span class="p">:</span> <span class="kt">ResourceEvent</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FP6Siesta16ResourceObserver24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_"></a>
-                    <a name="//apple_ref/swift/Method/stoppedObservingResource(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver24stoppedObservingResourceuRq_S0__Fq_FCS_8ResourceT_">stoppedObservingResource(_:)</a>
-                    </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Called when this observer stops observering a resource. Use for making <code>removeObservers(ownedBy:)</code> trigger
-  other cleanup.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>Does nothing.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stoppedObservingResource</span><span class="p">(</span><span class="nv">resource</span><span class="p">:</span> <span class="kt">Resource</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FP6Siesta16ResourceObserver22isEquivalentToObserveruRq_S0__Fq_FPS0__Sb"></a>
-                    <a name="//apple_ref/swift/Method/isEquivalentToObserver(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta16ResourceObserver22isEquivalentToObserveruRq_S0__Fq_FPS0__Sb">isEquivalentToObserver(_:)</a>
-                    </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Allows you to prevent redundant observers from being added to the same resource. If an existing observer
-  says it is equivalent to a new observer passed to <code>Resource.addObserver(...)</code>, then the call has no effect.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>True iff self and other are (1) both objects and (2) are the <em>same</em> object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isEquivalentToObserver</span><span class="p">(</span><span class="nv">other</span><span class="p">:</span> <span class="kt">ResourceObserver</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
                       </div>
                     </section>
                   </div>
