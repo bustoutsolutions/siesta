@@ -15,7 +15,7 @@
          * @src http://stackoverflow.com/a/13169465
          */
         HTMLElement.prototype.wrap = function(elms) {
-            if (!elms.length) elms = [elms];
+            if (!elms.length) return;
 
             for (var i = elms.length - 1; i >= 0; i--) {
                 var child = (i > 0) ? this.cloneNode(true) : this;
