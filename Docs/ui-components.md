@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let json = JSON(resource.json)
+        let json = JSON(resource.jsonDict)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string
     }
@@ -75,7 +75,7 @@ Or in Objective-C:
 }
 
 - (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
-    id json = resource.json;
+    id json = resource.jsonDict;
     nameLabel.text = json[@"name"];
     favoriteColorLabel.text = json[@"favoriteColor"];
 }

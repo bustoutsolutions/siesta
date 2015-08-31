@@ -124,9 +124,9 @@ public extension Resource
             { return nil }
         }
     
-    @objc(json)
-    public var _objc_json: [String:AnyObject]
-        { return json }
+    @objc(jsonDict)
+    public var _objc_jsonDict: [String:AnyObject]
+        { return jsonDict }
     
     @objc(jsonArray)
     public var _objc_jsonArray: [AnyObject]

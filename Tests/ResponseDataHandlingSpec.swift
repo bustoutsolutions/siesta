@@ -164,7 +164,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ \"error\": \"pigeon drove bus\" }")
                 awaitFailure(resource().load())
-                expect(resource().latestError?.json as? [String:String])
+                expect(resource().latestError?.jsonDict as? [String:String])
                     .to(equal(["error": "pigeon drove bus"]))
                 }
 
@@ -178,24 +178,24 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.entity?.content as? NSData).notTo(beNil())
                 }
 
-            describe("via .json convenience")
+            describe("via .jsonDict convenience")
                 {
                 it("gives JSON data")
                     {
                     stubJson()
-                    expect(resource().json).to(equal(jsonVal))
+                    expect(resource().jsonDict).to(equal(jsonVal))
                     }
 
                 it("gives empty dict for non-JSON response")
                     {
                     stubJson(contentType: "text/plain")
-                    expect(resource().json).to(equal(NSDictionary()))
+                    expect(resource().jsonDict).to(equal(NSDictionary()))
                     }
 
                 it("gives empty dict on error")
                     {
                     stubReqest(resource, "GET").andReturn(500)
-                    expect(resource().json).to(equal(NSDictionary()))
+                    expect(resource().jsonDict).to(equal(NSDictionary()))
                     }
                 }
             

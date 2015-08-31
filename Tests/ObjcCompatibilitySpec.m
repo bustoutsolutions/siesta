@@ -93,7 +93,7 @@
         [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
-        expect(resource.json).to(equal(@{ @"foo": @"bar" }));
+        expect(resource.jsonDict).to(equal(@{ @"foo": @"bar" }));
         expect(resource.jsonArray).to(equal(@[]));
         expect(resource.text).to(equal(@""));
         

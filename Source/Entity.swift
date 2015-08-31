@@ -138,7 +138,7 @@ public struct Entity
   …with:
 
       resource.text
-      resource.latestError?.json["error.detail"]
+      resource.latestError?.jsonDict["error.detail"]
 
   You can extend this protocol to provide your own convenience accessors. For example:
   
@@ -182,29 +182,29 @@ public extension TypedContentAccessors
         }
     
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var json: [String:AnyObject] { return contentAsType(ifNone: [:]) }
+    public var jsonDict: [String:AnyObject] { return contentAsType(ifNone: [:]) }
     
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [AnyObject]   { return contentAsType(ifNone: []) }
+    public var jsonArray: [AnyObject]       { return contentAsType(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String             { return contentAsType(ifNone: "") }
+    public var text: String                 { return contentAsType(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors
     {
-    /// Typed content accessors such as `.text` and `.json` apply to this entity’s content.
+    /// Typed content accessors such as `.text` and `.jsonDict` apply to this entity’s content.
     public var entityForTypedContentAccessors: Entity? { return self }
     }
 
 extension Resource: TypedContentAccessors
     {
-    /// Typed content accessors such as `.text` and `.json` apply to `latestData?.content`.
+    /// Typed content accessors such as `.text` and `.jsonDict` apply to `latestData?.content`.
     public var entityForTypedContentAccessors: Entity? { return latestData }
     }
 
 extension Error: TypedContentAccessors
     {
-    /// Typed content accessors such as `.text` and `.json` apply to `entity?.content`.
+    /// Typed content accessors such as `.text` and `.jsonDict` apply to `entity?.content`.
     public var entityForTypedContentAccessors: Entity? { return entity }
     }

@@ -152,8 +152,8 @@ override func viewDidLoad() {
 @IBOutlet weak var nameLabel, colorLabel, errorLabel: UILabel!
 
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    nameLabel.text = resource.json["name"] as? String
-    colorLabel.text = resource.json["favoriteColor"] as? String
+    nameLabel.text = resource.jsonDict["name"] as? String
+    colorLabel.text = resource.jsonDict["favoriteColor"] as? String
 
     errorLabel.text = resource.latestError?.userMessage
 }
@@ -211,8 +211,8 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        nameLabel.text = resource.json["name"] as? String
-        colorLabel.text = resource.json["favoriteColor"] as? String
+        nameLabel.text = resource.jsonDict["name"] as? String
+        colorLabel.text = resource.jsonDict["favoriteColor"] as? String
     }
 }
 ```

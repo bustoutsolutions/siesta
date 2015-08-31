@@ -21,7 +21,7 @@ resource.latestData?.content // Gives a string, dict/array (for JSON), NSData, 
                              // custom data types using ResponseTransformer.
 
 resource.text                // Convenience accessors return empty string/dict/array
-resource.json                // if data is either (1) not present or (2) not of the
+resource.jsonDict            // if data is either (1) not present or (2) not of the
 resource.jsonArray           // expected type. This reduces futzing with optionals.
 
 resource.latestData?.headers // Because metadata matters too

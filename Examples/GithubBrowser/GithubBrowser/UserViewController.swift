@@ -47,7 +47,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     func resourceChanged(resource: Resource, event: ResourceEvent) {
         userInfoView.hidden = (resource.latestData == nil)
         
-        let json = JSON(resource.json)
+        let json = JSON(resource.jsonDict)
         usernameLabel.text = json["login"].string
         fullNameLabel.text = json["name"].string
 
