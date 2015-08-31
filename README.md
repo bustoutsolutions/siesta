@@ -92,17 +92,25 @@ _…in that order of priority._
 
 ## Installation
 
-We recommend adding Siesta to your project using Carthage. You can also manually build the framework yourself.
-
-### Carthage
-
-[Install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
-
 Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), and point the command line tools at it:
 
     sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer
 
-Create a `Cartfile` in the root of your project if it don’t already exist, and add:
+### CocoaPods
+
+In your `Podfile`:
+
+    pod 'Siesta'
+
+If you want to use Alamofire as your networking provider instead of `NSURLSession`:
+
+    pod 'Siesta/Alamofire'
+
+(You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
+
+### Carthage
+
+In your `Cartfile`:
 
     github "bustoutsolutions/siesta" "1.0-beta.1"
 
@@ -113,16 +121,6 @@ As of this writing, there is one additional step you need to follow for Xcode 7 
 * Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
 
 (In-depth discussion of Carthage on XC7 is [here](https://github.com/Carthage/Carthage/issues/536).)
-
-Once you have the framework in your project, import Siesta and let the fun begin:
-
-```swift
-import Siesta
-```
-
-### CocoaPods
-
-Coming soon, no later than when Xcode 7 goes out of beta.
 
 ---
 
