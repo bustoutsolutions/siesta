@@ -293,7 +293,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(content).to(equal("default value"))
                 }
             
-            it("returns content if content present but wrong type")
+            it("returns default if content present but wrong type")
                 {
                 stubText(contentType: "foo/bar")  // suppresses text parsing
                 awaitNewData(resource().load())
