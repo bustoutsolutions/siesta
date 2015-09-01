@@ -65,6 +65,12 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
+### What it doesn’t do
+
+- It **doesn’t do networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, [Alamofire](https://github.com/Alamofire/Alamofire) adapter included, or inject your own custom adapter).
+- It **doesn’t hide HTTP**; on the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
+- It **doesn’t do response ⟷ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a repsonse transformer to work with your model library of choice, or work directly with parsed JSON.
+
 ## Origin
 
 This project started as helper code we wrote out of practical need on several [Bust Out Solutions](http://bustoutsolutions.com) projects. When we found ourselves copying the code between projects, we knew it was time to open source it.
