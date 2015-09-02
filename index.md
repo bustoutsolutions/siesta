@@ -16,7 +16,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **License:** MIT
 * **Status:** 1.0 release now in beta. Seeking feedback. Please experiment!
 
-**Contents**
+###Contents
 
 - [What’s It For?](#what’s-it-for)
 - [Features](#features)
@@ -24,6 +24,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
+- [Comparison With Other Frameworks](#comparison-with-other-frameworks)
 - Documentation
   - [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
@@ -55,10 +56,10 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Features
 
-- Decouples UI component lifecycles from network request lifecycles
+- Decouples UI element lifecycle from network request lifecycle
 - Eliminates error-prone state tracking logic
 - Eliminates redundant network requests
-- Unified reporting for all errors: encoding, network, server-side, and parsing
+- Unified handling for all errors: encoding, network, server-side, and parsing
 - Transparent Etag / If-Modified-Since handling
 - Painless handling for JSON and plain text, plus customizable response transformation
 - Prebaked UI for loading & error handling
@@ -69,13 +70,27 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
 - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
 
+### What it doesn’t do
+
+- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html).
+- It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
+- It **doesn’t do response ⟷ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a repsonse transformer to work with your model library of choice, or work directly with parsed JSON.
+
+### What sets it apart
+
+It’s not just the features. Siesta **solves a different problem** than other REST frameworks.
+
+Other frameworks treat HTTP as a form of [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call). New information arrives only in responses that are coupled to requests — essentially the return values of asynchronous functions.
+
+Siesta puts the the “ST” back in “REST”, and embraces the notion of _state transfer_, decoupling the act of _observering_ state from the act of _transferring_ it.
+
 ## Origin
 
 This project started as helper code we wrote out of practical need on several [Bust Out Solutions](http://bustoutsolutions.com) projects. When we found ourselves copying the code between projects, we knew it was time to open source it.
 
-For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to turn all those “good enough for utility code” decisions into clean abstractions.
+For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to make the API as clean as the concepts.
 
-Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a green field.
+Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a Swifty green field.
 
 ## Design Philosophy
 
@@ -98,7 +113,7 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), and point the command line tools at it:
+Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), then point the command line tools at it:
 
     sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer
 
@@ -148,7 +163,7 @@ override func viewDidLoad() {
 }
 ```
 
-…and use those notifications to populate your UI.
+Use those notifications to populate your UI:
 
 ```swift
 @IBOutlet weak var nameLabel, colorLabel, errorLabel: UILabel!
@@ -177,11 +192,7 @@ Add a loading indicator:
 MyAPI.resource("/profile").addObserver(self) {
     [weak self] resource, event in
 
-    if resource.loading {
-        self?.activityIndicator.startAnimating()
-    } else {
-        self?.activityIndicator.stopAnimating()
-    }
+    self?.activityIndicator.hidden = !resource.loading
 }
 ```
 
@@ -190,21 +201,15 @@ MyAPI.resource("/profile").addObserver(self) {
 ```swift
 class ProfileViewController: UIViewController, ResourceObserver {
     @IBOutlet weak var nameLabel, colorLabel: UILabel!
-    
-    let statusOverlay = ResourceStatusOverlay()
+
+    @IBOutlet weak var statusOverlay: ResourceStatusOverlay
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        statusOverlay.embedIn(self)
-
         MyAPI.resource("/profile")
             .addObserver(self)
             .addObserver(statusOverlay)
-    }
-
-    override func viewDidLayoutSubviews() {
-        statusOverlay.positionToCoverParent()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -213,7 +218,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        nameLabel.text = resource.jsonDict["name"] as? String
+        nameLabel.text  = resource.jsonDict["name"] as? String
         colorLabel.text = resource.jsonDict["favoriteColor"] as? String
     }
 }
@@ -223,7 +228,7 @@ Note that this example is not toy code. Together with its storyboard, **this sma
 
 ### Your socks still on?
 
-Take a look at AFNetworking’s venerable `UIImageView` utility for asynchronously loading and caching remote images on demand. Seriously, go [skim that code](https://github.com/AFNetworking/AFNetworking/blob/master/UIKit%2BAFNetworking/UIImageView%2BAFNetworking.m) and digest all the cool things it does. Take a few minutes. I’ll wait. I’m a README. I’m not going anywhere.
+Take a look at AFNetworking’s venerable `UIImageView` extension for asynchronously loading and caching remote images on demand. Seriously, go [skim that code](https://github.com/AFNetworking/AFNetworking/blob/master/UIKit%2BAFNetworking/UIImageView%2BAFNetworking.m) and digest all the cool things it does. Take a few minutes. I’ll wait. I’m a README. I’m not going anywhere.
 
 Got it? Good.
 
@@ -249,7 +254,7 @@ class RemoteImageView: UIImageView {
     didSet {
       imageResource?.loadIfNeeded()
       imageResource?.addObserver(owner: self) { [weak self] _ in
-        self?.image = imageResource?.contentAsType(ifNil: placeholderImage)
+        self?.image = imageResource?.contentAsType(ifNone: placeholderImage)
       }
     }
   }
@@ -260,7 +265,43 @@ The same functionality. Yes, really.
 
 <small>(Well, OK, they’re not quite identical. The Siesta version above has more robust caching & updating behavior.)</small>
 
-There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. The point is that Siesta gives you an **elegant abstraction** that **solves the problems you actually have**.
+There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**.
+
+## Comparison With Other Frameworks
+
+Popular REST frameworks all have different primary goals:
+
+- [Siesta](http://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
+- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for Apple’s network APIs.
+- [Moya](https://github.com/Moya/Moya) wraps Alamofire to hide HTTP URLs and parameters.
+- [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ⟷ object model ⟷ Core Data mapping.
+- [AFNetworking](https://github.com/AFNetworking/AFNetworking) is a modern-feeling Obj-C wrapper for Apple’s network APIs, plus a suite of related utilities.
+
+Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support.
+
+Further complicating a comparison, some frameworks are built on top of others. This capabilities table may help clear the confusion:
+
+|                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
+|:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
+| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
+| Prevents redundant requests | ✓                  |                |               |           |                 |                |
+| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
+| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
+| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
+| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
+| Object model mapping        |                    |                | ✓             |           |                 |                |
+| Core data integration       |                    |                | ✓             |           |                 |                |
+| Hides HTTP                  |                    |                |               | ✓         |                 |                |
+| UI helpers                  | ✓                  |                |               |           | ✓               |                |
+| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
+
+<small>Disclaimer: table above compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](/siesta/https:/github.com/bustoutsolutions/siesta/edit/master/).</small>
+
+Despite this capabilities list, Siesta is a relatively small codebase — almost exactly the same size as Alamofire, and 5.5x smaller than RestKit.
 
 ---
 
@@ -277,6 +318,8 @@ This repo includes a [simple example project](https://github.com/bustoutsolution
 ## Contributing & Getting Help
 
 To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+
+To point out anything incorrect or confusing in the documentation, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
 To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
