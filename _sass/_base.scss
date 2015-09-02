@@ -110,6 +110,11 @@ table {
     td {
         border-bottom: 1px solid mix($black-color, $blue-color, 12%);
     }
+
+    th, td:first-child {
+        font-size: 85%;
+        white-space: nowrap;
+    }
 }
 
 .table-container {
