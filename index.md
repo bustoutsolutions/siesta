@@ -255,7 +255,7 @@ class RemoteImageView: UIImageView {
 
 A thumbnail of both versions, for your code comparing pleasure:
 
-<p align="center"><img alt="Code comparison" src="https://bustoutsolutions.github.io/siesta/guide/images/code-comparison@2x.png" width=388 height=616></p>
+<p align="center"><img alt="Code comparison" src="https://bustoutsolutions.github.io/siesta/guide/images/code-comparison@2x.png" width=388 height=628></p>
 
 The same functionality. Yes, really.
 
