@@ -51,15 +51,19 @@ script: |
 
   # ------ Project build (at last!) ------
 
-  set -o pipefail
   build() {
-    xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' | /tmp/xcpretty/bin/xcpretty -c
+    xcodebuild test -project Siesta.xcodeproj -scheme Siesta -destination 'platform=iOS Simulator,name=iPhone 5s' \
+      | tee /tmp/build.log \
+      | /tmp/xcpretty/bin/xcpretty -c
+    return ${PIPESTATUS[0]}
   }
 
-  build | tee /tmp/build.log
-  if grep 'Connection peer refused channel request' /tmp/build.log; then
-    echo 'WARNING: Encountered https://github.com/travis-ci/travis-ci/issues/4725'
-    echo 'Waiting 12 seconds, then retrying...'
+  if ! build; then
+    if ! grep 'Connection peer refused channel request' /tmp/build.log; then
+      exit 1
+    fi
+    echo 'WARNING: Encountered https://github.com/travis-ci/travis-ci/issues/4725' &&
+    echo 'Waiting 12 seconds, then retrying...' &&
     sleep 12
     build
   fi
