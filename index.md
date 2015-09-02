@@ -74,15 +74,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
-- It **doesn’t do response ⟷ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a repsonse transformer to work with your model library of choice, or work directly with parsed JSON.
-
-### What sets it apart
-
-It’s not just the features. Siesta **solves a different problem** than other REST frameworks.
-
-Other frameworks treat HTTP as a form of [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call). New information arrives only in responses that are coupled to requests — essentially the return values of asynchronous functions.
-
-Siesta puts the the “ST” back in “REST”, and embraces the notion of _state transfer_, decoupling the act of _observering_ state from the act of _transferring_ it.
+- It **doesn’t do response ⟷ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.
 
 ## Origin
 
@@ -202,7 +194,7 @@ MyAPI.resource("/profile").addObserver(self) {
 class ProfileViewController: UIViewController, ResourceObserver {
     @IBOutlet weak var nameLabel, colorLabel: UILabel!
 
-    @IBOutlet weak var statusOverlay: ResourceStatusOverlay
+    @IBOutlet weak var statusOverlay: ResourceStatusOverlay!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -261,15 +253,19 @@ class RemoteImageView: UIImageView {
 }
 ```
 
+A thumbnail of both versions, for your code comparing pleasure:
+
+<p align="center"><img alt="Code comparison" src="https://bustoutsolutions.github.io/siesta/guide/images/code-comparison@2x.png" width=388 height=616></p>
+
 The same functionality. Yes, really.
 
-<small>(Well, OK, they’re not quite identical. The Siesta version above has more robust caching & updating behavior.)</small>
+<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching & updating behavior.)</small>
 
-There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**.
+There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
 ## Comparison With Other Frameworks
 
-Popular REST frameworks all have different primary goals:
+Popular REST frameworks have different primary goals:
 
 - [Siesta](http://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
 - [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for Apple’s network APIs.
@@ -277,31 +273,43 @@ Popular REST frameworks all have different primary goals:
 - [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ⟷ object model ⟷ Core Data mapping.
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) is a modern-feeling Obj-C wrapper for Apple’s network APIs, plus a suite of related utilities.
 
-Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support.
+Which one is right for your project? It depends on your needs and your tastes.
 
-Further complicating a comparison, some frameworks are built on top of others. This capabilities table may help clear the confusion:
+Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you're also signing for Alamofire.
+
+With all that in mind, here is a capabilities comparison:
 
 |                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
-| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
-| Prevents redundant requests | ✓                  |                |               |           |                 |                |
-| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
-| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
-| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
-| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
-| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
-| Object model mapping        |                    |                | ✓             |           |                 |                |
-| Core data integration       |                    |                | ✓             |           |                 |                |
-| Hides HTTP                  |                    |                |               | ✓         |                 |                |
-| UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
+| Prevents redundant requests | ✓                  |                |               |           |                 |                |
+| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
+| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
+| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
+| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
+| Object model mapping        |                    |                | ✓             |           |                 |                |
+| Core data integration       |                    |                | ✓             |           |                 |                |
+| Hides HTTP                  |                    |                |               | ✓         |                 |                |
+| UI helpers                  | ✓                  |                |               |           | ✓               |                |
+| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>Disclaimer: table above compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](/siesta/https:/github.com/bustoutsolutions/siesta/edit/master/).</small>
 
 Despite this capabilities list, Siesta is a relatively small codebase — almost exactly the same size as Alamofire, and 5.5x smaller than RestKit.
+
+### What sets Siesta apart?
+
+It’s not just the features. Siesta **solves a different problem** than other REST frameworks.
+
+Other frameworks essentially view HTTP as a form of [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call). New information arrives only in responses that are coupled to requests — the return values of asynchronous functions.
+
+Siesta **puts the the “ST” back in “REST”**, embracing the notion of _state transfer_ as an architectural principle, and decoupling the act of _observing_ state from the act of _transferring_ it.
+
+If that approach sounds appealing, give Siesta a try.
 
 ---
 
