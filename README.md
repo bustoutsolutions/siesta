@@ -279,20 +279,20 @@ Further complicating a comparison, some frameworks are built on top of others. T
 
 |                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
-| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
-| Prevents redundant requests | ✓                  |                |               |           |                 |                |
-| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
-| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
-| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
-| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
-| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
-| Object model mapping        |                    |                | ✓             |           |                 |                |
-| Core data integration       |                    |                | ✓             |           |                 |                |
-| Hides HTTP                  |                    |                |               | ✓         |                 |                |
-| UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
+| Prevents redundant requests | ✓                  |                |               |           |                 |                |
+| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
+| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
+| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
+| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
+| Object model mapping        |                    |                | ✓             |           |                 |                |
+| Core data integration       |                    |                | ✓             |           |                 |                |
+| Hides HTTP                  |                    |                |               | ✓         |                 |                |
+| UI helpers                  | ✓                  |                |               |           | ✓               |                |
+| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>Disclaimer: table above compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README.md).</small>
