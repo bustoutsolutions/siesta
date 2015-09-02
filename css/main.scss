@@ -57,6 +57,7 @@ $mobile-layout: (
 );
 $mobile-width: layout-outer-width($mobile-layout);
 $mobile: "(max-width: #{$mobile-width})";
+$mobile-wide: "(min-width: 23em)";
 
 $desktop-layout: (
     columns:      12,

@@ -68,7 +68,7 @@
             }
 
             a {
-                margin: 0 rhythm(0.5, $small-font-size);
+                margin: 0 rhythm(0.375, $small-font-size);
                 @include adjust-font-size-to($small-font-size, $small-line-height);
             }
 
@@ -79,6 +79,12 @@
             li:last-child a {
                 margin-right: 0;
             }
+
+            .icon > svg {
+                margin-top: 3px;
+                height: $small-font-size;
+                width: $small-font-size;
+            }
         }
     }
 
@@ -87,6 +93,16 @@
     }
 
     /* Breakpoints */
+
+    @include breakpoint($mobile-wide) {
+        &__nav {
+            &__menu {
+                a {
+                    margin: 0 rhythm(0.75, $small-font-size);
+                }
+            }
+        }
+    }
 
     @include breakpoint($desktop, $desktop-layout) {
         padding-top: rhythm($spacing-unit * 3);
@@ -98,6 +114,12 @@
                 a {
                     margin: 0 rhythm(1, $normal-font-size);
                     @include adjust-font-size-to($normal-font-size, $normal-line-height);
+                }
+
+                .icon > svg {
+                    margin-top: 4px;
+                    height: $normal-font-size;
+                    width: $normal-font-size;
                 }
             }
         }
