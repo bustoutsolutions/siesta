@@ -62,7 +62,7 @@ def dump_results(results)
   end
 end
 
-mab = Markaby::Builder.new
+mab = Markaby::Builder.new(indent: 2)
 mab.html do
   enable_html5!
 
