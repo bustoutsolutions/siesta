@@ -271,7 +271,7 @@ Popular REST frameworks have different primary goals:
 
 Which one is right for your project? It depends on your needs and your tastes.
 
-Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you're also signing for Alamofire.
+Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you're also signing up for Alamofire.
 
 With all that in mind, here is a capabilities comparison:
 
