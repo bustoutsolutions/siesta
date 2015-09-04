@@ -78,7 +78,7 @@ public protocol EntityEncoder
   Do not confuse this class with `JSONResponseTransformer`. They have different purposes:
   
   - `JSONResponseTransformer`: HTTP response ⟶ `Entity` or `Error`
-  - `JSONEntityEncoder`: `Entity` ⟷ persistent storage
+  - `JSONEntityEncoder`: `Entity` ↔ persistent storage
 */
 public struct JSONEntityEncoder: EntityEncoder
     {
