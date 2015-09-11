@@ -40,25 +40,28 @@ What could possibly go wrong?
 
 ### The Solution
 
-Siesta ends this headache by providing an observable model of a RESTful resource’s state. The model answers three basic questions:
+Siesta ends this headache by providing a **resource-centric** alternative to the familiar **request-centric** approach.
+
+Siesta provides an app-wide observable model of a RESTful resource’s state. This model answers three basic questions:
 
 * What is the latest data for this resource, if any?
 * Did the latest request result in an error?
 * Is there a request in progress?
 
-…then provides notifications whenever the answers to these questions change.
+…and broadcasts notifications whenever the answers to these questions change.
 
 Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.
 
 ## Features
 
 - Decouples UI element lifecycle from network request lifecycle
+- Decouples request initiation from request configuration
 - Eliminates error-prone state tracking logic
 - Eliminates redundant network requests
 - Unified handling for all errors: encoding, network, server-side, and parsing
 - Transparent Etag / If-Modified-Since handling
 - Painless handling for JSON and plain text, plus customizable response transformation
-- Prebaked UI for loading & error handling
+- Prebaked UI helpers for loading & error handling, remote images
 - Debug-friendly, customizable logging
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
 - …also works great from Objective-C thanks to a compatibility layer.
