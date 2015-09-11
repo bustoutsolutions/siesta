@@ -474,10 +474,10 @@ public final class Resource: NSObject
     */
     public func loadIfNeeded() -> Request?
         {
-        if !loadRequests.isEmpty
+        if let loadReq = loadRequests.first
             {
-            debugLog(.Staleness, [self, "loadIfNeeded() using load already in progress"])
-            return loadRequests[0]
+            debugLog(.Staleness, [self, "loadIfNeeded(): load is already in progress: \(loadReq)"])
+            return loadReq
             }
         
         if isUpToDate
@@ -549,7 +549,7 @@ public final class Resource: NSObject
     public func cancelLoadIfUnobserved()
         {
         if beingObserved
-            { debugLog(.Network, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
+            { debugLog(.NetworkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
         else
             {
             if !loadRequests.isEmpty
