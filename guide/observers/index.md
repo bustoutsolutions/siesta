@@ -38,7 +38,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 }
 ```
 
-Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with captial R.
+Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with a captial R.
 
 (Aside: It would be the most natural thing in the world to wire a Siesta resource up as an RxSwift Sequence. Someone should do that.)
 
@@ -66,6 +66,8 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
     }
 }
 ```
+
+Use this technique judiciously. Lots of fine-grained logic like this is a bad code smell when using Siesta.
 
 Here’s how the various `ResourceEvent` values map to `Resource` state changes:
 

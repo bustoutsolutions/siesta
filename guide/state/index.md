@@ -5,7 +5,7 @@ layout: default
 
 # Resource State
 
-The `Resource` class answers three basic questions:
+The [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) class answers three basic questions:
 
 **Q.** What is the latest data for the resource we have locally, if any?<br>
 **A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
@@ -32,7 +32,7 @@ resource.jsonArray           // expected type. This reduces futzing with optiona
 resource.latestData?.headers // Because metadata matters too
 ```
 
-A resource knows whether it is currently has requests in progress, which lets you show/hide a spinner or progress bar:
+A resource knows whether it currently is loading, which lets you show/hide a spinner or progress bar:
 
 ```swift
 resource.requesting          // True if any requests for this resource are in progress
@@ -57,7 +57,7 @@ Note that data, error, and the loading flag are not mutually exclusive. For exam
 * You refresh it later, and that second request fails.
 * You initiate a third request.
 
-At this point, `loading` is true, `latestError` holds information about the previously failed request, and `data` still gives the old cached data.
+At this point, `loading` is true, `latestError` holds information about the previously failed request, and `latestData` still gives the old cached data.
 
 Siesta’s opinion is that your UI should decide for itself which of these things it prioritizes over the others. For example, you may prefer to refresh silently when there is already data displayed, or you may prefer to show a spinner on refresh. You may prefer to show a modal error message, an unobtrusive error popup, or existing data with no error message at all. It’s up to you.
 
