@@ -8,7 +8,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 * **OS:** iOS 8+
 * **Languages:** Written in Swift, supports Swift and Objective-C
-* **Build requirements:** Xcode 7 beta 6, Swift 2.0, Carthage
+* **Build requirements:** Xcode 7, Swift 2.0, Carthage
 * **License:** MIT
 * **Status:** 1.0 release now in beta. Seeking feedback. Please experiment!
 
@@ -101,9 +101,7 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 2.0, so install the latest [Xcode 7 beta](https://developer.apple.com/xcode/downloads/), then point the command line tools at it:
-
-    sudo xcode-select -s /Applications/Xcode-beta.app/Contents/Developer
+Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.apple.com/xcode/downloads/).
 
 ### CocoaPods
 
@@ -125,7 +123,7 @@ In your `Cartfile`:
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
-As of this writing, there is one additional step you need to follow for Xcode 7 beta that isn’t in the Carthage docs:
+As of this writing, there is one additional step you need to follow for Xcode 7 that isn’t in the Carthage docs:
 
 * Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
 
