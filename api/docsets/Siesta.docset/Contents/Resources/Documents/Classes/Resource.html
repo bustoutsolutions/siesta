@@ -1448,6 +1448,139 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
               </ul>
             </div>
             <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Observing%20Resources"></a>
+                  <a name="//apple_ref/swift/Section/Observing Resources" class="dashAnchor"></a>
+                  <a href="#/Observing%20Resources">
+                    <h3 class="section-name">Observing Resources</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource11addObserverFS0_FPS_16ResourceObserverSs9AnyObject_DS0_"></a>
+                    <a name="//apple_ref/swift/Method/addObserver(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource11addObserverFS0_FPS_16ResourceObserverSs9AnyObject_DS0_">addObserver(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds an self-owned observer to this resource, which will receive notifications of changes to resource state.</p>
+
+<p>The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
+  automatically removed.</p>
+
+<p>Use this method for objects such as <code>UIViewController</code>s which already have a lifecycle of their own, are retained
+  elsewhere, and also happen to act as observers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="nv">observerAndOwner</span><span class="p">:</span> <span class="kd">protocol</span><span class="o">&lt;</span><span class="kt">ResourceObserver</span><span class="p">,</span> <span class="kt">AnyObject</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource11addObserverFS0_FTPS_16ResourceObserver_5ownerPSs9AnyObject__DS0_"></a>
+                    <a name="//apple_ref/swift/Method/addObserver(_:owner:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource11addObserverFS0_FTPS_16ResourceObserver_5ownerPSs9AnyObject__DS0_">addObserver(_:owner:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds an observer to this resource, holding a strong reference to it as long as <code>owner</code> still exists.</p>
+
+<p>The resource holds only a weak reference to <code>owner</code>, and as soon as the owner goes away, the observer is removed.</p>
+
+<p>The typical use for this method is for glue objects whose only purpose is to act as an observer, and which would
+not normally be retained by anything else.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt">ResourceObserver</span><span class="p">,</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource11addObserverFS0_FT5ownerPSs9AnyObject_7closureFT8resourceS0_5eventOS_13ResourceEvent_T__DS0_"></a>
+                    <a name="//apple_ref/swift/Method/addObserver(owner:closure:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource11addObserverFS0_FT5ownerPSs9AnyObject_7closureFT8resourceS0_5eventOS_13ResourceEvent_T__DS0_">addObserver(owner:closure:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a closure observer to this resource.</p>
+
+<p>The resource holds a weak reference to <code>owner</code>, and the closure will receive events only as long as <code>owner</code>
+still exists.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">owner</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span> <span class="nv">closure</span><span class="p">:</span> <span class="kt">ResourceObserverClosure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta8Resource15removeObserversFS0_FT7ownedByGSqPSs9AnyObject___T_"></a>
+                    <a name="//apple_ref/swift/Method/removeObservers(ownedBy:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource15removeObserversFS0_FT7ownedByGSqPSs9AnyObject___T_">removeObservers(ownedBy:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes all observers owned by the given object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeObservers</span><span class="p">(</span><span class="n">ownedBy</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
               <ul>
                 <li class="item">
                   <div>
@@ -1481,8 +1614,8 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-09-11)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-09-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
