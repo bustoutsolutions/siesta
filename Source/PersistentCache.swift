@@ -88,11 +88,11 @@ public struct JSONEntityEncoder: EntityEncoder
     /// Encodes the entity iff its `content` is a valid JSON object.
     public func encodeEntity(entity: Entity) -> NSData?
         {
-        guard NSJSONSerialization.isValidJSONObject(entity.content) else
+        guard let obj = entity.content as? AnyObject where NSJSONSerialization.isValidJSONObject(obj) else
             { return nil }
         
         let json = NSMutableDictionary()
-        json["content"]   = entity.content
+        json["content"]   = obj
         json["headers"]   = entity.headers
         json["charset"]   = entity.charset
         json["timestamp"] = entity.timestamp

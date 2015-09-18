@@ -62,7 +62,7 @@ public class _objc_Entity: NSObject
     
     internal init(_ entity: Entity)
         {
-        self.content     = entity.content
+        self.content     = entity.content as! AnyObject
         self.contentType = entity.contentType
         self.charset     = entity.charset
         self.etag        = entity.etag

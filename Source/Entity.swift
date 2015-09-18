@@ -18,7 +18,7 @@ public struct Entity
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
       
-      Why is the type of this property `AnyObject` instead of a generic `T`? Because a `<T>` declaration would mean
+      Why is the type of this property `Any` instead of a generic `T`? Because a `<T>` declaration would mean
       “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
       Swift at _compile time_ what content type a server will actually send at _runtime_.
       
@@ -31,7 +31,7 @@ public struct Entity
       
       - SeeAlso: `Resource.contentAsType(ifNone: _:)`
     */
-    public var content: AnyObject
+    public var content: Any
     
     /**
       The type of data contained in the content.
@@ -63,7 +63,7 @@ public struct Entity
     public private(set) var timestamp: NSTimeInterval
     
     internal init(
-            content: AnyObject,
+            content: Any,
             charset: String? = nil,
             headers rawHeaders: [String:String],
             timestamp: NSTimeInterval? = nil)
@@ -84,7 +84,7 @@ public struct Entity
     /**
       Extracts data from a network response.
     */
-    public init(_ response: NSHTTPURLResponse?, _ content: AnyObject)
+    public init(_ response: NSHTTPURLResponse?, _ content: Any)
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
@@ -101,7 +101,7 @@ public struct Entity
       - SeeAlso: `Resource.localDataOverride(_:)`
     */
     public init(
-            content: AnyObject,
+            content: Any,
             contentType: String,
             charset: String? = nil,
             var headers: [String:String] = [:])

@@ -685,7 +685,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates the data")
                 {
                 resource().localDataOverride(localData())
-                expect(resource().latestData?.content).to(beIdenticalTo(arbitraryContent()))
+                expect(resource().latestData?.content as? AnyObject).to(beIdenticalTo(arbitraryContent()))
                 expect(resource().latestData?.contentType).to(equal(arbitraryContentType))
                 }
 
@@ -920,7 +920,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
 // MARK: - Helpers
 
-private func dataAsString(data: AnyObject?) -> String?
+private func dataAsString(data: Any?) -> String?
     {
     guard let nsdata = data as? NSData else
         { return nil }
