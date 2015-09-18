@@ -80,9 +80,20 @@ extension Entity
             "\n" + indent + "charset:     \(debugStr(charset))" +
             dumpHeaders(headers, indent: indent) +
             "\n" + indent + "content: (\(content.dynamicType))\n"
-        result += debugStr(content, truncate: Int.max)
-            .replaceRegex("^|\n", "$0  " + indent)
+        result += formattedContent.replaceRegex("^|\n", "$0  " + indent)
         return result
+        }
+    
+    private var formattedContent: String
+        {
+        if let jsonContent = content as? NSJSONConvertible
+            {
+            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(jsonContent, options: [.PrettyPrinted]),
+               let json = NSString(data: jsonData, encoding: NSUTF8StringEncoding)
+                { return json as String }
+            }
+
+        return debugStr(content, truncate: Int.max)
         }
     }
 
