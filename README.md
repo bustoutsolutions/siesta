@@ -296,7 +296,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Nontrivial lines of code²   | 1618               | 1653           | 10309         | 329       | 4741            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
-<small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd).</small>
+<small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>
 <small>2. “Trivial” means lines of code containing only whitespace, comments, and/or braces.</small>
 
