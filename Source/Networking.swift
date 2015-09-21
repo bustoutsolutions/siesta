@@ -44,8 +44,8 @@ public protocol RequestNetworking
 public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void
 
 /**
-  A convenience to choose the correct `NetworkingProvider` implementation when  you to pass networking library
-  configuration to the `Service` initializer.
+  A convenience to turn create the appropriate `NetworkingProvider` for a variety of networking configuration objects.
+  Used by the `Service` initializer.
 
   For example, instead of having to do this:
   
@@ -59,7 +59,7 @@ public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse
       Service(base: "http://foo.bar", networking:
         NSURLSessionConfiguration.ephemeralSessionConfiguration()))
   
-  Siesta supports the following types to specify a networking provider:
+  Siesta supports conversion of the following types into a networking provider:
   
   - NSURLSession
   - NSURLSessionConfiguration
