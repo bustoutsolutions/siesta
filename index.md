@@ -266,10 +266,11 @@ There’s a more featureful version of `RemoteImageView` [already included with 
 
 ## Comparison With Other Frameworks
 
-Popular REST frameworks have different primary goals:
+Popular REST / networking frameworks have different primary goals:
 
+- [NSURLSession](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSURLSession_class/) is Apple’s standard iOS HTTP library (and is all most projects need).
 - [Siesta](http://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
-- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for Apple’s network APIs.
+- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for NSURLSession.
 - [Moya](https://github.com/Moya/Moya) wraps Alamofire to hide HTTP URLs and parameters.
 - [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ↔ object model ↔ Core Data mapping.
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) is a modern-feeling Obj-C wrapper for Apple’s network APIs, plus a suite of related utilities.
@@ -278,7 +279,7 @@ Which one is right for your project? It depends on your needs and your tastes.
 
 Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you're also signing up for Alamofire.
 
-With all that in mind, here is a capabilities comparison:
+With all that in mind, here is a capabilities comparison¹:
 
 |                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
@@ -296,9 +297,12 @@ With all that in mind, here is a capabilities comparison:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| Nontrivial lines of code²   | 1618               | 1653           | 10309         | 329       | 4741            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
-<small>Disclaimer: table above compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](/siesta/https:/github.com/bustoutsolutions/siesta/edit/master/).</small>
+<small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
+<br>
+<small>2. “Trivial” means lines of code containing only whitespace, comments, and/or braces.</small>
 
 Despite this capabilities list, Siesta is a relatively small codebase — almost exactly the same size as Alamofire, and 5.5x smaller than RestKit.
 
