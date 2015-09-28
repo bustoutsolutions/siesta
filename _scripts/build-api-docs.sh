@@ -16,18 +16,8 @@ echo "Building docs in $docs_dir ..."
 
 "$jazzy_bin" \
     --clean \
-    --swift-version 2.0 \
-    --source-directory "$siesta_dir" \
-    --exclude          "$siesta_dir"/Source/Siesta-ObjC.swift \
+    --config             "$docs_dir"/_templates/jazzy.yaml \
+    --source-directory   "$siesta_dir" \
+    --exclude            "$siesta_dir"/Source/Siesta-ObjC.swift \
     \
-    --module Siesta \
-    --author 'Bust Out Solutions' \
-    --author_url http://bustoutsolutions.com \
-    --github_url https://github.com/bustoutsolutions/siesta \
-    \
-    --categories          "$docs_dir"/_templates/api-categories.yaml \
-    --readme              "$docs_dir"/_templates/api-readme.md \
-    --template-directory  "$docs_dir"/_templates/jazzy-templates \
-    \
-    --output              "$docs_dir"/api \
     $jazzy_opts
