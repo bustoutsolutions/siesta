@@ -43,7 +43,11 @@ public struct AlamofireProvider: NetworkingProvider
         {
         return AlamofireRequestNetworking(
             manager.request(request)
-                .response { completion(nsres: $1, body: $2, nserror: $3) })
+                .response
+                    {
+                    req, res, body, error in
+                    completion(nsres: res, body: body, nserror: error as? NSError)
+                    })
         }
     }
 
