@@ -12,7 +12,7 @@
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
 		DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
 		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
-		DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex.swift */; };
+		DA33142F1B4DBADA00A7A175 /* Regex+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */; };
 		DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */; };
 		DA336E531B2E6DDB006F702A /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
@@ -90,11 +90,11 @@
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Siesta.swift"; sourceTree = "<group>"; };
 		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
-		DA33142E1B4DBADA00A7A175 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Regex+Siesta.swift"; sourceTree = "<group>"; };
 		DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataHandlingSpec.swift; sourceTree = "<group>"; };
 		DA336E4F1B2E6DDB006F702A /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E521B2E6DDB006F702A /* Siesta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Siesta.h; sourceTree = "<group>"; };
-		DA336E541B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA336E541B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E601B2E6DDB006F702A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -239,16 +239,16 @@
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA5FE9F31BB9E3EF00B6688A /* Progress.swift */,
+				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
+				DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
 				DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */,
 				DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */,
 				DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */,
-				DA33142E1B4DBADA00A7A175 /* Regex.swift */,
-				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
-				DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */,
 				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
+				DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */,
 			);
-			name = Support;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		DA99B5C71B38C36A009C6937 /* Support */ = {
@@ -269,7 +269,7 @@
 				DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */,
 				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
 			);
-			name = UI;
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,7 +392,7 @@
 				DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */,
 				DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */,
 				DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */,
-				DA33142F1B4DBADA00A7A175 /* Regex.swift in Sources */,
+				DA33142F1B4DBADA00A7A175 /* Regex+Siesta.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DAAB482A1B5D7B770059C047 /* Request.swift in Sources */,
