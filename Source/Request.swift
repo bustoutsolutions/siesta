@@ -169,7 +169,10 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         progressComputation = RequestProgress(isGet: nsreq.HTTPMethod == "GET")
         progressUpdateTimer =
-            CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0.05, 0, 0)
+            CFRunLoopTimerCreateWithHandler(
+                    kCFAllocatorDefault,
+                    CFAbsoluteTimeGetCurrent(),
+                    resource.config.progressReportingInterval, 0, 0)
                 { [weak self] _ in self?.updateProgress() }
         CFRunLoopAddTimer(CFRunLoopGetCurrent(), progressUpdateTimer, kCFRunLoopCommonModes)
         }

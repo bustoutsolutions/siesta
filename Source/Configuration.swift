@@ -62,6 +62,13 @@ public struct Configuration
     public var persistentCache: EntityCache? = nil
     
     /**
+      Interval at which request hooks & observers receive progress updates. This affects how frequently
+      `Request.progress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
+      `Request.progress` property (which is partially time-based) is updated.
+    */
+    public var progressReportingInterval: NSTimeInterval = 0.05
+    
+    /**
       Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.
     
       The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
