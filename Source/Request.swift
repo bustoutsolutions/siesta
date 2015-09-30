@@ -286,19 +286,27 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     private func addResponseCallback(callback: ResponseCallback)
         {
-        if let responseInfo = responseInfo
+        addCallback(callback, to: &responseCallbacks, ifAlreadyComplete: responseInfo)
+        }
+    
+    private func addCallback<T>(
+            callback: T -> Void,
+            inout to callbacks: [T -> Void],
+            ifAlreadyComplete completedValue: T?)
+        {
+        if completed
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
             // caller can finish their business first.
             
             dispatch_async(dispatch_get_main_queue())
-                { callback(responseInfo) }
+                { callback(completedValue!) }
             }
         else
             {
             // Request not yet completed.
             
-            responseCallbacks.append(callback)
+            callbacks.append(callback)
             }
         }
     
@@ -306,7 +314,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     func progress(callback: Double -> Void) -> Self
         {
-        progressCallbacks.append(callback)
+        addCallback(callback, to: &progressCallbacks, ifAlreadyComplete: 1)
         return self
         }
     
@@ -412,6 +420,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         for callback in responseCallbacks
             { callback(newInfo) }
         responseCallbacks = []   // Fly, little handlers, be free!
+        progressCallbacks = []
         }
     
     private func shouldIgnoreResponse(newResponse: Response) -> Bool
