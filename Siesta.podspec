@@ -54,10 +54,10 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
 
   s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.1" }
-  s.resources = "Source/*.xib"
+  s.resources = "Source/**/*.xib"
 
   s.subspec "Core" do |s|
-    s.source_files = "Source/**"
+    s.source_files = "Source/**/*"
     s.exclude_files = "Source/Networking-Alamofire.swift"
   end
 
