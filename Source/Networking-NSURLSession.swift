@@ -32,9 +32,9 @@ public struct NSURLSessionProvider: NetworkingProvider
         }
     }
 
-internal final class NSURLSessionRequestNetworking: RequestNetworking
+internal final class NSURLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
     {
-    internal var task: NSURLSessionDataTask
+    var task: NSURLSessionTask
     
     private init(task: NSURLSessionDataTask)
         {
@@ -56,4 +56,21 @@ extension NSURLSessionConfiguration: NetworkingProviderConvertible
     {
     public var siestaNetworkingProvider: NetworkingProvider
         { return NSURLSession(configuration: self).siestaNetworkingProvider }
+    }
+
+protocol SessionTaskContainer
+    {
+    var task: NSURLSessionTask { get }
+    }
+
+extension SessionTaskContainer
+    {
+    var transferMetrics: RequestTransferMetrics
+        {
+        return RequestTransferMetrics(
+            requestBytesSent:      task.countOfBytesSent,
+            requestBytesTotal:     task.countOfBytesExpectedToSend,
+            responseBytesReceived: task.countOfBytesReceived,
+            responseBytesTotal:    task.countOfBytesExpectedToReceive)
+        }
     }

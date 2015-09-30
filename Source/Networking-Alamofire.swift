@@ -47,7 +47,7 @@ public struct AlamofireProvider: NetworkingProvider
         }
     }
 
-internal final class AlamofireRequestNetworking: RequestNetworking
+internal final class AlamofireRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     internal var alamofireRequest: Alamofire.Request
     
@@ -55,6 +55,11 @@ internal final class AlamofireRequestNetworking: RequestNetworking
         {
         self.alamofireRequest = alamofireRequest
         alamofireRequest.resume()   // in case manager.startRequestsImmediately is false
+        }
+    
+    var task: NSURLSessionTask
+        {
+        return alamofireRequest.task
         }
     
     func cancel()

@@ -21,8 +21,8 @@ public protocol ResourceObserver
     */
     func resourceChanged(resource: Resource, event: ResourceEvent)
     
-    /// :nodoc:
-    func resourceRequestProgress(resource: Resource) // TODO: not implemented yet
+    // TODO: docs
+    func resourceRequestProgress(resource: Resource, progress: Double)
     
     /**
       Called when this observer stops observering a resource. Use for making `removeObservers(ownedBy:)` trigger
@@ -39,8 +39,8 @@ public protocol ResourceObserver
 
 public extension ResourceObserver
     {
-    /// :nodoc:
-    func resourceRequestProgress(resource: Resource) { }
+    /// Does nothing.
+    func resourceRequestProgress(resource: Resource, progress: Double) { }
 
     /// Does nothing.
     func stoppedObservingResource(resource: Resource) { }
@@ -225,6 +225,14 @@ public extension Resource
             {
             debugLog(.Observers, [self, "sending", event, "to", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
+            }
+        }
+    
+    internal func notifyObservers(progress progress: Double)
+        {
+        for entry in observers
+            {
+            entry.observer?.resourceRequestProgress(self, progress: progress)
             }
         }
     

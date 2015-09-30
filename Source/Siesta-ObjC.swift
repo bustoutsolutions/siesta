@@ -210,6 +210,16 @@ public class _objc_Request: NSObject
             }
         }
 
+    public var progress: @convention(block) (Float -> Void) -> _objc_Request
+        {
+        return
+            {
+            objcCallback in
+            self.request.progress { p in objcCallback(Float(p)) }
+            return self
+            }
+        }
+
     public func cancel()
         { request.cancel() }
     
@@ -239,7 +249,7 @@ public extension Resource
 public protocol _objc_ResourceObserver
     {
     func resourceChanged(resource: Resource, event: String)
-    optional func resourceRequestProgress(resource: Resource)
+    optional func resourceRequestProgress(resource: Resource, progress: Double)
     optional func stoppedObservingResource(resource: Resource)
     }
 
@@ -253,8 +263,8 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
     func resourceChanged(resource: Resource, event: ResourceEvent)
         { objcObserver?.resourceChanged(resource, event: event.description) }
     
-    func resourceRequestProgress(resource: Resource)
-        { objcObserver?.resourceRequestProgress?(resource) }
+    func resourceRequestProgress(resource: Resource, progress: Double)
+        { objcObserver?.resourceRequestProgress?(resource, progress: progress) }
     
     func stoppedObservingResource(resource: Resource)
         { objcObserver?.stoppedObservingResource?(resource) }

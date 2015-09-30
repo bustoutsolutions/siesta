@@ -28,7 +28,8 @@ public enum RequestMethod: String
     case PATCH
     
     /// One’s a crusty bus station, and the other’s a busty crustacean.
-    /// Thank you for reading the documentation!
+    ///
+    /// I’m here all week! Thank you for reading the documentation!
     case DELETE
     }
 
@@ -69,6 +70,18 @@ public protocol Request: AnyObject
       or been cancelled.
     */
     var completed: Bool { get }
+    
+    /**
+      An estimate of the progress of the request, including request transfer, response transfer, and latency.
+      Result is either in [0...1] or is NAN.
+      
+      The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
+      not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
+      by now. Use the `completed` property to test for actual completion.
+    */
+    var progress: Double { get }
+    
+    func progress(callback: Double -> Void) -> Self
     
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
@@ -129,8 +142,15 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     private let requestDescription: String
     
     // Networking
-    private var nsreq: NSURLRequest?             // present only before start()
+    private let nsreq: NSURLRequest
     internal var networking: RequestNetworking?  // present only after start()
+    internal var cancelled: Bool = false
+    
+    // Progress
+    var progress: Double = 0
+    private var lastProgressBroadcast: Double?
+    private var progressComputation: RequestProgress
+    private var progressUpdateTimer: NSTimer?
     
     // Result
     private var responseInfo: ResponseInfo?
@@ -139,12 +159,24 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     // Callbacks
     private var responseCallbacks: [ResponseCallback] = []
+    private var progressCallbacks: [Double -> Void] = []
 
     init(resource: Resource, nsreq: NSURLRequest)
         {
         self.resource = resource
         self.nsreq = nsreq
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
+        
+        progressComputation = RequestProgress(isGet: nsreq.HTTPMethod == "GET")
+        progressUpdateTimer =
+            CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0.05, 0, 0)
+                { [weak self] _ in self?.updateProgress() }
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), progressUpdateTimer, kCFRunLoopCommonModes)
+        }
+    
+    deinit
+        {
+        progressUpdateTimer?.invalidate()
         }
     
     func start() -> Self
@@ -152,7 +184,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         guard networking == nil else
             { fatalError("NetworkRequest.start() called twice") }
         
-        guard let nsreq = nsreq else
+        guard !cancelled else
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
@@ -184,7 +216,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         networking?.cancel()
         
         // Prevent start() from have having any effect if it hasn't been called yet
-        nsreq = nil
+        cancelled = true
 
         broadcastResponse((
             response: .Failure(Error(
@@ -267,6 +299,34 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         }
     
+    // MARK: Progress
+    
+    func progress(callback: Double -> Void) -> Self
+        {
+        progressCallbacks.append(callback)
+        return self
+        }
+    
+    private func updateProgress()
+        {
+        guard let networking = networking else
+            { return }
+        
+        progressComputation.update(networking.transferMetrics)
+        progress = progressComputation.fractionDone
+        broadcastProgress()
+        }
+    
+    private func broadcastProgress()
+        {
+        if lastProgressBroadcast != progress
+            {
+            lastProgressBroadcast = progress
+            for callback in progressCallbacks
+                { callback(progress) }
+            }
+        }
+    
     // MARK: Response handling
     
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
@@ -338,10 +398,14 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         if shouldIgnoreResponse(newInfo.response)
             { return }
         
+        progressUpdateTimer?.invalidate()
+        progressComputation.complete()
+        broadcastProgress()
+
         debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
         
         responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
-
+        
         for callback in responseCallbacks
             { callback(newInfo) }
         responseCallbacks = []   // Fly, little handlers, be free!
@@ -413,6 +477,12 @@ internal final class FailedRequest: Request
         return self
         }
     
+    func progress(callback: Double -> Void) -> Self
+        {
+        dispatch_async(dispatch_get_main_queue(), { callback(1) })
+        return self
+        }
+    
     // Everything else is a noop
     
     func success(callback: Entity -> Void) -> Self { return self }
@@ -422,4 +492,76 @@ internal final class FailedRequest: Request
     func cancel() { }
 
     var completed: Bool { return true }
+    var progress: Double { return 1 }
     }
+
+
+private struct RequestProgress: Progress
+    {
+    private var uploadProgress, latencyProgress, downloadProgress: TaskProgress
+    private var overallProgress: MonotonicProgress
+    private var timeRequestSent: NSTimeInterval?
+    
+    init(isGet: Bool)
+        {
+        uploadProgress = TaskProgress(estimatedTotal: 8192)    // bytes
+        latencyProgress = TaskProgress(estimatedTotal: 0.6)    // seconds
+        downloadProgress = TaskProgress(estimatedTotal: 65536) // bytes
+        overallProgress =
+            MonotonicProgress(
+                CompoundProgress(components:
+                    (uploadProgress,   weight: isGet ? 0 : 1),
+                    (latencyProgress,  weight: 0.5),
+                    (downloadProgress, weight: isGet ? 1 : 0.1)))
+        }
+    
+    mutating func update(metrics: RequestTransferMetrics)
+        {
+        updateByteCounts(metrics)
+        updateLatency(metrics)
+        }
+    
+    mutating func updateByteCounts(metrics: RequestTransferMetrics)
+        {
+        func optionalTotal(n: Int64?) -> Double?
+            {
+            if let n = n where n > 0
+                { return Double(n) }
+            else
+                { return nil }
+            }
+        
+        overallProgress.holdConstant
+            {
+            uploadProgress.actualTotal   = optionalTotal(metrics.requestBytesTotal)
+            downloadProgress.actualTotal = optionalTotal(metrics.responseBytesTotal)
+            }
+        
+        uploadProgress.completed   = Double(metrics.requestBytesSent)
+        downloadProgress.completed = Double(metrics.responseBytesReceived)
+        }
+
+    mutating func updateLatency(metrics: RequestTransferMetrics)
+        {
+        if timeRequestSent == nil && metrics.requestBytesSent >= metrics.requestBytesTotal
+            { timeRequestSent = NSDate.timeIntervalSinceReferenceDate() }
+        
+        if metrics.responseBytesReceived > 0
+            {
+            latencyProgress.completed = Double.infinity
+            }
+        else if let timeRequestSent = timeRequestSent
+            {
+            latencyProgress.completed = NSDate.timeIntervalSinceReferenceDate() - timeRequestSent
+            }
+        }
+    
+    mutating func complete()
+        { overallProgress.child = TaskProgress.completed }
+    
+    var rawFractionDone: Double
+        {
+        return overallProgress.fractionDone
+        }
+    }
+

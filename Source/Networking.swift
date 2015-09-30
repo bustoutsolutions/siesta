@@ -38,6 +38,16 @@ public protocol RequestNetworking
     {
     /// Cancel this request, if possible.
     func cancel()
+    
+    var transferMetrics: RequestTransferMetrics { get }
+    }
+
+public struct RequestTransferMetrics
+    {
+    public var requestBytesSent:      Int64,
+               requestBytesTotal:     Int64?,
+               responseBytesReceived: Int64,
+               responseBytesTotal:    Int64?
     }
 
 /// Siesta passes this callback to a `NetworkingProvider` implementation to call when the underlying network request is complete.

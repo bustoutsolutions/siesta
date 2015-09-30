@@ -534,6 +534,9 @@ public final class Resource: NSObject
         {
         trackRequest(req, using: &loadRequests)
         
+        req.progress
+            { self.notifyObservers(progress: $0) }
+        
         req.newData(receiveNewDataFromNetwork)
         req.notModified(receiveDataNotModified)
         req.failure(receiveError)
