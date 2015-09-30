@@ -18,10 +18,13 @@
   - client-side parsing and entity validation failures.
   
   `Error` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
-  which you can use to intercept specific known errors, but these diagnostic properties are all optional.
+  which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
+  even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. NSError-based, for example, because
+  network implementations may sometimes provide _both_ an NSError _and_ an HTTP diagnostic.
+
   The one ironclad guarantee that `Error` makes is the presence of a `userMessage`.
 */
-public struct Error
+public struct Error: ErrorType
     {
     /**
       A description of this error suitable for showing to the user. Typically messages are brief and in plain language,
