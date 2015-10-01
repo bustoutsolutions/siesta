@@ -514,20 +514,23 @@ internal final class FailedRequest: Request
 
 private struct RequestProgress: Progress
     {
-    private var uploadProgress, latencyProgress, downloadProgress: TaskProgress
+    private var uploadProgress, downloadProgress: TaskProgress
+    private var connectLatency, responseLatency: WaitingProgress
     private var overallProgress: MonotonicProgress
-    private var timeRequestSent: NSTimeInterval?
     
     init(isGet: Bool)
         {
-        uploadProgress = TaskProgress(estimatedTotal: 8192)    // bytes
-        latencyProgress = TaskProgress(estimatedTotal: 0.6)    // seconds
-        downloadProgress = TaskProgress(estimatedTotal: 65536) // bytes
+        uploadProgress   = TaskProgress(estimatedTotal: 8192)   // bytes
+        downloadProgress = TaskProgress(estimatedTotal: 65536)
+        connectLatency  = WaitingProgress(estimatedTotal: 2.5)  // seconds to reach 75%
+        responseLatency = WaitingProgress(estimatedTotal: 1.2)
+        
         overallProgress =
             MonotonicProgress(
                 CompoundProgress(components:
+                    (connectLatency,   weight: 0.3),
                     (uploadProgress,   weight: isGet ? 0 : 1),
-                    (latencyProgress,  weight: 0.5),
+                    (responseLatency,  weight: 0.3),
                     (downloadProgress, weight: isGet ? 1 : 0.1)))
         }
     
@@ -559,17 +562,25 @@ private struct RequestProgress: Progress
 
     mutating func updateLatency(metrics: RequestTransferMetrics)
         {
-        if timeRequestSent == nil && metrics.requestBytesSent >= metrics.requestBytesTotal
-            { timeRequestSent = NSDate.timeIntervalSinceReferenceDate() }
+        let requestStarted = metrics.requestBytesSent > 0,
+            responseStarted = metrics.responseBytesReceived > 0,
+            requestSent = requestStarted && metrics.requestBytesSent == metrics.requestBytesTotal
         
-        if metrics.responseBytesReceived > 0
+        if requestStarted || responseStarted
             {
-            latencyProgress.completed = Double.infinity
+            overallProgress.holdConstant
+                { connectLatency.complete() }
             }
-        else if let timeRequestSent = timeRequestSent
+        else
+            { connectLatency.tick() }
+        
+        if responseStarted
             {
-            latencyProgress.completed = NSDate.timeIntervalSinceReferenceDate() - timeRequestSent
+            overallProgress.holdConstant
+                { responseLatency.complete() }
             }
+        else if requestSent
+            { responseLatency.tick() }
         }
     
     mutating func complete()

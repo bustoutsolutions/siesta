@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Progress
+internal protocol Progress
     {
     var fractionDone: Double { get }
     var rawFractionDone: Double { get }
@@ -20,7 +20,7 @@ extension Progress
         { return max(0, min(1, rawFractionDone)) }
     }
 
-class TaskProgress: Progress
+internal class TaskProgress: Progress
     {
     /// The amount of work done, in arbitrary units.
     var completed: Double
@@ -60,7 +60,7 @@ class TaskProgress: Progress
         { return TaskProgress(completed: 0, estimatedTotal: Double.NaN) }
     }
 
-struct CompoundProgress: Progress
+internal struct CompoundProgress: Progress
     {
     var components: [Component]
     
@@ -75,29 +75,58 @@ struct CompoundProgress: Progress
             total += component.progress.fractionDone * component.weight;
             totalWeight += component.weight;
             }
-        
+
         return total / totalWeight
         }
     
     typealias Component = (progress: Progress, weight: Double)
     }
 
-struct MonotonicProgress: Progress
+internal struct MonotonicProgress: Progress
     {
     var child: Progress
-    private var gamma: Double = 1
+    
+    private var adjustment: Double = 1
     
     init(_ child: Progress)
         { self.child = child }
     
     var rawFractionDone: Double
-        { return pow(child.fractionDone, gamma) }
+        { return (child.fractionDone - 1) * adjustment + 1 }
     
     mutating func holdConstant(@noescape closure: Void -> Void)
         {
         let before = fractionDone
         closure()
-        if before != 0
-            { gamma = log(before) / log(child.fractionDone) }
+        let afterRaw = child.fractionDone
+        if afterRaw != 1
+            { adjustment = (before - 1) / (afterRaw - 1) }
         }
     }
+
+internal class WaitingProgress: Progress
+    {
+    private var startTime: NSTimeInterval?
+    private var progress: TaskProgress
+    
+    init(estimatedTotal: Double)
+        { progress = TaskProgress(estimatedTotal: estimatedTotal) }
+    
+    var rawFractionDone: Double
+        { return progress.rawFractionDone }
+    
+    func tick()
+        {
+        let now = NSDate.timeIntervalSinceReferenceDate()
+        if let startTime = startTime
+            { progress.completed = now - startTime }
+        else
+            { startTime = now }
+        }
+    
+    func complete()
+        {
+        progress.completed = Double.infinity
+        }
+    }
+
