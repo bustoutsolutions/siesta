@@ -8,19 +8,108 @@
 
 import Foundation
 
+
+internal struct RequestProgress: Progress
+    {
+    private var uploadProgress, downloadProgress: TaskProgress
+    private var connectLatency, responseLatency: WaitingProgress
+    private var overallProgress: MonotonicProgress
+    
+    init(isGet: Bool)
+        {
+        uploadProgress   = TaskProgress(estimatedTotal: 8192)   // bytes
+        downloadProgress = TaskProgress(estimatedTotal: 65536)
+        connectLatency  = WaitingProgress(estimatedTotal: 2.5)  // seconds to reach 75%
+        responseLatency = WaitingProgress(estimatedTotal: 1.2)
+        
+        overallProgress =
+            MonotonicProgress(
+                CompoundProgress(components:
+                    (connectLatency,   weight: 0.3),
+                    (uploadProgress,   weight: isGet ? 0 : 1),
+                    (responseLatency,  weight: 0.3),
+                    (downloadProgress, weight: isGet ? 1 : 0.1)))
+        }
+    
+    mutating func update(metrics: RequestTransferMetrics)
+        {
+        updateByteCounts(metrics)
+        updateLatency(metrics)
+        }
+    
+    mutating func updateByteCounts(metrics: RequestTransferMetrics)
+        {
+        func optionalTotal(n: Int64?) -> Double?
+            {
+            if let n = n where n > 0
+                { return Double(n) }
+            else
+                { return nil }
+            }
+        
+        overallProgress.holdConstant
+            {
+            uploadProgress.actualTotal   = optionalTotal(metrics.requestBytesTotal)
+            downloadProgress.actualTotal = optionalTotal(metrics.responseBytesTotal)
+            }
+        
+        uploadProgress.completed   = Double(metrics.requestBytesSent)
+        downloadProgress.completed = Double(metrics.responseBytesReceived)
+        }
+
+    mutating func updateLatency(metrics: RequestTransferMetrics)
+        {
+        let requestStarted = metrics.requestBytesSent > 0,
+            responseStarted = metrics.responseBytesReceived > 0,
+            requestSent = requestStarted && metrics.requestBytesSent == metrics.requestBytesTotal
+        
+        if requestStarted || responseStarted
+            {
+            overallProgress.holdConstant
+                { connectLatency.complete() }
+            }
+        else
+            { connectLatency.tick() }
+        
+        if responseStarted
+            {
+            overallProgress.holdConstant
+                { responseLatency.complete() }
+            }
+        else if requestSent
+            { responseLatency.tick() }
+        }
+    
+    mutating func complete()
+        { overallProgress.child = TaskProgress.completed }
+    
+    var rawFractionDone: Double
+        {
+        return overallProgress.fractionDone
+        }
+    }
+
+// MARK: Generic progress computation
+
+// The code from here to the bottom is a good candidate for open-sourcing as a separate project.
+
+/// Generic task that goes from 0 to 1.
 internal protocol Progress
     {
-    var fractionDone: Double { get }
     var rawFractionDone: Double { get }
     }
 
 extension Progress
     {
     final var fractionDone: Double
-        { return max(0, min(1, rawFractionDone)) }
+        {
+        let raw = rawFractionDone
+        return isnan(raw) ? raw : max(0, min(1, raw))
+        }
     }
 
-internal class TaskProgress: Progress
+/// A task that has a known amount of homogenous work completed (e.g. bytes transferred).
+private class TaskProgress: Progress
     {
     /// The amount of work done, in arbitrary units.
     var completed: Double
@@ -60,7 +149,8 @@ internal class TaskProgress: Progress
         { return TaskProgress(completed: 0, estimatedTotal: Double.NaN) }
     }
 
-internal struct CompoundProgress: Progress
+/// Several individual progress measurements combined into one.
+private struct CompoundProgress: Progress
     {
     var components: [Component]
     
@@ -82,7 +172,9 @@ internal struct CompoundProgress: Progress
     typealias Component = (progress: Progress, weight: Double)
     }
 
-internal struct MonotonicProgress: Progress
+/// Wraps a progress computation, holding the result constant during potentially unstable operations such as
+/// changing the amount of estimated work remaining.
+private struct MonotonicProgress: Progress
     {
     var child: Progress
     
@@ -104,7 +196,8 @@ internal struct MonotonicProgress: Progress
         }
     }
 
-internal class WaitingProgress: Progress
+/// Progress spent waiting for something that will take an unknown amount of time.
+private class WaitingProgress: Progress
     {
     private var startTime: NSTimeInterval?
     private var progress: TaskProgress
