@@ -37,7 +37,13 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 Want your app to talk to an API? Welcome to your state nightmare!
 
-You need to display response data whenever it arrives, unless the requesting ViewController is no longer visible, unless some other currently visible ViewController happens to want the same data. You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds. Be sure to avoid redundant requests. Oh, and remember not to retain your ViewController by accident in your callback closures. Unless you're supposed to.
+You need to display response data whenever it arrives. Unless the requesting screen is no longer visible. Unless some other currently visible bit of UI happens to need the same data. Or is about to need it.
+
+You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds.
+
+Be sure to avoid redundant requests — and redundant response deserialization. Deserialization should be on a background thread, of course. Oh, and remember not to retain your ViewController / model / helper thingy by accident in your callback closures. Unless you're supposed to.
+
+Naturally you'll want to rewrite all of this from scratch in a slightly different ad hoc way for every project you create.
 
 What could possibly go wrong?
 
@@ -53,17 +59,19 @@ Siesta provides an app-wide observable model of a RESTful resource’s state. Th
 
 …and broadcasts notifications whenever the answers to these questions change.
 
-Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.
+Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your logic and UI.
 
 ## Features
 
-- Decouples UI element lifecycle from network request lifecycle
+- Decouples view and model lifecycle from network request lifecycle
 - Decouples request initiation from request configuration
 - Eliminates error-prone state tracking logic
 - Eliminates redundant network requests
 - Unified handling for all errors: encoding, network, server-side, and parsing
+- Highly extensible, multithreaded response deserialization
+- Transparent built-in parsing (which you can turn off) for JSON, text, and images
+- Smooth progress reporting that accounts for upload, download, _and_ latency
 - Transparent Etag / If-Modified-Since handling
-- Painless handling for JSON and plain text, plus customizable response transformation
 - Prebaked UI helpers for loading & error handling, remote images
 - Debug-friendly, customizable logging
 - Written in Swift with a great [Swift-centric API](https://bustoutsolutions.github.io/siesta/api/), but…
@@ -74,7 +82,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ### What it doesn’t do
 
-- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html).
+- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
 - It **doesn’t do response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.
 
@@ -167,6 +175,21 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
     errorLabel.text = resource.latestError?.userMessage
 }
 ```
+
+Or if you don’t like delegates, Siesta supports closure observers:
+
+```swift
+MyAPI.resource("/profile").addObserver(self) {
+    [weak self] resource, _ in
+
+    self?.nameLabel.text = resource.jsonDict["name"] as? String
+    self?.colorLabel.text = resource.jsonDict["favoriteColor"] as? String
+
+    self?.errorLabel.text = resource.latestError?.userMessage
+}
+```
+
+Note that no actual JSON parsing occurs when we invoke `jsonDict`. The JSON has already been parsed off the main thread, in a GCD queue — and unlike other frameworks, it is only parsed _once_ no matter how many observers there are.
 
 Trigger a staleness-aware load when the view appears:
 
@@ -301,7 +324,7 @@ With all that in mind, here is a capabilities comparison¹:
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>
-<small>2. “Trivial” means lines of code containing only whitespace, comments, and/or braces.</small>
+<small>2. “Trivial” means lines containing only whitespace, comments, and/or braces.</small>
 
 Despite this capabilities list, Siesta is a relatively small codebase — almost exactly the same size as Alamofire, and 5.5x smaller than RestKit.
 
