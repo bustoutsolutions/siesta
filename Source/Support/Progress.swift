@@ -210,7 +210,7 @@ private class WaitingProgress: Progress
     
     func tick()
         {
-        let now = NSDate.timeIntervalSinceReferenceDate()
+        let now = Siesta.now()
         if let startTime = startTime
             { progress.completed = now - startTime }
         else
