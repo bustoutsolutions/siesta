@@ -13,7 +13,7 @@
     <a title="Request Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -182,6 +182,14 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Other Structs.html">Other Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -382,6 +390,66 @@ response has already arrived, the callback is still called as usual.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:vP6Siesta7Request8progressSd"></a>
+                    <a name="//apple_ref/swift/Property/progress" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP6Siesta7Request8progressSd">progress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An estimate of the progress of the request, including request transfer, response transfer, and latency.
+  Result is either in [0&hellip;1] or is NAN.</p>
+
+<p>The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
+  not necessarily mean the request is completed; it means only that we estimate the request <em>should</em> be completed
+  by now. Use the <code>completed</code> property to test for actual completion.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Double</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP6Siesta7Request8progressuRq_S0__Fq_FFSdT_q_"></a>
+                    <a name="//apple_ref/swift/Method/progress(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta7Request8progressuRq_S0__Fq_FFSdT_q_">progress(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Receive updates on progress at regular intervals while a request is in progress.
+  Will <em>always</em> receive a call with a value of 1 when the request completes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">progress</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Double</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FP6Siesta7Request6canceluRq_S0__Fq_FT_T_"></a>
                     <a name="//apple_ref/swift/Method/cancel()" class="dashAnchor"></a>
                     <a class="token" href="#/s:FP6Siesta7Request6canceluRq_S0__Fq_FT_T_">cancel()</a>
@@ -422,7 +490,7 @@ response has already arrived, the callback is still called as usual.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-09-21)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

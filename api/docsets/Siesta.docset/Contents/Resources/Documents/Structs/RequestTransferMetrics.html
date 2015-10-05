@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>TransformerSequence Struct Reference</title>
+    <title>RequestTransferMetrics Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/TransformerSequence" class="dashAnchor"></a>
-    <a title="TransformerSequence Struct Reference"></a>
+    <a name="//apple_ref/swift/Struct/RequestTransferMetrics" class="dashAnchor"></a>
+    <a title="RequestTransferMetrics Struct Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        TransformerSequence Struct Reference
+        RequestTransferMetrics Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -198,20 +198,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>TransformerSequence</h1>
+            <h1>RequestTransferMetrics</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TransformerSequence</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestTransferMetrics</span></code></pre>
 
                 </div>
               </div>
-            <p>A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
-  next. Transformers in the sequence can be limited by content type.</p>
-
-<ul>
-<li>SeeAlso: <code>Service.responseTransformers</code></li>
-</ul>
+            <p>Used by <code>NetworkingProvider</code> implementations to report request progress.</p>
 
           </section>
           <section class="section task-group-section">
@@ -220,9 +215,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta19TransformerSequence5clearFRS0_FT_T_"></a>
-                    <a name="//apple_ref/swift/Method/clear()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta19TransformerSequence5clearFRS0_FT_T_">clear()</a>
+                    <a name="/s:vV6Siesta22RequestTransferMetrics16requestBytesSentVSs5Int64"></a>
+                    <a name="//apple_ref/swift/Property/requestBytesSent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta22RequestTransferMetrics16requestBytesSentVSs5Int64">requestBytesSent</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -230,15 +225,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Removes all transformers from this sequence and starts fresh.</p>
+                        <p>Bytes of HTTP request body sent.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">clear</span><span class="p">()</span>
-        <span class="p">{</span> <span class="n">transformers</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">requestBytesSent</span><span class="p">:</span>      <span class="kt">Int64</span></code></pre>
 
                         </div>
                       </div>
@@ -248,9 +242,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_T_"></a>
-                    <a name="//apple_ref/swift/Method/add(_:contentTypes:first:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_12contentTypesGSaSS_5firstSb_T_">add(_:contentTypes:first:)</a>
+                    <a name="/s:vV6Siesta22RequestTransferMetrics17requestBytesTotalGSqVSs5Int64_"></a>
+                    <a name="//apple_ref/swift/Property/requestBytesTotal" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta22RequestTransferMetrics17requestBytesTotalGSqVSs5Int64_">requestBytesTotal</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -258,28 +252,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
-The content type matches regardles of whether the response is a success or failure.</p>
-
-<p>Content type patterns can use <code>*</code> to match subsequences. The wildcard does not cross <code>/</code> or <code>+</code> boundaries.
-Examples:</p>
-
-<pre class="highlight plaintext"><code>"text/plain"
-"text/​*"
-"application/​*+json"
-</code></pre>
-
-<p>The pattern does not match MIME parameters, so <code>&quot;text/plain&quot;</code> matches <code>&quot;text/plain; charset=utf-8&quot;</code>.</p>
+                        <p>Total size of HTTP request body. Negative or nil indicates unknown size.
+Providers should ensure that <code>requestBytesSent == requestBytesTotal</code> when the request is complete, as this
+allows Siesta to include response latency in its progress calculation.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
-            <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
-            <span class="nv">contentTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span>
-            <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">requestBytesTotal</span><span class="p">:</span>     <span class="kt">Int64</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -289,9 +271,9 @@ Examples:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_5firstSb_T_"></a>
-                    <a name="//apple_ref/swift/Method/add(_:first:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta19TransformerSequence3addFRS0_FTPS_19ResponseTransformer_5firstSb_T_">add(_:first:)</a>
+                    <a name="/s:vV6Siesta22RequestTransferMetrics21responseBytesReceivedVSs5Int64"></a>
+                    <a name="//apple_ref/swift/Property/responseBytesReceived" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta22RequestTransferMetrics21responseBytesReceivedVSs5Int64">responseBytesReceived</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -299,16 +281,41 @@ Examples:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a transformer to the sequence, either at the end (default) or at the beginning.</p>
+                        <p>Bytes of HTTP response body received.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
-            <span class="nv">transformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span><span class="p">,</span>
-            <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">responseBytesReceived</span><span class="p">:</span> <span class="kt">Int64</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta22RequestTransferMetrics18responseBytesTotalGSqVSs5Int64_"></a>
+                    <a name="//apple_ref/swift/Property/responseBytesTotal" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta22RequestTransferMetrics18responseBytesTotalGSqVSs5Int64_">responseBytesTotal</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Total expected size of HTTP response body. Negative or nil indicates unknown size.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">responseBytesTotal</span><span class="p">:</span>    <span class="kt">Int64</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
