@@ -41,11 +41,21 @@ end
 
 PASSED_CLASSES = { true => "passed", false => "failed" }.freeze
 
+RESULTS_ORDER = %w(
+  ServiceSpec
+  ResourcePathsSpec
+  ResourceRequestsSpec
+  ResourceObserversSpec
+  ResponseDataHandlingSpec
+  ProgressSpec
+  WeakCacheSpec
+)
+
 def dump_results(results)
   return unless results
 
   ul do
-    results.each do |result|
+    results.sort_by { |r| RESULTS_ORDER.index(r["name"]) || 1.0/0 }.each do |result|
       collapse_single_child(result)
 
       li(class: PASSED_CLASSES[result["passed"]]) do
