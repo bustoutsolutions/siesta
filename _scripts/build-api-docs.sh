@@ -18,6 +18,6 @@ echo "Building docs in $docs_dir ..."
     --clean \
     --config             "$docs_dir"/_templates/jazzy.yaml \
     --source-directory   "$siesta_dir" \
-    --exclude            "$siesta_dir"/Source/Siesta-ObjC.swift \
+    --exclude            "$siesta_dir"/Source/Support/Siesta-ObjC.swift \
     \
     $jazzy_opts
