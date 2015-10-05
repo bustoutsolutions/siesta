@@ -1,3 +1,3 @@
-github "Alamofire/Alamofire" "2.0.0-beta.2"
-github "SwiftyJSON/SwiftyJSON" "f269523ac572979245baa99c8475eab73caf1e9b"
+github "Alamofire/Alamofire" "2.0.2"
+github "SwiftyJSON/SwiftyJSON" "6eb4cda062fa09c4658e4184f92d822058f226e3"
 github "bustoutsolutions/siesta" "1.0-beta.2"
