@@ -39,15 +39,26 @@ public protocol RequestNetworking
     /// Cancel this request, if possible.
     func cancel()
     
+    /// Returns raw data used for progress calculation.
     var transferMetrics: RequestTransferMetrics { get }
     }
 
+/// Used by `NetworkingProvider` implementations to report request progress.
 public struct RequestTransferMetrics
     {
-    public var requestBytesSent:      Int64,
-               requestBytesTotal:     Int64?,
-               responseBytesReceived: Int64,
-               responseBytesTotal:    Int64?
+    /// Bytes of HTTP request body sent.
+    public var requestBytesSent:      Int64
+
+    /// Total size of HTTP request body. Negative or nil indicates unknown size.
+    /// Providers should ensure that `requestBytesSent == requestBytesTotal` when the request is complete, as this
+    /// allows Siesta to include response latency in its progress calculation.
+    public var requestBytesTotal:     Int64?
+
+    /// Bytes of HTTP response body received.
+    public var responseBytesReceived: Int64
+
+    /// Total expected size of HTTP response body. Negative or nil indicates unknown size.
+    public var responseBytesTotal:    Int64?
     }
 
 /// Siesta passes this callback to a `NetworkingProvider` implementation to call when the underlying network request is complete.
