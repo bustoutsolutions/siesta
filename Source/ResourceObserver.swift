@@ -22,7 +22,7 @@ public protocol ResourceObserver
     func resourceChanged(resource: Resource, event: ResourceEvent)
     
     /**
-      Received updates on progress at regular intervals while a request is in progress.
+      Receive updates on progress at regular intervals while a request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
     func resourceRequestProgress(resource: Resource, progress: Double)
