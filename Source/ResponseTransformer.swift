@@ -231,7 +231,7 @@ public struct TextResponseTransformer: ResponseEntityTransformer
     /// :nodoc:
     public func processEntity(entity: Entity) -> Response
         {
-        if entity.content as? String != nil
+        if entity.content is String
             {
             debugLog(.ResponseProcessing, [self, "ignoring content because it is already a String"])
             return .Success(entity)
