@@ -1,7 +1,7 @@
 title: Siesta
 baseurl: "/siesta"
 url: "https://bustoutsolutions.github.io"
-twitter_username: teambustout
+twitter_usernames: [siestaframework, teambustout]
 github_username:  bustoutsolutions/siesta
 
 # Build settings
