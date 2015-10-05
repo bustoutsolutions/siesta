@@ -329,11 +329,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         progressComputation.update(networking.transferMetrics)
         progress = progressComputation.fractionDone
-        broadcastProgress()
-        }
-    
-    private func broadcastProgress()
-        {
+
         if lastProgressBroadcast != progress
             {
             lastProgressBroadcast = progress
@@ -415,7 +411,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         
         progressUpdateTimer?.invalidate()
         progressComputation.complete()
-        broadcastProgress()
+        updateProgress()
 
         debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
         
