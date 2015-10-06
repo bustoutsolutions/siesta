@@ -39,7 +39,7 @@ someResource.addObserver(owner: someViewController) {
 }
 ```
 
-In the code about, the print statement will continue logging until `someViewController` is deallocated.
+In the code above, the print statement will continue logging until `someViewController` is deallocated.
 
 ## Manually Removing Observers
 

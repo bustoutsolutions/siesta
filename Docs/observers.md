@@ -19,7 +19,7 @@ resource.addObserver(owner: self) {
 
 Observers receive a notification whenever a resource’s state changes: when it starts loading, receives new data, or receives an error. Addditionally, each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your UI-populating code in one place.
 
-The simplest way to implement your observer is to ignore what king of event triggered the notification, and take an idempotent “update everything” approach:
+The simplest way to implement your observer is to ignore what kind of event triggered the notification, and take an idempotent “update everything” approach:
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
