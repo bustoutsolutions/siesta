@@ -46,15 +46,28 @@ public struct Configuration
       
       You can add custom parsing using:
       
-          responseTransformers.add(MyCustomTransformer())
-          responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
+          $0.config.responseTransformers.add(MyCustomTransformer())
+          $0.config.responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
       
-      By default, the transformer sequence includes JSON and plain text parsing. You can
+      By default, the transformer sequence includes JSON, image, and plain text parsing. You can
       remove this default behavior by clearing the sequence:
       
-          responseTransformers.clear()
+          $0.config.responseTransformers.clear()
+      
+      - SeeAlso: `addContentTransformer`
     */
     public var responseTransformers: TransformerSequence = TransformerSequence()
+    
+    /**
+      A convenience to add a one-off content transformer. Useful for transformers that create model objects. Example:
+      
+          $0.config.addContentTransformer { MyModel(json: $0) }
+    */
+    public mutating func addContentTransformer<I,O>(processor: ResponseContentTransformer<I,O>.Processor)
+        {
+        responseTransformers.add(
+            ResponseContentTransformer(processor: processor))
+        }
     
     /**
       An optional store to maintain the state of resources between app launches.

@@ -252,42 +252,99 @@ class ResponseDataHandlingSpec: ResourceSpecBase
         
         describe("custom transformer")
             {
-            let transformer = specVar { TestTransformer() }
-            
-            beforeEach
+            context("using ResponseTransformer protocol")
                 {
-                service().configure
-                    { $0.config.responseTransformers.add(transformer()) }
-                }
-            
-            it("can transform data")
-                {
-                stubText("greetings")
-                expect(resource().latestData?.content as? String).to(equal("greetings processed"))
-                expect(transformer().callCount).to(equal(1))
-                }
-            
-            it("can transform errors")
-                {
-                stubReqest(resource, "GET").andReturn(401)
-                awaitFailure(resource().load())
-                expect(resource().latestError?.userMessage).to(equal("Unauthorized processed"))
-                expect(transformer().callCount).to(equal(1))
-                }
-            
-            it("does not reprocess existing data on 304")
-                {
-                stubText("ahoy")
-
-                LSNocilla.sharedInstance().clearStubs()
-                stubReqest(resource, "GET").andReturn(304)
-                awaitNotModified(resource().load())
+                let transformer = specVar { TestTransformer() }
                 
-                expect(resource().latestData?.content as? String).to(equal("ahoy processed"))
-                expect(transformer().callCount).to(equal(1))
+                beforeEach
+                    {
+                    service().configure
+                        { $0.config.responseTransformers.add(transformer()) }
+                    }
+                
+                it("can transform data")
+                    {
+                    stubText("greetings")
+                    expect(resource().latestData?.content as? String).to(equal("greetings processed"))
+                    expect(transformer().callCount).to(equal(1))
+                    }
+                
+                it("can transform errors")
+                    {
+                    stubReqest(resource, "GET").andReturn(401)
+                    awaitFailure(resource().load())
+                    expect(resource().latestError?.userMessage).to(equal("Unauthorized processed"))
+                    expect(transformer().callCount).to(equal(1))
+                    }
+                
+                it("does not reprocess existing data on 304")
+                    {
+                    stubText("ahoy")
+
+                    LSNocilla.sharedInstance().clearStubs()
+                    stubReqest(resource, "GET").andReturn(304)
+                    awaitNotModified(resource().load())
+                    
+                    expect(resource().latestData?.content as? String).to(equal("ahoy processed"))
+                    expect(transformer().callCount).to(equal(1))
+                    }
+                }
+            
+            context("using closure")
+                {
+                beforeEach
+                    {
+                    service().configure
+                        {
+                        $0.config.addContentTransformer
+                            { TestModel(name: $0.content) }
+                        }
+                    }
+                    
+                it("can transform data")
+                    {
+                    stubText("Fred")
+                    let model = resource().latestData?.content as? TestModel
+                    expect(model?.name).to(equal("Fred"))
+                    }
+                
+                it("leaves errors untouched")
+                    {
+                    stubReqest(resource, "GET").andReturn(500)
+                        .withHeader("Content-Type", "text/plain")
+                        .withBody("I am not a model")
+                    awaitFailure(resource().load())
+                    expect(resource().latestData?.content).to(beNil())
+                    expect(resource().latestError?.text).to(equal("I am not a model"))
+                    }
+                
+                it("infers input type and treats wrong type as an error")
+                    {
+                    stubReqest(resource, "GET")
+                        .andReturn(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{}")
+                    awaitFailure(resource().load())
+                    expect(resource().latestData?.content is TestModel).to(beFalse())
+                    }
+                
+                it("infers output type and skips content if already transformed")
+                    {
+                    service().configure
+                        {
+                        $0.config.addContentTransformer
+                            {
+                            (content: String, entity: Entity) in
+                            return TestModel(name: "should not be called")
+                            }
+                        }
+                    stubText("Fred")
+                    let model = resource().latestData?.content as? TestModel
+                    expect(model?.name).to(equal("Fred"))
+                    }
                 }
             }
-        
+
         describe("contentAsType()")
             {
             it("returns content if present")
@@ -356,4 +413,12 @@ private class TestTransformer: ResponseTransformer
                 return .Failure(error)
             }
         }
+    }
+
+private struct TestModel
+    {
+    let name: String
+    
+    init(name: String)
+        { self.name = name }
     }
