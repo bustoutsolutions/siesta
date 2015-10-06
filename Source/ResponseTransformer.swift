@@ -138,34 +138,45 @@ public struct TransformerSequence
 // MARK: Data transformer plumbing
 
 /**
-  A utility flavor of `ResponseTransformer` that deals only with the response entity (whether success or failure), and
-  does not touch the surrounding error metadata (if any).
+  A simplified `ResponseTransformer` that deals only with the content of the response entity, and does not touch the
+  surrounding metadata.
 
-  To use, implement this protocol and override the `processEntity(_:)` method.
+  If the input entity’s content does not match the `InputContentType`, the response is an error.
+  If `processContent(_:)` throws, the response is transformed to an error.
 */
-public protocol ResponseEntityTransformer: ResponseTransformer
+public struct ResponseContentTransformer<InputContentType,OutputContentType>: ResponseTransformer
     {
-    /**
-      Implementations will typically override this method.
-      
-      Return `.Success` if the parsing succeeded, `.Failure` if it failed. See the default implementation of
-      `processError(_:)` for information about what happens to this method’s return value when the underlying response
-      is a failure.
-    */
-    func processEntity(entity: Entity) -> Response
+    /// A closure that both processes the content and describes the required input and output types.
+    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
+    
+    private let processor: Processor
+    private let skipWhenEntityMatchesOutputType: Bool
+    private let transformErrors: Bool
     
     /**
-      Implementations typically do not override this method, but they can if they wish to apply special processing to
-      errors. For example, an implementation might want to leave errors untouched, regardless of content type, and only
-      apply processing on success.
+      - Parameter skipWhenEntityMatchesOutputType:
+          When true, if the input content already matches `OutputContentType`, the transformer does nothing.
+          When false, the tranformer always attempts to parse its input.
+          Default is true.
+      - Parameter transformErrors:
+          When true, apply the transformation to `Error.content` (if present).
+          When false, only parse success responses.
+          Default is false.
+      - Parameter processor:
+          The transformation logic.
     */
-    func processError(error: Error) -> Response
-    }
+    public init(
+            skipWhenEntityMatchesOutputType: Bool = true,
+            transformErrors: Bool = false,
+            processor: Processor)
+        {
+        self.skipWhenEntityMatchesOutputType = skipWhenEntityMatchesOutputType
+        self.transformErrors = transformErrors
+        self.processor = processor
+        }
 
-public extension ResponseEntityTransformer
-    {
     /// :nodoc:
-    final func process(response: Response) -> Response
+    public func process(response: Response) -> Response
         {
         switch response
             {
@@ -177,15 +188,40 @@ public extension ResponseEntityTransformer
             }
         }
     
-    /// Returns success with the entity unchanged.
-    func processEntity(entity: Entity) -> Response
-        { return .Success(entity) }
-
-    /// Attempt to process error’s `content` entity using `processEntity(_:)`. If the processing succeeded, replace the
-    /// content of the error. If there was a processing error, log it but preserve the original error.
-    func processError(var error: Error) -> Response
+    private func processEntity(var entity: Entity) -> Response
         {
-        if let errorData = error.entity
+        if skipWhenEntityMatchesOutputType && entity.content is OutputContentType
+            {
+            debugLog(.ResponseProcessing, [self, "ignoring content because it is already a \(OutputContentType.self)"])
+            return .Success(entity)
+            }
+        
+        guard let typedContent = entity.content as? InputContentType else
+            {
+            return logTransformation(
+                .Failure(Error(
+                    userMessage: "Cannot parse server response",
+                    debugMessage: "Wrong type in transformer pipeline: "
+                                + "expected \(InputContentType.self), but got \(entity.content.dynamicType)")))
+            }
+        
+        do  {
+            let result = try processor(content: typedContent, entity: entity)
+            entity.content = result
+            return .Success(entity)
+            }
+        catch
+            {
+            return logTransformation(
+                .Failure(Error(
+                    userMessage: "Cannot parse server response",
+                    error: error as NSError)))
+            }
+        }
+
+    private func processError(var error: Error) -> Response
+        {
+        if let errorData = error.entity where transformErrors
             {
             switch processEntity(errorData)
                 {
@@ -200,123 +236,50 @@ public extension ResponseEntityTransformer
         }
     }
 
-public extension ResponseTransformer
-    {
-    /// Utility method to downcast the given entity’s content, or return an error response if the content object is of
-    /// the wrong type.
-    func downcastContent<T>(
-            entity: Entity,
-            @noescape process: T -> Response)
-        -> Response
-        {
-        if let typedContent = entity.content as? T
-            {
-            return process(typedContent)
-            }
-        else
-            {
-            return logTransformation(
-                .Failure(Error(
-                    userMessage: "Cannot parse response",
-                    debugMessage: "Expected \(T.self), but got \(entity.content.dynamicType)")))
-            }
-        }
-    }
-
 // MARK: Transformers for standard types
 
-/// Parses an `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
-public struct TextResponseTransformer: ResponseEntityTransformer
+/// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
+public let textResponseTransformer = ResponseContentTransformer(transformErrors: true)
     {
-    /// :nodoc:
-    public func processEntity(entity: Entity) -> Response
+    (content: NSData, entity: Entity) throws -> String in
+
+    let charsetName = entity.charset ?? "ISO-8859-1"
+    let encoding = CFStringConvertEncodingToNSStringEncoding(
+        CFStringConvertIANACharSetNameToEncoding(charsetName))
+    
+    guard encoding != UInt(kCFStringEncodingInvalidId) else
         {
-        if entity.content is String
-            {
-            debugLog(.ResponseProcessing, [self, "ignoring content because it is already a String"])
-            return .Success(entity)
-            }
+        throw Error(
+            userMessage: "Cannot parse text response",
+            debugMessage: "Invalid encoding: \(charsetName)")
+        }
         
-        return downcastContent(entity)
-            {
-            (nsdata: NSData) in
-            
-            let charsetName = entity.charset ?? "ISO-8859-1"
-            let encoding = CFStringConvertEncodingToNSStringEncoding(
-                CFStringConvertIANACharSetNameToEncoding(charsetName))
-            
-            if encoding == UInt(kCFStringEncodingInvalidId)
-                {
-                return logTransformation(
-                    .Failure(Error(
-                        userMessage: "Cannot parse text response",
-                        debugMessage: "Invalid encoding: \(charsetName)")))
-                }
-            else if let string = NSString(data: nsdata, encoding: encoding) as? String
-                {
-                var newEntity = entity
-                newEntity.content = string
-                return logTransformation(
-                    .Success(newEntity))
-                }
-            else
-                {
-                return logTransformation(
-                    .Failure(Error(
-                        userMessage: "Cannot parse text response",
-                        debugMessage: "Using encoding: \(charsetName)")))
-                }
-            }
+    guard let string = NSString(data: content, encoding: encoding) as? String else
+        {
+        throw Error(
+            userMessage: "Cannot parse text response",
+            debugMessage: "Using encoding: \(charsetName)")
         }
+    
+    return string
     }
 
-/// Parses an `NSData` content as JSON, outputting either a dictionary or an array.
-public struct JSONResponseTransformer: ResponseEntityTransformer
+/// Parses `NSData` content as JSON, outputting either a dictionary or an array.
+public let JSONResponseTransformer = ResponseContentTransformer(
+        transformErrors: true,
+        skipWhenEntityMatchesOutputType: false)
     {
-    /// :nodoc:
-    public func processEntity(entity: Entity) -> Response
-        {
-        return downcastContent(entity)
-            {
-            (nsdata: NSData) in
+    (content: NSData, entity: Entity) throws -> AnyObject in
 
-            do  {
-                var newEntity = entity
-                newEntity.content = try NSJSONSerialization.JSONObjectWithData(nsdata, options: [])
-                return logTransformation(
-                    .Success(newEntity))
-                }
-            catch
-                {
-                return logTransformation(
-                    .Failure(Error(userMessage: "Cannot parse JSON", error: error as NSError)))
-                }
-            }
-        }
+    return try NSJSONSerialization.JSONObjectWithData(content, options: [])
     }
 
-/// Attempts to parse responses as images, yielding a `UIImage`.
-public struct ImageResponseTransformer: ResponseEntityTransformer
+/// Parses `NSData` content as an image, yielding a `UIImage`.
+public let imageResponseTransformer = ResponseContentTransformer
     {
-    /// :nodoc:
-    public func processEntity(entity: Entity) -> Response
-        {
-        return downcastContent(entity)
-            {
-            (nsdata: NSData) in
-            
-            if let image = UIImage(data: nsdata)
-                {
-                var newEntity = entity
-                newEntity.content = image
-                return logTransformation(
-                    .Success(newEntity))
-                }
-            else
-                {
-                return logTransformation(
-                    .Failure(Error(userMessage: "Cannot decode image")))
-                }
-            }
-        }
+    (content: NSData, entity: Entity) throws -> UIImage in
+
+    guard let image = UIImage(data: content) else
+        { throw Error(userMessage: "Cannot decode image") }
+    return image
     }

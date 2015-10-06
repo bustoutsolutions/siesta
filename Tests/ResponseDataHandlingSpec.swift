@@ -153,9 +153,20 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
-                expect(resource().latestError?.userMessage).to(equal("Cannot parse JSON"))
+                expect(resource().latestError?.userMessage).to(equal("Cannot parse server response"))
                 expect(resource().latestError?.nsError?.domain).to(equal("NSCocoaErrorDomain"))
                 expect(resource().latestError?.nsError?.code).to(equal(3840))
+                }
+            
+            it("treats top-level JSON that is not a dictionary or array as an error")
+                {
+                for atom in ["17", "\"foo\"", "null"]
+                    {
+                    stubReqest(resource, "GET").andReturn(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(atom)
+                    awaitFailure(resource().load())
+                    }
                 }
             
             it("transforms error responses")
