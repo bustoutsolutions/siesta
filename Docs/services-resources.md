@@ -6,13 +6,13 @@ Services and resources are the heart of Siesta.
 
 A [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html) represents an API, that is, a set of related resources which tend to share common rules about request and response structure, authentication, and other conventions.
 
-You’ll typically create a `Service` singleton for each API your app uses:
+Create a single `Service` instance for each API your app uses:
 
 ```swift
 let myAPI = Service(base: "https://api.example.com")  // global var
 ```
 
-You don’t necessarily need to make it a singleton, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource is working with the same object, and receives the same notifications. That happens within the context of one `Service` instance.
+You don’t necessarily need to make it a singleton as in this example, but don’t just instantiate `Service` willy-nilly. Make sure there’s one instance that all the interested parties share. Much of the benefit of Siesta comes from the fact that all code using the same RESTful resource is working with the same object, and receives the same notifications. That happens within the context of one `Service` instance.
 
 Although it’s not strictly necessary, it can be pleasant to subclass `Service` to add convenience accessors for commonly used resources:
 
@@ -60,7 +60,7 @@ myAPI.resource("/items").child("123/detail")
 myAPI.resource("/items").relative("./123/detail")
 myAPI.resource("/items/456").relative("./123/detail")
 myAPI.resource("/items/456/detail").relative("../123/detail")
-myAPI.resource("/doodads").relative("/items/123/detail")
+myAPI.resource("/doodads/etc").relative("/items/123/detail")
 ```
 
 For more details, see the documentation for [`child(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_) and [`relative(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_), and the [related specs](https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec).

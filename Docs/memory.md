@@ -72,7 +72,7 @@ Observers have owners.
 
 Ownership affects the observer lifecycle.
 
-* A resource keeps a strong reference to an observer as long as it has owners other than itself.
+* A resource keeps a strong reference to an observer as long as the observer has owners other than itself.
 * An observer stops observing a resource as soon as all of its owners have either been deallocated or explicitly removed.
 
 Observers affect the resource lifecycle.
