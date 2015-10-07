@@ -42,9 +42,9 @@ You need to display response data whenever it arrives. Unless the requesting scr
 
 You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds.
 
-Be sure to avoid redundant requests — and redundant response deserialization. Deserialization should be on a background thread, of course. Oh, and remember not to retain your ViewController / model / helper thingy by accident in your callback closures. Unless you're supposed to.
+Be sure to avoid redundant requests — and redundant response deserialization. Deserialization should be on a background thread, of course. Oh, and remember not to retain your ViewController / model / helper thingy by accident in your callback closures. Unless you’re supposed to.
 
-Naturally you'll want to rewrite all of this from scratch in a slightly different ad hoc way for every project you create.
+Naturally you’ll want to rewrite all of this from scratch in a slightly different ad hoc way for every project you create.
 
 What could possibly go wrong?
 
@@ -300,7 +300,7 @@ Popular REST / networking frameworks have different primary goals:
 
 Which one is right for your project? It depends on your needs and your tastes.
 
-Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you're also signing up for Alamofire.
+Siesta has robust functionality, but does not attempt to solve everything. In particular, Moya and RestKit address complementary / alternative concerns, while Alamofire and AFNetworking provide more robust low-level HTTP support. Further complicating a comparison, some frameworks are built on top of others. When you use Moya, for example, you’re also signing up for Alamofire.
 
 With all that in mind, here is a capabilities comparison¹:
 
