@@ -10,20 +10,29 @@ import UIKit
 import Siesta
 
 class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserver {
-
+    
     @IBOutlet weak var userInfoView: UIView!
     @IBOutlet weak var usernameLabel, fullNameLabel: UILabel!
-    var repoListVC: RepositoryListViewController?
-    
+    @IBOutlet weak var avatar: RemoteImageView!
     var statusOverlay = ResourceStatusOverlay()
     
-    var user: Resource?
+    var repoListVC: RepositoryListViewController?
+    
+    var user: Resource? {
+        didSet {
+            oldValue?.removeObservers(ownedBy: self)
+            oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
+            
+            user?.addObserver(self)
+                 .addObserver(statusOverlay, owner: self)
+                 .loadIfNeeded()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         userInfoView.hidden = true
-        
         statusOverlay.embedIn(self)
     }
     
@@ -31,15 +40,9 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         statusOverlay.positionToCover(userInfoView)
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        user?.removeObservers(ownedBy: self)
-        user = nil
-        
-        if let searchText = searchBar.text {
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        if let searchText = searchBar.text where !searchText.isEmpty {
             user = GithubAPI.user(searchText)
-            user?.addObserver(self)
-                 .addObserver(statusOverlay, owner: self)
-                 .loadIfNeeded()
         }
     }
     
@@ -49,6 +52,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         let user = resource.json
         usernameLabel.text = user["login"].string
         fullNameLabel.text = user["name"].string
+        avatar.imageURL = user["avatar_url"].string
 
         repoListVC?.repoList = resource
             .optionalRelative(user["repos_url"].string)?
@@ -60,10 +64,6 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         if segue.identifier == "repoList" {
             repoListVC = segue.destinationViewController as? RepositoryListViewController
         }
-    }
-    
-    @IBAction func reload() {
-        user?.load()
     }
 }
 

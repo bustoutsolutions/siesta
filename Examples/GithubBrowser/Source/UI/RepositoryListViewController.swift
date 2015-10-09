@@ -14,6 +14,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     var repoList: Resource? {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
+            
             repoList?.addObserver(self)
                      .addObserver(statusOverlay, owner: self)
                      .loadIfNeeded()
@@ -61,3 +62,4 @@ class RepositoryTableViewCell: UITableViewCell {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var repoLabel: UILabel!
 }
+

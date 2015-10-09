@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -27,47 +28,63 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJC-L8-r00">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KS0-Pc-VxH">
-                                        <rect key="frame" x="8" y="8" width="304" height="27"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="500" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KS0-Pc-VxH">
+                                        <rect key="frame" x="67.5" y="8" width="244" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-zw-Ish">
-                                        <rect key="frame" x="8" y="38" width="304" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Full Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-zw-Ish">
+                                        <rect key="frame" x="67.5" y="38" width="244" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repositories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeL-3G-W27">
-                                        <rect key="frame" x="8" y="76" width="304" height="16"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0y-kz-MFs">
-                                        <rect key="frame" x="0.0" y="100" width="320" height="316"/>
+                                        <rect key="frame" x="0.0" y="68" width="320" height="347.5"/>
                                         <connections>
                                             <segue destination="H7B-67-Vbu" kind="embed" identifier="repoList" id="jSl-UQ-Hfa"/>
                                         </connections>
                                     </containerView>
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGJ-OZ-pEy">
+                                        <rect key="frame" x="0.0" y="68" width="320" height="0.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.33000000000000002" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="aNQ-Rn-Znh"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="QAt-hl-bGg" customClass="RemoteImageView" customModule="Siesta">
+                                        <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="QAt-hl-bGg" secondAttribute="height" multiplier="1:1" id="ODz-qc-6gV"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="QeL-3G-W27" firstAttribute="width" secondItem="gc6-zw-Ish" secondAttribute="width" id="03s-AS-4p8"/>
                                     <constraint firstItem="gc6-zw-Ish" firstAttribute="top" secondItem="KS0-Pc-VxH" secondAttribute="bottom" constant="4" id="2gd-SK-auV"/>
-                                    <constraint firstItem="QeL-3G-W27" firstAttribute="top" secondItem="gc6-zw-Ish" secondAttribute="bottom" constant="17.5" id="4KP-WV-XCp"/>
+                                    <constraint firstItem="QAt-hl-bGg" firstAttribute="leading" secondItem="hJC-L8-r00" secondAttribute="leadingMargin" id="4tN-6W-uHT"/>
+                                    <constraint firstItem="QAt-hl-bGg" firstAttribute="top" secondItem="hJC-L8-r00" secondAttribute="topMargin" id="65r-Vk-n44"/>
                                     <constraint firstAttribute="trailing" secondItem="e0y-kz-MFs" secondAttribute="trailing" id="CVY-Hy-ewl"/>
-                                    <constraint firstItem="QeL-3G-W27" firstAttribute="leading" secondItem="gc6-zw-Ish" secondAttribute="leading" id="HlG-ip-b6Z"/>
+                                    <constraint firstItem="KS0-Pc-VxH" firstAttribute="leading" secondItem="QAt-hl-bGg" secondAttribute="trailing" constant="10" id="DfQ-Pb-WYV"/>
+                                    <constraint firstItem="e0y-kz-MFs" firstAttribute="top" secondItem="QAt-hl-bGg" secondAttribute="bottom" constant="10" id="EWa-ZQ-3Ab"/>
                                     <constraint firstAttribute="bottom" secondItem="e0y-kz-MFs" secondAttribute="bottom" id="Hsp-fY-QCO"/>
-                                    <constraint firstItem="e0y-kz-MFs" firstAttribute="top" secondItem="QeL-3G-W27" secondAttribute="bottom" constant="8" id="ah0-LQ-xNE"/>
+                                    <constraint firstAttribute="trailing" secondItem="XGJ-OZ-pEy" secondAttribute="trailing" id="NqP-9y-qR7"/>
+                                    <constraint firstItem="e0y-kz-MFs" firstAttribute="top" secondItem="XGJ-OZ-pEy" secondAttribute="top" id="YFu-q4-weP"/>
                                     <constraint firstItem="KS0-Pc-VxH" firstAttribute="top" secondItem="hJC-L8-r00" secondAttribute="topMargin" id="c7c-14-WN4"/>
+                                    <constraint firstItem="e0y-kz-MFs" firstAttribute="top" secondItem="gc6-zw-Ish" secondAttribute="bottom" constant="10" id="g7E-wc-Pl2"/>
                                     <constraint firstItem="e0y-kz-MFs" firstAttribute="leading" secondItem="hJC-L8-r00" secondAttribute="leading" id="mFz-J3-eqK"/>
                                     <constraint firstItem="gc6-zw-Ish" firstAttribute="leading" secondItem="KS0-Pc-VxH" secondAttribute="leading" id="oCc-ac-Q9o"/>
+                                    <constraint firstItem="XGJ-OZ-pEy" firstAttribute="leading" secondItem="hJC-L8-r00" secondAttribute="leading" id="oFZ-l2-QAD"/>
                                     <constraint firstItem="gc6-zw-Ish" firstAttribute="width" secondItem="KS0-Pc-VxH" secondAttribute="width" id="rek-Oh-psr"/>
                                     <constraint firstItem="KS0-Pc-VxH" firstAttribute="leading" secondItem="hJC-L8-r00" secondAttribute="leadingMargin" id="vip-xz-2oF"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="KS0-Pc-VxH" secondAttribute="trailing" id="wfl-ew-alK"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="vip-xz-2oF"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -84,6 +101,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="480"/>
                     <connections>
+                        <outlet property="avatar" destination="QAt-hl-bGg" id="mNM-xK-oR6"/>
                         <outlet property="fullNameLabel" destination="gc6-zw-Ish" id="vpg-DI-mJl"/>
                         <outlet property="userInfoView" destination="hJC-L8-r00" id="SiM-EV-pLQ"/>
                         <outlet property="usernameLabel" destination="KS0-Pc-VxH" id="PXy-cK-38m"/>

@@ -8,6 +8,8 @@
 
 import Siesta
 
+let GithubAPI = _GithubAPI()
+
 class _GithubAPI: Service {
 
     private init() {
@@ -15,7 +17,27 @@ class _GithubAPI: Service {
         
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.common
+                // Also try:
+                //   LogCategory.all
+                //   [.Network]
+                //   [.Network, .NetworkDetails]
         #endif
+        
+        configure {
+            $0.config.headers["Authorization"] = self.basicAuthHeader
+            $0.config.responseTransformers.add(GithubErrorMessageExtractor())
+        }
+    }
+    
+    private var basicAuthHeader: String? {
+        let env = NSProcessInfo.processInfo().environment
+        if let username = env["GITHUB_USER"],
+           let password = env["GITHUB_PASS"],
+           let auth = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding) {
+            return "Basic \(auth.base64EncodedStringWithOptions([]))"
+        } else {
+            return nil
+        }
     }
     
     // Resource convenience accessors
@@ -25,5 +47,15 @@ class _GithubAPI: Service {
     }
 }
 
-let GithubAPI = _GithubAPI()
-
+private struct GithubErrorMessageExtractor: ResponseTransformer {
+    func process(response: Response) -> Response {
+        switch response {
+            case .Success:
+                return response
+            
+            case .Failure(var error):
+                error.userMessage = error.json["message"].string ?? error.userMessage
+                return .Failure(error)
+        }
+    }
+}
