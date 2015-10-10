@@ -396,8 +396,9 @@ public final class Resource: NSObject
             {
             // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
             let charsToEscape = ":#[]@!$&'()*+,;="
-            return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, charsToEscape, CFStringBuiltInEncodings.UTF8.rawValue)
-                as String
+            let charSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
+            charSet.removeCharactersInString(charsToEscape)
+            return string.stringByAddingPercentEncodingWithAllowedCharacters(charSet)!
             }
         
         let paramString =
