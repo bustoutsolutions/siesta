@@ -51,9 +51,14 @@
       </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
+            key = "Siesta_DelayAfterEachSpec"
+            value = "$(Siesta_DelayAfterEachSpec)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "Siesta_TestMultipleNetworkProviders"
-            value = "1"
-            isEnabled = "NO">
+            value = "$(Siesta_TestMultipleNetworkProviders)"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
