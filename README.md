@@ -2,10 +2,11 @@
 
 **iOS REST Client Framework**
 
-<!-- [![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg?branch=master)](https://travis-ci.org/bustoutsolutions/siesta) Disabled until Travis fixes spurious XC7 build failures -->
+[![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg?branch=master)](https://travis-ci.org/bustoutsolutions/siesta)
 [![CocoaPods](https://img.shields.io/cocoapods/v/Siesta.svg)]()
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/Carthage/Carthage)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+[![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-lightgrey.svg)](https://twitter.com/siestaframework)
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
