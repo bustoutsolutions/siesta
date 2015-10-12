@@ -318,7 +318,7 @@ public class Service: NSObject
         }
 
     /**
-      Wipes the state of this service’s resources matching on URLs instead of `Resource` instances.
+      Wipes the state of a subset of this service’s resources, matching based on URLs (instead of `Resource` instances).
       
       Useful for making shared predicates that you can pass to both `configure(_:)` and this method.
     */
