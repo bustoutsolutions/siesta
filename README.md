@@ -6,15 +6,15 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/Siesta.svg)](https://github.com/bustoutsolutions/siesta/releases)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/bustoutsolutions/siesta/releases)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
-[![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-lightgrey.svg)](https://twitter.com/siestaframework)
+[![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
 * **OS:** iOS 8+
-* **Languages:** Written in Swift, supports Swift and Objective-C
-* **Build requirements:** Xcode 7, Swift 2.0, Carthage
+* **Languages:** Written in Swift, supports apps in both Swift and Objective-C
+* **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
-* **Status:** 1.0 release now in beta. Seeking feedback. Please experiment!
+* **Status:** 1.0 release now in beta. Seeking feedback. Please experiment, file issues, and send pull requests. Be bold!
 
 ###Contents
 

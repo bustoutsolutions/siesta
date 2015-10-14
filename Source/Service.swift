@@ -30,7 +30,7 @@ public class Service: NSObject
       - Parameter useDefaultTransformers:
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
-      - Parameter networkingProvider:
+      - Parameter networking:
           The handler to use for networking. The default is an NSURLSession with its default configuration. You can
           pass an `NSURLSession`, `NSURLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
