@@ -19,7 +19,7 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
 
       Implementations **must** guarante that they will call the given response closure exactly once.
       
-      If the request is cancelled, call the response closure with an `NSError`.
+      If the request is cancelled, call the response closure with an error.
     */
     func startRequest(
             request: NSURLRequest,
@@ -62,7 +62,7 @@ public struct RequestTransferMetrics
     }
 
 /// Siesta passes this callback to a `NetworkingProvider` implementation to call when the underlying network request is complete.
-public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?) -> Void
+public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?) -> Void
 
 /**
   A convenience to turn create the appropriate `NetworkingProvider` for a variety of networking configuration objects.

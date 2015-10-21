@@ -46,7 +46,7 @@ public struct AlamofireProvider: NetworkingProvider
                 .response
                     {
                     req, res, body, error in
-                    completion(nsres: res, body: body, nserror: error as? NSError)
+                    completion(nsres: res, body: body, error: error)
                     })
         }
     }

@@ -412,7 +412,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
-                expect(resource().latestError?.nsError).to(equal(sampleError))
+                expect(resource().latestError?.cause as? NSError).to(equal(sampleError))
                 }
             
             // Testing all these HTTP codes individually because Apple likes

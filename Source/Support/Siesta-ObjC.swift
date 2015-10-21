@@ -88,7 +88,7 @@ internal extension Entity
 public class _objc_Error: NSObject
     {
     public var httpStatusCode: Int
-    public var nsError: NSError?
+    public var cause: NSError?
     public var userMessage: String
     public var entity: _objc_Entity?
     public let timestamp: NSTimeInterval
@@ -96,7 +96,7 @@ public class _objc_Error: NSObject
     internal init(_ error: Error)
         {
         self.httpStatusCode = error.httpStatusCode ?? -1
-        self.nsError        = error.nsError
+        self.cause          = error.cause as? NSError
         self.userMessage    = error.userMessage
         self.timestamp      = error.timestamp
         if let errorData = error.entity

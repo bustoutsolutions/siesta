@@ -214,8 +214,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             {
             return logTransformation(
                 .Failure(Error(
-                    userMessage: "Cannot parse server response",
-                    error: error as NSError)))
+                    userMessage: "Cannot parse server response", cause: error)))
             }
         }
 

@@ -375,7 +375,7 @@ public final class Resource: NSObject
             // but we catch the exception anyway instead of using try! and crashing.
             
             return FailedRequest(
-                Error(userMessage: "Cannot encode JSON", error: error as NSError))
+                Error(userMessage: "Cannot encode JSON", cause: error))
             }
         }
     
@@ -422,7 +422,7 @@ public final class Resource: NSObject
             {
             return FailedRequest(Error(
                 userMessage: "Unable to send request",
-                error: error as NSError))
+                cause: error))
             }
         }
     

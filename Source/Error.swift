@@ -20,7 +20,7 @@
   `Error` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
   even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. NSError-based, for example, because
-  network implementations may sometimes provide _both_ an NSError _and_ an HTTP diagnostic.
+  network implementations may sometimes provide _both_ an underlying NSError _and_ an HTTP diagnostic.
 
   The one ironclad guarantee that `Error` makes is the presence of a `userMessage`.
 */
@@ -38,8 +38,8 @@ public struct Error: ErrorType
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
     public var entity: Entity?
     
-    /// Diagnostic information if the error originated or was reported locally.
-    public var nsError: NSError?
+    /// Details about the underlying error.
+    public var cause: ErrorType?
     
     /// The time at which the error occurred.
     public let timestamp: NSTimeInterval = now()
@@ -53,18 +53,18 @@ public struct Error: ErrorType
     public init(
             _ response: NSHTTPURLResponse?,
             _ content: AnyObject?,
-            _ error: NSError?,
+            _ cause: ErrorType?,
             userMessage: String? = nil)
         {
         self.httpStatusCode = response?.statusCode
-        self.nsError = error
+        self.cause = cause
         
         if let content = content
             { self.entity = Entity(response, content) }
         
         if let message = userMessage
             { self.userMessage = message }
-        else if let message = error?.localizedDescription
+        else if let message = (cause as? NSError)?.localizedDescription
             { self.userMessage = message }
         else if let code = self.httpStatusCode
             { self.userMessage = NSHTTPURLResponse.localizedStringForStatusCode(code).capitalizedFirstCharacter }
@@ -73,21 +73,21 @@ public struct Error: ErrorType
         }
     
     /**
-        Initializes the error using an `NSError`.
+        Initializes the error using an underlying error.
     */
     public init(
             userMessage: String,
-            error: NSError? = nil,
+            cause: ErrorType? = nil,
             entity: Entity? = nil)
         {
         self.userMessage = userMessage
-        self.nsError = error
+        self.cause = cause
         self.entity = entity
         }
 
     /**
         Convenience to create a custom error with an user & debug messages. The `debugMessage` parameter is
-        wrapped in the `nsError` property.
+        wrapped in the `cause` property as an `NSError`.
     */
     public init(
             userMessage: String,
@@ -95,13 +95,16 @@ public struct Error: ErrorType
             entity: Entity? = nil)
         {
         let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
-        self.init(userMessage: userMessage, error: nserror, entity: entity)
+        self.init(userMessage: userMessage, cause: nserror, entity: entity)
         }
     
     /// True if this error represents a cancelled request
     public var isCancellation: Bool
         {
-        return nsError?.domain == NSURLErrorDomain
-            && nsError?.code == NSURLErrorCancelled
+        guard let nsError = cause as? NSError else
+            { return false }
+        
+        return nsError.domain == NSURLErrorDomain
+            && nsError.code == NSURLErrorCancelled
         }
     }

@@ -104,8 +104,8 @@ extension Error
         var result = "\n" + indent + "userMessage:    \(debugStr(userMessage, consolidateWhitespace: true, truncate: 80))"
         if httpStatusCode != nil
             { result += "\n" + indent + "httpStatusCode: \(debugStr(httpStatusCode))" }
-        if nsError != nil
-            { result += "\n" + indent + "nsError:        \(debugStr(userMessage, consolidateWhitespace: true))" }
+        if cause != nil
+            { result += "\n" + indent + "cause:          \(debugStr(cause, consolidateWhitespace: true))" }
         if let entity = entity
             { result += "\n" + indent + "entity:" + entity.dump(indent + "  ") }
         return result

@@ -154,8 +154,10 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
                 expect(resource().latestError?.userMessage).to(equal("Cannot parse server response"))
-                expect(resource().latestError?.nsError?.domain).to(equal("NSCocoaErrorDomain"))
-                expect(resource().latestError?.nsError?.code).to(equal(3840))
+                let nsError = resource().latestError?.cause as? NSError
+                expect(nsError).notTo(beNil())
+                expect(nsError?.domain).to(equal("NSCocoaErrorDomain"))
+                expect(nsError?.code).to(equal(3840))
                 }
             
             it("treats top-level JSON that is not a dictionary or array as an error")

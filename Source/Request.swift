@@ -204,7 +204,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             {
             res, data, err in
             dispatch_async(dispatch_get_main_queue())
-                { self.responseReceived(nsres: res, body: data, nserror: err) }
+                { self.responseReceived(nsres: res, body: data, error: err) }
             }
         
         return self
@@ -228,7 +228,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         broadcastResponse((
             response: .Failure(Error(
                 userMessage: "Request cancelled",
-                error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
+                cause: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
             isNew: true))
         }
     
@@ -341,15 +341,15 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // MARK: Response handling
     
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
-    private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, nserror: NSError?)
+    private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?)
         {
         underlyingNetworkRequestCompleted = true
         
-        debugLog(.Network, [nsres?.statusCode ?? nserror, "←", requestDescription])
+        debugLog(.Network, [nsres?.statusCode ?? error, "←", requestDescription])
         debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])
         debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
         
-        let responseInfo = interpretResponse(nsres, body, nserror)
+        let responseInfo = interpretResponse(nsres, body, error)
 
         if shouldIgnoreResponse(responseInfo.response)
             { return }
@@ -357,12 +357,12 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         transformResponse(responseInfo, then: broadcastResponse)
         }
     
-    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ nserror: NSError?)
+    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ error: ErrorType?)
         -> ResponseInfo
         {
-        if nsres?.statusCode >= 400 || nserror != nil
+        if nsres?.statusCode >= 400 || error != nil
             {
-            return (.Failure(Error(nsres, body, nserror)), true)
+            return (.Failure(Error(nsres, body, error)), true)
             }
         else if nsres?.statusCode == 304
             {

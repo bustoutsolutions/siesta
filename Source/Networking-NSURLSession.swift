@@ -27,7 +27,7 @@ public struct NSURLSessionProvider: NetworkingProvider
         -> RequestNetworking
         {
         let task = self.session.dataTaskWithRequest(request)
-            { completion(nsres: $1 as? NSHTTPURLResponse, body: $0, nserror: $2) }
+            { completion(nsres: $1 as? NSHTTPURLResponse, body: $0, error: $2) }
         return NSURLSessionRequestNetworking(task: task)
         }
     }
