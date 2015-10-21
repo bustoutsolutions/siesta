@@ -47,7 +47,8 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
   print "  #{src} → #{dst} "
 
   content = File.read(src, encoding: 'utf-8')
-  content.gsub! /^.*\[!\[.*\n/, ''  # remove badges
+  content.gsub! /^\[!\[.*\n/, ''  # remove badges
+  content.gsub! /^# <img [^>]*alt="([^"]+)"[^>]*>/, '# \1' # Turn README logo into text
 
   unless content =~ /^# (.*)/
       puts
