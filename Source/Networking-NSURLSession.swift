@@ -48,12 +48,14 @@ internal final class NSURLSessionRequestNetworking: RequestNetworking, SessionTa
 
 extension NSURLSession: NetworkingProviderConvertible
     {
+    /// You can pass an `NSURLSession` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
         { return NSURLSessionProvider(session: self) }
     }
 
 extension NSURLSessionConfiguration: NetworkingProviderConvertible
     {
+    /// You can pass an `NSURLSessionConfiguration` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
         { return NSURLSession(configuration: self).siestaNetworkingProvider }
     }

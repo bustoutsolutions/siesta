@@ -72,6 +72,7 @@ internal final class AlamofireRequestNetworking: RequestNetworking, SessionTaskC
 
 extension Alamofire.Manager: NetworkingProviderConvertible
     {
+    /// You can pass an `AlamoFire.Manager` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
         { return AlamofireProvider(manager: self) }
     }
