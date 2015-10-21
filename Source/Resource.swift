@@ -407,7 +407,11 @@ public final class Resource: NSObject
                 {
                 throw NSError(
                     domain: SiestaErrorDomain, code: -1,
-                    userInfo: [ NSLocalizedDescriptionKey: "Unable to URL-encode parameter, possibly due to unpaired Unicode surrogate chars", "Siesta.unencodableString": string ])
+                    userInfo:
+                        [
+                        NSLocalizedDescriptionKey: "Unable to URL-encode parameters, possibly due to unpaired Unicode surrogate chars",
+                        "\(SiestaErrorDomain).unencodableString": string
+                        ])
                 }
             return escaped
             }
