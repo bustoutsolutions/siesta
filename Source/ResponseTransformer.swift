@@ -200,7 +200,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             {
             return logTransformation(
                 .Failure(Error(
-                    userMessage: "Cannot parse server response",
+                    userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     debugMessage: "Wrong type in transformer pipeline: "
                                 + "expected \(InputContentType.self), but got \(entity.content.dynamicType)")))
             }
@@ -214,7 +214,8 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             {
             return logTransformation(
                 .Failure(Error(
-                    userMessage: "Cannot parse server response", cause: error)))
+                    userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
+                    cause: error)))
             }
         }
 
@@ -249,14 +250,14 @@ public let textResponseTransformer = ResponseContentTransformer(transformErrors:
     guard encoding != UInt(kCFStringEncodingInvalidId) else
         {
         throw Error(
-            userMessage: "Cannot parse text response",
+            userMessage: NSLocalizedString("Cannot parse text response", comment: "userMessage"),
             debugMessage: "Invalid encoding: \(charsetName)")
         }
         
     guard let string = NSString(data: content, encoding: encoding) as? String else
         {
         throw Error(
-            userMessage: "Cannot parse text response",
+            userMessage: NSLocalizedString("Cannot parse text response", comment: "userMessage"),
             debugMessage: "Using encoding: \(charsetName)")
         }
     
@@ -279,6 +280,6 @@ public let imageResponseTransformer = ResponseContentTransformer
     (content: NSData, entity: Entity) throws -> UIImage in
 
     guard let image = UIImage(data: content) else
-        { throw Error(userMessage: "Cannot decode image") }
+        { throw Error(userMessage: NSLocalizedString("Cannot decode image", comment: "userMessage")) }
     return image
     }

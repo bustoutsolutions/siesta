@@ -69,7 +69,7 @@ public struct Error: ErrorType
         else if let code = self.httpStatusCode
             { self.userMessage = NSHTTPURLResponse.localizedStringForStatusCode(code).capitalizedFirstCharacter }
         else
-            { self.userMessage = "Request failed" }   // Is this reachable?
+            { self.userMessage = NSLocalizedString("Request failed", comment: "userMessage") }   // Is this reachable?
         }
     
     /**

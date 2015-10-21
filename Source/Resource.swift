@@ -337,7 +337,7 @@ public final class Resource: NSObject
             {
             return FailedRequest(
                 Error(
-                    userMessage: "Unable to encode text",
+                    userMessage: NSLocalizedString("Unable to encode text", comment: "userMessage"),
                     debugMessage: "Cannot encode text body using \(encodingName)"))
             }
         }
@@ -360,7 +360,9 @@ public final class Resource: NSObject
         guard NSJSONSerialization.isValidJSONObject(json) else
             {
             return FailedRequest(
-                Error(userMessage: "Cannot encode JSON", debugMessage: "Not a valid JSON object"))
+                Error(
+                    userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
+                    debugMessage: "Not a valid JSON object"))
             }
         
         do  {
@@ -375,7 +377,9 @@ public final class Resource: NSObject
             // but we catch the exception anyway instead of using try! and crashing.
             
             return FailedRequest(
-                Error(userMessage: "Cannot encode JSON", cause: error))
+                Error(
+                    userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
+                    cause: error))
             }
         }
     
@@ -421,7 +425,7 @@ public final class Resource: NSObject
         catch
             {
             return FailedRequest(Error(
-                userMessage: "Unable to send request",
+                userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
                 cause: error))
             }
         }

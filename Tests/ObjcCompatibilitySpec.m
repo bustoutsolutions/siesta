@@ -136,7 +136,7 @@
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         BOSError *error = resource.latestError;
-        expect(error.userMessage).to(equal(@"Cannot encode JSON"));
+        expect(error.userMessage).to(equal(@"Cannot encode request"));
         expect(@(error.httpStatusCode)).to(equal(@-1));
         });
     

@@ -227,7 +227,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 
         broadcastResponse((
             response: .Failure(Error(
-                userMessage: "Request cancelled",
+                userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
                 cause: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
             isNew: true))
         }
@@ -374,7 +374,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 {
                 return(
                     .Failure(Error(
-                        userMessage: "No data",
+                        userMessage: NSLocalizedString("No data", comment: "userMessage"),
                         debugMessage: "Received HTTP 304, but resource has no existing data")),
                     true)
                 }
@@ -385,7 +385,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else
             {
-            return (.Failure(Error(userMessage: "Empty response")), true)
+            return (.Failure(Error(userMessage: NSLocalizedString("Empty response", comment: "userMessage"))), true)
             }
         }
     
