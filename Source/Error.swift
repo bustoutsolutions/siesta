@@ -94,7 +94,7 @@ public struct Error: ErrorType
             debugMessage: String,
             entity: Entity? = nil)
         {
-        let nserror = NSError(domain: "Siesta", code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
+        let nserror = NSError(domain: SiestaErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: debugMessage])
         self.init(userMessage: userMessage, cause: nserror, entity: entity)
         }
     
@@ -108,3 +108,6 @@ public struct Error: ErrorType
             && nsError.code == NSURLErrorCancelled
         }
     }
+
+/// Domain for NSErrors created by Siesta
+public let SiestaErrorDomain = "com.bustoutsolutions.Siesta"

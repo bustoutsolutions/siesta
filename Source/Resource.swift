@@ -406,7 +406,7 @@ public final class Resource: NSObject
             guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(charSet) else
                 {
                 throw NSError(
-                    domain: "Siesta", code: -1,
+                    domain: SiestaErrorDomain, code: -1,
                     userInfo: [ NSLocalizedDescriptionKey: "Unable to URL-encode parameter, possibly due to unpaired Unicode surrogate chars", "Siesta.unencodableString": string ])
                 }
             return escaped
