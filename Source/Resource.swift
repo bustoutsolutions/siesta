@@ -392,22 +392,38 @@ public final class Resource: NSObject
             requestMutation:   NSMutableURLRequest -> () = { _ in })
         -> Request
         {
-        func urlEscape(string: String) -> String
+        func urlEscape(string: String) throws -> String
             {
             // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
             let charsToEscape = ":#[]@!$&'()*+,;="
             let charSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
             charSet.removeCharactersInString(charsToEscape)
-            return string.stringByAddingPercentEncodingWithAllowedCharacters(charSet)!
+            
+            guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(charSet) else
+                {
+                throw NSError(
+                    domain: "Siesta", code: -1,
+                    userInfo: [ NSLocalizedDescriptionKey: "Unable to URL-encode parameter, possibly due to unpaired Unicode surrogate chars", "Siesta.unencodableString": string ])
+                }
+            return escaped
             }
         
-        let paramString =
-            params.map { urlEscape($0.0) + "=" + urlEscape($0.1) }
-                  .sort()
-                  .joinWithSeparator("&")
-        return request(method,
-            data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // ! reason: ASCII guaranteed safe because of escaping
-            contentType: "application/x-www-form-urlencoded")
+        do
+            {
+            let paramString = try
+                params.map { try urlEscape($0.0) + "=" + urlEscape($0.1) }
+                      .sort()
+                      .joinWithSeparator("&")
+            return request(method,
+                data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // Reason for !: ASCII guaranteed safe because of escaping
+                contentType: "application/x-www-form-urlencoded")
+            }
+        catch
+            {
+            return FailedRequest(Error(
+                userMessage: "Unable to send request",
+                error: error as NSError))
+            }
         }
     
     /**

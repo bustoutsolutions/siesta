@@ -214,24 +214,40 @@ class ResourceRequestsSpec: ResourceSpecBase
                         alreadyCompleted: true)
                     }
 
-                it("handles url-encoded param data")
+                context("with a URL-encoded body")
                     {
-                    stubReqest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("brown=cow&foo=bar&how=now")
-                        .andReturn(200)
+                    it("encodes parameters")
+                        {
+                        stubReqest(resource, "PATCH")
+                            .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                            .withBody("brown=cow&foo=bar&how=now")
+                            .andReturn(200)
 
-                    awaitNewData(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
-                    }
+                        awaitNewData(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
+                        }
 
-                it("escapes url-encoded param data")
-                    {
-                    stubReqest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
-                        .andReturn(200)
+                    it("escapes unsafe characters")
+                        {
+                        stubReqest(resource, "PATCH")
+                            .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                            .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
+                            .andReturn(200)
 
-                    awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
+                        awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
+                        }
+
+                    it("give request failure for unencodable strings")
+                        {
+                        let bogus = String(
+                            bytes: [0xD8, 0x00] as [UInt8],  // Unpaired surrogate char in UTF-16
+                            encoding: NSUTF16BigEndianStringEncoding)!
+                        
+                        for badParams in [[bogus: "foo"], ["foo": bogus]]
+                            {
+                            let req = resource().request(.PATCH, urlEncoded: badParams)
+                            awaitFailure(req, alreadyCompleted: true)
+                            }
+                        }
                     }
                 }
             }
