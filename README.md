@@ -1,4 +1,4 @@
-# Siesta
+# <img alt="Siesta" src="https://bustoutsolutions.github.io/siesta/images/logo@2x.png" width=256 height=88>
 
 **iOS REST Client Framework**
 
