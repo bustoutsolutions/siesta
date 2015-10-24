@@ -344,6 +344,40 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     let model = resource().latestData?.content as? TestModel
                     expect(model?.name).to(equal("Fred"))
                     }
+                
+                it("can throw a custom error")
+                    {
+                    service().configure
+                        {
+                        $0.config.responseTransformers.clear()
+                        $0.config.addContentTransformer
+                            {
+                            (_: NSData, _) -> String in
+                            throw CustomError()
+                            }
+                        }
+                    
+                    stubReqest(resource, "GET").andReturn(200).withBody("YUP")
+                    awaitFailure(resource().load())
+                    expect(resource().latestError?.cause is CustomError).to(beTrue())
+                    }
+
+                it("can throw a Siesta.Error")
+                    {
+                    service().configure
+                        {
+                        $0.config.responseTransformers.clear()
+                        $0.config.addContentTransformer
+                            {
+                            (_: NSData, _) -> String in
+                            throw Error(userMessage: "Everything is broken", cause: Error.Cause.UndecodableImage)
+                            }
+                        }
+                    
+                    stubReqest(resource, "GET").andReturn(200).withBody("YUP")
+                    awaitFailure(resource().load())
+                    expect(resource().latestError?.userMessage).to(equal("Everything is broken"))
+                    }
                 }
             }
 
@@ -424,3 +458,5 @@ private struct TestModel
     init(name: String)
         { self.name = name }
     }
+
+private struct CustomError: ErrorType { }

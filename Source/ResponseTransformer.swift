@@ -219,10 +219,12 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         catch
             {
-            return logTransformation(
-                .Failure(Error(
+            let siestaError =
+                error as? Error
+                ?? Error(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-                    cause: error)))
+                    cause: error)
+            return logTransformation(.Failure(siestaError))
             }
         }
 
