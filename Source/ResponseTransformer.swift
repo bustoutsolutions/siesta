@@ -146,7 +146,12 @@ public struct TransformerSequence
 */
 public struct ResponseContentTransformer<InputContentType,OutputContentType>: ResponseTransformer
     {
-    /// A closure that both processes the content and describes the required input and output types.
+    /**
+      A closure that both processes the content and describes the required input and output types.
+    
+      The closure can either throw an exception or return nil to indicate failure. If it throws a `Siesta.Error`, that
+      error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
+    */
     public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
     
     private let processor: Processor
@@ -201,8 +206,10 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             return logTransformation(
                 .Failure(Error(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-                    debugMessage: "Wrong type in transformer pipeline: "
-                                + "expected \(InputContentType.self), but got \(entity.content.dynamicType)")))
+                    cause: Error.Cause.WrongTypeInTranformerPipeline(
+                        expected: "\(InputContentType.self)",
+                        actual: "\(entity.content.dynamicType)",
+                        transformer: self))))
             }
         
         do  {
@@ -248,18 +255,10 @@ public let textResponseTransformer = ResponseContentTransformer(transformErrors:
         CFStringConvertIANACharSetNameToEncoding(charsetName))
     
     guard encoding != UInt(kCFStringEncodingInvalidId) else
-        {
-        throw Error(
-            userMessage: NSLocalizedString("Cannot parse text response", comment: "userMessage"),
-            debugMessage: "Invalid encoding: \(charsetName)")
-        }
+        { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
         
     guard let string = NSString(data: content, encoding: encoding) as? String else
-        {
-        throw Error(
-            userMessage: NSLocalizedString("Cannot parse text response", comment: "userMessage"),
-            debugMessage: "Using encoding: \(charsetName)")
-        }
+        { throw Error.Cause.UndecodableText(encodingName: charsetName) }
     
     return string
     }
@@ -280,6 +279,7 @@ public let imageResponseTransformer = ResponseContentTransformer
     (content: NSData, entity: Entity) throws -> UIImage in
 
     guard let image = UIImage(data: content) else
-        { throw Error(userMessage: NSLocalizedString("Cannot decode image", comment: "userMessage")) }
+        { throw Error.Cause.UndecodableImage }
+    
     return image
     }

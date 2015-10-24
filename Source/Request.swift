@@ -91,7 +91,7 @@ public protocol Request: AnyObject
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
         
       If this method is called while the request is in progress, it immediately triggers the `failure`/`completion`
-      callbacks with an `NSError` with the domain `NSURLErrorDomain` and the code `NSURLErrorCancelled`.
+      callbacks, with the error’s `cause` set to `Error.Cause.RequestCancelled`.
       
       Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
       to have any effect at all on the underlying request, subject to the whims of the `NetworkingProvider`. Therefore,
@@ -228,7 +228,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         broadcastResponse((
             response: .Failure(Error(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil))),
+                cause: Error.Cause.RequestCancelled(networkError: nil))),
             isNew: true))
         }
     
@@ -372,10 +372,10 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 }
             else
                 {
-                return(
+                return (
                     .Failure(Error(
-                        userMessage: NSLocalizedString("No data", comment: "userMessage"),
-                        debugMessage: "Received HTTP 304, but resource has no existing data")),
+                        userMessage: NSLocalizedString("No data available", comment: "userMessage"),
+                        cause: Error.Cause.NoLocalDataFor304)),
                     true)
                 }
             }
@@ -385,7 +385,11 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else
             {
-            return (.Failure(Error(userMessage: NSLocalizedString("Empty response", comment: "userMessage"))), true)
+            return (
+                .Failure(Error(
+                    userMessage: NSLocalizedString("No data available", comment: "userMessage"),
+                    cause: Error.Cause.EmptyResponse)),
+                true)
             }
         }
     

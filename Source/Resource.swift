@@ -337,8 +337,8 @@ public final class Resource: NSObject
             {
             return FailedRequest(
                 Error(
-                    userMessage: NSLocalizedString("Unable to encode text", comment: "userMessage"),
-                    debugMessage: "Cannot encode text body using \(encodingName)"))
+                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
+                    cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
             }
         }
 
@@ -361,8 +361,8 @@ public final class Resource: NSObject
             {
             return FailedRequest(
                 Error(
-                    userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
-                    debugMessage: "Not a valid JSON object"))
+                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
+                    cause: Error.Cause.InvalidJSONObject))
             }
         
         do  {
@@ -378,7 +378,7 @@ public final class Resource: NSObject
             
             return FailedRequest(
                 Error(
-                    userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
+                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
             }
         }
@@ -404,15 +404,8 @@ public final class Resource: NSObject
             charSet.removeCharactersInString(charsToEscape)
             
             guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(charSet) else
-                {
-                throw NSError(
-                    domain: SiestaErrorDomain, code: -1,
-                    userInfo:
-                        [
-                        NSLocalizedDescriptionKey: "Unable to URL-encode parameters, possibly due to unpaired Unicode surrogate chars",
-                        "\(SiestaErrorDomain).unencodableString": string
-                        ])
-                }
+                { throw Error.Cause.NotURLEncodable(offendingString: string) }
+            
             return escaped
             }
         
@@ -429,7 +422,7 @@ public final class Resource: NSObject
         catch
             {
             return FailedRequest(Error(
-                userMessage: NSLocalizedString("Cannot encode request", comment: "userMessage"),
+                userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                 cause: error))
             }
         }
