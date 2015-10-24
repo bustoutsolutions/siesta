@@ -264,13 +264,14 @@ public let textResponseTransformer = ResponseContentTransformer(transformErrors:
     }
 
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
-public let JSONResponseTransformer = ResponseContentTransformer(
-        transformErrors: true,
-        skipWhenEntityMatchesOutputType: false)
+public let JSONResponseTransformer = ResponseContentTransformer(transformErrors: true)
     {
-    (content: NSData, entity: Entity) throws -> AnyObject in
+    (content: NSData, entity: Entity) throws -> NSJSONConvertible in
 
-    return try NSJSONSerialization.JSONObjectWithData(content, options: [])
+    guard let jsonObj = try NSJSONSerialization.JSONObjectWithData(content, options: []) as? NSJSONConvertible else
+        { throw Error.Cause.JSONResponseIsNotDictionaryOrArray }
+    
+    return jsonObj
     }
 
 /// Parses `NSData` content as an image, yielding a `UIImage`.

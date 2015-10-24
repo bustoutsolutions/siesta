@@ -166,6 +166,10 @@ public extension Error
         /// The server’s response could not be decoded using the text encoding it specified.
         case UndecodableText(encodingName: String)
         
+        /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
+        /// sent a response containing a bare JSON primitive.
+        case JSONResponseIsNotDictionaryOrArray
+        
         /// The server’s response could not be decoded using the text encoding it specified.
         case UndecodableImage
         
