@@ -99,8 +99,7 @@ public extension Error
     {
     /**
       Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
-      
-      Note that `Error.cause` may contain errors from the underlying network library that do not appear in this enum.
+      (Note that `cause` may also contain errors from the underlying network library that do not belong to this enum.)
       
       Client code rarely needs to use these values, but they can be useful if you want to add special handling for
       specific errors. For example, if you’re working with an API that can return a 200 with an empty response, then

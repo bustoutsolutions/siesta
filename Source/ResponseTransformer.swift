@@ -149,7 +149,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     /**
       A closure that both processes the content and describes the required input and output types.
     
-      The closure can either throw an exception or return nil to indicate failure. If it throws a `Siesta.Error`, that
+      The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
       error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
     */
     public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
