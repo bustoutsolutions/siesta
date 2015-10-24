@@ -43,7 +43,7 @@
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
     {
-    public var content: AnyObject
+    public var content: AnyObject?
     public var contentType: String
     public var charset: String?
     public var etag: String?
@@ -62,7 +62,13 @@ public class _objc_Entity: NSObject
     
     internal init(_ entity: Entity)
         {
-        self.content     = entity.content as! AnyObject
+        if !(entity.content is AnyObject)
+            {
+            NSLog("WARNING: entity content of type \(entity.content.dynamicType)"
+                + " is not an object, and therefore not usable from Objective-C")
+            }
+        
+        self.content     = entity.content as? AnyObject
         self.contentType = entity.contentType
         self.charset     = entity.charset
         self.etag        = entity.etag
