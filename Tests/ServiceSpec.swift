@@ -258,6 +258,20 @@ class ServiceSpec: SiestaSpec
                 expect(resource1().latestData).to(beNil())
                 }
             
+            it("can wipe a specific resource")
+                {
+                service().wipeResources(resource0())
+                expect(resource0().latestData).to(beNil())
+                expect(resource1().latestData).notTo(beNil())
+                }
+            
+            it("wipes only resources matching a pattern")
+                {
+                service().wipeResources("/*o*")
+                expect(resource0().latestData).to(beNil())
+                expect(resource1().latestData).notTo(beNil())
+                }
+            
             it("wipes only resources matched by predicate")
                 {
                 service().wipeResources() { $0 === resource1() }

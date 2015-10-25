@@ -296,6 +296,17 @@ public class Service: NSObject
         }
 
     /**
+      Wipes resources based on a URL pattern. For examples:
+      
+          service.wipeResources("/secure/​**")
+          service.wipeResources(profileResource)
+    */
+    public final func wipeResources(pattern: ConfigurationPatternConvertible)
+        {
+        wipeResourcesMatchingURL(pattern.configurationPattern(self))
+        }
+    
+    /**
       Wipes the state of a subset of this service’s resources, matching based on URLs (instead of `Resource` instances).
       
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
