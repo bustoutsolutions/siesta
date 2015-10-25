@@ -59,17 +59,6 @@ public struct Configuration
     public var responseTransformers: TransformerSequence = TransformerSequence()
     
     /**
-      A convenience to add a one-off content transformer. Useful for transformers that create model objects. Example:
-      
-          $0.config.addContentTransformer { MyModel(json: $0) }
-    */
-    public mutating func addContentTransformer<I,O>(processor: ResponseContentTransformer<I,O>.Processor)
-        {
-        responseTransformers.add(
-            ResponseContentTransformer(processor: processor))
-        }
-    
-    /**
       An optional store to maintain the state of resources between app launches.
     */
     public var persistentCache: EntityCache? = nil

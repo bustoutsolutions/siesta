@@ -296,11 +296,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 beforeEach
                     {
-                    service().configure
-                        {
-                        $0.config.addContentTransformer
-                            { TestModel(name: $0.content) }
-                        }
+                    service().configureTransformer("**")
+                        { TestModel(name: $0.content) }
                     }
                     
                 it("can transform data")
@@ -332,13 +329,10 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 
                 it("infers output type and skips content if already transformed")
                     {
-                    service().configure
+                    service().configureTransformer("**")
                         {
-                        $0.config.addContentTransformer
-                            {
-                            (content: String, entity: Entity) in
-                            return TestModel(name: "should not be called")
-                            }
+                        (content: String, entity: Entity) in
+                        return TestModel(name: "should not be called")
                         }
                     stubText("Fred")
                     let model = resource().latestData?.content as? TestModel
@@ -348,13 +342,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can throw a custom error")
                     {
                     service().configure
+                        { $0.config.responseTransformers.clear() }
+                    service().configureTransformer("**")
                         {
-                        $0.config.responseTransformers.clear()
-                        $0.config.addContentTransformer
-                            {
-                            (_: NSData, _) -> String in
-                            throw CustomError()
-                            }
+                        (_: NSData, _) -> String in
+                        throw CustomError()
                         }
                     
                     stubReqest(resource, "GET").andReturn(200).withBody("YUP")
@@ -365,13 +357,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can throw a Siesta.Error")
                     {
                     service().configure
+                        { $0.config.responseTransformers.clear() }
+                    service().configureTransformer("**")
                         {
-                        $0.config.responseTransformers.clear()
-                        $0.config.addContentTransformer
-                            {
-                            (_: NSData, _) -> String in
-                            throw Error(userMessage: "Everything is broken", cause: Error.Cause.UndecodableImage)
-                            }
+                        (_: NSData, _) -> String in
+                        throw Error(userMessage: "Everything is broken", cause: Error.Cause.UndecodableImage)
                         }
                     
                     stubReqest(resource, "GET").andReturn(200).withBody("YUP")

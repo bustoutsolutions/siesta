@@ -235,6 +235,23 @@ public class Service: NSObject
         debugLog(.Configuration, ["Added", entry])
         }
     
+    /**
+      A convenience to add a one-off content transformer. Useful for transformers that create model objects. Example:
+      
+          $0.config.addContentTransformer { MyModel(json: $0) }
+    */
+    public final func configureTransformer<I,O>(
+            urlPattern: String,
+            description: String? = nil,
+            contentTransform: ResponseContentTransformer<I,O>.Processor)
+        {
+        configure(urlPattern, description: description ?? "\(urlPattern) : \(I.self) → \(O.self)")
+            {
+            $0.config.responseTransformers.add(
+                ResponseContentTransformer(processor: contentTransform))
+            }
+        }
+    
     private var configID = 0
     private var nextConfigID: Int { return configID++ }
     
