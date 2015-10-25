@@ -149,7 +149,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         errorView?.hidden = true
         loadingIndicator?.hidden = false
         loadingIndicator?.alpha = 0
-        UIView.animateWithDuration(0.7) { loadingIndicator?.alpha = 1 }
+        UIView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
         }
 
     private func showSuccess()
