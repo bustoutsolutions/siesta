@@ -362,7 +362,7 @@ public final class Resource: NSObject
             return FailedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.InvalidJSONObject))
+                    cause: Error.Cause.InvalidJSONObject()))
             }
         
         do  {

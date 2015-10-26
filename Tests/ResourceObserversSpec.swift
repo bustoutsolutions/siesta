@@ -117,9 +117,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                 awaitFailure(resource().load())
-                let cause = resource().latestError!.cause!
-                guard case Error.Cause.NoLocalDataFor304 = cause else
-                    { return fail("wrong error type: \(cause)") }
+                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304).to(beTrue())
                 }
 
             it("receives cancel event")

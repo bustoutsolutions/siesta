@@ -60,10 +60,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody("abc")
                 awaitFailure(resource().load())
 
-                let cause = resource().latestError!.cause!
-                guard case Error.Cause.InvalidTextEncoding(let encodingName) = cause else
-                    { return fail("wrong error type: \(cause)") }
-                expect(encodingName).to(equal("oodlefratz"))
+                let cause = resource().latestError?.cause as? Error.Cause.InvalidTextEncoding
+                expect(cause?.encodingName).to(equal("oodlefratz"))
                 }
             
             it("treats illegal byte sequence for encoding as an error")
@@ -73,10 +71,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody(NSData(bytes: [0xD8] as [UInt8], length: 1))
                 awaitFailure(resource().load())
                 
-                let cause = resource().latestError!.cause!
-                guard case Error.Cause.UndecodableText(let encodingName) = cause else
-                    { return fail("wrong error type: \(cause)") }
-                expect(encodingName).to(equal("utf-8"))
+                let cause = resource().latestError?.cause as? Error.Cause.UndecodableText
+                expect(cause?.encodingName).to(equal("utf-8"))
                 }
             
             it("bypasses response if another transformer already made it a string")
@@ -179,9 +175,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withBody(atom)
                     awaitFailure(resource().load())
 
-                    let cause = resource().latestError!.cause!
-                    guard case Error.Cause.JSONResponseIsNotDictionaryOrArray = cause else
-                        { return fail("wrong error type for \(atom): \(cause)") }
+                    expect(resource().latestError?.cause is Error.Cause.JSONResponseIsNotDictionaryOrArray).to(beTrue())
                     }
                 }
             
@@ -267,9 +261,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody("Ceci n’est pas une image")
                 awaitFailure(resource().load())
                 
-                let cause = resource().latestError!.cause!
-                guard case Error.Cause.UnparsableImage = cause else
-                    { return fail("wrong error type: \(cause)") }
+                expect(resource().latestError?.cause is Error.Cause.UnparsableImage).to(beTrue())
                 }
             }
 
@@ -368,9 +360,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     awaitFailure(resource().load())
                     expect(resource().latestData?.content is TestModel).to(beFalse())
 
-                    let cause = resource().latestError!.cause!
-                    guard case Error.Cause.WrongTypeInTranformerPipeline = cause else
-                        { return fail("wrong error type: \(cause)") }
+                    expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline).to(beTrue())
                     }
                 
                 it("infers output type and skips content if already transformed")
@@ -407,12 +397,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     service().configureTransformer("**")
                         {
                         (_: NSData, _) -> String in
-                        throw Error(userMessage: "Everything is broken", cause: Error.Cause.UnparsableImage)
+                        throw Error(userMessage: "Everything is broken", cause: CustomError())
                         }
                     
                     stubRequest(resource, "GET").andReturn(200).withBody("YUP")
                     awaitFailure(resource().load())
                     expect(resource().latestError?.userMessage).to(equal("Everything is broken"))
+                    expect(resource().latestError?.cause is CustomError).to(beTrue())
                     }
                 }
             }

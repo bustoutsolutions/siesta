@@ -284,7 +284,7 @@ public let imageResponseTransformer = ResponseContentTransformer
     (content: NSData, entity: Entity) throws -> UIImage in
 
     guard let image = UIImage(data: content) else
-        { throw Error.Cause.UnparsableImage }
+        { throw Error.Cause.UnparsableImage() }
     
     return image
     }

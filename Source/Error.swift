@@ -87,11 +87,7 @@ public struct Error: ErrorType
     
     public var isCancellation: Bool
         {
-        guard let cause = cause else
-            { return false }
-        guard case Error.Cause.RequestCancelled = cause else
-            { return false }
-        return true
+        return cause is Error.Cause.RequestCancelled
         }
     }
 
@@ -104,80 +100,100 @@ public extension Error
       The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
       but they can be useful if you want to add special handling for specific errors.
       
-      For example, if you’re working with an API that sometimes returns garbled text data that isn’t UTF-8 decodable,
-      and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and (2) you can
-      turn that specific error into a success by adding a transformer:
+      For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,
+      and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and
+      (2) you can turn that one specific error into a success by adding a transformer:
       
           configure {
-            $0.config.responseTransformers.add(EmptyResponseHandler())
+            $0.config.responseTransformers.add(GarbledResponseHandler())
           }
           
           ...
     
-          struct EmptyResponseHandler: ResponseTransformer {
+          struct GarbledResponseHandler: ResponseTransformer {
             func process(response: Response) -> Response {
               switch response {
                 case .Success:
                   return response
                   
                 case .Failure(let error):
-                  guard let cause = error.cause else {
+                  if error.cause is Siesta.Error.Cause.InvalidTextEncoding {
+                    return .Success(Entity(
+                      content: "Nothingness. Tumbleweeds. The Void.",
+                      contentType: "text/string"))
+                  } else {
                     return response
                   }
-                  guard case Siesta.Error.Cause.UndecodableText = cause else {  // detect specific error
-                    return response
-                  }
-                  return .Success(Entity(
-                    content: "Nothingness. Tumbleweeds. The Void.",
-                    contentType: "text/string"))
               }
             }
           }
     */
-    public enum Cause: ErrorType
+    public struct Cause
         {
+        private init() { fatalError("Siesta.Error.Cause is only a namespace") }
+
         // MARK: Request Errors
         
         /// Unable to create a text request with the requested character encoding.
-        case UnencodableText(encodingName: String, text: String)
+        public struct UnencodableText: ErrorType
+            {
+            public let encodingName: String
+            public let text: String
+            }
         
         /// Unable to create a JSON request using an object that is not JSON-encodable.
-        case InvalidJSONObject
+        public struct InvalidJSONObject: ErrorType { }
         
         /// Unable to create a URL-encoded request, probably due to unpaired Unicode surrogate chars.
-        case NotURLEncodable(offendingString: String)
+        public struct NotURLEncodable: ErrorType
+            {
+            public let offendingString: String
+            }
         
         // MARK: Network Errors
         
         /// Underlying network request was cancelled before response arrived.
-        case RequestCancelled(networkError: ErrorType?)
+        public struct RequestCancelled: ErrorType
+            {
+            public let networkError: ErrorType?
+            }
         
         // TODO: Consider explicitly detecting offline connection
         
         // MARK: Response Errors
         
         /// Server sent 304 (“not changed”), but we have no local data for the resource.
-        case NoLocalDataFor304
+        public struct NoLocalDataFor304: ErrorType { }
         
         /// The server sent a text encoding name that the OS does not recognize.
-        case InvalidTextEncoding(encodingName: String)
+        public struct InvalidTextEncoding: ErrorType
+            {
+            public let encodingName: String
+            }
         
         /// The server’s response could not be decoded using the text encoding it specified.
-        case UndecodableText(encodingName: String)
+        public struct UndecodableText: ErrorType
+            {
+            public let encodingName: String
+            }
         
         /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
         /// sent a response containing a bare JSON primitive.
-        case JSONResponseIsNotDictionaryOrArray(actualType: String)
+        public struct JSONResponseIsNotDictionaryOrArray: ErrorType
+            {
+            public let actualType: String
+            }
         
         /// The server’s response could not be parsed using any known image format.
-        case UnparsableImage
+        public struct UnparsableImage: ErrorType { }
         
         /// A response transformer received entity content of a type it doesn’t know how to process. This error means
         /// that the upstream transformations may have succeeded, but did not return a value of the type the next
         /// transformer expected. This is a configuration error.
-        case WrongTypeInTranformerPipeline(
-            expectedType: String,  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
-            actualType: String,
-            transformer: ResponseTransformer)
+        public struct WrongTypeInTranformerPipeline: ErrorType
+            {
+            public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+            public let transformer: ResponseTransformer
+            }
         }
     }

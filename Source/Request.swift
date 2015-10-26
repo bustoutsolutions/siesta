@@ -375,7 +375,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 return (
                     .Failure(Error(
                         userMessage: NSLocalizedString("No data available", comment: "userMessage"),
-                        cause: Error.Cause.NoLocalDataFor304)),
+                        cause: Error.Cause.NoLocalDataFor304())),
                     true)
                 }
             }
