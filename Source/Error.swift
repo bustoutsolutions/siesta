@@ -101,9 +101,12 @@ public extension Error
       Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
       (Note that `cause` may also contain errors from the underlying network library that do not belong to this enum.)
       
-      Client code rarely needs to use these values, but they can be useful if you want to add special handling for
-      specific errors. For example, if you’re working with an API that can return a 200 with an empty response, then
-      (1) gee, that’s weird, and (2) you can turn that “empty response” error into a success by adding a transformer:
+      The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
+      but they can be useful if you want to add special handling for specific errors.
+      
+      For example, if you’re working with an API that sometimes returns garbled text data that isn’t UTF-8 decodable,
+      and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and (2) you can
+      turn that specific error into a success by adding a transformer:
       
           configure {
             $0.config.responseTransformers.add(EmptyResponseHandler())
@@ -121,7 +124,7 @@ public extension Error
                   guard let cause = error.cause else {
                     return response
                   }
-                  guard case Siesta.Error.Cause.EmptyResponse = cause else {
+                  guard case Siesta.Error.Cause.UndecodableText = cause else {  // detect specific error
                     return response
                   }
                   return .Success(Entity(
@@ -164,15 +167,17 @@ public extension Error
         
         /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
         /// sent a response containing a bare JSON primitive.
-        case JSONResponseIsNotDictionaryOrArray
+        case JSONResponseIsNotDictionaryOrArray(actualType: String)
         
-        /// The server’s response could not be decoded using the text encoding it specified.
-        case UndecodableImage
+        /// The server’s response could not be parsed using any known image format.
+        case UnparsableImage
         
-        /// Response transformer received entity content from upstream of a type it doesn’t know how to process.
+        /// A response transformer received entity content of a type it doesn’t know how to process. This error means
+        /// that the upstream transformations may have succeeded, but did not return a value of the type the next
+        /// transformer expected. This is a configuration error.
         case WrongTypeInTranformerPipeline(
-            expected: String,  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
-            actual: String,
+            expectedType: String,  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+            actualType: String,
             transformer: ResponseTransformer)
         }
     }

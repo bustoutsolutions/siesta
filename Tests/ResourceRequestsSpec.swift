@@ -110,6 +110,11 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
                 let req = resource().request(.GET)
+                req.failure
+                    {
+                    guard case Error.Cause.RequestCancelled = $0.cause! else
+                        { return fail("wrong error type: \($0.cause!)") }
+                    }
                 req.cancel()
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
@@ -192,9 +197,15 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles string encoding errors")
                     {
-                    awaitFailure(
-                        resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding),
-                        alreadyCompleted: true)
+                    let req = resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding)
+                    awaitFailure(req, alreadyCompleted: true)
+                    req.failure
+                        {
+                        guard case Error.Cause.UnencodableText(let encoding, let text) = $0.cause! else
+                            { return fail("wrong error type: \($0.cause!)") }
+                        expect(encoding).to(equal("us-ascii"))
+                        expect(text).to(equal("Hélas!"))
+                        }
                     }
                 
                 it("handles JSON data")
@@ -209,9 +220,13 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles JSON encoding errors")
                     {
-                    awaitFailure(
-                        resource().request(.POST, json: ["question": [2, UIView()]]),
-                        alreadyCompleted: true)
+                    let req = resource().request(.POST, json: ["question": [2, UIView()]])
+                    awaitFailure(req, alreadyCompleted: true)
+                    req.failure
+                        {
+                        guard case Error.Cause.InvalidJSONObject = $0.cause! else
+                            { return fail("wrong error type: \($0.cause!)") }
+                        }
                     }
 
                 context("with a URL-encoded body")
@@ -246,6 +261,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                             {
                             let req = resource().request(.PATCH, urlEncoded: badParams)
                             awaitFailure(req, alreadyCompleted: true)
+                            req.failure
+                                {
+                                guard case Error.Cause.NotURLEncodable(let offendingString) = $0.cause! else
+                                    { return fail("wrong error type: \($0.cause!)") }
+                                expect(offendingString).to(equal(bogus))
+                                }
                             }
                         }
                     }

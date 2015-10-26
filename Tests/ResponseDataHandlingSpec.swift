@@ -59,6 +59,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "text/plain; charset=oodlefratz")
                     .withBody("abc")
                 awaitFailure(resource().load())
+
+                let cause = resource().latestError!.cause!
+                guard case Error.Cause.InvalidTextEncoding(let encodingName) = cause else
+                    { return fail("wrong error type: \(cause)") }
+                expect(encodingName).to(equal("oodlefratz"))
                 }
             
             it("treats illegal byte sequence for encoding as an error")
@@ -67,6 +72,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
                     .withBody(NSData(bytes: [0xD8] as [UInt8], length: 1))
                 awaitFailure(resource().load())
+                
+                let cause = resource().latestError!.cause!
+                guard case Error.Cause.UndecodableText(let encodingName) = cause else
+                    { return fail("wrong error type: \(cause)") }
+                expect(encodingName).to(equal("utf-8"))
                 }
             
             it("bypasses response if another transformer already made it a string")
@@ -168,6 +178,10 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withHeader("Content-Type", "application/json")
                         .withBody(atom)
                     awaitFailure(resource().load())
+
+                    let cause = resource().latestError!.cause!
+                    guard case Error.Cause.JSONResponseIsNotDictionaryOrArray = cause else
+                        { return fail("wrong error type for \(atom): \(cause)") }
                     }
                 }
             
@@ -228,6 +242,34 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubJson()
                     expect(resource().jsonArray).to(equal(NSArray()))
                     }
+                }
+            }
+        
+        describe("image handling")
+            {
+            it("parses images")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-Type", "image/gif")
+                    .withBody(NSData(
+                        base64EncodedString: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=",
+                        options: []))
+                awaitNewData(resource().load())
+                let image: UIImage? = resource().latestData?.content as? UIImage
+                expect(image).notTo(beNil())
+                expect(image?.size).to(equal(CGSize(width: 1, height: 1)))
+                }
+            
+            it("gives an error for unparsable images")
+                {
+                stubReqest(resource, "GET").andReturn(200)
+                    .withHeader("Content-Type", "image/gif")
+                    .withBody("Ceci n’est pas une image")
+                awaitFailure(resource().load())
+                
+                let cause = resource().latestError!.cause!
+                guard case Error.Cause.UnparsableImage = cause else
+                    { return fail("wrong error type: \(cause)") }
                 }
             }
 
@@ -325,6 +367,10 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withBody("{}")
                     awaitFailure(resource().load())
                     expect(resource().latestData?.content is TestModel).to(beFalse())
+
+                    let cause = resource().latestError!.cause!
+                    guard case Error.Cause.WrongTypeInTranformerPipeline = cause else
+                        { return fail("wrong error type: \(cause)") }
                     }
                 
                 it("infers output type and skips content if already transformed")
@@ -361,7 +407,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     service().configureTransformer("**")
                         {
                         (_: NSData, _) -> String in
-                        throw Error(userMessage: "Everything is broken", cause: Error.Cause.UndecodableImage)
+                        throw Error(userMessage: "Everything is broken", cause: Error.Cause.UnparsableImage)
                         }
                     
                     stubReqest(resource, "GET").andReturn(200).withBody("YUP")

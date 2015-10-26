@@ -207,8 +207,8 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 .Failure(Error(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: Error.Cause.WrongTypeInTranformerPipeline(
-                        expected: "\(InputContentType.self)",
-                        actual: "\(entity.content.dynamicType)",
+                        expectedType: debugStr(InputContentType.self),
+                        actualType: debugStr(entity.content.dynamicType),
                         transformer: self))))
             }
         
@@ -270,8 +270,10 @@ public let JSONResponseTransformer = ResponseContentTransformer(transformErrors:
     {
     (content: NSData, entity: Entity) throws -> NSJSONConvertible in
 
-    guard let jsonObj = try NSJSONSerialization.JSONObjectWithData(content, options: []) as? NSJSONConvertible else
-        { throw Error.Cause.JSONResponseIsNotDictionaryOrArray }
+    let rawObj = try NSJSONSerialization.JSONObjectWithData(content, options: [.AllowFragments])
+    
+    guard let jsonObj = rawObj as? NSJSONConvertible else
+        { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(rawObj.dynamicType)) }
     
     return jsonObj
     }
@@ -282,7 +284,7 @@ public let imageResponseTransformer = ResponseContentTransformer
     (content: NSData, entity: Entity) throws -> UIImage in
 
     guard let image = UIImage(data: content) else
-        { throw Error.Cause.UndecodableImage }
+        { throw Error.Cause.UnparsableImage }
     
     return image
     }
