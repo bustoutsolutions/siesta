@@ -643,7 +643,7 @@ public final class Resource: NSObject
     
     private func receiveError(error: Error)
         {
-        if error.isCancellation
+        if error.cause is Error.Cause.RequestCancelled
             {
             notifyObservers(.RequestCancelled)
             return

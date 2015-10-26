@@ -84,11 +84,6 @@ public struct Error: ErrorType
         self.cause = cause
         self.entity = entity
         }
-    
-    public var isCancellation: Bool
-        {
-        return cause is Error.Cause.RequestCancelled
-        }
     }
 
 public extension Error

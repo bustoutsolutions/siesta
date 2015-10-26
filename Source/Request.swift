@@ -120,7 +120,7 @@ public enum Response: CustomStringConvertible
     public var isCancellation: Bool
         {
         if case .Failure(let error) = self
-            { return error.isCancellation }
+            { return error.cause is Error.Cause.RequestCancelled }
         else
             { return false }
         }
