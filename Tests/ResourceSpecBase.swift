@@ -97,7 +97,7 @@ class ResourceSpecBase: SiestaSpec
 
 // MARK: - Request stubbing
 
-func stubReqest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
+func stubRequest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
     return stubRequest(method, resource().url.absoluteString)
     }

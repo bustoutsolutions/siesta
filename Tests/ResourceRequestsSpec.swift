@@ -29,20 +29,20 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             it("fetches the resource")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(.GET))
                 }
             
             it("handles various HTTP methods")
                 {
-                stubReqest(resource, "PATCH").andReturn(200)
+                stubRequest(resource, "PATCH").andReturn(200)
                 awaitNewData(resource().request(.PATCH))
                 }
             
             it("sends headers from configuration")
                 {
                 service().configure { $0.config.headers["Zoogle"] = "frotz" }
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                     .withHeader("Zoogle", "frotz")
                     .andReturn(200)
                 awaitNewData(resource().request(.GET))
@@ -63,8 +63,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                             }
                         }
                     
-                    stubReqest(resource, "GET").andReturn(200)
-                    stubReqest(resource, "POST").andReturn(200)
+                    stubRequest(resource, "GET").andReturn(200)
+                    stubRequest(resource, "POST").andReturn(200)
                     awaitNewData(resource().load())
                     awaitNewData(resource().request(.POST))
                     
@@ -80,7 +80,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                             { $1.success { _ in successHookCalled = true } }
                         }
                     
-                    stubReqest(resource, "GET").andReturn(200)
+                    stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().load())
                     
                     expect(successHookCalled).to(beTrue())
@@ -100,7 +100,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("does not update the resource state")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(.GET))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
@@ -108,7 +108,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("can be cancelled")
                 {
-                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().request(.GET)
                 req.failure
                     {
@@ -122,7 +122,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it(".cancel() has no effect if it already succeeded")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 let req = resource().request(.GET)
                 awaitNewData(req)
                 req.cancel()
@@ -144,7 +144,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 func stubDelayedAndRequest(ident: String) -> (LSStubResponseDSL, Request)
                     {
-                    let reqStub = stubReqest(resource, "GET")
+                    let reqStub = stubRequest(resource, "GET")
                         .withHeader("Request-ident", ident)
                         .andReturn(200)
                         .delay()
@@ -177,7 +177,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
                     let nsdata = NSData(bytes: bytes, length: bytes.count)
                     
-                    stubReqest(resource, "POST")
+                    stubRequest(resource, "POST")
                         .withHeader("Content-Type", "application/monkey")
                         .withBody(nsdata)
                         .andReturn(200)
@@ -187,7 +187,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles string data")
                     {
-                    stubReqest(resource, "POST")
+                    stubRequest(resource, "POST")
                         .withHeader("Content-Type", "text/plain; charset=utf-8")
                         .withBody("Très bien!")
                         .andReturn(200)
@@ -210,7 +210,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles JSON data")
                     {
-                    stubReqest(resource, "PUT")
+                    stubRequest(resource, "PUT")
                         .withHeader("Content-Type", "application/json")
                         .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
                         .andReturn(200)
@@ -233,7 +233,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     {
                     it("encodes parameters")
                         {
-                        stubReqest(resource, "PATCH")
+                        stubRequest(resource, "PATCH")
                             .withHeader("Content-Type", "application/x-www-form-urlencoded")
                             .withBody("brown=cow&foo=bar&how=now")
                             .andReturn(200)
@@ -243,7 +243,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                     it("escapes unsafe characters")
                         {
-                        stubReqest(resource, "PATCH")
+                        stubRequest(resource, "PATCH")
                             .withHeader("Content-Type", "application/x-www-form-urlencoded")
                             .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
                             .andReturn(200)
@@ -279,7 +279,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 expect(resource().loading).to(beFalse())
                 
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 let req = resource().load()
                 expect(resource().loading).to(beTrue())
                 
@@ -289,7 +289,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("stores the response data")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withBody("eep eep")
                 awaitNewData(resource().load())
                 
@@ -299,7 +299,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("stores the content type")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
                 awaitNewData(resource().load())
                 
@@ -308,7 +308,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("extracts the charset if present")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-type", "text/monkey; charset=utf-8")
                 awaitNewData(resource().load())
                 
@@ -317,7 +317,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("includes the charset in the content type")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-type", "text/monkey; charset=utf-8")
                 awaitNewData(resource().load())
                 
@@ -327,7 +327,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("parses the charset")
                 {
                 let monkeyType = "text/monkey; body=fuzzy; charset=euc-jp; arms=long"
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-type", monkeyType)
                 awaitNewData(resource().load())
                 
@@ -337,7 +337,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("defaults content type to raw binary")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
                 // Although Apple's NSURLResponse.contentType defaults to text/plain,
@@ -349,7 +349,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
             it("stores headers")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Personal-Disposition", "Quirky")
                 awaitNewData(resource().load())
                 
@@ -360,7 +360,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("handles missing etag")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
                 expect(resource().latestData?.etag).to(beNil())
@@ -368,7 +368,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             func sendAndWaitForSuccessfulRequest()
                 {
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                     .andReturn(200)
                     .withHeader("eTaG", "123 456 xyz")
                     .withHeader("Content-Type", "applicaiton/zoogle+plotz")
@@ -395,7 +395,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("sends the etag with subsequent requests")
                     {
-                    stubReqest(resource, "GET")
+                    stubRequest(resource, "GET")
                         .withHeader("If-None-Match", "123 456 xyz")
                         .andReturn(304)
                     awaitNotModified(resource().load())
@@ -403,7 +403,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles subsequent 200 by replacing data")
                     {
-                    stubReqest(resource, "GET")
+                    stubRequest(resource, "GET")
                         .andReturn(200)
                         .withHeader("eTaG", "ABC DEF 789")
                         .withHeader("Content-Type", "applicaiton/ploogle+zotz")
@@ -417,7 +417,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("handles subsequent 304 by keeping existing data")
                     {
-                    stubReqest(resource, "GET").andReturn(304)
+                    stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
                     
                     expectDataToBeUnchanged()
@@ -428,7 +428,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("handles request errors")
                 {
                 let sampleError = NSError(domain: "TestDomain", code: 12345, userInfo: nil)
-                stubReqest(resource, "GET").andFailWithError(sampleError)
+                stubRequest(resource, "GET").andFailWithError(sampleError)
                 awaitFailure(resource().load())
                 
                 expect(resource().latestData).to(beNil())
@@ -443,7 +443,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 it("treats HTTP \(statusCode) as an error")
                     {
-                    stubReqest(resource, "GET").andReturn(statusCode)
+                    stubRequest(resource, "GET").andReturn(statusCode)
                     awaitFailure(resource().load())
                     
                     expect(resource().latestData).to(beNil())
@@ -456,7 +456,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
 
-                stubReqest(resource, "GET").andReturn(500)
+                stubRequest(resource, "GET").andReturn(500)
                 awaitFailure(resource().load())
                 
                 expectDataToBeUnchanged()
@@ -466,7 +466,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
                 
-                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 req.cancel()
                 reqStub.go()
@@ -483,7 +483,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let sampleError = NSError(
                     domain: "TestDomain", code: 12345,
                     userInfo: [NSLocalizedDescriptionKey: "KABOOM"])
-                stubReqest(resource, "GET").andFailWithError(sampleError)
+                stubRequest(resource, "GET").andFailWithError(sampleError)
                 awaitFailure(resource().load())
                 
                 expect(resource().latestError?.userMessage).to(equal("KABOOM"))
@@ -491,7 +491,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("generates error messages from HTTP status codes")
                 {
-                stubReqest(resource, "GET").andReturn(404)
+                stubRequest(resource, "GET").andReturn(404)
                 awaitFailure(resource().load())
                 
                 expect(resource().latestError?.userMessage).to(equal("Not found"))
@@ -506,7 +506,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             func expectToLoad(@autoclosure reqClosure: () -> Request?, returning loadReq: Request? = nil)
                 {
-                stubReqest(resource, "GET").andReturn(200) // Stub first...
+                stubRequest(resource, "GET").andReturn(200) // Stub first...
                 let reqReturned = reqClosure()             // ...then allow loading
                 expect(resource().loading).to(beTrue())
                 expect(reqReturned).notTo(beNil())
@@ -532,14 +532,14 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("returns the existing request if one is already in progress")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 let existingReq = resource().load()
                 expectToLoad(resource().loadIfNeeded(), returning: existingReq)
                 }
             
             it("initiates a new request if a non-load request is in progress")
                 {
-                stubReqest(resource, "POST").andReturn(200)
+                stubRequest(resource, "POST").andReturn(200)
                 let postReq = resource().request(.POST)
                 expectToLoad(resource().loadIfNeeded())
                 awaitNewData(postReq, alreadyCompleted: true)
@@ -579,7 +579,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 beforeEach
                     {
                     setResourceTime(1000)
-                    stubReqest(resource, "GET").andReturn(404)
+                    stubRequest(resource, "GET").andReturn(404)
                     awaitFailure(resource().load())
                     LSNocilla.sharedInstance().clearStubs()
                     }
@@ -611,7 +611,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             beforeEach
                 {
-                stubReqest(resource, "POST")
+                stubRequest(resource, "POST")
                     .andReturn(200)
                     .withHeader("Content-type", "text/plain")
                     .withBody("Posted!")
@@ -638,7 +638,7 @@ class ResourceRequestsSpec: ResourceSpecBase
         
         describe("cancelLoadIfUnobserved()")
             {
-            let reqStub = specVar { stubReqest(resource, "GET").andReturn(200).delay() }
+            let reqStub = specVar { stubRequest(resource, "GET").andReturn(200).delay() }
             let req = specVar { resource().load() }
             var owner: AnyObject?
             
@@ -728,7 +728,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("clears the latest error")
                 {
-                stubReqest(resource, "GET").andReturn(500)
+                stubRequest(resource, "GET").andReturn(500)
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
@@ -749,7 +749,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             it("updates latestData’s content without altering headers")
                 {
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                     .andReturn(200)
                     .withHeader("Content-type", "food/pasta")
                     .withHeader("Sauce-disposition", "garlic")
@@ -766,7 +766,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates latestData’s timestamp")
                 {
                 setResourceTime(1000)
-                stubReqest(resource, "GET").andReturn(200).withBody("hello")
+                stubRequest(resource, "GET").andReturn(200).withBody("hello")
                 awaitNewData(resource().load())
                 
                 setResourceTime(2000)
@@ -792,12 +792,12 @@ class ResourceRequestsSpec: ResourceSpecBase
             beforeEach
                 {
                 setResourceTime(dataTimestamp)
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 
                 setResourceTime(errorTimestamp)
-                stubReqest(resource, "GET").andReturn(500)
+                stubRequest(resource, "GET").andReturn(500)
                 awaitFailure(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
@@ -811,7 +811,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 resource().invalidate()
                 
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                 let req = resource().loadIfNeeded()
                 expect(req).notTo(beNil())
                 awaitNewData(req!)
@@ -831,19 +831,19 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 it("if loadIfNeeded() succeeds")
                     {
-                    stubReqest(resource, "GET")
+                    stubRequest(resource, "GET")
                     awaitNewData(resource().loadIfNeeded()!)
                     }
                 
                 it("if loadIfNeeded() fails")
                     {
-                    stubReqest(resource, "GET").andReturn(500)
+                    stubRequest(resource, "GET").andReturn(500)
                     awaitFailure(resource().loadIfNeeded()!)
                     }
 
                 it("if load() completes")
                     {
-                    stubReqest(resource, "GET")
+                    stubRequest(resource, "GET")
                     awaitNewData(resource().load())
                     }
 
@@ -857,7 +857,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 resource().invalidate()
                 
-                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 req.cancel()
                 reqStub.go()
@@ -888,7 +888,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             it("clears latestData")
                 {
-                stubReqest(resource, "GET")
+                stubRequest(resource, "GET")
                 awaitNewData(resource().load())
                 expect(resource().latestData).notTo(beNil())
                 
@@ -899,7 +899,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("clears latestError")
                 {
-                stubReqest(resource, "GET").andReturn(500)
+                stubRequest(resource, "GET").andReturn(500)
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
                 
@@ -912,9 +912,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let reqStubs =
                     [
-                    stubReqest(resource, "GET").andReturn(200).delay(),
-                    stubReqest(resource, "PUT").andReturn(200).delay(),
-                    stubReqest(resource, "POST").andReturn(500).delay()
+                    stubRequest(resource, "GET").andReturn(200).delay(),
+                    stubRequest(resource, "PUT").andReturn(200).delay(),
+                    stubRequest(resource, "POST").andReturn(500).delay()
                     ]
                 let reqs =
                     [
@@ -940,7 +940,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("cancels requests attached with load(usingRequest:) even if they came from another resource")
                 {
                 let otherResource = resource().relative("/second_cousin_twice_removed")
-                let stub = stubReqest({ otherResource }, "PUT").andReturn(200).delay()
+                let stub = stubRequest({ otherResource }, "PUT").andReturn(200).delay()
                 let otherResourceReq = otherResource.request(.PUT)
                 resource().load(usingRequest: otherResourceReq)
                 

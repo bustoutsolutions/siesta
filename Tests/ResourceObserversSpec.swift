@@ -54,7 +54,7 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("receives request event")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                     {
                     expect(resource().loading).to(beTrue())
@@ -70,7 +70,7 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("receives new data event")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                     {
@@ -96,13 +96,13 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives not modified event")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 
-                stubReqest(resource, "GET").andReturn(304)
+                stubRequest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
                 observer().expect(.NotModified)
                     {
@@ -113,7 +113,7 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("receives error if server sends not modified but no local data")
                 {
-                stubReqest(resource, "GET").andReturn(304)
+                stubRequest(resource, "GET").andReturn(304)
                 observer().expect(.Requested)
                 observer().expect(.Error)
                 awaitFailure(resource().load())
@@ -125,7 +125,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives cancel event")
                 {
                 // delay prevents race condition between cancel() and Nocilla
-                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
                     {
@@ -139,7 +139,7 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("receives failure event")
                 {
-                stubReqest(resource, "GET").andReturn(500)
+                stubRequest(resource, "GET").andReturn(500)
                 observer().expect(.Requested)
                 observer().expect(.Error)
                     {
@@ -152,7 +152,7 @@ class ResourceObserversSpec: ResourceSpecBase
             
             it("does not receive notifications for request(), only load()")
                 {
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(.GET))
                 }
             
@@ -168,7 +168,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     events.append(event.description)
                     }
                 
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
                 
                 expect(events).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
@@ -185,7 +185,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(owner: dummy)
                     { _, event in events0.append(event.description) }
                 
-                stubReqest(resource, "GET").andReturn(200).delay
+                stubRequest(resource, "GET").andReturn(200).delay
                 awaitNewData(resource().load())
                 
                 resource().addObserver(owner: dummy)
@@ -202,7 +202,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer())
                 resource().addObserver(observer())
 
-                stubReqest(resource, "GET").andReturn(200)
+                stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                 awaitNewData(resource().load())
@@ -221,7 +221,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 
                 func expectStillObserving(stillObserving: Bool)
                     {
-                    stubReqest(resource, "GET").andReturn(200)
+                    stubRequest(resource, "GET").andReturn(200)
                     if stillObserving
                         {
                         observer().expect(.Requested)
@@ -324,7 +324,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 observer!.expect(.Requested)
                 
-                let reqStub = stubReqest(resource, "GET").andReturn(200).delay()
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 observer!.checkForUnfulfilledExpectations()
                 observer = nil
