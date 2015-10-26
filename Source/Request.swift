@@ -379,17 +379,9 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                     true)
                 }
             }
-        else if let body = body
-            {
-            return (.Success(Entity(nsres, body)), true)
-            }
         else
             {
-            return (
-                .Failure(Error(
-                    userMessage: NSLocalizedString("No data available", comment: "userMessage"),
-                    cause: Error.Cause.EmptyResponse)),
-                true)
+            return (.Success(Entity(nsres, body ?? NSData())), true)
             }
         }
     

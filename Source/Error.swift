@@ -153,9 +153,6 @@ public extension Error
         
         // MARK: Response Errors
         
-        /// Server unexpectly returned an empty response body on success.
-        case EmptyResponse
-        
         /// Server sent 304 (“not changed”), but we have no local data for the resource.
         case NoLocalDataFor304
         
