@@ -19,10 +19,10 @@
 */
 internal struct StrongOrWeakRef<T>
     {
-    private var strongRef: Any?   // should be T? but that currently crashes the Swift compiler
+    private var strongRef: T?
     private weak var weakRef: AnyObject?
     var value: T?
-        { return (strongRef as? T) ?? (weakRef as? T) }
+        { return strongRef ?? (weakRef as? T) }
     
     init(_ value: T)
         {
