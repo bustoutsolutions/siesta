@@ -6,17 +6,17 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-
-/// A reference that can switched between behaving as a strong or a weak ref to an object,
-/// and can also hold a non-object type.
-///
-/// * If the value is an object (i.e. T is a subtype of AnyObject), then...
-///   * ...if strong == true, then StrongOrWeakRef holds a strong reference to value.
-///   * ...if strong == false, then StrongOrWeakRef holds a weak reference to value.
-/// * If the value is not an object (e.g. a struct), then...
-///   * ...if strong == true, then StrongOrWeakRef holds the structure.
-///   * ...if strong == false, then StrongOrWeakRef immediately discards the structure.
-///
+/**
+  A reference that can switched between behaving as a strong or a weak ref to an object,
+  and can also hold a non-object type.
+ 
+  - If the value is an object (i.e. T is a subtype of AnyObject), then...
+    - ...if strong == true, then StrongOrWeakRef holds a strong reference to value.
+    - ...if strong == false, then StrongOrWeakRef holds a weak reference to value.
+  - If the value is not an object (e.g. a struct), then...
+    - ...if strong == true, then StrongOrWeakRef holds the structure.
+    - ...if strong == false, then StrongOrWeakRef immediately discards the structure.
+*/
 internal struct StrongOrWeakRef<T>
     {
     private var strongRef: Any?   // should be T? but that currently crashes the Swift compiler
@@ -37,10 +37,10 @@ internal struct StrongOrWeakRef<T>
         }
     }
 
-
-/// A weak ref suitable for use in collections. This struct maintains stable behavior for == and hashValue even
-/// after the referenced object has been deallocated, making it suitable for use as a Set member and a Dictionary key.
-///
+/**
+  A weak ref suitable for use in collections. This struct maintains stable behavior for == and hashValue even
+  after the referenced object has been deallocated, making it suitable for use as a Set member and a Dictionary key.
+*/
 internal struct WeakRef<T: AnyObject>: Hashable
     {
     private(set) weak var value: T?
