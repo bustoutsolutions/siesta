@@ -248,43 +248,52 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 // MARK: Transformers for standard types
 
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
-public let textResponseTransformer = ResponseContentTransformer(transformErrors: true)
+public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
-    (content: NSData, entity: Entity) throws -> String in
+    return ResponseContentTransformer(transformErrors: transformErrors)
+        {
+        (content: NSData, entity: Entity) throws -> String in
 
-    let charsetName = entity.charset ?? "ISO-8859-1"
-    let encoding = CFStringConvertEncodingToNSStringEncoding(
-        CFStringConvertIANACharSetNameToEncoding(charsetName))
-    
-    guard encoding != UInt(kCFStringEncodingInvalidId) else
-        { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
+        let charsetName = entity.charset ?? "ISO-8859-1"
+        let encoding = CFStringConvertEncodingToNSStringEncoding(
+            CFStringConvertIANACharSetNameToEncoding(charsetName))
         
-    guard let string = NSString(data: content, encoding: encoding) as? String else
-        { throw Error.Cause.UndecodableText(encodingName: charsetName) }
-    
-    return string
+        guard encoding != UInt(kCFStringEncodingInvalidId) else
+            { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
+            
+        guard let string = NSString(data: content, encoding: encoding) as? String else
+            { throw Error.Cause.UndecodableText(encodingName: charsetName) }
+        
+        return string
+        }
     }
 
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
-public let JSONResponseTransformer = ResponseContentTransformer(transformErrors: true)
+public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
-    (content: NSData, entity: Entity) throws -> NSJSONConvertible in
+    return ResponseContentTransformer(transformErrors: transformErrors)
+        {
+        (content: NSData, entity: Entity) throws -> NSJSONConvertible in
 
-    let rawObj = try NSJSONSerialization.JSONObjectWithData(content, options: [.AllowFragments])
-    
-    guard let jsonObj = rawObj as? NSJSONConvertible else
-        { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(rawObj.dynamicType)) }
-    
-    return jsonObj
+        let rawObj = try NSJSONSerialization.JSONObjectWithData(content, options: [.AllowFragments])
+        
+        guard let jsonObj = rawObj as? NSJSONConvertible else
+            { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(rawObj.dynamicType)) }
+        
+        return jsonObj
+        }
     }
 
 /// Parses `NSData` content as an image, yielding a `UIImage`.
-public let imageResponseTransformer = ResponseContentTransformer
+public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseTransformer
     {
-    (content: NSData, entity: Entity) throws -> UIImage in
+    return ResponseContentTransformer(transformErrors: transformErrors)
+        {
+        (content: NSData, entity: Entity) throws -> UIImage in
 
-    guard let image = UIImage(data: content) else
-        { throw Error.Cause.UnparsableImage() }
-    
-    return image
+        guard let image = UIImage(data: content) else
+            { throw Error.Cause.UnparsableImage() }
+        
+        return image
+        }
     }

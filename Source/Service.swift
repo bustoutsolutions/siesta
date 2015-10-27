@@ -60,9 +60,9 @@ public class Service: NSObject
             {
             configure(description: "Siesta default response transformers")
                 {
-                $0.config.responseTransformers.add(JSONResponseTransformer,  contentTypes: ["*/json", "*/*+json"])
-                $0.config.responseTransformers.add(textResponseTransformer,  contentTypes: ["text/*"])
-                $0.config.responseTransformers.add(imageResponseTransformer, contentTypes: ["image/*"])
+                $0.config.responseTransformers.add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
+                $0.config.responseTransformers.add(TextResponseTransformer(),  contentTypes: ["text/*"])
+                $0.config.responseTransformers.add(ImageResponseTransformer(), contentTypes: ["image/*"])
                 }
             }
         }
