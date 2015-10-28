@@ -16,7 +16,7 @@ import Foundation
 @objc(BOSService)
 public class Service: NSObject
     {
-    /// The root URL of the API.
+    /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
     public let baseURL: NSURL?
     
     internal let networkingProvider: NetworkingProvider
@@ -88,7 +88,10 @@ public class Service: NSObject
             }
         }
 
-    /// Convenience to parse a URL and return its resource.
+    /**
+      Returns the unique resource with the given URL string. If the string is not a valid URL, this method returns a
+      resource that always fails.
+    */
     @objc(resourceWithURLString:)
     public final func resource(url urlString: String?) -> Resource
         {
@@ -197,9 +200,13 @@ public class Service: NSObject
         }
     
     /**
-      A convenience to add a one-off content transformer. Useful for transformers that create model objects. Example:
+      A convenience to add a one-off content transformer.
       
-          $0.config.addContentTransformer { MyModel(json: $0) }
+      Useful for transformers that create model objects. For example:
+      
+          configureTransformer("/foo/​*") { FooModel(json: $0) }
+      
+      - SeeAlso: ResponseContentTransformer
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
@@ -296,8 +303,8 @@ public class Service: NSObject
         }
 
     /**
-      Wipes resources based on a URL pattern. For examples:
-      
+      Wipes resources based on a URL pattern. For example:
+
           service.wipeResources("/secure/​**")
           service.wipeResources(profileResource)
     */
