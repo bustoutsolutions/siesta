@@ -489,8 +489,6 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestError?.userMessage).to(equal("Not found"))
                 }
             
-            // TODO: test custom error message extraction
-            
             // TODO: how should it handle redirects?
             }
         
