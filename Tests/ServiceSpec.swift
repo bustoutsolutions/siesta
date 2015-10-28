@@ -83,9 +83,16 @@ class ServiceSpec: SiestaSpec
                 checkPathExpansion("https://foo.bar",    path:"baz/fez/", expect:"https://foo.bar/baz/fez/")
                 checkPathExpansion("https://foo.bar/v1", path:"baz",      expect:"https://foo.bar/v1/baz")
                 checkPathExpansion("https://foo.bar/v1", path:"baz/fez",  expect:"https://foo.bar/v1/baz/fez")
-                // TODO: Should there be special handling for paths starting with "." and ".."?
                 }
 
+            it("does not apply special interpretation to . or ..")
+                {
+                checkPathExpansion("https://foo.bar/v1", path:"./baz",  expect:"https://foo.bar/v1/./baz")
+                checkPathExpansion("https://foo.bar/v1", path:"../baz", expect:"https://foo.bar/v1/../baz")
+                checkPathExpansion("https://foo.bar/v1", path:"baz/.",  expect:"https://foo.bar/v1/baz/.")
+                checkPathExpansion("https://foo.bar/v1", path:"baz/..", expect:"https://foo.bar/v1/baz/..")
+                }
+            
             it("preserves baseURL query params")
                 {
                 checkPathExpansion("https://foo.bar/?a=b&x=y",   path:"baz/fez/", expect:"https://foo.bar/baz/fez/?a=b&x=y")
