@@ -157,73 +157,49 @@ public class _objc_Request: NSObject
     private init(_ request: Request)
         { self.request = request }
     
-    public var completion: @convention(block) ((_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
+    public func completion(objcCallback: @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
         {
-        return
+        self.request.completion
             {
-            objcCallback in
-            self.request.completion
+            switch $0
                 {
-                switch $0
-                    {
-                    case .Success(let entity):
-                        objcCallback(_objc_Entity(entity), nil)
-                    case .Failure(let error):
-                        objcCallback(nil, _objc_Error(error))
-                    }
+                case .Success(let entity):
+                    objcCallback(_objc_Entity(entity), nil)
+                case .Failure(let error):
+                    objcCallback(nil, _objc_Error(error))
                 }
-            return self
             }
+        return self
         }
 
-    public var success: @convention(block) (_objc_Entity -> Void) -> _objc_Request
+    public func success(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
         {
-        return
-            {
-            objcCallback in
-            self.request.success { entity in objcCallback(_objc_Entity(entity)) }
-            return self
-            }
+        self.request.success { entity in objcCallback(_objc_Entity(entity)) }
+        return self
         }
     
-    public var newData: @convention(block) (_objc_Entity -> Void) -> _objc_Request
+    public func newData(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
         {
-        return
-            {
-            objcCallback in
-            self.request.newData { entity in objcCallback(_objc_Entity(entity)) }
-            return self
-            }
+        self.request.newData { entity in objcCallback(_objc_Entity(entity)) }
+        return self
         }
 
-    public var notModified: @convention(block) (Void -> Void) -> _objc_Request
+    public func notModified(objcCallback: @convention(block) Void -> Void) -> _objc_Request
         {
-        return
-            {
-            objcCallback in
-            self.request.notModified(objcCallback)
-            return self
-            }
+        self.request.notModified(objcCallback)
+        return self
         }
 
-    public var failure: @convention(block) (_objc_Error -> Void) -> _objc_Request
+    public func failure(objcCallback: @convention(block) _objc_Error -> Void) -> _objc_Request
         {
-        return
-            {
-            objcCallback in
-            self.request.failure { error in objcCallback(_objc_Error(error)) }
-            return self
-            }
+        self.request.failure { error in objcCallback(_objc_Error(error)) }
+        return self
         }
 
-    public var progress: @convention(block) (Float -> Void) -> _objc_Request
+    public func progress(objcCallback: @convention(block) Float -> Void) -> _objc_Request
         {
-        return
-            {
-            objcCallback in
-            self.request.progress { p in objcCallback(Float(p)) }
-            return self
-            }
+        self.request.progress { p in objcCallback(Float(p)) }
+        return self
         }
 
     public func cancel()

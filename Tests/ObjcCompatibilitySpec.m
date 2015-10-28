@@ -70,14 +70,14 @@
         [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        BOSRequest *req = [resource load]
-            .completion(
+        BOSRequest *req = [[[[[[resource load]
+            completion:
                 ^(BOSEntity *entity, BOSError *error)
-                    { [expectation fulfill]; })
-            .success(^(BOSEntity *entity) { } )
-            .newData(^(BOSEntity *entity) { } )  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
-            .notModified(^{ } )
-            .failure(^(BOSError *error) { } );
+                    { [expectation fulfill]; }]
+            success: ^(BOSEntity *entity) { }]
+            newData: ^(BOSEntity *entity) { }]  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
+            notModified: ^{ }]
+            failure: ^(BOSError *error) { }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         [req cancel];
         });
@@ -90,7 +90,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
+        [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         expect(resource.jsonDict).to(equal(@{ @"foo": @"bar" }));
@@ -116,7 +116,7 @@
         stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [resource load].failure(^(BOSError *error) { [expectation fulfill]; });
+        [[resource load] failure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         BOSError *error = resource.latestError;
@@ -132,7 +132,7 @@
             [resource requestWithMethod:@"POST" json:@{@"Foo": [[UIButton alloc] init]}]];
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        req.failure(^(BOSError *error) { [expectation fulfill]; });
+        [req failure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         BOSError *error = resource.latestError;
@@ -161,7 +161,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
         
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [resource load].success(^(BOSEntity *entity) { [expectation fulfill]; });
+        [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
