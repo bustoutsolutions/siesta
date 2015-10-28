@@ -46,7 +46,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().text).to(equal("ý"))
                 }
             
-            // An Apple bug breaks this spec on iOS 8 _and_ on 32-bit devices (rader 21891847)
+            // An Apple bug breaks this spec on iOS 8 _and_ on 32-bit devices (radar 21891847)
             if #available(iOS 9.0, *), sizeof(Int) == sizeof(Int64)
                 {
                 it("handles more unusual charsets")
