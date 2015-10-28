@@ -51,14 +51,22 @@ script: |
 
   # ------ Project build (at last!) ------
 
-  Siesta_DelayAfterEachSpec=1 \
-  Siesta_TestMultipleNetworkProviders=1 \
-  xcodebuild test \
-      -project Siesta.xcodeproj \
-      -scheme Siesta \
-      -destination 'platform=iOS Simulator,name=iPhone 5s' 2>&1 \
-    | /tmp/xcpretty/bin/xcpretty -c
-  buildresult=${PIPESTATUS[0]}
+  for device in 'OS=8.1,name=iPhone 4s' 'OS=9.1,name=iPhone 6'; do
+    echo
+    echo —————— Running tests for $device ...
+
+    Siesta_DelayAfterEachSpec=1 \
+    Siesta_TestMultipleNetworkProviders=1 \
+    xcodebuild test \
+        -project Siesta.xcodeproj \
+        -scheme Siesta \
+        -destination "platform=iOS Simulator,$device" 2>&1 \
+      | /tmp/xcpretty/bin/xcpretty -c
+    
+    buildresult="$buildresult${PIPESTATUS[0]}"
+
+    echo —————— Completed tests for $device.
+  done
 
   sleep 5  # Workaround for Travis log truncation
 

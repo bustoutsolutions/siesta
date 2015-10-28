@@ -46,11 +46,14 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().text).to(equal("ý"))
                 }
             
-            it("handles more unusual charsets")
+            // An Apple bug breaks this spec on iOS 8 _and_ on 32-bit devices (rader 21891847)
+            if #available(iOS 9.0, *), sizeof(Int) == sizeof(Int64)
                 {
-                stubText("ý", contentType: "text/plain; charset=EUC-JP")
-                expect(resource().text).to(equal("箪"))  // bamboo rice basket
-                // Note: assertion above fails on iPhone 4S and 5 simulators (apparently an Apple bug?)
+                it("handles more unusual charsets")
+                    {
+                    stubText("ý", contentType: "text/plain; charset=EUC-JP")
+                    expect(resource().text).to(equal("箪"))  // bamboo rice basket
+                    }
                 }
             
             it("treats an unknown charset as an errors")
