@@ -569,10 +569,18 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A convenience to add a one-off content transformer. Useful for transformers that create model objects. Example:</p>
+                        <p>A convenience to add a one-off content transformer.</p>
 
-<pre class="highlight plaintext"><code>  $0.config.addContentTransformer { MyModel(json: $0) }
+<p>Useful for transformers that create model objects. For example:</p>
+
+<pre class="highlight plaintext"><code>  configureTransformer("/foo/​*") { FooModel(json: $0) }
 </code></pre>
+
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -605,32 +613,32 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
 <p>Because the <code>configure(...)</code> methods accept an arbitrary closure, it is possible that the results of
-  that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
-  if you do anything that would change the result of a configuration closure, you must call
-  <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
+ that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
+ if you do anything that would change the result of a configuration closure, you must call
+ <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
 
 <p><em>《insert your functional programming purist rant here if you so desire》</em></p>
 
 <p>Note that you do <em>not</em> need to call this method after calling any of the <code>configure(...)</code> methods.
-  You only need to call it if one of the previously passed closures will now behave differently.</p>
+ You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
 
-<pre class="highlight plaintext"><code>  var flavor: <a href="../Extensions/String.html">String</a> {
-    didSet { invalidateConfiguration() }
-  }
+<pre class="highlight plaintext"><code> var flavor: <a href="../Extensions/String.html">String</a> {
+   didSet { invalidateConfiguration() }
+ }
 
-  init() {
-    super.init(base: "https://api.github.com")
-    configure​ {
-      $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
-    }
-  }
+ init() {
+   super.init(base: "https://api.github.com")
+   configure​ {
+     $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
+   }
+ }
 </code></pre>
 
 <p>Note that this method does <em>not</em> immediately recompute all existing configurations. This is an inexpensive call.
-  Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
-  over subsequent resource interactions.</p>
+ Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
+ over subsequent resource interactions.</p>
 
                       </div>
                       <div class="declaration">
