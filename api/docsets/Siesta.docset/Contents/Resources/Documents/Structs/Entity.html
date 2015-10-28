@@ -13,7 +13,7 @@
     <a title="Entity Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -182,14 +191,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -229,7 +230,7 @@ the content’s type and freshness.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>The data itself. When constructed from an HTTP response, it begins its life as <code>NSData</code>, but may become any type
-of object after running though the service’s <code>ResponseTransformer</code> chain.</p>
+of object after running though the service’s <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain.</p>
 
 <p>Why is the type of this property <code>Any</code> instead of a generic <code>T</code>? Because a <code>&lt;T&gt;</code> declaration would mean
 “Siesta guarantees the data is of type <code>T</code>” — that’s what strong static types do — but there is no way to tell
@@ -242,9 +243,11 @@ Crash-o-Matic.”</p>
 
 <p>In short, when using <code>content</code>, write your code to handle it being of an unexpected type.</p>
 
-<ul>
-<li>SeeAlso: <code>Resource.contentAsType(ifNone: _:)</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Classes/Resource.html">Resource</a>.contentAsType(ifNone: _:)</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -415,12 +418,13 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  For creating ad hoc data locally.
-</code></pre>
+                        <p>For creating ad hoc data locally.</p>
 
-<ul>
-<li>SeeAlso: <code>Resource.localDataOverride(_:)</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Classes/Resource.html">Resource</a>.localDataOverride(_:)</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -453,11 +457,7 @@ Crash-o-Matic.”</p>
                       <div class="abstract">
                         <p>Returns the value of the HTTP header with the given key.</p>
 
-<p>Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
-
-<ul>
-<li>Parameter key: The case-insensitive header name.</li>
-</ul>
+<p><a href="../Structs/Entity.html">Entity</a> does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
 
                       </div>
                       <div class="declaration">
@@ -556,7 +556,7 @@ Crash-o-Matic.”</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -13,7 +13,7 @@
     <a title="NetworkingProvider Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -182,14 +191,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -207,9 +208,9 @@
                 </div>
               </div>
             <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code>Service.init(base:networkingProvider:)</code>.</p>
+<code><a href="../Classes/Service.html">Service</a>.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>NSURLSessionProvider</code> and <code>AlamofireProvider</code> for implementation examples.</p>
+<p>See <code><a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code><a href="../Structs/AlamofireProvider.html">AlamofireProvider</a></code> for implementation examples.</p>
 
           </section>
           <section class="section task-group-section">
@@ -218,9 +219,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T__PS_17RequestNetworking_"></a>
+                    <a name="/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_"></a>
                     <a name="//apple_ref/swift/Method/startRequest(_:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_7nserrorGSqCSo7NSError__T__PS_17RequestNetworking_">startRequest(_:completion:)</a>
+                    <a class="token" href="#/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_">startRequest(_:completion:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -228,11 +229,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Start the given request asynchronously, and return a <code>RequestNetworking</code> to control the request.</p>
+                        <p>Start the given request asynchronously, and return a <code><a href="../Protocols/RequestNetworking.html">RequestNetworking</a></code> to control the request.</p>
 
 <p>Implementations <strong>must</strong> guarante that they will call the given response closure exactly once.</p>
 
-<p>If the request is cancelled, call the response closure with an <code>NSError</code>.</p>
+<p>If the request is cancelled, call the response closure with an error.</p>
 
                       </div>
                       <div class="declaration">
@@ -270,14 +271,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>You can pass a <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> when creating a <code><a href="../Classes/Service.html">Service</a></code> to override the default networking behavior.
+- SeeAlso: <a href="../Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a></p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span><span class="p">:</span> <span class="kt">NetworkingProviderConvertible</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">siestaNetworkingProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span>
+        <span class="p">{</span> <span class="k">return</span> <span class="k">self</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -289,7 +292,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -13,7 +13,7 @@
     <a title="Request Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -182,14 +191,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -208,9 +209,9 @@
               </div>
             <p>Registers hooks to receive notifications about the status of a network request, and some request control.</p>
 
-<p>Note that these hooks are for only a <em>single request</em>, whereas <code>ResourceObserver</code>s receive notifications about
+<p>Note that these hooks are for only a <em>single request</em>, whereas <code><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
-requests, whereas <code>ResourceObserver</code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
+requests, whereas <code><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
 and <code>localDataOverride(_:)</code>.</p>
 
 <p>There is no race condition between a callback being added and a response arriving. If you add a callback after the
@@ -463,12 +464,12 @@ response has already arrived, the callback is still called as usual.</p>
                         <p>Cancel the request if it is still in progress. Has no effect if a response has already been received.</p>
 
 <p>If this method is called while the request is in progress, it immediately triggers the <code>failure</code>/<code>completion</code>
-  callbacks with an <code>NSError</code> with the domain <code>NSURLErrorDomain</code> and the code <code>NSURLErrorCancelled</code>.</p>
+  callbacks, with the error’s <code>cause</code> set to <code><a href="../Structs/Error.html">Error</a>.Cause.RequestCancelled</code>.</p>
 
 <p>Note that <code>cancel()</code> is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
-  to have any effect at all on the underlying request, subject to the whims of the <code>NetworkingProvider</code>. Therefore,
+  to have any effect at all on the underlying request, subject to the whims of the <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>. Therefore,
   after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
-  the resource to be unknown. Is it safest to immediately call either <code>Resource.load()</code> or <code>Resource.wipe()</code>.</p>
+  the resource to be unknown. Is it safest to immediately call either <code><a href="../Classes/Resource.html">Resource</a>.load()</code> or <code><a href="../Classes/Resource.html">Resource</a>.wipe()</code>.</p>
 
 <p>This method <em>does</em> guarantee, however, that after it is called, even if a network response does arrive it will be
   ignored and not trigger any callbacks.</p>
@@ -490,7 +491,7 @@ response has already arrived, the callback is still called as usual.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

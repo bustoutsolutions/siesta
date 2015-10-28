@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ResponseEntityTransformer Protocol Reference</title>
+    <title>ConfigurationPatternConvertible Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/ResponseEntityTransformer" class="dashAnchor"></a>
-    <a title="ResponseEntityTransformer Protocol Reference"></a>
+    <a name="//apple_ref/swift/Protocol/ConfigurationPatternConvertible" class="dashAnchor"></a>
+    <a title="ConfigurationPatternConvertible Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ResponseEntityTransformer Protocol Reference
+        ConfigurationPatternConvertible Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -185,31 +194,37 @@
               </li>
             </ul>
           </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
-              </li>
-            </ul>
-          </li>
         </ul>
       </nav>
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ResponseEntityTransformer</h1>
+            <h1>ConfigurationPatternConvertible</h1>
               <div class="declaration">
                 <div class="Swift">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseEntityTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationPatternConvertible</span></code></pre>
 
                 </div>
               </div>
-            <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response entity (whether success or failure), and
-  does not touch the surrounding error metadata (if any).</p>
+            <p>A type that can serve as a URL matcher for service configuration.</p>
 
-<p>To use, implement this protocol and override the <code>processEntity(_:)</code> method.</p>
+<p>Siesta provides implementations of this protocol for <code><a href="../Extensions/String.html">String</a></code> (for glob-based matching) and <code><a href="../Classes/Resource.html">Resource</a></code> (to configure
+one specific resource).</p>
+
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Classes/Service.html">Service</a>.configure(_:description:configurer:)</code>
+
+        </div><div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Extensions/String.html">String</a>.configurationPattern(_:)</code>
+
+        </div><div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Classes/Resource.html">Resource</a>.configurationPattern(_:)</code>
+
+        </div>
 
           </section>
           <section class="section task-group-section">
@@ -218,36 +233,24 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta25ResponseEntityTransformer13processEntityuRq_S0__Fq_FVS_6EntityOS_8Response"></a>
-                    <a name="//apple_ref/swift/Method/processEntity(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta25ResponseEntityTransformer13processEntityuRq_S0__Fq_FVS_6EntityOS_8Response">processEntity(_:)</a>
+                    <a name="/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternuRq_S0__Fq_FCS_7ServiceFCSo5NSURLSb"></a>
+                    <a name="//apple_ref/swift/Method/configurationPattern(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternuRq_S0__Fq_FCS_7ServiceFCSo5NSURLSb">configurationPattern(_:)</a>
                     </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Implementations will typically override this method.</p>
-
-<p>Return <code>.Success</code> if the parsing succeeded, <code>.Failure</code> if it failed. See the default implementation of
-  <code>processError(_:)</code> for information about what happens to this method’s return value when the underlying response
-  is a failure.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p>Returns success with the entity unchanged.</p>
+                        <p>Turns the receiver into a predicate that matches URLs.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processEntity</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">Service</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -257,37 +260,24 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta25ResponseEntityTransformer12processErroruRq_S0__Fq_FVS_5ErrorOS_8Response"></a>
-                    <a name="//apple_ref/swift/Method/processError(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta25ResponseEntityTransformer12processErroruRq_S0__Fq_FVS_5ErrorOS_8Response">processError(_:)</a>
+                    <a name="/s:vP6Siesta31ConfigurationPatternConvertible31configurationPatternDescriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/configurationPatternDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP6Siesta31ConfigurationPatternConvertible31configurationPatternDescriptionSS">configurationPatternDescription</a>
                     </code>
-                      <span class="has_default_implementation">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Implementations typically do not override this method, but they can if they wish to apply special processing to
-  errors. For example, an implementation might want to leave errors untouched, regardless of content type, and only
-  apply processing on success.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <pre class="highlight plaintext"><code>Attempt to process error’s `content` entity using `processEntity(_:)`. If the processing succeeded, replace the
-</code></pre>
-
-<p>content of the error. If there was a processing error, log it but preserve the original error.</p>
+                        <p>A logging-friendly description of the receiver when it acts as a URL pattern.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">processError</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">configurationPatternDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -299,7 +289,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

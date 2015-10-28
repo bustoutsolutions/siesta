@@ -12,7 +12,7 @@
     <a title="Resources  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,6 +43,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -84,19 +87,19 @@
                 <a href="Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -125,6 +128,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -174,6 +180,9 @@
               <li class="nav-group-task">
                 <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -181,14 +190,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -227,6 +228,51 @@
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Siesta31ConfigurationPatternConvertible"></a>
+                    <a name="//apple_ref/swift/Protocol/ConfigurationPatternConvertible" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Siesta31ConfigurationPatternConvertible">ConfigurationPatternConvertible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A type that can serve as a URL matcher for service configuration.</p>
+
+<p>Siesta provides implementations of this protocol for <code><a href="Extensions/String.html">String</a></code> (for glob-based matching) and <code><a href="Classes/Resource.html">Resource</a></code> (to configure
+one specific resource).</p>
+
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="Classes/Service.html">Service</a>.configure(_:description:configurer:)</code>
+
+        </div><div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="Extensions/String.html">String</a>.configurationPattern(_:)</code>
+
+        </div><div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="Classes/Resource.html">Resource</a>.configurationPattern(_:)</code>
+
+        </div>
+
+                        <a href="Protocols/ConfigurationPatternConvertible.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationPatternConvertible</span></code></pre>
 
                         </div>
                       </div>
@@ -328,8 +374,8 @@ the content’s type and freshness.</p>
 
 <p>Allows you to replace the following:</p>
 
-<pre class="highlight plaintext"><code>resource.latestData?.content as? String
-(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+<pre class="highlight plaintext"><code>resource.latestData?.content as? <a href="Extensions/String.html">String</a>
+(resource.latestError?.entity?.content as? [<a href="Extensions/String.html">String</a>:AnyObject])?["error.detail"]
 </code></pre>
 
 <p>…with:</p>
@@ -349,7 +395,7 @@ resource.latestError?.jsonDict["error.detail"]
 
 <p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
 <code>UIDoorknob</code>, but does not do any parsing to put a <code>UIDoorknob</code> there in the first place. You’d need to pair this with
-a custom <code>ResponseTransformer</code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
+a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
 
                         <a href="Protocols/TypedContentAccessors.html" class="slightly-smaller">See more</a>
                       </div>
@@ -395,8 +441,8 @@ a custom <code>ResponseTransformer</code> that converts raw doorknob responses t
 
 <p><code>Error</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
-even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. NSError-based, for example, because
-network implementations may sometimes provide <em>both</em> an NSError <em>and</em> an HTTP diagnostic.</p>
+even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. exception/NSError-based, for example,
+because network implementations may sometimes provide <em>both</em> an underlying NSError <em>and</em> an HTTP diagnostic.</p>
 
 <p>The one ironclad guarantee that <code>Error</code> makes is the presence of a <code>userMessage</code>.</p>
 
@@ -430,11 +476,13 @@ network implementations may sometimes provide <em>both</em> an NSError <em>and</
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Options which control the behavior of a <code>Resource</code>.</p>
+                        <p>Options which control the behavior of a <code><a href="Classes/Resource.html">Resource</a></code>.</p>
 
-<ul>
-<li>SeeAlso: <code>Service.configure(...)</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="Classes/Service.html">Service</a>.configure(...)</code>
+
+        </div>
 
                         <a href="Structs/Configuration.html" class="slightly-smaller">See more</a>
                       </div>
@@ -454,7 +502,7 @@ network implementations may sometimes provide <em>both</em> an NSError <em>and</
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

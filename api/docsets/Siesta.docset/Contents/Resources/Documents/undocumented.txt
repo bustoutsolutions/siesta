@@ -8,17 +8,8 @@ Networking-Alamofire.swift
             request: NSURLRequest,
             completion: RequestNetworkingCompletionCallback)
         -> RequestNetworking
-	public var siestaNetworkingProvider: NetworkingProvider
-        { return AlamofireProvider(manager: self) }
-Networking.swift
-	public var siestaNetworkingProvider: NetworkingProvider
-        { return self }
 Networking-NSURLSession.swift
 	public let session: NSURLSession
-	public var siestaNetworkingProvider: NetworkingProvider
-        { return NSURLSessionProvider(session: self) }
-	public var siestaNetworkingProvider: NetworkingProvider
-        { return NSURLSession(configuration: self).siestaNetworkingProvider }
 ResourceStatusOverlay.swift
 	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
 	@IBOutlet public var errorView: UIView?
@@ -36,3 +27,13 @@ ResourceStatusOverlay.swift
 	public func resourceChanged(resource: Resource, event: ResourceEvent)
 	public func stoppedObservingResource(resource: Resource)
 	@IBAction public func retryFailedRequests()
+Error.swift
+	public let encodingName: String
+	public let text: String
+	public let offendingString: String
+	public let networkError: ErrorType?
+	public let encodingName: String
+	public let encodingName: String
+	public let actualType: String
+	public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+	public let transformer: ResponseTransformer

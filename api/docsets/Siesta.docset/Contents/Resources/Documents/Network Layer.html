@@ -12,7 +12,7 @@
     <a title="Network Layer  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,6 +43,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -84,19 +87,19 @@
                 <a href="Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -125,6 +128,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -174,6 +180,9 @@
               <li class="nav-group-task">
                 <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -181,14 +190,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -217,9 +218,9 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code>Service.init(base:networkingProvider:)</code>.</p>
+<code><a href="Classes/Service.html">Service</a>.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>NSURLSessionProvider</code> and <code>AlamofireProvider</code> for implementation examples.</p>
+<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code><a href="Structs/AlamofireProvider.html">AlamofireProvider</a></code> for implementation examples.</p>
 
                         <a href="Protocols/NetworkingProvider.html" class="slightly-smaller">See more</a>
                       </div>
@@ -247,29 +248,29 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A convenience to turn create the appropriate <code>NetworkingProvider</code> for a variety of networking configuration objects.
-Used by the <code>Service</code> initializer.</p>
+                        <p>A convenience to turn create the appropriate <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> for a variety of networking configuration objects.
+Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.</p>
 
 <p>For example, instead of having to do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionProvider(session:
-      NSURLSession(configuration:
-          NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+<pre class="highlight plaintext"><code><a href="Classes/Service.html">Service</a>(base: "http://foo.bar", networking:
+  <a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>(session:
+      <a href="Extensions/NSURLSession.html">NSURLSession</a>(configuration:
+          <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>.ephemeralSessionConfiguration()))
 </code></pre>
 
 <p>…you can do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+<pre class="highlight plaintext"><code><a href="Classes/Service.html">Service</a>(base: "http://foo.bar", networking:
+  <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>.ephemeralSessionConfiguration()))
 </code></pre>
 
 <p>Siesta supports conversion of the following types into a networking provider:</p>
 
 <ul>
-<li>NSURLSession</li>
-<li>NSURLSessionConfiguration</li>
-<li>Alamofire.Manager</li>
+<li><a href="Extensions/NSURLSession.html">NSURLSession</a></li>
+<li><a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></li>
+<li><a href="Extensions/Alamofire.html">Alamofire</a>.Manager</li>
 </ul>
 
 <p>…and you can add to the list by writing an extension to implement <code>NetworkingProviderConvertible</code>.</p>
@@ -300,7 +301,7 @@ Used by the <code>Service</code> initializer.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Network handling for a single request. Created by a <code>NetworkingProvider</code>. Implementations have three responsibilities:</p>
+                        <p>Network handling for a single request. Created by a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code>. Implementations have three responsibilities:</p>
 
 <ul>
 <li>start the request when <code>start(_:)</code> is called,</li>
@@ -334,14 +335,42 @@ Used by the <code>Service</code> initializer.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Siesta passes this callback to a <code>NetworkingProvider</code> implementation to call when the underlying network request is complete.</p>
+                        <p>Siesta passes this callback to a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementation to call when the underlying network request is complete.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="Swift">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="nv">nsres</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">body</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">?,</span> <span class="nv">nserror</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="nv">nsres</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">body</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:V6Siesta22RequestTransferMetrics"></a>
+                    <a name="//apple_ref/swift/Struct/RequestTransferMetrics" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta22RequestTransferMetrics">RequestTransferMetrics</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Used by <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementations to report request progress.</p>
+
+                        <a href="Structs/RequestTransferMetrics.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestTransferMetrics</span></code></pre>
 
                         </div>
                       </div>
@@ -399,16 +428,16 @@ Used by the <code>Service</code> initializer.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking.</p>
+                        <p>Uses <a href="https://github.com/<a href="Extensions/Alamofire.html">Alamofire</a>/<a href="Extensions/Alamofire.html">Alamofire</a>&ldquo;><a href="Extensions/Alamofire.html">Alamofire</a></a> for networking.</p>
 
 <p>You can create instances of this class with a custom
-<a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-in order to control caching, certificate validation rules, etc. For example, here is a <code>Service</code> that will not cache
+<a href="http://cocoadocs.org/docsets/<a href="Extensions/Alamofire.html">Alamofire</a>/1.3.0/Classes/Manager.html&rdquo;><a href="Extensions/Alamofire.html">Alamofire</a>.Manager</a>
+in order to control caching, certificate validation rules, etc. For example, here is a <code><a href="Classes/Service.html">Service</a></code> that will not cache
 anything and will not use the cell network:</p>
 
-<pre class="highlight plaintext"><code>class MyAPI: Service {
+<pre class="highlight plaintext"><code>class MyAPI: <a href="Classes/Service.html">Service</a> {
     init() {
-        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+        let configuration = <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>.ephemeralSessionConfiguration()
         configuration.allowsCellularAccess = false
         super.init(
             base: "http://foo.bar/v1",
@@ -435,7 +464,7 @@ anything and will not use the cell network:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

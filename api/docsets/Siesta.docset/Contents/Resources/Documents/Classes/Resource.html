@@ -13,7 +13,7 @@
     <a title="Resource Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -182,14 +191,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -223,10 +224,10 @@ questions changes.</p>
           <section class="section task-group-section">
             <div class="task-group">
                 <div class="task-name-container">
-                  <a name="/Configuration"></a>
-                  <a name="//apple_ref/swift/Section/Configuration" class="dashAnchor"></a>
-                  <a href="#/Configuration">
-                    <h3 class="section-name">Configuration</h3>
+                  <a name="/Essentials"></a>
+                  <a name="//apple_ref/swift/Section/Essentials" class="dashAnchor"></a>
+                  <a href="#/Essentials">
+                    <h3 class="section-name">Essentials</h3>
                   </a>
                 </div>
               <ul>
@@ -288,9 +289,9 @@ questions changes.</p>
             </div>
             <div class="task-group">
                 <div class="task-name-container">
-                  <a name="/Configuration2"></a>
+                  <a name="/Configuration"></a>
                   <a name="//apple_ref/swift/Section/Configuration" class="dashAnchor"></a>
-                  <a href="#/Configuration2">
+                  <a href="#/Configuration">
                     <h3 class="section-name">Configuration</h3>
                   </a>
                 </div>
@@ -308,13 +309,13 @@ questions changes.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Configuration options for this resource.</p>
+                        <p><a href="../Structs/Configuration.html">Configuration</a> options for this resource.</p>
 
 <p>Note that this is a read-only computed property. You cannot directly change an individual resource&rsquo;s configuration.
 The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
 not in use. Any configuration applied a particular resource instance would therefore be transient.</p>
 
-<p>Instead, you must use the <code>Service.configure(...)</code> methods. This sets up configuration to be applied to resources
+<p>Instead, you must use the <code><a href="../Classes/Service.html">Service</a>.configure(...)</code> methods. This sets up configuration to be applied to resources
 according to their URL, whenever they are created or recreated.</p>
 
                       </div>
@@ -362,9 +363,11 @@ with <code>load()</code> and <code>loadIfNeeded()</code>, not any of the various
 <p>Note that <code>latestData</code> will be present as long as there has <em>ever</em> been a succesful request since the resource
 was created or wiped. If an error occurs, <code>latestData</code> will still hold the latest (now stale) valid data.</p>
 
-<ul>
-<li>SeeAlso: <code>DataContainer</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code>DataContainer</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -597,9 +600,11 @@ situations. Special characters are escaped when necessary, and otherwise ignored
 <a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>ResourcePathsSpec</code></a>
 for details.</p>
 
-<ul>
-<li>SeeAlso: <code>relative(_:)</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code>relative(_:)</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -633,14 +638,14 @@ for details.</p>
   <a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>ResourcePathsSpec</code></a>
   for details.</p>
 
-<ul>
-<li>SeeAlso:
-
-<ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <ul>
 <li><code>optionalRelative(_:)</code></li>
 <li><code>child(_:)</code></li>
-</ul></li>
 </ul>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -671,7 +676,7 @@ for details.</p>
 
 <p>This convenience method is useful for resolving URLs returned as part of a JSON response body:</p>
 
-<pre class="highlight plaintext"><code>  let href = resource.jsonDict["owner"] as? String  // href is an optional
+<pre class="highlight plaintext"><code>  let href = resource.jsonDict["owner"] as? <a href="../Extensions/String.html">String</a>  // href is an optional
   if let ownerResource = resource.optionalRelative(href) {
     // ...
   }
@@ -712,8 +717,8 @@ for details.</p>
   If you need to circumvent either of these restrictions, you can create the query string yourself and pass
   it to <code>relative(_:)</code> instead of using <code>withParam(_:_:)</code>.</p>
 
-<p>Note that <code>Service</code> gives out unique <code>Resource</code> instances according to the full URL in string form, and thus
-  considers query string parameter order significant. Therefore, to ensure that you get the same <code>Resource</code>
+<p>Note that <code><a href="../Classes/Service.html">Service</a></code> gives out unique <code><a href="../Classes/Resource.html">Resource</a></code> instances according to the full URL in string form, and thus
+  considers query string parameter order significant. Therefore, to ensure that you get the same <code><a href="../Classes/Resource.html">Resource</a></code>
   instance no matter the order in which you specify parameters, <code>withParam(_:_:)</code> sorts all parameters by name.
   Note that <em>only</em> <code>withParam(_:_:)</code> does this sorting; if you use other methods to create query strings, it is
   up to you to canonicalize your parameter order.</p>
@@ -763,40 +768,32 @@ for details.</p>
       .failure { ... }
 </code></pre>
 
-<p>See <code>Request</code> for a complete list of hooks.</p>
+<p>See <code><a href="../Protocols/Request.html">Request</a></code> for a complete list of hooks.</p>
 
 <p>Note that, unlike load() and loadIfNeeded(), this method does <em>not</em> update latestData or latestError,
   and does not notify resource observers about the result.</p>
 
-<ul>
-<li>Parameter method: The HTTP verb to use for the request</li>
-<li><p>Parameter requestMutation:
-  An optional callback to change details of the request before it is sent. For example:</p>
-<pre class="highlight plaintext"><code>  request(.POST) { nsreq in
-    nsreq.HTTPBody = imageData
-    nsreq.addValue(
-      "image/png",
-      forHTTPHeaderField:
-        "Content-Type")
-  }
-</code></pre>
-
-<p>Does nothing by default.</p></li>
-<li><p>SeeAlso:</p>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <p>SeeAlso:</p>
 
 <ul>
 <li><code>load()</code></li>
 <li><code>loadIfNeeded()</code></li>
-</ul></li>
-<li><p>SeeAlso:</p>
+</ul>
+
+        </div><div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <p>SeeAlso:</p>
 
 <ul>
 <li><code>request(_:data:contentType:requestMutation:)</code></li>
 <li><code>request(_:text:encoding:requestMutation:)</code></li>
 <li><code>request(_:json:requestMutation:)</code></li>
 <li><code>request(_:urlEncoded:requestMutation:)</code></li>
-</ul></li>
 </ul>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -898,11 +895,6 @@ for details.</p>
 <p>If the string cannot be encoded using the given encoding, this methods triggers the <code>failure(_:)</code> request hook
   immediately, without touching the network.</p>
 
-<ul>
-<li>Parameter contentType: <code>text/plain</code> by default.</li>
-<li>Parameter encoding: UTF-8 (<code>NSUTF8StringEncoding</code>) by default.</li>
-</ul>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -971,10 +963,6 @@ for details.</p>
 
 <p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
   triggers the <code>failure(_:)</code> request hook immediately, without touching the network.</p>
-
-<ul>
-<li>Parameter contentType: <code>application/json</code> by default.</li>
-</ul>
 
                       </div>
                       <div class="declaration">
@@ -1107,14 +1095,14 @@ for details.</p>
 
 <p>If the resource is not up to date and there is no load request already in progress, this method calls <code>load()</code>.</p>
 
-<ul>
-<li>SeeAlso:
-
-<ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <ul>
 <li><code>isUpToDate</code></li>
 <li><code>load()</code></li>
-</ul></li>
 </ul>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -1147,14 +1135,14 @@ for details.</p>
 
 <ol>
 <li>This resource’s <code>loading</code> property becomes true, and remains true until the request either succeeds or fails.
-Observers immedately receive <code>ResourceEvent.Requested</code>.</li>
-<li>If the request is cancelled before completion, observers receive <code>ResourceEvent.RequestCancelled</code>.</li>
+Observers immedately receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.Requested</code>.</li>
+<li>If the request is cancelled before completion, observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.RequestCancelled</code>.</li>
 <li>If the server returns a success response, that goes in <code>latestData</code>, and <code>latestError</code> becomes nil.
-Observers receive <code>ResourceEvent.NewData</code>.</li>
+Observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NewData</code>.</li>
 <li>If the server returns a 304, <code>latestData</code>’s timestamp is updated but the entity is otherwise untouched.
-<code>latestError</code> becomes nil. Observers receive <code>ResourceEvent.NotModified</code>.</li>
+<code>latestError</code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NotModified</code>.</li>
 <li>If the request fails for any reason, whether client-, server-, or network-related, observers receive
-<code>ResourceEvent.Error</code>. Note that <code>latestData</code> does <em>not</em> become nil; the last valid response always sticks
+<code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.<a href="../Structs/Error.html">Error</a></code>. Note that <code>latestData</code> does <em>not</em> become nil; the last valid response always sticks
 around until another valid response arrives.</li>
 </ol>
 
@@ -1188,7 +1176,7 @@ to update <code>latestData</code> or <code>latestError</code> and notify observe
 
 <ul>
 <li>you need to use a request method other than GET,</li>
-<li>you need to set headers or other request options, but just for this one request (so that <code>Service.configure</code>
+<li>you need to set headers or other request options, but just for this one request (so that <code><a href="../Classes/Service.html">Service</a>.configure</code>
 won’t work), or</li>
 <li>for some arcane reason, you want a request for a <em>different</em> resource to update the state of this one.</li>
 </ul>
@@ -1253,10 +1241,8 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
-</code></pre>
-
-<p>where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
+                        <p>Convenience to call <code>cancelLoadIfUnobserved()</code> after a delay. Useful for situations such as table view scrolling
+where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
 views a chance to express interest in it before canceling any requests.</p>
 
                       </div>
@@ -1296,7 +1282,7 @@ views a chance to express interest in it before canceling any requests.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Directly updates <code>latestData</code> without touching the network. Clears <code>latestError</code> and broadcasts
-  <code>ResourceEvent.NewData</code> to observers.</p>
+  <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NewData</code> to observers.</p>
 
 <p>This method is useful for incremental and optimistic updates.</p>
 
@@ -1327,13 +1313,15 @@ views a chance to express interest in it before canceling any requests.</p>
 
 <p>Use this technique with caution!</p>
 
-<p>Note that the data you pass does <em>not</em> go through the standard <code>ResponseTransformer</code> chain. You should pass data
+<p>Note that the data you pass does <em>not</em> go through the standard <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain. You should pass data
   as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
   <code>updatedContent</code> is a <code>Dictionary</code>, not <code>NSData</code> containing encoded JSON.</p>
 
-<ul>
-<li>SeeAlso: <code>localContentOverride(_:)</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code>localContentOverride(_:)</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -1398,9 +1386,11 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
 <p>Any update to <code>latestData</code> or <code>latestError</code> — including a call to <code>localDataOverride()</code> or
 <code>localContentOverride()</code> — clears the invalidation.</p>
 
-<ul>
-<li>SeeAlso: <code>wipe()</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code>wipe()</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -1437,9 +1427,11 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
 
 <p>Observers receive a <code>NewData</code> event. Requests in progress call completion hooks with a cancellation error.</p>
 
-<ul>
-<li>SeeAlso: <code>invalidate()</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code>invalidate()</code>
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -1593,6 +1585,37 @@ still exists.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FC6Siesta8Resource20configurationPatternFS0_FCS_7ServiceFCSo5NSURLSb"></a>
+                    <a name="//apple_ref/swift/Method/configurationPattern(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta8Resource20configurationPatternFS0_FCS_7ServiceFCSo5NSURLSb">configurationPattern(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html">Service</a>.configure(...)</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">Service</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:vC6Siesta8Resource30entityForTypedContentAccessorsGSqVS_6Entity_"></a>
                     <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
                     <a class="token" href="#/s:vC6Siesta8Resource30entityForTypedContentAccessorsGSqVS_6Entity_">entityForTypedContentAccessors</a>
@@ -1622,7 +1645,7 @@ still exists.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -12,7 +12,7 @@
     <a title="Response Parsing  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,6 +43,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -84,19 +87,19 @@
                 <a href="Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -125,6 +128,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -174,6 +180,9 @@
               <li class="nav-group-task">
                 <a href="Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -181,14 +190,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -272,140 +273,6 @@ transformer touches only its input parameter.</p>
             </div>
             <div class="task-group">
                 <div class="task-name-container">
-                  <a name="/Data%20transformer%20plumbing"></a>
-                  <a name="//apple_ref/swift/Section/Data transformer plumbing" class="dashAnchor"></a>
-                  <a href="#/Data%20transformer%20plumbing">
-                    <h3 class="section-name">Data transformer plumbing</h3>
-                  </a>
-                </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:P6Siesta25ResponseEntityTransformer"></a>
-                    <a name="//apple_ref/swift/Protocol/ResponseEntityTransformer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:P6Siesta25ResponseEntityTransformer">ResponseEntityTransformer</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A utility flavor of <code>ResponseTransformer</code> that deals only with the response entity (whether success or failure), and
-  does not touch the surrounding error metadata (if any).</p>
-
-<p>To use, implement this protocol and override the <code>processEntity(_:)</code> method.</p>
-
-                        <a href="Protocols/ResponseEntityTransformer.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseEntityTransformer</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-                <div class="task-name-container">
-                  <a name="/Transformers%20for%20standard%20types"></a>
-                  <a name="//apple_ref/swift/Section/Transformers for standard types" class="dashAnchor"></a>
-                  <a href="#/Transformers%20for%20standard%20types">
-                    <h3 class="section-name">Transformers for standard types</h3>
-                  </a>
-                </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V6Siesta23TextResponseTransformer"></a>
-                    <a name="//apple_ref/swift/Struct/TextResponseTransformer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Parses an <code>NSData</code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TextResponseTransformer</span><span class="p">:</span> <span class="kt">ResponseEntityTransformer</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V6Siesta23JSONResponseTransformer"></a>
-                    <a name="//apple_ref/swift/Struct/JSONResponseTransformer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Parses an <code>NSData</code> content as JSON, outputting either a dictionary or an array.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONResponseTransformer</span><span class="p">:</span> <span class="kt">ResponseEntityTransformer</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V6Siesta24ImageResponseTransformer"></a>
-                    <a name="//apple_ref/swift/Struct/ImageResponseTransformer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Attempts to parse responses as images, yielding a <code>UIImage</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="Swift">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ImageResponseTransformer</span><span class="p">:</span> <span class="kt">ResponseEntityTransformer</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-                <div class="task-name-container">
                   <a name="/Chaining"></a>
                   <a name="//apple_ref/swift/Section/Chaining" class="dashAnchor"></a>
                   <a href="#/Chaining">
@@ -429,9 +296,11 @@ transformer touches only its input parameter.</p>
                         <p>A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
   next. Transformers in the sequence can be limited by content type.</p>
 
-<ul>
-<li>SeeAlso: <code>Service.responseTransformers</code></li>
-</ul>
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="Classes/Service.html">Service</a>.responseTransformers</code>
+
+        </div>
 
                         <a href="Structs/TransformerSequence.html" class="slightly-smaller">See more</a>
                       </div>
@@ -448,10 +317,145 @@ transformer touches only its input parameter.</p>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Data%20transformer%20plumbing"></a>
+                  <a name="//apple_ref/swift/Section/Data transformer plumbing" class="dashAnchor"></a>
+                  <a href="#/Data%20transformer%20plumbing">
+                    <h3 class="section-name">Data transformer plumbing</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:V6Siesta26ResponseContentTransformer"></a>
+                    <a name="//apple_ref/swift/Struct/ResponseContentTransformer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:V6Siesta26ResponseContentTransformer">ResponseContentTransformer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A simplified <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
+  surrounding metadata.</p>
+
+<p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.
+  If <code>processContent(_:)</code> throws, the response is transformed to an error.</p>
+
+                        <a href="Structs/ResponseContentTransformer.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span><span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Transformers%20for%20standard%20types"></a>
+                  <a name="//apple_ref/swift/Section/Transformers for standard types" class="dashAnchor"></a>
+                  <a href="#/Transformers%20for%20standard%20types">
+                    <h3 class="section-name">Transformers for standard types</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_"></a>
+                    <a name="//apple_ref/swift/Function/JSONResponseTransformer(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parses <code>NSData</code> content as JSON, outputting either a dictionary or an array.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">JSONResponseTransformer</span><span class="p">(</span><span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_"></a>
+                    <a name="//apple_ref/swift/Function/TextResponseTransformer(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parses <code>NSData</code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">TextResponseTransformer</span><span class="p">(</span><span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_"></a>
+                    <a name="//apple_ref/swift/Function/ImageResponseTransformer(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parses <code>NSData</code> content as an image, yielding a <code>UIImage</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">ImageResponseTransformer</span><span class="p">(</span><span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResponseTransformer</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

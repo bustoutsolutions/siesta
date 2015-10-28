@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cause Struct Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/Cause" class="dashAnchor"></a>
+    <a title="Cause Struct Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html">Siesta Docs</a> (89% documented)</p>
+        <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html">Siesta Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        Cause Struct Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="../../Resources.html">Resources</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/Service.html">Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Resource.html">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Entity.html">Entity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Observering Resources.html">Observering Resources</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/ResourceObserver.html">ResourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Observering Resources.html#/s:6Siesta23ResourceObserverClosure">ResourceObserverClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Requests.html">Requests</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Response Parsing.html">Response Parsing</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/Response.html">Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ResponseTransformer.html">ResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../UI Helpers.html">UI Helpers</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/RemoteImageView.html">RemoteImageView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Network Layer.html">Network Layer</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/NetworkingProvider.html">NetworkingProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/RequestNetworking.html">RequestNetworking</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/AlamofireProvider.html">AlamofireProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/EntityEncoder.html">EntityEncoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/LogCategory.html">LogCategory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Logging.html#/s:v6Siesta6loggerFTOS_11LogCategorySS_T_">logger</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Other Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Extensions/Alamofire.html">Alamofire</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSURLSession.html">NSURLSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Cause</h1>
+              <div class="declaration">
+                <div class="Swift">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Cause</span></code></pre>
+
+                </div>
+              </div>
+            <p>Underlying causes of errors reported by Siesta. You will find these on the <code><a href="../../Structs/Error.html">Error</a>.cause</code> property.
+  (Note that <code>cause</code> may also contain errors from the underlying network library that do not belong to this enum.)</p>
+
+<p>The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
+  but they can be useful if you want to add special handling for specific errors.</p>
+
+<p>For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,
+  and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and
+  (2) you can turn that one specific error into a success by adding a transformer:</p>
+
+<pre class="highlight plaintext"><code>  configure {
+    $0.config.responseTransformers.add(GarbledResponseHandler())
+  }
+
+  ...
+
+  struct GarbledResponseHandler: <a href="../../Protocols/ResponseTransformer.html">ResponseTransformer</a> {
+    func process(response: <a href="../../Enums/Response.html">Response</a>) -&gt; <a href="../../Enums/Response.html">Response</a> {
+      switch response {
+        case .Success:
+          return response
+
+        case .Failure(let error):
+          if error.cause is Siesta.<a href="../../Structs/Error.html">Error</a>.Cause.InvalidTextEncoding {
+            return .Success(<a href="../../Structs/Entity.html">Entity</a>(
+              content: "Nothingness. Tumbleweeds. The Void.",
+              contentType: "text/string"))
+          } else {
+            return response
+          }
+      }
+    }
+  }
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Request%20Errors"></a>
+                  <a name="//apple_ref/swift/Section/Request Errors" class="dashAnchor"></a>
+                  <a href="#/Request%20Errors">
+                    <h3 class="section-name">Request Errors</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause15UnencodableText"></a>
+                    <a name="//apple_ref/swift/Struct/UnencodableText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause15UnencodableText">UnencodableText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unable to create a text request with the requested character encoding.</p>
+
+                        <a href="../../Structs/Error/Cause/UnencodableText.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">UnencodableText</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause17InvalidJSONObject"></a>
+                    <a name="//apple_ref/swift/Struct/InvalidJSONObject" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause17InvalidJSONObject">InvalidJSONObject</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unable to create a JSON request using an object that is not JSON-encodable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">InvalidJSONObject</span><span class="p">:</span> <span class="kt">ErrorType</span> <span class="p">{</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause15NotURLEncodable"></a>
+                    <a name="//apple_ref/swift/Struct/NotURLEncodable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause15NotURLEncodable">NotURLEncodable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unable to create a URL-encoded request, probably due to unpaired Unicode surrogate chars.</p>
+
+                        <a href="../../Structs/Error/Cause/NotURLEncodable.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">NotURLEncodable</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Network%20Errors"></a>
+                  <a name="//apple_ref/swift/Section/Network Errors" class="dashAnchor"></a>
+                  <a href="#/Network%20Errors">
+                    <h3 class="section-name">Network Errors</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause16RequestCancelled"></a>
+                    <a name="//apple_ref/swift/Struct/RequestCancelled" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause16RequestCancelled">RequestCancelled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Underlying network request was cancelled before response arrived.</p>
+
+                        <a href="../../Structs/Error/Cause/RequestCancelled.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestCancelled</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+                <div class="task-name-container">
+                  <a name="/Response%20Errors"></a>
+                  <a name="//apple_ref/swift/Section/Response Errors" class="dashAnchor"></a>
+                  <a href="#/Response%20Errors">
+                    <h3 class="section-name">Response Errors</h3>
+                  </a>
+                </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause17NoLocalDataFor304"></a>
+                    <a name="//apple_ref/swift/Struct/NoLocalDataFor304" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause17NoLocalDataFor304">NoLocalDataFor304</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Server sent 304 (“not changed”), but we have no local data for the resource.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">NoLocalDataFor304</span><span class="p">:</span> <span class="kt">ErrorType</span> <span class="p">{</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause19InvalidTextEncoding"></a>
+                    <a name="//apple_ref/swift/Struct/InvalidTextEncoding" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause19InvalidTextEncoding">InvalidTextEncoding</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The server sent a text encoding name that the OS does not recognize.</p>
+
+                        <a href="../../Structs/Error/Cause/InvalidTextEncoding.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">InvalidTextEncoding</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause15UndecodableText"></a>
+                    <a name="//apple_ref/swift/Struct/UndecodableText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause15UndecodableText">UndecodableText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The server’s response could not be decoded using the text encoding it specified.</p>
+
+                        <a href="../../Structs/Error/Cause/UndecodableText.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">UndecodableText</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause34JSONResponseIsNotDictionaryOrArray"></a>
+                    <a name="//apple_ref/swift/Struct/JSONResponseIsNotDictionaryOrArray" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause34JSONResponseIsNotDictionaryOrArray">JSONResponseIsNotDictionaryOrArray</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
+sent a response containing a bare JSON primitive.</p>
+
+                        <a href="../../Structs/Error/Cause/JSONResponseIsNotDictionaryOrArray.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">JSONResponseIsNotDictionaryOrArray</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause15UnparsableImage"></a>
+                    <a name="//apple_ref/swift/Struct/UnparsableImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause15UnparsableImage">UnparsableImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The server’s response could not be parsed using any known image format.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">UnparsableImage</span><span class="p">:</span> <span class="kt">ErrorType</span> <span class="p">{</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause29WrongTypeInTranformerPipeline"></a>
+                    <a name="//apple_ref/swift/Struct/WrongTypeInTranformerPipeline" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause29WrongTypeInTranformerPipeline">WrongTypeInTranformerPipeline</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A response transformer received entity content of a type it doesn’t know how to process. This error means
+that the upstream transformations may have succeeded, but did not return a value of the type the next
+transformer expected. This is a configuration error.</p>
+
+                        <a href="../../Structs/Error/Cause/WrongTypeInTranformerPipeline.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">WrongTypeInTranformerPipeline</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -13,7 +13,7 @@
     <a title="NetworkingProviderConvertible Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (90% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -44,6 +44,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
@@ -85,19 +88,19 @@
                 <a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ResponseEntityTransformer.html">ResponseEntityTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23TextResponseTransformer">TextResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta23JSONResponseTransformer">JSONResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Response Parsing.html#/s:V6Siesta24ImageResponseTransformer">ImageResponseTransformer</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/TransformerSequence.html">TransformerSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta23TextResponseTransformerFTSb_PS_19ResponseTransformer_">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Response Parsing.html#/s:F6Siesta24ImageResponseTransformerFTSb_PS_19ResponseTransformer_">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -126,6 +129,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallback">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
@@ -175,6 +181,9 @@
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -182,14 +191,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-          <a href="../Other Structs.html">Other Structs</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
             </ul>
           </li>
@@ -206,29 +207,29 @@
 
                 </div>
               </div>
-            <p>A convenience to turn create the appropriate <code>NetworkingProvider</code> for a variety of networking configuration objects.
-Used by the <code>Service</code> initializer.</p>
+            <p>A convenience to turn create the appropriate <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> for a variety of networking configuration objects.
+Used by the <code><a href="../Classes/Service.html">Service</a></code> initializer.</p>
 
 <p>For example, instead of having to do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionProvider(session:
-      NSURLSession(configuration:
-          NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+<pre class="highlight plaintext"><code><a href="../Classes/Service.html">Service</a>(base: "http://foo.bar", networking:
+  <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>(session:
+      <a href="../Extensions/NSURLSession.html">NSURLSession</a>(configuration:
+          <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>.ephemeralSessionConfiguration()))
 </code></pre>
 
 <p>…you can do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+<pre class="highlight plaintext"><code><a href="../Classes/Service.html">Service</a>(base: "http://foo.bar", networking:
+  <a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a>.ephemeralSessionConfiguration()))
 </code></pre>
 
 <p>Siesta supports conversion of the following types into a networking provider:</p>
 
 <ul>
-<li>NSURLSession</li>
-<li>NSURLSessionConfiguration</li>
-<li>Alamofire.Manager</li>
+<li><a href="../Extensions/NSURLSession.html">NSURLSession</a></li>
+<li><a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></li>
+<li><a href="../Extensions/Alamofire.html">Alamofire</a>.Manager</li>
 </ul>
 
 <p>…and you can add to the list by writing an extension to implement <code>NetworkingProviderConvertible</code>.</p>
@@ -250,7 +251,7 @@ Used by the <code>Service</code> initializer.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code>NetworkingProvider</code> appropriate to the receipient.</p>
+                        <p>Returns a <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> appropriate to the receipient.</p>
 
                       </div>
                       <div class="declaration">
@@ -269,7 +270,7 @@ Used by the <code>Service</code> initializer.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-05)</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
