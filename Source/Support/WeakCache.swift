@@ -13,11 +13,12 @@
 internal final class WeakCache<K: Hashable, V: AnyObject>
     {
     private var entriesByKey = [K : WeakCacheEntry<V>]()
+    private var lowMemoryObserver: AnyObject? = nil
     
     init()
         {
-        // TODO: Apparently no longer necessary to call removeObserver() explicitly?
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        lowMemoryObserver =
+            NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
                 queue: nil)
@@ -25,6 +26,12 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             [weak self] _ in
             self?.flushUnused()
             }
+        }
+    
+    deinit
+        {
+        if let lowMemoryObserver = lowMemoryObserver
+            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
         }
 
     func get(key: K, @noescape onMiss: () -> V) -> V

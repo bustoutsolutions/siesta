@@ -26,7 +26,7 @@ internal let now = { fakeNow ?? NSDate.timeIntervalSinceReferenceDate() }
 @objc(BOSResource)
 public final class Resource: NSObject
     {
-    // MARK: Configuration
+    // MARK: Essentials
     
     /// The API to which this resource belongs. Provides configuration defaults and instance uniqueness.
     public let service: Service
@@ -36,6 +36,7 @@ public final class Resource: NSObject
     
     internal var observers = [ObserverEntry]()
     
+    private var lowMemoryObserver: AnyObject? = nil
     
     // MARK: Configuration
     
@@ -128,7 +129,8 @@ public final class Resource: NSObject
         
         super.init()
         
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        lowMemoryObserver =
+            NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
                 queue: nil)
@@ -138,6 +140,12 @@ public final class Resource: NSObject
             }
         
         initializeDataFromCache()
+        }
+    
+    deinit
+        {
+        if let lowMemoryObserver = lowMemoryObserver
+            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
         }
 
     // MARK: URL navigation
