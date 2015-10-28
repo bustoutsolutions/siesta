@@ -14,7 +14,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
-* **Status:** 1.0 release now in beta. Seeking feedback. Please experiment, file issues, and send pull requests. Be bold!
+* **Status:** Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
 ###Contents
 
@@ -134,7 +134,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.2"
+    github "bustoutsolutions/siesta" "1.0-beta.3"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
