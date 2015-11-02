@@ -4,7 +4,7 @@ author_url: http://bustoutsolutions.com
 github_url: https://github.com/bustoutsolutions/siesta
 
 readme_path: api-readme.md
-template_directory: jazzy-templates
+copyright: '&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.'
 
 swift_version: 2.1
 
