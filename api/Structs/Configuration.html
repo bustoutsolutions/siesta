@@ -202,7 +202,6 @@
             <h1>Configuration</h1>
               <div class="declaration">
                 <div class="Swift">
-                  <p class="aside-title">Swift</p>
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Configuration</span></code></pre>
 
                 </div>
@@ -211,7 +210,7 @@
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html">Service</a>.configure(...)</code>
+          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>
 
         </div>
 
@@ -232,9 +231,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Time before valid data is considered stale by <code><a href="../Classes/Resource.html">Resource</a>.loadIfNeeded()</code>.</p>
+                        <p>Time before valid data is considered stale by <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">Resource.loadIfNeeded()</a></code>.</p>
 
-<p>Defaults from <code><a href="../Classes/Service.html">Service</a>.defaultExpirationTime</code>, which defaults to 30 seconds.</p>
+<p>Defaults from <code>Service.defaultExpirationTime</code>, which defaults to 30 seconds.</p>
 
                       </div>
                       <div class="declaration">
@@ -261,9 +260,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Time <code><a href="../Classes/Resource.html">Resource</a>.loadIfNeeded()</code> will wait before allowing a retry after a failed request.</p>
+                        <p>Time <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">Resource.loadIfNeeded()</a></code> will wait before allowing a retry after a failed request.</p>
 
-<p>Defaults from <code><a href="../Classes/Service.html">Service</a>.defaultRetryTime</code>, which defaults to 1 second.</p>
+<p>Defaults from <code>Service.defaultRetryTime</code>, which defaults to 1 second.</p>
 
                       </div>
                       <div class="declaration">
@@ -419,8 +418,8 @@ remove this default behavior by clearing the sequence:</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Interval at which request hooks &amp; observers receive progress updates. This affects how frequently
-<code><a href="../Protocols/Request.html">Request</a>.progress(_:)</code> and <code><a href="../Protocols/ResourceObserver.html">ResourceObserver</a>.resourceRequestProgress(_:progress:)</code> are called, and how often the
-<code><a href="../Protocols/Request.html">Request</a>.progress</code> property (which is partially time-based) is updated.</p>
+<code><a href="../Protocols/Request.html#/s:FP6Siesta7Request8progressuRq_S0__Fq_FFSdT_q_">Request.progress(_:)</a></code> and <code><a href="../Protocols/ResourceObserver.html#/s:FP6Siesta16ResourceObserver23resourceRequestProgressuRq_S0__Fq_FTCS_8Resource8progressSd_T_">ResourceObserver.resourceRequestProgress(_:progress:)</a></code> are called, and how often the
+<code><a href="../Protocols/Request.html#/s:vP6Siesta7Request8progressSd">Request.progress</a></code> property (which is partially time-based) is updated.</p>
 
                       </div>
                       <div class="declaration">
@@ -447,12 +446,12 @@ remove this default behavior by clearing the sequence:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Holds a mutable configuration while closures passed to <code><a href="../Classes/Service.html">Service</a>.configure(...)</code> modify it.</p>
+                        <p>Holds a mutable configuration while closures passed to <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> modify it.</p>
 
 <p>The reason that method doesn’t just accept a closure with an <code>inout</code> param is that doing so requires a messy
 flavor of closure declaration that makes the API much harder to use:</p>
 
-<pre class="highlight plaintext"><code>configure("/things/​*") { (inout config: <a href="../Structs/Configuration.html">Configuration</a>) in config.retryTime = 1 }
+<pre class="highlight plaintext"><code>configure("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
 </code></pre>
 
 <p>This wrapper class allows usage to instead look like:</p>
@@ -478,8 +477,8 @@ flavor of closure declaration that makes the API much harder to use:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

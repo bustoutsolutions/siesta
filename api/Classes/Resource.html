@@ -202,7 +202,6 @@
             <h1>Resource</h1>
               <div class="declaration">
                 <div class="Swift">
-                  <p class="aside-title">Swift</p>
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
@@ -309,13 +308,13 @@ questions changes.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><a href="../Structs/Configuration.html">Configuration</a> options for this resource.</p>
+                        <p>Configuration options for this resource.</p>
 
 <p>Note that this is a read-only computed property. You cannot directly change an individual resource&rsquo;s configuration.
 The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
 not in use. Any configuration applied a particular resource instance would therefore be transient.</p>
 
-<p>Instead, you must use the <code><a href="../Classes/Service.html">Service</a>.configure(...)</code> methods. This sets up configuration to be applied to resources
+<p>Instead, you must use the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> methods. This sets up configuration to be applied to resources
 according to their URL, whenever they are created or recreated.</p>
 
                       </div>
@@ -358,7 +357,7 @@ according to their URL, whenever they are created or recreated.</p>
 or a local override.</p>
 
 <p>Note that this property represents the <strong>full state</strong> of the resource. It therefore only holds entities fetched
-with <code>load()</code> and <code>loadIfNeeded()</code>, not any of the various flavors of <code>request(...)</code>.</p>
+with <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>, not any of the various flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(...)</a></code>.</p>
 
 <p>Note that <code>latestData</code> will be present as long as there has <em>ever</em> been a succesful request since the resource
 was created or wiped. If an error occurs, <code>latestData</code> will still hold the latest (now stale) valid data.</p>
@@ -397,8 +396,8 @@ was created or wiped. If an error occurs, <code>latestData</code> will still hol
                         <p>Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
 as a request is successful.</p>
 
-<p>Note that this only reports error from <code>load()</code> and <code>loadIfNeeded()</code>, not any of the various
-flavors of <code>request(...)</code>.</p>
+<p>Note that this only reports error from <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>, not any of the various
+flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -425,7 +424,7 @@ flavors of <code>request(...)</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The time of the most recent update to either <code>latestData</code> or <code>latestError</code>.</p>
+                        <p>The time of the most recent update to either <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -463,7 +462,7 @@ flavors of <code>request(...)</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>True if any load requests  (i.e. from calls to <code>load(...)</code> and <code>loadIfNeeded()</code>)
+                        <p>True if any load requests  (i.e. from calls to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load(...)</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>)
 for this resource are in progress.</p>
 
                       </div>
@@ -602,7 +601,7 @@ for details.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>relative(_:)</code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_">relative(_:)</a></code>
 
         </div>
 
@@ -641,8 +640,8 @@ for details.</p>
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
           <ul>
-<li><code>optionalRelative(_:)</code></li>
-<li><code>child(_:)</code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource16optionalRelativeFS0_FGSqSS_GSqS0__">optionalRelative(_:)</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_">child(_:)</a></code></li>
 </ul>
 
         </div>
@@ -676,7 +675,7 @@ for details.</p>
 
 <p>This convenience method is useful for resolving URLs returned as part of a JSON response body:</p>
 
-<pre class="highlight plaintext"><code>  let href = resource.jsonDict["owner"] as? <a href="../Extensions/String.html">String</a>  // href is an optional
+<pre class="highlight plaintext"><code>  let href = resource.jsonDict["owner"] as? String  // href is an optional
   if let ownerResource = resource.optionalRelative(href) {
     // ...
   }
@@ -715,7 +714,7 @@ for details.</p>
 <p>There is no support for parameters with an equal sign but an empty value (e.g. <code>?foo=</code>).
   There is also no support for repeated keys in the query string (e.g. <code>?foo=1&amp;foo=2</code>).
   If you need to circumvent either of these restrictions, you can create the query string yourself and pass
-  it to <code>relative(_:)</code> instead of using <code>withParam(_:_:)</code>.</p>
+  it to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_">relative(_:)</a></code> instead of using <code>withParam(_:_:)</code>.</p>
 
 <p>Note that <code><a href="../Classes/Service.html">Service</a></code> gives out unique <code><a href="../Classes/Resource.html">Resource</a></code> instances according to the full URL in string form, and thus
   considers query string parameter order significant. Therefore, to ensure that you get the same <code><a href="../Classes/Resource.html">Resource</a></code>
@@ -773,13 +772,32 @@ for details.</p>
 <p>Note that, unlike load() and loadIfNeeded(), this method does <em>not</em> update latestData or latestError,
   and does not notify resource observers about the result.</p>
 
-<div class="aside aside-see-also">
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter method: The HTTP verb to use for the request
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          <p>Parameter requestMutation:
+  An optional callback to change details of the request before it is sent. For example:</p>
+<pre class="highlight plaintext"><code>  request(.POST) { nsreq in
+    nsreq.HTTPBody = imageData
+    nsreq.addValue(
+      "image/png",
+      forHTTPHeaderField:
+        "Content-Type")
+  }
+</code></pre>
+
+<p>Does nothing by default.</p>
+
+        </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
           <p>SeeAlso:</p>
 
 <ul>
-<li><code>load()</code></li>
-<li><code>loadIfNeeded()</code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code></li>
 </ul>
 
         </div><div class="aside aside-see-also">
@@ -787,10 +805,10 @@ for details.</p>
           <p>SeeAlso:</p>
 
 <ul>
-<li><code>request(_:data:contentType:requestMutation:)</code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:data:contentType:requestMutation:)</a></code></li>
 <li><code>request(_:text:encoding:requestMutation:)</code></li>
 <li><code>request(_:json:requestMutation:)</code></li>
-<li><code>request(_:urlEncoded:requestMutation:)</code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod10urlEncodedGVSs10DictionarySSSS_15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:urlEncoded:requestMutation:)</a></code></li>
 </ul>
 
         </div>
@@ -895,6 +913,16 @@ for details.</p>
 <p>If the string cannot be encoded using the given encoding, this methods triggers the <code>failure(_:)</code> request hook
   immediately, without touching the network.</p>
 
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter contentType: <code>text/plain</code> by default.
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter encoding: UTF-8 (<code>NSUTF8StringEncoding</code>) by default.
+
+        </div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -963,6 +991,12 @@ for details.</p>
 
 <p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
   triggers the <code>failure(_:)</code> request hook immediately, without touching the network.</p>
+
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter contentType: <code>application/json</code> by default.
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -1054,16 +1088,16 @@ for details.</p>
 <p>“Up to date” means that either:</p>
 
 <ul>
-<li>the resource has data (i.e. <code>latestData</code> is not nil),</li>
-<li>the last request succeeded (i.e. <code>latestError</code> <em>is</em> nil), and</li>
-<li>the timestamp on <code>latestData</code> is more recent than <code>expirationTime</code> seconds ago,</li>
+<li>the resource has data (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> is not nil),</li>
+<li>the last request succeeded (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> <em>is</em> nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> is more recent than <code>expirationTime</code> seconds ago,</li>
 </ul>
 
 <p>…or:</p>
 
 <ul>
-<li>the last request failed (i.e. <code>latestError</code> is not nil), and</li>
-<li>the timestamp on <code>latestError</code> is more recent than <code>retryTime</code> seconds ago.</li>
+<li>the last request failed (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> is not nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> is more recent than <code>retryTime</code> seconds ago.</li>
 </ul>
 
                       </div>
@@ -1093,13 +1127,13 @@ for details.</p>
                       <div class="abstract">
                         <p>Ensures that there is a load request in progress for this resource, unless the resource is already up to date.</p>
 
-<p>If the resource is not up to date and there is no load request already in progress, this method calls <code>load()</code>.</p>
+<p>If the resource is not up to date and there is no load request already in progress, this method calls <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code>.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
           <ul>
-<li><code>isUpToDate</code></li>
-<li><code>load()</code></li>
+<li><code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10isUpToDateSb">isUpToDate</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code></li>
 </ul>
 
         </div>
@@ -1134,15 +1168,15 @@ for details.</p>
 <p>Sequence of events:</p>
 
 <ol>
-<li>This resource’s <code>loading</code> property becomes true, and remains true until the request either succeeds or fails.
-Observers immedately receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.Requested</code>.</li>
-<li>If the request is cancelled before completion, observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.RequestCancelled</code>.</li>
-<li>If the server returns a success response, that goes in <code>latestData</code>, and <code>latestError</code> becomes nil.
-Observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NewData</code>.</li>
-<li>If the server returns a 304, <code>latestData</code>’s timestamp is updated but the entity is otherwise untouched.
-<code>latestError</code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NotModified</code>.</li>
+<li>This resource’s <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb">loading</a></code> property becomes true, and remains true until the request either succeeds or fails.
+Observers immedately receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent9RequestedFMS0_S0_">ResourceEvent.Requested</a></code>.</li>
+<li>If the request is cancelled before completion, observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent16RequestCancelledFMS0_S0_">ResourceEvent.RequestCancelled</a></code>.</li>
+<li>If the server returns a success response, that goes in <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code>, and <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> becomes nil.
+Observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent7NewDataFMS0_FOS0_13NewDataSourceS0_">ResourceEvent.NewData</a></code>.</li>
+<li>If the server returns a 304, <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code>’s timestamp is updated but the entity is otherwise untouched.
+<code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent11NotModifiedFMS0_S0_">ResourceEvent.NotModified</a></code>.</li>
 <li>If the request fails for any reason, whether client-, server-, or network-related, observers receive
-<code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.<a href="../Structs/Error.html">Error</a></code>. Note that <code>latestData</code> does <em>not</em> become nil; the last valid response always sticks
+<code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent5ErrorFMS0_S0_">ResourceEvent.Error</a></code>. Note that <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> does <em>not</em> become nil; the last valid response always sticks
 around until another valid response arrives.</li>
 </ol>
 
@@ -1172,11 +1206,11 @@ around until another valid response arrives.</li>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Updates the state of this resource using the result of the given request. Use this method when you want a request
-to update <code>latestData</code> or <code>latestError</code> and notify observers just as <code>load()</code> would, but:</p>
+to update <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> and notify observers just as <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> would, but:</p>
 
 <ul>
 <li>you need to use a request method other than GET,</li>
-<li>you need to set headers or other request options, but just for this one request (so that <code><a href="../Classes/Service.html">Service</a>.configure</code>
+<li>you need to set headers or other request options, but just for this one request (so that <code>Service.configure</code>
 won’t work), or</li>
 <li>for some arcane reason, you want a request for a <em>different</em> resource to update the state of this one.</li>
 </ul>
@@ -1214,7 +1248,7 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If this resource has no observers, cancels all <code>loadRequests</code>.</p>
+                        <p>If this resource has no observers, cancels all <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__">loadRequests</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1241,8 +1275,10 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience to call <code>cancelLoadIfUnobserved()</code> after a delay. Useful for situations such as table view scrolling
-where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
+                        <pre class="highlight plaintext"><code>  Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
+</code></pre>
+
+<p>where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
 views a chance to express interest in it before canceling any requests.</p>
 
                       </div>
@@ -1281,8 +1317,8 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Directly updates <code>latestData</code> without touching the network. Clears <code>latestError</code> and broadcasts
-  <code><a href="../Enums/ResourceEvent.html">ResourceEvent</a>.NewData</code> to observers.</p>
+                        <p>Directly updates <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> without touching the network. Clears <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> and broadcasts
+  <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent7NewDataFMS0_FOS0_13NewDataSourceS0_">ResourceEvent.NewData</a></code> to observers.</p>
 
 <p>This method is useful for incremental and optimistic updates.</p>
 
@@ -1319,7 +1355,7 @@ views a chance to express interest in it before canceling any requests.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>localContentOverride(_:)</code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource20localContentOverrideFS0_FPSs9AnyObject_T_">localContentOverride(_:)</a></code>
 
         </div>
 
@@ -1349,7 +1385,7 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience method to replace the <code>content</code> of <code>latestData</code> without altering the content type or other headers.</p>
+                        <p>Convenience method to replace the <code>content</code> of <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> without altering the content type or other headers.</p>
 
 <p>If this resource has no content, this method sets the content type to <code>application/binary</code>.</p>
 
@@ -1378,17 +1414,17 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Forces the next call to <code>loadIfNeeded()</code> to trigger a request, even if the current content is fresh.
-Leaves the current values of <code>latestData</code> and <code>latestError</code> intact (including their timestamps).</p>
+                        <p>Forces the next call to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code> to trigger a request, even if the current content is fresh.
+Leaves the current values of <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> and <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> intact (including their timestamps).</p>
 
 <p>Use this if you know the current content is stale, but don’t want to trigger a network request right away.</p>
 
-<p>Any update to <code>latestData</code> or <code>latestError</code> — including a call to <code>localDataOverride()</code> or
+<p>Any update to <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> — including a call to <code>localDataOverride()</code> or
 <code>localContentOverride()</code> — clears the invalidation.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>wipe()</code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4wipeFS0_FT_T_">wipe()</a></code>
 
         </div>
 
@@ -1420,8 +1456,8 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
                         <p>Resets this resource to its pristine state, as if newly created.</p>
 
 <ul>
-<li>Sets <code>latestData</code> to nil.</li>
-<li>Sets <code>latestError</code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> to nil.</li>
 <li>Cancels all resource requests in progress.</li>
 </ul>
 
@@ -1429,7 +1465,7 @@ Leaves the current values of <code>latestData</code> and <code>latestError</code
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>invalidate()</code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource10invalidateFS0_FT_T_">invalidate()</a></code>
 
         </div>
 
@@ -1595,7 +1631,7 @@ still exists.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html">Service</a>.configure(...)</code>.</p>
+                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1645,8 +1681,8 @@ still exists.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

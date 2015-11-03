@@ -202,7 +202,6 @@
             <h1>TypedContentAccessors</h1>
               <div class="declaration">
                 <div class="Swift">
-                  <p class="aside-title">Swift</p>
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
 
                 </div>
@@ -211,8 +210,8 @@
 
 <p>Allows you to replace the following:</p>
 
-<pre class="highlight plaintext"><code>resource.latestData?.content as? <a href="../Extensions/String.html">String</a>
-(resource.latestError?.entity?.content as? [<a href="../Extensions/String.html">String</a>:AnyObject])?["error.detail"]
+<pre class="highlight plaintext"><code>resource.latestData?.content as? String
+(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
 </code></pre>
 
 <p>…with:</p>
@@ -268,13 +267,6 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
               </ul>
             </div>
             <div class="task-group">
-                <div class="task-name-container">
-                  <a name="/Extension%20Members"></a>
-                  <a name="//apple_ref/swift/Section/Extension Members" class="dashAnchor"></a>
-                  <a href="#/Extension%20Members">
-                    <h3 class="section-name">Extension Members</h3>
-                  </a>
-                </div>
               <ul>
                 <li class="item">
                   <div>
@@ -283,6 +275,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                     <a name="//apple_ref/swift/Method/contentAsType(ifNone:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneKT_qd___qd__">contentAsType(ifNone:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -296,7 +291,7 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
 
       let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
 
-  - SeeAlso: `<a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>`
+  - SeeAlso: `ResponseTransformer`
 </code></pre>
 
                       </div>
@@ -318,6 +313,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                     <a name="//apple_ref/swift/Method/contentAsType(ifNone:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:FeRq_6Siesta21TypedContentAccessors_S_S0_13contentAsTypeu__Rq_S0__Fq_FT6ifNoneKT_GSqqd____GSqqd___">contentAsType(ifNone:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -345,6 +343,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                     <a name="//apple_ref/swift/Property/jsonDict" class="dashAnchor"></a>
                     <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_8jsonDictGVSs10DictionarySSPSs9AnyObject__">jsonDict</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -372,6 +373,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                     <a name="//apple_ref/swift/Property/jsonArray" class="dashAnchor"></a>
                     <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_9jsonArrayGSaPSs9AnyObject__">jsonArray</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -399,6 +403,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                     <a name="//apple_ref/swift/Property/text" class="dashAnchor"></a>
                     <a class="token" href="#/s:veRq_6Siesta21TypedContentAccessors_S_S0_4textSS">text</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -424,8 +431,8 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

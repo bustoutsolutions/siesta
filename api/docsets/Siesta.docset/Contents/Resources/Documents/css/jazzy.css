@@ -167,12 +167,6 @@ header {
   border-radius: 4px;
   overflow-x: auto; }
 
-.aside-title {
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding-bottom: 0; }
-
 .declaration .highlight {
   overflow-x: initial;
   padding: 0 40px 40px 0;
@@ -206,7 +200,7 @@ header {
   .item .token {
     padding-left: 3px;
     margin-left: 15px; }
-  .item .has_default_implementation {
+  .item .declaration-note {
     font-size: .85em;
     color: gray;
     font-style: italic; }
@@ -249,14 +243,20 @@ header {
     padding-bottom: 5px; }
 
 .aside, .Swift {
-  padding: 0.4em 0.8em;
-  margin: 0.8em 0;
+  padding: 6px 12px;
+  margin: 12px 0;
   border-left: 5px solid #dddddd;
   overflow-y: hidden; }
   .aside .aside-title, .Swift .aside-title {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding-bottom: 0;
     margin: 0;
     color: #aaa;
     -webkit-user-select: none; }
+  .aside p:last-child, .Swift p:last-child {
+    margin-bottom: 0; }
 
 .Swift {
   border-left: 5px solid #cde9f4; }

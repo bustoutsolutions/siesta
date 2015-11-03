@@ -202,7 +202,6 @@
             <h1>Service</h1>
               <div class="declaration">
                 <div class="Swift">
-                  <p class="aside-title">Swift</p>
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
@@ -228,7 +227,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The root URL of the API. If nil, then <code>resource(_:)</code> will only accept absolute URLs.</p>
+                        <p>The root URL of the API. If nil, then <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource">resource(_:)</a></code> will only accept absolute URLs.</p>
 
                       </div>
                       <div class="declaration">
@@ -256,6 +255,26 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates a new service for the given API.</p>
+
+<div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter base:
+The base URL of the API. If nil, there is no base URL, and thus <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource">resource(_:)</a></code> will require absolute URLs.
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter useDefaultTransformers:
+If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you
+add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code>).
+
+        </div><div class="aside aside-parameter">
+          <p class="aside-title">Parameter</p>
+          Parameter networking:
+The handler to use for networking. The default is an NSURLSession with its default configuration. You can
+pass an <code><a href="../Extensions/NSURLSession.html">NSURLSession</a></code>, <code><a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></code>, or <code>Alamofire.Manager</code> to use an existing provider with
+custom configuration. You can also use your own networking library of choice by implementing <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>.
+
+        </div>
 
                       </div>
                       <div class="declaration">
@@ -394,7 +413,7 @@ resource that always fails.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Return the unique resource with the given path appended to <code>baseURL</code>.
+                        <p>Return the unique resource with the given path appended to <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.
 Leading slash is optional, and has no effect.</p>
 
                       </div>
@@ -445,16 +464,16 @@ Leading slash is optional, and has no effect.</p>
 
 <p>The optional <code>description</code> is used for logging purposes only.</p>
 
-<p><a href="../Structs/Configuration.html">Configuration</a> closures apply to any resource they match in the order they were added, whether global or not. That
+<p>Configuration closures apply to any resource they match in the order they were added, whether global or not. That
 means that you will usually want to add your global configuration first, then resource-specific configuration.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>configure(_:description:configurer:)</code>
+          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FTPS_31ConfigurationPatternConvertible_11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">configure(_:description:configurer:)</a></code>
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>invalidateConfiguration()</code>
+          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">invalidateConfiguration()</a></code>
 
         </div>
 
@@ -502,11 +521,11 @@ configure(user) { $0.config.persistentCache = userProfileCache }
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>configure(description:configurer:)</code> for global config
+          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(description:configurer:)</a></code> for global config
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>invalidateConfiguration()</code>
+          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">invalidateConfiguration()</a></code>
 
         </div>
 
@@ -578,7 +597,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+          ResponseContentTransformer
 
         </div>
 
@@ -612,19 +631,19 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       <div class="abstract">
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
-<p>Because the <code>configure(...)</code> methods accept an arbitrary closure, it is possible that the results of
+<p>Because the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> methods accept an arbitrary closure, it is possible that the results of
  that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
  if you do anything that would change the result of a configuration closure, you must call
  <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
 
 <p><em>《insert your functional programming purist rant here if you so desire》</em></p>
 
-<p>Note that you do <em>not</em> need to call this method after calling any of the <code>configure(...)</code> methods.
+<p>Note that you do <em>not</em> need to call this method after calling any of the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> methods.
  You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
 
-<pre class="highlight plaintext"><code> var flavor: <a href="../Extensions/String.html">String</a> {
+<pre class="highlight plaintext"><code> var flavor: String {
    didSet { invalidateConfiguration() }
  }
 
@@ -737,7 +756,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       <div class="abstract">
                         <p>Wipes the state of a subset of this service’s resources, matching based on URLs (instead of <code><a href="../Classes/Resource.html">Resource</a></code> instances).</p>
 
-<p>Useful for making shared predicates that you can pass to both <code>configure(...)</code> and this method.</p>
+<p>Useful for making shared predicates that you can pass to both <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> and this method.</p>
 
                       </div>
                       <div class="declaration">
@@ -756,8 +775,8 @@ configure(user) { $0.config.persistentCache = userProfileCache }
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>. (Last updated: 2015-10-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
