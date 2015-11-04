@@ -406,12 +406,7 @@ public final class Resource: NSObject
         {
         func urlEscape(string: String) throws -> String
             {
-            // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
-            let charsToEscape = ":#[]@!$&'()*+,;="
-            let charSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-            charSet.removeCharactersInString(charsToEscape)
-            
-            guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(charSet) else
+            guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharsInURLEncoding) else
                 { throw Error.Cause.NotURLEncodable(offendingString: string) }
             
             return escaped
@@ -434,6 +429,16 @@ public final class Resource: NSObject
                 cause: error))
             }
         }
+    
+    private let allowedCharsInURLEncoding: NSCharacterSet =
+        {
+        // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
+        let charsToEscape = ":#[]@!$&'()*+,;="
+        let allowedChars = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy()
+                           as! NSMutableCharacterSet  // Reason for !: No typesafe NSMutableCharacterSet copy constructor
+        allowedChars.removeCharactersInString(charsToEscape)
+        return allowedChars
+        }()
     
     /**
       True if the resource’s local state is up to date according to staleness configuration.
