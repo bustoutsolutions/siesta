@@ -82,6 +82,20 @@
         [req cancel];
         });
     
+    it(@"Handles conversion problems when entering Swift’s typesafe world", ^
+        {
+        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"failed request"];
+        __block BOOL immediatelyFailed = false;
+        [[resource requestWithMethod:@"FLARGBLOTZ"]
+            failure: ^(BOSError *error)
+                {
+                [expectation fulfill];
+                immediatelyFailed = true;
+                }];
+        [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+        XCTAssert(immediatelyFailed);
+        });
+    
     it(@"handles resource data", ^
         {
         stubRequest(@"GET", @"http://example.api/foo")

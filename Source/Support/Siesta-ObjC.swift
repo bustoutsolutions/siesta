@@ -288,31 +288,50 @@ public extension Resource
 
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
-    public func resourceChanged(resource: Resource, event: String)
-        { self.resourceChanged(resource, event: ResourceEvent.fromDescription(event)!) }
+    public func resourceChanged(resource: Resource, event eventString: String)
+        {
+        if let event = ResourceEvent.fromDescription(eventString)
+            { self.resourceChanged(resource, event: event) }
+        }
     }
 
 public extension Resource
     {
+    private func _objc_wrapRequest(
+            methodString: String,
+            @noescape closure: RequestMethod -> Request)
+        -> _objc_Request
+        {
+        guard let method = RequestMethod(rawValue: methodString) else
+            {
+            return _objc_Request(
+                FailedRequest(Error(
+                    userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
+                    cause: Error.Cause.InvalidRequestMethod(method: methodString))))
+            }
+        
+        return _objc_Request(closure(method))
+        }
+    
     @objc(requestWithMethod:requestMutation:)
     public func _objc_request(
             method:          String,
             requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
         -> _objc_Request
         {
-        return _objc_Request(
-            request(
-                RequestMethod(rawValue: method)!)
-                    { requestMutation?($0) })
+        return _objc_wrapRequest(method)
+            {
+            request($0)
+                { requestMutation?($0) }
+            }
         }
 
     @objc(requestWithMethod:)
     public func _objc_request(method: String)
         -> _objc_Request
         {
-        return _objc_Request(
-            request(
-                RequestMethod(rawValue: method)!))
+        return _objc_wrapRequest(method)
+            { request($0) }
         }
 
     @objc(requestWithMethod:data:contentType:requestMutation:)
@@ -323,10 +342,11 @@ public extension Resource
             requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
         -> _objc_Request
         {
-        return _objc_Request(
-            request(
-                RequestMethod(rawValue: method)!, data: data, contentType: contentType)
-                    { requestMutation?($0) })
+        return _objc_wrapRequest(method)
+            {
+            request($0, data: data, contentType: contentType)
+                { requestMutation?($0) }
+            }
         }
 
      @objc(requestWithMethod:text:)
@@ -335,9 +355,8 @@ public extension Resource
              text:            String)
          -> _objc_Request
          {
-         return _objc_Request(
-             request(
-                 RequestMethod(rawValue: method)!, text: text))
+         return _objc_wrapRequest(method)
+            { request($0, text: text) }
          }
 
      @objc(requestWithMethod:text:contentType:encoding:requestMutation:)
@@ -349,10 +368,11 @@ public extension Resource
              requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
-         return _objc_Request(
-             request(
-                 RequestMethod(rawValue: method)!, text: text, contentType: contentType, encoding: encoding)
-                     { requestMutation?($0) })
+         return _objc_wrapRequest(method)
+            {
+            request($0, text: text, contentType: contentType, encoding: encoding)
+                { requestMutation?($0) }
+            }
          }
 
      @objc(requestWithMethod:json:)
@@ -361,9 +381,8 @@ public extension Resource
              json:            NSObject)
          -> _objc_Request
          {
-         return _objc_Request(
-             request(
-                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible))
+         return _objc_wrapRequest(method)
+            { request($0, json: json as! NSJSONConvertible) }
          }
 
      @objc(requestWithMethod:json:contentType:requestMutation:)
@@ -374,10 +393,11 @@ public extension Resource
              requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
-         return _objc_Request(
-             request(
-                 RequestMethod(rawValue: method)!, json: json as! NSJSONConvertible, contentType: contentType)
-                     { requestMutation?($0) })
+         return _objc_wrapRequest(method)
+            {
+            request($0, json: json as! NSJSONConvertible, contentType: contentType)
+                { requestMutation?($0) }
+            }
          }
 
      @objc(requestWithMethod:urlEncoded:requestMutation:)
@@ -387,10 +407,11 @@ public extension Resource
              requestMutation:   (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
-         return _objc_Request(
-             request(
-                 RequestMethod(rawValue: method)!)
-                     { requestMutation?($0) })
+         return _objc_wrapRequest(method)
+            {
+            request($0, urlEncoded: params)
+                { requestMutation?($0) }
+            }
          }
 
     @objc(loadUsingRequest:)
@@ -401,3 +422,11 @@ public extension Resource
         }
     }
 
+extension Error.Cause
+    {
+    /// Request method specified as a string does not match any of the values in the RequestMethod enum.
+    public struct InvalidRequestMethod: ErrorType
+        {
+        public let method: String
+        }
+    }
