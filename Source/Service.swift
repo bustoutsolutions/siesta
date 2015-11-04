@@ -370,17 +370,23 @@ extension String: ConfigurationPatternConvertible
     */
     public func configurationPattern(service: Service) -> NSURL -> Bool
         {
-        let prefix = containsRegex("^[a-z]+:")
-            ? ""                               // If pattern has a protocol, interpret as absolute URL
-            : service.baseURL!.absoluteString  // Pattern is relative to API base
-        let resolvedPattern = prefix + stripPrefix("/")
+        // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
+        // If the service has no baseURL, interpret the pattern as absolure.
+        // Otherwise, interpret pattern as relative to baseURL.
+        
+        let resolvedPattern: String
+        if let prefix = service.baseURL?.absoluteString where !containsRegex("^[a-z]+:")
+            { resolvedPattern = prefix + stripPrefix("/") }
+        else
+            { resolvedPattern = self }
+        
         let pattern = NSRegularExpression.compile(
-            NSRegularExpression.escapedPatternForString(resolvedPattern)
+            "^"
+            + NSRegularExpression.escapedPatternForString(resolvedPattern)
                 .replaceString("\\*\\*\\/", "([^:?]*/|)")
                 .replaceString("\\*\\*",    "[^:?]*")
                 .replaceString("\\*",       "[^/:?]*")
-                + "($|\\?)")
-        
+            + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
         
         return { pattern.matches($0.absoluteString) }

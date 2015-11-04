@@ -156,32 +156,41 @@ class ServiceSpec: SiestaSpec
             
             context("using wilcards")
                 {
-                func checkPattern(pattern: String, matches: Bool, _ path: String, params: [String:String] = [:])
+                func checkPattern(
+                        pattern: String,
+                        matches: Bool,
+                        _ pathOrURL: String,
+                        absolute: Bool = false,
+                        params: [String:String] = [:],
+                        service: Service  = Service(base: "https://foo.bar/v1"))
                     {
-                    let service = Service(base: "https://foo.bar/v1")
                     service.configure(pattern) { $0.config.expirationTime = 6 }
                     
-                    var resource = service.resource(path)
+                    var resource = absolute
+                        ? service.resource(url: pathOrURL)
+                        : service.resource(pathOrURL)
                     for (k,v) in params
                         { resource = resource.withParam(k, v) }
                     
                     let actual = resource.config.expirationTime,
                         expected = matches ? 6.0 : 30.0,
                         matchword = matches ? "to" : "not to"
-                    XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(path)")
+                    XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
                     }
                 
                 it("matches against the base URL")
                     {
-                    checkPattern("fez",  matches: true,  "https://foo.bar/v1/fez")
-                    checkPattern("/fez", matches: true,  "https://foo.bar/v1/fez")
-                    checkPattern("/fez", matches: false, "https://foo.com/v1/fez")
+                    checkPattern("fez",  matches: true,  "/fez")
+                    checkPattern("/fez", matches: true,  "/fez")
+                    checkPattern("/fez", matches: false, "https://foo.com/v1/fez", absolute: true)
+                    checkPattern("/fez", matches: false, "/sombrero/fez")
+                    checkPattern("/fez", matches: false, "/sombrero/https://foo.bar/v1/fez")
                     }
                 
                 it("matches full URLs")
                     {
-                    checkPattern("https://foo.com/*/fez", matches: false, "https://foo.bar/v1/fez")
-                    checkPattern("https://foo.com/*/fez", matches: true,  "https://foo.com/v1/fez")
+                    checkPattern("https://foo.com/*/fez", matches: false, "/fez")
+                    checkPattern("https://foo.com/*/fez", matches: true,  "https://foo.com/v1/fez", absolute: true)
                     }
                 
                 it("ignores a leading slash")
@@ -226,6 +235,20 @@ class ServiceSpec: SiestaSpec
                     {
                     checkPattern("/*/b",  matches: true, "/a/b", params: ["foo": "bar"])
                     checkPattern("/**/b", matches: true, "/a/b", params: ["foo": "bar"])
+                    }
+                
+                it("handles service with no baseURL")
+                    {
+                    func checkBareServicePattern(pattern: String, matches: Bool, _ url: String)
+                        { checkPattern(pattern, matches: matches, url, absolute: true, service: Service()) }
+                    
+                    checkBareServicePattern("/foo", matches: true,  "/foo")
+                    checkBareServicePattern("/foo", matches: false, "foo")
+                    checkBareServicePattern("foo",  matches: false, "/foo")
+                    checkBareServicePattern("foo",  matches: true,  "foo")
+                    
+                    checkBareServicePattern("/foo", matches: false, "http://bar.baz/foo")
+                    checkBareServicePattern("http://bar.baz/*", matches: true, "http://bar.baz/foo")
                     }
                 }
             
