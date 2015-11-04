@@ -82,18 +82,32 @@
         [req cancel];
         });
     
-    it(@"Handles conversion problems when entering Swift’s typesafe world", ^
+    context(@"converting into Swift’s typesafe world", ^
         {
-        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"failed request"];
-        __block BOOL immediatelyFailed = false;
-        [[resource requestWithMethod:@"FLARGBLOTZ"]
-            failure: ^(BOSError *error)
+        void (^expectImmediateFailure)(BOSRequest*) = ^(BOSRequest *request)
+            {
+            XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"failed request"];
+            __block BOOL immediatelyFailed = false;
+            [request failure: ^(BOSError *error)
                 {
                 [expectation fulfill];
                 immediatelyFailed = true;
                 }];
-        [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
-        XCTAssert(immediatelyFailed);
+            [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+            XCTAssert(immediatelyFailed);
+            };
+        
+        it(@"handles invalid request method strings", ^
+            {
+            expectImmediateFailure(
+                [resource requestWithMethod:@"FLARGBLOTZ"]);
+            });
+
+        it(@"handles invalid JSON objects", ^
+            {
+            expectImmediateFailure(
+                [resource requestWithMethod:@"POST" json:[[UIView alloc] init]]);
+            });
         });
     
     it(@"handles resource data", ^

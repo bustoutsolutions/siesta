@@ -313,6 +313,23 @@ public extension Resource
         return _objc_Request(closure(method))
         }
     
+    private func _objc_wrapJSONRequest(
+            methodString: String,
+            _ maybeJson: NSObject?,
+            @noescape closure: (RequestMethod, NSJSONConvertible) -> Request)
+        -> _objc_Request
+        {
+        guard let json = maybeJson as? NSJSONConvertible else
+            {
+            return _objc_Request(
+                FailedRequest(Error(
+                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
+                    cause: Error.Cause.InvalidJSONObject())))
+            }
+
+        return _objc_wrapRequest(methodString) { closure($0, json) }
+        }
+    
     @objc(requestWithMethod:requestMutation:)
     public func _objc_request(
             method:          String,
@@ -378,24 +395,24 @@ public extension Resource
      @objc(requestWithMethod:json:)
      public func _objc_request(
              method:          String,
-             json:            NSObject)
+             json:            NSObject?)
          -> _objc_Request
          {
-         return _objc_wrapRequest(method)
-            { request($0, json: json as! NSJSONConvertible) }
+         return _objc_wrapJSONRequest(method, json)
+            { request($0, json: $1) }
          }
 
      @objc(requestWithMethod:json:contentType:requestMutation:)
      public func _objc_request(
              method:          String,
-             json:            NSObject,
+             json:            NSObject?,
              contentType:     String,
              requestMutation: (@convention(block) NSMutableURLRequest -> ())?)
          -> _objc_Request
          {
-         return _objc_wrapRequest(method)
+         return _objc_wrapJSONRequest(method, json)
             {
-            request($0, json: json as! NSJSONConvertible, contentType: contentType)
+            request($0, json: $1, contentType: contentType)
                 { requestMutation?($0) }
             }
          }
