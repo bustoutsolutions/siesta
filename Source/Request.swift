@@ -298,13 +298,13 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             inout to callbacks: [T -> Void],
             ifAlreadyComplete completedValue: T?)
         {
-        if completed
+        if let completedValue = completedValue where completed
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
             // caller can finish their business first.
             
             dispatch_async(dispatch_get_main_queue())
-                { callback(completedValue!) }
+                { callback(completedValue) }
             }
         else
             {
