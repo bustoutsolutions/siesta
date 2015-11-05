@@ -63,9 +63,9 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
 
   s.authors = { "Bust Out Solutions, Inc." => "hello@bustoutsolutions.com", "Paul Cantrell" => "https://innig.net" }
-  s.social_media_url = "https://twitter.com/teambustout"
+  s.social_media_url = "https://twitter.com/siestaframework"
 
-  s.documentation_url = "https://bustoutsolutions.github.io/siesta/guide/"
+  s.documentation_url = "https://bustoutsolutions.github.io/siesta/"
 
   s.ios.deployment_target = "8.0"
 
