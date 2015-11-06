@@ -12,7 +12,13 @@ However, since this began as one team’s internal tool, the API was thus initia
 
 Yes! We believe the code is high quality and ready for real-world use.
 
-However, you should be ready for minor breaking changes to the API until we declare an official 1.0 release. That’s what “beta” is warning you about.
+However, you should be ready for minor breaking changes to the API until we declare an official 1.0 release. That’s what the “beta” label is warning you about.
+
+#### What’s in the works for future releases?
+
+To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or [tweet to us](https://twitter.com/siestaframework).
+
+The thing currently at the top of our wish list is more type safety when using custom transformers that map specific routes to specific model classes. Limitations of Swift’s generic type system — at least as it stands in 2.x — prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice. We’re investigating workarounds and alternatives, and hoping that Swift 3.0 brings improvements to the type system.
 
 
 ## Capabilities
