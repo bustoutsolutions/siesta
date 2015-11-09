@@ -1,2 +1,0 @@
-# Only present for build. You don't need to add Alamofire to your Xcode project unless you are using AlamofireProvider.
-github "Alamofire/Alamofire" "2.0.2"

@@ -1,3 +1,9 @@
+# Optional integrations
+
+github "Alamofire/Alamofire" "2.0.2"
+
+# Testing
+
 github "pcantrell/Quick" "expose-current-spec"                    # fork allows use of XCTestExpectation
 github "Quick/Nimble" "3646ed5025f5eae080a98f4a1b3ca0cce775cbc8"
 github "pcantrell/Nocilla" "delayed-response"                     # fork adds delay() / go()
