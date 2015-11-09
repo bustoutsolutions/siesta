@@ -38,20 +38,29 @@ public protocol EntityCache
     /**
       Return the entity associated with the given key, or nil if it is not in the cache.
       
-      The method may be called on a background thread. Make sure your implementation is threadsafe.
+      If this method returns an entity, it does _not_ pass through the transformer pipeline. Implementations should
+      return the entity as if already fully parsed and transformed — with the same type of `entity.content` that was
+      originally sent to `writeEntity(...)`.
+      
+      - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
     func readEntity(forKey key: String) -> Entity?
     
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
-      to Siesta. (OK, it’s just the resource’s URL, but you should pretend you don’t know that in your implementation.)
+      to Siesta. (OK, it’s just the resource’s URL, but you should pretend you don’t know that in your implementation.
+      Cache implementations should treat the `forKey` parameter as an opaque value.)
+      
+      This method receives entities _after_ they have been through the transformer pipeline. The `entity.content` will
+      be a parsed object, not raw data.
       
       Implementations are under no obligation to actually perform the write. This method can — and should — examine the
-      entity’s content and/or headers and ignore it if it is not encodable. While they can apply _type-based_ rules,
-      however, cache implementations should not apply _resource-based_ or _url-based_ rules; use
-      `Resource.configure(...)` to select which resources are cached and by whom.
+      type of the entity’s `content` and/or its header values, and ignore it if it is not encodable.
       
-      The method may be called on a background thread. Make sure your implementation is threadsafe.
+      Note that this method does not receive a URL as input; if you need to limit caching to specific resources, use
+      Siesta’s configuration mechanism to control which resources are cacheable.
+      
+      - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
     func writeEntity(entity: Entity, forKey key: String)
     }
