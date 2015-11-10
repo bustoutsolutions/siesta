@@ -16,8 +16,9 @@ echo "Building docs in $docs_dir ..."
 
 "$jazzy_bin" \
     --clean \
-    --config             "$docs_dir"/_templates/jazzy.yaml \
     --source-directory   "$siesta_dir" \
     --exclude            "$siesta_dir"/Source/Support/Siesta-ObjC.swift \
+    --readme             _templates/api-readme.md \
+    --output             api \
     \
     $jazzy_opts
