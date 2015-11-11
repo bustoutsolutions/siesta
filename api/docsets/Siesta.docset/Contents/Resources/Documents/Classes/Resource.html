@@ -254,6 +254,9 @@ questions changes.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L32">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -280,6 +283,9 @@ questions changes.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -314,7 +320,7 @@ questions changes.</p>
 The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
 not in use. Any configuration applied a particular resource instance would therefore be transient.</p>
 
-<p>Instead, you must use the <code>Service.configure(...)</code> methods. This sets up configuration to be applied to resources
+<p>Instead, you must use the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> methods. This sets up configuration to be applied to resources
 according to their URL, whenever they are created or recreated.</p>
 
                       </div>
@@ -325,6 +331,9 @@ according to their URL, whenever they are created or recreated.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">config</span><span class="p">:</span> <span class="kt">Configuration</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L53-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -357,38 +366,14 @@ according to their URL, whenever they are created or recreated.</p>
 or a local override.</p>
 
 <p>Note that this property represents the <strong>full state</strong> of the resource. It therefore only holds entities fetched
-with <code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code> and <code>
-            <a href="../Classes/Resource.html">
-              loadIfNeeded()
-            </a>
-          </code>, not any of the various flavors of <code>
-            <a href="../Classes/Resource.html">
-              request(...)
-            </a>
-          </code>.</p>
+with <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>, not any of the various flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(...)</a></code>.</p>
 
-<p>Note that <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> will be present as long as there has <em>ever</em> been a succesful request since the resource
-was created or wiped. If an error occurs, <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> will still hold the latest (now stale) valid data.</p>
+<p>Note that <code>latestData</code> will be present as long as there has <em>ever</em> been a succesful request since the resource
+was created or wiped. If an error occurs, <code>latestData</code> will still hold the latest (now stale) valid data.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="../Classes/Resource.html">
-              DataContainer
-            </a>
-          </code>
+          <code><a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a></code>
 
         </div>
 
@@ -400,6 +385,9 @@ was created or wiped. If an error occurs, <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L80-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -420,20 +408,8 @@ was created or wiped. If an error occurs, <code>
                         <p>Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
 as a request is successful.</p>
 
-<p>Note that this only reports error from <code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code> and <code>
-            <a href="../Classes/Resource.html">
-              loadIfNeeded()
-            </a>
-          </code>, not any of the various
-flavors of <code>
-            <a href="../Classes/Resource.html">
-              request(...)
-            </a>
-          </code>.</p>
+<p>Note that this only reports error from <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>, not any of the various
+flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -443,6 +419,9 @@ flavors of <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L92-L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -460,15 +439,7 @@ flavors of <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The time of the most recent update to either <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> or <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code>.</p>
+                        <p>The time of the most recent update to either <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -478,6 +449,9 @@ flavors of <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L98-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -506,15 +480,7 @@ flavors of <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>True if any load requests  (i.e. from calls to <code>
-            <a href="../Classes/Resource.html">
-              load(...)
-            </a>
-          </code> and <code>
-            <a href="../Classes/Resource.html">
-              loadIfNeeded()
-            </a>
-          </code>)
+                        <p>True if any load requests  (i.e. from calls to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load(...)</a></code> and <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code>)
 for this resource are in progress.</p>
 
                       </div>
@@ -525,6 +491,9 @@ for this resource are in progress.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">loading</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">loadRequests</span><span class="o">.</span><span class="n">isEmpty</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L112">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -553,6 +522,9 @@ for this resource are in progress.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L115">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -580,6 +552,9 @@ for this resource are in progress.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L118">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -606,6 +581,9 @@ for this resource are in progress.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">allRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Request</span><span class="p">]()</span>  <span class="c1">// TOOD: Any special handling for concurrent POST &amp; GET?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L121">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -646,34 +624,14 @@ resource.child("123").child("details")
 </code></pre>
 
 <p>This method <em>always</em> returns a subpath of the receiving resource. It does not apply any special
-interpretation to strings such <code>
-            <a href="../Classes/Resource.html">
-              ./
-            </a>
-          </code>, <code>
-            <a href="../Classes/Resource.html">
-              //
-            </a>
-          </code> or <code>
-            <a href="../Classes/Resource.html">
-              ?
-            </a>
-          </code> that have significance in other URL-related
+interpretation to strings such <code>./</code>, <code>//</code> or <code>?</code> that have significance in other URL-related
 situations. Special characters are escaped when necessary, and otherwise ignored. See
-<a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>
-            <a href="../Classes/Resource.html">
-              ResourcePathsSpec
-            </a>
-          </code></a>
+<a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>ResourcePathsSpec</code></a>
 for details.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="../Classes/Resource.html">
-              relative(_:)
-            </a>
-          </code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_">relative(_:)</a></code>
 
         </div>
 
@@ -685,6 +643,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">child</span><span class="p">(</span><span class="nv">subpath</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L172-L175">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -704,48 +665,16 @@ for details.</p>
                       <div class="abstract">
                         <p>Returns the resource with the given URL, using this resource’s URL as the base if it is a relative URL.</p>
 
-<p>This method interprets strings such as <code>
-            <a href="../Classes/Resource.html">
-              .
-            </a>
-          </code>, <code>
-            <a href="../Classes/Resource.html">
-              ..
-            </a>
-          </code>, and a leading <code>
-            <a href="../Classes/Resource.html">
-              /
-            </a>
-          </code> or <code>
-            <a href="../Classes/Resource.html">
-              //
-            </a>
-          </code> as relative URLs. It resolves its
-  parameter much like an <code>
-            <a href="../Classes/Resource.html">
-              href
-            </a>
-          </code> attribute in an HTML document. Refer to
-  <a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>
-            <a href="../Classes/Resource.html">
-              ResourcePathsSpec
-            </a>
-          </code></a>
+<p>This method interprets strings such as <code>.</code>, <code>..</code>, and a leading <code>/</code> or <code>//</code> as relative URLs. It resolves its
+  parameter much like an <code>href</code> attribute in an HTML document. Refer to
+  <a href="https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec"><code>ResourcePathsSpec</code></a>
   for details.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
           <ul>
-<li><code>
-            <a href="../Classes/Resource.html">
-              optionalRelative(_:)
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              child(_:)
-            </a>
-          </code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource16optionalRelativeFS0_FGSqSS_GSqS0__">optionalRelative(_:)</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_">child(_:)</a></code></li>
 </ul>
 
         </div>
@@ -758,6 +687,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">relative</span><span class="p">(</span><span class="nv">href</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L189-L192">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -775,19 +707,7 @@ for details.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns <code>
-            <a href="../Classes/Resource.html">
-              relative(href)
-            </a>
-          </code> if <code>
-            <a href="../Classes/Resource.html">
-              href
-            </a>
-          </code> is present, and nil if <code>
-            <a href="../Classes/Resource.html">
-              href
-            </a>
-          </code> is nil.</p>
+                        <p>Returns <code>relative(href)</code> if <code>href</code> is present, and nil if <code>href</code> is nil.</p>
 
 <p>This convenience method is useful for resolving URLs returned as part of a JSON response body:</p>
 
@@ -805,6 +725,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">optionalRelative</span><span class="p">(</span><span class="nv">href</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L204-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -824,66 +747,18 @@ for details.</p>
                       <div class="abstract">
                         <p>Returns this resource with the given parameter added or changed in the query string.</p>
 
-<p>If <code>
-            <a href="../Classes/Resource.html">
-              value
-            </a>
-          </code> is an empty string, the parameter goes in the query string with no value (e.g. <code>
-            <a href="../Classes/Resource.html">
-              ?foo
-            </a>
-          </code>).
-  If <code>
-            <a href="../Classes/Resource.html">
-              value
-            </a>
-          </code> is nil, the parameter is removed.</p>
+<p>If <code>value</code> is an empty string, the parameter goes in the query string with no value (e.g. <code>?foo</code>).
+  If <code>value</code> is nil, the parameter is removed.</p>
 
-<p>There is no support for parameters with an equal sign but an empty value (e.g. <code>
-            <a href="../Classes/Resource.html">
-              ?foo=
-            </a>
-          </code>).
-  There is also no support for repeated keys in the query string (e.g. <code>
-            <a href="../Classes/Resource.html">
-              ?foo=1&amp;foo=2
-            </a>
-          </code>).
+<p>There is no support for parameters with an equal sign but an empty value (e.g. <code>?foo=</code>).
+  There is also no support for repeated keys in the query string (e.g. <code>?foo=1&amp;foo=2</code>).
   If you need to circumvent either of these restrictions, you can create the query string yourself and pass
-  it to <code>
-            <a href="../Classes/Resource.html">
-              relative(_:)
-            </a>
-          </code> instead of using <code>
-            <a href="../Classes/Resource.html">
-              withParam(_:_:)
-            </a>
-          </code>.</p>
+  it to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_">relative(_:)</a></code> instead of using <code>withParam(_:_:)</code>.</p>
 
-<p>Note that <code>
-            <a href="../Classes/Resource.html">
-              Service
-            </a>
-          </code> gives out unique <code>
-            <a href="../Classes/Resource.html">
-              Resource
-            </a>
-          </code> instances according to the full URL in string form, and thus
-  considers query string parameter order significant. Therefore, to ensure that you get the same <code>
-            <a href="../Classes/Resource.html">
-              Resource
-            </a>
-          </code>
-  instance no matter the order in which you specify parameters, <code>
-            <a href="../Classes/Resource.html">
-              withParam(_:_:)
-            </a>
-          </code> sorts all parameters by name.
-  Note that <em>only</em> <code>
-            <a href="../Classes/Resource.html">
-              withParam(_:_:)
-            </a>
-          </code> does this sorting; if you use other methods to create query strings, it is
+<p>Note that <code><a href="../Classes/Service.html">Service</a></code> gives out unique <code><a href="../Classes/Resource.html">Resource</a></code> instances according to the full URL in string form, and thus
+  considers query string parameter order significant. Therefore, to ensure that you get the same <code><a href="../Classes/Resource.html">Resource</a></code>
+  instance no matter the order in which you specify parameters, <code>withParam(_:_:)</code> sorts all parameters by name.
+  Note that <em>only</em> <code>withParam(_:_:)</code> does this sorting; if you use other methods to create query strings, it is
   up to you to canonicalize your parameter order.</p>
 
                       </div>
@@ -894,6 +769,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">withParam</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L230-L239">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -931,11 +809,7 @@ for details.</p>
       .failure { ... }
 </code></pre>
 
-<p>See <code>
-            <a href="../Classes/Resource.html">
-              Request
-            </a>
-          </code> for a complete list of hooks.</p>
+<p>See <code><a href="../Protocols/Request.html">Request</a></code> for a complete list of hooks.</p>
 
 <p>Note that, unlike load() and loadIfNeeded(), this method does <em>not</em> update latestData or latestError,
   and does not notify resource observers about the result.</p>
@@ -964,16 +838,8 @@ for details.</p>
           <p>SeeAlso:</p>
 
 <ul>
-<li><code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              loadIfNeeded()
-            </a>
-          </code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code></li>
 </ul>
 
         </div><div class="aside aside-see-also">
@@ -981,26 +847,10 @@ for details.</p>
           <p>SeeAlso:</p>
 
 <ul>
-<li><code>
-            <a href="../Classes/Resource.html">
-              request(_:data:contentType:requestMutation:)
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              request(_:text:encoding:requestMutation:)
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              request(_:json:requestMutation:)
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              request(_:urlEncoded:requestMutation:)
-            </a>
-          </code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod4dataCSo6NSData11contentTypeSS15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:data:contentType:requestMutation:)</a></code></li>
+<li><code>request(_:text:encoding:requestMutation:)</code></li>
+<li><code>request(_:json:requestMutation:)</code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFS0_FTOS_13RequestMethod10urlEncodedGVSs10DictionarySSSS_15requestMutationFCSo19NSMutableURLRequestT__PS_7Request_">request(_:urlEncoded:requestMutation:)</a></code></li>
 </ul>
 
         </div>
@@ -1052,6 +902,9 @@ for details.</p>
                           </tbody>
                         </table>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L281-L301">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1084,6 +937,9 @@ for details.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L306-L322">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1102,28 +958,16 @@ for details.</p>
                       <div class="abstract">
                         <p>Convenience method to initiate a request with a text body.</p>
 
-<p>If the string cannot be encoded using the given encoding, this methods triggers the <code>
-            <a href="../Classes/Resource.html">
-              failure(_:)
-            </a>
-          </code> request hook
+<p>If the string cannot be encoded using the given encoding, this methods triggers the <code>failure(_:)</code> request hook
   immediately, without touching the network.</p>
 
 <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
-          Parameter contentType: <code>
-            <a href="../Classes/Resource.html">
-              text/plain
-            </a>
-          </code> by default.
+          Parameter contentType: <code>text/plain</code> by default.
 
         </div><div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
-          Parameter encoding: UTF-8 (<code>
-            <a href="../Classes/Resource.html">
-              NSUTF8StringEncoding
-            </a>
-          </code>) by default.
+          Parameter encoding: UTF-8 (<code>NSUTF8StringEncoding</code>) by default.
 
         </div>
 
@@ -1175,6 +1019,9 @@ for details.</p>
                           </tbody>
                         </table>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L333-L351">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1193,24 +1040,12 @@ for details.</p>
                       <div class="abstract">
                         <p>Convenience method to initiate a request with a JSON body.</p>
 
-<p>If the <code>
-            <a href="../Classes/Resource.html">
-              json
-            </a>
-          </code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
-  triggers the <code>
-            <a href="../Classes/Resource.html">
-              failure(_:)
-            </a>
-          </code> request hook immediately, without touching the network.</p>
+<p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
+  triggers the <code>failure(_:)</code> request hook immediately, without touching the network.</p>
 
 <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
-          Parameter contentType: <code>
-            <a href="../Classes/Resource.html">
-              application/json
-            </a>
-          </code> by default.
+          Parameter contentType: <code>application/json</code> by default.
 
         </div>
 
@@ -1248,6 +1083,9 @@ for details.</p>
                           </tbody>
                         </table>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L361-L392">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1268,11 +1106,7 @@ for details.</p>
 
 <p>This method performs all necessary escaping, and has full Unicode support in both keys and values.</p>
 
-<p>The content type is <code>
-            <a href="../Classes/Resource.html">
-              application/x-www-form-urlencoded
-            </a>
-          </code>.</p>
+<p>The content type is <code>application/x-www-form-urlencoded</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1286,6 +1120,9 @@ for details.</p>
         <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L401-L431">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1308,44 +1145,16 @@ for details.</p>
 <p>“Up to date” means that either:</p>
 
 <ul>
-<li>the resource has data (i.e. <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> is not nil),</li>
-<li>the last request succeeded (i.e. <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> <em>is</em> nil), and</li>
-<li>the timestamp on <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> is more recent than <code>
-            <a href="../Classes/Resource.html">
-              expirationTime
-            </a>
-          </code> seconds ago,</li>
+<li>the resource has data (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> is not nil),</li>
+<li>the last request succeeded (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> <em>is</em> nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> is more recent than <code>expirationTime</code> seconds ago,</li>
 </ul>
 
 <p>…or:</p>
 
 <ul>
-<li>the last request failed (i.e. <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> is not nil), and</li>
-<li>the timestamp on <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> is more recent than <code>
-            <a href="../Classes/Resource.html">
-              retryTime
-            </a>
-          </code> seconds ago.</li>
+<li>the last request failed (i.e. <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> is not nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> is more recent than <code>retryTime</code> seconds ago.</li>
 </ul>
 
                       </div>
@@ -1356,6 +1165,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isUpToDate</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L457-L468">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1375,25 +1187,13 @@ for details.</p>
                       <div class="abstract">
                         <p>Ensures that there is a load request in progress for this resource, unless the resource is already up to date.</p>
 
-<p>If the resource is not up to date and there is no load request already in progress, this method calls <code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code>.</p>
+<p>If the resource is not up to date and there is no load request already in progress, this method calls <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code>.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
           <ul>
-<li><code>
-            <a href="../Classes/Resource.html">
-              isUpToDate
-            </a>
-          </code></li>
-<li><code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code></li>
+<li><code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10isUpToDateSb">isUpToDate</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code></li>
 </ul>
 
         </div>
@@ -1406,6 +1206,9 @@ for details.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">loadIfNeeded</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Request</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L506-L518">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1428,39 +1231,15 @@ for details.</p>
 <p>Sequence of events:</p>
 
 <ol>
-<li>This resource’s <code>
-            <a href="../Classes/Resource.html">
-              loading
-            </a>
-          </code> property becomes true, and remains true until the request either succeeds or fails.
-Observers immedately receive <code>ResourceEvent.Requested</code>.</li>
-<li>If the request is cancelled before completion, observers receive <code>ResourceEvent.RequestCancelled</code>.</li>
-<li>If the server returns a success response, that goes in <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code>, and <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> becomes nil.
-Observers receive <code>ResourceEvent.NewData</code>.</li>
-<li>If the server returns a 304, <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code>’s timestamp is updated but the entity is otherwise untouched.
-<code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> becomes nil. Observers receive <code>ResourceEvent.NotModified</code>.</li>
+<li>This resource’s <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb">loading</a></code> property becomes true, and remains true until the request either succeeds or fails.
+Observers immedately receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent9RequestedFMS0_S0_">ResourceEvent.Requested</a></code>.</li>
+<li>If the request is cancelled before completion, observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent16RequestCancelledFMS0_S0_">ResourceEvent.RequestCancelled</a></code>.</li>
+<li>If the server returns a success response, that goes in <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code>, and <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> becomes nil.
+Observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent7NewDataFMS0_FOS0_13NewDataSourceS0_">ResourceEvent.NewData</a></code>.</li>
+<li>If the server returns a 304, <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code>’s timestamp is updated but the entity is otherwise untouched.
+<code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent11NotModifiedFMS0_S0_">ResourceEvent.NotModified</a></code>.</li>
 <li>If the request fails for any reason, whether client-, server-, or network-related, observers receive
-<code>ResourceEvent.Error</code>. Note that <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> does <em>not</em> become nil; the last valid response always sticks
+<code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent5ErrorFMS0_S0_">ResourceEvent.Error</a></code>. Note that <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> does <em>not</em> become nil; the last valid response always sticks
 around until another valid response arrives.</li>
 </ol>
 
@@ -1472,6 +1251,9 @@ around until another valid response arrives.</li>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Request</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L536-L546">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1490,19 +1272,7 @@ around until another valid response arrives.</li>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Updates the state of this resource using the result of the given request. Use this method when you want a request
-to update <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> or <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> and notify observers just as <code>
-            <a href="../Classes/Resource.html">
-              load()
-            </a>
-          </code> would, but:</p>
+to update <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> and notify observers just as <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code> would, but:</p>
 
 <ul>
 <li>you need to use a request method other than GET,</li>
@@ -1528,6 +1298,9 @@ auth.load(usingRequest:
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L564-L578">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -1544,11 +1317,7 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If this resource has no observers, cancels all <code>
-            <a href="../Classes/Resource.html">
-              loadRequests
-            </a>
-          </code>.</p>
+                        <p>If this resource has no observers, cancels all <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource12loadRequestsGSaPS_7Request__">loadRequests</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1558,6 +1327,9 @@ auth.load(usingRequest:
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L583-L595">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1575,10 +1347,8 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
-</code></pre>
-
-<p>where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
+                        <p>Convenience to call <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource22cancelLoadIfUnobservedFS0_FT_T_">cancelLoadIfUnobserved()</a></code> after a delay. Useful for situations such as table view scrolling
+where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
 views a chance to express interest in it before canceling any requests.</p>
 
                       </div>
@@ -1589,6 +1359,9 @@ views a chance to express interest in it before canceling any requests.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">(</span><span class="n">afterDelay</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kt">Void</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{})</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L602-L609">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1617,16 +1390,8 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Directly updates <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> without touching the network. Clears <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> and broadcasts
-  <code>ResourceEvent.NewData</code> to observers.</p>
+                        <p>Directly updates <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> without touching the network. Clears <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> and broadcasts
+  <code><a href="../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent7NewDataFMS0_FOS0_13NewDataSourceS0_">ResourceEvent.NewData</a></code> to observers.</p>
 
 <p>This method is useful for incremental and optimistic updates.</p>
 
@@ -1657,33 +1422,13 @@ views a chance to express interest in it before canceling any requests.</p>
 
 <p>Use this technique with caution!</p>
 
-<p>Note that the data you pass does <em>not</em> go through the standard <code>
-            <a href="../Classes/Resource.html">
-              ResponseTransformer
-            </a>
-          </code> chain. You should pass data
+<p>Note that the data you pass does <em>not</em> go through the standard <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain. You should pass data
   as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-  <code>
-            <a href="../Classes/Resource.html">
-              updatedContent
-            </a>
-          </code> is a <code>
-            <a href="../Classes/Resource.html">
-              Dictionary
-            </a>
-          </code>, not <code>
-            <a href="../Classes/Resource.html">
-              NSData
-            </a>
-          </code> containing encoded JSON.</p>
+  <code>updatedContent</code> is a <code>Dictionary</code>, not <code>NSData</code> containing encoded JSON.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="../Classes/Resource.html">
-              localContentOverride(_:)
-            </a>
-          </code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource20localContentOverrideFS0_FPSs9AnyObject_T_">localContentOverride(_:)</a></code>
 
         </div>
 
@@ -1696,6 +1441,9 @@ views a chance to express interest in it before canceling any requests.</p>
         <span class="p">{</span> <span class="nf">receiveNewData</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="nv">source</span><span class="p">:</span> <span class="o">.</span><span class="kt">LocalOverride</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L711-L712">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1713,21 +1461,9 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience method to replace the <code>
-            <a href="../Classes/Resource.html">
-              content
-            </a>
-          </code> of <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> without altering the content type or other headers.</p>
+                        <p>Convenience method to replace the <code>content</code> of <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> without altering the content type or other headers.</p>
 
-<p>If this resource has no content, this method sets the content type to <code>
-            <a href="../Classes/Resource.html">
-              application/binary
-            </a>
-          </code>.</p>
+<p>If this resource has no content, this method sets the content type to <code>application/binary</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1737,6 +1473,9 @@ views a chance to express interest in it before canceling any requests.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">localContentOverride</span><span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L719-L725">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1754,49 +1493,17 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Forces the next call to <code>
-            <a href="../Classes/Resource.html">
-              loadIfNeeded()
-            </a>
-          </code> to trigger a request, even if the current content is fresh.
-Leaves the current values of <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> and <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> intact (including their timestamps).</p>
+                        <p>Forces the next call to <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__">loadIfNeeded()</a></code> to trigger a request, even if the current content is fresh.
+Leaves the current values of <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> and <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> intact (including their timestamps).</p>
 
 <p>Use this if you know the current content is stale, but don’t want to trigger a network request right away.</p>
 
-<p>Any update to <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> or <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> — including a call to <code>
-            <a href="../Classes/Resource.html">
-              localDataOverride()
-            </a>
-          </code> or
-<code>
-            <a href="../Classes/Resource.html">
-              localContentOverride()
-            </a>
-          </code> — clears the invalidation.</p>
+<p>Any update to <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> — including a call to <code>localDataOverride()</code> or
+<code>localContentOverride()</code> — clears the invalidation.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="../Classes/Resource.html">
-              wipe()
-            </a>
-          </code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4wipeFS0_FT_T_">wipe()</a></code>
 
         </div>
 
@@ -1808,6 +1515,9 @@ Leaves the current values of <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">invalidate</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L738-L741">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1828,32 +1538,16 @@ Leaves the current values of <code>
                         <p>Resets this resource to its pristine state, as if newly created.</p>
 
 <ul>
-<li>Sets <code>
-            <a href="../Classes/Resource.html">
-              latestData
-            </a>
-          </code> to nil.</li>
-<li>Sets <code>
-            <a href="../Classes/Resource.html">
-              latestError
-            </a>
-          </code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">latestData</a></code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">latestError</a></code> to nil.</li>
 <li>Cancels all resource requests in progress.</li>
 </ul>
 
-<p>Observers receive a <code>
-            <a href="../Classes/Resource.html">
-              NewData
-            </a>
-          </code> event. Requests in progress call completion hooks with a cancellation error.</p>
+<p>Observers receive a <code>NewData</code> event. Requests in progress call completion hooks with a cancellation error.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="../Classes/Resource.html">
-              invalidate()
-            </a>
-          </code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource10invalidateFS0_FT_T_">invalidate()</a></code>
 
         </div>
 
@@ -1865,6 +1559,9 @@ Leaves the current values of <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">wipe</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L754-L767">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1898,11 +1595,7 @@ Leaves the current values of <code>
 <p>The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
   automatically removed.</p>
 
-<p>Use this method for objects such as <code>
-            <a href="../Classes/Resource.html">
-              UIViewController
-            </a>
-          </code>s which already have a lifecycle of their own, are retained
+<p>Use this method for objects such as <code>UIViewController</code>s which already have a lifecycle of their own, are retained
   elsewhere, and also happen to act as observers.</p>
 
                       </div>
@@ -1913,6 +1606,9 @@ Leaves the current values of <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="nv">observerAndOwner</span><span class="p">:</span> <span class="kd">protocol</span><span class="o">&lt;</span><span class="kt">ResourceObserver</span><span class="p">,</span> <span class="kt">AnyObject</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResourceObserver.swift#L156-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1930,17 +1626,9 @@ Leaves the current values of <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds an observer to this resource, holding a strong reference to it as long as <code>
-            <a href="../Classes/Resource.html">
-              owner
-            </a>
-          </code> still exists.</p>
+                        <p>Adds an observer to this resource, holding a strong reference to it as long as <code>owner</code> still exists.</p>
 
-<p>The resource holds only a weak reference to <code>
-            <a href="../Classes/Resource.html">
-              owner
-            </a>
-          </code>, and as soon as the owner goes away, the observer is removed.</p>
+<p>The resource holds only a weak reference to <code>owner</code>, and as soon as the owner goes away, the observer is removed.</p>
 
 <p>The typical use for this method is for glue objects whose only purpose is to act as an observer, and which would
 not normally be retained by anything else.</p>
@@ -1953,6 +1641,9 @@ not normally be retained by anything else.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt">ResourceObserver</span><span class="p">,</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResourceObserver.swift#L169-L188">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1972,15 +1663,7 @@ not normally be retained by anything else.</p>
                       <div class="abstract">
                         <p>Adds a closure observer to this resource.</p>
 
-<p>The resource holds a weak reference to <code>
-            <a href="../Classes/Resource.html">
-              owner
-            </a>
-          </code>, and the closure will receive events only as long as <code>
-            <a href="../Classes/Resource.html">
-              owner
-            </a>
-          </code>
+<p>The resource holds a weak reference to <code>owner</code>, and the closure will receive events only as long as <code>owner</code>
 still exists.</p>
 
                       </div>
@@ -1991,6 +1674,9 @@ still exists.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">owner</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span> <span class="nv">closure</span><span class="p">:</span> <span class="kt">ResourceObserverClosure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResourceObserver.swift#L196-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2019,6 +1705,9 @@ still exists.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResourceObserver.swift#L205-L214">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -2039,7 +1728,7 @@ still exists.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Matches this specific resource when passed as a pattern to <code>Service.configure(...)</code>.</p>
+                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -2049,6 +1738,9 @@ still exists.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">Service</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Service.swift#L408-L412">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2070,15 +1762,7 @@ still exists.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Typed content accessors such as <code>
-            <a href="../Classes/Resource.html">
-              .text
-            </a>
-          </code> and <code>
-            <a href="../Classes/Resource.html">
-              .jsonDict
-            </a>
-          </code> apply to <code>latestData?.content</code>.</p>
+                        <p>Typed content accessors such as <code>.text</code> and <code>.jsonDict</code> apply to <code>latestData?.content</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -2088,6 +1772,9 @@ still exists.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">return</span> <span class="n">latestData</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L203">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

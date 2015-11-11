@@ -206,29 +206,13 @@
 
                 </div>
               </div>
-            <p>Encodes <code>
-            <a href="../Structs/Entity.html">
-              Entity
-            </a>
-          </code> instances with JSON content for storage.</p>
+            <p>Encodes <code><a href="../Structs/Entity.html">Entity</a></code> instances with JSON content for storage.</p>
 
 <p>Do not confuse this class with <code>JSONResponseTransformer</code>. They have different purposes:</p>
 
 <ul>
-<li><code>JSONResponseTransformer</code>: HTTP response ⟶ <code>
-            <a href="../Structs/Entity.html">
-              Entity
-            </a>
-          </code> or <code>
-            <a href="../Structs/Error.html">
-              Error
-            </a>
-          </code></li>
-<li><code>JSONEntityEncoder</code>: <code>
-            <a href="../Structs/Entity.html">
-              Entity
-            </a>
-          </code> ↔ persistent storage</li>
+<li><code>JSONResponseTransformer</code>: HTTP response ⟶ <code><a href="../Structs/Entity.html">Entity</a></code> or <code><a href="../Structs/Error.html">Error</a></code></li>
+<li><code>JSONEntityEncoder</code>: <code><a href="../Structs/Entity.html">Entity</a></code> ↔ persistent storage</li>
 </ul>
 
           </section>
@@ -248,11 +232,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Encodes the entity iff its <code>
-            <a href="../Structs/JSONEntityEncoder.html">
-              content
-            </a>
-          </code> is a valid JSON object.</p>
+                        <p>Encodes the entity iff its <code>content</code> is a valid JSON object.</p>
 
                       </div>
                       <div class="declaration">
@@ -262,6 +242,9 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encodeEntity</span><span class="p">(</span><span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSData</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/PersistentCache.swift#L98-L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -289,6 +272,9 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">decodeEntity</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Entity</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/PersistentCache.swift#L113-L128">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

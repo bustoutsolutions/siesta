@@ -228,67 +228,19 @@ the content’s type and freshness.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The data itself. When constructed from an HTTP response, it begins its life as <code>
-            <a href="../Structs/Entity.html">
-              NSData
-            </a>
-          </code>, but may become any type
-of object after running though the service’s <code>
-            <a href="../Structs/Entity.html">
-              ResponseTransformer
-            </a>
-          </code> chain.</p>
+                        <p>The data itself. When constructed from an HTTP response, it begins its life as <code>NSData</code>, but may become any type
+of object after running though the service’s <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain.</p>
 
-<p>Why is the type of this property <code>
-            <a href="../Structs/Entity.html">
-              Any
-            </a>
-          </code> instead of a generic <code>
-            <a href="../Structs/Entity.html">
-              T
-            </a>
-          </code>? Because a <code>
-            <a href="../Structs/Entity.html">
-              &lt;T&gt;
-            </a>
-          </code> declaration would mean
-“Siesta guarantees the data is of type <code>
-            <a href="../Structs/Entity.html">
-              T
-            </a>
-          </code>” — that’s what strong static types do — but there is no way to tell
+<p>Why is the type of this property <code>Any</code> instead of a generic <code>T</code>? Because a <code>&lt;T&gt;</code> declaration would mean
+“Siesta guarantees the data is of type <code>T</code>” — that’s what strong static types do — but there is no way to tell
 Swift at <em>compile time</em> what content type a server will actually send at <em>runtime</em>.</p>
 
-<p>The best client code can do is to say, “I expect the server to have returned data of type <code>
-            <a href="../Structs/Entity.html">
-              T
-            </a>
-          </code>; did it?” That is
-exactly what Swift’s <code>
-            <a href="../Structs/Entity.html">
-              as?
-            </a>
-          </code> operator does — and any scheme involving a generic <code>
-            <a href="../Structs/Entity.html">
-              &lt;T&gt;
-            </a>
-          </code> ends up being an obfuscated
-equivalent to <code>
-            <a href="../Structs/Entity.html">
-              as?
-            </a>
-          </code> — or, far worse, an obfuscated <code>
-            <a href="../Structs/Entity.html">
-              as!
-            </a>
-          </code>, a.k.a. “The Amazing Server-Triggered Client
+<p>The best client code can do is to say, “I expect the server to have returned data of type <code>T</code>; did it?” That is
+exactly what Swift’s <code>as?</code> operator does — and any scheme involving a generic <code>&lt;T&gt;</code> ends up being an obfuscated
+equivalent to <code>as?</code> — or, far worse, an obfuscated <code>as!</code>, a.k.a. “The Amazing Server-Triggered Client
 Crash-o-Matic.”</p>
 
-<p>In short, when using <code>
-            <a href="../Structs/Entity.html">
-              content
-            </a>
-          </code>, write your code to handle it being of an unexpected type.</p>
+<p>In short, when using <code>content</code>, write your code to handle it being of an unexpected type.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
@@ -304,6 +256,9 @@ Crash-o-Matic.”</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -324,31 +279,11 @@ Crash-o-Matic.”</p>
                         <p>The type of data contained in the content.</p>
 
 <p>If the content was parsed into a data structure, this property typically contains the type of the original raw
-  data. For example, the type might be <code>
-            <a href="../Structs/Entity.html">
-              application/json
-            </a>
-          </code> even though <code>
-            <a href="../Structs/Entity.html">
-              content
-            </a>
-          </code> is a <code>
-            <a href="../Structs/Entity.html">
-              Dictionary
-            </a>
-          </code> and no longer the
+  data. For example, the type might be <code>application/json</code> even though <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentP_">content</a></code> is a <code>Dictionary</code> and no longer the
   original JSON text data.</p>
 
 <p>This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
-  for example, you might see “<code>
-            <a href="../Structs/Entity.html">
-              text/plain
-            </a>
-          </code>”, “<code>text/plain; charset=utf-8</code>”, or even “<code>
-            <a href="../Structs/Entity.html">
-              text/foo+plain
-            </a>
-          </code>”.</p>
+  for example, you might see “<code>text/plain</code>”, “<code>text/plain; charset=utf-8</code>”, or even “<code>text/foo+plain</code>”.</p>
 
                       </div>
                       <div class="declaration">
@@ -359,6 +294,9 @@ Crash-o-Matic.”</p>
         <span class="p">{</span> <span class="k">return</span> <span class="n">headers</span><span class="p">[</span><span class="s">"content-type"</span><span class="p">]</span> <span class="p">??</span> <span class="s">"application/octet-stream"</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L46-L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -387,6 +325,9 @@ Crash-o-Matic.”</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L52">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -403,11 +344,7 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The etag of this data. If non-nil, Siesta will send an <code>
-            <a href="../Structs/Entity.html">
-              If-modified-since
-            </a>
-          </code> header with subsequent loads.</p>
+                        <p>The etag of this data. If non-nil, Siesta will send an <code>If-None-Match</code> header with subsequent loads.</p>
 
                       </div>
                       <div class="declaration">
@@ -418,6 +355,9 @@ Crash-o-Matic.”</p>
         <span class="p">{</span> <span class="k">return</span> <span class="n">headers</span><span class="p">[</span><span class="s">"etag"</span><span class="p">]</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L57-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -446,6 +386,9 @@ Crash-o-Matic.”</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L63">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -473,6 +416,9 @@ Crash-o-Matic.”</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L87-L96">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -489,12 +435,11 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  For creating ad hoc data locally.
-</code></pre>
+                        <p>For creating ad hoc data locally.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>Resource.localDataOverride(_:)</code>
+          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_6EntityT_">Resource.localDataOverride(_:)</a></code>
 
         </div>
 
@@ -510,6 +455,9 @@ Crash-o-Matic.”</p>
             <span class="k">var</span> <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:])</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L103-L112">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -567,6 +515,9 @@ Crash-o-Matic.”</p>
                           </tbody>
                         </table>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L121-L122">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -583,11 +534,7 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Updates <code>
-            <a href="../Structs/Entity.html">
-              timestamp
-            </a>
-          </code> to the current time.</p>
+                        <p>Updates <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity9timestampSd">timestamp</a></code> to the current time.</p>
 
                       </div>
                       <div class="declaration">
@@ -598,6 +545,9 @@ Crash-o-Matic.”</p>
         <span class="p">{</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="nf">now</span><span class="p">()</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L125-L126">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -619,15 +569,7 @@ Crash-o-Matic.”</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Typed content accessors such as <code>
-            <a href="../Structs/Entity.html">
-              .text
-            </a>
-          </code> and <code>
-            <a href="../Structs/Entity.html">
-              .jsonDict
-            </a>
-          </code> apply to this entity’s content.</p>
+                        <p>Typed content accessors such as <code>.text</code> and <code>.jsonDict</code> apply to this entity’s content.</p>
 
                       </div>
                       <div class="declaration">
@@ -637,6 +579,9 @@ Crash-o-Matic.”</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">?</span> <span class="p">{</span> <span class="k">return</span> <span class="k">self</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L197">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

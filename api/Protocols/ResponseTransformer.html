@@ -231,11 +231,7 @@ transformer touches only its input parameter.</p>
                       <div class="abstract">
                         <p>Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.</p>
 
-<p>Note that a <code>
-            <a href="../Protocols/ResponseTransformer.html">
-              Response
-            </a>
-          </code> can contain either data or an error, so this method can turn success into failure if the
+<p>Note that a <code><a href="../Enums/Response.html">Response</a></code> can contain either data or an error, so this method can turn success into failure if the
 response fails to parse.</p>
 
                       </div>
@@ -246,6 +242,9 @@ response fails to parse.</p>
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">process</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="kt">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -280,6 +279,9 @@ response fails to parse.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">logTransformation</span><span class="p">(</span><span class="nv">result</span><span class="p">:</span> <span class="kt">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Response</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L30-L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

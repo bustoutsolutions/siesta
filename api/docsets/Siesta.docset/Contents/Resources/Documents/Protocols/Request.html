@@ -208,17 +208,9 @@
               </div>
             <p>Registers hooks to receive notifications about the status of a network request, and some request control.</p>
 
-<p>Note that these hooks are for only a <em>single request</em>, whereas <code>
-            <a href="../Protocols/ResourceObserver.html">
-              ResourceObserver
-            </a>
-          </code>s receive notifications about
+<p>Note that these hooks are for only a <em>single request</em>, whereas <code><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
-requests, whereas <code>
-            <a href="../Protocols/ResourceObserver.html">
-              ResourceObserver
-            </a>
-          </code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
+requests, whereas <code><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
 and <code>localDataOverride(_:)</code>.</p>
 
 <p>There is no race condition between a callback being added and a response arriving. If you add a callback after the
@@ -256,6 +248,9 @@ response has already arrived, the callback is still called as usual.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L54">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -282,6 +277,9 @@ response has already arrived, the callback is still called as usual.</p>
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">success</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Entity</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -310,6 +308,9 @@ response has already arrived, the callback is still called as usual.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L60">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -337,6 +338,9 @@ response has already arrived, the callback is still called as usual.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L63">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -363,6 +367,9 @@ response has already arrived, the callback is still called as usual.</p>
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">failure</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kt">Error</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -392,6 +399,9 @@ response has already arrived, the callback is still called as usual.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L72">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -413,11 +423,7 @@ response has already arrived, the callback is still called as usual.</p>
 
 <p>The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
   not necessarily mean the request is completed; it means only that we estimate the request <em>should</em> be completed
-  by now. Use the <code>
-            <a href="../Protocols/Request.html">
-              completed
-            </a>
-          </code> property to test for actual completion.</p>
+  by now. Use the <code><a href="../Protocols/Request.html#/s:vP6Siesta7Request9completedSb">completed</a></code> property to test for actual completion.</p>
 
                       </div>
                       <div class="declaration">
@@ -427,6 +433,9 @@ response has already arrived, the callback is still called as usual.</p>
                           <pre class="highlight"><code><span class="k">var</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Double</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L82">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -456,6 +465,9 @@ response has already arrived, the callback is still called as usual.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L88">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -474,29 +486,13 @@ response has already arrived, the callback is still called as usual.</p>
                       <div class="abstract">
                         <p>Cancel the request if it is still in progress. Has no effect if a response has already been received.</p>
 
-<p>If this method is called while the request is in progress, it immediately triggers the <code>
-            <a href="../Protocols/Request.html">
-              failure</code>/<code>completion
-            </a>
-          </code>
-  callbacks, with the error’s <code>
-            <a href="../Protocols/Request.html">
-              cause
-            </a>
-          </code> set to <code>Error.Cause.RequestCancelled</code>.</p>
+<p>If this method is called while the request is in progress, it immediately triggers the <code>failure</code>/<code>completion</code>
+  callbacks, with the error’s <code>cause</code> set to <code><a href="../Structs/Error/Cause/RequestCancelled.html">Error.Cause.RequestCancelled</a></code>.</p>
 
-<p>Note that <code>
-            <a href="../Protocols/Request.html">
-              cancel()
-            </a>
-          </code> is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
-  to have any effect at all on the underlying request, subject to the whims of the <code>
-            <a href="../Protocols/Request.html">
-              NetworkingProvider
-            </a>
-          </code>. Therefore,
+<p>Note that <code>cancel()</code> is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
+  to have any effect at all on the underlying request, subject to the whims of the <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>. Therefore,
   after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
-  the resource to be unknown. Is it safest to immediately call either <code>Resource.load()</code> or <code>Resource.wipe()</code>.</p>
+  the resource to be unknown. Is it safest to immediately call either <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">Resource.load()</a></code> or <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4wipeFS0_FT_T_">Resource.wipe()</a></code>.</p>
 
 <p>This method <em>does</em> guarantee, however, that after it is called, even if a network response does arrive it will be
   ignored and not trigger any callbacks.</p>
@@ -509,6 +505,9 @@ response has already arrived, the callback is still called as usual.</p>
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Request.swift#L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

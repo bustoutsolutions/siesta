@@ -206,13 +206,9 @@
 
                 </div>
               </div>
-            <p>Holds a mutable configuration while closures passed to <code>Service.configure(...)</code> modify it.</p>
+            <p>Holds a mutable configuration while closures passed to <code><a href="../../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> modify it.</p>
 
-<p>The reason that method doesn’t just accept a closure with an <code>
-            <a href="../../Structs/Configuration.html">
-              inout
-            </a>
-          </code> param is that doing so requires a messy
+<p>The reason that method doesn’t just accept a closure with an <code>inout</code> param is that doing so requires a messy
 flavor of closure declaration that makes the API much harder to use:</p>
 
 <pre class="highlight plaintext"><code>configure("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
@@ -250,6 +246,9 @@ flavor of closure declaration that makes the API much harder to use:</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">config</span><span class="p">:</span> <span class="kt">Configuration</span> <span class="o">=</span> <span class="kt">Configuration</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Configuration.swift#L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

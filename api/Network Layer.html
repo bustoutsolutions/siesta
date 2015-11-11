@@ -220,15 +220,7 @@
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
 <code>Service.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>
-            <a href="Structs/NSURLSessionProvider.html">
-              NSURLSessionProvider
-            </a>
-          </code> and <code>
-            <a href="Structs/AlamofireProvider.html">
-              AlamofireProvider
-            </a>
-          </code> for implementation examples.</p>
+<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code><a href="Structs/AlamofireProvider.html">AlamofireProvider</a></code> for implementation examples.</p>
 
                         <a href="Protocols/NetworkingProvider.html" class="slightly-smaller">See more</a>
                       </div>
@@ -239,6 +231,9 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span><span class="p">:</span> <span class="kt">NetworkingProviderConvertible</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L15-L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -256,16 +251,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A convenience to turn create the appropriate <code>
-            <a href="Protocols/NetworkingProvider.html">
-              NetworkingProvider
-            </a>
-          </code> for a variety of networking configuration objects.
-Used by the <code>
-            <a href="Classes/Service.html">
-              Service
-            </a>
-          </code> initializer.</p>
+                        <p>A convenience to turn create the appropriate <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> for a variety of networking configuration objects.
+Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.</p>
 
 <p>For example, instead of having to do this:</p>
 
@@ -301,6 +288,9 @@ Used by the <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L91-L95">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -317,11 +307,7 @@ Used by the <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Network handling for a single request. Created by a <code>
-            <a href="Protocols/NetworkingProvider.html">
-              NetworkingProvider
-            </a>
-          </code>. Implementations have three responsibilities:</p>
+                        <p>Network handling for a single request. Created by a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code>. Implementations have three responsibilities:</p>
 
 <ul>
 <li>start the request when <code>start(_:)</code> is called,</li>
@@ -339,6 +325,9 @@ Used by the <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L37-L44">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -355,11 +344,7 @@ Used by the <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Siesta passes this callback to a <code>
-            <a href="Protocols/NetworkingProvider.html">
-              NetworkingProvider
-            </a>
-          </code> implementation to call when the underlying network request is complete.</p>
+                        <p>Siesta passes this callback to a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementation to call when the underlying network request is complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -369,6 +354,9 @@ Used by the <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="nv">nsres</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">body</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -386,11 +374,7 @@ Used by the <code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Used by <code>
-            <a href="Protocols/NetworkingProvider.html">
-              NetworkingProvider
-            </a>
-          </code> implementations to report request progress.</p>
+                        <p>Used by <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementations to report request progress.</p>
 
                         <a href="Structs/RequestTransferMetrics.html" class="slightly-smaller">See more</a>
                       </div>
@@ -401,6 +385,9 @@ Used by the <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestTransferMetrics</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L47-L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -436,6 +423,9 @@ Used by the <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking-NSURLSession.swift#L15-L33">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -460,11 +450,7 @@ Used by the <code>
 
 <p>You can create instances of this class with a custom
 <a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-in order to control caching, certificate validation rules, etc. For example, here is a <code>
-            <a href="Classes/Service.html">
-              Service
-            </a>
-          </code> that will not cache
+in order to control caching, certificate validation rules, etc. For example, here is a <code><a href="Classes/Service.html">Service</a></code> that will not cache
 anything and will not use the cell network:</p>
 
 <pre class="highlight plaintext"><code>class MyAPI: Service {
@@ -487,6 +473,9 @@ anything and will not use the cell network:</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking-Alamofire.swift#L29-L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

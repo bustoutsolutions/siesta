@@ -231,6 +231,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Service.swift#L17-L325">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -247,43 +250,22 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  A type that can serve as a URL matcher for service configuration.
-</code></pre>
+                        <p>A type that can serve as a URL matcher for service configuration.</p>
 
-<p>Siesta provides implementations of this protocol for <code>
-            <a href="Extensions/String.html">
-              String
-            </a>
-          </code> (for glob-based matching) and <code>
-            <a href="Classes/Resource.html">
-              Resource
-            </a>
-          </code> (to configure
+<p>Siesta provides implementations of this protocol for <code><a href="Extensions/String.html">String</a></code> (for glob-based matching) and <code><a href="Classes/Resource.html">Resource</a></code> (to configure
 one specific resource).</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FTPS_31ConfigurationPatternConvertible_11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">
-              Service.configure(_:description:configurer:)
-            </a>
-          </code>
+          <code><a href="Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FTPS_31ConfigurationPatternConvertible_11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(_:description:configurer:)</a></code>
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="Extensions/String.html#/s:FE6SiestaSS20configurationPatternFSSFCS_7ServiceFCSo5NSURLSb">
-              String.configurationPattern(_:)
-            </a>
-          </code>
+          <code><a href="Extensions/String.html#/s:FE6SiestaSS20configurationPatternFSSFCS_7ServiceFCSo5NSURLSb">String.configurationPattern(_:)</a></code>
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="Classes/Resource.html#/s:FC6Siesta8Resource20configurationPatternFS0_FCS_7ServiceFCSo5NSURLSb">
-              Resource.configurationPattern(_:)
-            </a>
-          </code>
+          <code><a href="Classes/Resource.html#/s:FC6Siesta8Resource20configurationPatternFS0_FCS_7ServiceFCSo5NSURLSb">Resource.configurationPattern(_:)</a></code>
 
         </div>
 
@@ -296,6 +278,9 @@ one specific resource).</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationPatternConvertible</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Service.swift#L338-L345">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -340,6 +325,9 @@ questions changes.</p>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Resource.swift#L27-L823">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -374,6 +362,9 @@ the content’s type and freshness.</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entity</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L15-L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -416,11 +407,7 @@ resource.latestError?.jsonDict["error.detail"]
 
 <p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
 <code>UIDoorknob</code>, but does not do any parsing to put a <code>UIDoorknob</code> there in the first place. You’d need to pair this with
-a custom <code>
-            <a href="Protocols/ResponseTransformer.html">
-              ResponseTransformer
-            </a>
-          </code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
+a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
 
                         <a href="Protocols/TypedContentAccessors.html" class="slightly-smaller">See more</a>
                       </div>
@@ -431,6 +418,9 @@ a custom <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L155-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -481,6 +471,9 @@ because network implementations may sometimes provide <em>both</em> an underlyin
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Error.swift#L27-L87">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -501,19 +494,11 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Options which control the behavior of a <code>
-            <a href="Classes/Resource.html">
-              Resource
-            </a>
-          </code>.</p>
+                        <p>Options which control the behavior of a <code><a href="Classes/Resource.html">Resource</a></code>.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code>
-            <a href="Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">
-              Service.configure(...)
-            </a>
-          </code>
+          <code><a href="Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>
 
         </div>
 
@@ -526,6 +511,9 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Configuration</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Configuration.swift#L14-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

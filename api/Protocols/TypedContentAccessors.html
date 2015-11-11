@@ -231,11 +231,7 @@ resource.latestError?.jsonDict["error.detail"]
 
 <p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
 <code>UIDoorknob</code>, but does not do any parsing to put a <code>UIDoorknob</code> there in the first place. You’d need to pair this with
-a custom <code>
-            <a href="../Protocols/ResponseTransformer.html">
-              ResponseTransformer
-            </a>
-          </code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
+a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that converts raw doorknob responses to <code>UIDoorknob</code>s.</p>
 
           </section>
           <section class="section task-group-section">
@@ -265,6 +261,9 @@ a custom <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L158">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -289,15 +288,7 @@ a custom <code>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
-      Returns the content if it can be downcast to the same type as <code>
-            <a href="../Protocols/TypedContentAccessors.html">
-              blankValue
-            </a>
-          </code>; otherwise returns <code>
-            <a href="../Protocols/TypedContentAccessors.html">
-              ifNone
-            </a>
-          </code>.</p>
+      Returns the content if it can be downcast to the same type as <code>blankValue</code>; otherwise returns <code>ifNone</code>.</p>
 
 <pre class="highlight plaintext"><code>  For example, if you expect the content to be a UIImage:
 
@@ -314,6 +305,9 @@ a custom <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">contentAsType</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="kd">@autoclosure</span> <span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L173-L176">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -345,6 +339,9 @@ a custom <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L179-L182">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -374,6 +371,9 @@ a custom <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonDict</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">contentAsType</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="p">[:])</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L185">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -405,6 +405,9 @@ a custom <code>
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L188">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -434,6 +437,9 @@ a custom <code>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span>                 <span class="p">{</span> <span class="k">return</span> <span class="nf">contentAsType</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Entity.swift#L191">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

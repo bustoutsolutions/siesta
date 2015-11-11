@@ -244,6 +244,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L90-L91">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -263,19 +266,7 @@
                         <p>Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
 The content type matches regardles of whether the response is a success or failure.</p>
 
-<p>Content type patterns can use <code>
-            <a href="../Structs/TransformerSequence.html">
-              *
-            </a>
-          </code> to match subsequences. The wildcard does not cross <code>
-            <a href="../Structs/TransformerSequence.html">
-              /
-            </a>
-          </code> or <code>
-            <a href="../Structs/TransformerSequence.html">
-              +
-            </a>
-          </code> boundaries.
+<p>Content type patterns can use <code>*</code> to match subsequences. The wildcard does not cross <code>/</code> or <code>+</code> boundaries.
 Examples:</p>
 
 <pre class="highlight plaintext"><code>"text/plain"
@@ -283,11 +274,7 @@ Examples:</p>
 "application/​*+json"
 </code></pre>
 
-<p>The pattern does not match MIME parameters, so <code>
-            <a href="../Structs/TransformerSequence.html">
-              &quot;text/plain&quot;
-            </a>
-          </code> matches <code>&quot;text/plain; charset=utf-8&quot;</code>.</p>
+<p>The pattern does not match MIME parameters, so <code>&quot;text/plain&quot;</code> matches <code>&quot;text/plain; charset=utf-8&quot;</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -300,6 +287,9 @@ Examples:</p>
             <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L106-L114">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -329,6 +319,9 @@ Examples:</p>
             <span class="nv">first</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L119-L128">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

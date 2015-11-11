@@ -206,11 +206,7 @@
 
                 </div>
               </div>
-            <p>Support for passing URL patterns with wildcards to <code>
-            <a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">
-              Service.configure(...)
-            </a>
-          </code>.</p>
+            <p>Support for passing URL patterns with wildcards to <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -237,15 +233,7 @@
   The pattern supports two wildcards:
 
   - `*` matches zero or more characters within a path segment, and
-  - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
-
-  Examples:
-
-  - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
-  - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
-  - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
-
-  The pattern ignores the resource’s query string.
+  - `**` matches zero or more characters across path segments, with the special case that `/*
 </code></pre>
 
                       </div>
@@ -256,6 +244,9 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">Service</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Service.swift#L371-L393">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

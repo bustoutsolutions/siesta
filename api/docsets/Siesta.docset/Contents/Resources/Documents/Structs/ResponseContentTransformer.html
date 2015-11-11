@@ -206,11 +206,7 @@
 
                 </div>
               </div>
-            <p>A simplified <code>
-            <a href="../Protocols/ResponseTransformer.html">
-              ResponseTransformer
-            </a>
-          </code> that deals only with the content of the response entity, and does not touch the
+            <p>A simplified <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
   surrounding metadata.</p>
 
 <p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.
@@ -247,6 +243,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L155">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -266,11 +265,7 @@
                         <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter skipWhenEntityMatchesOutputType:
-  When true, if the input content already matches <code>
-            <a href="../Structs/ResponseContentTransformer.html">
-              OutputContentType
-            </a>
-          </code>, the transformer does nothing.
+  When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing.
   When false, the tranformer always attempts to parse its input.
   Default is true.
 <div class="aside aside-parameter">
@@ -346,6 +341,9 @@ The transformation logic.
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/ResponseTransformer.swift#L173-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

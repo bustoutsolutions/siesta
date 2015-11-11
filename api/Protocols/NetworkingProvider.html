@@ -209,15 +209,7 @@
             <p>If you want to use a different networking library, implement this protocol and pass your implementation to
 <code>Service.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code>
-            <a href="../Structs/NSURLSessionProvider.html">
-              NSURLSessionProvider
-            </a>
-          </code> and <code>
-            <a href="../Structs/AlamofireProvider.html">
-              AlamofireProvider
-            </a>
-          </code> for implementation examples.</p>
+<p>See <code><a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code><a href="../Structs/AlamofireProvider.html">AlamofireProvider</a></code> for implementation examples.</p>
 
           </section>
           <section class="section task-group-section">
@@ -236,11 +228,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Start the given request asynchronously, and return a <code>
-            <a href="../Protocols/NetworkingProvider.html">
-              RequestNetworking
-            </a>
-          </code> to control the request.</p>
+                        <p>Start the given request asynchronously, and return a <code><a href="../Protocols/RequestNetworking.html">RequestNetworking</a></code> to control the request.</p>
 
 <p>Implementations <strong>must</strong> guarante that they will call the given response closure exactly once.</p>
 
@@ -254,6 +242,9 @@
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startRequest</span><span class="p">(</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -278,15 +269,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>You can pass a <code>
-            <a href="../Protocols/NetworkingProvider.html">
-              NetworkingProvider
-            </a>
-          </code> when creating a <code>
-            <a href="../Protocols/NetworkingProvider.html">
-              Service
-            </a>
-          </code> to override the default networking behavior.
+                        <p>You can pass a <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> when creating a <code><a href="../Classes/Service.html">Service</a></code> to override the default networking behavior.
 - SeeAlso: NetworkingProviderConvertible</p>
 
                       </div>
@@ -298,6 +281,9 @@
         <span class="p">{</span> <span class="k">return</span> <span class="k">self</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/4c84dfd5b713b307ca99fd95a799315456abc814/Source/Networking.swift#L102-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
