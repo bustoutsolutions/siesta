@@ -28,7 +28,7 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
-          <a href="../Resources.html">Resources</a>
+            <a href="../Resources.html">Resources</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/Service.html">Service</a>
@@ -54,7 +54,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Observering Resources.html">Observering Resources</a>
+            <a href="../Observering Resources.html">Observering Resources</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -68,7 +68,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Requests.html">Requests</a>
+            <a href="../Requests.html">Requests</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/Request.html">Request</a>
@@ -79,7 +79,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Response Parsing.html">Response Parsing</a>
+            <a href="../Response Parsing.html">Response Parsing</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Enums/Response.html">Response</a>
@@ -105,7 +105,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../UI Helpers.html">UI Helpers</a>
+            <a href="../UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
@@ -116,7 +116,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Network Layer.html">Network Layer</a>
+            <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
@@ -142,7 +142,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Caching.html">Caching</a>
+            <a href="../Caching.html">Caching</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/EntityCache.html">EntityCache</a>
@@ -156,7 +156,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Logging.html">Logging</a>
+            <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
@@ -170,7 +170,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Other Extensions.html">Other Extensions</a>
+            <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Extensions/Alamofire.html">Alamofire</a>
@@ -187,7 +187,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Other Protocols.html">Other Protocols</a>
+            <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
@@ -201,7 +201,7 @@
           <section class="section">
             <h1>Service</h1>
               <div class="declaration">
-                <div class="Swift">
+                <div class="language">
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
@@ -227,12 +227,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The root URL of the API. If nil, then <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource">resource(_:)</a></code> will only accept absolute URLs.</p>
+                        <p>The root URL of the API. If nil, then <code>
+            <a href="../Classes/Service.html">
+              resource(_:)
+            </a>
+          </code> will only accept absolute URLs.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">baseURL</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?</span></code></pre>
 
@@ -259,27 +263,55 @@
 <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter base:
-The base URL of the API. If nil, there is no base URL, and thus <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FSSCS_8Resource">resource(_:)</a></code> will require absolute URLs.
+The base URL of the API. If nil, there is no base URL, and thus <code>
+            <a href="../Classes/Service.html">
+              resource(_:)
+            </a>
+          </code> will require absolute URLs.
 
         </div><div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter useDefaultTransformers:
-If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you
-add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code>).
+If true, include handling for JSON, text, and images. If false, leave all responses as <code>
+            <a href="../Classes/Service.html">
+              NSData
+            </a>
+          </code> (unless you
+add your own <code>
+            <a href="../Classes/Service.html">
+              ResponseTransformer
+            </a>
+          </code> using <code>
+            <a href="../Classes/Service.html">
+              configure(...)
+            </a>
+          </code>).
 
         </div><div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter networking:
 The handler to use for networking. The default is an NSURLSession with its default configuration. You can
-pass an <code><a href="../Extensions/NSURLSession.html">NSURLSession</a></code>, <code><a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></code>, or <code>Alamofire.Manager</code> to use an existing provider with
-custom configuration. You can also use your own networking library of choice by implementing <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>.
+pass an <code>
+            <a href="../Classes/Service.html">
+              NSURLSession
+            </a>
+          </code>, <code>
+            <a href="../Classes/Service.html">
+              NSURLSessionConfiguration
+            </a>
+          </code>, or <code>Alamofire.Manager</code> to use an existing provider with
+custom configuration. You can also use your own networking library of choice by implementing <code>
+            <a href="../Classes/Service.html">
+              NetworkingProvider
+            </a>
+          </code>.
 
         </div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">base</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
@@ -352,8 +384,16 @@ custom configuration. You can also use your own networking library of choice by 
                       <div class="abstract">
                         <p>Returns the unique resource with the given URL.</p>
 
-<p>This method will <em>always</em> return the same instance of <code><a href="../Classes/Resource.html">Resource</a></code> for the same URL within
-the context of a <code><a href="../Classes/Service.html">Service</a></code> as long as anyone retains a reference to that resource.
+<p>This method will <em>always</em> return the same instance of <code>
+            <a href="../Classes/Service.html">
+              Resource
+            </a>
+          </code> for the same URL within
+the context of a <code>
+            <a href="../Classes/Service.html">
+              Service
+            </a>
+          </code> as long as anyone retains a reference to that resource.
 Unreferenced resources remain in memory (with their cached data) until a low memory event
 occurs, at which point they are summarily evicted.</p>
 
@@ -363,7 +403,7 @@ return a resource — but that resource will give errors for all requests witho
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">url</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
@@ -391,7 +431,7 @@ resource that always fails.</p>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">url</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
@@ -413,13 +453,17 @@ resource that always fails.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Return the unique resource with the given path appended to <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.
+                        <p>Return the unique resource with the given path appended to <code>
+            <a href="../Classes/Service.html">
+              baseURL
+            </a>
+          </code>.
 Leading slash is optional, and has no effect.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
@@ -431,13 +475,13 @@ Leading slash is optional, and has no effect.</p>
               </ul>
             </div>
             <div class="task-group">
-                <div class="task-name-container">
-                  <a name="/Resource%20Configuration"></a>
-                  <a name="//apple_ref/swift/Section/Resource Configuration" class="dashAnchor"></a>
-                  <a href="#/Resource%20Configuration">
-                    <h3 class="section-name">Resource Configuration</h3>
-                  </a>
-                </div>
+              <div class="task-name-container">
+                <a name="/Resource%20Configuration"></a>
+                <a name="//apple_ref/swift/Section/Resource Configuration" class="dashAnchor"></a>
+                <a href="#/Resource%20Configuration">
+                  <h3 class="section-name">Resource Configuration</h3>
+                </a>
+              </div>
               <ul>
                 <li class="item">
                   <div>
@@ -452,35 +496,59 @@ Leading slash is optional, and has no effect.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Applies global configuration to all resources in this service. The <code>configurer</code> closure receives a mutable
-<code><a href="../Structs/Configuration.html">Configuration</a></code>, referenced as <code>$0.config</code>, which it may modify as it sees fit.</p>
+                        <p>Applies global configuration to all resources in this service. The <code>
+            <a href="../Classes/Service.html">
+              configurer
+            </a>
+          </code> closure receives a mutable
+<code>
+            <a href="../Classes/Service.html">
+              Configuration
+            </a>
+          </code>, referenced as <code>$0.config</code>, which it may modify as it sees fit.</p>
 
 <p>For example:</p>
 
 <pre class="highlight plaintext"><code>service.configure { $0.config.headers["Foo"] = "bar" }
 </code></pre>
 
-<p>The <code>configurer</code> block is evaluated every time a matching resource asks for its configuration.</p>
+<p>The <code>
+            <a href="../Classes/Service.html">
+              configurer
+            </a>
+          </code> block is evaluated every time a matching resource asks for its configuration.</p>
 
-<p>The optional <code>description</code> is used for logging purposes only.</p>
+<p>The optional <code>
+            <a href="../Classes/Service.html">
+              description
+            </a>
+          </code> is used for logging purposes only.</p>
 
 <p>Configuration closures apply to any resource they match in the order they were added, whether global or not. That
 means that you will usually want to add your global configuration first, then resource-specific configuration.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FTPS_31ConfigurationPatternConvertible_11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">configure(_:description:configurer:)</a></code>
+          <code>
+            <a href="../Classes/Service.html">
+              configure(_:description:configurer:)
+            </a>
+          </code>
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">invalidateConfiguration()</a></code>
+          <code>
+            <a href="../Classes/Service.html">
+              invalidateConfiguration()
+            </a>
+          </code>
 
         </div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
             <span class="n">description</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"global"</span><span class="p">,</span>
@@ -504,8 +572,24 @@ means that you will usually want to add your global configuration first, then re
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Applies configuration to resources matching the given pattern. You can pass a <code><a href="../Extensions/String.html">String</a></code> or <code><a href="../Classes/Resource.html">Resource</a></code> for the
-<code>pattern</code> argument, or provide your own implementation of <code><a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a></code>.</p>
+                        <p>Applies configuration to resources matching the given pattern. You can pass a <code>
+            <a href="../Classes/Service.html">
+              String
+            </a>
+          </code> or <code>
+            <a href="../Classes/Service.html">
+              Resource
+            </a>
+          </code> for the
+<code>
+            <a href="../Classes/Service.html">
+              pattern
+            </a>
+          </code> argument, or provide your own implementation of <code>
+            <a href="../Classes/Service.html">
+              ConfigurationPatternConvertible
+            </a>
+          </code>.</p>
 
 <p>Examples:</p>
 
@@ -521,18 +605,26 @@ configure(user) { $0.config.persistentCache = userProfileCache }
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(description:configurer:)</a></code> for global config
+          <code>
+            <a href="../Classes/Service.html">
+              configure(description:configurer:)
+            </a>
+          </code> for global config
 
         </div><div class="aside aside-see-also">
           <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">invalidateConfiguration()</a></code>
+          <code>
+            <a href="../Classes/Service.html">
+              invalidateConfiguration()
+            </a>
+          </code>
 
         </div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
             <span class="nv">pattern</span><span class="p">:</span> <span class="kt">ConfigurationPatternConvertible</span><span class="p">,</span>
@@ -557,13 +649,21 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the <code>urlPattern</code> flavor of <code>configure()</code>
+                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the <code>
+            <a href="../Classes/Service.html">
+              urlPattern
+            </a>
+          </code> flavor of <code>
+            <a href="../Classes/Service.html">
+              configure()
+            </a>
+          </code>
   aren’t robust enough.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span>
             <span class="nv">configurationPattern</span><span class="p">:</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">,</span>
@@ -604,7 +704,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="n">configureTransformer</span><span class="o">&lt;</span><span class="kt">I</span><span class="p">,</span><span class="kt">O</span><span class="o">&gt;</span><span class="p">(</span>
             <span class="nv">pattern</span><span class="p">:</span> <span class="kt">ConfigurationPatternConvertible</span><span class="p">,</span>
@@ -631,14 +731,26 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       <div class="abstract">
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
-<p>Because the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> methods accept an arbitrary closure, it is possible that the results of
+<p>Because the <code>
+            <a href="../Classes/Service.html">
+              configure(...)
+            </a>
+          </code> methods accept an arbitrary closure, it is possible that the results of
  that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
  if you do anything that would change the result of a configuration closure, you must call
- <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
+ <code>
+            <a href="../Classes/Service.html">
+              invalidateConfiguration()
+            </a>
+          </code> in order for the changes to take effect.</p>
 
 <p><em>《insert your functional programming purist rant here if you so desire》</em></p>
 
-<p>Note that you do <em>not</em> need to call this method after calling any of the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> methods.
+<p>Note that you do <em>not</em> need to call this method after calling any of the <code>
+            <a href="../Classes/Service.html">
+              configure(...)
+            </a>
+          </code> methods.
  You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
@@ -662,7 +774,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">invalidateConfiguration</span><span class="p">()</span></code></pre>
 
@@ -674,13 +786,13 @@ configure(user) { $0.config.persistentCache = userProfileCache }
               </ul>
             </div>
             <div class="task-group">
-                <div class="task-name-container">
-                  <a name="/Wiping%20state"></a>
-                  <a name="//apple_ref/swift/Section/Wiping state" class="dashAnchor"></a>
-                  <a href="#/Wiping%20state">
-                    <h3 class="section-name">Wiping state</h3>
-                  </a>
-                </div>
+              <div class="task-name-container">
+                <a name="/Wiping%20state"></a>
+                <a name="//apple_ref/swift/Section/Wiping state" class="dashAnchor"></a>
+                <a href="#/Wiping%20state">
+                  <h3 class="section-name">Wiping state</h3>
+                </a>
+              </div>
               <ul>
                 <li class="item">
                   <div>
@@ -702,7 +814,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">wipeResources</span><span class="p">(</span><span class="nv">predicate</span><span class="p">:</span> <span class="kt">Resource</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">=</span>  <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="kc">true</span> <span class="p">})</span></code></pre>
 
@@ -732,7 +844,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">wipeResources</span><span class="p">(</span><span class="nv">pattern</span><span class="p">:</span> <span class="kt">ConfigurationPatternConvertible</span><span class="p">)</span></code></pre>
 
@@ -754,14 +866,22 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Wipes the state of a subset of this service’s resources, matching based on URLs (instead of <code><a href="../Classes/Resource.html">Resource</a></code> instances).</p>
+                        <p>Wipes the state of a subset of this service’s resources, matching based on URLs (instead of <code>
+            <a href="../Classes/Service.html">
+              Resource
+            </a>
+          </code> instances).</p>
 
-<p>Useful for making shared predicates that you can pass to both <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code> and this method.</p>
+<p>Useful for making shared predicates that you can pass to both <code>
+            <a href="../Classes/Service.html">
+              configure(...)
+            </a>
+          </code> and this method.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">wipeResourcesMatchingURL</span><span class="p">(</span><span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
@@ -776,7 +896,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
         </section>
         <section id="footer">
           <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

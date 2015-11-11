@@ -28,7 +28,7 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
-          <a href="../Resources.html">Resources</a>
+            <a href="../Resources.html">Resources</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/Service.html">Service</a>
@@ -54,7 +54,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Observering Resources.html">Observering Resources</a>
+            <a href="../Observering Resources.html">Observering Resources</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/ResourceObserver.html">ResourceObserver</a>
@@ -68,7 +68,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Requests.html">Requests</a>
+            <a href="../Requests.html">Requests</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/Request.html">Request</a>
@@ -79,7 +79,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Response Parsing.html">Response Parsing</a>
+            <a href="../Response Parsing.html">Response Parsing</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Enums/Response.html">Response</a>
@@ -105,7 +105,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../UI Helpers.html">UI Helpers</a>
+            <a href="../UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
@@ -116,7 +116,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Network Layer.html">Network Layer</a>
+            <a href="../Network Layer.html">Network Layer</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
@@ -142,7 +142,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Caching.html">Caching</a>
+            <a href="../Caching.html">Caching</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Protocols/EntityCache.html">EntityCache</a>
@@ -156,7 +156,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Logging.html">Logging</a>
+            <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
@@ -170,7 +170,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Other Extensions.html">Other Extensions</a>
+            <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Extensions/Alamofire.html">Alamofire</a>
@@ -187,7 +187,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-          <a href="../Other Protocols.html">Other Protocols</a>
+            <a href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
@@ -201,12 +201,16 @@
           <section class="section">
             <h1>ResponseContentTransformer</h1>
               <div class="declaration">
-                <div class="Swift">
+                <div class="language">
                   <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span><span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">ResponseTransformer</span></code></pre>
 
                 </div>
               </div>
-            <p>A simplified <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
+            <p>A simplified <code>
+            <a href="../Protocols/ResponseTransformer.html">
+              ResponseTransformer
+            </a>
+          </code> that deals only with the content of the response entity, and does not touch the
   surrounding metadata.</p>
 
 <p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.
@@ -237,7 +241,7 @@
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Processor</span> <span class="o">=</span> <span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="kt">InputContentType</span><span class="p">,</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">OutputContentType</span></code></pre>
 
@@ -262,7 +266,11 @@
                         <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter skipWhenEntityMatchesOutputType:
-  When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing.
+  When true, if the input content already matches <code>
+            <a href="../Structs/ResponseContentTransformer.html">
+              OutputContentType
+            </a>
+          </code>, the transformer does nothing.
   When false, the tranformer always attempts to parse its input.
   Default is true.
 <div class="aside aside-parameter">
@@ -284,7 +292,7 @@ The transformation logic.
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
-                        <div class="Swift">
+                        <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
             <span class="nv">skipWhenEntityMatchesOutputType</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
@@ -348,7 +356,7 @@ The transformation logic.
         </section>
         <section id="footer">
           <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.3.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

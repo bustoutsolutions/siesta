@@ -242,12 +242,12 @@ header {
     padding-top: 10px;
     padding-bottom: 5px; }
 
-.aside, .Swift {
+.aside, .language {
   padding: 6px 12px;
   margin: 12px 0;
   border-left: 5px solid #dddddd;
   overflow-y: hidden; }
-  .aside .aside-title, .Swift .aside-title {
+  .aside .aside-title, .language .aside-title {
     font-size: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -255,12 +255,12 @@ header {
     margin: 0;
     color: #aaa;
     -webkit-user-select: none; }
-  .aside p:last-child, .Swift p:last-child {
+  .aside p:last-child, .language p:last-child {
     margin-bottom: 0; }
 
-.Swift {
+.language {
   border-left: 5px solid #cde9f4; }
-  .Swift .aside-title {
+  .language .aside-title {
     color: #4b8afb; }
 
 .aside-warning {

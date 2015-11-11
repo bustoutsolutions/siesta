@@ -70,7 +70,7 @@ Objective-C cannot see Swift enums, and `ResourceEvent` and `RequestMethod` are 
 }
 ```
 
-## Request Methods
+## Runtime vs. Compile-Time Checks
 
 Some things that would be compile errors in Swift’s more robust static type system surface as runtime errors in Objective-C.
 
@@ -80,11 +80,13 @@ Of particular note are the various flavors of `[Resource requestWithMethod:...]`
 resource.request(.FLARGLE)
 ```
 
-…is a crash in Objective-C:
+…comes back as a failed request in Objective-C:
 
 ```objc
-[resource.requestWithMethod:@"FLARGLE"]
+[resource requestWithMethod:@"FLARGLE"]
 ```
+
+A similar principle applies for attempting to pass something other than a dictionary or an array for a JSON request body.
 
 ## Request Callbacks
 
@@ -106,10 +108,10 @@ resource.request(.POST, json: ["color": "green"])
 …has a different, less type-safe flavor in Objective-C:
 
 ```objc
-[resource.requestWithMethod:@"POST" json:@{@"color": @"mauve"}]
-    .completion:(^(BOSEntity *data, BOSError *error) {
+[[resource.requestWithMethod:@"POST" json:@{@"color": @"mauve"}]
+    completion: ^(BOSEntity *data, BOSError *error) {
         ...
-    });
+    }];
 ```
 
 Exactly one of the completion block’s two arguments will be non-nil.

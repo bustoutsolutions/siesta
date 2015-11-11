@@ -68,6 +68,8 @@ myAPI.resource("/items/456/detail").relative("../123/detail")
 myAPI.resource("/doodads/etc").relative("/items/123/detail")
 ```
 
+The `child(_:)` method appends path components, while `relative(_:)` use full relative URL resolution rules (like `href` in a web page).
+
 For more details, see the documentation for [`child(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_) and [`relative(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_), and the [related specs](https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec).
 
 ## The Golden Rule of Resources
@@ -76,6 +78,12 @@ For more details, see the documentation for [`child(_:)`](http://bustoutsolution
 
 This is true no matter how you navigate to a resource, no matter whether you retain it or re-request it, no matter what — just as long as the resource came (directly or indirectly) from the same `Service` instance.
 
+### Ephemerality
+
 Note that the rule is “at _most_ one.” If memory is low and no code references a particular resource, a service may choose to discard it and recreate it later if needed. This is transparent to client code; as long as you retain a reference to a resource, you will always keep getting only that reference. However, it does mean that resource objects are ephemeral, created and recreated on demand.
+
+### Uniqueness
+
+Note that “URL” includes the _whole_ URL: protocol, host, path, and query string. It does _not_ include headers, however. Different query strings? Different resources. `http` vs `https`? Different resources. Different `Authentication` headers? _Same_ resource. This means it’s up to you to wipe resource content when a user logs out.
 
 <p class='guide-next'>Next: <strong><a href='../state'>Resource State</a></p>
