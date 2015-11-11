@@ -75,7 +75,7 @@ public final class Resource: NSObject
        Note that `latestData` will be present as long as there has _ever_ been a succesful request since the resource
        was created or wiped. If an error occurs, `latestData` will still hold the latest (now stale) valid data.
  
-       - SeeAlso: `DataContainer`
+       - SeeAlso: `TypedContentAccessors`
     */
     public private(set) var latestData: Entity?
         {
