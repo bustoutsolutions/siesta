@@ -18,6 +18,7 @@ echo "Building docs in $docs_dir ..."
     --clean \
     --source-directory   "$siesta_dir" \
     --exclude            "$siesta_dir"/Source/Support/Siesta-ObjC.swift \
+    --github-file-prefix "$("$docs_dir"/_scripts/current-commit-github-prefix.sh)" \
     --readme             _templates/api-readme.md \
     --output             api \
     \

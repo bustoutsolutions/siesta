@@ -3,12 +3,15 @@
 require 'json'
 require 'markaby'
 
-unless ARGV.size == 3
+unless ARGV.size == 2
   warn "Usage: build-spec-docs.rb <input.json> <output.html>"
   exit 1
 end
 
 json = JSON.parse(File.read(ARGV[0], encoding: 'utf-8'))
+
+scripts_dir = File.dirname(__FILE__)
+GITHUB_PREFIX = `#{scripts_dir}/current-commit-github-prefix.sh`
 
 def format_name(name)
   if name =~ /Spec$/
@@ -36,7 +39,7 @@ def link_to_callsite(result)
   end
   specpath = $1
 
-  "#{ARGV[2]}/Tests/#{specpath}#L#{result["line"]}"
+  "#{GITHUB_PREFIX}/Tests/#{specpath}#L#{result["line"]}"
 end
 
 PASSED_CLASSES = { true => "passed", false => "failed" }.freeze
