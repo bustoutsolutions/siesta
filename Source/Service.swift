@@ -296,10 +296,8 @@ public class Service: NSObject
         {
         resourceCache.flushUnused()
         for resource in resourceCache.values
-            {
-            if predicate(resource)
+            where predicate(resource)
                 { resource.wipe() }
-            }
         }
 
     /**

@@ -127,10 +127,8 @@ private class Result
     func child(named: String) -> Result
         {
         for child in children
-            {
-            if child.name == named
+            where child.name == named
                 { return child }
-            }
         let newChild = Result(name: named)
         children.append(newChild)
         return newChild

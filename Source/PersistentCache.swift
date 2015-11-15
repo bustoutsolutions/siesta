@@ -106,8 +106,7 @@ public struct JSONEntityEncoder: EntityEncoder
         json["charset"]   = entity.charset
         json["timestamp"] = entity.timestamp
         
-        do  { return try NSJSONSerialization.dataWithJSONObject(json, options: []) }
-        catch { return nil }
+        return try? NSJSONSerialization.dataWithJSONObject(json, options: [])
         }
     
     /// Decodes an entity with JSON content.
@@ -121,7 +120,7 @@ public struct JSONEntityEncoder: EntityEncoder
                   content   = json["content"],
                   headers   = json["headers"] as? [String:String],
                   timestamp = json["timestamp"] as? NSTimeInterval
-        else { return nil}
+        else { return nil }
         
         let charset = json["charset"] as? String  // can be nil
         
