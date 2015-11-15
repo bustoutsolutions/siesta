@@ -43,6 +43,12 @@ class ResourceObserversSpec: ResourceSpecBase
                 expect(observer2.stoppedObservingCalled ).to(beFalse())
                 }
             
+            it("is unaffected by removeObservers() with nil owner")
+                {
+                resource().removeObservers(ownedBy: nil)
+                expect(observer().stoppedObservingCalled ).to(beFalse())
+                }
+            
             it("is chainable")
                 {
                 let observer2 = TestObserverWithExpectations(),
