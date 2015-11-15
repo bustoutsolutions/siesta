@@ -52,7 +52,7 @@ public struct Entity
     public var charset: String?
 
     /**
-      The etag of this data. If non-nil, Siesta will send an `If-modified-since` header with subsequent loads.
+      The etag of this data. If non-nil, Siesta will send an `If-None-Match` header with subsequent loads.
     */
     public var etag: String?
         { return headers["etag"] }
