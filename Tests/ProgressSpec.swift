@@ -25,6 +25,13 @@ class ProgressSpec: ResourceSpecBase
                 expect(req.progress).to(equal(1.0))
                 }
             
+            it("on request error")
+                {
+                let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: NSASCIIStringEncoding)
+                awaitFailure(req, alreadyCompleted: true)
+                expect(req.progress).to(equal(1.0))
+                }
+            
             it("on server error")
                 {
                 stubRequest(resource, "GET").andReturn(500)
