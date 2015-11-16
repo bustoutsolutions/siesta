@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   s.subspec "Alamofire" do |s|
     s.source_files = "Source/Networking-Alamofire.swift"
     s.dependency "Siesta/Core"
-    s.dependency "Alamofire", "2.0.2"
+    s.dependency "Alamofire", "> 2"
   end
 
   s.default_subspecs = 'Core'
