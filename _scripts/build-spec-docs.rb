@@ -11,7 +11,7 @@ end
 json = JSON.parse(File.read(ARGV[0], encoding: 'utf-8'))
 
 scripts_dir = File.dirname(__FILE__)
-GITHUB_PREFIX = `#{scripts_dir}/current-commit-github-prefix.sh`
+GITHUB_PREFIX = `#{scripts_dir}/current-commit-github-prefix.sh`.strip
 
 def format_name(name)
   if name =~ /Spec$/
