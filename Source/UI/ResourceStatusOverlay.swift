@@ -76,12 +76,12 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         if let parentVC = parentVC
             {
-            let parentSize = parentVC.view.bounds.size
+            var bounds = parentVC.view.bounds
             let top = parentVC.topLayoutGuide.length,
                 bot = parentVC.bottomLayoutGuide.length
-            self.positionToCoverRect(
-                CGRectMake(top, 0, parentSize.width, parentSize.height - top - bot),
-                inView: parentVC.view)
+            bounds.origin.y += top
+            bounds.size.height -= top + bot
+            self.positionToCoverRect(bounds, inView: parentVC.view)
             }
         }
 
