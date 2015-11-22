@@ -27,7 +27,10 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     @IBOutlet public var errorDetail: UILabel?
     weak var parentVC: UIViewController?
     
+    public var displayPriority: [Condition] = [.Loading, .Error, .AnyData]
+    
     private var observedResources = [Resource]()
+    private var retryRequestsInProgress = 0
     
     override init(frame: CGRect)
         { super.init(frame: frame) }
@@ -111,20 +114,35 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         if case .ObserverAdded = event
             { observedResources.append(resource) }
         
-        var anyLoading = false
-        
-        for res in observedResources
+        updateDisplay()
+        }
+    
+    private func updateDisplay()
+        {
+        for mode in displayPriority
             {
-            if res.loading
-                { anyLoading = true }
-            else if let error = res.latestError
-                { return showError(error) }
-            }
-        
-        if anyLoading
-            {
-            showLoading()
-            return
+            switch(mode)
+                {
+                case .Loading:
+                    if observedResources.any({ $0.loading })
+                        { return showLoading() }
+                
+                case .Retrying:
+                    if retryRequestsInProgress > 0
+                        { return showLoading() }
+                
+                case .AnyData:
+                    if observedResources.any({ $0.latestData != nil })
+                        { return showSuccess() }
+                
+                case .AllData:
+                    if observedResources.all({ $0.latestData != nil })
+                        { return showSuccess() }
+                
+                case .Error:
+                    if let error = observedResources.flatMap({ $0.latestError }).first
+                        { return showError(error) }
+                }
             }
         
         showSuccess()
@@ -162,6 +180,33 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         for res in observedResources
             where res.latestError != nil
-                { res.loadIfNeeded() }
+                {
+                if let retryReq = res.loadIfNeeded()
+                    { addRetryRequest(retryReq) }
+                }
+        }
+    
+    private func addRetryRequest(request: Request)
+        {
+        ++retryRequestsInProgress
+        self.updateDisplay()
+        
+        request.completion
+            {
+            [weak self] _ in
+            guard let overlay = self else { return }
+            
+            --overlay.retryRequestsInProgress
+            overlay.updateDisplay()
+            }
+        }
+    
+    public enum Condition: String
+        {
+        case Loading
+        case Retrying
+        case AnyData
+        case AllData
+        case Error
         }
     }

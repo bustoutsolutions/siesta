@@ -29,6 +29,19 @@ internal extension CollectionType
 
 internal extension Array
     {
+    func any(@noescape predicate: Generator.Element -> Bool) -> Bool
+        {
+        for elem in self
+            where predicate(elem)
+                { return true }
+        return false
+        }
+    
+    func all(@noescape predicate: Generator.Element -> Bool) -> Bool
+        {
+        return !any { !predicate($0) }
+        }
+    
     mutating func remove(@noescape predicate: Generator.Element -> Bool)
         {
         var dst = startIndex

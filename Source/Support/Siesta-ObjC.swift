@@ -295,6 +295,27 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
         }
     }
 
+extension ResourceStatusOverlay
+    {
+    @objc(displayPriority)
+    public var _objc_displayPriority: [String]
+        {
+        get {
+            return displayPriority.map { $0.rawValue }
+            }
+        
+        set {
+            displayPriority = newValue.flatMap
+                {
+                let condition = ResourceStatusOverlay.Condition(rawValue: $0)
+                if condition == nil
+                    { print("WARNING: ignoring unknown ResourceStatusOverlay.Condition \"\($0)\"") }
+                return condition
+                }
+            }
+        }
+    }
+
 public extension Resource
     {
     private func _objc_wrapRequest(
