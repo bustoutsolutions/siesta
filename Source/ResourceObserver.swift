@@ -115,7 +115,7 @@ public enum ResourceEvent: CustomStringConvertible
         }
     
     internal static let all = [ObserverAdded, Requested, RequestCancelled, NotModified, Error,
-                               NewData(.Network), NewData(.Cache), NewData(.LocalOverride)]
+                               NewData(.Network), NewData(.Cache), NewData(.LocalOverride), NewData(.Wipe)]
     
     internal static func fromDescription(description: String) -> ResourceEvent?
         {
