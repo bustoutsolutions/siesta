@@ -38,7 +38,7 @@ public class Service: NSObject
     public init(
             base: String? = nil,
             useDefaultTransformers: Bool = true,
-            networking: NetworkingProviderConvertible = NSURLSessionConfiguration.defaultSessionConfiguration())
+            networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
         {
         if let base = base
             {

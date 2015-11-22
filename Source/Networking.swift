@@ -73,12 +73,12 @@ public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse
       Service(base: "http://foo.bar", networking:
         NSURLSessionProvider(session:
             NSURLSession(configuration:
-                NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+                NSURLSessionConfiguration.defaultSessionConfiguration()))
 
   …you can do this:
   
       Service(base: "http://foo.bar", networking:
-        NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+        NSURLSessionConfiguration.defaultSessionConfiguration()))
   
   Siesta supports conversion of the following types into a networking provider:
   
