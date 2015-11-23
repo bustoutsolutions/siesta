@@ -20,7 +20,7 @@ import Foundation
 @objc(BOSResourceStatusOverlay)
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
-    @IBOutlet var containerView: UIView?
+    @IBOutlet public var containerView: UIView?
     @IBOutlet public var loadingIndicator: UIActivityIndicatorView?
     @IBOutlet public var errorView: UIView?
     @IBOutlet public var errorHeadline: UILabel?
@@ -47,13 +47,14 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         self.init(frame: CGRectZero)
         
         bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
-        guard let containerView = containerView else
-            { fatalError("WARNING: xib \"\(nibName)\" did not set contentView of \(self)") }
         
-        addSubview(containerView)
-        containerView.frame = bounds
-        containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth,
-                                          UIViewAutoresizing.FlexibleHeight]
+        if let containerView = containerView
+            {
+            addSubview(containerView)
+            containerView.frame = bounds
+            containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth,
+                                              UIViewAutoresizing.FlexibleHeight]
+            }
         
         showSuccess()
         }
