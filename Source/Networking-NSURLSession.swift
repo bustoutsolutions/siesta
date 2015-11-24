@@ -60,13 +60,15 @@ extension NSURLSessionConfiguration: NetworkingProviderConvertible
         { return NSURLSession(configuration: self).siestaNetworkingProvider }
     }
 
-protocol SessionTaskContainer
+/// Convenience for `NetworkingProvider` implementations that ultimate rely on an `NSURLSessionTask`.
+public protocol SessionTaskContainer
     {
     var task: NSURLSessionTask { get }
     }
 
-extension SessionTaskContainer
+public extension SessionTaskContainer
     {
+    /// Extracts transfer metrics using bytes counts from `NSURLSessionTask`.
     var transferMetrics: RequestTransferMetrics
         {
         return RequestTransferMetrics(
