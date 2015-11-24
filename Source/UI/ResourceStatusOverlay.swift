@@ -25,10 +25,10 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     @IBOutlet public var errorView: UIView?
     @IBOutlet public var errorHeadline: UILabel?
     @IBOutlet public var errorDetail: UILabel?
-    weak var parentVC: UIViewController?
     
     public var displayPriority: [Condition] = [.Loading, .Error, .AnyData]
     
+    private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
     private var retryRequestsInProgress = 0
     
@@ -64,7 +64,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     
     public func embedIn(parentViewController: UIViewController) -> Self
         {
-        self.parentVC = parentViewController
+        parentVC = parentViewController
         
         layer.zPosition = 10000
         parentVC?.view.addSubview(self)
@@ -85,13 +85,13 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
                 bot = parentVC.bottomLayoutGuide.length
             bounds.origin.y += top
             bounds.size.height -= top + bot
-            self.positionToCoverRect(bounds, inView: parentVC.view)
+            positionToCoverRect(bounds, inView: parentVC.view)
             }
         }
 
     public func positionToCover(view: UIView)
         {
-        self.positionToCoverRect(view.bounds, inView: view)
+        positionToCoverRect(view.bounds, inView: view)
         }
     
     /// Positions this view within its current superview so that it covers
@@ -99,7 +99,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     
     public func positionToCoverRect(rect: CGRect, inView srcView: UIView)
         {
-        if let superview = self.superview
+        if let superview = superview
             {
             let ul = superview.convertPoint(rect.origin, fromView: srcView),
                 br = superview.convertPoint(
@@ -190,7 +190,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     private func addRetryRequest(request: Request)
         {
         ++retryRequestsInProgress
-        self.updateDisplay()
+        updateDisplay()
         
         request.completion
             {
