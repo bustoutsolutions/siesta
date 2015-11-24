@@ -25,7 +25,6 @@
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
 		DA4D61981B751FEE00F6BB9C /* ObjcCompatibilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */; };
 		DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61991B7521B900F6BB9C /* TestService.swift */; };
-		DA517A8D1B3DDDE800B4A71A /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517A8C1B3DDDE800B4A71A /* Networking-Alamofire.swift */; };
 		DA5EC2741B91E39000DC33C8 /* Networking-NSURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
 		DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; };
@@ -38,7 +37,6 @@
 		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
-		DA99B5CA1B38C9DF009C6937 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
 		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */; };
 		DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
@@ -52,6 +50,7 @@
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
 		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
+		DAEF13D71C041AD400576630 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517A8C1B3DDDE800B4A71A /* Networking-Alamofire.swift */; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
@@ -139,7 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA99B5CA1B38C9DF009C6937 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +383,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA517A8D1B3DDDE800B4A71A /* Networking-Alamofire.swift in Sources */,
 				DA4353521B6AD63C00543843 /* Networking.swift in Sources */,
 				DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */,
 				DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */,
@@ -418,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */,
+				DAEF13D71C041AD400576630 /* Networking-Alamofire.swift in Sources */,
 				DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */,
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
