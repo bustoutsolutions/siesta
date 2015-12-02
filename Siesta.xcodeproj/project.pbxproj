@@ -11,6 +11,7 @@
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
 		DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
+		DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		DA33142F1B4DBADA00A7A175 /* Regex+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */; };
 		DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */; };
@@ -50,7 +51,6 @@
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
 		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
-		DAEF13D71C041AD400576630 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA517A8C1B3DDDE800B4A71A /* Networking-Alamofire.swift */; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
@@ -89,6 +89,7 @@
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Siesta.swift"; sourceTree = "<group>"; };
+		DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-Alamofire.swift"; sourceTree = "<group>"; };
 		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
 		DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Regex+Siesta.swift"; sourceTree = "<group>"; };
 		DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataHandlingSpec.swift; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
 		DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcCompatibilitySpec.m; sourceTree = "<group>"; };
 		DA4D61991B7521B900F6BB9C /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
-		DA517A8C1B3DDDE800B4A71A /* Networking-Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-Alamofire.swift"; sourceTree = "<group>"; };
 		DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-NSURLSession.swift"; sourceTree = "<group>"; };
 		DA5FE9F31BB9E3EF00B6688A /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
@@ -156,10 +156,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DA2FF1041C0F97F600C98FF1 /* Alamofire */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DA2FF1041C0F97F600C98FF1 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */,
+			);
+			path = Alamofire;
+			sourceTree = "<group>";
+		};
 		DA336E451B2E6DDB006F702A = {
 			isa = PBXGroup;
 			children = (
 				DA336E511B2E6DDB006F702A /* Source */,
+				DA2FF1031C0F97F600C98FF1 /* Extensions */,
 				DA336E5D1B2E6DDB006F702A /* Tests */,
 				DA336E6F1B2F65D2006F702A /* Frameworks */,
 				DA336E501B2E6DDB006F702A /* Products */,
@@ -188,7 +205,6 @@
 				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
 				DA4353511B6AD63C00543843 /* Networking.swift */,
 				DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */,
-				DA517A8C1B3DDDE800B4A71A /* Networking-Alamofire.swift */,
 				DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */,
 				DAE490981B4E51AA004D97D6 /* UI */,
 				DA99B5C61B38C356009C6937 /* Support */,
@@ -415,7 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */,
-				DAEF13D71C041AD400576630 /* Networking-Alamofire.swift in Sources */,
+				DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */,
 				DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */,
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
