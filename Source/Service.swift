@@ -89,8 +89,9 @@ public class Service: NSObject
         }
 
     /**
-      Returns the unique resource with the given URL string. If the string is not a valid URL, this method returns a
-      resource that always fails.
+      Returns the unique resource with the given URL string.
+      
+      If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
     */
     @objc(resourceWithURLString:)
     public final func resource(url urlString: String?) -> Resource

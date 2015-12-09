@@ -49,6 +49,11 @@ public final class Resource: NSObject
       
       Instead, you must use the `Service.configure(...)` methods. This sets up configuration to be applied to resources
       according to their URL, whenever they are created or recreated.
+      
+      - Complexity:
+        - O(*n*) on first call after creation, or after invalidation (via `Service.invalidateConfiguration()`),
+          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s Service.
+        - O(1) on subsequent invocations.
     */
     public var config: Configuration
         {
