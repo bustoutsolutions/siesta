@@ -47,6 +47,10 @@ Two approaches, not mutually exclusive:
 - Use `wipeResources()` to evict all authorization-dependent data on logout.
 - Create new `Session` instance, and either wipe resources or discard all references to old session’s resources.
 
+## Host Whitelisting
+
+_TODO: Add section describing how to limit API calls to specific hosts, to limit accidental credential exposure when resolving relative URLs_
+
 ## TLS Certificate and Public Key Pinning
 
 Siesta relies on the underlying networking provider, which by default is `NSURLSession`, to support [SSL public key pinning](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F). There are several ways to integrate this with Siesta.
