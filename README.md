@@ -144,7 +144,7 @@ As of this writing, there is one additional step you need to follow for Xcode 7 
 
 (In-depth discussion of Carthage on XC7 is [here](https://github.com/Carthage/Carthage/issues/536).)
 
-The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This current includes only Alamofire support.) You will need to include those files in your project through a separate mechanism if you want to use them.
+The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This currently includes only Alamofire support.) You will need to include those source files in your project manually if you want to use them.
 
 ---
 
