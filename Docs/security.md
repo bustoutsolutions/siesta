@@ -2,11 +2,15 @@
 
 ## TLS Certificate and Public Key Pinning
 
-There are at least three different ways to [_TLS Certificate and Public Key Pinning_](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F) working in Siesta.
+Siesta relies on the underlying networking provider, which by default is `NSURLSession`, to support [SSL public key pinning](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F). There are several ways to integrate this with Siesta.
 
-### 1. NSURLSessionDelegate
+### Using TrustKit
 
-Declare your custom NSURLSessionDelegate to handle the _Authentication Challenge_, then configure an NSURLSession with your custom NSURLSessionDelegate just as you would without Siesta. Finally pass the NSURLSession as your networking provider when you create the Siesta service.
+[TrustKit](https://github.com/datatheorem/TrustKit) provides certificate pinning by swizzling new behavior into `NSURLSession`, and thus requires no additional Siesta configuration.
+
+### Using NSURLSessionDelegate
+
+Create a custom `NSURLSessionDelegate` to handle the authentication challenge, then configure an `NSURLSession` with your custom `NSURLSessionDelegate` — all exactly as you would without Siesta. Then pass this `NSURLSession` as your networking provider when you create the Siesta service:
 
 ```swift
 let certificatePinningSession = NSURLSession(
@@ -16,13 +20,9 @@ let certificatePinningSession = NSURLSession(
 let myService = Service(baseURL: "http://what.ever", networking: certificatePinningSession)
 ```
 
-For an example code see the [OWASP guide](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#iOS
-). It's for NSURLConnection but code is very similar.
+For example code, see the [OWASP guide](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#iOS
+). That example is for the older `NSURLConnection` instead of `NSURLSession`, but the code is very similar.
 
-### 2. Alamofire
+### Using Alamofire
 
-If you are using Siesta with Alamofire as a [networking provider](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you could use the [Alamofire security utils](https://github.com/Alamofire/Alamofire#security).
-
-### 3. TrustKit
-
-[TrustKit](https://github.com/datatheorem/TrustKit) provides certificate pinning without modifying the App's source code.
+If you are using Siesta with Alamofire as a [networking provider](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you can use the [Alamofire security utilities](https://github.com/Alamofire/Alamofire#security).
