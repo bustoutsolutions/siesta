@@ -196,72 +196,9 @@
         <section>
           <section class="section">
             
-            <a href='#siesta' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='siesta'>Siesta</h1>
-<a href='#ios_rest_client_framework' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='ios_rest_client_framework'>iOS REST Client Framework</h3>
+            <a href='#siesta_api_documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='siesta_api_documentation'>Siesta API Documentation</h1>
 
-<p>An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A resource-centric alternative to the familiar request-centric approach.</p>
-
-<p>Siesta ends the stateful headache of client-side network request management by providing an observable model of a RESTful resource’s state. The model answers three basic questions:</p>
-
-<ul>
-<li>What is the latest data for this resource, if any?</li>
-<li>Did the latest request result in an error?</li>
-<li>Is there a request in progress?</li>
-</ul>
-
-<p>…then provides notifications whenever the answers to these questions change.</p>
-
-<p>Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.</p>
-<a href='#stats' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stats'>Stats</h2>
-
-<ul>
-<li><strong>OS:</strong> iOS 8+</li>
-<li><strong>Languages:</strong> Written in Swift, supports apps in both Swift and Objective-C</li>
-<li><strong>Tool requirements:</strong> Xcode 7, Swift 2.0</li>
-<li><strong>License:</strong> MIT</li>
-<li><strong>Status:</strong> Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!</li>
-</ul>
-<a href='#features' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='features'>Features</h2>
-
-<ul>
-<li>Decouples view and model lifecycle from network request lifecycle</li>
-<li>Decouples request initiation from request configuration</li>
-<li>Eliminates error-prone state tracking logic</li>
-<li>Eliminates redundant network requests</li>
-<li>Unified handling for all errors: encoding, network, server-side, and parsing</li>
-<li>Highly extensible, multithreaded response deserialization</li>
-<li>Transparent built-in parsing (which you can turn off) for JSON, text, and images</li>
-<li>Smooth progress reporting that accounts for upload, download, <em>and</em> latency</li>
-<li>Transparent Etag / If-Modified-Since handling</li>
-<li>Prebaked UI helpers for loading &amp; error handling, remote images</li>
-<li>Debug-friendly, customizable logging</li>
-<li>Written in Swift with a great <a href="https://bustoutsolutions.github.io/siesta/api/">Swift-centric API</a>, but…</li>
-<li>…also works great from Objective-C thanks to a compatibility layer.</li>
-<li>Lightweight. Won’t achieve sentience and attempt to destroy you.</li>
-<li><a href="https://bustoutsolutions.github.io/siesta/specs/">Robust regression tests</a></li>
-<li><a href="https://bustoutsolutions.github.io/siesta/guide/">Documentation</a></li>
-</ul>
-<a href='#what_it_doesn_t_do' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='what_it_doesn_t_do'>What it doesn’t do</h2>
-
-<ul>
-<li>It <strong>doesn’t reinvent networking.</strong> Siesta delegates network operations to your library of choice (<code>NSURLSession</code> by default, or <a href="https://github.com/Alamofire/Alamofire">Alamofire</a>, or inject your own <a href="http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html">custom adapter</a>).</li>
-<li>It <strong>doesn’t hide HTTP</strong>. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.</li>
-<li>It <strong>doesn’t do response ↔ model mapping.</strong> This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.</li>
-</ul>
-<a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
-
-<ul>
-<li><strong><a href="https://github.com/bustoutsolutions/siesta">Full README</a></strong></li>
-<li><strong><a href="https://bustoutsolutions.github.io/siesta/guide/">User Guide</a></strong></li>
-<li><strong><a href="https://bustoutsolutions.github.io/siesta/api/">API documentation</a></strong></li>
-<li><strong><a href="https://bustoutsolutions.github.io/siesta/specs/">Specs</a></strong></li>
-</ul>
-<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='installation'>Installation</h3>
-<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'Siesta'</span>
-</code></pre>
-<a href='#authors' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='authors'>Authors</h3>
-
-<p>Bust Out Solutions</p>
+<p>See Also: <strong><a href="https://bustoutsolutions.github.io/siesta/">Siesta Overview</a></strong> | <strong><a href="https://bustoutsolutions.github.io/siesta/guide/">User Guide</a></strong> | <strong><a href="https://bustoutsolutions.github.io/siesta/specs/">Specs</a></strong></p>
 
           </section>
         </section>

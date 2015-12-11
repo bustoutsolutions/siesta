@@ -18,7 +18,7 @@ echo "Building docs in $docs_dir ..."
     --clean \
     --source-directory   "$siesta_dir" \
     --github-file-prefix "$("$docs_dir"/_scripts/current-commit-github-prefix.sh)" \
-    --readme             _templates/api-readme.md \
+    --readme             "$docs_dir"/_templates/api-readme.md \
     --output             "$docs_dir"/api \
     \
     $jazzy_opts
