@@ -10,6 +10,7 @@ layout: default
 - [Observers](/siesta/guide/observers)
 - [Requests](/siesta/guide/requests)
 - [Configuration](/siesta/guide/configuration)
+- [Security](/siesta/guide/security)
 - [UI Components](/siesta/guide/ui-components)
 - [Memory Management](/siesta/guide/memory)
 - [Logging](/siesta/guide/logging)
