@@ -24,6 +24,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Design Philosophy](#design-philosophy)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
+- [Security](#security)
 - [Comparison With Other Frameworks](#comparison-with-other-frameworks)
 - Documentation
   - [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
@@ -288,6 +289,34 @@ The same functionality. Yes, really.
 <small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching & updating behavior.)</small>
 
 There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
+
+## Security
+
+There are at least three different ways to get [_TLS Certificate and Public Key Pinning_](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F) working in Siesta.
+
+### 1. NSURLSessionDelegate
+
+Declare your custom NSURLSessionDelegate to handle the _Authentication Challenge_, then configure an NSURLSession with your custom NSURLSessionDelegate just as you would without Siesta. Finally pass the NSURLSession as your networking provider when you create the Siesta service.
+
+```
+let certificatePinningSession = NSURLSession(
+    configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
+    delegate: MyCustomSessionPinningDelegate(),
+    delegateQueue: nil)
+let myService = Service(baseURL: "http://what.ever", networking: certificatePinningSession)
+```
+
+For an example code see the [OWASP guide](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#iOS
+) (it's for NSURLConnection but code is very similar).
+
+### 2. Alamofire
+
+If you are using Siesta with Alamofire as a [networking provider](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you could use the [Alamofire security utils](https://github.com/Alamofire/Alamofire#security).
+
+### 3. TrustKit
+
+[TrustKit](https://github.com/datatheorem/TrustKit) "_will by default swizzle the App's NSURLSession and NSURLConnection delegates to verify the server's certificate against the configured pinning policy, whenever an HTTPS connection is initiated_".
+Using it you could have certificates pinning "_without even modifying the App's source code_".
 
 ## Comparison With Other Frameworks
 
