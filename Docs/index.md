@@ -5,6 +5,7 @@
 - [Observers](observers.md)
 - [Requests](requests.md)
 - [Configuration](configuration.md)
+- [Security](security.md)
 - [UI Components](ui-components.md)
 - [Memory Management](memory.md)
 - [Logging](logging.md)
