@@ -13,7 +13,7 @@
     <a title="ResourceStatusOverlay Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (95% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -136,9 +136,6 @@
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
               </li>
-              <li class="nav-group-task">
-                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -173,9 +170,6 @@
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Extensions/Alamofire.html">Alamofire</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -192,6 +186,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -206,26 +203,29 @@
 
                 </div>
               </div>
-            <p>A ready-made UI component to show an activity indicator and/or error message for a set of <code><a href="../Classes/Resource.html">Resource</a></code>s.</p>
+            <p>A ready-made UI component to show an activity indicator and/or error message for a set of <code><a href="../Classes/Resource.html">Resource</a></code>s. Add this view
+as an observer of one or more resources. You can add it to your view hierarchy yourself, or use <code>embedIn(_:)</code></p>
 
-<p>You can use this class in three ways:</p>
-
-<ul>
-<li>with Siesta’s default layout,</li>
-<li>with your own <code>.nib</code> file, or</li>
-<li>using hard-coded layout.</li>
-</ul>
+<p>An overlay can be in exactly one of three states: <strong>loading</strong>, <strong>success</strong>, or <strong>error</strong>. It shows and hides child
+views depending on which state it’s in. The <code>displayPriority</code> property governs these states.</p>
 
           </section>
           <section class="section task-group-section">
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Child%20views"></a>
+                <a name="//apple_ref/swift/Section/Child views" class="dashAnchor"></a>
+                <a href="#/Child%20views">
+                  <h3 class="section-name">Child views</h3>
+                </a>
+              </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta21ResourceStatusOverlay16loadingIndicatorGSqCSo23UIActivityIndicatorView_"></a>
-                    <a name="//apple_ref/swift/Property/loadingIndicator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta21ResourceStatusOverlay16loadingIndicatorGSqCSo23UIActivityIndicatorView_">loadingIndicator</a>
+                    <a name="/s:vC6Siesta21ResourceStatusOverlay13containerViewGSqCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/containerView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta21ResourceStatusOverlay13containerViewGSqCSo6UIView_">containerView</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -233,19 +233,49 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A view that is visible in the loading and error states, and hidden in the success state.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">containerView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Siesta21ResourceStatusOverlay16loadingIndicatorGSqCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/loadingIndicator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta21ResourceStatusOverlay16loadingIndicatorGSqCSo6UIView_">loadingIndicator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A view that is visible in the loading state, and hidden in all other states.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">loadingIndicator</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -263,19 +293,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A view that is visible in the error state, and hidden in all other states.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">errorView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -293,19 +323,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Displays a generic message stating that an error occurred. You can change the text of this label to taste.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">errorHeadline</span><span class="p">:</span> <span class="kt">UILabel</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -323,23 +353,34 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Displays <code><a href="../Structs/Error.html#/s:vV6Siesta5Error11userMessageSS">Error.userMessage</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">errorDetail</span><span class="p">:</span> <span class="kt">UILabel</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Creating%20an%20overlay"></a>
+                <a name="//apple_ref/swift/Section/Creating an overlay" class="dashAnchor"></a>
+                <a href="#/Creating%20an%20overlay">
+                  <h3 class="section-name">Creating an overlay</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -353,19 +394,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Creates a status overlay with the default layout.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L35-L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L47-L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -383,19 +424,22 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Creates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
+<code>@IBOutlet</code>s as it likes.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">nibName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">bundle</span><span class="p">:</span> <span class="kt">NSBundle</span> <span class="o">=</span> <span class="kt">NSBundle</span><span class="o">.</span><span class="nf">mainBundle</span><span class="p">())</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L40-L56">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L56-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -413,23 +457,35 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Create an overlay with a programmatic or serialized layout.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">coder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span>
+        <span class="p">{</span> <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">coder</span><span class="p">:</span> <span class="n">coder</span><span class="p">)</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L58-L59">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L84-L85">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Layout"></a>
+                <a name="//apple_ref/swift/Section/Layout" class="dashAnchor"></a>
+                <a href="#/Layout">
+                  <h3 class="section-name">Layout</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -443,19 +499,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Place this child inside the given view controller’s view, and position it so that it covers the entire bounds.
+Be sure to call <code><a href="../Classes/ResourceStatusOverlay.html#/s:FC6Siesta21ResourceStatusOverlay21positionToCoverParentFS0_FT_T_">positionToCoverParent()</a></code> from your <code>viewDidLayoutSubviews()</code> method.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">embedIn</span><span class="p">(</span><span class="nv">parentViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L61-L73">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L94-L106">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -473,19 +530,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Repositions this view to conver the view controller’s content area. Has no effect unless this overlay was embedded
+using <code><a href="../Classes/ResourceStatusOverlay.html#/s:FC6Siesta21ResourceStatusOverlay7embedInFS0_FCSo16UIViewControllerDS0_">embedIn(_:)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">positionToCoverParent</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L75-L86">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L112-L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -503,19 +561,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Positions this overlay to exactly cover the given view. The two views do not have to be siblings; this method
+  works across the view hierarchy.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">positionToCover</span><span class="p">(</span><span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L88-L91">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L129-L132">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -533,8 +592,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Positions this view within its current superview so that it covers
-the given rect in the local coordinates of the given view.</p>
+                        <p>Positions this view within its current superview so that it covers the given rect in the local coordinates of the
+  given view. Has no effect if the overlay has no superview.</p>
 
                       </div>
                       <div class="declaration">
@@ -546,17 +605,28 @@ the given rect in the local coordinates of the given view.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L96-L107">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L138-L149">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/State%20transition%20logic"></a>
+                <a name="//apple_ref/swift/Section/State transition logic" class="dashAnchor"></a>
+                <a href="#/State%20transition%20logic">
+                  <h3 class="section-name">State transition logic</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta21ResourceStatusOverlay15resourceChangedFS0_FTCS_8Resource5eventOS_13ResourceEvent_T_"></a>
-                    <a name="//apple_ref/swift/Method/resourceChanged(_:event:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta21ResourceStatusOverlay15resourceChangedFS0_FTCS_8Resource5eventOS_13ResourceEvent_T_">resourceChanged(_:event:)</a>
+                    <a name="/s:vC6Siesta21ResourceStatusOverlay15displayPriorityGSaOS0_9StateRule_"></a>
+                    <a name="//apple_ref/swift/Property/displayPriority" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Siesta21ResourceStatusOverlay15displayPriorityGSaOS0_9StateRule_">displayPriority</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -564,19 +634,37 @@ the given rect in the local coordinates of the given view.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Changes the logic for determining whether an error message, a loading indicator, or existing data take precedence.</p>
+
+<p>The default priority is:</p>
+
+<pre class="highlight plaintext"><code>  [.Loading, .Error, .AnyData]
+</code></pre>
+
+<p>If you instead prefer to <em>always</em> show existing data, even if it is stale:</p>
+
+<pre class="highlight plaintext"><code>  [.AnyData, .Loading, .Error]  // What I think you want?
+</code></pre>
+
+<p>If you have a timer refreshing a resource periodically in the background and don’t want that to trigger a loading
+  indicator, but you <em>do</em> want a manual refresh to show the indicator, then use:</p>
+
+<pre class="highlight plaintext"><code>  [.ManualLoading, .AnyData, .Error, .Loading]
+</code></pre>
+
+<p>…and call <code><a href="../Classes/ResourceStatusOverlay.html#/s:FC6Siesta21ResourceStatusOverlay15trackManualLoadFS0_FPS_7Request_T_">trackManualLoad(_:)</a></code> with your user-initiated request.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">displayPriority</span><span class="p">:</span> <span class="p">[</span><span class="kt">StateRule</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="kt">Loading</span><span class="p">,</span> <span class="o">.</span><span class="kt">Error</span><span class="p">,</span> <span class="o">.</span><span class="kt">AnyData</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L109-L131">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L171">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -584,9 +672,9 @@ the given rect in the local coordinates of the given view.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta21ResourceStatusOverlay24stoppedObservingResourceFS0_FCS_8ResourceT_"></a>
-                    <a name="//apple_ref/swift/Method/stoppedObservingResource(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta21ResourceStatusOverlay24stoppedObservingResourceFS0_FCS_8ResourceT_">stoppedObservingResource(_:)</a>
+                    <a name="/s:OC6Siesta21ResourceStatusOverlay9StateRule"></a>
+                    <a name="//apple_ref/swift/Enum/StateRule" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC6Siesta21ResourceStatusOverlay9StateRule">StateRule</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -594,23 +682,41 @@ the given rect in the local coordinates of the given view.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Arbitrarily prioritizable rules for governing the behavior of <code><a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a></code>.</p>
 
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../Classes/ResourceStatusOverlay.html#/s:vC6Siesta21ResourceStatusOverlay15displayPriorityGSaOS0_9StateRule_">ResourceStatusOverlay.displayPriority</a></code>
+
+        </div>
+
+                        <a href="../Classes/ResourceStatusOverlay/StateRule.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">StateRule</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L133-L136">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L178-L196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Retry%20&amp;%20reload"></a>
+                <a name="//apple_ref/swift/Section/Retry &amp; reload" class="dashAnchor"></a>
+                <a href="#/Retry%20&amp;%20reload">
+                  <h3 class="section-name">Retry &amp; reload</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -624,19 +730,49 @@ the given rect in the local coordinates of the given view.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Call <code>loadIfNeeded()</code> on any resources with errors that this overlay is observing.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ResourceStatusOverlay</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">ResourceObserver</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">retryFailedRequests</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/UI/ResourceStatusOverlay.swift#L161-L166">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L270-L278">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta21ResourceStatusOverlay15trackManualLoadFS0_FPS_7Request_T_"></a>
+                    <a name="//apple_ref/swift/Method/trackManualLoad(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta21ResourceStatusOverlay15trackManualLoadFS0_FPS_7Request_T_">trackManualLoad(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable <code><a href="../Classes/ResourceStatusOverlay/StateRule.html#/s:FOC6Siesta21ResourceStatusOverlay9StateRule13ManualLoadingFMS1_S1_">StateRule.ManualLoading</a></code> for the lifespan of the given request.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">trackManualLoad</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt">Request</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L281-L294">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -646,7 +782,7 @@ the given rect in the local coordinates of the given view.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NewDataSource Enum Reference</title>
+    <title>StateRule Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,8 +9,8 @@
     <script src="../../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/NewDataSource" class="dashAnchor"></a>
-    <a title="NewDataSource Enum Reference"></a>
+    <a name="//apple_ref/swift/Enum/StateRule" class="dashAnchor"></a>
+    <a title="StateRule Enum Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../../index.html">Siesta Docs</a> (95% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html">Siesta Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        NewDataSource Enum Reference
+        StateRule Enum Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -196,14 +196,20 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>NewDataSource</h1>
+            <h1>StateRule</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">NewDataSource</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">StateRule</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            <p>Possible sources of <code><a href="../../Enums/ResourceEvent.html#/s:FO6Siesta13ResourceEvent7NewDataFMS0_FOS0_13NewDataSourceS0_">ResourceEvent.NewData</a></code>.</p>
+            <p>Arbitrarily prioritizable rules for governing the behavior of <code><a href="../../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a></code>.</p>
+
+<div class="aside aside-see-also">
+          <p class="aside-title">See also</p>
+          <code><a href="../../Classes/ResourceStatusOverlay.html#/s:vC6Siesta21ResourceStatusOverlay15displayPriorityGSaOS0_9StateRule_">ResourceStatusOverlay.displayPriority</a></code>
+
+        </div>
 
           </section>
           <section class="section task-group-section">
@@ -212,9 +218,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOO6Siesta13ResourceEvent13NewDataSource7NetworkFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/Network" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOO6Siesta13ResourceEvent13NewDataSource7NetworkFMS1_S1_">Network</a>
+                    <a name="/s:FOC6Siesta21ResourceStatusOverlay9StateRule7LoadingFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/Loading" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC6Siesta21ResourceStatusOverlay9StateRule7LoadingFMS1_S1_">Loading</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -222,19 +228,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The new value of <code>latestData</code> comes from a successful network request.</p>
+                        <p>If <code><a href="../../Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb">Resource.loading</a></code> is true for any observed resources, enter the <strong>loading</strong> state.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Network</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Loading</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L130">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -246,9 +252,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOO6Siesta13ResourceEvent13NewDataSource5CacheFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/Cache" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOO6Siesta13ResourceEvent13NewDataSource5CacheFMS1_S1_">Cache</a>
+                    <a name="/s:FOC6Siesta21ResourceStatusOverlay9StateRule13ManualLoadingFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/ManualLoading" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC6Siesta21ResourceStatusOverlay9StateRule13ManualLoadingFMS1_S1_">ManualLoading</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -256,19 +262,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The new value of <code>latestData</code> comes from this resource’s <code><a href="../../Structs/Configuration.html#/s:vV6Siesta13Configuration15persistentCacheGSqPS_11EntityCache__">Configuration.persistentCache</a></code>.</p>
+                        <p>If any request passed to <code><a href="../../Classes/ResourceStatusOverlay.html#/s:FC6Siesta21ResourceStatusOverlay15trackManualLoadFS0_FPS_7Request_T_">ResourceStatusOverlay.trackManualLoad(_:)</a></code> is still in progress,
+enter the <strong>loading</strong> state.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Cache</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">ManualLoading</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L133">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L185">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -280,9 +287,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOO6Siesta13ResourceEvent13NewDataSource13LocalOverrideFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/LocalOverride" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOO6Siesta13ResourceEvent13NewDataSource13LocalOverrideFMS1_S1_">LocalOverride</a>
+                    <a name="/s:FOC6Siesta21ResourceStatusOverlay9StateRule7AnyDataFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/AnyData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC6Siesta21ResourceStatusOverlay9StateRule7AnyDataFMS1_S1_">AnyData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -290,19 +297,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The new value of <code>latestData</code> came from a call to <code><a href="../../Classes/Resource.html#/s:FC6Siesta8Resource17localDataOverrideFS0_FVS_6EntityT_">Resource.localDataOverride(_:)</a></code></p>
+                        <p>If <code><a href="../../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">Resource.latestData</a></code> is non-nil for <em>any</em> observed resources, enter the <strong>success</strong> state.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">LocalOverride</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">AnyData</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L136">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L188">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -314,9 +321,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOO6Siesta13ResourceEvent13NewDataSource4WipeFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/Wipe" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOO6Siesta13ResourceEvent13NewDataSource4WipeFMS1_S1_">Wipe</a>
+                    <a name="/s:FOC6Siesta21ResourceStatusOverlay9StateRule7AllDataFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/AllData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC6Siesta21ResourceStatusOverlay9StateRule7AllDataFMS1_S1_">AllData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -324,19 +331,54 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The resource was wiped, and <code>latestData</code> is now nil.</p>
+                        <p>If <code><a href="../../Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_">Resource.latestData</a></code> is non-nil for <em>all</em> observed resources, enter the <strong>success</strong> state.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Wipe</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">AllData</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L139">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L191">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOC6Siesta21ResourceStatusOverlay9StateRule5ErrorFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/Error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC6Siesta21ResourceStatusOverlay9StateRule5ErrorFMS1_S1_">Error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If <code><a href="../../Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_">Resource.latestError</a></code> is non-nil for any observed resources, enter the <strong>error</strong> state.
+If multiple observed resources have errors, pick one arbitrarily to show its error message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Error</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/UI/ResourceStatusOverlay.swift#L195">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

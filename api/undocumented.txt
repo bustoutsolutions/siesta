@@ -1,32 +1,6 @@
-Networking-Alamofire.swift
-	public let manager: Alamofire.Manager
-	public init(manager: Alamofire.Manager = Manager.sharedInstance)
-        { self.manager = manager }
-	public init(configuration: NSURLSessionConfiguration)
-        { self.init(manager: Alamofire.Manager(configuration: configuration)) }
-	public func startRequest(
-            request: NSURLRequest,
-            completion: RequestNetworkingCompletionCallback)
-        -> RequestNetworking
 Networking-NSURLSession.swift
 	public let session: NSURLSession
-ResourceStatusOverlay.swift
-	@IBOutlet public var loadingIndicator: UIActivityIndicatorView?
-	@IBOutlet public var errorView: UIView?
-	@IBOutlet public var errorHeadline: UILabel?
-	@IBOutlet public var errorDetail: UILabel?
-	public convenience init()
-	public convenience init(
-            nibName: String,
-            bundle: NSBundle = NSBundle.mainBundle())
-	public required init?(coder: NSCoder)
-        { super.init(coder: coder) }
-	public func embedIn(parentViewController: UIViewController) -> Self
-	public func positionToCoverParent()
-	public func positionToCover(view: UIView)
-	public func resourceChanged(resource: Resource, event: ResourceEvent)
-	public func stoppedObservingResource(resource: Resource)
-	@IBAction public func retryFailedRequests()
+	var task: NSURLSessionTask { get }
 Error.swift
 	public let encodingName: String
 	public let text: String

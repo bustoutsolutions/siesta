@@ -12,7 +12,7 @@
     <a title="Network Layer  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="index.html">Siesta Docs</a> (95% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -135,9 +135,6 @@
               <li class="nav-group-task">
                 <a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Structs/AlamofireProvider.html">AlamofireProvider</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -172,9 +169,6 @@
             <a href="Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Extensions/Alamofire.html">Alamofire</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -190,6 +184,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -220,7 +217,7 @@
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
 <code>Service.init(base:networkingProvider:)</code>.</p>
 
-<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code><a href="Structs/AlamofireProvider.html">AlamofireProvider</a></code> for implementation examples.</p>
+<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code>Extensions/Alamofire/AlamofireProvider</code> for implementation examples.</p>
 
                         <a href="Protocols/NetworkingProvider.html" class="slightly-smaller">See more</a>
                       </div>
@@ -233,7 +230,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking.swift#L15-L28">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L15-L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -259,13 +256,13 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
 <pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
   NSURLSessionProvider(session:
       NSURLSession(configuration:
-          NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+          NSURLSessionConfiguration.defaultSessionConfiguration()))
 </code></pre>
 
 <p>…you can do this:</p>
 
 <pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionConfiguration.ephemeralSessionConfiguration()))
+  NSURLSessionConfiguration.defaultSessionConfiguration()))
 </code></pre>
 
 <p>Siesta supports conversion of the following types into a networking provider:</p>
@@ -289,7 +286,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking.swift#L91-L95">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L91-L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -326,7 +323,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking.swift#L37-L44">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L37-L44">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -356,7 +353,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking.swift#L65">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -387,7 +384,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking.swift#L47-L62">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L47-L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -424,58 +421,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-NSURLSession.swift#L15-L33">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V6Siesta17AlamofireProvider"></a>
-                    <a name="//apple_ref/swift/Struct/AlamofireProvider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V6Siesta17AlamofireProvider">AlamofireProvider</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking.</p>
-
-<p>You can create instances of this class with a custom
-<a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-in order to control caching, certificate validation rules, etc. For example, here is a <code><a href="Classes/Service.html">Service</a></code> that will not cache
-anything and will not use the cell network:</p>
-
-<pre class="highlight plaintext"><code>class MyAPI: Service {
-    init() {
-        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        configuration.allowsCellularAccess = false
-        super.init(
-            base: "http://foo.bar/v1",
-            networking: AlamofireProvider(configuration: configuration))
-    }
-}
-</code></pre>
-
-                        <a href="Structs/AlamofireProvider.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-Alamofire.swift#L29-L52">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking-NSURLSession.swift#L15-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -485,7 +431,7 @@ anything and will not use the cell network:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

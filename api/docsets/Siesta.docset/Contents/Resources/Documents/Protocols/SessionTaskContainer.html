@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AlamofireProvider Struct Reference</title>
+    <title>SessionTaskContainer Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -9,11 +9,11 @@
     <script src="../js/jazzy.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/AlamofireProvider" class="dashAnchor"></a>
-    <a title="AlamofireProvider Struct Reference"></a>
+    <a name="//apple_ref/swift/Protocol/SessionTaskContainer" class="dashAnchor"></a>
+    <a title="SessionTaskContainer Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (95% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        AlamofireProvider Struct Reference
+        SessionTaskContainer Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -136,9 +136,6 @@
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
               </li>
-              <li class="nav-group-task">
-                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -173,9 +170,6 @@
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Extensions/Alamofire.html">Alamofire</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -192,6 +186,9 @@
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -199,30 +196,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>AlamofireProvider</h1>
+            <h1>SessionTaskContainer</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SessionTaskContainer</span></code></pre>
 
                 </div>
               </div>
-            <p>Uses <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for networking.</p>
-
-<p>You can create instances of this class with a custom
-<a href="http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html">Alamofire.Manager</a>
-in order to control caching, certificate validation rules, etc. For example, here is a <code><a href="../Classes/Service.html">Service</a></code> that will not cache
-anything and will not use the cell network:</p>
-
-<pre class="highlight plaintext"><code>class MyAPI: Service {
-    init() {
-        let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        configuration.allowsCellularAccess = false
-        super.init(
-            base: "http://foo.bar/v1",
-            networking: AlamofireProvider(configuration: configuration))
-    }
-}
-</code></pre>
+            <p>Convenience for <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementations that ultimate rely on an <code>NSURLSessionTask</code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -231,9 +212,9 @@ anything and will not use the cell network:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta17AlamofireProvider7managerC9Alamofire7Manager"></a>
-                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta17AlamofireProvider7managerC9Alamofire7Manager">manager</a>
+                    <a name="/s:vP6Siesta20SessionTaskContainer4taskCSo16NSURLSessionTask"></a>
+                    <a name="//apple_ref/swift/Property/task" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP6Siesta20SessionTaskContainer4taskCSo16NSURLSessionTask">task</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -248,102 +229,49 @@ anything and will not use the cell network:</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SessionTaskContainer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-Alamofire.swift#L0">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking-NSURLSession.swift#L0">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta17AlamofireProvidercFMS0_FT7managerC9Alamofire7Manager_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(manager:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta17AlamofireProvidercFMS0_FT7managerC9Alamofire7Manager_S0_">init(manager:)</a>
+                    <a name="/s:veRq_6Siesta20SessionTaskContainer_S_S0_15transferMetricsVS_22RequestTransferMetrics"></a>
+                    <a name="//apple_ref/swift/Property/transferMetrics" class="dashAnchor"></a>
+                    <a class="token" href="#/s:veRq_6Siesta20SessionTaskContainer_S_S0_15transferMetricsVS_22RequestTransferMetrics">transferMetrics</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Extracts transfer metrics using bytes counts from <code>NSURLSessionTask</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">transferMetrics</span><span class="p">:</span> <span class="kt">RequestTransferMetrics</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-Alamofire.swift#L33-L34">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta17AlamofireProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(configuration:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta17AlamofireProvidercFMS0_FT13configurationCSo25NSURLSessionConfiguration_S0_">init(configuration:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-Alamofire.swift#L36-L37">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta17AlamofireProvider12startRequestFS0_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_"></a>
-                    <a name="//apple_ref/swift/Method/startRequest(_:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta17AlamofireProvider12startRequestFS0_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_">startRequest(_:completion:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">AlamofireProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Networking-Alamofire.swift#L39-L51">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking-NSURLSession.swift#L72-L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -353,7 +281,7 @@ anything and will not use the cell network:</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

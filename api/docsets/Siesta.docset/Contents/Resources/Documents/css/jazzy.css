@@ -13,7 +13,7 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   word-wrap: break-word; }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
   margin-top: 0.8em;
   margin-bottom: 0.3em;
   font-weight: 100;
@@ -26,11 +26,10 @@ h2 {
   font-size: 2em;
   border-bottom: 1px solid #e2e2e2; }
 
-h3 {
-  font-size: 1.5em; }
-
 h4 {
-  font-size: 1.25em; }
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 21px; }
 
 h5 {
   font-size: 1.1em; }
@@ -38,6 +37,14 @@ h5 {
 h6 {
   font-size: 1.1em;
   color: #777; }
+
+.section-name {
+  color: gray;
+  display: block;
+  font-family: Helvetica;
+  font-size: 22px;
+  font-weight: 100;
+  margin-bottom: 15px; }
 
 pre, code {
   font: 0.95em Menlo, monospace;
@@ -185,6 +192,12 @@ header {
 .task-group {
   padding-top: 0px; }
 
+.task-name-container a[name]:before {
+  content: "";
+  display: block;
+  padding-top: 70px;
+  margin: -70px 0 0; }
+
 .item {
   padding-top: 8px;
   width: 100%;
@@ -199,7 +212,8 @@ header {
     padding: 0; }
   .item .token {
     padding-left: 3px;
-    margin-left: 15px; }
+    margin-left: 15px;
+    font-size: 11.9px; }
   .item .declaration-note {
     font-size: .85em;
     color: gray;

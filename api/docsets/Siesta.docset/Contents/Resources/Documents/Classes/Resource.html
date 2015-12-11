@@ -13,7 +13,7 @@
     <a title="Resource Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">Siesta Docs</a> (89% documented)</p>
+        <p><a href="../index.html">Siesta Docs</a> (95% documented)</p>
         <p class="header-right"><a href="https://github.com/bustoutsolutions/siesta"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -136,9 +136,6 @@
               <li class="nav-group-task">
                 <a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
               </li>
-              <li class="nav-group-task">
-                <a href="../Structs/AlamofireProvider.html">AlamofireProvider</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -173,9 +170,6 @@
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Extensions/Alamofire.html">Alamofire</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -191,6 +185,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -255,7 +252,7 @@ questions changes.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L32">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -285,7 +282,7 @@ questions changes.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L35">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -323,6 +320,16 @@ not in use. Any configuration applied a particular resource instance would there
 <p>Instead, you must use the <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> methods. This sets up configuration to be applied to resources
 according to their URL, whenever they are created or recreated.</p>
 
+<div class="aside aside-complexity">
+          <p class="aside-title">Complexity</p>
+          <ul>
+<li>O(<em>n</em>) on first call after creation, or after invalidation (via <code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_">Service.invalidateConfiguration()</a></code>),
+where <em>n</em> is the number of past calls to <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code> for this resource’s Service.</li>
+<li>O(1) on subsequent invocations.</li>
+</ul>
+
+        </div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -333,7 +340,7 @@ according to their URL, whenever they are created or recreated.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L53-L61">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L58-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -387,7 +394,7 @@ was created or wiped. If an error occurs, <code>latestData</code> will still hol
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L80-L83">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L85-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -421,7 +428,7 @@ flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7request
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L92-L95">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L97-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -451,7 +458,7 @@ flavors of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7request
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L98-L103">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L103-L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -493,7 +500,7 @@ for this resource are in progress.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L112">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -523,7 +530,7 @@ for this resource are in progress.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L115">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -553,7 +560,7 @@ for this resource are in progress.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L118">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -583,7 +590,7 @@ for this resource are in progress.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L121">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L126">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -645,7 +652,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L172-L175">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L177-L180">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -689,7 +696,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L189-L192">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L194-L197">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -727,7 +734,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L204-L210">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L209-L215">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -771,7 +778,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L230-L239">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L235-L244">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -903,7 +910,7 @@ for details.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L281-L301">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L286-L306">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -938,7 +945,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L306-L322">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L311-L327">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1020,7 +1027,7 @@ for details.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L333-L351">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L338-L356">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1084,7 +1091,7 @@ for details.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L361-L392">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L366-L397">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1122,7 +1129,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L401-L431">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L406-L436">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1167,7 +1174,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L457-L468">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L462-L473">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1185,7 +1192,8 @@ for details.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Ensures that there is a load request in progress for this resource, unless the resource is already up to date.</p>
+                        <pre class="highlight plaintext"><code>  Ensures that there is a load request in progress for this resource, unless the resource is already up to date.
+</code></pre>
 
 <p>If the resource is not up to date and there is no load request already in progress, this method calls <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">load()</a></code>.</p>
 
@@ -1208,7 +1216,7 @@ for details.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L506-L518">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L511-L523">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1253,7 +1261,7 @@ around until another valid response arrives.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L536-L546">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L541-L551">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1299,7 +1307,7 @@ auth.load(usingRequest:
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L564-L578">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L569-L583">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1329,7 +1337,7 @@ auth.load(usingRequest:
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L583-L595">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L588-L600">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1347,8 +1355,10 @@ auth.load(usingRequest:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience to call <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource22cancelLoadIfUnobservedFS0_FT_T_">cancelLoadIfUnobserved()</a></code> after a delay. Useful for situations such as table view scrolling
-where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
+                        <pre class="highlight plaintext"><code>  Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
+</code></pre>
+
+<p>where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
 views a chance to express interest in it before canceling any requests.</p>
 
                       </div>
@@ -1361,7 +1371,7 @@ views a chance to express interest in it before canceling any requests.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L602-L609">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L607-L614">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1443,7 +1453,7 @@ views a chance to express interest in it before canceling any requests.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L711-L712">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L716-L717">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1475,7 +1485,7 @@ views a chance to express interest in it before canceling any requests.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L719-L725">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L724-L730">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1517,7 +1527,7 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:vC6Siest
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L738-L741">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L743-L746">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1561,7 +1571,7 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:vC6Siest
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Resource.swift#L754-L767">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Resource.swift#L759-L772">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1608,7 +1618,7 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:vC6Siest
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/ResourceObserver.swift#L156-L159">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L156-L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1643,7 +1653,7 @@ not normally be retained by anything else.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/ResourceObserver.swift#L169-L188">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L169-L188">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1676,7 +1686,7 @@ still exists.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/ResourceObserver.swift#L196-L199">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L196-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1706,7 +1716,7 @@ still exists.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/ResourceObserver.swift#L205-L214">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/ResourceObserver.swift#L205-L214">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1740,7 +1750,7 @@ still exists.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Service.swift#L406-L410">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Service.swift#L407-L411">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1774,7 +1784,7 @@ still exists.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.4/Source/Entity.swift#L203">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Entity.swift#L203">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1784,7 +1794,7 @@ still exists.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE">open source license</a>.</p>
+          <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
