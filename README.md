@@ -30,7 +30,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
   - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
   - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
-- [Contributing & Getting Help](#contributing-amp-getting-help)
+- [Contributing and Getting Help](#contributing-and-getting-help)
 
 ## What’s It For?
 
@@ -353,7 +353,7 @@ If that approach sounds appealing, give Siesta a try.
 
 This repo includes a [simple example project](https://github.com/bustoutsolutions/siesta/tree/master/Examples/GithubBrowser). Use Carthage to build its dependencies.
 
-## Contributing & Getting Help
+## Contributing and Getting Help
 
 To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
@@ -362,3 +362,14 @@ To point out anything incorrect or confusing in the documentation, [file an issu
 To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
 
 To get help, post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+
+### Pull Requests
+
+Want to _do_ something instead of just talking about it? Fantastic! Be bold.
+
+  - If you have trouble building or testing the project, please file an issue about it — even if you resolve the problem. This will help improve the docs.
+  - If you are proposing a design change or nontrivial new functionality, please float your idea as an issue first so you don’t end up doing wasted work.
+  - Please follow the formatting conventions of the existing code. Yes, including Paul’s idiosyncratic taste in brace placement.
+  - Please make sure the tests pass locally before pushing (cmd-U in Xcode).
+  - Expect a little back and forth on your PR before it’s accepted. Don’t be discouraged. Nit-picking is not a sign of bad work; it’s a sign of interest!
+  - If you want to update the user guide, note that the guide is generated from the `Docs` directory in `master`, so that’s where you should make your change. Do not submit pull requests against `gh-pages`.
