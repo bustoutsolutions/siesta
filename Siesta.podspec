@@ -74,11 +74,10 @@ Pod::Spec.new do |s|
 
   s.subspec "Core" do |s|
     s.source_files = "Source/**/*"
-    s.exclude_files = "Source/Networking-Alamofire.swift"
   end
 
   s.subspec "Alamofire" do |s|
-    s.source_files = "Source/Networking-Alamofire.swift"
+    s.source_files = "Extensions/Alamofire/**"
     s.dependency "Siesta/Core"
     s.dependency "Alamofire", "> 2"
   end
