@@ -67,4 +67,4 @@ configure({ url in url != authURL }, description: "catch auth failures") {
 
 See the documentation for [`Service.invalidateConfiguration()`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFS0_FT_T_) for information about dynamic configuration, e.g. authentication tokens.
 
-<p class='guide-next'>Next: <strong><a href='../ui-components'>UI Components</a></p>
+<p class='guide-next'>Next: <strong><a href='../security'>Security</a></p>
