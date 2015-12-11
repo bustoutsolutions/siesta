@@ -307,9 +307,9 @@ extension ResourceStatusOverlay
         set {
             displayPriority = newValue.flatMap
                 {
-                let condition = ResourceStatusOverlay.Condition(rawValue: $0)
+                let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
                 if condition == nil
-                    { print("WARNING: ignoring unknown ResourceStatusOverlay.Condition \"\($0)\"") }
+                    { print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
                 return condition
                 }
             }
