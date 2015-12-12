@@ -39,7 +39,7 @@ public enum RequestMethod: String
   Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
-  and `localDataOverride(_:)`.
+  and `overrideLocalData(_:)`.
   
   There is no race condition between a callback being added and a response arriving. If you add a callback after the
   response has already arrived, the callback is still called as usual.
@@ -69,7 +69,7 @@ public protocol Request: AnyObject
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
       or been cancelled.
     */
-    var completed: Bool { get }
+    var isCompleted: Bool { get }
     
     /**
       An estimate of the progress of the request, including request transfer, response transfer, and latency.
@@ -77,7 +77,7 @@ public protocol Request: AnyObject
       
       The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
       not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
-      by now. Use the `completed` property to test for actual completion.
+      by now. Use the `isCompleted` property to test for actual completion.
     */
     var progress: Double { get }
     
@@ -148,7 +148,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Networking
     private let nsreq: NSURLRequest
     internal var networking: RequestNetworking?  // present only after start()
-    internal var cancelled: Bool = false
+    internal var wasCancelled: Bool = false
     
     // Progress
     var progress: Double = 0
@@ -159,7 +159,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Result
     private var responseInfo: ResponseInfo?
     internal var underlyingNetworkRequestCompleted = false      // so tests can wait for it to finish
-    internal var completed: Bool { return responseInfo != nil }
+    internal var isCompleted: Bool { return responseInfo != nil }
     
     // Callbacks
     private var responseCallbacks: [ResponseCallback] = []
@@ -191,7 +191,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         guard networking == nil else
             { fatalError("NetworkRequest.start() called twice") }
         
-        guard !cancelled else
+        guard !wasCancelled else
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
@@ -212,7 +212,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     
     func cancel()
         {
-        guard !completed else
+        guard !isCompleted else
             {
             debugLog(.Network, ["cancel() called but request already completed:", requestDescription])
             return
@@ -223,7 +223,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         networking?.cancel()
         
         // Prevent start() from have having any effect if it hasn't been called yet
-        cancelled = true
+        wasCancelled = true
 
         broadcastResponse((
             response: .Failure(Error(
@@ -298,7 +298,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             inout to callbacks: [T -> Void],
             ifAlreadyComplete completedValue: T?)
         {
-        if let completedValue = completedValue where completed
+        if let completedValue = completedValue where isCompleted
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
             // caller can finish their business first.
@@ -362,7 +362,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         {
         if nsres?.statusCode >= 400 || error != nil
             {
-            return (.Failure(Error(nsres, body, error)), true)
+            return (.Failure(Error(response:nsres, content: body, cause: error)), true)
             }
         else if nsres?.statusCode == 304
             {
@@ -381,7 +381,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         else
             {
-            return (.Success(Entity(nsres, body ?? NSData())), true)
+            return (.Success(Entity(response: nsres, content: body ?? NSData())), true)
             }
         }
     
@@ -499,7 +499,7 @@ internal final class FailedRequest: Request
     
     func cancel() { }
 
-    var completed: Bool { return true }
+    var isCompleted: Bool { return true }
     var progress: Double { return 1 }
     }
 

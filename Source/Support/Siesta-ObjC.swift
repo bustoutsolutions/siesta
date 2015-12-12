@@ -38,7 +38,7 @@
 // (Why not just make Entity and Error classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
-// happen via localDataOverride() so that observers always know about changes.)
+// happen via overrideLocalData() so that observers always know about changes.)
 
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
@@ -142,9 +142,9 @@ public extension Resource
     public var _objc_text: String
         { return text }
     
-    @objc(localDataOverride:)
-    public func _objc_localDataOverride(entity: _objc_Entity)
-        { self.localDataOverride(Entity(entity: entity)) }
+    @objc(overrideLocalData:)
+    public func _objc_overrideLocalData(entity: _objc_Entity)
+        { self.overrideLocalData(Entity(entity: entity)) }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks

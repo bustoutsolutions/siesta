@@ -31,7 +31,7 @@ public class RemoteImageView: UIImageView
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
-        set { imageResource = imageService.resource(url: newValue) }
+        set { imageResource = imageService.resourceWithURL(newValue) }
         }
     
     /**
@@ -63,8 +63,8 @@ public class RemoteImageView: UIImageView
         {
         image = imageResource?.contentAsType(ifNone: placeholderImage)
         
-        let loading = imageResource?.loading ?? false
-        loadingView?.hidden = !loading
-        alternateView?.hidden = (image != nil) || loading
+        let isLoading = imageResource?.isLoading ?? false
+        loadingView?.hidden = !isLoading
+        alternateView?.hidden = (image != nil) || isLoading
         }
     }

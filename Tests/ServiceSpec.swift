@@ -54,12 +54,12 @@ class ServiceSpec: SiestaSpec
 
                 it("fails requests for relative URLs")
                     {
-                    expectInvalidResource(bareService().resource(url: "/foo"))
+                    expectInvalidResource(bareService().resourceWithURL("/foo"))
                     }
 
                 it("allows requests for absolute URLs")
                     {
-                    let resource = bareService().resource(url: "http://foo.bar")
+                    let resource = bareService().resourceWithURL("http://foo.bar")
                     stubRequest({ resource }, "GET").andReturn(200)
                     awaitNewData(resource.load())
                     }
@@ -101,10 +101,10 @@ class ServiceSpec: SiestaSpec
             
             it("gives a non-nil but invalid resource for invalid URLs")
                 {
-                expectInvalidResource(service().resource(url: "http://[URL syntax error]"))
-                expectInvalidResource(service().resource(url: "\0"))
-                expectInvalidResource(service().resource(url: nil as NSURL?))
-                expectInvalidResource(service().resource(url: nil as String?))
+                expectInvalidResource(service().resourceWithURL("http://[URL syntax error]"))
+                expectInvalidResource(service().resourceWithURL("\0"))
+                expectInvalidResource(service().resourceWithURL(nil as NSURL?))
+                expectInvalidResource(service().resourceWithURL(nil as String?))
                 }
             }
         
@@ -167,7 +167,7 @@ class ServiceSpec: SiestaSpec
                     service.configure(pattern) { $0.config.expirationTime = 6 }
                     
                     var resource = absolute
-                        ? service.resource(url: pathOrURL)
+                        ? service.resourceWithURL(pathOrURL)
                         : service.resource(pathOrURL)
                     for (k,v) in params
                         { resource = resource.withParam(k, v) }
@@ -277,8 +277,8 @@ class ServiceSpec: SiestaSpec
             {
             beforeEach
                 {
-                resource0().localDataOverride(Entity(content: "foo content", contentType: "text/plain"))
-                resource1().localDataOverride(Entity(content: "bar content", contentType: "text/plain"))
+                resource0().overrideLocalData(Entity(content: "foo content", contentType: "text/plain"))
+                resource1().overrideLocalData(Entity(content: "bar content", contentType: "text/plain"))
                 }
             
             it("wipes all resources by default")

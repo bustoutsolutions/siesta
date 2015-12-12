@@ -131,10 +131,10 @@
         expect([entity header:@"cOnTeNt-TyPe"]).to(equal(@"application/json"));
 
         entity.content = @"Wild and wooly content";
-        [resource localDataOverride:entity];
+        [resource overrideLocalData:entity];
         entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack"];
         entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack" headers: @{}];
-        [resource localDataOverride:entity];
+        [resource overrideLocalData:entity];
         
         expect(resource.latestError).to(beNil());
         });

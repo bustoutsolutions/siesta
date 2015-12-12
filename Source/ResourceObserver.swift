@@ -8,7 +8,7 @@
 
 /**
   Something that can observe changes to the state of a `Resource`.
-  “State” means `latestData`, `latestError`, and `loading`.
+  “State” means `latestData`, `latestError`, and `isLoading`.
   
   Any code that wants to display or process a resource’s content should register itself as an observer using
   `Resource.addObserver(...)`.
@@ -17,7 +17,7 @@ public protocol ResourceObserver
     {
     /**
       Called when anything happens that might change the value of the reosurce’s `latestData`, `latestError`, or
-      `loading` flag. The `event` explains the reason for the notification.
+      `isLoading` flag. The `event` explains the reason for the notification.
     */
     func resourceChanged(resource: Resource, event: ResourceEvent)
     
@@ -82,7 +82,7 @@ public enum ResourceEvent: CustomStringConvertible
     */
     case ObserverAdded
     
-    /// A load request for this resource started. `Resource.loading` is now true.
+    /// A load request for this resource started. `Resource.isLoading` is now true.
     case Requested
     
     /// The request in progress was cancelled before it finished.
@@ -132,7 +132,7 @@ public enum ResourceEvent: CustomStringConvertible
         /// The new value of `latestData` comes from this resource’s `Configuration.persistentCache`.
         case Cache
 
-        /// The new value of `latestData` came from a call to `Resource.localDataOverride(_:)`
+        /// The new value of `latestData` came from a call to `Resource.overrideLocalData(_:)`
         case LocalOverride
 
         /// The resource was wiped, and `latestData` is now nil.

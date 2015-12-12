@@ -177,7 +177,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     */
     public enum StateRule: String
         {
-        /// If `Resource.loading` is true for any observed resources, enter the **loading** state.
+        /// If `Resource.isLoading` is true for any observed resources, enter the **loading** state.
         case Loading
         
         /// If any request passed to `ResourceStatusOverlay.trackManualLoad(_:)` is still in progress,
@@ -211,7 +211,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             switch(mode)
                 {
                 case .Loading:
-                    if observedResources.any({ $0.loading })
+                    if observedResources.any({ $0.isLoading })
                         { return showLoading() }
                 
                 case .ManualLoading:

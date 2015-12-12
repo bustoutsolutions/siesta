@@ -20,7 +20,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             expect(resource().latestData).to(beNil())
             expect(resource().latestError).to(beNil())
             
-            expect(resource().loading).to(beFalse())
+            expect(resource().isLoading).to(beFalse())
             expect(resource().allRequests).to(beIdentialObjects([]))
             expect(resource().loadRequests).to(beIdentialObjects([]))
             }
@@ -153,17 +153,17 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let (reqStub0, req0) = stubDelayedAndRequest("zero"),
                     (reqStub1, req1) = stubDelayedAndRequest("one")
                 
-                expect(resource().requesting).to(beTrue())
+                expect(resource().isRequesting).to(beTrue())
                 expect(resource().allRequests).to(beIdentialObjects([req0, req1]))
                 
                 reqStub0.go()
                 awaitNewData(req0)
-                expect(resource().requesting).to(beTrue())
+                expect(resource().isRequesting).to(beTrue())
                 expect(resource().allRequests).to(beIdentialObjects([req1]))
                 
                 reqStub1.go()
                 awaitNewData(req1)
-                expect(resource().loading).to(beFalse())
+                expect(resource().isLoading).to(beFalse())
                 expect(resource().allRequests).to(beIdentialObjects([]))
                 }
             
@@ -269,14 +269,14 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             it("marks that the resource is loading")
                 {
-                expect(resource().loading).to(beFalse())
+                expect(resource().isLoading).to(beFalse())
                 
                 stubRequest(resource, "GET").andReturn(200)
                 let req = resource().load()
-                expect(resource().loading).to(beTrue())
+                expect(resource().isLoading).to(beTrue())
                 
                 awaitNewData(req)
-                expect(resource().loading).to(beFalse())
+                expect(resource().isLoading).to(beFalse())
                 }
             
             it("stores the response data")
@@ -498,7 +498,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 stubRequest(resource, "GET").andReturn(200) // Stub first...
                 let reqReturned = reqClosure()             // ...then allow loading
-                expect(resource().loading).to(beTrue())
+                expect(resource().isLoading).to(beTrue())
                 expect(reqReturned).notTo(beNil())
                 if loadReq != nil
                     {
@@ -512,7 +512,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             func expectNotToLoad(req: Request?)
                 {
                 expect(req).to(beNil())
-                expect(resource().loading).to(beFalse())
+                expect(resource().isLoading).to(beFalse())
                 }
             
             it("loads a resource never before loaded")
@@ -703,7 +703,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
         
-        describe("localDataOverride()")
+        describe("overrideLocalData()")
             {
             let arbitraryContentType = "content-can-be/anything"
             let arbitraryContent = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
@@ -711,7 +711,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("updates the data")
                 {
-                resource().localDataOverride(localData())
+                resource().overrideLocalData(localData())
                 expect(resource().latestData?.content as? AnyObject).to(beIdenticalTo(arbitraryContent()))
                 expect(resource().latestData?.contentType).to(equal(arbitraryContentType))
                 }
@@ -722,7 +722,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
-                resource().localDataOverride(localData())
+                resource().overrideLocalData(localData())
                 expect(resource().latestData).notTo(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -730,12 +730,12 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not touch the transformer pipeline")
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
-                resource().localDataOverride(Entity(content: rawData!, contentType: "text/plain"))
+                resource().overrideLocalData(Entity(content: rawData!, contentType: "text/plain"))
                 expect(resource().latestData?.content as? NSData).to(beIdenticalTo(rawData))
                 }
             }
         
-        describe("localContentOverride()")
+        describe("overrideLocalContent()")
             {
             it("updates latestData’s content without altering headers")
                 {
@@ -747,7 +747,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 
                 awaitNewData(resource().load())
                 
-                resource().localContentOverride("farfalle")
+                resource().overrideLocalContent("farfalle")
                 expect(resource().text).to(equal("farfalle"))
                 expect(resource().latestData?.contentType).to(equal("food/pasta"))
                 expect(resource().latestData?.header("Sauce-disposition")).to(equal("garlic"))
@@ -760,7 +760,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().load())
                 
                 setResourceTime(2000)
-                resource().localContentOverride("ahoy")
+                resource().overrideLocalContent("ahoy")
                 
                 expect(resource().latestData?.timestamp).to(equal(2000))
                 expect(resource().timestamp).to(equal(2000))
@@ -768,7 +768,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             
             it("creates new application/binary entity if latestData is nil")
                 {
-                resource().localContentOverride("fusilli")
+                resource().overrideLocalContent("fusilli")
                 expect(resource().text).to(equal("fusilli"))
                 expect(resource().latestData?.contentType).to(equal("application/binary"))
                 }
@@ -839,7 +839,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("if local*Override() called")
                     {
-                    resource().localContentOverride("I am a banana")
+                    resource().overrideLocalContent("I am a banana")
                     }
                 }
             
@@ -913,7 +913,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     resource().request(.POST)
                     ]
 
-                expect(resource().loading).to(beTrue())
+                expect(resource().isLoading).to(beTrue())
                 
                 resource().wipe()
                 
@@ -922,7 +922,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 for req in reqs
                     { awaitFailure(req, alreadyCompleted: true) }
                 
-                expect(resource().loading).to(beFalse())
+                expect(resource().isLoading).to(beFalse())
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }

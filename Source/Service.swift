@@ -17,7 +17,7 @@ import Foundation
 public class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
-    public let baseURL: NSURL?
+    public let base: NSURL?
     
     internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
@@ -42,7 +42,7 @@ public class Service: NSObject
         {
         if let base = base
             {
-            self.baseURL = NSURL(string: base)?.alterPath
+            self.base = NSURL(string: base)?.alterPath
                 {
                 path in
                 !path.hasSuffix("/")
@@ -51,7 +51,7 @@ public class Service: NSObject
                 }
             }
         else
-            { self.baseURL = nil }
+            { self.base = nil }
         self.networkingProvider = networking.siestaNetworkingProvider
         
         super.init()
@@ -78,8 +78,7 @@ public class Service: NSObject
       If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
       return a resource — but that resource will give errors for all requests without touching the network.
     */
-    @objc(resourceWithURL:)
-    public final func resource(url url: NSURL?) -> Resource
+    public final func resourceWithURL(url: NSURL?) -> Resource
         {
         let key = url?.absoluteString ?? ""
         return resourceCache.get(key)
@@ -94,16 +93,16 @@ public class Service: NSObject
       If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
     */
     @objc(resourceWithURLString:)
-    public final func resource(url urlString: String?) -> Resource
+    public final func resourceWithURL(urlString: String?) -> Resource
         {
         // TODO: consider returning nil if url is nil (and use invalidURL only for URL parse errors)
         if let urlString = urlString, let nsurl = NSURL(string: urlString)
-            { return resource(url: nsurl) }
+            { return resourceWithURL(nsurl) }
         else
             {
             if let urlString = urlString  // No warning for nil URL
                 { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
-            return resource(url: Service.invalidURL)
+            return resourceWithURL(Service.invalidURL)
             }
         }
 
@@ -114,8 +113,8 @@ public class Service: NSObject
     @objc(resourceWithPath:)
     public final func resource(path: String) -> Resource
         {
-        return resource(url:
-            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+        return resourceWithURL(
+            base?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
     
     // MARK: Resource Configuration
@@ -374,7 +373,7 @@ extension String: ConfigurationPatternConvertible
         // Otherwise, interpret pattern as relative to baseURL.
         
         let resolvedPattern: String
-        if let prefix = service.baseURL?.absoluteString where !containsRegex("^[a-z]+:")
+        if let prefix = service.base?.absoluteString where !containsRegex("^[a-z]+:")
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }

@@ -114,10 +114,10 @@ public final class Resource: NSObject
     
     /// True if any load requests  (i.e. from calls to `load(...)` and `loadIfNeeded()`)
     /// for this resource are in progress.
-    public var loading: Bool { return !loadRequests.isEmpty }
+    public var isLoading: Bool { return !loadRequests.isEmpty }
 
     /// True if any requests for this resource are in progress.
-    public var requesting: Bool { return !allRequests.isEmpty }
+    public var isRequesting: Bool { return !allRequests.isEmpty }
     
     /// All load requests in progress, in the order they were initiated.
     public private(set) var loadRequests = [Request]()
@@ -176,7 +176,7 @@ public final class Resource: NSObject
     */
     public func child(subpath: String) -> Resource
         {
-        return service.resource(url: url.URLByAppendingPathComponent(subpath))
+        return service.resourceWithURL(url.URLByAppendingPathComponent(subpath))
         }
     
     /**
@@ -193,7 +193,7 @@ public final class Resource: NSObject
     */
     public func relative(href: String) -> Resource
         {
-        return service.resource(url: NSURL(string: href, relativeToURL: url))
+        return service.resourceWithURL(NSURL(string: href, relativeToURL: url))
         }
     
     /**
@@ -234,8 +234,8 @@ public final class Resource: NSObject
     @objc(withParam:value:)
     public func withParam(name: String, _ value: String?) -> Resource
         {
-        return service.resource(
-            url: url.alterQuery
+        return service.resourceWithURL(
+            url.alterQuery
                 {
                 (var params) in
                 params[name] = value
@@ -527,7 +527,7 @@ public final class Resource: NSObject
       
       Sequence of events:
     
-      1. This resource’s `loading` property becomes true, and remains true until the request either succeeds or fails.
+      1. This resource’s `isLoading` property becomes true, and remains true until the request either succeeds or fails.
          Observers immedately receive `ResourceEvent.Requested`.
       2. If the request is cancelled before completion, observers receive `ResourceEvent.RequestCancelled`.
       3. If the server returns a success response, that goes in `latestData`, and `latestError` becomes nil.
@@ -619,8 +619,8 @@ public final class Resource: NSObject
         req.completion
             {
             [weak self] _ in
-            self?.allRequests.remove { $0.completed }
-            self?.loadRequests.remove { $0.completed }
+            self?.allRequests.remove { $0.isCompleted }
+            self?.loadRequests.remove { $0.isCompleted }
             }
         }
     
@@ -702,7 +702,7 @@ public final class Resource: NSObject
                 updatedContent["name"] = parialEntity["newName"]
     
                 // Make that the resource’s new entity
-                resource.localContentOverride(updatedEntity)
+                resource.overrideLocalContent(updatedEntity)
             }
     
       Use this technique with caution!
@@ -711,9 +711,9 @@ public final class Resource: NSObject
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
       `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
       
-      - SeeAlso: `localContentOverride(_:)`
+      - SeeAlso: `overrideLocalContent(_:)`
     */
-    public func localDataOverride(entity: Entity)
+    public func overrideLocalData(entity: Entity)
         { receiveNewData(entity, source: .LocalOverride) }
     
     /**
@@ -721,12 +721,12 @@ public final class Resource: NSObject
       
       If this resource has no content, this method sets the content type to `application/binary`.
     */
-    public func localContentOverride(content: AnyObject)
+    public func overrideLocalContent(content: AnyObject)
         {
         var updatedEntity = latestData ?? Entity(content: content, contentType: "application/binary")
         updatedEntity.content = content
         updatedEntity.touch()
-        localDataOverride(updatedEntity)
+        overrideLocalData(updatedEntity)
         }
 
     /**
@@ -735,8 +735,8 @@ public final class Resource: NSObject
       
       Use this if you know the current content is stale, but don’t want to trigger a network request right away.
       
-      Any update to `latestData` or `latestError` — including a call to `localDataOverride()` or
-      `localContentOverride()` — clears the invalidation.
+      Any update to `latestData` or `latestError` — including a call to `overrideLocalData()` or
+      `overrideLocalContent()` — clears the invalidation.
       
       - SeeAlso: `wipe()`
     */
@@ -820,7 +820,7 @@ public final class Resource: NSObject
         return "Siesta.Resource("
             + debugStr(url)
             + ")["
-            + (loading ? "L" : "")
+            + (isLoading ? "L" : "")
             + (latestData != nil ? "D" : "")
             + (latestError != nil ? "E" : "")
             + "]"

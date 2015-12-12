@@ -51,16 +51,16 @@ public struct Error: ErrorType
       a user message. That failing, it gives a generic failure message.
     */
     public init(
-            _ response: NSHTTPURLResponse?,
-            _ content: AnyObject?,
-            _ cause: ErrorType?,
+            response: NSHTTPURLResponse?,
+            content: AnyObject?,
+            cause: ErrorType?,
             userMessage: String? = nil)
         {
         self.httpStatusCode = response?.statusCode
         self.cause = cause
         
         if let content = content
-            { self.entity = Entity(response, content) }
+            { self.entity = Entity(response: response, content: content) }
         
         if let message = userMessage
             { self.userMessage = message }

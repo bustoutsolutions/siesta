@@ -63,7 +63,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                     {
-                    expect(resource().loading).to(beTrue())
+                    expect(resource().isLoading).to(beTrue())
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -80,7 +80,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                     {
-                    expect(resource().loading).to(beFalse())
+                    expect(resource().isLoading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -92,11 +92,11 @@ class ResourceObserversSpec: ResourceSpecBase
                 // No .Requested event!
                 observer().expect(.NewData(.LocalOverride))
                     {
-                    expect(resource().loading).to(beFalse())
+                    expect(resource().isLoading).to(beFalse())
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
-                resource().localDataOverride(
+                resource().overrideLocalData(
                     Entity(content: UIView(), contentType: "crazy/test"))
                 }
 
@@ -112,7 +112,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NotModified)
                     {
-                    expect(resource().loading).to(beFalse())
+                    expect(resource().isLoading).to(beFalse())
                     }
                 awaitNotModified(resource().load())
                 }
@@ -133,7 +133,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
                     {
-                    expect(resource().loading).to(beFalse())
+                    expect(resource().isLoading).to(beFalse())
                     }
                 let req = resource().load()
                 req.cancel()
@@ -147,7 +147,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                     {
-                    expect(resource().loading).to(beFalse())
+                    expect(resource().isLoading).to(beFalse())
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
                     }

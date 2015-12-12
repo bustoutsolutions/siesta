@@ -84,7 +84,7 @@ public struct Entity
     /**
       Extracts data from a network response.
     */
-    public init(_ response: NSHTTPURLResponse?, _ content: Any)
+    public init(response: NSHTTPURLResponse?, content: Any)
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
@@ -98,7 +98,7 @@ public struct Entity
     /**
       For creating ad hoc data locally.
       
-      - SeeAlso: `Resource.localDataOverride(_:)`
+      - SeeAlso: `Resource.overrideLocalData(_:)`
     */
     public init(
             content: Any,
