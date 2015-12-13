@@ -57,6 +57,8 @@ public final class Resource: NSObject
     */
     public var config: Configuration
         {
+        dispatch_assert_main_queue()
+
         if configVersion != service.configVersion
             {
             cachedConfig = service.configurationForResource(self)
@@ -102,6 +104,8 @@ public final class Resource: NSObject
     /// The time of the most recent update to either `latestData` or `latestError`.
     public var timestamp: NSTimeInterval
         {
+        dispatch_assert_main_queue()
+
         return max(
             latestData?.timestamp ?? 0,
             latestError?.timestamp ?? 0)
@@ -114,10 +118,20 @@ public final class Resource: NSObject
 
     /// True if any load requests  (i.e. from calls to `load(...)` and `loadIfNeeded()`)
     /// for this resource are in progress.
-    public var isLoading: Bool { return !loadRequests.isEmpty }
+    public var isLoading: Bool
+        {
+        dispatch_assert_main_queue()
+
+        return !loadRequests.isEmpty
+        }
 
     /// True if any requests for this resource are in progress.
-    public var isRequesting: Bool { return !allRequests.isEmpty }
+    public var isRequesting: Bool
+        {
+        dispatch_assert_main_queue()
+
+        return !allRequests.isEmpty
+        }
 
     /// All load requests in progress, in the order they were initiated.
     public private(set) var loadRequests = [Request]()
@@ -129,6 +143,8 @@ public final class Resource: NSObject
 
     internal init(service: Service, url: NSURL)
         {
+        dispatch_assert_main_queue()
+
         self.service = service
         self.url = url.absoluteURL
 
@@ -288,6 +304,8 @@ public final class Resource: NSObject
             requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
+        dispatch_assert_main_queue()
+
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config.headers
@@ -510,6 +528,8 @@ public final class Resource: NSObject
     */
     public func loadIfNeeded() -> Request?
         {
+        dispatch_assert_main_queue()
+
         if let loadReq = loadRequests.first
             {
             debugLog(.Staleness, [self, "loadIfNeeded(): load is already in progress: \(loadReq)"])
@@ -568,6 +588,8 @@ public final class Resource: NSObject
     */
     public func load(usingRequest req: Request) -> Request
         {
+        dispatch_assert_main_queue()
+
         trackRequest(req, using: &loadRequests)
 
         req.progress
@@ -587,6 +609,8 @@ public final class Resource: NSObject
     */
     public func cancelLoadIfUnobserved()
         {
+        dispatch_assert_main_queue()
+
         if beingObserved
             { debugLog(.NetworkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
         else
@@ -629,6 +653,8 @@ public final class Resource: NSObject
 
     private func receiveNewData(entity: Entity, source: ResourceEvent.NewDataSource)
         {
+        dispatch_assert_main_queue()
+
         debugLog(.StateChanges, [self, "received new data from", source, ":", entity])
 
         latestError = nil
@@ -742,6 +768,8 @@ public final class Resource: NSObject
     */
     public func invalidate()
         {
+        dispatch_assert_main_queue()
+
         invalidated = true
         }
 
@@ -758,6 +786,8 @@ public final class Resource: NSObject
     */
     public func wipe()
         {
+        dispatch_assert_main_queue()
+
         debugLog(.StateChanges, [self, "wiped"])
 
         for request in allRequests + loadRequests  // need to do both because load(usingRequest:) can cross resource boundaries

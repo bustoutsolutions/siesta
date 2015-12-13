@@ -18,3 +18,11 @@ internal func dispatch_on_main_queue(after delay: NSTimeInterval, closure: Void 
         dispatch_get_main_queue(),
         closure)
     }
+
+internal func dispatch_assert_main_queue(caller: String = __FUNCTION__)
+    {
+    precondition(
+        NSThread.isMainThread(),
+        "Illegal attempt to use Siesta method \"\(caller)\" from a background thread. " +
+        "Except where noted, you must call Siesta APIs from the main thread.")
+    }

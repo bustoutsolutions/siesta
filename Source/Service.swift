@@ -40,6 +40,8 @@ public class Service: NSObject
             useDefaultTransformers: Bool = true,
             networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
         {
+        dispatch_assert_main_queue()
+
         if let base = base
             {
             self.base = NSURL(string: base)?.alterPath
@@ -80,6 +82,8 @@ public class Service: NSObject
     */
     public final func resourceWithURL(url: NSURL?) -> Resource
         {
+        dispatch_assert_main_queue()
+
         let key = url?.absoluteString ?? ""
         return resourceCache.get(key)
             {
@@ -191,6 +195,8 @@ public class Service: NSObject
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
+        dispatch_assert_main_queue()
+
         let entry = ConfigurationEntry(
             description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
             configurationPattern: configurationPattern,
@@ -255,6 +261,8 @@ public class Service: NSObject
     */
     public final func invalidateConfiguration()
         {
+        dispatch_assert_main_queue()
+
         if anyConfigSinceLastInvalidation
             { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
@@ -294,6 +302,8 @@ public class Service: NSObject
     */
     public final func wipeResources(predicate: Resource -> Bool =  { _ in true })
         {
+        dispatch_assert_main_queue()
+
         resourceCache.flushUnused()
         for resource in resourceCache.values
             where predicate(resource)

@@ -222,7 +222,12 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
     // Result
     private var responseInfo: ResponseInfo?
     internal var underlyingNetworkRequestCompleted = false      // so tests can wait for it to finish
-    internal var isCompleted: Bool { return responseInfo != nil }
+    internal var isCompleted: Bool
+        {
+        dispatch_assert_main_queue()
+
+        return responseInfo != nil
+        }
 
     // Callbacks
     private var responseCallbacks: [ResponseCallback] = []
@@ -251,6 +256,8 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
 
     func start() -> Self
         {
+        dispatch_assert_main_queue()
+
         guard networking == nil else
             { fatalError("NetworkRequest.start() called twice") }
 
@@ -275,6 +282,8 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
 
     func cancel()
         {
+        dispatch_assert_main_queue()
+
         guard !isCompleted else
             {
             debugLog(.Network, ["cancel() called but request already completed:", requestDescription])
@@ -307,6 +316,8 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
             inout to callbacks: [T -> Void],
             ifAlreadyComplete completedValue: T?)
         {
+        dispatch_assert_main_queue()
+
         if let completedValue = completedValue where isCompleted
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
@@ -352,6 +363,8 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
     private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?)
         {
+        dispatch_assert_main_queue()
+
         underlyingNetworkRequestCompleted = true
 
         debugLog(.Network, [nsres?.statusCode ?? error, "←", requestDescription])
@@ -411,6 +424,8 @@ internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConve
 
     private func broadcastResponse(newInfo: ResponseInfo)
         {
+        dispatch_assert_main_queue()
+
         if shouldIgnoreResponse(newInfo.response)
             { return }
 
@@ -486,16 +501,28 @@ internal final class FailedRequest: RequestHookProvider
 
     func addResponseCallback(callback: ResponseCallback)
         {
+        // FailedRequest is immutable and thus threadsafe. However,this call would not be safe if this were a
+        // NetworkRequest, and callers cannot know that they are getting a FailedRequest, so we validate correct thread
+        // usage as if the call were going to succeed.
+
+        dispatch_assert_main_queue()
+
+        // Callback should not be called synchronously
+
         dispatch_async(dispatch_get_main_queue())
             { callback((.Failure(self.error), isNew: true)) }
         }
 
     func progress(callback: Double -> Void) -> Self
         {
+        dispatch_assert_main_queue()
+
         dispatch_async(dispatch_get_main_queue())
             { callback(1) }
+
         return self
         }
 
-    func cancel() { }
+    func cancel()
+        { dispatch_assert_main_queue() }
     }
