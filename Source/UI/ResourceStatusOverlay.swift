@@ -208,7 +208,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         for mode in displayPriority
             {
-            switch(mode)
+            switch mode
                 {
                 case .Loading:
                     if observedResources.any({ $0.isLoading })

@@ -44,7 +44,7 @@ class ServiceSpec: SiestaSpec
                 
                 it("returns a nil baseURL")
                     {
-                    expect(bareService().baseURL).to(beNil())
+                    expect(bareService().base).to(beNil())
                     }
 
                 it("fails requests for path-based resources")
@@ -323,7 +323,7 @@ func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
 
         let base = try! actual.evaluate() ?? "",
             service = Service(base: base),
-            actualURL = service.baseURL?.absoluteString
+            actualURL = service.base?.absoluteString
         failureMessage.stringValue =
             "expected baseURL \(base.debugDescription)"
             + " to expand to \(expectedURL.debugDescription),"

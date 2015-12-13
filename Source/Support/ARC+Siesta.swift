@@ -59,7 +59,7 @@ internal struct WeakRef<T: AnyObject>: Hashable
         { return originalHash }
     }
 
-internal func ==<T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
+internal func == <T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
     {
     return lhs.originalIdentity == rhs.originalIdentity
     }

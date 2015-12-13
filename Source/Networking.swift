@@ -47,21 +47,21 @@ public protocol RequestNetworking
 public struct RequestTransferMetrics
     {
     /// Bytes of HTTP request body sent.
-    public var requestBytesSent:      Int64
+    public var requestBytesSent: Int64
 
     /// Total size of HTTP request body. Negative or nil indicates unknown size.
     /// Providers should ensure that `requestBytesSent == requestBytesTotal` when the request is complete, as this
     /// allows Siesta to include response latency in its progress calculation.
-    public var requestBytesTotal:     Int64?
+    public var requestBytesTotal: Int64?
 
     /// Bytes of HTTP response body received.
     public var responseBytesReceived: Int64
 
     /// Total expected size of HTTP response body. Negative or nil indicates unknown size.
-    public var responseBytesTotal:    Int64?
+    public var responseBytesTotal: Int64?
     }
 
-/// Siesta passes this callback to a `NetworkingProvider` implementation to call when the underlying network request is complete.
+/// Used by a `NetworkingProvider` implementation to pass the result of a network request back to Siesta.
 public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?) -> Void
 
 /**

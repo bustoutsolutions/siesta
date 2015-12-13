@@ -162,8 +162,8 @@ private struct CompoundProgress: Progress
         var total = 0.0, totalWeight = 0.0
         for component in components
             {
-            total += component.progress.fractionDone * component.weight;
-            totalWeight += component.weight;
+            total += component.progress.fractionDone * component.weight
+            totalWeight += component.weight
             }
 
         return total / totalWeight

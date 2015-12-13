@@ -36,10 +36,10 @@ public struct Configuration
       Adds a closure to be called after a `Request` is created, but before it is started. Use this to add response
       hooks or cancel the request before sending.
     */
-    public mutating func beforeStartingRequest(callback: (Resource,Request) -> Void)
+    public mutating func beforeStartingRequest(callback: (Resource, Request) -> Void)
         { beforeStartingRequestCallbacks.append(callback) }
     
-    internal var beforeStartingRequestCallbacks: [(Resource,Request) -> Void] = []
+    internal var beforeStartingRequestCallbacks: [(Resource, Request) -> Void] = []
     
     /**
       A sequence of parsers to be applied to responses.
