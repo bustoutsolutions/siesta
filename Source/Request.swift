@@ -136,10 +136,73 @@ public enum Response: CustomStringConvertible
         }
     }
 
-private typealias ResponseInfo = (response: Response, isNew: Bool)
-private typealias ResponseCallback = ResponseInfo -> Void
+internal typealias ResponseInfo = (response: Response, isNew: Bool)
+internal typealias ResponseCallback = ResponseInfo -> Void
 
-internal final class NetworkRequest: Request, CustomDebugStringConvertible
+/// Default handling for standard request hooks
+internal protocol RequestHookProvider: Request
+    {
+    func addResponseCallback(callback: ResponseCallback)
+    }
+
+extension RequestHookProvider
+    {
+    func completion(callback: Response -> Void) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            callback(response)
+            }
+        return self
+        }
+
+    func success(callback: Entity -> Void) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            if case .Success(let entity) = response
+                { callback(entity) }
+            }
+        return self
+        }
+
+    func newData(callback: Entity -> Void) -> Self
+        {
+        addResponseCallback
+            {
+            response, isNew in
+            if case .Success(let entity) = response where isNew
+                { callback(entity) }
+            }
+        return self
+        }
+
+    func notModified(callback: Void -> Void) -> Self
+        {
+        addResponseCallback
+            {
+            response, isNew in
+            if case .Success = response where !isNew
+                { callback() }
+            }
+        return self
+        }
+
+    func failure(callback: Error -> Void) -> Self
+        {
+        addResponseCallback
+            {
+            response, _ in
+            if case .Failure(let error) = response
+                { callback(error) }
+            }
+        return self
+        }
+    }
+
+internal final class NetworkRequest: RequestHookProvider, CustomDebugStringConvertible
     {
     // Basic metadata
     private let resource: Resource
@@ -234,61 +297,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 
     // MARK: Callbacks
 
-    func completion(callback: Response -> Void) -> Self
-        {
-        addResponseCallback
-            {
-            response, _ in
-            callback(response)
-            }
-        return self
-        }
-
-    func success(callback: Entity -> Void) -> Self
-        {
-        addResponseCallback
-            {
-            response, _ in
-            if case .Success(let entity) = response
-                { callback(entity) }
-            }
-        return self
-        }
-
-    func newData(callback: Entity -> Void) -> Self
-        {
-        addResponseCallback
-            {
-            response, isNew in
-            if case .Success(let entity) = response where isNew
-                { callback(entity) }
-            }
-        return self
-        }
-
-    func notModified(callback: Void -> Void) -> Self
-        {
-        addResponseCallback
-            {
-            response, isNew in
-            if case .Success = response where !isNew
-                { callback() }
-            }
-        return self
-        }
-
-    func failure(callback: Error -> Void) -> Self
-        {
-        addResponseCallback
-            {
-            response, _ in
-            if case .Failure(let error) = response
-                { callback(error) }
-            }
-        return self
-        }
-
-    private func addResponseCallback(callback: ResponseCallback)
+    internal func addResponseCallback(callback: ResponseCallback)
         {
         addCallback(callback, to: &responseCallbacks, ifAlreadyComplete: responseInfo)
         }
@@ -464,41 +473,29 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         }
     }
 
-
 /// For requests that failed before they even made it to the network layer
-internal final class FailedRequest: Request
+internal final class FailedRequest: RequestHookProvider
     {
     private let error: Error
+
+    var isCompleted: Bool { return true }
+    var progress: Double { return 1 }
 
     init(_ error: Error)
         { self.error = error }
 
-    func completion(callback: Response -> Void) -> Self
+    func addResponseCallback(callback: ResponseCallback)
         {
-        dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
-        return self
-        }
-
-    func failure(callback: Error -> Void) -> Self
-        {
-        dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
-        return self
+        dispatch_async(dispatch_get_main_queue())
+            { callback((.Failure(self.error), isNew: true)) }
         }
 
     func progress(callback: Double -> Void) -> Self
         {
-        dispatch_async(dispatch_get_main_queue(), { callback(1) })
+        dispatch_async(dispatch_get_main_queue())
+            { callback(1) }
         return self
         }
 
-    // Everything else is a noop
-
-    func success(callback: Entity -> Void) -> Self { return self }
-    func newData(callback: Entity -> Void) -> Self { return self }
-    func notModified(callback: Void -> Void) -> Self { return self }
-
     func cancel() { }
-
-    var isCompleted: Bool { return true }
-    var progress: Double { return 1 }
     }
