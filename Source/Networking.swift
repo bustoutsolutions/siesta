@@ -9,7 +9,7 @@
 /**
   If you want to use a different networking library, implement this protocol and pass your implementation to
   `Service.init(base:networkingProvider:)`.
-  
+
   See `NSURLSessionProvider` and `Extensions/Alamofire/AlamofireProvider` for implementation examples.
 */
 public protocol NetworkingProvider: NetworkingProviderConvertible
@@ -18,7 +18,7 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
       Start the given request asynchronously, and return a `RequestNetworking` to control the request.
 
       Implementations **must** guarante that they will call the given response closure exactly once.
-      
+
       If the request is cancelled, call the response closure with an error.
     */
     func startRequest(
@@ -29,7 +29,7 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
 
 /**
   Network handling for a single request. Created by a `NetworkingProvider`. Implementations have three responsibilities:
-  
+
   * start the request when `start(_:)` is called,
   * call the closure passed to `start(_:)` is called when the request is complete, and
   * optionally support cancelling requests in progress.
@@ -38,7 +38,7 @@ public protocol RequestNetworking
     {
     /// Cancel this request, if possible.
     func cancel()
-    
+
     /// Returns raw data used for progress calculation.
     var transferMetrics: RequestTransferMetrics { get }
     }
@@ -69,23 +69,23 @@ public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse
   Used by the `Service` initializer.
 
   For example, instead of having to do this:
-  
+
       Service(base: "http://foo.bar", networking:
         NSURLSessionProvider(session:
             NSURLSession(configuration:
                 NSURLSessionConfiguration.defaultSessionConfiguration()))
 
   …you can do this:
-  
+
       Service(base: "http://foo.bar", networking:
         NSURLSessionConfiguration.defaultSessionConfiguration()))
-  
+
   Siesta supports conversion of the following types into a networking provider:
-  
+
   - NSURLSession
   - NSURLSessionConfiguration
   - Alamofire.Manager
-  
+
   …and you can add to the list by writing an extension to implement `NetworkingProviderConvertible`.
 */
 public protocol NetworkingProviderConvertible

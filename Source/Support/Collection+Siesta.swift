@@ -14,7 +14,7 @@ internal extension CollectionType
         {
         var included: [Self.Generator.Element] = []
         var excluded: [Self.Generator.Element] = []
-        
+
         for elem in self
             {
             if includeElement(elem)
@@ -22,7 +22,7 @@ internal extension CollectionType
             else
                 { excluded.append(elem) }
             }
-        
+
         return (included: included, excluded: excluded)
         }
     }
@@ -36,12 +36,12 @@ internal extension Array
                 { return true }
         return false
         }
-    
+
     func all(@noescape predicate: Generator.Element -> Bool) -> Bool
         {
         return !any { !predicate($0) }
         }
-    
+
     mutating func remove(@noescape predicate: Generator.Element -> Bool)
         {
         var dst = startIndex
@@ -67,13 +67,13 @@ internal extension Dictionary
             { dict[k] = v }
         return dict
         }
-    
+
     func mapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey,MappedValue))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(map(transform))
         }
-    
+
     func flatMapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey?,MappedValue?))
         -> [MappedKey:MappedValue]
         {
@@ -89,4 +89,3 @@ internal extension Dictionary
             )
         }
     }
-

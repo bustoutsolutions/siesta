@@ -16,17 +16,17 @@ class ResourceSpecBase: SiestaSpec
     {
     func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         { }
-    
+
     override final func spec()
         {
         super.spec()
-        
+
         func envFlag(key: String) -> Bool
             {
             let value = NSProcessInfo.processInfo().environment["Siesta_\(key)"] ?? ""
             return value == "1" || value == "true"
             }
-        
+
         if envFlag("DelayAfterEachSpec")
             {
             // Nocilla’s threading is broken, and Travis exposes a race condition in it.
@@ -34,13 +34,13 @@ class ResourceSpecBase: SiestaSpec
             print("Using awful sleep workaround for Nocilla’s thread safety problems \u{1f4a9}")
             afterEach { NSThread.sleepForTimeInterval(0.02) }  // must happen before clearStubs()
             }
-        
+
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
-        
+
         afterEach { fakeNow = nil }
-        
+
         if envFlag("TestMultipleNetworkProviders")
             {
             runSpecsWithNetworkingProvider("default NSURLSession",   networking: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -78,15 +78,15 @@ class ResourceSpecBase: SiestaSpec
         {
         let service  = specVar(serviceBuilder),
             resource = specVar { service().resource("/a/b") }
-        
+
         self.resourceSpec(service, resource)
         }
-    
+
     var baseURL: String
         {
         // Embedding the spec name in the API’s URL makes it easier to track down unstubbed requests, which sometimes
         // don’t arrive until a following spec has already started.
-        
+
         return "https://" + QuickSpec.current().description
             .replaceRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
             .replaceRegex("[^A-Za-z0-9_]+", ".")
@@ -149,7 +149,7 @@ func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
     // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
     // network layer without waiting for a response. This causes spurious spec failures if LSNocilla’s clearStubs() gets
     // called before the network has a chance to finish, so we have to wait for the underlying request as well as Siesta.
-    
+
     if alreadyCompleted
         { awaitUnderlyingNetworkRequest(req) }
     }

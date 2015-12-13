@@ -11,12 +11,12 @@ import Alamofire
 
 /**
   Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking.
-  
+
   You can create instances of this class with a custom
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
   in order to control caching, certificate validation rules, etc. For example, here is a `Service` that will
   use an NSURLCache and will not use the cell network:
-  
+
       class MyAPI: Service {
           init() {
               let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -30,13 +30,13 @@ import Alamofire
 public struct AlamofireProvider: NetworkingProvider
     {
     public let manager: Alamofire.Manager
-    
+
     public init(manager: Alamofire.Manager = Manager.sharedInstance)
         { self.manager = manager }
-    
+
     public init(configuration: NSURLSessionConfiguration)
         { self.init(manager: Alamofire.Manager(configuration: configuration)) }
-    
+
     public func startRequest(
             request: NSURLRequest,
             completion: RequestNetworkingCompletionCallback)
@@ -55,18 +55,18 @@ public struct AlamofireProvider: NetworkingProvider
 internal final class AlamofireRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     internal var alamofireRequest: Alamofire.Request
-    
+
     init(_ alamofireRequest: Alamofire.Request)
         {
         self.alamofireRequest = alamofireRequest
         alamofireRequest.resume()   // in case manager.startRequestsImmediately is false
         }
-    
+
     var task: NSURLSessionTask
         {
         return alamofireRequest.task
         }
-    
+
     func cancel()
         { alamofireRequest.cancel() }
     }

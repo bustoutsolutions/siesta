@@ -9,7 +9,7 @@
 /**
   A reference that can switched between behaving as a strong or a weak ref to an object,
   and can also hold a non-object type.
- 
+
   - If the value is an object (i.e. T is a subtype of AnyObject), then...
     - ...if strong == true, then StrongOrWeakRef holds a strong reference to value.
     - ...if strong == false, then StrongOrWeakRef holds a weak reference to value.
@@ -23,13 +23,13 @@ internal struct StrongOrWeakRef<T>
     private weak var weakRef: AnyObject?
     var value: T?
         { return strongRef ?? (weakRef as? T) }
-    
+
     init(_ value: T)
         {
         strongRef = value
         weakRef = value as? AnyObject
         }
-    
+
     var strong: Bool
         {
         get { return strongRef != nil }
@@ -46,7 +46,7 @@ internal struct WeakRef<T: AnyObject>: Hashable
     private(set) weak var value: T?
     private let originalIdentity: UInt
     private let originalHash: Int
-    
+
     init(_ value: T)
         {
         self.value = value
@@ -54,7 +54,7 @@ internal struct WeakRef<T: AnyObject>: Hashable
         self.originalIdentity = ident.uintValue
         self.originalHash = ident.hashValue
         }
-    
+
     var hashValue: Int
         { return originalHash }
     }
@@ -63,4 +63,3 @@ internal func == <T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
     {
     return lhs.originalIdentity == rhs.originalIdentity
     }
-

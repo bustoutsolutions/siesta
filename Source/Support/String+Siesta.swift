@@ -14,17 +14,17 @@ internal extension String
             ? self[startIndex.advancedBy(prefix.characters.count) ..< endIndex]
             : self
         }
-    
+
     var capitalizedFirstCharacter: String
         {
         guard !self.isEmpty else
             { return self }
-        
+
         var result = self
         result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).uppercaseString)
         return result
         }
-    
+
     var nilIfEmpty: String?
         {
         return isEmpty ? nil : self

@@ -15,42 +15,42 @@ class ResourcePathsSpec: ResourceSpecBase
     {
     override var baseURL: String
         { return "https://zingle.frotz/v1" }
-    
+
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
         describe("child()")
             {
             func expectChild(childPath: String, toResolveTo url: String)
                 { expect((resource(), childPath)).to(expandToChildURL(url)) }
-            
+
             it("returns a resource with the same service")
                 {
                 expect(resource().child("c").service).to(equal(service()))
                 }
-                
+
             it("resolves empty string as root")
                 {
                 expectChild("",                   toResolveTo: "https://zingle.frotz/v1/a/b/")
                 }
-            
+
             it("resolves bare paths as subpaths")
                 {
                 expectChild("c",                  toResolveTo: "https://zingle.frotz/v1/a/b/c")
                 }
-            
+
             it("resolves paths with / prefix as subpaths")
                 {
                 expectChild("/",                  toResolveTo: "https://zingle.frotz/v1/a/b/")
                 expectChild("/c",                 toResolveTo: "https://zingle.frotz/v1/a/b/c")
                 }
-            
+
             it("does not resolve ./ or ../")
                 {
                 expectChild("./c",                toResolveTo: "https://zingle.frotz/v1/a/b/./c")
                 expectChild("./c/./d",            toResolveTo: "https://zingle.frotz/v1/a/b/./c/./d")
                 expectChild("../c",               toResolveTo: "https://zingle.frotz/v1/a/b/../c")
                 }
-            
+
             it("treats URL-like strings as paths")
                 {
                 expectChild("//other.host/c",     toResolveTo: "https://zingle.frotz/v1/a/b//other.host/c")
@@ -63,7 +63,7 @@ class ResourcePathsSpec: ResourceSpecBase
                 expectChild(" •⇶",                toResolveTo: "https://zingle.frotz/v1/a/b/%20%E2%80%A2%E2%87%B6")
                 }
             }
-            
+
         describe("relative()")
             {
             func expectRelativeOf(resource: Resource, _ childPath: String, toResolveTo url: String)
@@ -71,54 +71,54 @@ class ResourcePathsSpec: ResourceSpecBase
 
             func expectRelative(childPath: String, toResolveTo url: String)
                 { expectRelativeOf(resource(), childPath, toResolveTo: url) }
-            
+
             it("returns a resource with the same service")
                 {
                 expect(resource().relative("c").service).to(equal(service()))
                 }
-                
+
             it("treats bare paths as if they are preceded by ./")
                 {
                 expectRelative("c",                  toResolveTo: "https://zingle.frotz/v1/a/c")
                 }
-            
+
             it("resolves ./")
                 {
                 expectRelative("./c",                toResolveTo: "https://zingle.frotz/v1/a/c")
                 expectRelative("././c",              toResolveTo: "https://zingle.frotz/v1/a/c")
                 expectRelative("./c/./d",            toResolveTo: "https://zingle.frotz/v1/a/c/d")
                 }
-            
+
             it("resolves ../")
                 {
                 expectRelative("../c",               toResolveTo: "https://zingle.frotz/v1/c")
                 expectRelative("../../c",            toResolveTo: "https://zingle.frotz/c")
                 expectRelative("../c/../d",          toResolveTo: "https://zingle.frotz/v1/d")
                 }
-            
+
             it("resolves absolute paths relative to host root")
                 {
                 expectRelative("/c",                 toResolveTo: "https://zingle.frotz/c")
                 }
-            
+
             it("resolves full URLs")
                 {
                 expectRelative("//other.host/c",     toResolveTo: "https://other.host/c")
                 expectRelative("ftp://other.host/c", toResolveTo: "ftp://other.host/c")
                 }
-            
+
             it("can add a query string")
                 {
                 expectRelative("?foo=1",             toResolveTo: "https://zingle.frotz/v1/a/b?foo=1")
                 expectRelative("c?foo=1",            toResolveTo: "https://zingle.frotz/v1/a/c?foo=1")
                 }
-            
+
             it("does not alphabetize query string params, unlike withParam(_:_:)")
                 {
                 expectRelative("?foo=1&bar=2",       toResolveTo: "https://zingle.frotz/v1/a/b?foo=1&bar=2")
                 expectRelative("c?foo=1&bar=2",      toResolveTo: "https://zingle.frotz/v1/a/c?foo=1&bar=2")
                 }
-            
+
             it("entirely replaces or removes an existing query string")
                 {
                 let resourceWithParam = resource().withParam("foo", "bar")
@@ -153,33 +153,33 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect(resource().withParam("fo=o", "ba r").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
                 }
-                
+
             let resourceWithParams = specVar { resource().withParam("foo", "bar").withParam("zoogle", "oogle") }
-            
+
             it("alphabetizes params (to help with resource uniqueness)")
                 {
                 expect(resourceWithParams().withParam("plop", "blop").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar&plop=blop&zoogle=oogle"))
                 }
-                
+
             it("modifies existing params without affecting others")
                 {
                 expect(resourceWithParams().withParam("zoogle", "zonk").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"))
                 }
-                
+
             it("treats empty string value as empty param")
                 {
                 expect(resourceWithParams().withParam("foo", "").url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?foo&zoogle=oogle"))
                 }
-                
+
             it("treats nil value as removal")
                 {
                 expect(resourceWithParams().withParam("foo", nil).url.absoluteString)
                     .to(equal("https://zingle.frotz/v1/a/b?zoogle=oogle"))
                 }
-                
+
             it("drops query string if all params removed")
                 {
                 expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url.absoluteString)
@@ -200,7 +200,7 @@ private func resourceExpansionMatcher(
     {
     return MatcherFunc
         { inputs, failureMessage in
-        
+
         let (resource, path) = try! inputs.evaluate()!,
             actualURL = relationship(resource, path).url.absoluteString
         failureMessage.stringValue =

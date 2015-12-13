@@ -8,25 +8,25 @@
 
 /**
   HTTP request methods.
-  
+
   See the various `Resource.request(...)` methods.
 */
 public enum RequestMethod: String
     {
     /// GET
     case GET
-    
+
     /// POST. Just POST. Doc comment is the same as the enum.
     case POST
-    
+
     /// So you’re really reading the docs for all these, huh?
     case PUT
-    
+
     /// OK then, I’ll reward your diligence. Or punish it, depending on your level of refinement.
     ///
     /// What’s the difference between a poorly maintained Greyhound terminal and a lobster with breast implants?
     case PATCH
-    
+
     /// One’s a crusty bus station, and the other’s a busty crustacean.
     ///
     /// I’m here all week! Thank you for reading the documentation!
@@ -35,69 +35,69 @@ public enum RequestMethod: String
 
 /**
   Registers hooks to receive notifications about the status of a network request, and some request control.
-  
+
   Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
   and `overrideLocalData(_:)`.
-  
+
   There is no race condition between a callback being added and a response arriving. If you add a callback after the
   response has already arrived, the callback is still called as usual.
-  
+
   Request guarantees that it will call a given callback _at most_ one time.
-  
+
   Callbacks are always called on the main queue.
 */
 public protocol Request: AnyObject
     {
     /// Call the closure once when the request finishes for any reason.
     func completion(callback: Response -> Void) -> Self
-    
+
     /// Call the closure once if the request succeeds.
     func success(callback: Entity -> Void) -> Self
-    
+
     /// Call the closure once if the request succeeds and the data changed.
     func newData(callback: Entity -> Void) -> Self
-    
+
     /// Call the closure once if the request succeeds with a 304.
     func notModified(callback: Void -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
     func failure(callback: Error -> Void) -> Self
-    
+
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
       or been cancelled.
     */
     var isCompleted: Bool { get }
-    
+
     /**
       An estimate of the progress of the request, including request transfer, response transfer, and latency.
       Result is either in [0...1] or is NAN.
-      
+
       The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
       not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
       by now. Use the `isCompleted` property to test for actual completion.
     */
     var progress: Double { get }
-    
+
     /**
       Receive updates on progress at regular intervals while a request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
     func progress(callback: Double -> Void) -> Self
-    
+
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
-        
+
       If this method is called while the request is in progress, it immediately triggers the `failure`/`completion`
       callbacks, with the error’s `cause` set to `Error.Cause.RequestCancelled`.
-      
+
       Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
       to have any effect at all on the underlying request, subject to the whims of the `NetworkingProvider`. Therefore,
       after calling this method on a mutating request (POST, PUT, etc.), you should consider the service-side state of
       the resource to be unknown. Is it safest to immediately call either `Resource.load()` or `Resource.wipe()`.
-      
+
       This method _does_ guarantee, however, that after it is called, even if a network response does arrive it will be
       ignored and not trigger any callbacks.
     */
@@ -112,10 +112,10 @@ public enum Response: CustomStringConvertible
     {
     /// The request succeeded, and returned the given entity.
     case Success(Entity)
-    
+
     /// The request failed because of the given error.
     case Failure(Error)
-    
+
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
@@ -124,7 +124,7 @@ public enum Response: CustomStringConvertible
         else
             { return false }
         }
-    
+
     /// :nodoc:
     public var description: String
         {
@@ -144,23 +144,23 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
     // Basic metadata
     private let resource: Resource
     private let requestDescription: String
-    
+
     // Networking
     private let nsreq: NSURLRequest
     internal var networking: RequestNetworking?  // present only after start()
     internal var wasCancelled: Bool = false
-    
+
     // Progress
     var progress: Double = 0
     private var lastProgressBroadcast: Double?
     private var progressComputation: RequestProgress
     private var progressUpdateTimer: NSTimer?
-    
+
     // Result
     private var responseInfo: ResponseInfo?
     internal var underlyingNetworkRequestCompleted = false      // so tests can wait for it to finish
     internal var isCompleted: Bool { return responseInfo != nil }
-    
+
     // Callbacks
     private var responseCallbacks: [ResponseCallback] = []
     private var progressCallbacks: [Double -> Void] = []
@@ -170,7 +170,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         self.resource = resource
         self.nsreq = nsreq
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
-        
+
         progressComputation = RequestProgress(isGet: nsreq.HTTPMethod == "GET")
         progressUpdateTimer =
             CFRunLoopTimerCreateWithHandler(
@@ -180,36 +180,36 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 { [weak self] _ in self?.updateProgress() }
         CFRunLoopAddTimer(CFRunLoopGetCurrent(), progressUpdateTimer, kCFRunLoopCommonModes)
         }
-    
+
     deinit
         {
         progressUpdateTimer?.invalidate()
         }
-    
+
     func start() -> Self
         {
         guard networking == nil else
             { fatalError("NetworkRequest.start() called twice") }
-        
+
         guard !wasCancelled else
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
             return self
             }
-        
+
         debugLog(.Network, [requestDescription])
-        
+
         networking = resource.service.networkingProvider.startRequest(nsreq)
             {
             res, data, err in
             dispatch_async(dispatch_get_main_queue())
                 { self.responseReceived(nsres: res, body: data, error: err) }
             }
-        
+
         return self
         }
-    
+
     func cancel()
         {
         guard !isCompleted else
@@ -217,11 +217,11 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             debugLog(.Network, ["cancel() called but request already completed:", requestDescription])
             return
             }
-        
+
         debugLog(.Network, ["Cancelled", requestDescription])
-        
+
         networking?.cancel()
-        
+
         // Prevent start() from have having any effect if it hasn't been called yet
         wasCancelled = true
 
@@ -231,7 +231,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 cause: Error.Cause.RequestCancelled(networkError: nil))),
             isNew: true))
         }
-    
+
     // MARK: Callbacks
 
     func completion(callback: Response -> Void) -> Self
@@ -243,7 +243,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         return self
         }
-    
+
     func success(callback: Entity -> Void) -> Self
         {
         addResponseCallback
@@ -254,7 +254,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         return self
         }
-    
+
     func newData(callback: Entity -> Void) -> Self
         {
         addResponseCallback
@@ -265,7 +265,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         return self
         }
-    
+
     func notModified(callback: Void -> Void) -> Self
         {
         addResponseCallback
@@ -276,7 +276,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         return self
         }
-    
+
     func failure(callback: Error -> Void) -> Self
         {
         addResponseCallback
@@ -287,12 +287,12 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             }
         return self
         }
-    
+
     private func addResponseCallback(callback: ResponseCallback)
         {
         addCallback(callback, to: &responseCallbacks, ifAlreadyComplete: responseInfo)
         }
-    
+
     private func addCallback<T>(
             callback: T -> Void,
             inout to callbacks: [T -> Void],
@@ -302,31 +302,31 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
             // caller can finish their business first.
-            
+
             dispatch_async(dispatch_get_main_queue())
                 { callback(completedValue) }
             }
         else
             {
             // Request not yet completed.
-            
+
             callbacks.append(callback)
             }
         }
-    
+
     // MARK: Progress
-    
+
     func progress(callback: Double -> Void) -> Self
         {
         addCallback(callback, to: &progressCallbacks, ifAlreadyComplete: 1)
         return self
         }
-    
+
     private func updateProgress()
         {
         guard let networking = networking else
             { return }
-        
+
         progressComputation.update(networking.transferMetrics)
         progress = progressComputation.fractionDone
 
@@ -337,26 +337,26 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 { callback(progress) }
             }
         }
-    
+
     // MARK: Response handling
-    
+
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
     private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?)
         {
         underlyingNetworkRequestCompleted = true
-        
+
         debugLog(.Network, [nsres?.statusCode ?? error, "←", requestDescription])
         debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])
         debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
-        
+
         let responseInfo = interpretResponse(nsres, body, error)
 
         if shouldIgnoreResponse(responseInfo.response)
             { return }
-        
+
         transformResponse(responseInfo, then: broadcastResponse)
         }
-    
+
     private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ error: ErrorType?)
         -> ResponseInfo
         {
@@ -384,7 +384,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             return (.Success(Entity(response: nsres, content: body ?? NSData())), true)
             }
         }
-    
+
     private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
         let transformer = resource.config.responseTransformers
@@ -394,7 +394,7 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
                 rawInfo.isNew
                     ? (transformer.process(rawInfo.response), true)
                     : rawInfo
-            
+
             dispatch_async(dispatch_get_main_queue())
                 { afterTransformation(processedInfo) }
             }
@@ -404,28 +404,28 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         {
         if shouldIgnoreResponse(newInfo.response)
             { return }
-        
+
         progressUpdateTimer?.invalidate()
         progressComputation.complete()
         updateProgress()
 
         debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
-        
+
         responseInfo = newInfo   // Remember outcome in case more handlers are added after request is already completed
-        
+
         for callback in responseCallbacks
             { callback(newInfo) }
         responseCallbacks = []   // Fly, little handlers, be free!
         progressCallbacks = []
         }
-    
+
     private func shouldIgnoreResponse(newResponse: Response) -> Bool
         {
         guard let responseInfo = responseInfo else
             { return false }
 
         // We already received a response; don't broadcast another one.
-        
+
         if !responseInfo.response.isCancellation
             {
             debugLog(.Network,
@@ -441,17 +441,17 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
             {
             // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
             // we were cancelled. If we received any other response after cancellation, log that we ignored it.
-            
+
             debugLog(.NetworkDetails,
                 [
                 "Received response, but request was already cancelled:", requestDescription,
                 "\n    New response:", newResponse
                 ])
             }
-        
+
         return true
         }
-    
+
     // MARK: Debug
 
     var debugDescription: String
@@ -469,37 +469,36 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
 internal final class FailedRequest: Request
     {
     private let error: Error
-    
+
     init(_ error: Error)
         { self.error = error }
-    
+
     func completion(callback: Response -> Void) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(.Failure(self.error)) })
         return self
         }
-    
+
     func failure(callback: Error -> Void) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(self.error) })
         return self
         }
-    
+
     func progress(callback: Double -> Void) -> Self
         {
         dispatch_async(dispatch_get_main_queue(), { callback(1) })
         return self
         }
-    
+
     // Everything else is a noop
-    
+
     func success(callback: Entity -> Void) -> Self { return self }
     func newData(callback: Entity -> Void) -> Self { return self }
     func notModified(callback: Void -> Void) -> Self { return self }
-    
+
     func cancel() { }
 
     var isCompleted: Bool { return true }
     var progress: Double { return 1 }
     }
-

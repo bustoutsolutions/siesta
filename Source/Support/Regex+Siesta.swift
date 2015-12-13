@@ -18,18 +18,18 @@ internal extension String
         return stringByReplacingOccurrencesOfString(
             regex, withString: replacement, options: .RegularExpressionSearch, range: nil)
         }
-    
+
     func replaceString(string: String, _ replacement: String) -> String
         {
         // Maybe this method name looked more reasonable in Objective-C.
         return stringByReplacingOccurrencesOfString(string, withString: replacement)
         }
-    
+
     func replaceRegex(regex: NSRegularExpression, _ template: String) -> String
         {
         return regex.stringByReplacingMatchesInString(self, options: [], range: fullRange, withTemplate: template)
         }
-    
+
     var fullRange: NSRange
         {
         return NSRange(location: 0, length: (self as NSString).length)
@@ -49,7 +49,7 @@ internal extension NSRegularExpression
             fatalError("Regexp compilation failed: \(pattern)")
             }
         }
-    
+
     func matches(string: String) -> Bool
         {
         let match = firstMatchInString(string, options: [], range: string.fullRange)

@@ -39,7 +39,7 @@ func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
         else
             { return ObjectIdentifier(NSObject()) }   // ident not equal to anything else, so fails non-objects in Array
         }
-    
+
     return NonNilMatcherFunc
         { inputs, failureMessage in
 
@@ -47,9 +47,8 @@ func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
         failureMessage.stringValue =
             "expected \(expectedArray)"
             + " but got \(actualArray)"
-        
+
         return expectedArray.map(makeIdent)
             ==   actualArray.map(makeIdent)
         }
     }
-

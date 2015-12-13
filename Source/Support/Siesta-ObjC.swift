@@ -11,22 +11,22 @@
 
     Siesta follows a Swift-first design approach. It uses the full expressiveness of the
     language to make everything feel “Swift native,” both in interface and implementation.
-    
+
     This means many Siesta APIs can’t simply be marked @objc, and require a separate
     compatibility layer. Rather than sprinkle that mess throughout the code, it’s all
     quarrantined here.
-    
+
     Features exposed to Objective-C:
-    
+
      * Resource path navigation (child, relative, etc.)
      * Resource state
      * Observers
      * Request / load
      * Request completion callbacks
      * UI components
-    
+
     Some things are not exposed in the compatibility layer, and must be done in Swift:
-    
+
      * Subclassing Service
      * Custom ResponseTransformers
      * Custom NetworkingProviders
@@ -49,7 +49,7 @@ public class _objc_Entity: NSObject
     public var etag: String?
     private var headers: [String:String]
     public private(set) var timestamp: NSTimeInterval = 0
-    
+
     public init(content: AnyObject, contentType: String, headers: [String:String])
         {
         self.content = content
@@ -59,7 +59,7 @@ public class _objc_Entity: NSObject
 
     public convenience init(content: AnyObject, contentType: String)
         { self.init(content: content, contentType: contentType, headers: [:]) }
-    
+
     internal init(_ entity: Entity)
         {
         if !(entity.content is AnyObject)
@@ -67,17 +67,17 @@ public class _objc_Entity: NSObject
             NSLog("WARNING: entity content of type \(entity.content.dynamicType)"
                 + " is not an object, and therefore not usable from Objective-C")
             }
-        
+
         self.content     = entity.content as? AnyObject
         self.contentType = entity.contentType
         self.charset     = entity.charset
         self.etag        = entity.etag
         self.headers     = entity.headers
         }
-    
+
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
-    
+
     public override var description: String
         { return debugStr(Entity(entity: self)) }
     }
@@ -120,7 +120,7 @@ public extension Resource
         else
             { return nil }
         }
-    
+
     @objc(latestError)
     public var _objc_latestError: _objc_Error?
         {
@@ -129,19 +129,19 @@ public extension Resource
         else
             { return nil }
         }
-    
+
     @objc(jsonDict)
     public var _objc_jsonDict: [String:AnyObject]
         { return jsonDict }
-    
+
     @objc(jsonArray)
     public var _objc_jsonArray: [AnyObject]
         { return jsonArray }
-    
+
     @objc(text)
     public var _objc_text: String
         { return text }
-    
+
     @objc(overrideLocalData:)
     public func _objc_overrideLocalData(entity: _objc_Entity)
         { self.overrideLocalData(Entity(entity: entity)) }
@@ -153,10 +153,10 @@ public extension Resource
 public class _objc_Request: NSObject
     {
     private let request: Request
-    
+
     private init(_ request: Request)
         { self.request = request }
-    
+
     public func completion(objcCallback: @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
         {
         self.request.completion
@@ -177,7 +177,7 @@ public class _objc_Request: NSObject
         self.request.success { entity in objcCallback(_objc_Entity(entity)) }
         return self
         }
-    
+
     public func newData(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
         {
         self.request.newData { entity in objcCallback(_objc_Entity(entity)) }
@@ -204,7 +204,7 @@ public class _objc_Request: NSObject
 
     public func cancel()
         { request.cancel() }
-    
+
     public override var description: String
         { return debugStr(request) }
     }
@@ -214,7 +214,7 @@ public extension Resource
     @objc(load)
     public func _objc_load() -> _objc_Request
         { return _objc_Request(self.load()) }
-    
+
     @objc(loadIfNeeded)
     public func _objc_loadIfNeeded() -> _objc_Request?
         {
@@ -238,19 +238,19 @@ public protocol _objc_ResourceObserver
 private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringConvertible
     {
     weak var objcObserver: _objc_ResourceObserver?
-    
+
     init(objcObserver: _objc_ResourceObserver)
         { self.objcObserver = objcObserver }
 
     func resourceChanged(resource: Resource, event: ResourceEvent)
         { objcObserver?.resourceChanged(resource, event: event.description) }
-    
+
     func resourceRequestProgress(resource: Resource, progress: Double)
         { objcObserver?.resourceRequestProgress?(resource, progress: progress) }
-    
+
     func stoppedObservingResource(resource: Resource)
         { objcObserver?.stoppedObservingResource?(resource) }
-    
+
     var debugDescription: String
         {
         if objcObserver != nil
@@ -303,7 +303,7 @@ extension ResourceStatusOverlay
         get {
             return displayPriority.map { $0.rawValue }
             }
-        
+
         set {
             displayPriority = newValue.flatMap
                 {
@@ -330,10 +330,10 @@ public extension Resource
                     userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
                     cause: Error.Cause.InvalidRequestMethod(method: methodString))))
             }
-        
+
         return _objc_Request(closure(method))
         }
-    
+
     private func _objc_wrapJSONRequest(
             methodString: String,
             _ maybeJson: NSObject?,
@@ -350,7 +350,7 @@ public extension Resource
 
         return _objc_wrapRequest(methodString) { closure($0, json) }
         }
-    
+
     @objc(requestWithMethod:requestMutation:)
     public func _objc_request(
             method:          String,

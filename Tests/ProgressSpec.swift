@@ -24,14 +24,14 @@ class ProgressSpec: ResourceSpecBase
                 awaitNewData(req)
                 expect(req.progress).to(equal(1.0))
                 }
-            
+
             it("on request error")
                 {
                 let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: NSASCIIStringEncoding)
                 awaitFailure(req, alreadyCompleted: true)
                 expect(req.progress).to(equal(1.0))
                 }
-            
+
             it("on server error")
                 {
                 stubRequest(resource, "GET").andReturn(500)
@@ -39,7 +39,7 @@ class ProgressSpec: ResourceSpecBase
                 awaitFailure(req)
                 expect(req.progress).to(equal(1.0))
                 }
-            
+
             it("on connection error")
                 {
                 stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
@@ -47,7 +47,7 @@ class ProgressSpec: ResourceSpecBase
                 awaitFailure(req)
                 expect(req.progress).to(equal(1.0))
                 }
-            
+
             it("on cancellation")
                 {
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
@@ -58,16 +58,16 @@ class ProgressSpec: ResourceSpecBase
                 awaitFailure(req, alreadyCompleted: true)
                 }
             }
-        
+
         // Exact progress values are subjective, and subject to change. These specs only examine
         // what affects the progress computation.
-        
+
         context("computation")
             {
             var getRequest: Bool!
             var metrics: RequestTransferMetrics!
             var progress: RequestProgress?
-            
+
             beforeEach
                 {
                 progress = nil
@@ -78,50 +78,50 @@ class ProgressSpec: ResourceSpecBase
                     responseBytesTotal: nil)
                 setResourceTime(100)
                 }
-            
+
             func progressComparison(closure: Void -> Void) -> (before: Double, after: Double)
                 {
                 progress = progress ?? RequestProgress(isGet: getRequest)
-                
+
                 progress!.update(metrics)
                 let before = progress!.fractionDone
-                
+
                 closure()
-                
+
                 progress!.update(metrics)
                 let after = progress!.fractionDone
-                
+
                 return (before, after)
                 }
-            
+
             func expectProgressToIncrease(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after).to(beGreaterThan(result.before))
                 }
-            
+
             func expectProgressToRemainUnchanged(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after).to(equal(result.before))
                 }
-            
+
             func expectProgressToRemainAlmostUnchanged(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after).to(beCloseTo(result.before, within: 0.01))
                 }
-            
+
             context("for request with no body")
                 {
                 beforeEach { getRequest = true }
-                
+
                 it("increases while waiting for request to start")
                     {
                     expectProgressToIncrease
                         { setResourceTime(101) }
                     }
-                
+
                 it("is stable when response arrives")
                     {
                     expectProgressToIncrease { setResourceTime(101) }
@@ -132,7 +132,7 @@ class ProgressSpec: ResourceSpecBase
                         metrics.responseBytesTotal = 1000
                         }
                     }
-                
+
                 it("tracks download")
                     {
                     metrics.requestBytesSent = 0
@@ -142,7 +142,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToIncrease
                         { metrics.responseBytesReceived = 2 }
                     }
-                
+
                 it("tracks download even when size is unknown")
                     {
                     metrics.requestBytesSent = 0
@@ -151,7 +151,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToIncrease
                         { metrics.responseBytesReceived = 2 }
                     }
-                
+
                 it("never reaches 1 if response size is unknown")
                     {
                     metrics.requestBytesSent = 0
@@ -181,11 +181,11 @@ class ProgressSpec: ResourceSpecBase
                     expect(progress?.rawFractionDone).to(equal(1))
                     }
                 }
-                
+
             context("for request with a body")
                 {
                 beforeEach { getRequest = false }
-                
+
                 it("is stable when request starts uploading after a delay")
                     {
                     expectProgressToIncrease { setResourceTime(101) }
@@ -196,7 +196,7 @@ class ProgressSpec: ResourceSpecBase
                         metrics.requestBytesTotal = 1000
                         }
                     }
-                
+
                 it("tracks upload")
                     {
                     metrics.requestBytesSent = 1
@@ -204,7 +204,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToIncrease
                         { metrics.requestBytesSent = 2 }
                     }
-                
+
                 it("tracks upload even if upload size is unknown")
                     {
                     metrics.requestBytesSent = 10
@@ -212,7 +212,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToIncrease
                         { metrics.requestBytesSent = 11 }
                     }
-                
+
                 it("is stable when estimated upload size becomes precise")
                     {
                     metrics.requestBytesSent = 10
@@ -220,7 +220,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToRemainUnchanged
                         { metrics.requestBytesTotal = 100 }
                     }
-            
+
                 it("does not track time while uploading")
                     {
                     metrics.requestBytesSent = 1
@@ -228,7 +228,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToRemainUnchanged
                         { setResourceTime(120) }
                     }
-                
+
                 it("increases while waiting for response after upload")
                     {
                     metrics.requestBytesSent = 1000
@@ -236,7 +236,7 @@ class ProgressSpec: ResourceSpecBase
                     expectProgressToIncrease
                         { setResourceTime(110) }
                     }
-                
+
                 it("is stable when response arrives")
                     {
                     metrics.requestBytesSent = 1000
@@ -249,7 +249,7 @@ class ProgressSpec: ResourceSpecBase
                         metrics.responseBytesTotal = 1000
                         }
                     }
-                
+
                 it("tracks download")
                     {
                     metrics.requestBytesSent = 1000

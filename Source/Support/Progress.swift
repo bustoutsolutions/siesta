@@ -14,14 +14,14 @@ internal struct RequestProgress: Progress
     private var uploadProgress, downloadProgress: TaskProgress
     private var connectLatency, responseLatency: WaitingProgress
     private var overallProgress: MonotonicProgress
-    
+
     init(isGet: Bool)
         {
         uploadProgress   = TaskProgress(estimatedTotal: 8192)   // bytes
         downloadProgress = TaskProgress(estimatedTotal: 65536)
         connectLatency  = WaitingProgress(estimatedTotal: 2.5)  // seconds to reach 75%
         responseLatency = WaitingProgress(estimatedTotal: 1.2)
-        
+
         overallProgress =
             MonotonicProgress(
                 CompoundProgress(components:
@@ -30,13 +30,13 @@ internal struct RequestProgress: Progress
                     (responseLatency,  weight: 0.3),
                     (downloadProgress, weight: isGet ? 1 : 0.1)))
         }
-    
+
     mutating func update(metrics: RequestTransferMetrics)
         {
         updateByteCounts(metrics)
         updateLatency(metrics)
         }
-    
+
     mutating func updateByteCounts(metrics: RequestTransferMetrics)
         {
         func optionalTotal(n: Int64?) -> Double?
@@ -46,13 +46,13 @@ internal struct RequestProgress: Progress
             else
                 { return nil }
             }
-        
+
         overallProgress.holdConstant
             {
             uploadProgress.actualTotal   = optionalTotal(metrics.requestBytesTotal)
             downloadProgress.actualTotal = optionalTotal(metrics.responseBytesTotal)
             }
-        
+
         uploadProgress.completed   = Double(metrics.requestBytesSent)
         downloadProgress.completed = Double(metrics.responseBytesReceived)
         }
@@ -62,7 +62,7 @@ internal struct RequestProgress: Progress
         let requestStarted = metrics.requestBytesSent > 0,
             responseStarted = metrics.responseBytesReceived > 0,
             requestSent = requestStarted && metrics.requestBytesSent == metrics.requestBytesTotal
-        
+
         if requestStarted || responseStarted
             {
             overallProgress.holdConstant
@@ -70,7 +70,7 @@ internal struct RequestProgress: Progress
             }
         else
             { connectLatency.tick() }
-        
+
         if responseStarted
             {
             overallProgress.holdConstant
@@ -79,10 +79,10 @@ internal struct RequestProgress: Progress
         else if requestSent
             { responseLatency.tick() }
         }
-    
+
     mutating func complete()
         { overallProgress.child = TaskProgress.completed }
-    
+
     var rawFractionDone: Double
         {
         return overallProgress.fractionDone
@@ -113,27 +113,27 @@ private class TaskProgress: Progress
     {
     /// The amount of work done, in arbitrary units.
     var completed: Double
-    
+
     /// The actual amount of work to do, if known. In same units as `completed`.
     var actualTotal: Double?
-    
+
     /// The 75% point for an asymptotic curve. In same units as `completed`.
     /// Ignored if actualTotal is present.
     var estimatedTotal: Double
-    
+
     init(completed: Double = 0, estimatedTotal: Double)
         {
         self.completed = completed
         self.estimatedTotal = estimatedTotal
         }
-    
+
     init(completed: Double = 0, actualTotal: Double)
         {
         self.completed = completed
         self.actualTotal = actualTotal
         self.estimatedTotal = actualTotal
         }
-    
+
     var rawFractionDone: Double
         {
         if let actualTotal = actualTotal
@@ -141,10 +141,10 @@ private class TaskProgress: Progress
         else
             { return 1 - pow(2, -2 * completed / estimatedTotal) }
         }
-    
+
     static var completed: TaskProgress
         { return TaskProgress(completed: 1, actualTotal: 1) }
-    
+
     static var unknown: TaskProgress
         { return TaskProgress(completed: 0, estimatedTotal: Double.NaN) }
     }
@@ -153,10 +153,10 @@ private class TaskProgress: Progress
 private struct CompoundProgress: Progress
     {
     var components: [Component]
-    
+
     init(components: Component...)
         { self.components = components }
-    
+
     var rawFractionDone: Double
         {
         var total = 0.0, totalWeight = 0.0
@@ -168,7 +168,7 @@ private struct CompoundProgress: Progress
 
         return total / totalWeight
         }
-    
+
     typealias Component = (progress: Progress, weight: Double)
     }
 
@@ -177,15 +177,15 @@ private struct CompoundProgress: Progress
 private struct MonotonicProgress: Progress
     {
     var child: Progress
-    
+
     private var adjustment: Double = 1
-    
+
     init(_ child: Progress)
         { self.child = child }
-    
+
     var rawFractionDone: Double
         { return (child.fractionDone - 1) * adjustment + 1 }
-    
+
     mutating func holdConstant(@noescape closure: Void -> Void)
         {
         let before = fractionDone
@@ -201,13 +201,13 @@ private class WaitingProgress: Progress
     {
     private var startTime: NSTimeInterval?
     private var progress: TaskProgress
-    
+
     init(estimatedTotal: Double)
         { progress = TaskProgress(estimatedTotal: estimatedTotal) }
-    
+
     var rawFractionDone: Double
         { return progress.rawFractionDone }
-    
+
     func tick()
         {
         let now = Siesta.now()
@@ -216,10 +216,9 @@ private class WaitingProgress: Progress
         else
             { startTime = now }
         }
-    
+
     func complete()
         {
         progress.completed = Double.infinity
         }
     }
-

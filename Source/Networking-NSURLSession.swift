@@ -15,11 +15,11 @@
 public struct NSURLSessionProvider: NetworkingProvider
     {
     public let session: NSURLSession
-    
+
     /// :nodoc:
     public init(session: NSURLSession)
         { self.session = session }
-    
+
     /// :nodoc:
     public func startRequest(
             request: NSURLRequest,
@@ -35,13 +35,13 @@ public struct NSURLSessionProvider: NetworkingProvider
 internal final class NSURLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     var task: NSURLSessionTask
-    
+
     private init(task: NSURLSessionDataTask)
         {
         self.task = task
         task.resume()
         }
-    
+
     func cancel()
         { task.cancel() }
     }

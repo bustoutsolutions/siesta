@@ -9,7 +9,7 @@
 /**
   Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
   a chain of transformers before being sent to response hooks or observers.
-  
+
   Note that transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
   transformer touches only its input parameter.
 */
@@ -17,7 +17,7 @@ public protocol ResponseTransformer
     {
     /**
       Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.
-      
+
       Note that a `Response` can contain either data or an error, so this method can turn success into failure if the
       response fails to parse.
     */
@@ -40,11 +40,11 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
     {
     let contentTypeMatcher: NSRegularExpression
     let delegate: ResponseTransformer
-    
+
     init(_ delegate: ResponseTransformer, contentTypes: [String])
         {
         self.delegate = delegate
-        
+
         let contentTypeRegexps = contentTypes.map
             {
             NSRegularExpression.escapedPatternForString($0)
@@ -61,7 +61,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             {
             case .Success(let entity):
                 contentType = entity.contentType
-            
+
             case .Failure(let error):
                 contentType = error.entity?.contentType
             }
@@ -79,28 +79,28 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 /**
   A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
   next. Transformers in the sequence can be limited by content type.
-  
+
   - SeeAlso: `Service.responseTransformers`
 */
 public struct TransformerSequence
     {
     private var transformers = [ResponseTransformer]()
-    
+
     /// Removes all transformers from this sequence and starts fresh.
     public mutating func clear()
         { transformers.removeAll() }
-    
+
     /**
       Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
       The content type matches regardles of whether the response is a success or failure.
-      
+
       Content type patterns can use `*` to match subsequences. The wildcard does not cross `/` or `+` boundaries.
       Examples:
-      
+
           "text/plain"
           "text/​*"
           "application/​*+json"
-    
+
       The pattern does not match MIME parameters, so `"text/plain"` matches `"text/plain; charset=utf-8"`.
     */
     public mutating func add(
@@ -112,7 +112,7 @@ public struct TransformerSequence
             ContentTypeMatchTransformer(transformer, contentTypes: contentTypes),
             first: first)
         }
-    
+
     /**
       Adds a transformer to the sequence, either at the end (default) or at the beginning.
     */
@@ -148,16 +148,16 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     {
     /**
       A closure that both processes the content and describes the required input and output types.
-    
+
       The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
       error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
     */
     public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
-    
+
     private let processor: Processor
     private let skipWhenEntityMatchesOutputType: Bool
     private let transformErrors: Bool
-    
+
     /**
       - Parameter skipWhenEntityMatchesOutputType:
           When true, if the input content already matches `OutputContentType`, the transformer does nothing.
@@ -187,12 +187,12 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             {
             case .Success(let entity):
                 return processEntity(entity)
-            
+
             case .Failure(let error):
                 return processError(error)
             }
         }
-    
+
     private func processEntity(var entity: Entity) -> Response
         {
         if skipWhenEntityMatchesOutputType && entity.content is OutputContentType
@@ -200,7 +200,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             debugLog(.ResponseProcessing, [self, "ignoring content because it is already a \(OutputContentType.self)"])
             return .Success(entity)
             }
-        
+
         guard let typedContent = entity.content as? InputContentType else
             {
             return logTransformation(
@@ -211,7 +211,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                         actualType: debugStr(entity.content.dynamicType),
                         transformer: self))))
             }
-        
+
         do  {
             let result = try processor(content: typedContent, entity: entity)
             entity.content = result
@@ -236,7 +236,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 {
                 case .Success(let errorDataTransformed):
                     error.entity = errorDataTransformed
-                
+
                 case .Failure(let error):
                     debugLog(.ResponseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])
                 }
@@ -257,13 +257,13 @@ public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTra
         let charsetName = entity.charset ?? "ISO-8859-1"
         let encoding = CFStringConvertEncodingToNSStringEncoding(
             CFStringConvertIANACharSetNameToEncoding(charsetName))
-        
+
         guard encoding != UInt(kCFStringEncodingInvalidId) else
             { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
-            
+
         guard let string = NSString(data: content, encoding: encoding) as? String else
             { throw Error.Cause.UndecodableText(encodingName: charsetName) }
-        
+
         return string
         }
     }
@@ -276,10 +276,10 @@ public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTra
         (content: NSData, entity: Entity) throws -> NSJSONConvertible in
 
         let rawObj = try NSJSONSerialization.JSONObjectWithData(content, options: [.AllowFragments])
-        
+
         guard let jsonObj = rawObj as? NSJSONConvertible else
             { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(rawObj.dynamicType)) }
-        
+
         return jsonObj
         }
     }
@@ -293,7 +293,7 @@ public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseT
 
         guard let image = UIImage(data: content) else
             { throw Error.Cause.UnparsableImage() }
-        
+
         return image
         }
     }

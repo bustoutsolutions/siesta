@@ -18,13 +18,13 @@ public class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
     public let base: NSURL?
-    
+
     internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
-    
+
     /**
       Creates a new service for the given API.
-      
+
       - Parameter base:
           The base URL of the API. If nil, there is no base URL, and thus `resource(_:)` will require absolute URLs.
       - Parameter useDefaultTransformers:
@@ -53,9 +53,9 @@ public class Service: NSObject
         else
             { self.base = nil }
         self.networkingProvider = networking.siestaNetworkingProvider
-        
+
         super.init()
-        
+
         if useDefaultTransformers
             {
             configure(description: "Siesta default response transformers")
@@ -66,15 +66,15 @@ public class Service: NSObject
                 }
             }
         }
-    
+
     /**
       Returns the unique resource with the given URL.
-     
+
       This method will _always_ return the same instance of `Resource` for the same URL within
       the context of a `Service` as long as anyone retains a reference to that resource.
       Unreferenced resources remain in memory (with their cached data) until a low memory event
       occurs, at which point they are summarily evicted.
-      
+
       If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
       return a resource — but that resource will give errors for all requests without touching the network.
     */
@@ -89,7 +89,7 @@ public class Service: NSObject
 
     /**
       Returns the unique resource with the given URL string.
-      
+
       If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
     */
     @objc(resourceWithURLString:)
@@ -107,7 +107,7 @@ public class Service: NSObject
         }
 
     private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
-    
+
     /// Return the unique resource with the given path appended to `baseURL`.
     /// Leading slash is optional, and has no effect.
     @objc(resourceWithPath:)
@@ -116,30 +116,30 @@ public class Service: NSObject
         return resourceWithURL(
             base?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
-    
+
     // MARK: Resource Configuration
-    
+
     internal var configVersion: UInt64 = 0
     private var configurationEntries: [ConfigurationEntry] = []
         {
         didSet { invalidateConfiguration() }
         }
-    
+
     /**
       Applies global configuration to all resources in this service. The `configurer` closure receives a mutable
       `Configuration`, referenced as `$0.config`, which it may modify as it sees fit.
-      
+
       For example:
-      
+
           service.configure { $0.config.headers["Foo"] = "bar" }
-      
+
       The `configurer` block is evaluated every time a matching resource asks for its configuration.
-      
+
       The optional `description` is used for logging purposes only.
-      
+
       Configuration closures apply to any resource they match in the order they were added, whether global or not. That
       means that you will usually want to add your global configuration first, then resource-specific configuration.
-      
+
       - SeeAlso: `configure(_:description:configurer:)`
       - SeeAlso: `invalidateConfiguration()`
     */
@@ -152,22 +152,22 @@ public class Service: NSObject
             description: description,
             configurer: configurer)
         }
-    
+
     /**
       Applies configuration to resources matching the given pattern. You can pass a `String` or `Resource` for the
       `pattern` argument, or provide your own implementation of `ConfigurationPatternConvertible`.
-    
+
       Examples:
-      
+
           configure("/items")    { $0.config.expirationTime = 5 }
           configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
           configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
-          
+
           let user = resource("/user/current")
           configure(user) { $0.config.persistentCache = userProfileCache }
-    
+
       If you need more fine-grained URL matching, use the predicate flavor of this method.
-      
+
       - SeeAlso: `configure(description:configurer:)` for global config
       - SeeAlso: `invalidateConfiguration()`
     */
@@ -181,7 +181,7 @@ public class Service: NSObject
             description: description ?? pattern.configurationPatternDescription,
             configurer: configurer)
         }
-    
+
     /**
       Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configure()`
       aren’t robust enough.
@@ -198,14 +198,14 @@ public class Service: NSObject
         configurationEntries.append(entry)
         debugLog(.Configuration, ["Added", entry])
         }
-    
+
     /**
       A convenience to add a one-off content transformer.
-      
+
       Useful for transformers that create model objects. For example:
-      
+
           configureTransformer("/foo/​*") { FooModel(json: $0) }
-      
+
       - SeeAlso: ResponseContentTransformer
     */
     public final func configureTransformer<I,O>(
@@ -219,23 +219,23 @@ public class Service: NSObject
                 ResponseContentTransformer(processor: contentTransform))
             }
         }
-    
+
     private var configID = 0
     private var nextConfigID: Int { return configID++ }
-    
+
     /**
       Signals that all resources need to recompute their configuration next time they need it.
-      
+
       Because the `configure(...)` methods accept an arbitrary closure, it is possible that the results of
       that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
       if you do anything that would change the result of a configuration closure, you must call
       `invalidateConfiguration()` in order for the changes to take effect.
-      
+
       _《insert your functional programming purist rant here if you so desire》_
 
       Note that you do _not_ need to call this method after calling any of the `configure(...)` methods.
       You only need to call it if one of the previously passed closures will now behave differently.
-    
+
       For example, to make a header track the value of a modifiable property:
 
           var flavor: String {
@@ -248,7 +248,7 @@ public class Service: NSObject
               $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
           }
-    
+
       Note that this method does _not_ immediately recompute all existing configurations. This is an inexpensive call.
       Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
       over subsequent resource interactions.
@@ -258,12 +258,12 @@ public class Service: NSObject
         if anyConfigSinceLastInvalidation
             { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
-        
+
         configVersion++
         }
 
     private var anyConfigSinceLastInvalidation = false
-    
+
     internal func configurationForResource(resource: Resource) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
@@ -277,19 +277,19 @@ public class Service: NSObject
             }
         return builder.config
         }
-    
+
     private struct ConfigurationEntry: CustomStringConvertible
         {
         let description: String
         let configurationPattern: NSURL -> Bool
         let configurer: Configuration.Builder -> Void
         }
-    
+
     // MARK: Wiping state
-    
+
     /**
       Wipes the state of this service’s resources. Typically used to handle logout.
-      
+
       Applies to resources matching the predicate, or all resources by default.
     */
     public final func wipeResources(predicate: Resource -> Bool =  { _ in true })
@@ -310,10 +310,10 @@ public class Service: NSObject
         {
         wipeResourcesMatchingURL(pattern.configurationPattern(self))
         }
-    
+
     /**
       Wipes the state of a subset of this service’s resources, matching based on URLs (instead of `Resource` instances).
-      
+
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
     */
     public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
@@ -325,10 +325,10 @@ public class Service: NSObject
 
 /**
   A type that can serve as a URL matcher for service configuration.
-  
+
   Siesta provides implementations of this protocol for `String` (for glob-based matching) and `Resource` (to configure
   one specific resource).
-  
+
   - SeeAlso: `Service.configure(_:description:configurer:)`
   - SeeAlso: `String.configurationPattern(_:)`
   - SeeAlso: `Resource.configurationPattern(_:)`
@@ -337,7 +337,7 @@ public protocol ConfigurationPatternConvertible
     {
     /// Turns the receiver into a predicate that matches URLs.
     func configurationPattern(service: Service) -> NSURL -> Bool
-    
+
     /// A logging-friendly description of the receiver when it acts as a URL pattern.
     var configurationPatternDescription: String { get }
     }
@@ -349,21 +349,21 @@ extension String: ConfigurationPatternConvertible
     {
     /**
       Matches URLs using shell-like wildcards / globs.
-    
+
       The `urlPattern` is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. `http:`).
       If it is relative, the leading slash is optional.
-      
+
       The pattern supports two wildcards:
-      
+
       - `*` matches zero or more characters within a path segment, and
       - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
-      
+
       Examples:
-      
+
       - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
       - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
       - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
-    
+
       The pattern ignores the resource’s query string.
     */
     public func configurationPattern(service: Service) -> NSURL -> Bool
@@ -371,13 +371,13 @@ extension String: ConfigurationPatternConvertible
         // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
         // If the service has no baseURL, interpret the pattern as absolure.
         // Otherwise, interpret pattern as relative to baseURL.
-        
+
         let resolvedPattern: String
         if let prefix = service.base?.absoluteString where !containsRegex("^[a-z]+:")
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }
-        
+
         let pattern = NSRegularExpression.compile(
             "^"
             + NSRegularExpression.escapedPatternForString(resolvedPattern)
@@ -386,7 +386,7 @@ extension String: ConfigurationPatternConvertible
                 .replaceString("\\*",       "[^/:?]*")
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
-        
+
         return { pattern.matches($0.absoluteString) }
         }
 

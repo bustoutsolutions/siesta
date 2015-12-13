@@ -20,28 +20,28 @@ public enum LogCategory: String
 
     /// Details of network requests, including headers and bodies.
     case NetworkDetails
-    
+
     /// Details of how the `ResponseTransformer` parses responses.
     case ResponseProcessing
-    
+
     /// `ResourceEvent` broadcast by resources.
     case StateChanges
-    
+
     /// Detailed information about which events are sent to which observers, when they are added, and when they are
     /// removed.
     case Observers
-    
+
     /// Information about how `Resource.loadIfNeeded()` decides whether to initiate a request.
     case Staleness
-    
+
     /// Details of when resource data is read from & saved to a persistent cache
     case Cache
-    
+
     /// Details of which configuration matches which resources, and when it is computed.
     case Configuration
 
     // MARK: Predefined subsets
-    
+
     /// A reasonable subset of log categories for normal debugging.
     public static let common: Set<LogCategory> = [Network, StateChanges, Staleness]
 
@@ -63,4 +63,3 @@ internal func debugLog(category: LogCategory, @autoclosure _ messageParts: () ->
     if enabledLogCategories.contains(category)
         { logger(category, debugStr(messageParts())) }
     }
-

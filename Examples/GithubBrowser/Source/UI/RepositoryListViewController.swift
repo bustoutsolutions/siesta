@@ -14,7 +14,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     var repoList: Resource? {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
-            
+
             repoList?.addObserver(self)
                      .addObserver(statusOverlay, owner: self)
                      .loadIfNeeded()
@@ -22,7 +22,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     }
 
     var statusOverlay = ResourceStatusOverlay()
-    
+
     func resourceChanged(resource: Siesta.Resource, event: Siesta.ResourceEvent) {
         tableView.reloadData()
     }
@@ -31,14 +31,14 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         super.viewDidLoad()
 
         statusOverlay.embedIn(self)
-        
+
         self.clearsSelectionOnViewWillAppear = false
     }
 
     override func viewDidLayoutSubviews() {
         statusOverlay.positionToCoverParent()
     }
-    
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -62,4 +62,3 @@ class RepositoryTableViewCell: UITableViewCell {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var repoLabel: UILabel!
 }
-

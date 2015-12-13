@@ -13,7 +13,7 @@ extension TypedContentAccessors {
     /**
       Adds a `.json` convenience property to resources that returns a SwiftyJSON `JSON` wrapper.
       If there is no data, then the property returns `JSON([:])`.
-      
+
       Note that by default, Siesta parses data based on content type. This accessor is only a way
       of conveniently donwcasting and defaulting the data that Siesta has already parsed. (Parsing
       happens off the main thread in a GCD queue, never in response one of these content accessors.)

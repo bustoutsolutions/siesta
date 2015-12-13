@@ -17,35 +17,35 @@ public struct Entity
     /**
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
-      
+
       Why is the type of this property `Any` instead of a generic `T`? Because a `<T>` declaration would mean
       “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
       Swift at _compile time_ what content type a server will actually send at _runtime_.
-      
+
       The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That is
       exactly what Swift’s `as?` operator does — and any scheme involving a generic `<T>` ends up being an obfuscated
       equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
       Crash-o-Matic.”
-      
+
       In short, when using `content`, write your code to handle it being of an unexpected type.
-      
+
       - SeeAlso: `Resource.contentAsType(ifNone: _:)`
     */
     public var content: Any
-    
+
     /**
       The type of data contained in the content.
-      
+
       If the content was parsed into a data structure, this property typically contains the type of the original raw
       data. For example, the type might be `application/json` even though `content` is a `Dictionary` and no longer the
       original JSON text data.
-      
+
       This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
       for example, you might see “`text/plain`”, “`text/plain; charset=utf-8`”, or even “`text/foo+plain`”.
     */
     public var contentType: String
         { return headers["content-type"] ?? "application/octet-stream" }
-    
+
     /**
       The charset given with the content type, if any.
     */
@@ -58,10 +58,10 @@ public struct Entity
         { return headers["etag"] }
 
     internal var headers: [String:String]
-    
+
     /// The time at which this data was last known to be valid.
     public private(set) var timestamp: NSTimeInterval
-    
+
     internal init(
             content: Any,
             charset: String? = nil,
@@ -71,7 +71,7 @@ public struct Entity
         self.content = content
         self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
         self.charset = charset
-        
+
         if let timestamp = timestamp
             { self.timestamp = timestamp }
         else
@@ -80,7 +80,7 @@ public struct Entity
             self.touch()
             }
         }
-    
+
     /**
       Extracts data from a network response.
     */
@@ -88,16 +88,16 @@ public struct Entity
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
-        
+
         self.init(
             content: content,
             charset: response?.textEncodingName,
             headers: headers)
         }
-    
+
     /**
       For creating ad hoc data locally.
-      
+
       - SeeAlso: `Resource.overrideLocalData(_:)`
     */
     public init(
@@ -107,20 +107,20 @@ public struct Entity
             var headers: [String:String] = [:])
         {
         headers["Content-Type"] = contentType
-        
+
         self.init(content:content, charset:charset, headers:headers)
         }
-    
+
     /**
       Returns the value of the HTTP header with the given key.
-      
+
       Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).
-      
+
       - Parameter key: The case-insensitive header name.
     */
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
-    
+
     /// Updates `timestamp` to the current time.
     public mutating func touch()
         { timestamp = now() }
@@ -129,9 +129,9 @@ public struct Entity
 
 /**
   Mixin that provides convenience accessors for the content of an optional contained entity.
-  
+
   Allows you to replace the following:
-  
+
       resource.latestData?.content as? String
       (resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
 
@@ -141,13 +141,13 @@ public struct Entity
       resource.latestError?.jsonDict["error.detail"]
 
   You can extend this protocol to provide your own convenience accessors. For example:
-  
+
       extension TypedContentAccessors {
         var doorknob: UIDoorknob {
           return contentAsType(ifNone: placeholderKnob))
         }
       }
-  
+
   Note that the sample code above is _only_ a convenience accessor. It checks whether the entity already has a
   `UIDoorknob`, but does not do any parsing to put a `UIDoorknob` there in the first place. You’d need to pair this with
   a custom `ResponseTransformer` that converts raw doorknob responses to `UIDoorknob`s.
@@ -163,11 +163,11 @@ public extension TypedContentAccessors
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
       Returns the content if it can be downcast to the same type as `blankValue`; otherwise returns `ifNone`.
-     
+
       For example, if you expect the content to be a UIImage:
-     
+
           let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
-     
+
       - SeeAlso: `ResponseTransformer`
     */
     public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
@@ -180,10 +180,10 @@ public extension TypedContentAccessors
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
-    
+
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
     public var jsonDict: [String:AnyObject] { return contentAsType(ifNone: [:]) }
-    
+
     /// Returns content if it is an array; otherwise returns an empty array.
     public var jsonArray: [AnyObject]       { return contentAsType(ifNone: []) }
 

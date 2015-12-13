@@ -14,7 +14,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
     {
     private var entriesByKey = [K : WeakCacheEntry<V>]()
     private var lowMemoryObserver: AnyObject? = nil
-    
+
     init()
         {
         lowMemoryObserver =
@@ -27,7 +27,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             self?.flushUnused()
             }
         }
-    
+
     deinit
         {
         if let lowMemoryObserver = lowMemoryObserver
@@ -43,7 +43,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             return value
             }()
         }
-    
+
     func flushUnused()
         {
         for (key, entry) in entriesByKey
@@ -56,26 +56,26 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
                 }
             }
         }
-    
+
     var entries: AnySequence<(K,V)>
         {
         return AnySequence(
             entriesByKey.flatMap
                 {
                 (key, entry) -> (K,V)? in
-                
+
                 if let value = entry.value
                     { return (key, value) }
                 else
                     { return nil }
                 })
         }
-    
+
     var keys: AnySequence<K>
         {
         return AnySequence(entries.map { $0.0 })
         }
-    
+
     var values: AnySequence<V>
         {
         return AnySequence(entries.map { $0.1 })
@@ -85,18 +85,18 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 private final class WeakCacheEntry<V: AnyObject>
     {
     private var ref: StrongOrWeakRef<V>
-    
+
     init(_ value: V)
         {
         ref = StrongOrWeakRef(value)
         }
-    
+
     var value: V?
         {
         ref.strong = true
         return ref.value
         }
-    
+
     func allowRemoval()
         {
         ref.strong = false

@@ -11,7 +11,7 @@ import Foundation
 /**
   A ready-made UI component to show an activity indicator and/or error message for a set of `Resource`s. Add this view
   as an observer of one or more resources. You can add it to your view hierarchy yourself, or use `embedIn(_:)`
-  
+
   An overlay can be in exactly one of three states: **loading**, **success**, or **error**. It shows and hides child
   views depending on which state it’s in. The `displayPriority` property governs these states.
 */
@@ -19,28 +19,28 @@ import Foundation
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
     // MARK: Child views
-    
+
     /// A view that is visible in the loading and error states, and hidden in the success state.
     @IBOutlet public var containerView: UIView?
-    
+
     /// A view that is visible in the loading state, and hidden in all other states.
     @IBOutlet public var loadingIndicator: UIView?
-    
+
     /// A view that is visible in the error state, and hidden in all other states.
     @IBOutlet public var errorView: UIView?
-    
+
     /// Displays a generic message stating that an error occurred. You can change the text of this label to taste.
     @IBOutlet public var errorHeadline: UILabel?
-    
+
     /// Displays `Error.userMessage`.
     @IBOutlet public var errorDetail: UILabel?
-    
+
     private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
     private var retryRequestsInProgress = 0
-    
+
     // MARK: Creating an overlay
-    
+
     /**
       Creates a status overlay with the default layout.
     */
@@ -48,7 +48,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         self.init(nibName: "ResourceStatusOverlay", bundle: NSBundle(forClass: ResourceStatusOverlay.self))
         }
-    
+
     /**
       Creates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
       `@IBOutlet`s as it likes.
@@ -58,9 +58,9 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             bundle: NSBundle = NSBundle.mainBundle())
         {
         self.init(frame: CGRectZero)
-        
+
         bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
-        
+
         if let containerView = containerView
             {
             addSubview(containerView)
@@ -68,7 +68,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth,
                                               UIViewAutoresizing.FlexibleHeight]
             }
-        
+
         showSuccess()
         }
 
@@ -77,16 +77,16 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     */
     override init(frame: CGRect)
         { super.init(frame: frame) }
-    
+
     /**
       Create an overlay with a programmatic or serialized layout.
     */
     public required init?(coder: NSCoder)
         { super.init(coder: coder) }
-    
-    
+
+
     // MARK: Layout
-    
+
     /**
       Place this child inside the given view controller’s view, and position it so that it covers the entire bounds.
       Be sure to call `positionToCoverParent()` from your `viewDidLayoutSubviews()` method.
@@ -94,17 +94,17 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     public func embedIn(parentViewController: UIViewController) -> Self
         {
         parentVC = parentViewController
-        
+
         layer.zPosition = 10000
         parentVC?.view.addSubview(self)
-        
+
         backgroundColor = parentVC?.view.backgroundColor
-        
+
         positionToCoverParent()
-        
+
         return self
         }
-    
+
     /**
       Repositions this view to conver the view controller’s content area. Has no effect unless this overlay was embedded
       using `embedIn(_:)`.
@@ -130,7 +130,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         positionToCoverRect(view.bounds, inView: view)
         }
-    
+
     /**
       Positions this view within its current superview so that it covers the given rect in the local coordinates of the
       given view. Has no effect if the overlay has no superview.
@@ -147,46 +147,46 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             frame = CGRectMake(ul.x, ul.y, br.x - ul.x, br.y - ul.y)  // Doesn’t handle crazy transforms. Too bad so sad!
             }
         }
-    
+
     // MARK: State transition logic
-    
+
     /**
       Changes the logic for determining whether an error message, a loading indicator, or existing data take precedence.
-      
+
       The default priority is:
-      
+
           [.Loading, .Error, .AnyData]
-    
+
       If you instead prefer to _always_ show existing data, even if it is stale:
 
           [.AnyData, .Loading, .Error]  // What I think you want?
 
       If you have a timer refreshing a resource periodically in the background and don’t want that to trigger a loading
       indicator, but you _do_ want a manual refresh to show the indicator, then use:
-      
+
           [.ManualLoading, .AnyData, .Error, .Loading]
-    
+
       …and call `trackManualLoad(_:)` with your user-initiated request.
     */
     public var displayPriority: [StateRule] = [.Loading, .Error, .AnyData]
 
     /**
       Arbitrarily prioritizable rules for governing the behavior of `ResourceStatusOverlay`.
-      
+
       - SeeAlso: `ResourceStatusOverlay.displayPriority`
     */
     public enum StateRule: String
         {
         /// If `Resource.isLoading` is true for any observed resources, enter the **loading** state.
         case Loading
-        
+
         /// If any request passed to `ResourceStatusOverlay.trackManualLoad(_:)` is still in progress,
         /// enter the **loading** state.
         case ManualLoading
-        
+
         /// If `Resource.latestData` is non-nil for _any_ observed resources, enter the **success** state.
         case AnyData
-        
+
         /// If `Resource.latestData` is non-nil for _all_ observed resources, enter the **success** state.
         case AllData
 
@@ -194,16 +194,16 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         /// If multiple observed resources have errors, pick one arbitrarily to show its error message.
         case Error
         }
-    
+
     /// :nodoc:
     public func resourceChanged(resource: Resource, event: ResourceEvent)
         {
         if case .ObserverAdded = event
             { observedResources.append(resource) }
-        
+
         updateDisplay()
         }
-    
+
     private func updateDisplay()
         {
         for mode in displayPriority
@@ -213,25 +213,25 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
                 case .Loading:
                     if observedResources.any({ $0.isLoading })
                         { return showLoading() }
-                
+
                 case .ManualLoading:
                     if retryRequestsInProgress > 0
                         { return showLoading() }
-                
+
                 case .AnyData:
                     if observedResources.any({ $0.latestData != nil })
                         { return showSuccess() }
-                
+
                 case .AllData:
                     if observedResources.all({ $0.latestData != nil })
                         { return showSuccess() }
-                
+
                 case .Error:
                     if let error = observedResources.flatMap({ $0.latestError }).first
                         { return showError(error) }
                 }
             }
-        
+
         showSuccess()
         }
 
@@ -240,7 +240,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         observedResources = observedResources.filter { $0 !== resource }
         }
-    
+
     private func showError(error: Error)
         {
         hidden = false
@@ -263,7 +263,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         loadingIndicator?.hidden = true
         hidden = true
         }
-    
+
     // MARK: Retry & reload
 
     /// Call `loadIfNeeded()` on any resources with errors that this overlay is observing.
@@ -276,18 +276,18 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
                     { trackManualLoad(retryReq) }
                 }
         }
-    
+
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
     public func trackManualLoad(request: Request)
         {
         ++retryRequestsInProgress
         updateDisplay()
-        
+
         request.completion
             {
             [weak self] _ in
             guard let overlay = self else { return }
-            
+
             --overlay.retryRequestsInProgress
             overlay.updateDisplay()
             }

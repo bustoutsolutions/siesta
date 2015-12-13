@@ -11,7 +11,7 @@ import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
-    
+
 public class SiestaSpec: QuickSpec
     {
     public override func spec()
@@ -21,19 +21,19 @@ public class SiestaSpec: QuickSpec
             Siesta.enabledLogCategories = LogCategory.all
             Siesta.logger = { currentLogMessages.append($1) }
             }
-        
+
         beforeEach
             {
             currentTestFailed = false
             currentLogMessages.removeAll(keepCapacity: true)
             }
-        
+
         afterEach
             {
             (exampleMetadata: Quick.ExampleMetadata) in
-            
+
             resultsAggregator.recordResult(self, example: exampleMetadata.example, passed: !currentTestFailed)
-            
+
             if currentTestFailed
                 {
                 print("Log output for spec:")
@@ -44,13 +44,13 @@ public class SiestaSpec: QuickSpec
                 print("")
                 }
             }
-        
+
         afterSuite
             {
             resultsAggregator.flush()
             }
         }
-    
+
     public override func recordFailureWithDescription(description: String, inFile filePath: String, atLine lineNumber: UInt, expected: Bool)
         {
         currentTestFailed = true
@@ -65,20 +65,20 @@ private class ResultsAggregator
     {
     private var results: Result = Result(name: "Root")
     private var resultsDirty = false
-    
+
     func flush()
         {
         if !resultsDirty
             { return }
-        
+
         let json = ["results": results.toJson["children"] as! NSArray]
         let jsonData = try! NSJSONSerialization.dataWithJSONObject(json, options: [])
         if !jsonData.writeToFile("/tmp/siesta-spec-results.json", atomically: true)
             { print("unable to write spec results json") }
-        
+
         resultsDirty = false
         }
-    
+
     func recordResult(spec: QuickSpec, example: Example, passed: Bool)
         {
         recordResult(
@@ -88,7 +88,7 @@ private class ResultsAggregator
             passed: passed)
         resultsDirty = true
         }
-    
+
     private func recordResult(path: [String], subtree: Result, callsite: Quick.Callsite, passed: Bool)
         {
         if let pathComponent = path.first
@@ -105,7 +105,7 @@ private class ResultsAggregator
             subtree.passed = passed
             }
         }
-    
+
     private func specDescription(spec: QuickSpec) -> String
         {
         return spec.dynamicType.description()
@@ -120,10 +120,10 @@ private class Result
     var callsite: Quick.Callsite?
     var passed: Bool?
     var children: [Result] = []
-    
+
     init(name: String)
         { self.name = name }
-    
+
     func child(named: String) -> Result
         {
         for child in children
@@ -133,7 +133,7 @@ private class Result
         children.append(newChild)
         return newChild
         }
-    
+
     var toJson: NSDictionary
         {
         var json: [String:AnyObject] = ["name": name]

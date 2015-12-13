@@ -14,7 +14,7 @@ class _GithubAPI: Service {
 
     private init() {
         super.init(base: "https://api.github.com")
-        
+
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.common
                 // Also try:
@@ -22,13 +22,13 @@ class _GithubAPI: Service {
                 //   [.Network]
                 //   [.Network, .NetworkDetails]
         #endif
-        
+
         configure {
             $0.config.headers["Authorization"] = self.basicAuthHeader
             $0.config.responseTransformers.add(GithubErrorMessageExtractor())
         }
     }
-    
+
     private var basicAuthHeader: String? {
         let env = NSProcessInfo.processInfo().environment
         if let username = env["GITHUB_USER"],
@@ -39,9 +39,9 @@ class _GithubAPI: Service {
             return nil
         }
     }
-    
+
     // Resource convenience accessors
-    
+
     func user(username: String) -> Resource {
         return resource("users").child(username)
     }
@@ -52,7 +52,7 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
         switch response {
             case .Success:
                 return response
-            
+
             case .Failure(var error):
                 error.userMessage = error.json["message"].string ?? error.userMessage
                 return .Failure(error)

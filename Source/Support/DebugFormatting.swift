@@ -17,19 +17,19 @@ internal func debugStr(
     {
     guard let x = x else
         { return "–" }
-    
+
     var s: String
     if let debugPrintable = x as? CustomDebugStringConvertible
         { s = debugPrintable.debugDescription ?? "–" }
     else
         { s = "\(x)" }
-    
+
     if consolidateWhitespace
         { s = s.replaceRegex(whitespacePat, " ") }
-    
+
     if let truncate = truncate where s.characters.count > truncate
         { s = s.substringToIndex(s.startIndex.advancedBy(truncate)) + "…" }
-    
+
     return s
     }
 
@@ -52,10 +52,10 @@ internal func debugStr(
 internal func dumpHeaders(headers: [String:String], indent: String = "") -> String
     {
     var result = "\n" + indent + "headers: (\(headers.count))"
-    
+
     for (k,v) in headers
         { result += "\n" + indent + "  \(k): \(v)" }
-    
+
     return result
     }
 
@@ -83,7 +83,7 @@ extension Entity
         result += formattedContent.replaceRegex("^|\n", "$0  " + indent)
         return result
         }
-    
+
     private var formattedContent: String
         {
         if let jsonContent = content as? NSJSONConvertible

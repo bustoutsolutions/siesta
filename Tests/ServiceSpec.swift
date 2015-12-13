@@ -15,11 +15,11 @@ class ServiceSpec: SiestaSpec
     override func spec()
         {
         super.spec()
-        
+
         let service   = specVar { Service(base: "https://zingle.frotz") }
         let resource0 = specVar { service().resource("/foo") },
             resource1 = specVar { service().resource("/bar") }
-        
+
         describe("init()")
             {
             it("enforces a trailing slash on baseURL")
@@ -29,7 +29,7 @@ class ServiceSpec: SiestaSpec
                 expect("http://foo.bar/baz") .to(expandToBaseURL("http://foo.bar/baz/"))
                 expect("http://foo.bar/baz/").to(expandToBaseURL("http://foo.bar/baz/"))
                 }
-                
+
             it("preserves baseURL query parameters")
                 {
                 expect("http://foo.bar?you=mysunshine")     .to(expandToBaseURL("http://foo.bar/?you=mysunshine"))
@@ -37,11 +37,11 @@ class ServiceSpec: SiestaSpec
                 expect("http://foo.bar/baz?you=mysunshine") .to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 expect("http://foo.bar/baz/?you=mysunshine").to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 }
-            
+
             context("with no baseURL")
                 {
                 let bareService = specVar { Service() }
-                
+
                 it("returns a nil baseURL")
                     {
                     expect(bareService().base).to(beNil())
@@ -65,7 +65,7 @@ class ServiceSpec: SiestaSpec
                     }
                 }
             }
-        
+
         describe("resource()")
             {
             it("returns a resource that belongs to this service")
@@ -73,7 +73,7 @@ class ServiceSpec: SiestaSpec
                 expect(service().resource("/foo").service)
                     .to(equal(service()))
                 }
-            
+
             it("resolves all paths as subpaths of baseURL")
                 {
                 // Note that checkPathExpansion tests both with & without leading slash
@@ -92,13 +92,13 @@ class ServiceSpec: SiestaSpec
                 checkPathExpansion("https://foo.bar/v1", path:"baz/.",  expect:"https://foo.bar/v1/baz/.")
                 checkPathExpansion("https://foo.bar/v1", path:"baz/..", expect:"https://foo.bar/v1/baz/..")
                 }
-            
+
             it("preserves baseURL query params")
                 {
                 checkPathExpansion("https://foo.bar/?a=b&x=y",   path:"baz/fez/", expect:"https://foo.bar/baz/fez/?a=b&x=y")
                 checkPathExpansion("https://foo.bar/v1?a=b&x=y", path:"baz",      expect:"https://foo.bar/v1/baz?a=b&x=y")
                 }
-            
+
             it("gives a non-nil but invalid resource for invalid URLs")
                 {
                 expectInvalidResource(service().resourceWithURL("http://[URL syntax error]"))
@@ -107,7 +107,7 @@ class ServiceSpec: SiestaSpec
                 expectInvalidResource(service().resourceWithURL(nil as String?))
                 }
             }
-        
+
         describe("caching")
             {
             it("gives the same Resource instance for the same path")
@@ -115,14 +115,14 @@ class ServiceSpec: SiestaSpec
                 expect(service().resource("/foo"))
                     .to(beIdenticalTo(service().resource("/foo")))
                 }
-            
+
             it("gives the same Resource instance no matter how it’s constructed")
                 {
                 expect(service().resource("/foo").child("oogle").child("baz").relative("../bar"))
                     .to(beIdenticalTo(service().resource("/foo/bar")))
                 }
             }
-        
+
         describe("configuration")
             {
             it("applies global config to all resources")
@@ -145,7 +145,7 @@ class ServiceSpec: SiestaSpec
                 expect(resource0().config.expirationTime).to(equal(17))
                 expect(resource1().config.expirationTime).to(equal(30))
                 }
-            
+
             it("applies predicate config only to matching resources")
                 {
                 service().configure({ $0.absoluteString.hasSuffix("foo") })
@@ -153,7 +153,7 @@ class ServiceSpec: SiestaSpec
                 expect(resource0().config.expirationTime).to(equal(17))
                 expect(resource1().config.expirationTime).to(equal(30))
                 }
-            
+
             context("using wilcards")
                 {
                 func checkPattern(
@@ -165,19 +165,19 @@ class ServiceSpec: SiestaSpec
                         service: Service  = Service(base: "https://foo.bar/v1"))
                     {
                     service.configure(pattern) { $0.config.expirationTime = 6 }
-                    
+
                     var resource = absolute
                         ? service.resourceWithURL(pathOrURL)
                         : service.resource(pathOrURL)
                     for (k,v) in params
                         { resource = resource.withParam(k, v) }
-                    
+
                     let actual = resource.config.expirationTime,
                         expected = matches ? 6.0 : 30.0,
                         matchword = matches ? "to" : "not to"
                     XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
                     }
-                
+
                 it("matches against the base URL")
                     {
                     checkPattern("fez",  matches: true,  "/fez")
@@ -186,19 +186,19 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/fez", matches: false, "/sombrero/fez")
                     checkPattern("/fez", matches: false, "/sombrero/https://foo.bar/v1/fez")
                     }
-                
+
                 it("matches full URLs")
                     {
                     checkPattern("https://foo.com/*/fez", matches: false, "/fez")
                     checkPattern("https://foo.com/*/fez", matches: true,  "https://foo.com/v1/fez", absolute: true)
                     }
-                
+
                 it("ignores a leading slash")
                     {
                     checkPattern("hither/thither", matches: true, "/hither/thither")
                     checkPattern("/hither/thither", matches: true, "hither/thither")
                     }
-                
+
                 it("matches path segments with *")
                     {
                     checkPattern("/*",     matches: true,  "/hither")
@@ -215,7 +215,7 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/*x*/c", matches: true,  "/foxy/c")
                     checkPattern("/*x*/c", matches: false, "/fozzy/c")
                     }
-                
+
                 it("matches across segments with **")
                     {
                     checkPattern("/**",     matches: true,  "/")
@@ -236,22 +236,22 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/*/b",  matches: true, "/a/b", params: ["foo": "bar"])
                     checkPattern("/**/b", matches: true, "/a/b", params: ["foo": "bar"])
                     }
-                
+
                 it("handles service with no baseURL")
                     {
                     func checkBareServicePattern(pattern: String, matches: Bool, _ url: String)
                         { checkPattern(pattern, matches: matches, url, absolute: true, service: Service()) }
-                    
+
                     checkBareServicePattern("/foo", matches: true,  "/foo")
                     checkBareServicePattern("/foo", matches: false, "foo")
                     checkBareServicePattern("foo",  matches: false, "/foo")
                     checkBareServicePattern("foo",  matches: true,  "foo")
-                    
+
                     checkBareServicePattern("/foo", matches: false, "http://bar.baz/foo")
                     checkBareServicePattern("http://bar.baz/*", matches: true, "http://bar.baz/foo")
                     }
                 }
-            
+
             it("changes when service config added")
                 {
                 expect(resource0().config.expirationTime).to(equal(30))
@@ -280,28 +280,28 @@ class ServiceSpec: SiestaSpec
                 resource0().overrideLocalData(Entity(content: "foo content", contentType: "text/plain"))
                 resource1().overrideLocalData(Entity(content: "bar content", contentType: "text/plain"))
                 }
-            
+
             it("wipes all resources by default")
                 {
                 service().wipeResources()
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).to(beNil())
                 }
-            
+
             it("can wipe a specific resource")
                 {
                 service().wipeResources(resource0())
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }
-            
+
             it("wipes only resources matching a pattern")
                 {
                 service().wipeResources("/*o*")
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }
-            
+
             it("wipes only resources matched by predicate")
                 {
                 service().wipeResources() { $0 === resource1() }
@@ -337,7 +337,7 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
     return MatcherFunc
         {
         inputs, failureMessage in
-        
+
         let (base, resourcePath) = try! inputs.evaluate()!,
             service = Service(base: base),
             resource = service.resource(resourcePath),
