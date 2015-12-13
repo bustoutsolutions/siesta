@@ -31,6 +31,9 @@
 
   Siesta currently does not include any implementations of `EntityCache`, but a future version will.
 
+  - Warning: Siesta calls `EntityCache` methods on a GCD background queue, so your implementation **must be
+             thread-safe**.
+
   - SeeAlso: `Configuration.persistentCache`
 */
 public protocol EntityCache
@@ -70,6 +73,9 @@ public protocol EntityCache
   A strategy for transforming `Entity` instances to and from raw byte data.
 
   Provided primarily to help `EntityCache` implementations.
+
+  - Warning: When used with an `EntityCache`, these methods will run on a GCD background queue, so your implementation
+             **must be thread-safe**.
 */
 public protocol EntityEncoder
     {

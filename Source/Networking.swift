@@ -17,9 +17,16 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
     /**
       Start the given request asynchronously, and return a `RequestNetworking` to control the request.
 
-      Implementations **must** guarante that they will call the given response closure exactly once.
-
       If the request is cancelled, call the response closure with an error.
+
+      - Note:
+
+        This method will be called on the main thread. It is the implementation’s responsibility to ensure that
+        network requests run asynchronously.
+
+        Implementations may call the `completion` from a background thread.
+
+      - Warning: Implementations **must** guarante that they will call the `completion` closure exactly once.
     */
     func startRequest(
             request: NSURLRequest,

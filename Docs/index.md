@@ -6,9 +6,10 @@
 - [Requests](requests.md)
 - [Configuration](configuration.md)
 - [Security](security.md)
-- [UI Components](ui-components.md)
 - [Memory Management](memory.md)
+- [Threading](threading.md)
 - [Logging](logging.md)
+- [UI Components](ui-components.md)
 - [Using Siesta from Objective-C](objc.md)
 - [FAQ](faq.md)
 

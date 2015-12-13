@@ -10,8 +10,8 @@
   Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
   a chain of transformers before being sent to response hooks or observers.
 
-  Note that transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
-  transformer touches only its input parameter.
+  - Warning: Transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
+             transformer touches only its input parameters.
 */
 public protocol ResponseTransformer
     {
