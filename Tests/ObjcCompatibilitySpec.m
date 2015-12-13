@@ -25,38 +25,38 @@
     {
     // These specs are mostly just concerned with whether the code compiles.
     // They don't make many assertions about behavior, which is tested elsewhere.
-    
+
     __block BOSService *service;
     __block BOSResource *resource;
-    
+
     beforeEach(^
         {
         service = [[TestService alloc] init];
         resource = [service resourceWithPath:@"/foo"];
         });
-    
+
     afterEach(^
         {
         service = nil;
         resource = nil;
         });
-    
+
     beforeSuite(^{ [LSNocilla.sharedInstance start]; });
     afterSuite( ^{ [LSNocilla.sharedInstance stop]; });
     afterEach(  ^{ [LSNocilla.sharedInstance clearStubs]; });
-    
+
     it(@"handles resource paths", ^
         {
         [resource child:@"bar"];
         [resource relative:@"../bar"];
         [resource withParam:@"foo" value:@"bar"];
         });
-    
+
     it(@"handles requests", ^
         {
         stubRequest(@"GET", @"http://example.api/foo").andReturn(200);
         stubRequest(@"POST", @"http://example.api/foo").andReturn(200);
-        
+
         expect([resource loadIfNeeded]).notTo(beNil());
         [resource load];
         [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
@@ -68,7 +68,7 @@
         [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
         [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
         [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
-        
+
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         BOSRequest *req = [[[[[[resource load]
             completion:
@@ -81,7 +81,7 @@
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         [req cancel];
         });
-    
+
     context(@"converting into Swift’s typesafe world", ^
         {
         void (^expectImmediateFailure)(BOSRequest*) = ^(BOSRequest *request)
@@ -96,7 +96,7 @@
             [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
             XCTAssert(immediatelyFailed);
             };
-        
+
         it(@"handles invalid request method strings", ^
             {
             expectImmediateFailure(
@@ -109,22 +109,22 @@
                 [resource requestWithMethod:@"POST" json:[[UIView alloc] init]]);
             });
         });
-    
+
     it(@"handles resource data", ^
         {
         stubRequest(@"GET", @"http://example.api/foo")
             .andReturn(200)
             .withHeader(@"Content-type", @"application/json")
             .withBody(@"{\"foo\": \"bar\"}");
-        
+
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
-        
+
         expect(resource.jsonDict).to(equal(@{ @"foo": @"bar" }));
         expect(resource.jsonArray).to(equal(@[]));
         expect(resource.text).to(equal(@""));
-        
+
         BOSEntity *entity = resource.latestData;
         expect(entity.content).to(equal(@{ @"foo": @"bar" }));
         expect(entity.contentType).to(equal(@"application/json"));
@@ -135,39 +135,39 @@
         entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack"];
         entity = [[BOSEntity alloc] initWithContent:@"Homespun" contentType:@"knick/knack" headers: @{}];
         [resource overrideLocalData:entity];
-        
+
         expect(resource.latestError).to(beNil());
         });
 
     it(@"handles HTTP errors", ^
         {
         stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
-        
+
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [[resource load] failure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
-        
+
         BOSError *error = resource.latestError;
         expect(error.userMessage).to(equal(@"Server error"));
         expect(@(error.httpStatusCode)).to(equal(@507));
 
         expect(resource.latestData).to(beNil());
         });
-    
+
     it(@"handles other errors", ^
         {
         BOSRequest *req = [resource loadUsingRequest:
             [resource requestWithMethod:@"POST" json:@{@"Foo": [[UIButton alloc] init]}]];
-        
+
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [req failure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
-        
+
         BOSError *error = resource.latestError;
         expect(error.userMessage).to(equal(@"Cannot send request"));
         expect(@(error.httpStatusCode)).to(equal(@-1));
         });
-    
+
     it(@"doesn’t add observers twice", ^   // special case because glue object obscures identity
         {
         ObjcObserver *observer0 = [[ObjcObserver alloc] init],
@@ -182,21 +182,21 @@
         [resource addObserverWithOwner:owner callback:^(BOSResource *resource, NSString *event) {
             blockObserverCalls++;
         }];
-        
+
         stubRequest(@"GET", @"http://example.api/foo")
             .andReturn(200)
             .withHeader(@"Content-type", @"application/json")
             .withBody(@"{\"foo\": \"bar\"}");
-        
+
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
-        
+
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(@(blockObserverCalls)).to(equal(@3));
         });
-    
+
     // TODO: BOSResourceObserver
 
     // TODO: BOSResourceStatusOverlay
