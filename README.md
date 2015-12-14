@@ -146,6 +146,22 @@ As of this writing, there is one additional step you need to follow for Xcode 7 
 
 The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This currently includes only Alamofire support.) You will need to include those source files in your project manually if you want to use them.
 
+### Git Submodule
+
+Clone Siesta as a submodule into the directory of your choice, in this case Libraries/Siesta:
+```
+git submodule add https://github.com/bustoutsolutions/siesta.git Libraries/Siesta
+git submodule update --init
+```
+
+Drag `Siesta.xcodeproj` into your project tree as a subproject.
+
+Under your project's Build Phases, expand Target Dependencies. Click the + button and add Siesta.
+
+Expand the Link Binary With Libraries phase. Click the + button and add Siesta.
+
+Click the + button in the top left corner to add a Copy Files build phase. Set the directory to Frameworks. Click the + button and add Siesta.
+
 ---
 
 ## Basic Usage
