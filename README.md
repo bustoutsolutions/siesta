@@ -245,7 +245,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
             .addObserver(self)
             .addObserver(statusOverlay)
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         MyAPI.resource("/profile").loadIfNeeded()
@@ -271,20 +271,20 @@ Here’s how you implement the same functionality using Siesta:
 ```swift
 class RemoteImageView: UIImageView {
   static var imageCache: Service = Service()
-
+  
   var placeholderImage: UIImage?
-
+  
   var imageURL: NSURL? {
     get { return imageResource?.url }
     set { imageResource = RemoteImageView.imageCache.resource(url: newValue) }
   }
-
+  
   var imageResource: Resource? {
     willSet {
       imageResource?.removeObservers(ownedBy: self)
       imageResource?.cancelLoadIfUnobserved(afterDelay: 0.05)
     }
-
+    
     didSet {
       imageResource?.loadIfNeeded()
       imageResource?.addObserver(owner: self) { [weak self] _ in
