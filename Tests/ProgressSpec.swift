@@ -261,5 +261,67 @@ class ProgressSpec: ResourceSpecBase
                     }
                 }
             }
+
+        context("callback")
+            {
+            func recordProgress(
+                    setup setup: Request -> Void = { _ in },
+                    until stopCondition: [Double] -> Bool)
+                -> [Double]
+                {
+                var progressReports: [Double] = []
+
+                let expectation = QuickSpec.current().expectationWithDescription("recordProgressUntil")
+                var fulfilled = false
+
+                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let req = resource().load().progress
+                    {
+                    progressReports.append($0)
+                    if !fulfilled && stopCondition(progressReports)
+                        {
+                        fulfilled = true
+                        expectation.fulfill()
+                        }
+                    }
+                setup(req)
+                QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+
+                reqStub.go()
+                awaitNewData(req)
+
+                return progressReports
+                }
+
+            it("receives periodic updates during request")
+                {
+                let progressReports = recordProgress(until: { $0.count >= 4 })
+
+                // The mere passage of time should increase latency, and thus make progress increase beyond 0
+                expect(progressReports.any { $0 > 0 }).to(beTrue())
+                expect(progressReports.sort()).to(equal(progressReports))
+                }
+
+            context("last notification")
+                {
+                it("is 1")
+                    {
+                    let progressReports = recordProgress(until: { _ in true })
+                    expect(progressReports.last).to(equal(1))
+                    }
+
+                it("comes before the completion callback")
+                    {
+                    var completionCalled = false
+                    recordProgress(
+                        setup:
+                            {
+                            $0.progress { _ in expect(completionCalled).to(beFalse()) }
+                              .completion { _ in completionCalled = true }
+                            },
+                        until: { _ in true })
+                    }
+                }
+            }
         }
     }
