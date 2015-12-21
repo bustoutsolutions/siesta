@@ -14,6 +14,7 @@ internal protocol RequestWithDefaultCallbacks: Request
     func addResponseCallback(callback: ResponseCallback)
     }
 
+/// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
 extension RequestWithDefaultCallbacks
     {
     func completion(callback: Response -> Void) -> Self
@@ -97,6 +98,8 @@ internal struct CallbackGroup<CallbackArguments>
     func notify(arguments: CallbackArguments)
         {
         dispatch_assert_main_queue()
+
+        // Note that callbacks will be [] after notifyOfCompletion() called, so this becomes a noop.
 
         for callback in callbacks
             { callback(arguments) }

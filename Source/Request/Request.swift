@@ -34,9 +34,9 @@ public enum RequestMethod: String
     }
 
 /**
-  Registers hooks to receive notifications about the status of a network request, and some request control.
+  An API request. Provides notification hooks about the status of the request, and allows cancellation.
 
-  Note that these hooks are for only a _single request_, whereas `ResourceObserver`s receive notifications about
+  Note that this represents only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
   and `overrideLocalData(_:)`.
@@ -44,7 +44,7 @@ public enum RequestMethod: String
   There is no race condition between a callback being added and a response arriving. If you add a callback after the
   response has already arrived, the callback is still called as usual.
 
-  Request guarantees that it will call a given callback _at most_ one time.
+  `Request` guarantees that it will call any given callback _at most_ one time.
 
   Callbacks are always called on the main queue.
 */
@@ -72,8 +72,8 @@ public protocol Request: AnyObject
     var isCompleted: Bool { get }
 
     /**
-      An estimate of the progress of the request, including request transfer, response transfer, and latency.
-      Result is either in [0...1] or is NAN.
+      An estimate of the progress of the request, taking into account request transfer, response transfer, and latency.
+      Result is either in [0...1], or is NAN if insufficient information is available.
 
       The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
       not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
@@ -82,7 +82,7 @@ public protocol Request: AnyObject
     var progress: Double { get }
 
     /**
-      Receive updates on progress at regular intervals while a request is in progress.
+      Call the given closure with progress updates at regular intervals while the request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
     func progress(callback: Double -> Void) -> Self
