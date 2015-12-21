@@ -12,8 +12,8 @@ internal extension NSURL
     {
     func alterPath(pathMutator: String -> String) -> NSURL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true)
-        else { return nil }
+        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+            { return nil }
 
         let path = pathMutator(components.path ?? "")
         components.path = (path == "") ? nil : path
@@ -23,8 +23,8 @@ internal extension NSURL
 
     func alterQuery(queryMutator: [String:String?] -> [String:String?]) -> NSURL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true)
-        else { return nil }
+        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+            { return nil }
 
         let queryItems = components.queryItems ?? []
         var queryDict = Dictionary<String,String?>(minimumCapacity: queryItems.count)
