@@ -8,24 +8,28 @@
 
 internal extension String
     {
+    @warn_unused_result
     func containsRegex(regex: String) -> Bool
         {
         return rangeOfString(regex, options: .RegularExpressionSearch) != nil
         }
 
-    func replaceRegex(regex: String, _ replacement: String) -> String
+    @warn_unused_result
+    func replacingRegex(regex: String, _ replacement: String) -> String
         {
         return stringByReplacingOccurrencesOfString(
             regex, withString: replacement, options: .RegularExpressionSearch, range: nil)
         }
 
-    func replaceString(string: String, _ replacement: String) -> String
+    @warn_unused_result
+    func replacingString(string: String, _ replacement: String) -> String
         {
         // Maybe this method name looked more reasonable in Objective-C.
         return stringByReplacingOccurrencesOfString(string, withString: replacement)
         }
 
-    func replaceRegex(regex: NSRegularExpression, _ template: String) -> String
+    @warn_unused_result
+    func replacingRegex(regex: NSRegularExpression, _ template: String) -> String
         {
         return regex.stringByReplacingMatchesInString(self, options: [], range: fullRange, withTemplate: template)
         }
@@ -38,6 +42,7 @@ internal extension String
 
 internal extension NSRegularExpression
     {
+    @warn_unused_result
     static func compile(pattern: String, options: NSRegularExpressionOptions = [])
         -> NSRegularExpression
         {
@@ -50,6 +55,7 @@ internal extension NSRegularExpression
             }
         }
 
+    @warn_unused_result
     func matches(string: String) -> Bool
         {
         let match = firstMatchInString(string, options: [], range: string.fullRange)

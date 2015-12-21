@@ -37,6 +37,7 @@ public protocol ResourceObserver
       Allows you to prevent redundant observers from being added to the same resource. If an existing observer
       says it is equivalent to a new observer passed to `Resource.addObserver(...)`, then the call has no effect.
     */
+    @warn_unused_result
     func isEquivalentToObserver(other: ResourceObserver) -> Bool
     }
 

@@ -190,6 +190,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `relative(_:)`
     */
+    @warn_unused_result
     public func child(subpath: String) -> Resource
         {
         return service.resourceWithURL(url.URLByAppendingPathComponent(subpath))
@@ -207,6 +208,7 @@ public final class Resource: NSObject
         - `optionalRelative(_:)`
         - `child(_:)`
     */
+    @warn_unused_result
     public func relative(href: String) -> Resource
         {
         return service.resourceWithURL(NSURL(string: href, relativeToURL: url))
@@ -222,6 +224,7 @@ public final class Resource: NSObject
             // ...
           }
     */
+    @warn_unused_result
     public func optionalRelative(href: String?) -> Resource?
         {
         if let href = href
@@ -247,6 +250,7 @@ public final class Resource: NSObject
       Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
       up to you to canonicalize your parameter order.
     */
+    @warn_unused_result
     @objc(withParam:value:)
     public func withParam(name: String, _ value: String?) -> Resource
         {
@@ -299,6 +303,7 @@ public final class Resource: NSObject
         - `request(_:json:requestMutation:)`
         - `request(_:urlEncoded:requestMutation:)`
     */
+    @warn_unused_result
     public func request(
             method:          RequestMethod,
             requestMutation: NSMutableURLRequest -> () = { _ in })
@@ -326,6 +331,7 @@ public final class Resource: NSObject
     /**
       Convenience method to initiate a request with a body.
     */
+    @warn_unused_result
     public func request(
             method:          RequestMethod,
             data:            NSData,
@@ -353,6 +359,7 @@ public final class Resource: NSObject
       - Parameter contentType: `text/plain` by default.
       - Parameter encoding: UTF-8 (`NSUTF8StringEncoding`) by default.
     */
+    @warn_unused_result
     public func request(
             method:          RequestMethod,
             text:            String,
@@ -381,6 +388,7 @@ public final class Resource: NSObject
 
       - Parameter contentType: `application/json` by default.
     */
+    @warn_unused_result
     public func request(
             method:          RequestMethod,
             json:            NSJSONConvertible,
@@ -421,6 +429,7 @@ public final class Resource: NSObject
 
       The content type is `application/x-www-form-urlencoded`.
     */
+    @warn_unused_result
     public func request(
             method:            RequestMethod,
             urlEncoded params: [String:String],
@@ -824,7 +833,7 @@ public final class Resource: NSObject
                     resource.receiveNewData(entity, source: .Cache)
                     }
                 else
-                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it already has data"]) }
+                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
                 }
             }
         }

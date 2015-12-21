@@ -21,6 +21,7 @@ public protocol ResponseTransformer
       Note that a `Response` can contain either data or an error, so this method can turn success into failure if the
       response fails to parse.
     */
+    @warn_unused_result
     func process(response: Response) -> Response
     }
 
@@ -248,6 +249,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 // MARK: Transformers for standard types
 
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
+@warn_unused_result
 public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
@@ -269,6 +271,7 @@ public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTra
     }
 
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
+@warn_unused_result
 public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
@@ -285,6 +288,7 @@ public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTra
     }
 
 /// Parses `NSData` content as an image, yielding a `UIImage`.
+@warn_unused_result
 public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)

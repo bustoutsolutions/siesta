@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 /**
   A set of logically connected RESTful resources, grouped under a base URL.
 
@@ -80,6 +81,7 @@ public class Service: NSObject
       If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
       return a resource — but that resource will give errors for all requests without touching the network.
     */
+    @warn_unused_result
     public final func resourceWithURL(url: NSURL?) -> Resource
         {
         dispatch_assert_main_queue()
@@ -96,6 +98,7 @@ public class Service: NSObject
 
       If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
     */
+    @warn_unused_result
     @objc(resourceWithURLString:)
     public final func resourceWithURL(urlString: String?) -> Resource
         {
@@ -114,6 +117,7 @@ public class Service: NSObject
 
     /// Return the unique resource with the given path appended to `baseURL`.
     /// Leading slash is optional, and has no effect.
+    @warn_unused_result
     @objc(resourceWithPath:)
     public final func resource(path: String) -> Resource
         {
