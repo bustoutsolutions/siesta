@@ -109,8 +109,8 @@ private class ResultsAggregator
     private func specDescription(spec: QuickSpec) -> String
         {
         return spec.dynamicType.description()
-            .replaceRegex("^[A-Za-z]+Tests\\.", "")
-            .replaceRegex("\\.Type$", "")
+            .replacingRegex("^[A-Za-z]+Tests\\.", "")
+            .replacingRegex("\\.Type$", "")
         }
     }
 

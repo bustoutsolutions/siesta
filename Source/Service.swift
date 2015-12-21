@@ -395,9 +395,9 @@ extension String: ConfigurationPatternConvertible
         let pattern = NSRegularExpression.compile(
             "^"
             + NSRegularExpression.escapedPatternForString(resolvedPattern)
-                .replaceString("\\*\\*\\/", "([^:?]*/|)")
-                .replaceString("\\*\\*",    "[^:?]*")
-                .replaceString("\\*",       "[^/:?]*")
+                .replacingString("\\*\\*\\/", "([^:?]*/|)")
+                .replacingString("\\*\\*",    "[^:?]*")
+                .replacingString("\\*",       "[^/:?]*")
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 

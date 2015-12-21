@@ -25,7 +25,7 @@ internal func debugStr(
         { s = "\(x)" }
 
     if consolidateWhitespace
-        { s = s.replaceRegex(whitespacePat, " ") }
+        { s = s.replacingRegex(whitespacePat, " ") }
 
     if let truncate = truncate where s.characters.count > truncate
         { s = s.substringToIndex(s.startIndex.advancedBy(truncate)) + "…" }
@@ -80,7 +80,7 @@ extension Entity
             "\n" + indent + "charset:     \(debugStr(charset))" +
             dumpHeaders(headers, indent: indent) +
             "\n" + indent + "content: (\(content.dynamicType))\n"
-        result += formattedContent.replaceRegex("^|\n", "$0  " + indent)
+        result += formattedContent.replacingRegex("^|\n", "$0  " + indent)
         return result
         }
 
