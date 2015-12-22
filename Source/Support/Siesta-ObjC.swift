@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /*
     Glue for using Siesta from Objective-C.
 

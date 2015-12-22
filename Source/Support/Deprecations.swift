@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 extension Entity
     {
     @available(*, deprecated=1.0, renamed="Entity(response:content:)")

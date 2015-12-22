@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /**
   Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
   a chain of transformers before being sent to response hooks or observers.

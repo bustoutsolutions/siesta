@@ -6,6 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
 
 // Overridable for testing
 internal var fakeNow: NSTimeInterval?

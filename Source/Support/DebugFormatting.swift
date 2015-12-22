@@ -6,6 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
 
 private let whitespacePat = NSRegularExpression.compile("\\s+")
 

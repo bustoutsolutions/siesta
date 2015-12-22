@@ -6,6 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
 /**
     A cache for maintaining a unique instance for a given key as long as any other objects
     retain references to it.

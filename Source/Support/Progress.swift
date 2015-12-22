@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 internal struct RequestProgress: Progress
     {
     private var uploadProgress, downloadProgress: TaskProgress

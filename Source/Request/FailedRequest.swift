@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /// For requests that failed before they even made it to the network layer
 internal final class FailedRequest: RequestWithDefaultCallbacks
     {

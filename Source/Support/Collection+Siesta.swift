@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 internal extension CollectionType
     {
     func bipartition(

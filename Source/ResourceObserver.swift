@@ -6,6 +6,8 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /**
   Something that can observe changes to the state of a `Resource`.
   “State” means `latestData`, `latestError`, and `isLoading`.
