@@ -151,6 +151,7 @@ public final class Resource: NSObject
 
         super.init()
 
+#if TARGET_OS_IOS
         lowMemoryObserver =
             NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
@@ -160,7 +161,8 @@ public final class Resource: NSObject
             [weak self] _ in
             self?.cleanDefunctObservers()
             }
-
+#endif
+            
         initializeDataFromCache()
         }
 

@@ -18,6 +18,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     init()
         {
+#if TARGET_OS_IOS
         lowMemoryObserver =
             NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
@@ -27,6 +28,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             [weak self] _ in
             self?.flushUnused()
             }
+#endif
         }
 
     deinit
