@@ -288,6 +288,7 @@ public extension Resource
         }
     }
 
+#if TARGET_OS_IOS
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event eventString: String)
@@ -317,7 +318,8 @@ extension ResourceStatusOverlay
             }
         }
     }
-
+#endif
+    
 public extension Resource
     {
     private func _objc_wrapRequest(
