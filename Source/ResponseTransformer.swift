@@ -286,14 +286,22 @@ public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTra
         }
     }
 
+#if TARGET_OS_IPHONE
+    import UIKit
+    typealias BOSImage = UIImage
+#else
+    import AppKit
+    typealias BOSImage = NSImage
+#endif
+
 /// Parses `NSData` content as an image, yielding a `UIImage`.
 public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> UIImage in
+        (content: NSData, entity: Entity) throws -> BOSImage in
 
-        guard let image = UIImage(data: content) else
+        guard let image = BOSImage(data: content) else
             { throw Error.Cause.UnparsableImage() }
 
         return image
