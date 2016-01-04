@@ -1,5 +1,5 @@
 //
-//  RequestProgress.swift
+//  ProgressTracker.swift
 //  Siesta
 //
 //  Created by Paul on 2015/12/15.
@@ -15,12 +15,12 @@ internal class ProgressTracker
     private var networking: RequestNetworking?
 
     private var lastProgressBroadcast: Double?
-    private var progressComputation: RequestProgress
+    private var progressComputation: RequestProgressComputation
     private var progressUpdateTimer: NSTimer?
 
     init(isGet: Bool)
         {
-        progressComputation = RequestProgress(isGet: isGet)
+        progressComputation = RequestProgressComputation(isGet: isGet)
         }
 
     func start(networking: RequestNetworking, reportingInterval: NSTimeInterval)

@@ -66,7 +66,7 @@ class ProgressSpec: ResourceSpecBase
             {
             var getRequest: Bool!
             var metrics: RequestTransferMetrics!
-            var progress: RequestProgress?
+            var progress: RequestProgressComputation?
 
             beforeEach
                 {
@@ -81,7 +81,7 @@ class ProgressSpec: ResourceSpecBase
 
             func progressComparison(closure: Void -> Void) -> (before: Double, after: Double)
                 {
-                progress = progress ?? RequestProgress(isGet: getRequest)
+                progress = progress ?? RequestProgressComputation(isGet: getRequest)
 
                 progress!.update(metrics)
                 let before = progress!.fractionDone

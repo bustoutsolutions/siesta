@@ -72,6 +72,7 @@ extension RequestWithDefaultCallbacks
         }
     }
 
+/// Unified handling for both `ResponseCallback` and `progress()` callbacks.
 internal struct CallbackGroup<CallbackArguments>
     {
     private(set) var completedValue: CallbackArguments?

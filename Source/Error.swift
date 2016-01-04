@@ -90,9 +90,9 @@ public extension Error
     {
     /**
       Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
-      (Note that `cause` may also contain errors from the underlying network library that do not belong to this enum.)
+      (Note that `cause` may also contain errors from the underlying network library that do not appear here.)
 
-      The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
+      The primary purpose of these error causes is to aid debugging. Client code rarely needs to work with them,
       but they can be useful if you want to add special handling for specific errors.
 
       For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,

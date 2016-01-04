@@ -53,7 +53,7 @@
 		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
-		DAFA42051C20AFCF0020AC5E /* RequestProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* RequestProgress.swift */; };
+		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
 		DAFA42091C20B10F0020AC5E /* FailedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42081C20B10F0020AC5E /* FailedRequest.swift */; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
@@ -134,7 +134,7 @@
 		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GCD+Siesta.swift"; sourceTree = "<group>"; };
 		DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCallbacks.swift; sourceTree = "<group>"; };
-		DAFA42041C20AFCF0020AC5E /* RequestProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProgress.swift; sourceTree = "<group>"; };
+		DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTracker.swift; sourceTree = "<group>"; };
 		DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		DAFA42081C20B10F0020AC5E /* FailedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailedRequest.swift; sourceTree = "<group>"; };
 		DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugFormatting.swift; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 			children = (
 				DAAB48291B5D7B770059C047 /* Request.swift */,
 				DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */,
-				DAFA42041C20AFCF0020AC5E /* RequestProgress.swift */,
+				DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */,
 				DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */,
 				DAFA42081C20B10F0020AC5E /* FailedRequest.swift */,
 			);
@@ -334,6 +334,7 @@
 				DA336E4B1B2E6DDB006F702A /* Frameworks */,
 				DA336E4C1B2E6DDB006F702A /* Headers */,
 				DA336E4D1B2E6DDB006F702A /* Resources */,
+				DAFA420A1C2134580020AC5E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -417,12 +418,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DAFA420A1C2134580020AC5E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Clean whitespace\nperl -pi -e 's/ +$//g' $(find Source Extensions Tests -name '*.swift' -o -name '*.md' -o -name '*.h' -o -name '*.m')\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DA336E4A1B2E6DDB006F702A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAFA42051C20AFCF0020AC5E /* RequestProgress.swift in Sources */,
+				DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */,
 				DA4353521B6AD63C00543843 /* Networking.swift in Sources */,
 				DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */,
 				DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */,

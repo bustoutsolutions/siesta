@@ -314,7 +314,7 @@ public final class Resource: NSObject
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config.headers
-            { nsreq.setValue(value, forHTTPHeaderField:header) }
+            { nsreq.setValue(value, forHTTPHeaderField: header) }
 
         requestMutation(nsreq)
 

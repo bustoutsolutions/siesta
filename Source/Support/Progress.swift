@@ -9,7 +9,7 @@
 import Foundation
 
 
-internal struct RequestProgress: Progress
+internal struct RequestProgressComputation: Progress
     {
     private var uploadProgress, downloadProgress: TaskProgress
     private var connectLatency, responseLatency: WaitingProgress
