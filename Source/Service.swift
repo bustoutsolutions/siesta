@@ -105,15 +105,13 @@ public class Service: NSObject
     @objc(resourceWithURLString:)
     public final func resourceWithURL(urlString: String?) -> Resource
         {
-        // TODO: consider returning nil if url is nil (and use invalidURL only for URL parse errors)
-        if let urlString = urlString, let nsurl = NSURL(string: urlString)
-            { return resourceWithURL(nsurl) }
-        else
-            {
-            if let urlString = urlString  // No warning for nil URL
-                { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
-            return resourceWithURL(Service.invalidURL)
-            }
+        guard let urlString = urlString else
+            { return resourceWithURL(Service.invalidURL) }
+
+        let url = NSURL(string: urlString)
+        if url == nil
+            { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
+        return resourceWithURL(url)
         }
 
 
