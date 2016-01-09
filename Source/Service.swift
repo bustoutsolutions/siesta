@@ -72,15 +72,15 @@ public class Service: NSObject
         }
 
     /**
-      Returns the unique resource with the given URL.
+      Returns the unique resource with the given URL, ignoring `baseURL`.
 
       This method will _always_ return the same instance of `Resource` for the same URL within
       the context of a `Service` as long as anyone retains a reference to that resource.
       Unreferenced resources remain in memory (with their cached data) until a low memory event
       occurs, at which point they are summarily evicted.
 
-      If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
-      return a resource — but that resource will give errors for all requests without touching the network.
+      - Note: This method always returns a `Resource`, and does not throw errors. If `url` is nil (likely because it
+              came from a malformed URL string), this method returns a resource whose requests always fail.
     */
     @warn_unused_result
     public final func resourceWithURL(url: NSURL?) -> Resource
@@ -94,10 +94,12 @@ public class Service: NSObject
             }
         }
 
-    /**
-      Returns the unique resource with the given URL string.
+    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
 
-      If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
+    /**
+      Returns the unique resource with the given URL string, ignoring `baseURL`.
+
+      - SeeAlso: `resourceWithURL(_:)`
     */
     @warn_unused_result
     @objc(resourceWithURLString:)
@@ -114,10 +116,24 @@ public class Service: NSObject
             }
         }
 
-    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
 
-    /// Return the unique resource with the given path appended to `baseURL`.
-    /// Leading slash is optional, and has no effect.
+    /**
+      Return the unique resource with the given path appended to the path component `baseURL`.
+
+      A leading slash is optional, and has no effect:
+
+          service.resource("users")   // same
+          service.resource("/users")  // thing
+
+      - Note:
+          The `path` parameter is simply appended to `baseURL`’s path, and is _never_ interpreted as a URL. Strings
+          such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
+          resource’s path.
+
+          If you want to pass an absolute URL, use `resourceWithURL(_:)`.
+
+          If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
+    */
     @warn_unused_result
     @objc(resourceWithPath:)
     public final func resource(path: String) -> Resource
