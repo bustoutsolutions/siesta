@@ -52,10 +52,6 @@ extension Request
 
 extension Service
     {
-    @available(*, deprecated=1.0, renamed="base")
-    public var baseURL: NSURL?
-        { return base }
-
     @available(*, deprecated=1.0, renamed="resourceWithURL")
     public final func resource(url url: NSURL?) -> Resource
         { return resourceWithURL(url) }

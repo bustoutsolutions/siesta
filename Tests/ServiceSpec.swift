@@ -16,7 +16,7 @@ class ServiceSpec: SiestaSpec
         {
         super.spec()
 
-        let service   = specVar { Service(base: "https://zingle.frotz") }
+        let service   = specVar { Service(baseURL: "https://zingle.frotz") }
         let resource0 = specVar { service().resource("/foo") },
             resource1 = specVar { service().resource("/bar") }
 
@@ -44,7 +44,7 @@ class ServiceSpec: SiestaSpec
 
                 it("returns a nil baseURL")
                     {
-                    expect(bareService().base).to(beNil())
+                    expect(bareService().baseURL).to(beNil())
                     }
 
                 it("fails requests for path-based resources")
@@ -162,7 +162,7 @@ class ServiceSpec: SiestaSpec
                         _ pathOrURL: String,
                         absolute: Bool = false,
                         params: [String:String] = [:],
-                        service: Service  = Service(base: "https://foo.bar/v1"))
+                        service: Service  = Service(baseURL: "https://foo.bar/v1"))
                     {
                     service.configure(pattern) { $0.config.expirationTime = 6 }
 
@@ -321,11 +321,11 @@ func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
         {
         actual, failureMessage in
 
-        let base = try! actual.evaluate() ?? "",
-            service = Service(base: base),
-            actualURL = service.base?.absoluteString
+        let baseURL = try! actual.evaluate() ?? "",
+            service = Service(baseURL: baseURL),
+            actualURL = service.baseURL?.absoluteString
         failureMessage.stringValue =
-            "expected baseURL \(base.debugDescription)"
+            "expected baseURL \(baseURL.debugDescription)"
             + " to expand to \(expectedURL.debugDescription),"
             + " but got \(actualURL.debugDescription)"
         return actualURL == expectedURL
@@ -338,12 +338,12 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
         {
         inputs, failureMessage in
 
-        let (base, resourcePath) = try! inputs.evaluate()!,
-            service = Service(base: base),
+        let (baseURL, resourcePath) = try! inputs.evaluate()!,
+            service = Service(baseURL: baseURL),
             resource = service.resource(resourcePath),
             actualURL = resource.url.absoluteString
         failureMessage.stringValue =
-            "expected base \(base.debugDescription)"
+            "expected baseURL \(baseURL.debugDescription)"
             + " and resource path \(resourcePath.debugDescription)"
             + " to expand to \(expectedURL.debugDescription),"
             + " but got \(actualURL.debugDescription)"
@@ -353,11 +353,11 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
 
 /// Checks resourcePath with and without a leading slash.
 ///
-func checkPathExpansion(base: String, path resourcePath: String, expect expectedExpansion: String)
+func checkPathExpansion(baseURL: String, path resourcePath: String, expect expectedExpansion: String)
     {
     for resourcePathVariant in [resourcePath, "/" + resourcePath]
         {
-        expect((base, resourcePathVariant))
+        expect((baseURL, resourcePathVariant))
             .to(expandToResourceURL(expectedExpansion))
         }
     }

@@ -11,5 +11,5 @@ import Siesta
 public class TestService: Service
     {
     public init()
-        { super.init(base: "http://example.api") }
+        { super.init(baseURL: "http://example.api") }
     }

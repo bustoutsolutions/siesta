@@ -22,7 +22,7 @@ import Alamofire
               let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
               configuration.allowsCellularAccess = false
               super.init(
-                  base: "http://foo.bar/v1",
+                  baseURL: "http://foo.bar/v1",
                   networking: AlamofireProvider(configuration: configuration))
           }
       }

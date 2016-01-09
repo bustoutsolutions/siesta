@@ -64,14 +64,14 @@ class ResourceSpecBase: SiestaSpec
         context(debugStr(["with", description]))
             {
             self.runSpecsWithService
-                { Service(base: self.baseURL, networking: networking) }
+                { Service(baseURL: self.baseURL, networking: networking) }
             }
         }
 
     private func runSpecsWithDefaultProvider()
         {
         runSpecsWithService
-            { Service(base: self.baseURL) }
+            { Service(baseURL: self.baseURL) }
         }
 
     private func runSpecsWithService(serviceBuilder: Void -> Service)

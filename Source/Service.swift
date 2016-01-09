@@ -18,7 +18,7 @@ import Foundation
 public class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
-    public let base: NSURL?
+    public let baseURL: NSURL?
 
     internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
@@ -26,8 +26,9 @@ public class Service: NSObject
     /**
       Creates a new service for the given API.
 
-      - Parameter base:
-          The base URL of the API. If nil, there is no base URL, and thus `resource(_:)` will require absolute URLs.
+      - Parameter baseURL:
+          The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
+          only `resourceWithURL(_:)` to acquire resources.
       - Parameter useDefaultTransformers:
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
@@ -37,15 +38,15 @@ public class Service: NSObject
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(
-            base: String? = nil,
+            baseURL: String? = nil,
             useDefaultTransformers: Bool = true,
             networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
         {
         dispatch_assert_main_queue()
 
-        if let base = base
+        if let baseURL = baseURL
             {
-            self.base = NSURL(string: base)?.alterPath
+            self.baseURL = NSURL(string: baseURL)?.alterPath
                 {
                 path in
                 !path.hasSuffix("/")
@@ -54,7 +55,7 @@ public class Service: NSObject
                 }
             }
         else
-            { self.base = nil }
+            { self.baseURL = nil }
         self.networkingProvider = networking.siestaNetworkingProvider
 
         super.init()
@@ -122,7 +123,7 @@ public class Service: NSObject
     public final func resource(path: String) -> Resource
         {
         return resourceWithURL(
-            base?.URLByAppendingPathComponent(path.stripPrefix("/")))
+            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 
     // MARK: Resource Configuration
@@ -253,7 +254,7 @@ public class Service: NSObject
           }
 
           init() {
-            super.init(base: "https://api.github.com")
+            super.init(baseURL: "https://api.github.com")
             configure​ {
               $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
@@ -387,7 +388,7 @@ extension String: ConfigurationPatternConvertible
         // Otherwise, interpret pattern as relative to baseURL.
 
         let resolvedPattern: String
-        if let prefix = service.base?.absoluteString where !containsRegex("^[a-z]+:")
+        if let prefix = service.baseURL?.absoluteString where !containsRegex("^[a-z]+:")
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }
