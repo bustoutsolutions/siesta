@@ -275,7 +275,7 @@ class ProgressSpec: ResourceSpecBase
                 var fulfilled = false
 
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
-                let req = resource().load().progress
+                let req = resource().load().onProgress
                     {
                     progressReports.append($0)
                     if !fulfilled && stopCondition(progressReports)
@@ -316,8 +316,8 @@ class ProgressSpec: ResourceSpecBase
                     recordProgress(
                         setup:
                             {
-                            $0.progress { _ in expect(completionCalled).to(beFalse()) }
-                              .completion { _ in completionCalled = true }
+                            $0.onProgress { _ in expect(completionCalled).to(beFalse()) }
+                              .onCompletion { _ in completionCalled = true }
                             },
                         until: { _ in true })
                     }

@@ -283,7 +283,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         ++retryRequestsInProgress
         updateDisplay()
 
-        request.completion
+        request.onCompletion
             {
             [weak self] _ in
             guard let overlay = self else

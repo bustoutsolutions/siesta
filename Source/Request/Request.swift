@@ -51,19 +51,19 @@ public enum RequestMethod: String
 public protocol Request: AnyObject
     {
     /// Call the closure once when the request finishes for any reason.
-    func completion(callback: Response -> Void) -> Self
+    func onCompletion(callback: Response -> Void) -> Self
 
     /// Call the closure once if the request succeeds.
-    func success(callback: Entity -> Void) -> Self
+    func onSuccess(callback: Entity -> Void) -> Self
 
     /// Call the closure once if the request succeeds and the data changed.
-    func newData(callback: Entity -> Void) -> Self
+    func onNewData(callback: Entity -> Void) -> Self
 
     /// Call the closure once if the request succeeds with a 304.
-    func notModified(callback: Void -> Void) -> Self
+    func onNotModified(callback: Void -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
-    func failure(callback: Error -> Void) -> Self
+    func onFailure(callback: Error -> Void) -> Self
 
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
@@ -85,7 +85,7 @@ public protocol Request: AnyObject
       Call the given closure with progress updates at regular intervals while the request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
-    func progress(callback: Double -> Void) -> Self
+    func onProgress(callback: Double -> Void) -> Self
 
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.

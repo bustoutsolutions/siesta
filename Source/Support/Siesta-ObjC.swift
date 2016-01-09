@@ -144,7 +144,7 @@ public extension Resource
 
     @objc(overrideLocalData:)
     public func _objc_overrideLocalData(entity: _objc_Entity)
-        { self.overrideLocalData(Entity(entity: entity)) }
+        { overrideLocalData(Entity(entity: entity)) }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks
@@ -157,9 +157,9 @@ public class _objc_Request: NSObject
     private init(_ request: Request)
         { self.request = request }
 
-    public func completion(objcCallback: @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
+    public func onCompletion(objcCallback: @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
         {
-        self.request.completion
+        request.onCompletion
             {
             switch $0
                 {
@@ -172,33 +172,33 @@ public class _objc_Request: NSObject
         return self
         }
 
-    public func success(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
+    public func onSuccess(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
         {
-        self.request.success { entity in objcCallback(_objc_Entity(entity)) }
+        request.onSuccess { entity in objcCallback(_objc_Entity(entity)) }
         return self
         }
 
-    public func newData(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
+    public func onNewData(objcCallback: @convention(block) _objc_Entity -> Void) -> _objc_Request
         {
-        self.request.newData { entity in objcCallback(_objc_Entity(entity)) }
+        request.onNewData { entity in objcCallback(_objc_Entity(entity)) }
         return self
         }
 
-    public func notModified(objcCallback: @convention(block) Void -> Void) -> _objc_Request
+    public func onNotModified(objcCallback: @convention(block) Void -> Void) -> _objc_Request
         {
-        self.request.notModified(objcCallback)
+        request.onNotModified(objcCallback)
         return self
         }
 
-    public func failure(objcCallback: @convention(block) _objc_Error -> Void) -> _objc_Request
+    public func onFailure(objcCallback: @convention(block) _objc_Error -> Void) -> _objc_Request
         {
-        self.request.failure { error in objcCallback(_objc_Error(error)) }
+        request.onFailure { error in objcCallback(_objc_Error(error)) }
         return self
         }
 
-    public func progress(objcCallback: @convention(block) Float -> Void) -> _objc_Request
+    public func onProgress(objcCallback: @convention(block) Float -> Void) -> _objc_Request
         {
-        self.request.progress { p in objcCallback(Float(p)) }
+        request.onProgress { p in objcCallback(Float(p)) }
         return self
         }
 
@@ -213,12 +213,12 @@ public extension Resource
     {
     @objc(load)
     public func _objc_load() -> _objc_Request
-        { return _objc_Request(self.load()) }
+        { return _objc_Request(load()) }
 
     @objc(loadIfNeeded)
     public func _objc_loadIfNeeded() -> _objc_Request?
         {
-        if let req = self.loadIfNeeded()
+        if let req = loadIfNeeded()
             { return _objc_Request(req) }
         else
             { return nil }
@@ -291,7 +291,7 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
     public func resourceChanged(resource: Resource, event eventString: String)
         {
         if let event = ResourceEvent.fromDescription(eventString)
-            { self.resourceChanged(resource, event: event) }
+            { resourceChanged(resource, event: event) }
         }
     }
 

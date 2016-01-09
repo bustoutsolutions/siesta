@@ -108,11 +108,11 @@ func awaitNewData(req: Siesta.Request, alreadyCompleted: Bool = false)
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .success     { _ in successExpectation.fulfill() }
-       .failure     { _ in fail("error callback should not be called") }
-       .newData     { _ in newDataExpectation.fulfill() }
-       .notModified { _ in fail("notModified callback should not be called") }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onSuccess     { _ in successExpectation.fulfill() }
+       .onFailure     { _ in fail("error callback should not be called") }
+       .onNewData     { _ in newDataExpectation.fulfill() }
+       .onNotModified { _ in fail("notModified callback should not be called") }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     expect(req.isCompleted).to(beTrue())
     }
@@ -123,11 +123,11 @@ func awaitNotModified(req: Siesta.Request)
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let notModifiedExpectation = QuickSpec.current().expectationWithDescription("awaiting notModified callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .success     { _ in successExpectation.fulfill() }
-       .failure     { _ in fail("error callback should not be called") }
-       .newData     { _ in fail("newData callback should not be called") }
-       .notModified { _ in notModifiedExpectation.fulfill() }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onSuccess     { _ in successExpectation.fulfill() }
+       .onFailure     { _ in fail("error callback should not be called") }
+       .onNewData     { _ in fail("newData callback should not be called") }
+       .onNotModified { _ in notModifiedExpectation.fulfill() }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     expect(req.isCompleted).to(beTrue())
     }
@@ -137,11 +137,11 @@ func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
     expect(req.isCompleted).to(equal(alreadyCompleted))
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .failure     { _ in errorExpectation.fulfill() }
-       .success     { _ in fail("success callback should not be called") }
-       .newData     { _ in fail("newData callback should not be called") }
-       .notModified { _ in fail("notModified callback should not be called") }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onFailure     { _ in errorExpectation.fulfill() }
+       .onSuccess     { _ in fail("success callback should not be called") }
+       .onNewData     { _ in fail("newData callback should not be called") }
+       .onNotModified { _ in fail("notModified callback should not be called") }
 
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
     expect(req.isCompleted).to(beTrue())

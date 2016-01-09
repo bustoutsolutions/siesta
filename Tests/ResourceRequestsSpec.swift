@@ -77,7 +77,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     service().configure
                         {
                         $0.config.beforeStartingRequest
-                            { $1.success { _ in successHookCalled = true } }
+                            { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
                     stubRequest(resource, "GET").andReturn(200)
@@ -110,7 +110,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().request(.GET)
-                req.failure
+                req.onFailure
                     { expect($0.cause is Error.Cause.RequestCancelled).to(beTrue()) }
                 req.cancel()
                 reqStub.go()
@@ -196,7 +196,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     {
                     let req = resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding)
                     awaitFailure(req, alreadyCompleted: true)
-                    req.failure
+                    req.onFailure
                         {
                         let cause = $0.cause as? Error.Cause.UnencodableText
                         expect(cause?.encodingName).to(equal("us-ascii"))
@@ -218,7 +218,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     {
                     let req = resource().request(.POST, json: ["question": [2, UIView()]])
                     awaitFailure(req, alreadyCompleted: true)
-                    req.failure
+                    req.onFailure
                         { expect($0.cause is Error.Cause.InvalidJSONObject).to(beTrue()) }
                     }
 
@@ -254,7 +254,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                             {
                             let req = resource().request(.PATCH, urlEncoded: badParams)
                             awaitFailure(req, alreadyCompleted: true)
-                            req.failure
+                            req.onFailure
                                 {
                                 let cause = $0.cause as? Error.Cause.NotURLEncodable
                                 expect(cause?.offendingString).to(equal(bogus))

@@ -30,7 +30,7 @@ internal final class FailedRequest: RequestWithDefaultCallbacks
             { callback((.Failure(self.error), isNew: true)) }
         }
 
-    func progress(callback: Double -> Void) -> Self
+    func onProgress(callback: Double -> Void) -> Self
         {
         dispatch_assert_main_queue()
 

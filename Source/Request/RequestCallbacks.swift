@@ -17,7 +17,7 @@ internal protocol RequestWithDefaultCallbacks: Request
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
 extension RequestWithDefaultCallbacks
     {
-    func completion(callback: Response -> Void) -> Self
+    func onCompletion(callback: Response -> Void) -> Self
         {
         addResponseCallback
             {
@@ -27,7 +27,7 @@ extension RequestWithDefaultCallbacks
         return self
         }
 
-    func success(callback: Entity -> Void) -> Self
+    func onSuccess(callback: Entity -> Void) -> Self
         {
         addResponseCallback
             {
@@ -38,7 +38,7 @@ extension RequestWithDefaultCallbacks
         return self
         }
 
-    func newData(callback: Entity -> Void) -> Self
+    func onNewData(callback: Entity -> Void) -> Self
         {
         addResponseCallback
             {
@@ -49,7 +49,7 @@ extension RequestWithDefaultCallbacks
         return self
         }
 
-    func notModified(callback: Void -> Void) -> Self
+    func onNotModified(callback: Void -> Void) -> Self
         {
         addResponseCallback
             {
@@ -60,7 +60,7 @@ extension RequestWithDefaultCallbacks
         return self
         }
 
-    func failure(callback: Error -> Void) -> Self
+    func onFailure(callback: Error -> Void) -> Self
         {
         addResponseCallback
             {

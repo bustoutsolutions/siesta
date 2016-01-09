@@ -65,7 +65,7 @@ public struct Configuration
 
     /**
       Interval at which request hooks & observers receive progress updates. This affects how frequently
-      `Request.progress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
+      `Request.onProgress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
       `Request.progress` property (which is partially time-based) is updated.
     */
     public var progressReportingInterval: NSTimeInterval = 0.05

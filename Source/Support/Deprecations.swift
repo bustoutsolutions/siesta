@@ -48,6 +48,31 @@ extension Request
     @available(*, deprecated=1.0, renamed="isCompleted")
     public var completed: Bool
         { return isCompleted }
+
+    @available(*, deprecated=1.0, renamed="onCompletion")
+    func completion(callback: Response -> Void) -> Self
+        { return onCompletion(callback) }
+
+    @available(*, deprecated=1.0, renamed="onSuccess")
+    func success(callback: Entity -> Void) -> Self
+        { return onSuccess(callback) }
+
+    @available(*, deprecated=1.0, renamed="onNewData")
+    func newData(callback: Entity -> Void) -> Self
+        { return onNewData(callback) }
+
+    @available(*, deprecated=1.0, renamed="onNotModified")
+    func notModified(callback: Void -> Void) -> Self
+        { return onNotModified(callback) }
+
+    @available(*, deprecated=1.0, renamed="onFailure")
+    func failure(callback: Error -> Void) -> Self
+        { return onFailure(callback) }
+
+    @available(*, deprecated=1.0, renamed="onProgress")
+    func progress(callback: Double -> Void) -> Self
+        { return onProgress(callback) }
+
     }
 
 extension Service

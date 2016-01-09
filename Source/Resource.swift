@@ -353,7 +353,7 @@ public final class Resource: NSObject
     /**
       Convenience method to initiate a request with a text body.
 
-      If the string cannot be encoded using the given encoding, this methods triggers the `failure(_:)` request hook
+      If the string cannot be encoded using the given encoding, this methods triggers the `onFailure(_:)` request hook
       immediately, without touching the network.
 
       - Parameter contentType: `text/plain` by default.
@@ -384,7 +384,7 @@ public final class Resource: NSObject
       Convenience method to initiate a request with a JSON body.
 
       If the `json` cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
-      triggers the `failure(_:)` request hook immediately, without touching the network.
+      triggers the `onFailure(_:)` request hook immediately, without touching the network.
 
       - Parameter contentType: `application/json` by default.
     */
@@ -601,12 +601,12 @@ public final class Resource: NSObject
 
         trackRequest(req, using: &loadRequests)
 
-        req.progress
+        req.onProgress
             { self.notifyObservers(progress: $0) }
 
-        req.newData(receiveNewDataFromNetwork)
-        req.notModified(receiveDataNotModified)
-        req.failure(receiveError)
+        req.onNewData(receiveNewDataFromNetwork)
+        req.onNotModified(receiveDataNotModified)
+        req.onFailure(receiveError)
 
         notifyObservers(.Requested)
 
@@ -649,7 +649,7 @@ public final class Resource: NSObject
     private func trackRequest(req: Request, inout using array: [Request])
         {
         array.append(req)
-        req.completion
+        req.onCompletion
             {
             [weak self] _ in
             self?.allRequests.remove { $0.isCompleted }
