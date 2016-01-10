@@ -77,12 +77,13 @@ extension Request
 
 extension Service
     {
-    @available(*, deprecated=0.99, renamed="resourceWithURL")
+    @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
+    @nonobjc
     public final func resource(url url: NSURL?) -> Resource
-        { return resourceWithURL(url) }
+        { return resource(absoluteURL:url) }
 
-    @available(*, deprecated=0.99, renamed="resourceWithURL")
-    @objc(_deprecatedResourceWithURL:)
+    @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
+    @nonobjc
     public final func resource(url urlString: String?) -> Resource
-        { return resourceWithURL(urlString) }
+        { return resource(absoluteURL:urlString) }
     }
