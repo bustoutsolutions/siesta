@@ -87,3 +87,15 @@ extension Service
     public final func resource(url urlString: String?) -> Resource
         { return resource(absoluteURL:urlString) }
     }
+
+extension TypedContentAccessors
+    {
+    @available(*, deprecated=0.99, renamed="typedContent")
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
+        { return typedContent(ifNone: defaultContent) }
+
+    @available(*, deprecated=0.99, renamed="typedContent")
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
+        { return typedContent(ifNone: defaultContent) }
+    }
+

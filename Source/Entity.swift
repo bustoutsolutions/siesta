@@ -29,7 +29,7 @@ public struct Entity
 
       In short, when using `content`, write your code to handle it being of an unexpected type.
 
-      - SeeAlso: `Resource.contentAsType(ifNone: _:)`
+      - SeeAlso: `Resource.typedContent(ifNone:)`
     */
     public var content: Any
 
@@ -144,7 +144,7 @@ public struct Entity
 
       extension TypedContentAccessors {
         var doorknob: UIDoorknob {
-          return contentAsType(ifNone: placeholderKnob))
+          return typedContent(ifNone: placeholderKnob))
         }
       }
 
@@ -162,33 +162,50 @@ public extension TypedContentAccessors
     {
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
-      Returns the content if it can be downcast to the same type as `blankValue`; otherwise returns `ifNone`.
-
       For example, if you expect the content to be a UIImage:
 
-          let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
+          let image = typedContent(ifNone: UIImage(named: "placeholder.png"))
 
+      - Returns: The content if it is present _and_ can be downcast to a type matching both the `ifNone` parameter
+                 and the inferred return type; otherwise returns `ifNone`.
+
+      - SeeAlso: `typedContent()`
       - SeeAlso: `ResponseTransformer`
     */
-    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
+    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T) -> T
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
-    /// Variant of `contentAsType(ifNone: _:)` with optional input & output.
-    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
+    /// Variant of `typedContent(ifNone:)` with optional input & output.
+    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
+        }
+
+    /**
+      A variant of `typedContent(ifNone:)` that infers the desired type entirely from context, and returns nil if the
+      content is either not present or cannot be cast to that type. For example:
+
+          func showUser(user: User?) {
+            ...
+          }
+
+          showUser(resource.typedContent())  // Infers that desired type is User
+    */
+    public func typedContent<T>() -> T?
+        {
+        return typedContent(ifNone: nil)
         }
 
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var jsonDict: [String:AnyObject] { return contentAsType(ifNone: [:]) }
+    public var jsonDict: [String:AnyObject] { return typedContent(ifNone: [:]) }
 
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [AnyObject]       { return contentAsType(ifNone: []) }
+    public var jsonArray: [AnyObject]       { return typedContent(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String                 { return contentAsType(ifNone: "") }
+    public var text: String                 { return typedContent(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors

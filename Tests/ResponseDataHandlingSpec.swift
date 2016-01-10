@@ -411,19 +411,19 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 }
             }
 
-        describe("contentAsType()")
+        describe("typedContent()")
             {
             it("returns content if present")
                 {
                 stubText()
                 awaitNewData(resource().load())
-                let content = resource().contentAsType(ifNone: "default value")
+                let content = resource().typedContent(ifNone: "default value")
                 expect(content).to(equal("zwobble"))
                 }
 
             it("returns default if no content")
                 {
-                let content = resource().contentAsType(ifNone: "default value")
+                let content = resource().typedContent(ifNone: "default value")
                 expect(content).to(equal("default value"))
                 }
 
@@ -431,7 +431,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubText(contentType: "foo/bar")  // suppresses text parsing
                 awaitNewData(resource().load())
-                let content = resource().contentAsType(ifNone: "default value")
+                let content = resource().typedContent(ifNone: "default value")
                 expect(content).to(equal("default value"))
                 }
 
@@ -439,8 +439,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 let some: String? = "ahoy",
                     none: String? = nil
-                expect(resource().contentAsType(ifNone: some)).to(equal("ahoy"))
-                expect(resource().contentAsType(ifNone: none)).to(beNil())
+                expect(resource().typedContent(ifNone: some)).to(equal("ahoy"))
+                expect(resource().typedContent(ifNone: none)).to(beNil())
                 }
 
             it("does not evaluate default unless needed")
@@ -454,7 +454,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 stubText()
                 awaitNewData(resource().load())
-                expect(resource().contentAsType(ifNone: suddenDeath())).notTo(beNil())
+                expect(resource().typedContent(ifNone: suddenDeath())).notTo(beNil())
                 expect(suddenDeathCalled).to(beFalse())
                 }
             }
