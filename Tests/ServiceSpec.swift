@@ -54,12 +54,12 @@ class ServiceSpec: SiestaSpec
 
                 it("fails requests for relative URLs")
                     {
-                    expectInvalidResource(bareService().resourceWithURL("/foo"))
+                    expectInvalidResource(bareService().resource(absoluteURL: "/foo"))
                     }
 
                 it("allows requests for absolute URLs")
                     {
-                    let resource = bareService().resourceWithURL("http://foo.bar")
+                    let resource = bareService().resource(absoluteURL: "http://foo.bar")
                     stubRequest({ resource }, "GET").andReturn(200)
                     awaitNewData(resource.load())
                     }
@@ -101,10 +101,10 @@ class ServiceSpec: SiestaSpec
 
             it("gives a non-nil but invalid resource for invalid URLs")
                 {
-                expectInvalidResource(service().resourceWithURL("http://[URL syntax error]"))
-                expectInvalidResource(service().resourceWithURL("\0"))
-                expectInvalidResource(service().resourceWithURL(nil as NSURL?))
-                expectInvalidResource(service().resourceWithURL(nil as String?))
+                expectInvalidResource(service().resource(absoluteURL: "http://[URL syntax error]"))
+                expectInvalidResource(service().resource(absoluteURL: "\0"))
+                expectInvalidResource(service().resource(absoluteURL: nil as NSURL?))
+                expectInvalidResource(service().resource(absoluteURL: nil as String?))
                 }
             }
 
@@ -167,7 +167,7 @@ class ServiceSpec: SiestaSpec
                     service.configure(pattern) { $0.config.expirationTime = 6 }
 
                     var resource = absolute
-                        ? service.resourceWithURL(pathOrURL)
+                        ? service.resource(absoluteURL: pathOrURL)
                         : service.resource(pathOrURL)
                     for (k,v) in params
                         { resource = resource.withParam(k, v) }

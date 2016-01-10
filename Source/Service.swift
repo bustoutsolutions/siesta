@@ -28,7 +28,7 @@ public class Service: NSObject
 
       - Parameter baseURL:
           The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-          only `resourceWithURL(_:)` to acquire resources.
+          only `resource(absoluteURL:)` to acquire resources.
       - Parameter useDefaultTransformers:
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
@@ -83,7 +83,8 @@ public class Service: NSObject
               came from a malformed URL string), this method returns a resource whose requests always fail.
     */
     @warn_unused_result
-    public final func resourceWithURL(url: NSURL?) -> Resource
+    @objc(resourceWithAbsoluteURL:)
+    public final func resource(absoluteURL url: NSURL?) -> Resource
         {
         dispatch_assert_main_queue()
 
@@ -99,21 +100,20 @@ public class Service: NSObject
     /**
       Returns the unique resource with the given URL string, ignoring `baseURL`.
 
-      - SeeAlso: `resourceWithURL(_:)`
+      - SeeAlso: `resource(absoluteURL:)`
     */
     @warn_unused_result
-    @objc(resourceWithURLString:)
-    public final func resourceWithURL(urlString: String?) -> Resource
+    @objc(resourceWithAbsoluteURLString:)
+    public final func resource(absoluteURL urlString: String?) -> Resource
         {
         guard let urlString = urlString else
-            { return resourceWithURL(Service.invalidURL) }
+            { return resource(absoluteURL: Service.invalidURL) }
 
         let url = NSURL(string: urlString)
         if url == nil
             { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
-        return resourceWithURL(url)
+        return resource(absoluteURL: url)
         }
-
 
     /**
       Return the unique resource with the given path appended to the path component `baseURL`.
@@ -128,15 +128,15 @@ public class Service: NSObject
           such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
           resource’s path.
 
-          If you want to pass an absolute URL, use `resourceWithURL(_:)`.
+          If you want to pass an absolute URL, use `resource(absoluteURL:)`.
 
           If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
     */
     @warn_unused_result
-    @objc(resourceWithPath:)
+    @objc(resource:)
     public final func resource(path: String) -> Resource
         {
-        return resourceWithURL(
+        return resource(absoluteURL:
             baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 

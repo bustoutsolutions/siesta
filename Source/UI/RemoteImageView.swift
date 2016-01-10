@@ -31,7 +31,7 @@ public class RemoteImageView: UIImageView
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
-        set { imageResource = imageService.resourceWithURL(newValue) }
+        set { imageResource = imageService.resource(absoluteURL: newValue) }
         }
 
     /**

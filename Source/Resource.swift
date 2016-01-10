@@ -193,7 +193,7 @@ public final class Resource: NSObject
     @warn_unused_result
     public func child(subpath: String) -> Resource
         {
-        return service.resourceWithURL(url.URLByAppendingPathComponent(subpath))
+        return service.resource(absoluteURL: url.URLByAppendingPathComponent(subpath))
         }
 
     /**
@@ -211,7 +211,7 @@ public final class Resource: NSObject
     @warn_unused_result
     public func relative(href: String) -> Resource
         {
-        return service.resourceWithURL(NSURL(string: href, relativeToURL: url))
+        return service.resource(absoluteURL: NSURL(string: href, relativeToURL: url))
         }
 
     /**
@@ -254,7 +254,7 @@ public final class Resource: NSObject
     @objc(withParam:value:)
     public func withParam(name: String, _ value: String?) -> Resource
         {
-        return service.resourceWithURL(
+        return service.resource(absoluteURL:
             url.alterQuery
                 {
                 (var params) in

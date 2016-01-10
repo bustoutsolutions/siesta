@@ -32,7 +32,7 @@
     beforeEach(^
         {
         service = [[TestService alloc] init];
-        resource = [service resourceWithPath:@"/foo"];
+        resource = [service resource:@"/foo"];
         });
 
     afterEach(^
