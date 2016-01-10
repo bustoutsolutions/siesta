@@ -11,7 +11,8 @@
   a chain of transformers before being sent to response hooks or observers.
 
   - Warning: Transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
-             transformer touches only its input parameters.
+             transformer touches only its input parameters, and those parameters are value types or otherwise
+             exclusively owned.
 */
 public protocol ResponseTransformer
     {
