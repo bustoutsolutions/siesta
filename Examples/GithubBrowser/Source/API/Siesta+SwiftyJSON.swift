@@ -21,6 +21,6 @@ extension TypedContentAccessors {
       resource’s content, you’ll need to add a custom `ResponseTransformer`.
     */
     var json: JSON {
-        return JSON(contentAsType(ifNone: [:] as AnyObject))
+        return JSON(typedContent(ifNone: [:] as AnyObject))
     }
 }

@@ -13,7 +13,7 @@ let GithubAPI = _GithubAPI()
 class _GithubAPI: Service {
 
     private init() {
-        super.init(base: "https://api.github.com")
+        super.init(baseURL: "https://api.github.com")
 
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.common
