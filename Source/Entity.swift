@@ -104,8 +104,9 @@ public struct Entity
             content: Any,
             contentType: String,
             charset: String? = nil,
-            var headers: [String:String] = [:])
+            headers: [String:String] = [:])
         {
+        var headers = headers
         headers["Content-Type"] = contentType
 
         self.init(content:content, charset:charset, headers:headers)

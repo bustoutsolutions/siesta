@@ -280,7 +280,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
     public func trackManualLoad(request: Request)
         {
-        ++retryRequestsInProgress
+        retryRequestsInProgress += 1
         updateDisplay()
 
         request.onCompletion
@@ -289,7 +289,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             guard let overlay = self else
                 { return }
 
-            --overlay.retryRequestsInProgress
+            overlay.retryRequestsInProgress -= 1
             overlay.updateDisplay()
             }
         }

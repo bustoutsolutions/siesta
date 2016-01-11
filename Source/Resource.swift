@@ -257,7 +257,7 @@ public final class Resource: NSObject
         return service.resource(absoluteURL:
             url.alterQuery
                 {
-                (var params) in
+                var params = $0
                 params[name] = value
                 return params
                 })

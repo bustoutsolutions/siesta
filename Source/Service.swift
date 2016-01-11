@@ -246,7 +246,11 @@ public class Service: NSObject
         }
 
     private var configID = 0
-    private var nextConfigID: Int { return configID++ }
+    private var nextConfigID: Int
+        {
+        configID += 1
+        return configID - 1
+        }
 
     /**
       Signals that all resources need to recompute their configuration next time they need it.
@@ -286,7 +290,7 @@ public class Service: NSObject
             { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
 
-        configVersion++
+        configVersion += 1
         }
 
     private var anyConfigSinceLastInvalidation = false

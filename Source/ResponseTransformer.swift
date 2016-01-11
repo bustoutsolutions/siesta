@@ -195,7 +195,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func processEntity(var entity: Entity) -> Response
+    private func processEntity(entity: Entity) -> Response
         {
         if skipWhenEntityMatchesOutputType && entity.content is OutputContentType
             {
@@ -216,6 +216,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
         do  {
             let result = try processor(content: typedContent, entity: entity)
+            var entity = entity
             entity.content = result
             return .Success(entity)
             }
@@ -230,8 +231,9 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func processError(var error: Error) -> Response
+    private func processError(error: Error) -> Response
         {
+        var error = error
         if let errorData = error.entity where transformErrors
             {
             switch processEntity(errorData)
