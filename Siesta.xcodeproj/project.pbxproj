@@ -334,7 +334,6 @@
 				DA336E4B1B2E6DDB006F702A /* Frameworks */,
 				DA336E4C1B2E6DDB006F702A /* Headers */,
 				DA336E4D1B2E6DDB006F702A /* Resources */,
-				DAFA420A1C2134580020AC5E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -417,23 +416,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DAFA420A1C2134580020AC5E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Clean whitespace\nperl -pi -e 's/ +$//g' $(find Source Extensions Tests -name '*.swift' -o -name '*.md' -o -name '*.h' -o -name '*.m')\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA336E4A1B2E6DDB006F702A /* Sources */ = {
