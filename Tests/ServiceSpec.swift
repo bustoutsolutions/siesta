@@ -66,7 +66,7 @@ class ServiceSpec: SiestaSpec
                 }
             }
 
-        describe("resource()")
+        describe("resource(_:)")
             {
             it("returns a resource that belongs to this service")
                 {
@@ -74,29 +74,57 @@ class ServiceSpec: SiestaSpec
                     .to(equal(service()))
                 }
 
-            it("resolves all paths as subpaths of baseURL")
+            it("resolves all strings as subpaths of baseURL")
                 {
                 // Note that checkPathExpansion tests both with & without leading slash
-                checkPathExpansion("https://foo.bar",    path:"",         expect:"https://foo.bar/")
-                checkPathExpansion("https://foo.bar",    path:"baz",      expect:"https://foo.bar/baz")
-                checkPathExpansion("https://foo.bar",    path:"baz/fez",  expect:"https://foo.bar/baz/fez")
-                checkPathExpansion("https://foo.bar",    path:"baz/fez/", expect:"https://foo.bar/baz/fez/")
-                checkPathExpansion("https://foo.bar/v1", path:"baz",      expect:"https://foo.bar/v1/baz")
-                checkPathExpansion("https://foo.bar/v1", path:"baz/fez",  expect:"https://foo.bar/v1/baz/fez")
+                checkPathExpansion("https://foo.bar",    path: "",         expect: "https://foo.bar/")
+                checkPathExpansion("https://foo.bar",    path: "baz",      expect: "https://foo.bar/baz")
+                checkPathExpansion("https://foo.bar",    path: "baz/fez",  expect: "https://foo.bar/baz/fez")
+                checkPathExpansion("https://foo.bar",    path: "baz/fez/", expect: "https://foo.bar/baz/fez/")
+                checkPathExpansion("https://foo.bar/v1", path: "baz",      expect: "https://foo.bar/v1/baz")
+                checkPathExpansion("https://foo.bar/v1", path: "baz/fez",  expect: "https://foo.bar/v1/baz/fez")
                 }
 
             it("does not apply special interpretation to . or ..")
                 {
-                checkPathExpansion("https://foo.bar/v1", path:"./baz",  expect:"https://foo.bar/v1/./baz")
-                checkPathExpansion("https://foo.bar/v1", path:"../baz", expect:"https://foo.bar/v1/../baz")
-                checkPathExpansion("https://foo.bar/v1", path:"baz/.",  expect:"https://foo.bar/v1/baz/.")
-                checkPathExpansion("https://foo.bar/v1", path:"baz/..", expect:"https://foo.bar/v1/baz/..")
+                checkPathExpansion("https://foo.bar/v1", path: "./baz",  expect: "https://foo.bar/v1/./baz")
+                checkPathExpansion("https://foo.bar/v1", path: "../baz", expect: "https://foo.bar/v1/../baz")
+                checkPathExpansion("https://foo.bar/v1", path: "baz/.",  expect: "https://foo.bar/v1/baz/.")
+                checkPathExpansion("https://foo.bar/v1", path: "baz/..", expect: "https://foo.bar/v1/baz/..")
+                }
+
+            it("does not apply special interpretation to // or protocol://")
+                {
+                expect(("https://foo.bar/v1", "//other.host"))     .to(expandToResourceURL("https://foo.bar/v1//other.host"))
+                expect(("https://foo.bar/v1", "http://other.host")).to(expandToResourceURL("https://foo.bar/v1/http://other.host"))
+                }
+
+            it("escapes all characters as part of the path (even ones that look like query strings)")
+                {
+                checkPathExpansion("https://foo.bar/v1", path: "?foo=bar", expect: "https://foo.bar/v1/%3Ffoo=bar")
+                checkPathExpansion("https://foo.bar/v1", path: "%3F",      expect: "https://foo.bar/v1/%253F")
+                checkPathExpansion("https://foo.bar/v1", path: "𝄞",        expect: "https://foo.bar/v1/%F0%9D%84%9E")
                 }
 
             it("preserves baseURL query params")
                 {
-                checkPathExpansion("https://foo.bar/?a=b&x=y",   path:"baz/fez/", expect:"https://foo.bar/baz/fez/?a=b&x=y")
-                checkPathExpansion("https://foo.bar/v1?a=b&x=y", path:"baz",      expect:"https://foo.bar/v1/baz?a=b&x=y")
+                checkPathExpansion("https://foo.bar/?a=b&x=y",   path: "baz/fez/", expect: "https://foo.bar/baz/fez/?a=b&x=y")
+                checkPathExpansion("https://foo.bar/v1?a=b&x=y", path: "baz",      expect: "https://foo.bar/v1/baz?a=b&x=y")
+                }
+            }
+
+        describe("resource(absoluteURL:)")
+            {
+            it("returns a resource with the given URL")
+                {
+                expect(service().resource(absoluteURL: "http://foo.com/bar").url.absoluteString)
+                    .to(equal("http://foo.com/bar"))
+                }
+
+            it("ignores baseURL")
+                {
+                expect(service().resource(absoluteURL: "./foo").url.absoluteString)
+                    .to(equal("./foo"))
                 }
 
             it("gives a non-nil but invalid resource for invalid URLs")
