@@ -6,6 +6,7 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
+/// :nodoc:
 extension Entity
     {
     @available(*, deprecated=0.99, renamed="Entity(response:content:)")
@@ -13,6 +14,7 @@ extension Entity
         { self.init(response: response, content: content) }
     }
 
+/// :nodoc:
 extension Error
     {
     @available(*, deprecated=0.99, renamed="Error(response:content:cause:userMessage:)")
@@ -24,6 +26,7 @@ extension Error
         { self.init(response: response, content: content, cause: cause, userMessage: userMessage) }
     }
 
+/// :nodoc:
 extension Resource
     {
     @available(*, deprecated=0.99, renamed="isLoading")
@@ -43,6 +46,7 @@ extension Resource
         { overrideLocalContent(content) }
     }
 
+/// :nodoc:
 extension Request
     {
     @available(*, deprecated=0.99, renamed="isCompleted")
@@ -50,31 +54,32 @@ extension Request
         { return isCompleted }
 
     @available(*, deprecated=0.99, renamed="onCompletion")
-    func completion(callback: Response -> Void) -> Self
+    public func completion(callback: Response -> Void) -> Self
         { return onCompletion(callback) }
 
     @available(*, deprecated=0.99, renamed="onSuccess")
-    func success(callback: Entity -> Void) -> Self
+    public func success(callback: Entity -> Void) -> Self
         { return onSuccess(callback) }
 
     @available(*, deprecated=0.99, renamed="onNewData")
-    func newData(callback: Entity -> Void) -> Self
+    public func newData(callback: Entity -> Void) -> Self
         { return onNewData(callback) }
 
     @available(*, deprecated=0.99, renamed="onNotModified")
-    func notModified(callback: Void -> Void) -> Self
+    public func notModified(callback: Void -> Void) -> Self
         { return onNotModified(callback) }
 
     @available(*, deprecated=0.99, renamed="onFailure")
-    func failure(callback: Error -> Void) -> Self
+    public func failure(callback: Error -> Void) -> Self
         { return onFailure(callback) }
 
     @available(*, deprecated=0.99, renamed="onProgress")
-    func progress(callback: Double -> Void) -> Self
+    public func progress(callback: Double -> Void) -> Self
         { return onProgress(callback) }
 
     }
 
+/// :nodoc:
 extension Service
     {
     @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
@@ -88,6 +93,7 @@ extension Service
         { return resource(absoluteURL:urlString) }
     }
 
+/// :nodoc:
 extension TypedContentAccessors
     {
     @available(*, deprecated=0.99, renamed="typedContent")

@@ -11,7 +11,7 @@
 
   Siesta can encounter errors from many possible sources, including:
 
-  - client-side parse issues,
+  - client-side encoding / request creation issues,
   - network connectivity problems,
   - protocol issues (e.g. certificate problems),
   - server errors (404, 500, etc.), and
@@ -38,7 +38,8 @@ public struct Error: ErrorType
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
     public var entity: Entity?
 
-    /// Details about the underlying error.
+    /// Details about the underlying error. Errors originating from Siesta will have a cause from `Error.Cause`.
+    /// Errors originating from the `NetworkingProvider` or custom `ResponseTransformer`s have domain-specific causes.
     public var cause: ErrorType?
 
     /// The time at which the error occurred.

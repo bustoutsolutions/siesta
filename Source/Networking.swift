@@ -8,9 +8,9 @@
 
 /**
   If you want to use a different networking library, implement this protocol and pass your implementation to
-  `Service.init(baseURL:networkingProvider:)`.
+  `Service.init(...)`.
 
-  See `NSURLSessionProvider` and `Extensions/Alamofire/AlamofireProvider` for implementation examples.
+  See `NSURLSessionProvider` and `Extensions/Alamofire/Networking-Alamofire.swift` for implementation examples.
 */
 public protocol NetworkingProvider: NetworkingProviderConvertible
     {

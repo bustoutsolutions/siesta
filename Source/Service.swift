@@ -72,6 +72,31 @@ public class Service: NSObject
         }
 
     /**
+      Return the unique resource with the given path appended to the path component of `baseURL`.
+
+      A leading slash is optional, and has no effect:
+
+          service.resource("users")   // same
+          service.resource("/users")  // thing
+
+      - Note:
+          The `path` parameter is simply appended to `baseURL`’s path, and is _never_ interpreted as a URL. Strings
+          such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
+          resource’s path.
+
+          If you want to pass an absolute URL, use `resource(absoluteURL:)`.
+
+          If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
+    */
+    @warn_unused_result
+    @objc(resource:)
+    public final func resource(path: String) -> Resource
+        {
+        return resource(absoluteURL:
+            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+        }
+
+    /**
       Returns the unique resource with the given URL, ignoring `baseURL`.
 
       This method will _always_ return the same instance of `Resource` for the same URL within
@@ -113,31 +138,6 @@ public class Service: NSObject
         if url == nil
             { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
         return resource(absoluteURL: url)
-        }
-
-    /**
-      Return the unique resource with the given path appended to the path component `baseURL`.
-
-      A leading slash is optional, and has no effect:
-
-          service.resource("users")   // same
-          service.resource("/users")  // thing
-
-      - Note:
-          The `path` parameter is simply appended to `baseURL`’s path, and is _never_ interpreted as a URL. Strings
-          such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
-          resource’s path.
-
-          If you want to pass an absolute URL, use `resource(absoluteURL:)`.
-
-          If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
-    */
-    @warn_unused_result
-    @objc(resource:)
-    public final func resource(path: String) -> Resource
-        {
-        return resource(absoluteURL:
-            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 
     // MARK: Resource Configuration

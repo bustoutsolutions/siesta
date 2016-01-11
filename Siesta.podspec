@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary      = "iOS REST Client Framework"
 
   s.description  = <<-DESC
-                   An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A resource-centric alternative to the familiar request-centric approach.
+                   An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A **resource-centric** alternative to the familiar **request-centric** approach.
 
                    Siesta ends the stateful headache of client-side network request management by providing an observable model of a RESTful resource’s state. The model answers three basic questions:
 
