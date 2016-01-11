@@ -215,9 +215,9 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code>Service.init(base:networkingProvider:)</code>.</p>
+<code><a href="Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_">Service.init(...)</a></code>.</p>
 
-<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code>Extensions/Alamofire/AlamofireProvider</code> for implementation examples.</p>
+<p>See <code><a href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code>Extensions/Alamofire/Networking-Alamofire.swift</code> for implementation examples.</p>
 
                         <a href="Protocols/NetworkingProvider.html" class="slightly-smaller">See more</a>
                       </div>
@@ -230,7 +230,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L15-L28">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking.swift#L15-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -249,20 +249,20 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A convenience to turn create the appropriate <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> for a variety of networking configuration objects.
-Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.</p>
+  Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.</p>
 
 <p>For example, instead of having to do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionProvider(session:
-      NSURLSession(configuration:
-          NSURLSessionConfiguration.defaultSessionConfiguration()))
+<pre class="highlight plaintext"><code>  Service(baseURL: "http://foo.bar", networking:
+    NSURLSessionProvider(session:
+        NSURLSession(configuration:
+            NSURLSessionConfiguration.defaultSessionConfiguration()))
 </code></pre>
 
 <p>…you can do this:</p>
 
-<pre class="highlight plaintext"><code>Service(base: "http://foo.bar", networking:
-  NSURLSessionConfiguration.defaultSessionConfiguration()))
+<pre class="highlight plaintext"><code>  Service(baseURL: "http://foo.bar", networking:
+    NSURLSessionConfiguration.defaultSessionConfiguration()))
 </code></pre>
 
 <p>Siesta supports conversion of the following types into a networking provider:</p>
@@ -286,7 +286,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L91-L95">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking.swift#L98-L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -323,7 +323,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L37-L44">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking.swift#L44-L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -341,7 +341,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Siesta passes this callback to a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementation to call when the underlying network request is complete.</p>
+                        <p>Used by a <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementation to pass the result of a network request back to Siesta.</p>
 
                       </div>
                       <div class="declaration">
@@ -353,7 +353,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L65">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking.swift#L72">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -384,7 +384,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking.swift#L47-L62">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking.swift#L54-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -421,7 +421,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Networking-NSURLSession.swift#L15-L33">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Networking-NSURLSession.swift#L15-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -432,7 +432,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
         </section>
         <section id="footer">
           <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

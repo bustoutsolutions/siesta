@@ -208,7 +208,7 @@
 <p>Siesta can encounter errors from many possible sources, including:</p>
 
 <ul>
-<li>client-side parse issues,</li>
+<li>client-side encoding / request creation issues,</li>
 <li>network connectivity problems,</li>
 <li>protocol issues (e.g. certificate problems),</li>
 <li>server errors (404, 500, etc.), and</li>
@@ -252,7 +252,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L33">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -282,7 +282,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L36">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -312,7 +312,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,7 +330,8 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Details about the underlying error.</p>
+                        <p>Details about the underlying error. Errors originating from Siesta will have a cause from <code><a href="../Structs/Error/Cause.html">Error.Cause</a></code>.
+Errors originating from the <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code> or custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code>s have domain-specific causes.</p>
 
                       </div>
                       <div class="declaration">
@@ -342,7 +343,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L42">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -372,7 +373,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L45">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -380,9 +381,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta5ErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqPSs9ErrorType__11userMessageGSqSS__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(_:_:_:userMessage:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta5ErrorcFMS0_FTGSqCSo17NSHTTPURLResponse_GSqPSs9AnyObject__GSqPSs9ErrorType__11userMessageGSqSS__S0_">init(_:_:_:userMessage:)</a>
+                    <a name="/s:FV6Siesta5ErrorcFMS0_FT8responseGSqCSo17NSHTTPURLResponse_7contentGSqPSs9AnyObject__5causeGSqPSs9ErrorType__11userMessageGSqSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(response:content:cause:userMessage:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta5ErrorcFMS0_FT8responseGSqCSo17NSHTTPURLResponse_7contentGSqPSs9AnyObject__5causeGSqPSs9ErrorType__11userMessageGSqSS__S0_">init(response:content:cause:userMessage:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -401,15 +402,15 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span>
-            <span class="n">_</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span>
-            <span class="n">_</span> <span class="nv">cause</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="p">?,</span>
+            <span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span>
+            <span class="nv">content</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span>
+            <span class="nv">cause</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="p">?,</span>
             <span class="nv">userMessage</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L53-L73">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L54-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -442,7 +443,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L78-L86">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L79-L87">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -465,9 +466,9 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Underlying causes of errors reported by Siesta. You will find these on the <code><a href="../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPSs9ErrorType__">Error.cause</a></code> property.
-  (Note that <code><a href="../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPSs9ErrorType__">cause</a></code> may also contain errors from the underlying network library that do not belong to this enum.)</p>
+  (Note that <code><a href="../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPSs9ErrorType__">cause</a></code> may also contain errors from the underlying network library that do not appear here.)</p>
 
-<p>The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
+<p>The primary purpose of these error causes is to aid debugging. Client code rarely needs to work with them,
   but they can be useful if you want to add special handling for specific errors.</p>
 
 <p>For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,
@@ -510,7 +511,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Error.swift#L126-L193">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Error.swift#L127-L194">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -544,7 +545,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/e29ddc96afb84bdbe787aa128209732a0b150a10/Source/Entity.swift#L209">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.6/Source/Entity.swift#L227">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -555,7 +556,7 @@ e.g. “Not found,” “Invalid username or password,” or “The internet con
         </section>
         <section id="footer">
           <p>© 2015 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

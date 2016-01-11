@@ -83,4 +83,4 @@ For example code, see the [OWASP guide](https://www.owasp.org/index.php/Certific
 
 If you are using Siesta with Alamofire as a [networking provider](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you can use the [Alamofire security utilities](https://github.com/Alamofire/Alamofire#security).
 
-<p class='guide-next'>Next: <strong><a href='../ui-components'>UI Components</a></p>
+<p class='guide-next'>Next: <strong><a href='../memory'>Memory Management</a></p>

@@ -11,9 +11,10 @@ layout: default
 - [Requests](/siesta/guide/requests)
 - [Configuration](/siesta/guide/configuration)
 - [Security](/siesta/guide/security)
-- [UI Components](/siesta/guide/ui-components)
 - [Memory Management](/siesta/guide/memory)
+- [Threading](/siesta/guide/threading)
 - [Logging](/siesta/guide/logging)
+- [UI Components](/siesta/guide/ui-components)
 - [Using Siesta from Objective-C](/siesta/guide/objc)
 - [FAQ](/siesta/guide/faq)
 
