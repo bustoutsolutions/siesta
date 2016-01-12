@@ -8,6 +8,7 @@
 
 internal extension String
     {
+    @warn_unused_result
     func stripPrefix(prefix: String) -> String
         {
         return hasPrefix(prefix)

@@ -8,6 +8,7 @@
 
 internal extension CollectionType
     {
+    @warn_unused_result
     func bipartition(
             @noescape includeElement: (Self.Generator.Element) -> Bool)
         -> (included: [Self.Generator.Element], excluded: [Self.Generator.Element])
@@ -29,6 +30,7 @@ internal extension CollectionType
 
 internal extension Array
     {
+    @warn_unused_result
     func any(@noescape predicate: Generator.Element -> Bool) -> Bool
         {
         for elem in self
@@ -37,6 +39,7 @@ internal extension Array
         return false
         }
 
+    @warn_unused_result
     func all(@noescape predicate: Generator.Element -> Bool) -> Bool
         {
         return !any { !predicate($0) }
@@ -60,6 +63,7 @@ internal extension Array
 
 internal extension Dictionary
     {
+    @warn_unused_result
     static func fromArray<K,V>(arrayOfTuples: [(K,V)]) -> [K:V]
         {
         var dict = Dictionary<K,V>(minimumCapacity: arrayOfTuples.count)
@@ -68,12 +72,14 @@ internal extension Dictionary
         return dict
         }
 
+    @warn_unused_result
     func mapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey,MappedValue))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(map(transform))
         }
 
+    @warn_unused_result
     func flatMapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey?,MappedValue?))
         -> [MappedKey:MappedValue]
         {

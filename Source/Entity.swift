@@ -119,6 +119,7 @@ public struct Entity
 
       - Parameter key: The case-insensitive header name.
     */
+    @warn_unused_result
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
 
@@ -173,12 +174,14 @@ public extension TypedContentAccessors
       - SeeAlso: `typedContent()`
       - SeeAlso: `ResponseTransformer`
     */
+    @warn_unused_result
     public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T) -> T
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
     /// Variant of `typedContent(ifNone:)` with optional input & output.
+    @warn_unused_result
     public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
@@ -194,6 +197,7 @@ public extension TypedContentAccessors
 
           showUser(resource.typedContent())  // Infers that desired type is User
     */
+    @warn_unused_result
     public func typedContent<T>() -> T?
         {
         return typedContent(ifNone: nil)
