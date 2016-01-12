@@ -24,5 +24,6 @@ internal func dispatch_assert_main_queue(caller: String = __FUNCTION__)
     precondition(
         NSThread.isMainThread(),
         "Illegal attempt to use Siesta method \"\(caller)\" from a background thread. " +
-        "Except where noted, you must call Siesta APIs from the main thread.")
+        "Except in specific situations, you must call Siesta APIs from the main thread. " +
+        "See http://bustoutsolutions.github.io/siesta/guide/threading/")
     }
