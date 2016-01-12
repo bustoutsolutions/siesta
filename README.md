@@ -169,7 +169,7 @@ Click the + button in the top left corner to add a Copy Files build phase. Set t
 Make a singleton for the REST API you want to use:
 
 ```swift
-let MyAPI = Service(base: "https://api.example.com")
+let MyAPI = Service(baseURL: "https://api.example.com")
 ```
 
 Now register your view controller — or view, or anything you like — to receive notifications whenever a particular resource’s state changes:
@@ -209,6 +209,28 @@ MyAPI.resource("/profile").addObserver(self) {
 ```
 
 Note that no actual JSON parsing occurs when we invoke `jsonDict`. The JSON has already been parsed off the main thread, in a GCD queue — and unlike other frameworks, it is only parsed _once_ no matter how many observers there are.
+
+Of course, you may not want to work with raw JSON. You can configure Siesta to automatically pass raw responses to your model initializers:
+
+```swift
+struct UserProfile {
+    init(json: [String:AnyObject]) { ... }
+}
+
+MyAPI.configureTransformer("/profile") {  // Path supports wildcards
+    UserProfile(json: $0)
+}
+```
+```swift
+MyAPI.resource("/profile").addObserver(self) {
+    [weak self] in
+    self?.showProfile($0.typedContent())  // Response now contains UserProfile instead of JSON
+}
+
+func showProfile(profile: UserProfile) {
+    ...
+}
+```
 
 Trigger a staleness-aware load when the view appears:
 
