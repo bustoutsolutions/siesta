@@ -297,6 +297,17 @@ class ResourceObserversSpec: ResourceSpecBase
                 expectResourceNotToBeRetained()
                 }
 
+            it("allows resource deallocation when observer owners are deallocated")
+                {
+                var otherOwner: AnyObject? = TestObserver()
+                resourceWeak?.addObserver(observer(), owner: otherOwner!)
+                resourceWeak?.removeObservers(ownedBy: observer())
+                expectResourceToBeRetained()
+
+                otherOwner = nil
+                expectResourceNotToBeRetained()
+                }
+
             it("re-retains resource when observers added again")
                 {
                 resourceWeak?.removeObservers(ownedBy: observer())

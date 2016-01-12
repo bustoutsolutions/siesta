@@ -36,8 +36,6 @@ public final class Resource: NSObject
 
     internal var observers = [ObserverEntry]()
 
-    private var lowMemoryObserver: AnyObject? = nil
-
     // MARK: Configuration
 
     /**
@@ -150,23 +148,7 @@ public final class Resource: NSObject
 
         super.init()
 
-        lowMemoryObserver =
-            NSNotificationCenter.defaultCenter().addObserverForName(
-                UIApplicationDidReceiveMemoryWarningNotification,
-                object: nil,
-                queue: nil)
-            {
-            [weak self] _ in
-            self?.cleanDefunctObservers()
-            }
-
         initializeDataFromCache()
-        }
-
-    deinit
-        {
-        if let lowMemoryObserver = lowMemoryObserver
-            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
         }
 
     // MARK: URL navigation
@@ -864,6 +846,12 @@ public final class Resource: NSObject
             + (latestError != nil ? "E" : "")
             + "]"
         }
+    }
+
+extension Resource: WeakCacheValue
+    {
+    func allowRemovalFromCache()
+        { cleanDefunctObservers() }
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.

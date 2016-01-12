@@ -100,5 +100,12 @@ private final class WeakCacheEntry<V: AnyObject>
     func allowRemoval()
         {
         ref.strong = false
+        if let value = ref.value as? WeakCacheValue
+            { value.allowRemovalFromCache() }
         }
+    }
+
+internal protocol WeakCacheValue
+    {
+    func allowRemovalFromCache()
     }
