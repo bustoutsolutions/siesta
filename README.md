@@ -210,17 +210,16 @@ MyAPI.resource("/profile").addObserver(self) {
 
 Note that no actual JSON parsing occurs when we invoke `jsonDict`. The JSON has already been parsed off the main thread, in a GCD queue — and unlike other frameworks, it is only parsed _once_ no matter how many observers there are.
 
-Of course, you may not want to work with raw JSON. You can configure Siesta to automatically pass raw responses to your model initializers:
+Of course, you probably don’t want to work with raw JSON in all your controllers. You can configure Siesta to automatically turn raw responses into models:
 
 ```swift
-struct UserProfile {
-    init(json: [String:AnyObject]) { ... }
-}
-
 MyAPI.configureTransformer("/profile") {  // Path supports wildcards
-    UserProfile(json: $0)
+    UserProfile(json: $0)                 // Create models however you like
 }
 ```
+
+…and now your observers see models instead of JSON:
+
 ```swift
 MyAPI.resource("/profile").addObserver(self) {
     [weak self] in
