@@ -1,6 +1,3 @@
-Networking-NSURLSession.swift
-	public let session: NSURLSession
-	var task: NSURLSessionTask { get }
 Error.swift
 	public let encodingName: String
 	public let text: String
