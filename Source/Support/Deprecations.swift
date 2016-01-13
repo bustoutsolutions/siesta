@@ -6,7 +6,6 @@
 //  Copyright © 2015 Bust Out Solutions. All rights reserved.
 //
 
-/// :nodoc:
 extension Entity
     {
     @available(*, deprecated=0.99, renamed="Entity(response:content:)")
@@ -14,7 +13,6 @@ extension Entity
         { self.init(response: response, content: content) }
     }
 
-/// :nodoc:
 extension Error
     {
     @available(*, deprecated=0.99, renamed="Error(response:content:cause:userMessage:)")
@@ -26,7 +24,6 @@ extension Error
         { self.init(response: response, content: content, cause: cause, userMessage: userMessage) }
     }
 
-/// :nodoc:
 extension Resource
     {
     @available(*, deprecated=0.99, renamed="isLoading")
@@ -46,7 +43,6 @@ extension Resource
         { overrideLocalContent(content) }
     }
 
-/// :nodoc:
 extension Request
     {
     @available(*, deprecated=0.99, renamed="isCompleted")
@@ -79,7 +75,6 @@ extension Request
 
     }
 
-/// :nodoc:
 extension Service
     {
     @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
@@ -93,7 +88,6 @@ extension Service
         { return resource(absoluteURL:urlString) }
     }
 
-/// :nodoc:
 extension TypedContentAccessors
     {
     @available(*, deprecated=0.99, renamed="typedContent")
