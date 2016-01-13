@@ -14,6 +14,7 @@
 */
 public struct NSURLSessionProvider: NetworkingProvider
     {
+    /// Session which will create `NSURLSessionDataTask`s.
     public let session: NSURLSession
 
     /// :nodoc:
@@ -63,6 +64,7 @@ extension NSURLSessionConfiguration: NetworkingProviderConvertible
 /// Convenience for `NetworkingProvider` implementations that ultimate rely on an `NSURLSessionTask`.
 public protocol SessionTaskContainer
     {
+    /// Underlying networking task that can report request progress.
     var task: NSURLSessionTask { get }
     }
 
