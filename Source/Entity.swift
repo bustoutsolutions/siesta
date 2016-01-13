@@ -18,18 +18,25 @@ public struct Entity
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
 
-      Why is the type of this property `Any` instead of a generic `T`? Because a `<T>` declaration would mean
-      “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
-      Swift at _compile time_ what content type a server will actually send at _runtime_.
+      When using `content`, because you do not know what the server actually returned, write your code to handle it
+      being of an unexpected type. Siesta provides `TypedContentAccessors` to help deal with this.
 
-      The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That is
-      exactly what Swift’s `as?` operator does — and any scheme involving a generic `<T>` ends up being an obfuscated
-      equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
-      Crash-o-Matic.”
+      - Note:
+          Why is the type of this property `Any` instead of a generic `T`? Because an `Entity<T>` declaration would mean
+          “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
+          Swift at _compile time_ what content type a server will actually send at _runtime_.
 
-      In short, when using `content`, write your code to handle it being of an unexpected type.
+          The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That
+          is exactly what Swift’s `as?` operator does — and any scheme within the current system involving a generic
+          `Entity<T>` ends up being an obfuscated equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a.
+          “The Amazing Server-Triggered Client Crash-o-Matic.”
 
-      - SeeAlso: `Resource.typedContent(ifNone:)`
+          Siesta’s future direction is to let users declare their expected type at the resource level by asking for a
+          `Resource<T>`, and have that resource report an unexpected content type from the server as a request failure.
+          However, limitations of Swift’s type system currently make this unworkable. Given what the core Swift team is
+          saying, we’re cautiously optimistic that Swift 3 will be able to support this.
+
+      - SeeAlso: `TypedContentAccessors`
     */
     public var content: Any
 
