@@ -1,6 +1,6 @@
 # Optional integrations
 
-github "Alamofire/Alamofire" "3.1.4"
+github "Alamofire/Alamofire" ~> 3.0
 
 # Testing
 
