@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/12/15.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 /// For requests that failed before they even made it to the network layer

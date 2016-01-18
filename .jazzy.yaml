@@ -4,7 +4,7 @@ author_url: http://bustoutsolutions.com
 github_url: https://github.com/bustoutsolutions/siesta
 exclude: [Source/Support/Siesta-ObjC.swift, Source/Support/Deprecations.swift]
 
-copyright: '© 2015 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
+copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
 swift_version: 2.1.1
 

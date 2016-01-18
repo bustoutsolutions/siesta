@@ -3,7 +3,7 @@
 //  SiestaExample
 //
 //  Created by Paul on 2015/7/9.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation

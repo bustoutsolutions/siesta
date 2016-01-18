@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/12/15.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStringConvertible
