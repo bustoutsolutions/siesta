@@ -1,8 +1,8 @@
-module_name: Siesta
-author_name: Bust Out Solutions
+module: Siesta
+author: Bust Out Solutions
 author_url: http://bustoutsolutions.com
 github_url: https://github.com/bustoutsolutions/siesta
-excluded_files: [Source/Support/Siesta-ObjC.swift, Source/Support/Deprecations.swift]
+exclude: [Source/Support/Siesta-ObjC.swift, Source/Support/Deprecations.swift]
 
 copyright: '© 2015 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
@@ -66,3 +66,9 @@ custom_categories:
     - enabledLogCategories
     - LogCategory
     - logger
+
+# Until Cocoadocs is using a Jazzy release with the updated config keys:
+
+module_name: Siesta
+author_name: Bust Out Solutions
+excluded_files: [Source/Support/Siesta-ObjC.swift, Source/Support/Deprecations.swift]
