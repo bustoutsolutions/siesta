@@ -196,7 +196,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 Or if you don’t like delegates, Siesta supports closure observers:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) {
+MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, _ in
 
     self?.nameLabel.text = resource.jsonDict["name"] as? String
@@ -219,12 +219,12 @@ MyAPI.configureTransformer("/profile") {  // Path supports wildcards
 …and now your observers see models instead of JSON:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) {
-    [weak self] in
-    self?.showProfile($0.typedContent())  // Response now contains UserProfile instead of JSON
+MyAPI.resource("/profile").addObserver(owner: self) {
+    [weak self] resource, _ in
+    self?.showProfile(resource.typedContent())  // Response now contains UserProfile instead of JSON
 }
 
-func showProfile(profile: UserProfile) {
+func showProfile(profile: UserProfile?) {
     ...
 }
 ```
@@ -242,7 +242,7 @@ override func viewWillAppear(animated: Bool) {
 Add a loading indicator:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) {
+MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
     self?.activityIndicator.hidden = !resource.loading
