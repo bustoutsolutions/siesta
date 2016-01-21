@@ -224,7 +224,7 @@ MyAPI.resource("/profile").addObserver(owner: self) {
     self?.showProfile(resource.typedContent())  // Response now contains UserProfile instead of JSON
 }
 
-func showProfile(profile: UserProfile) {
+func showProfile(profile: UserProfile?) {
     ...
 }
 ```
