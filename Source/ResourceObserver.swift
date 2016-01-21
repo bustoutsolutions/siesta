@@ -153,6 +153,9 @@ public extension Resource
 
       Use this method for objects such as `UIViewController`s which already have a lifecycle of their own, are retained
       elsewhere, and also happen to act as observers.
+
+      - Note: This method prevents duplicates; adding the same observer object a second time has no effect. This is
+              _not_ necessarily true of other flavors of `addObserver`, which accept observers that are not objects.
     */
     public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
         {
@@ -166,6 +169,12 @@ public extension Resource
 
       The typical use for this method is for glue objects whose only purpose is to act as an observer, and which would
       not normally be retained by anything else.
+
+      - Note: By default, this method prevents duplicates **only if the observer is an object**. If you pass a struct
+              twice, you will receive two calls for every event. This is because only objects have a notion of identity
+              in Swift. You can implement `ResourceObserver.isEquivalentToObserver(_:)` to make a struct prevent
+              duplicates; however, it’s usually easier to ensure that you don’t make redundant calls to this method if
+              you’re passing a struct.
     */
     public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
         {
@@ -193,6 +202,11 @@ public extension Resource
 
       The resource holds a weak reference to `owner`, and the closure will receive events only as long as `owner`
       still exists.
+
+      - Note: Unlike the `addObserver(_:)` that takes objects, this method does not prevent duplicates. If you pass a
+              closure twice, it will be called twice for every event. It has to be this way, because Swift has no notion
+              of closure identity: there is no such thing as “the same” closure in the language, and thus no way to
+              detect duplicates. It is thus the caller’s responsibility to prevent redundant calls to this method.
     */
     public func addObserver(owner owner: AnyObject, closure: ResourceObserverClosure) -> Self
         {
