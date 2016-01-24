@@ -10,7 +10,8 @@ import Foundation
 
 
 /**
-  A set of logically connected RESTful resources, grouped under a base URL.
+  A set of logically connected RESTful resources, grouped under a base URL. Resources within a service share caching,
+  configuration, and a “same URL → same resource” uniqueness guarantee.
 
   You will typically create a separate subclass of `Service` for each REST API you use.
 */
@@ -33,7 +34,7 @@ public class Service: NSObject
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networking:
-          The handler to use for networking. The default is an NSURLSession with its default configuration. You can
+          The handler to use for networking. The default is `NSURLSession` with ephemeral session configuration. You can
           pass an `NSURLSession`, `NSURLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
@@ -72,7 +73,7 @@ public class Service: NSObject
         }
 
     /**
-      Return the unique resource with the given path appended to the path component of `baseURL`.
+      Returns the unique resource with the given path appended to the path component of `baseURL`.
 
       A leading slash is optional, and has no effect:
 
@@ -82,7 +83,7 @@ public class Service: NSObject
       - Note:
           The `path` parameter is simply appended to `baseURL`’s path, and is _never_ interpreted as a URL. Strings
           such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
-          resource’s path.
+          resource’s path, with escaping if necessary.
 
           If you want to pass an absolute URL, use `resource(absoluteURL:)`.
 
@@ -206,8 +207,8 @@ public class Service: NSObject
         }
 
     /**
-      Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configure()`
-      aren’t robust enough.
+      Applies configuration ro resources whose URL matches an arbitrary predicate. Use this if the wildcards in the
+      `urlPattern` flavor of `configure()` aren’t robust enough.
     */
     public final func configure(
             configurationPattern: NSURL -> Bool,
@@ -225,11 +226,16 @@ public class Service: NSObject
         }
 
     /**
-      A convenience to add a one-off content transformer.
+      Transforms responses by passing their content through the given closure. This is a shortcut for adding a
+      `ResponseContentTransformer` to the `Configuration.responseTransformers`.
 
       Useful for transformers that create model objects. For example:
 
-          configureTransformer("/foo/​*") { FooModel(json: $0) }
+          configureTransformer("/foo/​*") { FooModel(json: $0.content) }
+
+      Siesta checks that the incoming `Entity.content` matches the type of the closure’s `content` parameter. In the
+      example code above, if the `json` parameter of `FooModel.init` takes a `Dictionary`, but the transformer pipeline
+      at that point has produced a `String`, then the transformer outputs a failure response.
 
       - SeeAlso: ResponseContentTransformer
     */
@@ -319,7 +325,7 @@ public class Service: NSObject
     // MARK: Wiping state
 
     /**
-      Wipes the state of this service’s resources. Typically used to handle logout.
+      Wipes the state of all this service’s resources. Typically used to handle logout.
 
       Applies to resources matching the predicate, or all resources by default.
     */

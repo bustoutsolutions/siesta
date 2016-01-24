@@ -54,7 +54,7 @@ public struct Configuration
 
           $0.config.responseTransformers.clear()
 
-      - SeeAlso: `addContentTransformer`
+      - SeeAlso: `Service.configureTransformer(...)`
     */
     public var responseTransformers: TransformerSequence = TransformerSequence()
 

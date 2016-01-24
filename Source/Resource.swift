@@ -50,7 +50,7 @@ public final class Resource: NSObject
 
       - Complexity:
         - O(*n*) on first call after creation, or after invalidation (via `Service.invalidateConfiguration()`),
-          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s Service.
+          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s `Service`.
         - O(1) on subsequent invocations.
     */
     public var config: Configuration
@@ -114,7 +114,7 @@ public final class Resource: NSObject
 
     // MARK: Request management
 
-    /// True if any load requests  (i.e. from calls to `load(...)` and `loadIfNeeded()`)
+    /// True if any load requests (i.e. from calls to `load(...)` and `loadIfNeeded()`)
     /// for this resource are in progress.
     public var isLoading: Bool
         {
