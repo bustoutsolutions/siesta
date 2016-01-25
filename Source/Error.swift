@@ -185,7 +185,7 @@ public extension Error
 
         /// A response transformer received entity content of a type it doesn’t know how to process. This error means
         /// that the upstream transformations may have succeeded, but did not return a value of the type the next
-        /// transformer expected. This is a configuration error.
+        /// transformer expected.
         public struct WrongTypeInTranformerPipeline: ErrorType
             {
             public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.

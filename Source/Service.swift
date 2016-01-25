@@ -231,11 +231,20 @@ public class Service: NSObject
 
       Useful for transformers that create model objects. For example:
 
-          configureTransformer("/foo/​*") { FooModel(json: $0.content) }
+          configureTransformer("/foo/​*") {
+            FooModel(json: $0.content)
+          }
 
       Siesta checks that the incoming `Entity.content` matches the type of the closure’s `content` parameter. In the
       example code above, if the `json` parameter of `FooModel.init` takes a `Dictionary`, but the transformer pipeline
       at that point has produced a `String`, then the transformer outputs a failure response.
+
+      You can use this behavior to configure a service to refuse all server responses not of a specific type by passing
+      a transformer that passes the content through unmodified, but requires a specific type:
+
+          service.configureTransformer("**") {
+            $0.content as NSJSONConvertible
+          }
 
       - SeeAlso: ResponseContentTransformer
     */
