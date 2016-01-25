@@ -191,5 +191,11 @@ public extension Error
             public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
             public let transformer: ResponseTransformer
             }
+
+        /// A `ResponseContentTransformer` or a closure passed to `Service.configureTransformer(...)` returned nil.
+        public struct TransformerReturnedNil: ErrorType
+            {
+            public let transformer: ResponseTransformer
+            }
         }
     }

@@ -396,6 +396,30 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestError?.userMessage).to(equal("Everything is broken"))
                     expect(resource().latestError?.cause is CustomError).to(beTrue())
                     }
+
+                context("that returns an optional")
+                    {
+                    beforeEach
+                        {
+                        service().configureTransformer("**")
+                            { TestModel(anythingButOrange: $0.content) }
+                        }
+
+                    it("can return nil to signal failure")
+                        {
+                        stubText("Orange", expectSuccess: false)
+                        awaitFailure(resource().load())
+                        expect(resource().latestError?.cause is Error.Cause.TransformerReturnedNil).to(beTrue())
+                        }
+
+                    it("can return a value to signal success")
+                        {
+                        stubText("Green")
+                        awaitNewData(resource().load())
+                        let model: TestModel? = resource().typedContent()
+                        expect(model?.name).to(equal("Green"))
+                        }
+                    }
                 }
             }
 
@@ -475,6 +499,13 @@ private struct TestModel
 
     init(name: String)
         { self.name = name }
+
+    init?(anythingButOrange name: String)
+        {
+        guard name != "Orange" else
+            { return nil }
+        self.init(name: name)
+        }
     }
 
 private struct CustomError: ErrorType { }

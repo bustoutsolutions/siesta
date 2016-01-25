@@ -143,8 +143,9 @@ public struct TransformerSequence
   A simplified `ResponseTransformer` that deals only with the content of the response entity, and does not touch the
   surrounding metadata.
 
+  If `processContent(_:)` throws or returns nil, the output is an error.
+
   If the input entity’s content does not match the `InputContentType`, the response is an error.
-  If `processContent(_:)` throws, the response is transformed to an error.
 */
 public struct ResponseContentTransformer<InputContentType,OutputContentType>: ResponseTransformer
     {
@@ -154,7 +155,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
       error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
     */
-    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
+    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType?
 
     private let processor: Processor
     private let skipWhenEntityMatchesOutputType: Bool
@@ -215,7 +216,8 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
 
         do  {
-            let result = try processor(content: typedContent, entity: entity)
+            guard let result = try processor(content: typedContent, entity: entity) else
+                { throw Error.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
             return .Success(entity)
