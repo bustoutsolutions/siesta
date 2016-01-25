@@ -15,12 +15,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
-        func stubText(string: String? = "zwobble", contentType: String = "text/plain")
+        func stubText(string: String? = "zwobble", contentType: String = "text/plain", expectSuccess: Bool = true)
             {
             stubRequest(resource, "GET").andReturn(200)
                 .withHeader("Content-Type", contentType)
                 .withBody(string)
-            awaitNewData(resource().load())
+            let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
+            awaitRequest(resource().load(), alreadyCompleted: false)
             }
 
         describe("plain text handling")
@@ -30,7 +31,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(textType) as text")
                     {
                     stubText(contentType: textType)
-                    expect(resource().latestData?.content as? String).to(equal("zwobble"))
+                    expect(resource().typedContent()).to(equal("zwobble"))
                     }
                 }
 
@@ -58,10 +59,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("treats an unknown charset as an errors")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", "text/plain; charset=oodlefratz")
-                    .withBody("abc")
-                awaitFailure(resource().load())
+                stubText("abc", contentType: "text/plain; charset=oodlefratz", expectSuccess: false)
 
                 let cause = resource().latestError?.cause as? Error.Cause.InvalidTextEncoding
                 expect(cause?.encodingName).to(equal("oodlefratz"))
@@ -129,12 +127,9 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             let jsonStr = "{\"foo\":[\"bar\",42]}"
             let jsonVal = ["foo": ["bar", 42]] as NSDictionary
 
-            func stubJson(contentType contentType: String = "application/json")
+            func stubJson(contentType contentType: String = "application/json", expectSuccess: Bool = true)
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", contentType)
-                    .withBody(jsonStr)
-                awaitNewData(resource().load())
+                stubText(jsonStr, contentType: contentType, expectSuccess: expectSuccess)
                 }
 
             for jsonType in ["application/json", "application/foo+json", "foo/json"]
@@ -142,7 +137,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("parses \(jsonType) as JSON")
                     {
                     stubJson(contentType: jsonType)
-                    expect(resource().latestData?.content as? NSDictionary).to(equal(jsonVal))
+                    expect(resource().typedContent()).to(equal(jsonVal))
                     }
                 }
 
@@ -155,10 +150,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("reports JSON parse errors")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{\"foo\":•√£™˚")
-                awaitFailure(resource().load())
+                stubText("{\"foo\":•√£™˚", contentType: "application/json", expectSuccess: false)
 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
@@ -252,7 +244,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         base64EncodedString: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=",
                         options: []))
                 awaitNewData(resource().load())
-                let image: UIImage? = resource().latestData?.content as? UIImage
+                let image: UIImage? = resource().typedContent()
                 expect(image).notTo(beNil())
                 expect(image?.size).to(equal(CGSize(width: 1, height: 1)))
                 }
@@ -304,7 +296,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can transform data")
                     {
                     stubText("greetings")
-                    expect(resource().latestData?.content as? String).to(equal("greetings processed"))
+                    expect(resource().typedContent()).to(equal("greetings processed"))
                     expect(transformer().callCount).to(equal(1))
                     }
 
@@ -324,14 +316,14 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
 
-                    expect(resource().latestData?.content as? String).to(equal("ahoy processed"))
+                    expect(resource().typedContent()).to(equal("ahoy processed"))
                     expect(transformer().callCount).to(equal(1))
                     }
                 }
 
             context("using closure")
                 {
-                beforeEach
+                func configureModelTransformer()
                     {
                     service().configureTransformer("**")
                         { TestModel(name: $0.content) }
@@ -339,49 +331,47 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("can transform data")
                     {
+                    configureModelTransformer()
                     stubText("Fred")
-                    let model = resource().latestData?.content as? TestModel
+                    let model: TestModel? = resource().typedContent()
                     expect(model?.name).to(equal("Fred"))
                     }
 
                 it("leaves errors untouched")
                     {
+                    configureModelTransformer()
                     stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
                         .withBody("I am not a model")
                     awaitFailure(resource().load())
-                    expect(resource().latestData?.content).to(beNil())
+                    expect(resource().latestData).to(beNil())
                     expect(resource().latestError?.text).to(equal("I am not a model"))
                     }
 
                 it("infers input type and treats wrong type as an error")
                     {
-                    stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("Content-Type", "application/json")
-                        .withBody("{}")
-                    awaitFailure(resource().load())
-                    expect(resource().latestData?.content is TestModel).to(beFalse())
+                    configureModelTransformer()
+                    stubText("{}", contentType: "application/json", expectSuccess: false)
+                    expect(resource().latestData).to(beNil())
 
                     expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline).to(beTrue())
                     }
 
                 it("infers output type and skips content if already transformed")
                     {
+                    configureModelTransformer()
                     service().configureTransformer("**")
                         {
                         (content: String, entity: Entity) in
                         return TestModel(name: "should not be called")
                         }
                     stubText("Fred")
-                    let model = resource().latestData?.content as? TestModel
+                    let model: TestModel? = resource().typedContent()
                     expect(model?.name).to(equal("Fred"))
                     }
 
                 it("can throw a custom error")
                     {
-                    service().configure
-                        { $0.config.responseTransformers.clear() }
                     service().configureTransformer("**")
                         {
                         (_: NSData, _) -> String in
@@ -395,8 +385,6 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("can throw a Siesta.Error")
                     {
-                    service().configure
-                        { $0.config.responseTransformers.clear() }
                     service().configureTransformer("**")
                         {
                         (_: NSData, _) -> String in
