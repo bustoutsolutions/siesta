@@ -20,7 +20,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             expect(resource().latestData).to(beNil())
             expect(resource().latestError).to(beNil())
 
-            expect(resource().isLoading).to(beFalse())
+            expect(resource().isLoading) == false
             expect(resource().allRequests).to(beIdentialObjects([]))
             expect(resource().loadRequests).to(beIdentialObjects([]))
             }
@@ -58,7 +58,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         $0.config.beforeStartingRequest
                             {
                             res, req in
-                            expect(res).to(beIdenticalTo(resource()))
+                            expect(res) === resource()
                             beforeHookCount++
                             }
                         }
@@ -68,7 +68,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     awaitNewData(resource().load())
                     awaitNewData(resource().request(.POST))
 
-                    expect(beforeHookCount).to(equal(2))
+                    expect(beforeHookCount) == 2
                     }
 
                 it("can attach request hooks")
@@ -83,7 +83,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().load())
 
-                    expect(successHookCalled).to(beTrue())
+                    expect(successHookCalled) == true
                     }
 
                 it("can cancel requests")
@@ -111,9 +111,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().request(.GET)
                 req.onFailure
-                    { expect($0.cause is Error.Cause.RequestCancelled).to(beTrue()) }
+                    { expect($0.cause is Error.Cause.RequestCancelled) == true }
                 req.onCompletion
-                    { expect($0.isCancellation).to(beTrue()) }
+                    { expect($0.isCancellation) == true }
                 req.cancel()
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
@@ -124,7 +124,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 let req = resource().request(.GET)
                 req.onCompletion
-                    { expect($0.isCancellation).to(beFalse()) }
+                    { expect($0.isCancellation) == false }
                 awaitNewData(req)
                 req.cancel()
                 awaitNewData(req, alreadyCompleted: true)
@@ -134,7 +134,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let req = resource().request(.POST, json: ["unencodable": UIView()])
                 req.onCompletion
-                    { expect($0.isCancellation).to(beFalse()) }
+                    { expect($0.isCancellation) == false }
                 awaitFailure(req, alreadyCompleted: true)
                 req.cancel()
                 }
@@ -159,17 +159,17 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let (reqStub0, req0) = stubDelayedAndRequest("zero"),
                     (reqStub1, req1) = stubDelayedAndRequest("one")
 
-                expect(resource().isRequesting).to(beTrue())
+                expect(resource().isRequesting) == true
                 expect(resource().allRequests).to(beIdentialObjects([req0, req1]))
 
                 reqStub0.go()
                 awaitNewData(req0)
-                expect(resource().isRequesting).to(beTrue())
+                expect(resource().isRequesting) == true
                 expect(resource().allRequests).to(beIdentialObjects([req1]))
 
                 reqStub1.go()
                 awaitNewData(req1)
-                expect(resource().isLoading).to(beFalse())
+                expect(resource().isLoading) == false
                 expect(resource().allRequests).to(beIdentialObjects([]))
                 }
 
@@ -205,8 +205,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                     req.onFailure
                         {
                         let cause = $0.cause as? Error.Cause.UnencodableText
-                        expect(cause?.encodingName).to(equal("us-ascii"))
-                        expect(cause?.text).to(equal("Hélas!"))
+                        expect(cause?.encodingName) == "us-ascii"
+                        expect(cause?.text) == "Hélas!"
                         }
                     }
 
@@ -225,7 +225,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     let req = resource().request(.POST, json: ["question": [2, UIView()]])
                     awaitFailure(req, alreadyCompleted: true)
                     req.onFailure
-                        { expect($0.cause is Error.Cause.InvalidJSONObject).to(beTrue()) }
+                        { expect($0.cause is Error.Cause.InvalidJSONObject) == true }
                     }
 
                 context("with a URL-encoded body")
@@ -263,7 +263,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                             req.onFailure
                                 {
                                 let cause = $0.cause as? Error.Cause.NotURLEncodable
-                                expect(cause?.offendingString).to(equal(bogus))
+                                expect(cause?.offendingString) == bogus
                                 }
                             }
                         }
@@ -275,14 +275,14 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             it("marks that the resource is loading")
                 {
-                expect(resource().isLoading).to(beFalse())
+                expect(resource().isLoading) == false
 
                 stubRequest(resource, "GET").andReturn(200)
                 let req = resource().load()
-                expect(resource().isLoading).to(beTrue())
+                expect(resource().isLoading) == true
 
                 awaitNewData(req)
-                expect(resource().isLoading).to(beFalse())
+                expect(resource().isLoading) == false
                 }
 
             it("stores the response data")
@@ -292,7 +292,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().load())
 
                 expect(resource().latestData).notTo(beNil())
-                expect(dataAsString(resource().latestData?.content)).to(equal("eep eep"))
+                expect(dataAsString(resource().latestData?.content)) == "eep eep"
                 }
 
             it("stores the content type")
@@ -301,7 +301,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("cOnTeNt-TyPe", "text/monkey")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.contentType).to(equal("text/monkey"))
+                expect(resource().latestData?.contentType) == "text/monkey"
                 }
 
             it("extracts the charset if present")
@@ -310,7 +310,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Content-type", "text/monkey; charset=utf-8")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.charset).to(equal("utf-8"))
+                expect(resource().latestData?.charset) == "utf-8"
                 }
 
             it("includes the charset in the content type")
@@ -319,7 +319,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Content-type", "text/monkey; charset=utf-8")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.contentType).to(equal("text/monkey; charset=utf-8"))
+                expect(resource().latestData?.contentType) == "text/monkey; charset=utf-8"
                 }
 
             it("parses the charset")
@@ -329,8 +329,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Content-type", monkeyType)
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.contentType).to(equal(monkeyType))
-                expect(resource().latestData?.charset).to(equal("euc-jp"))
+                expect(resource().latestData?.contentType) == monkeyType
+                expect(resource().latestData?.charset) == "euc-jp"
                 }
 
             it("defaults content type to raw binary")
@@ -342,7 +342,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 // the correct default content type for HTTP is application/octet-stream.
                 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
 
-                expect(resource().latestData?.contentType).to(equal("application/octet-stream"))
+                expect(resource().latestData?.contentType) == "application/octet-stream"
                 }
 
             it("stores headers")
@@ -351,8 +351,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Personal-Disposition", "Quirky")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.header("Personal-Disposition")).to(equal("Quirky"))
-                expect(resource().latestData?.header("pErsonal-dIsposition")).to(equal("Quirky"))
+                expect(resource().latestData?.header("Personal-Disposition")) == "Quirky"
+                expect(resource().latestData?.header("pErsonal-dIsposition")) == "Quirky"
                 expect(resource().latestData?.header("pErsonaldIsposition")).to(beNil())
                 }
 
@@ -377,9 +377,9 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             func expectDataToBeUnchanged()
                 {
-                expect(dataAsString(resource().latestData?.content)).to(equal("zoogleplotz"))
-                expect(resource().latestData?.contentType).to(equal("applicaiton/zoogle+plotz"))
-                expect(resource().latestData?.etag).to(equal("123 456 xyz"))
+                expect(dataAsString(resource().latestData?.content)) == "zoogleplotz"
+                expect(resource().latestData?.contentType) == "applicaiton/zoogle+plotz"
+                expect(resource().latestData?.etag) == "123 456 xyz"
                 }
 
             context("receiving an etag")
@@ -388,7 +388,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("stores the etag")
                     {
-                    expect(resource().latestData?.etag).to(equal("123 456 xyz"))
+                    expect(resource().latestData?.etag) == "123 456 xyz"
                     }
 
                 it("sends the etag with subsequent requests")
@@ -408,9 +408,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withBody("plooglezotz")
                     awaitNewData(resource().load())
 
-                    expect(dataAsString(resource().latestData?.content)).to(equal("plooglezotz"))
-                    expect(resource().latestData?.contentType).to(equal("applicaiton/ploogle+zotz"))
-                    expect(resource().latestData?.etag).to(equal("ABC DEF 789"))
+                    expect(dataAsString(resource().latestData?.content)) == "plooglezotz"
+                    expect(resource().latestData?.contentType) == "applicaiton/ploogle+zotz"
+                    expect(resource().latestData?.etag) == "ABC DEF 789"
                     }
 
                 it("handles subsequent 304 by keeping existing data")
@@ -431,7 +431,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
-                expect(resource().latestError?.cause as? NSError).to(equal(sampleError))
+                expect(resource().latestError?.cause as? NSError) == sampleError
                 }
 
             // Testing all these HTTP codes individually because Apple likes
@@ -446,7 +446,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
-                    expect(resource().latestError?.httpStatusCode).to(equal(statusCode))
+                    expect(resource().latestError?.httpStatusCode) == statusCode
                     }
                 }
 
@@ -484,7 +484,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andFailWithError(sampleError)
                 awaitFailure(resource().load())
 
-                expect(resource().latestError?.userMessage).to(equal("KABOOM"))
+                expect(resource().latestError?.userMessage) == "KABOOM"
                 }
 
             it("generates error messages from HTTP status codes")
@@ -492,7 +492,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(404)
                 awaitFailure(resource().load())
 
-                expect(resource().latestError?.userMessage).to(equal("Not found"))
+                expect(resource().latestError?.userMessage) == "Not found"
                 }
 
             // TODO: how should it handle redirects?
@@ -504,12 +504,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 stubRequest(resource, "GET").andReturn(200) // Stub first...
                 let reqReturned = reqClosure()             // ...then allow loading
-                expect(resource().isLoading).to(beTrue())
+                expect(resource().isLoading) == true
                 expect(reqReturned).notTo(beNil())
                 if loadReq != nil
                     {
                     expect(reqReturned as? AnyObject)
-                        .to(beIdenticalTo(loadReq as? AnyObject))
+                         === loadReq as? AnyObject
                     }
                 if let reqReturned = reqReturned
                     { awaitNewData(reqReturned) }
@@ -518,7 +518,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             func expectNotToLoad(req: Request?)
                 {
                 expect(req).to(beNil())
-                expect(resource().isLoading).to(beFalse())
+                expect(resource().isLoading) == false
                 }
 
             it("loads a resource never before loaded")
@@ -564,7 +564,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 it("respects custom expiration time")
                     {
                     service().configure("**") { $0.config.expirationTime = 1 }
-                    expect(resource().config.expirationTime).to(equal(1))
+                    expect(resource().config.expirationTime) == 1
                     setResourceTime(1002)
                     expectToLoad(resource().loadIfNeeded())
                     }
@@ -616,7 +616,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates resource state")
                 {
                 awaitNewData(resource().load(usingRequest: request()))
-                expect(resource().text).to(equal("Posted!"))
+                expect(resource().text) == "Posted!"
                 }
 
             it("notifies observers")
@@ -628,7 +628,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().load(usingRequest: request())
 
                 awaitNewData(request())
-                expect(observerNotified).to(beTrue())
+                expect(observerNotified) == true
                 }
             }
 
@@ -718,8 +718,8 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates the data")
                 {
                 resource().overrideLocalData(localData())
-                expect(resource().latestData?.content as? AnyObject).to(beIdenticalTo(arbitraryContent()))
-                expect(resource().latestData?.contentType).to(equal(arbitraryContentType))
+                expect(resource().latestData?.content as? AnyObject) === arbitraryContent()
+                expect(resource().latestData?.contentType) == arbitraryContentType
                 }
 
             it("clears the latest error")
@@ -737,7 +737,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
                 resource().overrideLocalData(Entity(content: rawData!, contentType: "text/plain"))
-                expect(resource().latestData?.content as? NSData).to(beIdenticalTo(rawData))
+                expect(resource().latestData?.content as? NSData) === rawData
                 }
             }
 
@@ -754,9 +754,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().load())
 
                 resource().overrideLocalContent("farfalle")
-                expect(resource().text).to(equal("farfalle"))
-                expect(resource().latestData?.contentType).to(equal("food/pasta"))
-                expect(resource().latestData?.header("Sauce-disposition")).to(equal("garlic"))
+                expect(resource().text) == "farfalle"
+                expect(resource().latestData?.contentType) == "food/pasta"
+                expect(resource().latestData?.header("Sauce-disposition")) == "garlic"
                 }
 
             it("updates latestData’s timestamp")
@@ -768,15 +768,15 @@ class ResourceRequestsSpec: ResourceSpecBase
                 setResourceTime(2000)
                 resource().overrideLocalContent("ahoy")
 
-                expect(resource().latestData?.timestamp).to(equal(2000))
-                expect(resource().timestamp).to(equal(2000))
+                expect(resource().latestData?.timestamp) == 2000
+                expect(resource().timestamp) == 2000
                 }
 
             it("creates new application/binary entity if latestData is nil")
                 {
                 resource().overrideLocalContent("fusilli")
-                expect(resource().text).to(equal("fusilli"))
-                expect(resource().latestData?.contentType).to(equal("application/binary"))
+                expect(resource().text) == "fusilli"
+                expect(resource().latestData?.contentType) == "application/binary"
                 }
             }
 
@@ -874,9 +874,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 resource().invalidate()
 
-                expect(resource().latestData?.timestamp).to(equal(dataTimestamp))
-                expect(resource().latestError?.timestamp).to(equal(errorTimestamp))
-                expect(resource().timestamp).to(equal(errorTimestamp))
+                expect(resource().latestData?.timestamp) == dataTimestamp
+                expect(resource().latestError?.timestamp) == errorTimestamp
+                expect(resource().timestamp) == errorTimestamp
                 }
             }
 
@@ -919,7 +919,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     resource().request(.POST)
                     ]
 
-                expect(resource().isLoading).to(beTrue())
+                expect(resource().isLoading) == true
 
                 resource().wipe()
 
@@ -928,7 +928,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 for req in reqs
                     { awaitFailure(req, alreadyCompleted: true) }
 
-                expect(resource().isLoading).to(beFalse())
+                expect(resource().isLoading) == false
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -944,7 +944,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 stub.go()
                 awaitFailure(otherResourceReq, alreadyCompleted: true)
-                expect(resource().loadRequests.count).to(equal(0))
+                expect(resource().loadRequests.count) == 0
                 }
             }
         }

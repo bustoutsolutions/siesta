@@ -25,7 +25,7 @@ class ResourcePathsSpec: ResourceSpecBase
 
             it("returns a resource with the same service")
                 {
-                expect(resource().child("c").service).to(equal(service()))
+                expect(resource().child("c").service) == service()
                 }
 
             it("resolves empty string as root")
@@ -74,7 +74,7 @@ class ResourcePathsSpec: ResourceSpecBase
 
             it("returns a resource with the same service")
                 {
-                expect(resource().relative("c").service).to(equal(service()))
+                expect(resource().relative("c").service) == service()
                 }
 
             it("treats bare paths as if they are preceded by ./")
@@ -131,7 +131,7 @@ class ResourcePathsSpec: ResourceSpecBase
             {
             it("works like relative() if arg is present")
                 {
-                expect(resource().optionalRelative("c")).to(beIdenticalTo(resource().relative("c")))
+                expect(resource().optionalRelative("c")) === resource().relative("c")
                 }
 
             it("returns nil if arg is absent")
@@ -145,13 +145,13 @@ class ResourcePathsSpec: ResourceSpecBase
             it("adds params")
                 {
                 expect(resource().withParam("foo", "bar").url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar"))
+                     == "https://zingle.frotz/v1/a/b?foo=bar"
                 }
 
             it("escapes params")
                 {
                 expect(resource().withParam("fo=o", "ba r").url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"))
+                     == "https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"
                 }
 
             let resourceWithParams = specVar { resource().withParam("foo", "bar").withParam("zoogle", "oogle") }
@@ -159,31 +159,31 @@ class ResourcePathsSpec: ResourceSpecBase
             it("alphabetizes params (to help with resource uniqueness)")
                 {
                 expect(resourceWithParams().withParam("plop", "blop").url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar&plop=blop&zoogle=oogle"))
+                     == "https://zingle.frotz/v1/a/b?foo=bar&plop=blop&zoogle=oogle"
                 }
 
             it("modifies existing params without affecting others")
                 {
                 expect(resourceWithParams().withParam("zoogle", "zonk").url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"))
+                     == "https://zingle.frotz/v1/a/b?foo=bar&zoogle=zonk"
                 }
 
             it("treats empty string value as empty param")
                 {
                 expect(resourceWithParams().withParam("foo", "").url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?foo&zoogle=oogle"))
+                     == "https://zingle.frotz/v1/a/b?foo&zoogle=oogle"
                 }
 
             it("treats nil value as removal")
                 {
                 expect(resourceWithParams().withParam("foo", nil).url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b?zoogle=oogle"))
+                     == "https://zingle.frotz/v1/a/b?zoogle=oogle"
                 }
 
             it("drops query string if all params removed")
                 {
                 expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url.absoluteString)
-                    .to(equal("https://zingle.frotz/v1/a/b"))
+                     == "https://zingle.frotz/v1/a/b"
                 }
             }
         }

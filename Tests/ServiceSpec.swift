@@ -71,7 +71,7 @@ class ServiceSpec: SiestaSpec
             it("returns a resource that belongs to this service")
                 {
                 expect(service().resource("/foo").service)
-                    .to(equal(service()))
+                     == service()
                 }
 
             it("resolves all strings as subpaths of baseURL")
@@ -118,13 +118,13 @@ class ServiceSpec: SiestaSpec
             it("returns a resource with the given URL")
                 {
                 expect(service().resource(absoluteURL: "http://foo.com/bar").url.absoluteString)
-                    .to(equal("http://foo.com/bar"))
+                     == "http://foo.com/bar"
                 }
 
             it("ignores baseURL")
                 {
                 expect(service().resource(absoluteURL: "./foo").url.absoluteString)
-                    .to(equal("./foo"))
+                     == "./foo"
                 }
 
             it("gives a non-nil but invalid resource for invalid URLs")
@@ -141,13 +141,13 @@ class ServiceSpec: SiestaSpec
             it("gives the same Resource instance for the same path")
                 {
                 expect(service().resource("/foo"))
-                    .to(beIdenticalTo(service().resource("/foo")))
+                     === service().resource("/foo")
                 }
 
             it("gives the same Resource instance no matter how it’s constructed")
                 {
                 expect(service().resource("/foo").child("oogle").child("baz").relative("../bar"))
-                    .to(beIdenticalTo(service().resource("/foo/bar")))
+                     === service().resource("/foo/bar")
                 }
             }
 
@@ -156,30 +156,30 @@ class ServiceSpec: SiestaSpec
             it("applies global config to all resources")
                 {
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime).to(equal(17))
-                expect(resource1().config.expirationTime).to(equal(17))
+                expect(resource0().config.expirationTime) == 17
+                expect(resource1().config.expirationTime) == 17
                 }
 
             it("passes default configuration through if not overridden")
                 {
                 service().configure { $0.config.retryTime = 17 }
-                expect(resource0().config.expirationTime).to(equal(30))
+                expect(resource0().config.expirationTime) == 30
                 }
 
             it("applies resource-specific config only to that resource")
                 {
                 service().configure(resource0())
                     { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime).to(equal(17))
-                expect(resource1().config.expirationTime).to(equal(30))
+                expect(resource0().config.expirationTime) == 17
+                expect(resource1().config.expirationTime) == 30
                 }
 
             it("applies predicate config only to matching resources")
                 {
                 service().configure({ $0.absoluteString.hasSuffix("foo") })
                     { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime).to(equal(17))
-                expect(resource1().config.expirationTime).to(equal(30))
+                expect(resource0().config.expirationTime) == 17
+                expect(resource1().config.expirationTime) == 30
                 }
 
             context("using wilcards")
@@ -282,22 +282,22 @@ class ServiceSpec: SiestaSpec
 
             it("changes when service config added")
                 {
-                expect(resource0().config.expirationTime).to(equal(30))
+                expect(resource0().config.expirationTime) == 30
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime).to(equal(17))
+                expect(resource0().config.expirationTime) == 17
                 service().configure("*oo") { $0.config.expirationTime = 16 }
-                expect(resource0().config.expirationTime).to(equal(16))
+                expect(resource0().config.expirationTime) == 16
                 }
 
             it("changes when invalidateConfiguration() called")
                 {
                 var x: NSTimeInterval = 3
                 service().configure { $0.config.expirationTime = x }
-                expect(resource0().config.expirationTime).to(equal(3))
+                expect(resource0().config.expirationTime) == 3
                 x = 4
-                expect(resource0().config.expirationTime).to(equal(3))
+                expect(resource0().config.expirationTime) == 3
                 service().invalidateConfiguration()
-                expect(resource0().config.expirationTime).to(equal(4))
+                expect(resource0().config.expirationTime) == 4
                 }
             }
 

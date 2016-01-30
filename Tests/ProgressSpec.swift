@@ -22,14 +22,14 @@ class ProgressSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 let req = resource().load()
                 awaitNewData(req)
-                expect(req.progress).to(equal(1.0))
+                expect(req.progress) == 1.0
                 }
 
             it("on request error")
                 {
                 let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: NSASCIIStringEncoding)
                 awaitFailure(req, alreadyCompleted: true)
-                expect(req.progress).to(equal(1.0))
+                expect(req.progress) == 1.0
                 }
 
             it("on server error")
@@ -37,7 +37,7 @@ class ProgressSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(500)
                 let req = resource().load()
                 awaitFailure(req)
-                expect(req.progress).to(equal(1.0))
+                expect(req.progress) == 1.0
                 }
 
             it("on connection error")
@@ -45,7 +45,7 @@ class ProgressSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
                 let req = resource().load()
                 awaitFailure(req)
-                expect(req.progress).to(equal(1.0))
+                expect(req.progress) == 1.0
                 }
 
             it("on cancellation")
@@ -53,7 +53,7 @@ class ProgressSpec: ResourceSpecBase
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
                 req.cancel()
-                expect(req.progress).to(equal(1.0))
+                expect(req.progress) == 1.0
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
                 }
@@ -97,19 +97,19 @@ class ProgressSpec: ResourceSpecBase
             func expectProgressToIncrease(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
-                expect(result.after).to(beGreaterThan(result.before))
+                expect(result.after) > result.before
                 }
 
             func expectProgressToRemainUnchanged(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
-                expect(result.after).to(equal(result.before))
+                expect(result.after) == result.before
                 }
 
             func expectProgressToRemainAlmostUnchanged(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
-                expect(result.after).to(beCloseTo(result.before, within: 0.01))
+                expect(result.after) ≈ result.before ± 0.01
                 }
 
             context("for request with no body")
@@ -160,7 +160,7 @@ class ProgressSpec: ResourceSpecBase
                     metrics.responseBytesTotal = -1
                     expectProgressToIncrease
                         { metrics.responseBytesReceived = 1000000 }
-                    expect(progress?.rawFractionDone).to(beLessThan(1))
+                    expect(progress?.rawFractionDone) < 1
                     }
 
                 it("is stable when estimated download size becomes precise")
@@ -178,7 +178,7 @@ class ProgressSpec: ResourceSpecBase
                     metrics.responseBytesTotal = 2
                     expectProgressToRemainUnchanged
                         { metrics.responseBytesReceived = 20000 }
-                    expect(progress?.rawFractionDone).to(equal(1))
+                    expect(progress?.rawFractionDone) == 1
                     }
                 }
 
@@ -298,8 +298,8 @@ class ProgressSpec: ResourceSpecBase
                 let progressReports = recordProgress(until: { $0.count >= 4 })
 
                 // The mere passage of time should increase latency, and thus make progress increase beyond 0
-                expect(progressReports.any { $0 > 0 }).to(beTrue())
-                expect(progressReports.sort()).to(equal(progressReports))
+                expect(progressReports.any { $0 > 0 }) == true
+                expect(progressReports.sort()) == progressReports
                 }
 
             context("last notification")
@@ -307,7 +307,7 @@ class ProgressSpec: ResourceSpecBase
                 it("is 1")
                     {
                     let progressReports = recordProgress(until: { _ in true })
-                    expect(progressReports.last).to(equal(1))
+                    expect(progressReports.last) == 1
                     }
 
                 it("comes before the completion callback")
@@ -316,7 +316,7 @@ class ProgressSpec: ResourceSpecBase
                     recordProgress(
                         setup:
                             {
-                            $0.onProgress { _ in expect(completionCalled).to(beFalse()) }
+                            $0.onProgress { _ in expect(completionCalled) == false }
                               .onCompletion { _ in completionCalled = true }
                             },
                         until: { _ in true })

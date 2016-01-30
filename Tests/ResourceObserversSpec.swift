@@ -39,14 +39,14 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
 
                 resource().removeObservers(ownedBy: observer())
-                expect(observer().stoppedObservingCalled).to(beTrue())
-                expect(observer2.stoppedObservingCalled ).to(beFalse())
+                expect(observer().stoppedObservingCalled) == true
+                expect(observer2.stoppedObservingCalled ) == false
                 }
 
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled ).to(beFalse())
+                expect(observer().stoppedObservingCalled ) == false
                 }
 
             it("is chainable")
@@ -63,7 +63,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                     {
-                    expect(resource().isLoading).to(beTrue())
+                    expect(resource().isLoading) == true
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -80,7 +80,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -92,7 +92,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 // No .Requested event!
                 observer().expect(.NewData(.LocalOverride))
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -112,7 +112,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NotModified)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     }
                 awaitNotModified(resource().load())
                 }
@@ -123,7 +123,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                 awaitFailure(resource().load())
-                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304).to(beTrue())
+                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304) == true
                 }
 
             it("receives cancel event")
@@ -133,7 +133,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     }
                 let req = resource().load()
                 req.cancel()
@@ -147,7 +147,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
                     }
@@ -175,7 +175,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
-                expect(events).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
+                expect(events) == ["ObserverAdded", "Requested", "NewData(Network)"]
                 }
 
             it("can have multiple closure observers")
@@ -197,8 +197,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 awaitNewData(resource().load())
 
-                expect(events0).to(equal(["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]))
-                expect(events1).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
+                expect(events0) == ["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]
+                expect(events1) == ["ObserverAdded", "Requested", "NewData(Network)"]
                 }
 
             it("is not added twice if it is an object")
