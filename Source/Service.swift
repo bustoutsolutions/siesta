@@ -366,7 +366,7 @@ public class Service: NSObject
     */
     public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
         {
-        wipeResources { (res: Resource) in predicate(res.url) }
+        wipeResources { predicate($0.url) }
         }
     }
 
