@@ -203,7 +203,8 @@
 
                 </div>
               </div>
-            <p>A set of logically connected RESTful resources, grouped under a base URL.</p>
+            <p>A set of logically connected RESTful resources, grouped under a base URL. Resources within a service share caching,
+configuration, and a “same URL → same resource” uniqueness guarantee.</p>
 
 <p>You will typically create a separate subclass of <code>Service</code> for each REST API you use.</p>
 
@@ -236,7 +237,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L21">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -259,21 +260,21 @@
 <div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter baseURL:
-The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-only <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code> to acquire resources.
+  The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
+  only <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code> to acquire resources.
 
         </div><div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter useDefaultTransformers:
-If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you
-add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code>).
+  If true, include handling for JSON, text, and images. If false, leave all responses as <code>NSData</code> (unless you
+  add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FT11descriptionSS10configurerFCVS_13Configuration7BuilderT__T_">configure(...)</a></code>).
 
         </div><div class="aside aside-parameter">
           <p class="aside-title">Parameter</p>
           Parameter networking:
-The handler to use for networking. The default is an NSURLSession with its default configuration. You can
-pass an <code><a href="../Extensions/NSURLSession.html">NSURLSession</a></code>, <code><a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></code>, or <code>Alamofire.Manager</code> to use an existing provider with
-custom configuration. You can also use your own networking library of choice by implementing <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>.
+  The handler to use for networking. The default is <code><a href="../Extensions/NSURLSession.html">NSURLSession</a></code> with ephemeral session configuration. You can
+  pass an <code><a href="../Extensions/NSURLSession.html">NSURLSession</a></code>, <code><a href="../Extensions/NSURLSessionConfiguration.html">NSURLSessionConfiguration</a></code>, or <code>Alamofire.Manager</code> to use an existing provider with
+  custom configuration. You can also use your own networking library of choice by implementing <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>.
 
         </div>
 
@@ -327,7 +328,7 @@ custom configuration. You can also use your own networking library of choice by 
                               </td>
                               <td>
                                 <div>
-                                  <p>The handler to use for networking. The default is an NSURLSession with its default configuration. You can pass an <code>NSURLSession</code>, <code>NSURLSessionConfiguration</code>, or <code>Alamofire.Manager</code> to use an existing provider with custom configuration. You can also use your own networking library of choice by implementing <code>NetworkingProvider</code>.</p>
+                                  <p>The handler to use for networking. The default is <code>NSURLSession</code> with ephemeral session configuration. You can pass an <code>NSURLSession</code>, <code>NSURLSessionConfiguration</code>, or <code>Alamofire.Manager</code> to use an existing provider with custom configuration. You can also use your own networking library of choice by implementing <code>NetworkingProvider</code>.</p>
 
                                 </div>
                               </td>
@@ -336,7 +337,7 @@ custom configuration. You can also use your own networking library of choice by 
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L40-L72">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L41-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -354,19 +355,19 @@ custom configuration. You can also use your own networking library of choice by 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Return the unique resource with the given path appended to the path component of <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.</p>
+                        <p>Returns the unique resource with the given path appended to the path component of <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.</p>
 
 <p>A leading slash is optional, and has no effect:</p>
 
-<pre class="highlight plaintext"><code>service.resource("users")   // same
-service.resource("/users")  // thing
+<pre class="highlight plaintext"><code>  service.resource("users")   // same
+  service.resource("/users")  // thing
 </code></pre>
 
 <div class="aside aside-note">
           <p class="aside-title">Note</p>
           <p>The <code>path</code> parameter is simply appended to <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>’s path, and is <em>never</em> interpreted as a URL. Strings
-such as <code>..</code>, <code>//</code>, <code>?</code>, and <code>https:</code> have no special meaning; they go directly into the resulting
-resource’s path.</p>
+  such as <code>..</code>, <code>//</code>, <code>?</code>, and <code>https:</code> have no special meaning; they go directly into the resulting
+  resource’s path, with escaping if necessary.</p>
 
 <p>If you want to pass an absolute URL, use <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFS0_FT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code>.</p>
 
@@ -384,7 +385,7 @@ resource’s path.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L93-L97">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L94-L98">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -405,14 +406,14 @@ resource’s path.</p>
                         <p>Returns the unique resource with the given URL, ignoring <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.</p>
 
 <p>This method will <em>always</em> return the same instance of <code><a href="../Classes/Resource.html">Resource</a></code> for the same URL within
-the context of a <code><a href="../Classes/Service.html">Service</a></code> as long as anyone retains a reference to that resource.
-Unreferenced resources remain in memory (with their cached data) until a low memory event
-occurs, at which point they are summarily evicted.</p>
+  the context of a <code><a href="../Classes/Service.html">Service</a></code> as long as anyone retains a reference to that resource.
+  Unreferenced resources remain in memory (with their cached data) until a low memory event
+  occurs, at which point they are summarily evicted.</p>
 
 <div class="aside aside-note">
           <p class="aside-title">Note</p>
           This method always returns a <code><a href="../Classes/Resource.html">Resource</a></code>, and does not throw errors. If <code>url</code> is nil (likely because it
-    came from a malformed URL string), this method returns a resource whose requests always fail.
+      came from a malformed URL string), this method returns a resource whose requests always fail.
 
         </div>
 
@@ -426,7 +427,7 @@ occurs, at which point they are summarily evicted.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L112-L121">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L113-L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -462,7 +463,7 @@ occurs, at which point they are summarily evicted.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L132-L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L133-L142">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -492,11 +493,11 @@ occurs, at which point they are summarily evicted.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Applies global configuration to all resources in this service. The <code>configurer</code> closure receives a mutable
-<code><a href="../Structs/Configuration.html">Configuration</a></code>, referenced as <code>$0.config</code>, which it may modify as it sees fit.</p>
+  <code><a href="../Structs/Configuration.html">Configuration</a></code>, referenced as <code>$0.config</code>, which it may modify as it sees fit.</p>
 
 <p>For example:</p>
 
-<pre class="highlight plaintext"><code>service.configure { $0.config.headers["Foo"] = "bar" }
+<pre class="highlight plaintext"><code>  service.configure { $0.config.headers["Foo"] = "bar" }
 </code></pre>
 
 <p>The <code>configurer</code> block is evaluated every time a matching resource asks for its configuration.</p>
@@ -504,7 +505,7 @@ occurs, at which point they are summarily evicted.</p>
 <p>The optional <code>description</code> is used for logging purposes only.</p>
 
 <p>Configuration closures apply to any resource they match in the order they were added, whether global or not. That
-means that you will usually want to add your global configuration first, then resource-specific configuration.</p>
+  means that you will usually want to add your global configuration first, then resource-specific configuration.</p>
 
 <div class="aside aside-see-also">
           <p class="aside-title">See also</p>
@@ -528,7 +529,7 @@ means that you will usually want to add your global configuration first, then re
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L169-L177">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L170-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -547,16 +548,16 @@ means that you will usually want to add your global configuration first, then re
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Applies configuration to resources matching the given pattern. You can pass a <code><a href="../Extensions/String.html">String</a></code> or <code><a href="../Classes/Resource.html">Resource</a></code> for the
-<code>pattern</code> argument, or provide your own implementation of <code><a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a></code>.</p>
+  <code>pattern</code> argument, or provide your own implementation of <code><a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a></code>.</p>
 
 <p>Examples:</p>
 
-<pre class="highlight plaintext"><code>configure("/items")    { $0.config.expirationTime = 5 }
-configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
-configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
+<pre class="highlight plaintext"><code>  configure("/items")    { $0.config.expirationTime = 5 }
+  configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
+  configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
 
-let user = resource("/user/current")
-configure(user) { $0.config.persistentCache = userProfileCache }
+  let user = resource("/user/current")
+  configure(user) { $0.config.persistentCache = userProfileCache }
 </code></pre>
 
 <p>If you need more fine-grained URL matching, use the predicate flavor of this method.</p>
@@ -584,7 +585,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L197-L206">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L198-L207">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -602,8 +603,8 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Accepts an arbitrary URL matching predicate if the wildcards in the <code>urlPattern</code> flavor of <code>configure()</code>
-  aren’t robust enough.</p>
+                        <p>Applies configuration ro resources whose URL matches an arbitrary predicate. Use this if the wildcards in the
+     <code>urlPattern</code> flavor of <code>configure()</code> aren’t robust enough.</p>
 
                       </div>
                       <div class="declaration">
@@ -618,7 +619,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L212-L225">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L213-L226">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -636,11 +637,26 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A convenience to add a one-off content transformer.</p>
+                        <p>Transforms responses by passing their content through the given closure. This is a shortcut for adding a
+<code><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></code> to the <code><a href="../Structs/Configuration.html#/s:vV6Siesta13Configuration20responseTransformersVS_19TransformerSequence">Configuration.responseTransformers</a></code>.</p>
 
 <p>Useful for transformers that create model objects. For example:</p>
 
-<pre class="highlight plaintext"><code>  configureTransformer("/foo/​*") { FooModel(json: $0) }
+<pre class="highlight plaintext"><code>configureTransformer("/foo/​*") {
+  FooModel(json: $0.content)
+}
+</code></pre>
+
+<p>Siesta checks that the incoming <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentP_">Entity.content</a></code> matches the type of the closure’s <code>content</code> parameter. In the
+example code above, if the <code>json</code> parameter of <code>FooModel.init</code> takes a <code>Dictionary</code>, but the transformer pipeline
+at that point has produced a <code><a href="../Extensions/String.html">String</a></code>, then the transformer outputs a failure response.</p>
+
+<p>You can use this behavior to configure a service to refuse all server responses not of a specific type by passing
+a transformer that passes the content through unmodified, but requires a specific type:</p>
+
+<pre class="highlight plaintext"><code>service.configureTransformer("**") {
+  $0.content as NSJSONConvertible
+}
 </code></pre>
 
 <div class="aside aside-see-also">
@@ -662,7 +678,7 @@ configure(user) { $0.config.persistentCache = userProfileCache }
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L236-L246">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L251-L261">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -720,7 +736,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L285-L294">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L300-L309">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -749,7 +765,7 @@ over subsequent resource interactions.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Wipes the state of this service’s resources. Typically used to handle logout.</p>
+                        <p>Wipes the state of all this service’s resources. Typically used to handle logout.</p>
 
 <p>Applies to resources matching the predicate, or all resources by default.</p>
 
@@ -763,7 +779,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L326-L334">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L341-L349">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -797,7 +813,7 @@ service.wipeResources(profileResource)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L342-L345">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L357-L360">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -829,7 +845,7 @@ service.wipeResources(profileResource)</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/cedd9a1f603e90af18c3e0aab8eac45ddddab71b/Source/Service.swift#L352-L355">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L367-L370">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
