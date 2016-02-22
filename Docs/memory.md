@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
 
 ## Observer with an External Owner
 
-An observer can also regiser with `addObserver(observer:, owner:)`. This means, “This observer’s only purpose is to be an observer. Keep a strong reference and send it notifications until it its _owner_ is deallocated.”
+An observer can also register with `addObserver(observer:, owner:)`. This means, “This observer’s only purpose is to be an observer. Keep a strong reference and send it notifications until it its _owner_ is deallocated.”
 
 This is the right approach to use with little glue objects that implement `ResourceObserver`:
 
