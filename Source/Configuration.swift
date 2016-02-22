@@ -16,14 +16,14 @@ public struct Configuration
     /**
       Time before valid data is considered stale by `Resource.loadIfNeeded()`.
 
-      Defaults from `Service.defaultExpirationTime`, which defaults to 30 seconds.
+      The default is 30 seconds.
     */
     public var expirationTime: NSTimeInterval = 30
 
     /**
       Time `Resource.loadIfNeeded()` will wait before allowing a retry after a failed request.
 
-      Defaults from `Service.defaultRetryTime`, which defaults to 1 second.
+      The default is 1 second.
     */
     public var retryTime: NSTimeInterval = 1
 
