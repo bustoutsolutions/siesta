@@ -21,7 +21,7 @@ Yes, that was all a little heady. An example will help make it clear:
 ```swift
 class MyAPI: Service {
   init() {
-    super.init(base: "https://api.example.com")
+    super.init(baseURL: "https://api.example.com")
 
     // Global config
     configure {
