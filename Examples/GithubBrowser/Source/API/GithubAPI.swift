@@ -1,6 +1,9 @@
 import Siesta
 import SwiftyJSON
 
+// Depending on your taste, a Service can be a global var, singleton, or a piece of more carefully controlled shared
+// state passed between pieces of the app.
+
 let GithubAPI = _GithubAPI()
 
 class _GithubAPI {
@@ -11,20 +14,23 @@ class _GithubAPI {
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.detailed
         #endif
+        
+        // Global configuration
 
         service.configure {
             $0.config.headers["Authorization"] = self.basicAuthHeader
             $0.config.responseTransformers.add(GithubErrorMessageExtractor())
             $0.config.responseTransformers.add(SwiftyJSONTransformer, contentTypes: ["*/json"])
         }
+        
+        // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
-            return User(json: $0.content)
+            User(json: $0.content)
         }
 
         service.configureTransformer("/users/*/repos") {
-            (content: JSON, _) in
-            return content.arrayValue.map(Repository.init)
+            ($0.content as JSON).arrayValue.map(Repository.init)
         }
     }
 
@@ -42,7 +48,7 @@ class _GithubAPI {
     // Resource convenience accessors
 
     func user(username: String) -> Resource {
-        return service.resource("users").child(username)
+        return service.resource("users").child(username.lowercaseString)
     }
 }
 

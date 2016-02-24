@@ -14,7 +14,9 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         didSet {
             oldValue?.removeObservers(ownedBy: self)
             oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
-
+            
+            // Adding ourselves as an observer triggers an immediate call to resourceChanged().
+            
             userResource?.addObserver(self)
                          .addObserver(statusOverlay, owner: self)
                          .loadIfNeeded()
@@ -34,6 +36,10 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if let searchText = searchBar.text where !searchText.isEmpty {
+            
+            // Setting userResource triggers a load and display of the new user data. Note that Siesta’s redunant
+            // request elimination and model caching make it reasonable to do this on every keystroke.
+            
             userResource = GithubAPI.user(searchText)
         }
     }
@@ -43,9 +49,14 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         
         userInfoView.hidden = (user == nil)
         
+        // It's often easiest to make the same code path handle both the “data” and “no data” states.
+        // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
+        
         usernameLabel.text = user?.login
         fullNameLabel.text = user?.name
         avatar.imageURL = user?.avatarURL
+        
+        // Setting the reposResource property of the embedded VC triggers load & display of the user’s repos.
 
         repoListVC?.reposResource =
             userResource?
