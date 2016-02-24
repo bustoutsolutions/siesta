@@ -53,7 +53,7 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
                 return response
 
             case .Failure(var error):
-                error.userMessage = error.json["message"].string ?? error.userMessage
+                error.userMessage = error.jsonDict["message"] as? String ?? error.userMessage
                 return .Failure(error)
         }
     }
