@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  GithubBrowser
-//
-//  Created by Paul on 2015/7/7.
-//  Copyright © 2016 Bust Out Solutions. All rights reserved.
-//
-
 import UIKit
 import Siesta
 
@@ -18,14 +10,14 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     var repoListVC: RepositoryListViewController?
 
-    var user: Resource? {
+    var userResource: Resource? {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
             oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
 
-            user?.addObserver(self)
-                 .addObserver(statusOverlay, owner: self)
-                 .loadIfNeeded()
+            userResource?.addObserver(self)
+                         .addObserver(statusOverlay, owner: self)
+                         .loadIfNeeded()
         }
     }
 
@@ -42,26 +34,28 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if let searchText = searchBar.text where !searchText.isEmpty {
-            user = GithubAPI.user(searchText)
+            userResource = GithubAPI.user(searchText)
         }
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        userInfoView.hidden = (resource.latestData == nil)
+        let user: User? = userResource?.typedContent()
+        
+        userInfoView.hidden = (user == nil)
+        
+        usernameLabel.text = user?.login
+        fullNameLabel.text = user?.name
+        avatar.imageURL = user?.avatarURL
 
-        let user = resource.json
-        usernameLabel.text = user["login"].string
-        fullNameLabel.text = user["name"].string
-        avatar.imageURL = user["avatar_url"].string
-
-        repoListVC?.repoList = resource
-            .optionalRelative(user["repos_url"].string)?
-            .withParam("type", "all")
-            .withParam("sort", "updated")
+        repoListVC?.reposResource =
+            userResource?
+                .optionalRelative(user?.repositoriesURL)?
+                .withParam("type", "all")
+                .withParam("sort", "updated")
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "repoList" {
+        if segue.identifier == "repos" {
             repoListVC = segue.destinationViewController as? RepositoryListViewController
         }
     }

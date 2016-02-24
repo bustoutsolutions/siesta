@@ -7,18 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55611C7D6F8700EB4D67 /* User.swift */; };
+		DA2B55641C7D76B500EB4D67 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55631C7D76B500EB4D67 /* Repository.swift */; };
+		DA2B55661C7D79FA00EB4D67 /* Siesta+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55651C7D79FA00EB4D67 /* Siesta+SwiftyJSON.swift */; };
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
 		DA7462441B4C768B00406D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7462431B4C768B00406D67 /* Assets.xcassets */; };
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
 		DA7462511B4C781E00406D67 /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA74624F1B4C781E00406D67 /* Siesta.framework */; };
 		DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */; };
-		DAE2F84B1B94F10500D2AD96 /* Siesta+SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8451B94F10500D2AD96 /* Siesta+SwiftyJSON.swift */; };
 		DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */; };
 		DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */; };
 		DAE2F84E1B94F10500D2AD96 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8491B94F10500D2AD96 /* UserViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA2B55611C7D6F8700EB4D67 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		DA2B55631C7D76B500EB4D67 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		DA2B55651C7D79FA00EB4D67 /* Siesta+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		DA7462391B4C768B00406D67 /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7462411B4C768B00406D67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA7462431B4C768B00406D67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -26,7 +31,6 @@
 		DA7462481B4C768B00406D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA74624F1B4C781E00406D67 /* Siesta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Siesta.framework; path = Carthage/Build/iOS/Siesta.framework; sourceTree = "<group>"; };
 		DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
-		DAE2F8451B94F10500D2AD96 /* Siesta+SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta+SwiftyJSON.swift"; sourceTree = "<group>"; };
 		DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
 		DAE2F8491B94F10500D2AD96 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -44,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA2B55601C7D6F7B00EB4D67 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA2B55611C7D6F8700EB4D67 /* User.swift */,
+				DA2B55631C7D76B500EB4D67 /* Repository.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		DA2DDA771B5984CA00294A72 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				DAE2F8431B94F10500D2AD96 /* API */,
+				DA2B55601C7D6F7B00EB4D67 /* Model */,
 				DAE2F8461B94F10500D2AD96 /* UI */,
 				DA2DDA771B5984CA00294A72 /* Resources */,
 			);
@@ -94,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */,
-				DAE2F8451B94F10500D2AD96 /* Siesta+SwiftyJSON.swift */,
+				DA2B55651C7D79FA00EB4D67 /* Siesta+SwiftyJSON.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -198,10 +212,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA2B55641C7D76B500EB4D67 /* Repository.swift in Sources */,
 				DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */,
 				DAE2F84E1B94F10500D2AD96 /* UserViewController.swift in Sources */,
+				DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */,
+				DA2B55661C7D79FA00EB4D67 /* Siesta+SwiftyJSON.swift in Sources */,
 				DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */,
-				DAE2F84B1B94F10500D2AD96 /* Siesta+SwiftyJSON.swift in Sources */,
 				DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  GithubBrowser
-//
-//  Created by Paul on 2015/7/7.
-//  Copyright © 2016 Bust Out Solutions. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

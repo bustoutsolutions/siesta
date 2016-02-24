@@ -1,11 +1,3 @@
-//
-//  Siesta+SwiftyJSON.swift
-//  GithubBrowser
-//
-//  Created by Paul on 2015/8/31.
-//  Copyright © 2016 Bust Out Solutions. All rights reserved.
-//
-
 import Siesta
 import SwiftyJSON
 
@@ -21,6 +13,6 @@ extension TypedContentAccessors {
       resource’s content, you’ll need to add a custom `ResponseTransformer`.
     */
     var json: JSON {
-        return JSON(typedContent(ifNone: [:] as AnyObject))
+        return typedContent(ifNone: JSON.null)
     }
 }

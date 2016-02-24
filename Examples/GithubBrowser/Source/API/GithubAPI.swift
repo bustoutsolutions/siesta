@@ -1,31 +1,30 @@
-//
-//  GithubAPI.swift
-//  GithubBrowser
-//
-//  Created by Paul on 2015/7/7.
-//  Copyright © 2016 Bust Out Solutions. All rights reserved.
-//
-
 import Siesta
+import SwiftyJSON
 
 let GithubAPI = _GithubAPI()
 
-class _GithubAPI: Service {
+class _GithubAPI {
+
+    private let service = Service(baseURL: "https://api.github.com")
 
     private init() {
-        super.init(baseURL: "https://api.github.com")
-
         #if DEBUG
-            Siesta.enabledLogCategories = LogCategory.common
-                // Also try:
-                //   LogCategory.all
-                //   [.Network]
-                //   [.Network, .NetworkDetails]
+            Siesta.enabledLogCategories = LogCategory.detailed
         #endif
 
-        configure {
+        service.configure {
             $0.config.headers["Authorization"] = self.basicAuthHeader
             $0.config.responseTransformers.add(GithubErrorMessageExtractor())
+            $0.config.responseTransformers.add(SwiftyJSONTransformer, contentTypes: ["*/json"])
+        }
+
+        service.configureTransformer("/users/*") {
+            return User(json: $0.content)
+        }
+
+        service.configureTransformer("/users/*/repos") {
+            (content: JSON, _) in
+            return content.arrayValue.map(Repository.init)
         }
     }
 
@@ -43,7 +42,7 @@ class _GithubAPI: Service {
     // Resource convenience accessors
 
     func user(username: String) -> Resource {
-        return resource("users").child(username)
+        return service.resource("users").child(username)
     }
 }
 
@@ -59,3 +58,7 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
         }
     }
 }
+
+private let SwiftyJSONTransformer =
+    ResponseContentTransformer(skipWhenEntityMatchesOutputType: false)
+        { JSON($0.content as AnyObject) }
