@@ -23,6 +23,10 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         }
     }
 
+    func resourceChanged(resource: Resource, event: ResourceEvent) {
+        showUser(userResource?.typedContent())
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,9 +48,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         }
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
-        let user: User? = userResource?.typedContent()
-        
+    func showUser(user: User?) {
         userInfoView.hidden = (user == nil)
         
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
