@@ -3,6 +3,7 @@ import Siesta
 
 class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserver {
 
+    @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var userInfoView: UIView!
     @IBOutlet weak var usernameLabel, fullNameLabel: UILabel!
     @IBOutlet weak var avatar: RemoteImageView!
@@ -45,6 +46,12 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         
         statusOverlay.embedIn(self)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateLoginButton()
+    }
 
     override func viewDidLayoutSubviews() {
         statusOverlay.positionToCover(userInfoView)
@@ -83,5 +90,19 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         if segue.identifier == "repos" {
             repoListVC = segue.destinationViewController as? RepositoryListViewController
         }
+    }
+    
+    @IBAction func logInOrOut() {
+        if(GithubAPI.isAuthenticated) {
+            GithubAPI.logOut()
+            updateLoginButton()
+        } else {
+            performSegueWithIdentifier("login", sender: loginButton)
+        }
+    }
+    
+    private func updateLoginButton() {
+        loginButton.setTitle(GithubAPI.isAuthenticated ? "Log Out" : "Log In", forState: .Normal)
+        userResource?.loadIfNeeded()
     }
 }

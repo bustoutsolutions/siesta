@@ -10,6 +10,7 @@
 		DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55611C7D6F8700EB4D67 /* User.swift */; };
 		DA2B55641C7D76B500EB4D67 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55631C7D76B500EB4D67 /* Repository.swift */; };
 		DA2B55681C7ED14800EB4D67 /* SiestaTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */; };
+		DA2B556A1C7EDE7B00EB4D67 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */; };
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
 		DA7462441B4C768B00406D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7462431B4C768B00406D67 /* Assets.xcassets */; };
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
@@ -24,6 +25,7 @@
 		DA2B55611C7D6F8700EB4D67 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DA2B55631C7D76B500EB4D67 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaTheme.swift; sourceTree = "<group>"; };
+		DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DA7462391B4C768B00406D67 /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7462411B4C768B00406D67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA7462431B4C768B00406D67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				DAE2F8491B94F10500D2AD96 /* UserViewController.swift */,
 				DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */,
+				DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */,
 				DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */,
 				DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */,
 			);
@@ -216,6 +219,7 @@
 				DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */,
 				DA2B55681C7ED14800EB4D67 /* SiestaTheme.swift in Sources */,
 				DAE2F84E1B94F10500D2AD96 /* UserViewController.swift in Sources */,
+				DA2B556A1C7EDE7B00EB4D67 /* LoginViewController.swift in Sources */,
 				DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */,
 				DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */,
 				DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */,

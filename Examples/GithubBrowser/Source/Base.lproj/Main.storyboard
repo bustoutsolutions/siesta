@@ -21,14 +21,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJC-L8-r00">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="500" misplaced="YES" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KS0-Pc-VxH">
-                                        <rect key="frame" x="67" y="8" width="244" height="26.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="500" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KS0-Pc-VxH">
+                                        <rect key="frame" x="68" y="8" width="244" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" text="Full Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-zw-Ish">
-                                        <rect key="frame" x="67" y="38" width="244" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Full Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gc6-zw-Ish">
+                                        <rect key="frame" x="68" y="38" width="244" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.62352941176470589" green="0.6470588235294118" blue="0.66274509803921566" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -36,7 +36,7 @@
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0y-kz-MFs">
                                         <rect key="frame" x="0.0" y="68" width="320" height="347.5"/>
                                         <connections>
-                                            <segue destination="H7B-67-Vbu" kind="embed" identifier="repos" id="jSl-UQ-Hfa"/>
+                                            <segue destination="H7B-67-Vbu" kind="embed" identifier="repos" id="cn5-Mw-xVR"/>
                                         </connections>
                                     </containerView>
                                     <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGJ-OZ-pEy">
@@ -76,6 +76,7 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="vip-xz-2oF"/>
+                                        <exclude reference="Hsp-fY-QCO"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -84,6 +85,9 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="20" maxY="0.0"/>
                                 <state key="normal" title="Log In"/>
+                                <connections>
+                                    <action selector="logInOrOut" destination="BYZ-38-t0r" eventType="touchUpInside" id="hel-93-07S"/>
+                                </connections>
                             </button>
                             <searchBar contentMode="redraw" searchBarStyle="prominent" text="" placeholder="Github username" translatesAutoresizingMaskIntoConstraints="NO" id="e1M-2G-J2R">
                                 <rect key="frame" x="0.0" y="20" width="245" height="44"/>
@@ -95,6 +99,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e0y-kz-MFs" secondAttribute="bottom" constant="0.5" id="BE4-I2-5ea"/>
                             <constraint firstItem="e1M-2G-J2R" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="M5P-1f-shc"/>
                             <constraint firstAttribute="trailing" secondItem="hJC-L8-r00" secondAttribute="trailing" id="Rma-jC-lTo"/>
                             <constraint firstItem="e1M-2G-J2R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S4E-rn-vxB"/>
@@ -118,8 +123,12 @@
                     <connections>
                         <outlet property="avatar" destination="QAt-hl-bGg" id="mNM-xK-oR6"/>
                         <outlet property="fullNameLabel" destination="gc6-zw-Ish" id="vpg-DI-mJl"/>
+                        <outlet property="loginButton" destination="mo6-UH-WgS" id="rMm-KW-ma3"/>
                         <outlet property="userInfoView" destination="hJC-L8-r00" id="SiM-EV-pLQ"/>
                         <outlet property="usernameLabel" destination="KS0-Pc-VxH" id="PXy-cK-38m"/>
+                        <segue destination="qan-Z8-abq" kind="popoverPresentation" identifier="login" popoverAnchorView="mo6-UH-WgS" id="yMr-A6-Vjb">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -207,6 +216,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ovc-qW-zE6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="938" y="257"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YIc-sH-D0A">
+            <objects>
+                <navigationController id="qan-Z8-abq" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="TLq-ze-bSO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.18039215689999999" green="0.23529411759999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="sxx-pP-huY" kind="relationship" relationship="rootViewController" id="7T5-Un-0kb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8CU-A7-rIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="519" y="824"/>
+        </scene>
+        <!--Log In to Github-->
+        <scene sceneID="d5S-U4-0JN">
+            <objects>
+                <viewController id="sxx-pP-huY" customClass="LoginViewController" customModule="GithubBrowser" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wu3-Vb-Tzp"/>
+                        <viewControllerLayoutGuide type="bottom" id="jKB-p4-jcM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rbe-kx-b1C">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="39T-FZ-LjM">
+                                <rect key="frame" x="16" y="20" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="next"/>
+                                <connections>
+                                    <action selector="moveToPassword" destination="sxx-pP-huY" eventType="primaryActionTriggered" id="FBN-zP-Wcg"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sUc-e8-eTr">
+                                <rect key="frame" x="16" y="60" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="go" secureTextEntry="YES"/>
+                                <connections>
+                                    <action selector="logIn" destination="sxx-pP-huY" eventType="primaryActionTriggered" id="XiF-qA-pvC"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cIJ-WJ-Qti">
+                                <rect key="frame" x="28" y="100" width="264.5" height="31.5"/>
+                                <string key="text">You can create an app-specific password at
+https://github.com/settings/tokens</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.18039215689999999" green="0.23529411759999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="cIJ-WJ-Qti" firstAttribute="centerX" secondItem="sUc-e8-eTr" secondAttribute="centerX" id="9Xi-c6-wJ6"/>
+                            <constraint firstItem="sUc-e8-eTr" firstAttribute="centerX" secondItem="39T-FZ-LjM" secondAttribute="centerX" id="EUG-PU-acI"/>
+                            <constraint firstItem="39T-FZ-LjM" firstAttribute="trailing" secondItem="Rbe-kx-b1C" secondAttribute="trailingMargin" id="hd0-PB-hzt"/>
+                            <constraint firstItem="sUc-e8-eTr" firstAttribute="width" secondItem="39T-FZ-LjM" secondAttribute="width" id="ic3-ay-Vax"/>
+                            <constraint firstItem="sUc-e8-eTr" firstAttribute="top" secondItem="39T-FZ-LjM" secondAttribute="bottom" constant="10" id="mMJ-iG-Ake"/>
+                            <constraint firstItem="39T-FZ-LjM" firstAttribute="top" secondItem="wu3-Vb-Tzp" secondAttribute="bottom" constant="20" id="r1a-fg-VJ4"/>
+                            <constraint firstItem="39T-FZ-LjM" firstAttribute="leading" secondItem="Rbe-kx-b1C" secondAttribute="leadingMargin" id="swE-Ve-8RY"/>
+                            <constraint firstItem="cIJ-WJ-Qti" firstAttribute="top" secondItem="sUc-e8-eTr" secondAttribute="bottom" constant="10" id="zjZ-Qv-oUL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Log In to Github" id="sOs-in-r19">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="b8z-xB-pu3">
+                            <connections>
+                                <action selector="cancel:" destination="sxx-pP-huY" id="Zxc-w5-lJi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="passwordField" destination="sUc-e8-eTr" id="R5S-EK-cbv"/>
+                        <outlet property="usernameField" destination="39T-FZ-LjM" id="tUO-Kp-AXM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pAz-VW-igN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="938" y="824"/>
         </scene>
     </scenes>
 </document>

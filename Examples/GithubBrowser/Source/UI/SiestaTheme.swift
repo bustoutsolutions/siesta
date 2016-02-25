@@ -1,11 +1,3 @@
-//
-//  SiestaTheme.swift
-//  GithubBrowser
-//
-//  Created by Paul on 2016/2/25.
-//  Copyright © 2016 Bust Out Solutions. All rights reserved.
-//
-
 import UIKit
 import Siesta
 
@@ -19,6 +11,8 @@ struct SiestaTheme {
     
     static func applyAppearanceDefaults() {
         UITextField.appearance().keyboardAppearance = .Dark
+        UITextField.appearance().textColor = UIColor.blackColor()
+        UITextField.appearance().backgroundColor = textColor
         
         UITableView.appearance().backgroundColor = darkColor
         UITableView.appearance().separatorColor = UIColor.blackColor()

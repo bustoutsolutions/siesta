@@ -41,19 +41,25 @@ class _GithubAPI {
         // the expected type becomes an error. For example, "/users/foo" must return a JSON response because that's
         // what the User(json:) expects.
     }
+    
+    func logIn(username username: String, password: String) {
+        if let auth = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding) {
+            basicAuthHeader = "Basic \(auth.base64EncodedStringWithOptions([]))"
+        }
+    }
+    
+    func logOut() {
+        basicAuthHeader = nil
+    }
+    
+    var isAuthenticated: Bool {
+        return basicAuthHeader != nil
+    }
 
     private var basicAuthHeader: String? {
-        // Your auth config will probably depend on a user authenticating themselves, and thus change over time.
-        // Be sure to call invalidateConfiguration() when the credentials change, and wipeResources() when a user
-        // logs out (to flush an cached authorization-based data).
-        
-        let env = NSProcessInfo.processInfo().environment
-        if let username = env["GITHUB_USER"],
-           let password = env["GITHUB_PASS"],
-           let auth = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding) {
-            return "Basic \(auth.base64EncodedStringWithOptions([]))"
-        } else {
-            return nil
+        didSet {
+            service.invalidateConfiguration()  // So that future requests for existing resources pick up config change
+            service.wipeResources()            // Scrub all unauthenticated data
         }
     }
 
