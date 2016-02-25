@@ -5,14 +5,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let env = NSProcessInfo.processInfo().environment
-        usernameField.text = env["GITHUB_USER"]
-        passwordField.text = env["GITHUB_PASS"]
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         usernameField.becomeFirstResponder()
