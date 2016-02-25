@@ -2,7 +2,7 @@
 
 This app allows you to type a Github username and see the user’s name, avator, and repos.
 
-This is a simple app, and intentionally minimizes things outside of Siesta’s purview: no models, bare bones UI, minimal functionality.
+This is a simple app, and intentionally minimizes things outside of Siesta’s purview: no models, minimal functionality, and bare bones UI. (Well, there is the gratuitous use of the Siesta color scheme!)
 
 ## Files of note
 
@@ -10,19 +10,17 @@ This is a simple app, and intentionally minimizes things outside of Siesta’s p
     
     - set up a Siesta service,
     - send an authentication header, and
-    - add a custom response transformer (in this case to extract Github-provided error messages).
-
-- `Source/API/Siesta+SwiftyJSON.swift` shows how to:
-    
-    - integrate SwiftyJSON and
-    - how to write your own typed convenience accessor.
+    - add a custom response transformers that:
+        - wrap all JSON responses with SwiftJSON,
+        - map endpoints to models, and
+        - replace Siesta’s default error messages with Github-provided messages when present.
 
 - `Source/UI/UserViewController.swift` shows how to:
     
     - use Siesta to propagate changes from a Resource to a UI,
     - retarget a view controller at different Resources while it is visible,
     - use `ResourceStatusOverlay` to show a spinner and default error message, and
-    - use Siesta’s caching, throttling, and delayed cancellation to manage a rapid series of requests.
+    - use Siesta’s caching, throttling, and delayed cancellation to manage a rapid series of requests triggered by keystrokes.
 
 - `Source/UI/RepositoryListViewController.swift` shows how to:
     
@@ -31,6 +29,6 @@ This is a simple app, and intentionally minimizes things outside of Siesta’s p
 
 ## Rate limit errors?
 
-If you hit the Github API’s rate limit while running the demo, configure the app to authenticate itself with Github by adding `GITHUB_USER` and `GITHUB_PASS` environment variables to the “Run” build scheme.
+If you hit the Github API’s rate limit while running the demo, press the “Log In” button. If you’re experimenting with the demo a lot, you can set `GITHUB_USER` and `GITHUB_PASS` environment variables in the “Run” build scheme to make the app automatically log you in on launch.
 
-You can also use a [personal access token](https://github.com/settings/tokens) in place of your password. You don’t need to grant any permissions to your token for this app; just the public access will do.
+You can use a [personal access token](https://github.com/settings/tokens) in place of your password. You don’t need to grant any permissions to your token for this app; just the public access will do.
