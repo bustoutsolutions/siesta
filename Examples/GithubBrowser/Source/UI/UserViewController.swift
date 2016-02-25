@@ -39,7 +39,8 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = SiestaTheme.darkColor
         userInfoView.hidden = true
         
         statusOverlay.embedIn(self)

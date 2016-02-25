@@ -31,6 +31,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = SiestaTheme.darkColor
         statusOverlay.embedIn(self)
 
         self.clearsSelectionOnViewWillAppear = false
