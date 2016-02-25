@@ -12,6 +12,9 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     var userResource: Resource? {
         didSet {
+            // One call to removeObservers() removes both self and statusOverlay as observers of the old resource,
+            // since both observers are owned by self (see below).
+            
             oldValue?.removeObservers(ownedBy: self)
             oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
             
@@ -24,6 +27,13 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
+        // typedContent() infers that we want a User from context: showUser() expects one. Our content tranformer
+        // configuation in GithubAPI makes it so that the userResource actually holds a User. It is up to a Siesta
+        // client to ensure that the transformer output and the expected content type line up like this.
+        // 
+        // If there were a type mismatch, typedContent() would return nil. (We could also provide a default value with
+        // the ifNone: param.)
+        
         showUser(userResource?.typedContent())
     }
     
@@ -31,6 +41,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         super.viewDidLoad()
 
         userInfoView.hidden = true
+        
         statusOverlay.embedIn(self)
     }
 

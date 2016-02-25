@@ -13,14 +13,6 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         }
     }
     
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
-        // Siesta’s typedContent() infers from the type of the repos property that reposResource should hold content
-        // of type [Repository]. Our content tranformer configuation in GithubAPI makes this so. It is up to a Siesta
-        // user to ensure that the transformer output and the expected content type always line up like this.
-        
-        repos = reposResource?.typedContent() ?? []
-    }
-
     var repos: [Repository] = [] {
         didSet {
             tableView.reloadData()
@@ -28,6 +20,13 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     }
 
     var statusOverlay = ResourceStatusOverlay()
+
+    func resourceChanged(resource: Resource, event: ResourceEvent) {
+        // Siesta’s typedContent() infers from the type of the repos property that reposResource should hold content
+        // of type [Repository]. 
+        
+        repos = reposResource?.typedContent() ?? []
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

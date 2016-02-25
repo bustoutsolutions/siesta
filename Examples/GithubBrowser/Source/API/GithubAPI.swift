@@ -1,8 +1,8 @@
 import Siesta
 import SwiftyJSON
 
-// Depending on your taste, a Service can be a global var, singleton, or a piece of more carefully controlled shared
-// state passed between pieces of the app.
+// Depending on your taste, a Service can be a global var, a static var singleton, or a piece of more carefully
+// controlled shared state passed between pieces of the app.
 
 let GithubAPI = _GithubAPI()
 
@@ -28,13 +28,25 @@ class _GithubAPI {
         service.configureTransformer("/users/*") {
             User(json: $0.content)
         }
-
+        
         service.configureTransformer("/users/*/repos") {
             ($0.content as JSON).arrayValue.map(Repository.init)
         }
+        
+        // Note that you can use Siesta without these sorts of model mappings. By default, Siesta parses JSON, text,
+        // and images based on content type — and a resource will contain whatever the server happened to return, in a
+        // parsed but unstructured form (string, dictionary, etc.).
+        //
+        // If you do apply a path-based mapping like the ones above, then any request for that path that does not return
+        // the expected type becomes an error. For example, "/users/foo" must return a JSON response because that's
+        // what the User(json:) expects.
     }
 
     private var basicAuthHeader: String? {
+        // Your auth config will probably depend on a user authenticating themselves, and thus change over time.
+        // Be sure to call invalidateConfiguration() when the credentials change, and wipeResources() when a user
+        // logs out (to flush an cached authorization-based data).
+        
         let env = NSProcessInfo.processInfo().environment
         if let username = env["GITHUB_USER"],
            let password = env["GITHUB_PASS"],
