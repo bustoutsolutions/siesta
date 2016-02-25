@@ -58,6 +58,10 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         }
         return cell
     }
+    
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
 }
 
 class RepositoryTableViewCell: UITableViewCell {
