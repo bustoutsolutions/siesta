@@ -33,7 +33,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 }
 ```
 
-Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with a captial R.
+Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with a capital R.
 
 (Aside: It would be the most natural thing in the world to wire a Siesta resource up to a reactive library. Pull requests welcome!)
 

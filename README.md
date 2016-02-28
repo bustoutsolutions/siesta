@@ -356,7 +356,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Core data integration       |                    |                | ✓             |           |                 |                |
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
 | Nontrivial lines of code²   | 2013               | 1695           | 10651         | 557       | 4055            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 

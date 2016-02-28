@@ -6,7 +6,7 @@ Siesta achieves this by introducing a notion of **observer ownership,** which ti
 
 ## Self-Owned Observer
 
-An observer can register as its own owner using the single-argument flavor of `addObserver()`. This essentialy means, “Someone else owns this observer object. Keep only a weak reference to it. Send it notifications until it is deallocated.”
+An observer can register as its own owner using the single-argument flavor of `addObserver()`. This essentially means, “Someone else owns this observer object. Keep only a weak reference to it. Send it notifications until it is deallocated.”
 
 This is the right approach to use with an object implementing `ResourceObserver` that already has a parent object — for example, a `UIView` or `UIViewController`:
 
