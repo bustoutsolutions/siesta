@@ -6,7 +6,7 @@ exclude: [Source/Support/Siesta-ObjC.swift, Source/Support/Deprecations.swift]
 
 copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
-swift_version: 2.1.1
+swift_version: 2.2
 
 custom_categories:
   - name: Resources
