@@ -334,17 +334,18 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("observer auto-removal")
             {
             func expectToStopObservation(
-                    var observer: TestObserverWithExpectations?,
-                    @noescape callback: Void -> Void)
+                    @noescape observer: Void -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
+                    @noescape callbackThatShouldCauseRemoval: Void -> Void)
                 {
-                observer!.expect(.Requested)
+                observer().expect(.Requested)
+
+                // Start request; observer should hear about it
 
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
-                observer!.checkForUnfulfilledExpectations()
-                observer = nil
+                observer().checkForUnfulfilledExpectations()
 
-                callback()
+                callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
                 reqStub.go()
@@ -359,7 +360,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer!.expect(.ObserverAdded)
                 resource().addObserver(observer!)
 
-                expectToStopObservation(observer)
+                expectToStopObservation({ observer! })
                     { observer = nil }
 
                 expect(observerWeak).to(beNil())  // resource should not have retained it
@@ -373,7 +374,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer.expect(.ObserverAdded)
                 resource().addObserver(observer, owner: owner!)
 
-                expectToStopObservation(observer)
+                expectToStopObservation({ observer })
                     { owner = nil }
                 }
             }

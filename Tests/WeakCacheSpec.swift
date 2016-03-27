@@ -108,6 +108,6 @@ private class Doodad
     {
     static var count: Int = 0
 
-    init() { Doodad.count++ }
-    deinit { Doodad.count-- }
+    init() { Doodad.count += 1 }
+    deinit { Doodad.count -= 1 }
     }

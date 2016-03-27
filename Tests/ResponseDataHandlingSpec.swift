@@ -479,7 +479,7 @@ private class TestTransformer: ResponseTransformer
 
     private func process(response: Response) -> Response
         {
-        callCount++
+        callCount += 1
         switch response
             {
             case .Success(var entity):

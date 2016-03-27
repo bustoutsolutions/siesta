@@ -86,7 +86,7 @@ internal extension Dictionary
         return Dictionary.fromArray(
             flatMap
                 {
-                let (k,v) = transform($0)
+                let (k,v) = transform($0, $1)
                 if let k = k, let v = v
                     { return (k,v) }
                 else

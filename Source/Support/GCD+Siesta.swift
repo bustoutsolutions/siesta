@@ -19,7 +19,7 @@ internal func dispatch_on_main_queue(after delay: NSTimeInterval, closure: Void 
         closure)
     }
 
-internal func dispatch_assert_main_queue(caller: String = __FUNCTION__)
+internal func dispatch_assert_main_queue(caller: String = #function)
     {
     precondition(
         NSThread.isMainThread(),

@@ -59,7 +59,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                             {
                             res, req in
                             expect(res) === resource()
-                            beforeHookCount++
+                            beforeHookCount += 1
                             }
                         }
 
