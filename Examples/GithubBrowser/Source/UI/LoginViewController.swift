@@ -9,7 +9,7 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         usernameField.becomeFirstResponder()
     }
-    
+        
     @IBAction func cancel(sender: AnyObject) {
         dismissViewControllerAnimated(true) { }
     }

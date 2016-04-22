@@ -50,7 +50,12 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setNeedsStatusBarAppearanceUpdate()
         updateLoginButton()
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent;
     }
 
     override func viewDidLayoutSubviews() {
