@@ -55,7 +55,7 @@
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
-		DAFA42091C20B10F0020AC5E /* FailedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42081C20B10F0020AC5E /* FailedRequest.swift */; };
+		DAFA42091C20B10F0020AC5E /* RequestCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42081C20B10F0020AC5E /* RequestCreation.swift */; };
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
@@ -136,7 +136,7 @@
 		DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCallbacks.swift; sourceTree = "<group>"; };
 		DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTracker.swift; sourceTree = "<group>"; };
 		DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
-		DAFA42081C20B10F0020AC5E /* FailedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailedRequest.swift; sourceTree = "<group>"; };
+		DAFA42081C20B10F0020AC5E /* RequestCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCreation.swift; sourceTree = "<group>"; };
 		DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugFormatting.swift; sourceTree = "<group>"; };
 		DAFA89271B8172920090D283 /* SiestaSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaSpec.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 				DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */,
 				DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */,
 				DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */,
-				DAFA42081C20B10F0020AC5E /* FailedRequest.swift */,
+				DAFA42081C20B10F0020AC5E /* RequestCreation.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -441,7 +441,7 @@
 				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
 				DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
-				DAFA42091C20B10F0020AC5E /* FailedRequest.swift in Sources */,
+				DAFA42091C20B10F0020AC5E /* RequestCreation.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */,
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
