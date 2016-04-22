@@ -14,7 +14,7 @@ internal final class FailedRequest: RequestWithDefaultCallbacks
     var isCompleted: Bool { return true }
     var progress: Double { return 1 }
 
-    init(_ error: Error)
+    init(error: Error)
         { self.error = error }
 
     func addResponseCallback(callback: ResponseCallback)

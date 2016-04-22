@@ -355,7 +355,7 @@ public final class Resource: NSObject
             { return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)") }
         else
             {
-            return FailedRequest(
+            return failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
@@ -380,7 +380,7 @@ public final class Resource: NSObject
         {
         guard NSJSONSerialization.isValidJSONObject(json) else
             {
-            return FailedRequest(
+            return failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: Error.Cause.InvalidJSONObject()))
@@ -397,7 +397,7 @@ public final class Resource: NSObject
             // encoding to fail such that dataWithJSONObject() is declared “throws” (radar 21913397, Apple-rejected!),
             // but we catch the exception anyway instead of using try! and crashing.
 
-            return FailedRequest(
+            return failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
@@ -438,9 +438,10 @@ public final class Resource: NSObject
             }
         catch
             {
-            return FailedRequest(Error(
-                userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                cause: error))
+            return failedRequest(
+                Error(
+                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
+                    cause: error))
             }
         }
 
@@ -453,6 +454,15 @@ public final class Resource: NSObject
         allowedChars.removeCharactersInString(charsToEscape)
         return allowedChars
         }()
+
+    /**
+      Returns a request for this resource that immedately fails, without ever touching the network. Useful for creating
+      your own custom requests that perform pre-request validation.
+     */
+    public func failedRequest(error: Error) -> Request
+        {
+        return FailedRequest(error: error)
+        }
 
     /**
       True if the resource’s local state is up to date according to staleness configuration.

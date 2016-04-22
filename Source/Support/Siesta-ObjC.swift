@@ -326,9 +326,10 @@ public extension Resource
         guard let method = RequestMethod(rawValue: methodString) else
             {
             return _objc_Request(
-                FailedRequest(Error(
-                    userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
-                    cause: Error.Cause.InvalidRequestMethod(method: methodString))))
+                failedRequest(
+                    Error(
+                        userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
+                        cause: Error.Cause.InvalidRequestMethod(method: methodString))))
             }
 
         return _objc_Request(closure(method))
@@ -343,9 +344,10 @@ public extension Resource
         guard let json = maybeJson as? NSJSONConvertible else
             {
             return _objc_Request(
-                FailedRequest(Error(
-                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.InvalidJSONObject())))
+                failedRequest(
+                    Error(
+                        userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
+                        cause: Error.Cause.InvalidJSONObject())))
             }
 
         return _objc_wrapRequest(methodString) { closure($0, json) }
