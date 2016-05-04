@@ -55,7 +55,7 @@ public extension Resource
             { return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)") }
         else
             {
-            return failedRequest(
+            return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
@@ -80,7 +80,7 @@ public extension Resource
         {
         guard NSJSONSerialization.isValidJSONObject(json) else
             {
-            return failedRequest(
+            return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: Error.Cause.InvalidJSONObject()))
@@ -97,7 +97,7 @@ public extension Resource
             // encoding to fail such that dataWithJSONObject() is declared “throws” (radar 21913397, Apple-rejected!),
             // but we catch the exception anyway instead of using try! and crashing.
 
-            return failedRequest(
+            return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
@@ -138,7 +138,7 @@ public extension Resource
             }
         catch
             {
-            return failedRequest(
+            return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
@@ -159,7 +159,7 @@ public extension Resource
       Returns a request for this resource that immedately fails, without ever touching the network. Useful for creating
       your own custom requests that perform pre-request validation.
      */
-    public func failedRequest(error: Error) -> Request
+    public static func failedRequest(error: Error) -> Request
         {
         return FailedRequest(error: error)
         }
