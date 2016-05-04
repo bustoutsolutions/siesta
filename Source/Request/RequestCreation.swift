@@ -51,15 +51,15 @@ public extension Resource
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
-        if let rawBody = text.dataUsingEncoding(encoding)
-            { return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)") }
-        else
+        guard let rawBody = text.dataUsingEncoding(encoding) else
             {
             return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
             }
+
+        return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)")
         }
 
     /**

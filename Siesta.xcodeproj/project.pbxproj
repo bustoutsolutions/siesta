@@ -307,10 +307,10 @@
 			isa = PBXGroup;
 			children = (
 				DAAB48291B5D7B770059C047 /* Request.swift */,
+				DAFA42081C20B10F0020AC5E /* RequestCreation.swift */,
 				DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */,
 				DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */,
 				DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */,
-				DAFA42081C20B10F0020AC5E /* RequestCreation.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
