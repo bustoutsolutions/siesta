@@ -87,6 +87,7 @@ extension Entity
     private var formattedContent: String
         {
         if let jsonContent = content as? NSJSONConvertible
+            where NSJSONSerialization.isValidJSONObject(jsonContent)
             {
             if let jsonData = try? NSJSONSerialization.dataWithJSONObject(jsonContent, options: [.PrettyPrinted]),
                let json = NSString(data: jsonData, encoding: NSUTF8StringEncoding)

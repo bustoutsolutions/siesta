@@ -232,6 +232,16 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().jsonArray) == NSArray()
                     }
                 }
+
+            it("can log JSON-like container with non-JSON contents")
+                {
+                let notValidJSONObject: NSArray = [NSObject()]
+                service().configureTransformer("**")
+                    { (_: Any, _) in notValidJSONObject }
+
+                stubJson()
+                expect(resource().typedContent()) === notValidJSONObject
+                }
             }
 
         describe("image handling")
