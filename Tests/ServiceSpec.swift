@@ -182,30 +182,30 @@ class ServiceSpec: SiestaSpec
                 expect(resource1().config.expirationTime) == 30
                 }
 
+            func checkPattern(
+                    pattern: ConfigurationPatternConvertible,
+                    matches: Bool,
+                    _ pathOrURL: String,
+                    absolute: Bool = false,
+                    params: [String:String] = [:],
+                    service: Service  = Service(baseURL: "https://foo.bar/v1"))
+                {
+                service.configure(pattern) { $0.config.expirationTime = 6 }
+
+                var resource = absolute
+                    ? service.resource(absoluteURL: pathOrURL)
+                    : service.resource(pathOrURL)
+                for (k,v) in params
+                    { resource = resource.withParam(k, v) }
+
+                let actual = resource.config.expirationTime,
+                    expected = matches ? 6.0 : 30.0,
+                    matchword = matches ? "to" : "not to"
+                XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
+                }
+
             context("using wilcards")
                 {
-                func checkPattern(
-                        pattern: String,
-                        matches: Bool,
-                        _ pathOrURL: String,
-                        absolute: Bool = false,
-                        params: [String:String] = [:],
-                        service: Service  = Service(baseURL: "https://foo.bar/v1"))
-                    {
-                    service.configure(pattern) { $0.config.expirationTime = 6 }
-
-                    var resource = absolute
-                        ? service.resource(absoluteURL: pathOrURL)
-                        : service.resource(pathOrURL)
-                    for (k,v) in params
-                        { resource = resource.withParam(k, v) }
-
-                    let actual = resource.config.expirationTime,
-                        expected = matches ? 6.0 : 30.0,
-                        matchword = matches ? "to" : "not to"
-                    XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
-                    }
-
                 it("matches against the base URL")
                     {
                     checkPattern("fez",  matches: true,  "/fez")
@@ -277,6 +277,31 @@ class ServiceSpec: SiestaSpec
 
                     checkBareServicePattern("/foo", matches: false, "http://bar.baz/foo")
                     checkBareServicePattern("http://bar.baz/*", matches: true, "http://bar.baz/foo")
+                    }
+                }
+
+            context("using regexps")
+                {
+                func regexp(pattern: String, options: NSRegularExpressionOptions = []) -> NSRegularExpression
+                    { return try! NSRegularExpression(pattern: pattern, options: options) }
+
+                it("matches substrings")
+                    {
+                    checkPattern(regexp("/.ump"), matches: true, "/wump")
+                    checkPattern(regexp("/.ump"), matches: true, "/gump/7")
+                    checkPattern(regexp("/.ump"), matches: false, "/wzmp")
+                    }
+
+                it("matches the entire URL")
+                    {
+                    checkPattern(regexp("^https://foo\\.bar/v1/wump$"), matches: true, "/wump")
+                    checkPattern(regexp("^https://baz\\.bar/v1/wump$"), matches: false, "/wump")
+                    }
+
+                it("respects regexp options")
+                    {
+                    checkPattern(regexp("/wu+"), matches: false, "/WUUUUUMP")
+                    checkPattern(regexp("/wu+", options: [.CaseInsensitive]), matches: true, "/WUUUUUMP")
                     }
                 }
 

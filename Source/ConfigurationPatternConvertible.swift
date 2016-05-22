@@ -73,12 +73,37 @@ extension String: ConfigurationPatternConvertible
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
-        return { pattern.matches($0.absoluteString) }
+        return pattern.configurationPattern(service)
         }
 
     /// :nodoc:
     public var configurationPatternDescription: String
         { return self }
+    }
+
+/**
+  Support for passing regular expressions to `Service.configure(...)`.
+*/
+extension NSRegularExpression: ConfigurationPatternConvertible
+    {
+    /**
+      Matches URLs if this regular expression matches any substring of the URL’s full, absolute form.
+
+      Note that, unlike the simpler wildcard form of `String.configurationPattern(_:)`, the regular expression is _not_
+      matched relative to the Service’s base URL. The match is performed against the full URL: scheme, host, path,
+      query string and all.
+
+      Note also that this implementation matches substrings. Include `^` and `$` if you want your pattern to match
+      against the entire URL.
+    */
+    public func configurationPattern(service: Service) -> NSURL -> Bool
+        {
+        return { self.matches($0.absoluteString) }
+        }
+
+    /// :nodoc:
+    public var configurationPatternDescription: String
+        { return pattern }
     }
 
 /**
