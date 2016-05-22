@@ -6,20 +6,21 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
 
 /**
   A `UIImageView` that asynchronously loads and displays remote images.
 */
-public class RemoteImageView: UIImageView
+public class RemoteImageView: BOSImageView
     {
     /// Optional view to show while image is loading.
-    @IBOutlet public weak var loadingView: UIView?
+    @IBOutlet public weak var loadingView: BOSView?
 
     /// Optional view to show if image is unavailable. Not shown while image is loading.
-    @IBOutlet public weak var alternateView: UIView?
+    @IBOutlet public weak var alternateView: BOSView?
 
     /// Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.
-    @IBOutlet public var placeholderImage: UIImage?
+    @IBOutlet public var placeholderImage: BOSImage?
 
     /// The default service to cache `RemoteImageView` images.
     public static var defaultImageService: Service = Service()
