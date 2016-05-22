@@ -84,7 +84,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
     public required init?(coder: NSCoder)
         { super.init(coder: coder) }
 
-
+    
     // MARK: Layout
 
     /**
@@ -95,7 +95,9 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         {
         parentVC = parentViewController
 
-        layer.zPosition = 10000
+        #if !os(OSX)
+        layer!.zPosition = 10000
+        #endif
         parentVC?.view.addSubview(self)
 
         backgroundColor = parentVC?.view.backgroundColor
@@ -114,10 +116,12 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         if let parentVC = parentVC
             {
             var bounds = parentVC.view.bounds
+            #if !os(OSX)
             let top = parentVC.topLayoutGuide.length,
                 bot = parentVC.bottomLayoutGuide.length
             bounds.origin.y += top
             bounds.size.height -= top + bot
+            #endif
             positionToCoverRect(bounds, inView: parentVC.view)
             }
         }
@@ -255,7 +259,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         errorView?.hidden = true
         loadingIndicator?.hidden = false
         loadingIndicator?.alpha = 0
-        UIView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
+        BOSView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
         }
 
     private func showSuccess()

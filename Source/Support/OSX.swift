@@ -65,6 +65,13 @@ import Foundation
                 }
             }
         }
+        
+        class func animateWithDuration(duration: NSTimeInterval, animations: () -> Void) {
+            NSAnimationContext.beginGrouping()
+            NSAnimationContext.currentContext().duration = duration
+            animations()
+            NSAnimationContext.endGrouping()
+        }
     }
     
     // This is to make UIView's resizing mask working.
@@ -76,6 +83,14 @@ import Foundation
         static var FlexibleTopMargin: NSAutoresizingMaskOptions { return ViewMinYMargin }
         static var FlexibleHeight: NSAutoresizingMaskOptions { return ViewHeightSizable }
         static var FlexibleBottomMargin: NSAutoresizingMaskOptions { return ViewMaxYMargin }
+    }
+    
+    extension NSBundle {
+        func loadNibNamed(name: String!, owner: AnyObject!, options: [NSObject : AnyObject]!) -> [AnyObject]! {
+            var topLevels: NSArray?
+            let success = self.loadNibNamed(name, owner: owner, topLevelObjects: &topLevels)
+            return (success == true) ? topLevels as! [AnyObject] : []
+        }
     }
     
 #endif
