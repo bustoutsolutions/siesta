@@ -21,7 +21,7 @@ Yes, that was all a little heady. An example will help make it clear:
 ```swift
 class MyAPI: Service {
   init() {
-    super.init(base: "https://api.example.com")
+    super.init(baseURL: "https://api.example.com")
 
     // Global config
     configure {
@@ -51,7 +51,7 @@ let authURL = authenticationResource.url
 
 configure({ url in url != authURL }, description: "catch auth failures") {
   $0.config.beforeStartingRequest { _, req in  // For all resources except auth:
-    req.failure { error in                     // If a request fails...
+    req.onFailure { error in                     // If a request fails...
       if error.httpStatusCode == 401 {         // ...with a 401...
         showLoginScreen()                      // ...then prompt the user to log in
       }

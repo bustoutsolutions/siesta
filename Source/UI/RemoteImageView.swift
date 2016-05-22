@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/8/26.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 
@@ -31,7 +31,7 @@ public class RemoteImageView: UIImageView
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
-        set { imageResource = imageService.resourceWithURL(newValue) }
+        set { imageResource = imageService.resource(absoluteURL: newValue) }
         }
 
     /**
@@ -61,7 +61,7 @@ public class RemoteImageView: UIImageView
 
     private func updateViews()
         {
-        image = imageResource?.contentAsType(ifNone: placeholderImage)
+        image = imageResource?.typedContent(ifNone: placeholderImage)
 
         let isLoading = imageResource?.isLoading ?? false
         loadingView?.hidden = !isLoading

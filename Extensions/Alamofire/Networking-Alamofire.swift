@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -23,7 +23,7 @@ import Alamofire
               let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
               configuration.allowsCellularAccess = false
               super.init(
-                  base: "http://foo.bar/v1",
+                  baseURL: "http://foo.bar/v1",
                   networking: AlamofireProvider(configuration: configuration))
           }
       }

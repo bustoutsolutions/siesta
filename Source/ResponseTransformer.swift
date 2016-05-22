@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/7/8.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +13,8 @@ import Foundation
   a chain of transformers before being sent to response hooks or observers.
 
   - Warning: Transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
-             transformer touches only its input parameters.
+             transformer touches only its input parameters, and those parameters are value types or otherwise
+             exclusively owned.
 */
 public protocol ResponseTransformer
     {
@@ -23,6 +24,7 @@ public protocol ResponseTransformer
       Note that a `Response` can contain either data or an error, so this method can turn success into failure if the
       response fails to parse.
     */
+    @warn_unused_result
     func process(response: Response) -> Response
     }
 
@@ -143,8 +145,9 @@ public struct TransformerSequence
   A simplified `ResponseTransformer` that deals only with the content of the response entity, and does not touch the
   surrounding metadata.
 
+  If `processContent(_:)` throws or returns nil, the output is an error.
+
   If the input entity’s content does not match the `InputContentType`, the response is an error.
-  If `processContent(_:)` throws, the response is transformed to an error.
 */
 public struct ResponseContentTransformer<InputContentType,OutputContentType>: ResponseTransformer
     {
@@ -154,7 +157,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
       error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
     */
-    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType
+    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType?
 
     private let processor: Processor
     private let skipWhenEntityMatchesOutputType: Bool
@@ -195,7 +198,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func processEntity(var entity: Entity) -> Response
+    private func processEntity(entity: Entity) -> Response
         {
         if skipWhenEntityMatchesOutputType && entity.content is OutputContentType
             {
@@ -215,7 +218,9 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
 
         do  {
-            let result = try processor(content: typedContent, entity: entity)
+            guard let result = try processor(content: typedContent, entity: entity) else
+                { throw Error.Cause.TransformerReturnedNil(transformer: self) }
+            var entity = entity
             entity.content = result
             return .Success(entity)
             }
@@ -230,8 +235,9 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func processError(var error: Error) -> Response
+    private func processError(error: Error) -> Response
         {
+        var error = error
         if let errorData = error.entity where transformErrors
             {
             switch processEntity(errorData)
@@ -250,6 +256,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 // MARK: Transformers for standard types
 
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
+@warn_unused_result
 public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
@@ -271,6 +278,7 @@ public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTra
     }
 
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
+@warn_unused_result
 public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
@@ -295,6 +303,7 @@ public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTra
 #endif
 
 /// Parses `NSData` content as an image, yielding a `UIImage`.
+@warn_unused_result
 public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
@@ -307,3 +316,4 @@ public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseT
         return image
         }
     }
+

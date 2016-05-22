@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/8/8.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -18,14 +18,14 @@ public struct Configuration
     /**
       Time before valid data is considered stale by `Resource.loadIfNeeded()`.
 
-      Defaults from `Service.defaultExpirationTime`, which defaults to 30 seconds.
+      The default is 30 seconds.
     */
     public var expirationTime: NSTimeInterval = 30
 
     /**
       Time `Resource.loadIfNeeded()` will wait before allowing a retry after a failed request.
 
-      Defaults from `Service.defaultRetryTime`, which defaults to 1 second.
+      The default is 1 second.
     */
     public var retryTime: NSTimeInterval = 1
 
@@ -56,7 +56,7 @@ public struct Configuration
 
           $0.config.responseTransformers.clear()
 
-      - SeeAlso: `addContentTransformer`
+      - SeeAlso: `Service.configureTransformer(...)`
     */
     public var responseTransformers: TransformerSequence = TransformerSequence()
 
@@ -67,7 +67,7 @@ public struct Configuration
 
     /**
       Interval at which request hooks & observers receive progress updates. This affects how frequently
-      `Request.progress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
+      `Request.onProgress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
       `Request.progress` property (which is partially time-based) is updated.
     */
     public var progressReportingInterval: NSTimeInterval = 0.05

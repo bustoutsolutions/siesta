@@ -17,7 +17,7 @@ resource.addObserver(owner: self) {
 
 (Note that you’ll usually need `[weak self]` in the closure to prevent a memory leak.)
 
-Observers receive a notification whenever a resource’s state changes: when it starts loading, receives new data, or receives an error. Addditionally, each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your update code in one place.
+Observers receive a notification whenever a resource’s state changes: when it starts loading, receives new data, or receives an error. Additionally, each observer is also pinged immediately when it first starts observing, even if the resource has not changed. This lets you put all your update code in one place.
 
 The simplest way to implement your observer is to ignore what kind of event triggered the notification, and take an idempotent “update everything” approach:
 
@@ -33,7 +33,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 }
 ```
 
-Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with a captial R.
+Note the pleasantly reactive flavor this code takes on — without the overhead of adopting full-on Reactive programming with a capital R.
 
 (Aside: It would be the most natural thing in the world to wire a Siesta resource up to a reactive library. Pull requests welcome!)
 

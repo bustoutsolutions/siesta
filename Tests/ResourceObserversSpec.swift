@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/7/5.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Siesta
@@ -39,14 +39,14 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
 
                 resource().removeObservers(ownedBy: observer())
-                expect(observer().stoppedObservingCalled).to(beTrue())
-                expect(observer2.stoppedObservingCalled ).to(beFalse())
+                expect(observer().stoppedObservingCalled) == true
+                expect(observer2.stoppedObservingCalled ) == false
                 }
 
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled ).to(beFalse())
+                expect(observer().stoppedObservingCalled ) == false
                 }
 
             it("is chainable")
@@ -63,7 +63,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.Requested)
                     {
-                    expect(resource().isLoading).to(beTrue())
+                    expect(resource().isLoading) == true
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -80,7 +80,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NewData(.Network))
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -92,7 +92,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 // No .Requested event!
                 observer().expect(.NewData(.LocalOverride))
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
@@ -112,7 +112,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.NotModified)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     }
                 awaitNotModified(resource().load())
                 }
@@ -123,7 +123,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                 awaitFailure(resource().load())
-                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304).to(beTrue())
+                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304) == true
                 }
 
             it("receives cancel event")
@@ -133,7 +133,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.RequestCancelled)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     }
                 let req = resource().load()
                 req.cancel()
@@ -147,7 +147,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.Requested)
                 observer().expect(.Error)
                     {
-                    expect(resource().isLoading).to(beFalse())
+                    expect(resource().isLoading) == false
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
                     }
@@ -175,7 +175,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
-                expect(events).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
+                expect(events) == ["ObserverAdded", "Requested", "NewData(Network)"]
                 }
 
             it("can have multiple closure observers")
@@ -197,8 +197,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 awaitNewData(resource().load())
 
-                expect(events0).to(equal(["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]))
-                expect(events1).to(equal(["ObserverAdded", "Requested", "NewData(Network)"]))
+                expect(events0) == ["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]
+                expect(events1) == ["ObserverAdded", "Requested", "NewData(Network)"]
                 }
 
             it("is not added twice if it is an object")
@@ -297,6 +297,17 @@ class ResourceObserversSpec: ResourceSpecBase
                 expectResourceNotToBeRetained()
                 }
 
+            it("allows resource deallocation when observer owners are deallocated")
+                {
+                var otherOwner: AnyObject? = TestObserver()
+                resourceWeak?.addObserver(observer(), owner: otherOwner!)
+                resourceWeak?.removeObservers(ownedBy: observer())
+                expectResourceToBeRetained()
+
+                otherOwner = nil
+                expectResourceNotToBeRetained()
+                }
+
             it("re-retains resource when observers added again")
                 {
                 resourceWeak?.removeObservers(ownedBy: observer())
@@ -323,17 +334,18 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("observer auto-removal")
             {
             func expectToStopObservation(
-                    var observer: TestObserverWithExpectations?,
-                    @noescape callback: Void -> Void)
+                    @noescape observer: Void -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
+                    @noescape callbackThatShouldCauseRemoval: Void -> Void)
                 {
-                observer!.expect(.Requested)
+                observer().expect(.Requested)
+
+                // Start request; observer should hear about it
 
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let req = resource().load()
-                observer!.checkForUnfulfilledExpectations()
-                observer = nil
+                observer().checkForUnfulfilledExpectations()
 
-                callback()
+                callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
                 reqStub.go()
@@ -348,7 +360,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer!.expect(.ObserverAdded)
                 resource().addObserver(observer!)
 
-                expectToStopObservation(observer)
+                expectToStopObservation({ observer! })
                     { observer = nil }
 
                 expect(observerWeak).to(beNil())  // resource should not have retained it
@@ -362,7 +374,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer.expect(.ObserverAdded)
                 resource().addObserver(observer, owner: owner!)
 
-                expectToStopObservation(observer)
+                expectToStopObservation({ observer })
                     { owner = nil }
                 }
             }

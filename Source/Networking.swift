@@ -3,16 +3,16 @@
 //  Siesta
 //
 //  Created by Paul on 2015/7/30.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
 /**
   If you want to use a different networking library, implement this protocol and pass your implementation to
-  `Service.init(base:networkingProvider:)`.
+  `Service.init(...)`.
 
-  See `NSURLSessionProvider` and `Extensions/Alamofire/AlamofireProvider` for implementation examples.
+  See `NSURLSessionProvider` and `Extensions/Alamofire/Networking-Alamofire.swift` for implementation examples.
 */
 public protocol NetworkingProvider: NetworkingProviderConvertible
     {
@@ -79,14 +79,14 @@ public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse
 
   For example, instead of having to do this:
 
-      Service(base: "http://foo.bar", networking:
+      Service(baseURL: "http://foo.bar", networking:
         NSURLSessionProvider(session:
             NSURLSession(configuration:
                 NSURLSessionConfiguration.defaultSessionConfiguration()))
 
   …you can do this:
 
-      Service(base: "http://foo.bar", networking:
+      Service(baseURL: "http://foo.bar", networking:
         NSURLSessionConfiguration.defaultSessionConfiguration()))
 
   Siesta supports conversion of the following types into a networking provider:

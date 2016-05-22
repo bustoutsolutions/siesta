@@ -3,10 +3,9 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/16.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Foundation
 
 // Overridable for testing
 internal var fakeNow: NSTimeInterval?
@@ -37,8 +36,6 @@ public final class Resource: NSObject
 
     internal var observers = [ObserverEntry]()
 
-    private var lowMemoryObserver: AnyObject? = nil
-
     // MARK: Configuration
 
     /**
@@ -53,7 +50,7 @@ public final class Resource: NSObject
 
       - Complexity:
         - O(*n*) on first call after creation, or after invalidation (via `Service.invalidateConfiguration()`),
-          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s Service.
+          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s `Service`.
         - O(1) on subsequent invocations.
     */
     public var config: Configuration
@@ -117,7 +114,7 @@ public final class Resource: NSObject
 
     // MARK: Request management
 
-    /// True if any load requests  (i.e. from calls to `load(...)` and `loadIfNeeded()`)
+    /// True if any load requests (i.e. from calls to `load(...)` and `loadIfNeeded()`)
     /// for this resource are in progress.
     public var isLoading: Bool
         {
@@ -151,25 +148,7 @@ public final class Resource: NSObject
 
         super.init()
 
-#if TARGET_OS_IOS
-        lowMemoryObserver =
-            NSNotificationCenter.defaultCenter().addObserverForName(
-                UIApplicationDidReceiveMemoryWarningNotification,
-                object: nil,
-                queue: nil)
-            {
-            [weak self] _ in
-            self?.cleanDefunctObservers()
-            }
-#endif
-            
         initializeDataFromCache()
-        }
-
-    deinit
-        {
-        if let lowMemoryObserver = lowMemoryObserver
-            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
         }
 
     // MARK: URL navigation
@@ -193,9 +172,10 @@ public final class Resource: NSObject
 
       - SeeAlso: `relative(_:)`
     */
+    @warn_unused_result
     public func child(subpath: String) -> Resource
         {
-        return service.resourceWithURL(url.URLByAppendingPathComponent(subpath))
+        return service.resource(absoluteURL: url.URLByAppendingPathComponent(subpath))
         }
 
     /**
@@ -210,9 +190,10 @@ public final class Resource: NSObject
         - `optionalRelative(_:)`
         - `child(_:)`
     */
+    @warn_unused_result
     public func relative(href: String) -> Resource
         {
-        return service.resourceWithURL(NSURL(string: href, relativeToURL: url))
+        return service.resource(absoluteURL: NSURL(string: href, relativeToURL: url))
         }
 
     /**
@@ -225,6 +206,7 @@ public final class Resource: NSObject
             // ...
           }
     */
+    @warn_unused_result
     public func optionalRelative(href: String?) -> Resource?
         {
         if let href = href
@@ -250,13 +232,14 @@ public final class Resource: NSObject
       Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
       up to you to canonicalize your parameter order.
     */
+    @warn_unused_result
     @objc(withParam:value:)
     public func withParam(name: String, _ value: String?) -> Resource
         {
-        return service.resourceWithURL(
+        return service.resource(absoluteURL:
             url.alterQuery
                 {
-                (var params) in
+                var params = $0
                 params[name] = value
                 return params
                 })
@@ -298,10 +281,11 @@ public final class Resource: NSObject
 
       - SeeAlso:
         - `request(_:data:contentType:requestMutation:)`
-        - `request(_:text:encoding:requestMutation:)`
-        - `request(_:json:requestMutation:)`
+        - `request(_:text:contentType:encoding:requestMutation:)`
+        - `request(_:json:contentType:requestMutation:)`
         - `request(_:urlEncoded:requestMutation:)`
     */
+    @warn_unused_result
     public func request(
             method:          RequestMethod,
             requestMutation: NSMutableURLRequest -> () = { _ in })
@@ -312,7 +296,7 @@ public final class Resource: NSObject
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config.headers
-            { nsreq.setValue(value, forHTTPHeaderField:header) }
+            { nsreq.setValue(value, forHTTPHeaderField: header) }
 
         requestMutation(nsreq)
 
@@ -325,146 +309,6 @@ public final class Resource: NSObject
 
         return req.start()
         }
-
-    /**
-      Convenience method to initiate a request with a body.
-    */
-    public func request(
-            method:          RequestMethod,
-            data:            NSData,
-            contentType:     String,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
-        -> Request
-        {
-        return request(method)
-            {
-            nsreq in
-
-            nsreq.addValue(contentType, forHTTPHeaderField: "Content-Type")
-            nsreq.HTTPBody = data
-
-            requestMutation(nsreq)
-            }
-        }
-
-    /**
-      Convenience method to initiate a request with a text body.
-
-      If the string cannot be encoded using the given encoding, this methods triggers the `failure(_:)` request hook
-      immediately, without touching the network.
-
-      - Parameter contentType: `text/plain` by default.
-      - Parameter encoding: UTF-8 (`NSUTF8StringEncoding`) by default.
-    */
-    public func request(
-            method:          RequestMethod,
-            text:            String,
-            contentType:     String = "text/plain",
-            encoding:        NSStringEncoding = NSUTF8StringEncoding,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
-        -> Request
-        {
-        let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
-        if let rawBody = text.dataUsingEncoding(encoding)
-            { return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)") }
-        else
-            {
-            return FailedRequest(
-                Error(
-                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
-            }
-        }
-
-    /**
-      Convenience method to initiate a request with a JSON body.
-
-      If the `json` cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
-      triggers the `failure(_:)` request hook immediately, without touching the network.
-
-      - Parameter contentType: `application/json` by default.
-    */
-    public func request(
-            method:          RequestMethod,
-            json:            NSJSONConvertible,
-            contentType:     String = "application/json",
-            requestMutation: NSMutableURLRequest -> () = { _ in })
-        -> Request
-        {
-        guard NSJSONSerialization.isValidJSONObject(json) else
-            {
-            return FailedRequest(
-                Error(
-                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.InvalidJSONObject()))
-            }
-
-        do  {
-            let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
-            return request(method, data: rawBody, contentType: contentType)
-            }
-        catch
-            {
-            // Swift doesn’t catch NSInvalidArgumentException, so the isValidJSONObject() method above is necessary
-            // to handle the case of non-encodable input. Given that, it's unclear what other circumstances would cause
-            // encoding to fail such that dataWithJSONObject() is declared “throws” (radar 21913397, Apple-rejected!),
-            // but we catch the exception anyway instead of using try! and crashing.
-
-            return FailedRequest(
-                Error(
-                    userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: error))
-            }
-        }
-
-    /**
-      Convenience method to initiate a request with URL-encoded parameters in the meesage body.
-
-      This method performs all necessary escaping, and has full Unicode support in both keys and values.
-
-      The content type is `application/x-www-form-urlencoded`.
-    */
-    public func request(
-            method:            RequestMethod,
-            urlEncoded params: [String:String],
-            requestMutation:   NSMutableURLRequest -> () = { _ in })
-        -> Request
-        {
-        func urlEscape(string: String) throws -> String
-            {
-            guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharsInURLEncoding) else
-                { throw Error.Cause.NotURLEncodable(offendingString: string) }
-
-            return escaped
-            }
-
-        do
-            {
-            let paramString = try
-                params.map { try urlEscape($0.0) + "=" + urlEscape($0.1) }
-                      .sort()
-                      .joinWithSeparator("&")
-            return request(method,
-                data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // Reason for !: ASCII guaranteed safe because of escaping
-                contentType: "application/x-www-form-urlencoded")
-            }
-        catch
-            {
-            return FailedRequest(Error(
-                userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                cause: error))
-            }
-        }
-
-    private let allowedCharsInURLEncoding: NSCharacterSet =
-        {
-        // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
-        let charsToEscape = ":#[]@!$&'()*+,;="
-        let allowedChars = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy()
-                           as! NSMutableCharacterSet  // Reason for !: No typesafe NSMutableCharacterSet copy constructor
-        allowedChars.removeCharactersInString(charsToEscape)
-        return allowedChars
-        }()
 
     /**
       True if the resource’s local state is up to date according to staleness configuration.
@@ -595,12 +439,12 @@ public final class Resource: NSObject
 
         trackRequest(req, using: &loadRequests)
 
-        req.progress
+        req.onProgress
             { self.notifyObservers(progress: $0) }
 
-        req.newData(receiveNewDataFromNetwork)
-        req.notModified(receiveDataNotModified)
-        req.failure(receiveError)
+        req.onNewData(receiveNewDataFromNetwork)
+        req.onNotModified(receiveDataNotModified)
+        req.onFailure(receiveError)
 
         notifyObservers(.Requested)
 
@@ -643,7 +487,7 @@ public final class Resource: NSObject
     private func trackRequest(req: Request, inout using array: [Request])
         {
         array.append(req)
-        req.completion
+        req.onCompletion
             {
             [weak self] _ in
             self?.allRequests.remove { $0.isCompleted }
@@ -827,7 +671,7 @@ public final class Resource: NSObject
                     resource.receiveNewData(entity, source: .Cache)
                     }
                 else
-                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it already has data"]) }
+                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
                 }
             }
         }
@@ -858,6 +702,12 @@ public final class Resource: NSObject
             + (latestError != nil ? "E" : "")
             + "]"
         }
+    }
+
+extension Resource: WeakCacheValue
+    {
+    func allowRemovalFromCache()
+        { cleanDefunctObservers() }
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.

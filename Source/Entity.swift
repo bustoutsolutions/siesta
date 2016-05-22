@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -20,18 +20,25 @@ public struct Entity
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
 
-      Why is the type of this property `Any` instead of a generic `T`? Because a `<T>` declaration would mean
-      “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
-      Swift at _compile time_ what content type a server will actually send at _runtime_.
+      When using `content`, because you do not know what the server actually returned, write your code to handle it
+      being of an unexpected type. Siesta provides `TypedContentAccessors` to help deal with this.
 
-      The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That is
-      exactly what Swift’s `as?` operator does — and any scheme involving a generic `<T>` ends up being an obfuscated
-      equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a. “The Amazing Server-Triggered Client
-      Crash-o-Matic.”
+      - Note:
+          Why is the type of this property `Any` instead of a generic `T`? Because an `Entity<T>` declaration would mean
+          “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
+          Swift at _compile time_ what content type a server will actually send at _runtime_.
 
-      In short, when using `content`, write your code to handle it being of an unexpected type.
+          The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That
+          is exactly what Swift’s `as?` operator does — and any scheme within the current system involving a generic
+          `Entity<T>` ends up being an obfuscated equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a.
+          “The Amazing Server-Triggered Client Crash-o-Matic.”
 
-      - SeeAlso: `Resource.contentAsType(ifNone: _:)`
+          Siesta’s future direction is to let users declare their expected type at the resource level by asking for a
+          `Resource<T>`, and have that resource report an unexpected content type from the server as a request failure.
+          However, limitations of Swift’s type system currently make this unworkable. Given what the core Swift team is
+          saying, we’re cautiously optimistic that Swift 3 will be able to support this.
+
+      - SeeAlso: `TypedContentAccessors`
     */
     public var content: Any
 
@@ -106,8 +113,9 @@ public struct Entity
             content: Any,
             contentType: String,
             charset: String? = nil,
-            var headers: [String:String] = [:])
+            headers: [String:String] = [:])
         {
+        var headers = headers
         headers["Content-Type"] = contentType
 
         self.init(content:content, charset:charset, headers:headers)
@@ -120,6 +128,7 @@ public struct Entity
 
       - Parameter key: The case-insensitive header name.
     */
+    @warn_unused_result
     public func header(key: String) -> String?
         { return headers[key.lowercaseString] }
 
@@ -146,7 +155,7 @@ public struct Entity
 
       extension TypedContentAccessors {
         var doorknob: UIDoorknob {
-          return contentAsType(ifNone: placeholderKnob))
+          return typedContent(ifNone: placeholderKnob))
         }
       }
 
@@ -164,33 +173,53 @@ public extension TypedContentAccessors
     {
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
-      Returns the content if it can be downcast to the same type as `blankValue`; otherwise returns `ifNone`.
-
       For example, if you expect the content to be a UIImage:
 
-          let image = contentAsType(ifNone: UIImage(named: "placeholder.png"))
+          let image = typedContent(ifNone: UIImage(named: "placeholder.png"))
 
+      - Returns: The content if it is present _and_ can be downcast to a type matching both the `ifNone` parameter
+                 and the inferred return type; otherwise returns `ifNone`.
+
+      - SeeAlso: `typedContent()`
       - SeeAlso: `ResponseTransformer`
     */
-    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
+    @warn_unused_result
+    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T) -> T
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
-    /// Variant of `contentAsType(ifNone: _:)` with optional input & output.
-    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
+    /// Variant of `typedContent(ifNone:)` with optional input & output.
+    @warn_unused_result
+    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
+        }
+
+    /**
+      A variant of `typedContent(ifNone:)` that infers the desired type entirely from context, and returns nil if the
+      content is either not present or cannot be cast to that type. For example:
+
+          func showUser(user: User?) {
+            ...
+          }
+
+          showUser(resource.typedContent())  // Infers that desired type is User
+    */
+    @warn_unused_result
+    public func typedContent<T>() -> T?
+        {
+        return typedContent(ifNone: nil)
         }
 
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var jsonDict: [String:AnyObject] { return contentAsType(ifNone: [:]) }
+    public var jsonDict: [String:AnyObject] { return typedContent(ifNone: [:]) }
 
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [AnyObject]       { return contentAsType(ifNone: []) }
+    public var jsonArray: [AnyObject]       { return typedContent(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String                 { return contentAsType(ifNone: "") }
+    public var text: String                 { return typedContent(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors

@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/12/15.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -106,7 +106,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         responseCallbacks.addCallback(callback)
         }
 
-    func progress(callback: Double -> Void) -> Self
+    func onProgress(callback: Double -> Void) -> Self
         {
         progressTracker.callbacks.addCallback(callback)
         return self

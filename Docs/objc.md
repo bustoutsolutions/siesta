@@ -43,7 +43,7 @@ Objective-C can’t see Swift globals, so you’ll instead need to make your sin
 
 ```swift
 class MyAPI: Service {
-    public static let instance = MyAPI(base: "https://api.example.com")
+    public static let instance = MyAPI(baseURL: "https://api.example.com")
 }
 ```
 
@@ -89,7 +89,7 @@ Most of the request callbacks translate naturally into Objective-C blocks, but t
 
 ```swift
 resource.request(.POST, json: ["color": "green"])
-    .completion { response in
+    .onCompletion { response in
         switch response {
             case .Success(let data):
                 ...
@@ -104,7 +104,7 @@ resource.request(.POST, json: ["color": "green"])
 
 ```objc
 [[resource.requestWithMethod:@"POST" json:@{@"color": @"mauve"}]
-    completion: ^(BOSEntity *data, BOSError *error) {
+    onCompletion: ^(BOSEntity *data, BOSError *error) {
         ...
     }];
 ```

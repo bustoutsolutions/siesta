@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/20.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 @testable import Siesta
@@ -64,14 +64,14 @@ class ResourceSpecBase: SiestaSpec
         context(debugStr(["with", description]))
             {
             self.runSpecsWithService
-                { Service(base: self.baseURL, networking: networking) }
+                { Service(baseURL: self.baseURL, networking: networking) }
             }
         }
 
     private func runSpecsWithDefaultProvider()
         {
         runSpecsWithService
-            { Service(base: self.baseURL) }
+            { Service(baseURL: self.baseURL) }
         }
 
     private func runSpecsWithService(serviceBuilder: Void -> Service)
@@ -88,9 +88,9 @@ class ResourceSpecBase: SiestaSpec
         // don’t arrive until a following spec has already started.
 
         return "https://" + QuickSpec.current().description
-            .replaceRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
-            .replaceRegex("[^A-Za-z0-9_]+", ".")
-            .replaceRegex("^\\.+|\\.+$", "")
+            .replacingRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
+            .replacingRegex("[^A-Za-z0-9_]+", ".")
+            .replacingRegex("^\\.+|\\.+$", "")
         }
     }
 
@@ -104,47 +104,47 @@ func stubRequest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
 
 func awaitNewData(req: Siesta.Request, alreadyCompleted: Bool = false)
     {
-    expect(req.isCompleted).to(equal(alreadyCompleted))
+    expect(req.isCompleted) == alreadyCompleted
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .success     { _ in successExpectation.fulfill() }
-       .failure     { _ in fail("error callback should not be called") }
-       .newData     { _ in newDataExpectation.fulfill() }
-       .notModified { _ in fail("notModified callback should not be called") }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onSuccess     { _ in successExpectation.fulfill() }
+       .onFailure     { _ in fail("error callback should not be called") }
+       .onNewData     { _ in newDataExpectation.fulfill() }
+       .onNotModified { _ in fail("notModified callback should not be called") }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
-    expect(req.isCompleted).to(beTrue())
+    expect(req.isCompleted) == true
     }
 
 func awaitNotModified(req: Siesta.Request)
     {
-    expect(req.isCompleted).to(beFalse())
+    expect(req.isCompleted) == false
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
     let notModifiedExpectation = QuickSpec.current().expectationWithDescription("awaiting notModified callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .success     { _ in successExpectation.fulfill() }
-       .failure     { _ in fail("error callback should not be called") }
-       .newData     { _ in fail("newData callback should not be called") }
-       .notModified { _ in notModifiedExpectation.fulfill() }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onSuccess     { _ in successExpectation.fulfill() }
+       .onFailure     { _ in fail("error callback should not be called") }
+       .onNewData     { _ in fail("newData callback should not be called") }
+       .onNotModified { _ in notModifiedExpectation.fulfill() }
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
-    expect(req.isCompleted).to(beTrue())
+    expect(req.isCompleted) == true
     }
 
 func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
     {
-    expect(req.isCompleted).to(equal(alreadyCompleted))
+    expect(req.isCompleted) == alreadyCompleted
     let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
     let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure callback: \(req)")
-    req.completion  { _ in responseExpectation.fulfill() }
-       .failure     { _ in errorExpectation.fulfill() }
-       .success     { _ in fail("success callback should not be called") }
-       .newData     { _ in fail("newData callback should not be called") }
-       .notModified { _ in fail("notModified callback should not be called") }
+    req.onCompletion  { _ in responseExpectation.fulfill() }
+       .onFailure     { _ in errorExpectation.fulfill() }
+       .onSuccess     { _ in fail("success callback should not be called") }
+       .onNewData     { _ in fail("newData callback should not be called") }
+       .onNotModified { _ in fail("notModified callback should not be called") }
 
     QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
-    expect(req.isCompleted).to(beTrue())
+    expect(req.isCompleted) == true
 
     // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
     // network layer without waiting for a response. This causes spurious spec failures if LSNocilla’s clearStubs() gets

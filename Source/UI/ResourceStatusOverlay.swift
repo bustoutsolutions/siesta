@@ -3,7 +3,7 @@
 //  SiestaExample
 //
 //  Created by Paul on 2015/7/9.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -280,15 +280,16 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
     public func trackManualLoad(request: Request)
         {
-        ++retryRequestsInProgress
+        retryRequestsInProgress += 1
         updateDisplay()
 
-        request.completion
+        request.onCompletion
             {
             [weak self] _ in
-            guard let overlay = self else { return }
+            guard let overlay = self else
+                { return }
 
-            --overlay.retryRequestsInProgress
+            overlay.retryRequestsInProgress -= 1
             overlay.updateDisplay()
             }
         }

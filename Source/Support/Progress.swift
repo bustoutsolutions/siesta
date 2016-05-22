@@ -3,12 +3,13 @@
 //  Siesta
 //
 //  Created by Paul on 2015/9/28.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
-internal struct RequestProgress: Progress
+
+internal struct RequestProgressComputation: Progress
     {
     private var uploadProgress, downloadProgress: TaskProgress
     private var connectLatency, responseLatency: WaitingProgress

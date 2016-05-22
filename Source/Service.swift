@@ -3,13 +3,15 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/15.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
+
 /**
-  A set of logically connected RESTful resources, grouped under a base URL.
+  A set of logically connected RESTful resources, grouped under a base URL. Resources within a service share caching,
+  configuration, and a “same URL → same resource” uniqueness guarantee.
 
   You will typically create a separate subclass of `Service` for each REST API you use.
 */
@@ -17,7 +19,7 @@ import Foundation
 public class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
-    public let base: NSURL?
+    public let baseURL: NSURL?
 
     internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
@@ -25,26 +27,27 @@ public class Service: NSObject
     /**
       Creates a new service for the given API.
 
-      - Parameter base:
-          The base URL of the API. If nil, there is no base URL, and thus `resource(_:)` will require absolute URLs.
+      - Parameter baseURL:
+          The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
+          only `resource(absoluteURL:)` to acquire resources.
       - Parameter useDefaultTransformers:
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networking:
-          The handler to use for networking. The default is an NSURLSession with its default configuration. You can
+          The handler to use for networking. The default is `NSURLSession` with ephemeral session configuration. You can
           pass an `NSURLSession`, `NSURLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(
-            base: String? = nil,
+            baseURL: String? = nil,
             useDefaultTransformers: Bool = true,
             networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
         {
         dispatch_assert_main_queue()
 
-        if let base = base
+        if let baseURL = baseURL
             {
-            self.base = NSURL(string: base)?.alterPath
+            self.baseURL = NSURL(string: baseURL)?.alterPath
                 {
                 path in
                 !path.hasSuffix("/")
@@ -53,7 +56,7 @@ public class Service: NSObject
                 }
             }
         else
-            { self.base = nil }
+            { self.baseURL = nil }
         self.networkingProvider = networking.siestaNetworkingProvider
 
         super.init()
@@ -70,17 +73,44 @@ public class Service: NSObject
         }
 
     /**
-      Returns the unique resource with the given URL.
+      Returns the unique resource with the given path appended to the path component of `baseURL`.
+
+      A leading slash is optional, and has no effect:
+
+          service.resource("users")   // same
+          service.resource("/users")  // thing
+
+      - Note:
+          The `path` parameter is simply appended to `baseURL`’s path, and is _never_ interpreted as a URL. Strings
+          such as `..`, `//`, `?`, and `https:` have no special meaning; they go directly into the resulting
+          resource’s path, with escaping if necessary.
+
+          If you want to pass an absolute URL, use `resource(absoluteURL:)`.
+
+          If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
+    */
+    @warn_unused_result
+    @objc(resource:)
+    public final func resource(path: String) -> Resource
+        {
+        return resource(absoluteURL:
+            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+        }
+
+    /**
+      Returns the unique resource with the given URL, ignoring `baseURL`.
 
       This method will _always_ return the same instance of `Resource` for the same URL within
       the context of a `Service` as long as anyone retains a reference to that resource.
       Unreferenced resources remain in memory (with their cached data) until a low memory event
       occurs, at which point they are summarily evicted.
 
-      If the given resource is nil (likely indicating that it came from a malformed URL string), this method _does_
-      return a resource — but that resource will give errors for all requests without touching the network.
+      - Note: This method always returns a `Resource`, and does not throw errors. If `url` is nil (likely because it
+              came from a malformed URL string), this method returns a resource whose requests always fail.
     */
-    public final func resourceWithURL(url: NSURL?) -> Resource
+    @warn_unused_result
+    @objc(resourceWithAbsoluteURL:)
+    public final func resource(absoluteURL url: NSURL?) -> Resource
         {
         dispatch_assert_main_queue()
 
@@ -91,34 +121,24 @@ public class Service: NSObject
             }
         }
 
-    /**
-      Returns the unique resource with the given URL string.
-
-      If the given string is nil, or is not a valid URL, this method returns a resource that always fails.
-    */
-    @objc(resourceWithURLString:)
-    public final func resourceWithURL(urlString: String?) -> Resource
-        {
-        // TODO: consider returning nil if url is nil (and use invalidURL only for URL parse errors)
-        if let urlString = urlString, let nsurl = NSURL(string: urlString)
-            { return resourceWithURL(nsurl) }
-        else
-            {
-            if let urlString = urlString  // No warning for nil URL
-                { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
-            return resourceWithURL(Service.invalidURL)
-            }
-        }
-
     private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
 
-    /// Return the unique resource with the given path appended to `baseURL`.
-    /// Leading slash is optional, and has no effect.
-    @objc(resourceWithPath:)
-    public final func resource(path: String) -> Resource
+    /**
+      Returns the unique resource with the given URL string, ignoring `baseURL`.
+
+      - SeeAlso: `resource(absoluteURL:)`
+    */
+    @warn_unused_result
+    @objc(resourceWithAbsoluteURLString:)
+    public final func resource(absoluteURL urlString: String?) -> Resource
         {
-        return resourceWithURL(
-            base?.URLByAppendingPathComponent(path.stripPrefix("/")))
+        guard let urlString = urlString else
+            { return resource(absoluteURL: Service.invalidURL) }
+
+        let url = NSURL(string: urlString)
+        if url == nil
+            { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
+        return resource(absoluteURL: url)
         }
 
     // MARK: Resource Configuration
@@ -187,8 +207,8 @@ public class Service: NSObject
         }
 
     /**
-      Accepts an arbitrary URL matching predicate if the wildcards in the `urlPattern` flavor of `configure()`
-      aren’t robust enough.
+      Applies configuration ro resources whose URL matches an arbitrary predicate. Use this if the wildcards in the
+      `urlPattern` flavor of `configure()` aren’t robust enough.
     */
     public final func configure(
             configurationPattern: NSURL -> Bool,
@@ -206,11 +226,25 @@ public class Service: NSObject
         }
 
     /**
-      A convenience to add a one-off content transformer.
+      Transforms responses by passing their content through the given closure. This is a shortcut for adding a
+      `ResponseContentTransformer` to the `Configuration.responseTransformers`.
 
       Useful for transformers that create model objects. For example:
 
-          configureTransformer("/foo/​*") { FooModel(json: $0) }
+          configureTransformer("/foo/​*") {
+            FooModel(json: $0.content)
+          }
+
+      Siesta checks that the incoming `Entity.content` matches the type of the closure’s `content` parameter. In the
+      example code above, if the `json` parameter of `FooModel.init` takes a `Dictionary`, but the transformer pipeline
+      at that point has produced a `String`, then the transformer outputs a failure response.
+
+      You can use this behavior to configure a service to refuse all server responses not of a specific type by passing
+      a transformer that passes the content through unmodified, but requires a specific type:
+
+          service.configureTransformer("**") {
+            $0.content as NSJSONConvertible
+          }
 
       - SeeAlso: ResponseContentTransformer
     */
@@ -227,7 +261,11 @@ public class Service: NSObject
         }
 
     private var configID = 0
-    private var nextConfigID: Int { return configID++ }
+    private var nextConfigID: Int
+        {
+        configID += 1
+        return configID - 1
+        }
 
     /**
       Signals that all resources need to recompute their configuration next time they need it.
@@ -249,7 +287,7 @@ public class Service: NSObject
           }
 
           init() {
-            super.init(base: "https://api.github.com")
+            super.init(baseURL: "https://api.github.com")
             configure​ {
               $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
@@ -267,7 +305,7 @@ public class Service: NSObject
             { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
 
-        configVersion++
+        configVersion += 1
         }
 
     private var anyConfigSinceLastInvalidation = false
@@ -296,7 +334,7 @@ public class Service: NSObject
     // MARK: Wiping state
 
     /**
-      Wipes the state of this service’s resources. Typically used to handle logout.
+      Wipes the state of all this service’s resources. Typically used to handle logout.
 
       Applies to resources matching the predicate, or all resources by default.
     */
@@ -328,98 +366,6 @@ public class Service: NSObject
     */
     public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
         {
-        wipeResources { (res: Resource) in predicate(res.url) }
+        wipeResources { predicate($0.url) }
         }
-    }
-
-
-/**
-  A type that can serve as a URL matcher for service configuration.
-
-  Siesta provides implementations of this protocol for `String` (for glob-based matching) and `Resource` (to configure
-  one specific resource).
-
-  - SeeAlso: `Service.configure(_:description:configurer:)`
-  - SeeAlso: `String.configurationPattern(_:)`
-  - SeeAlso: `Resource.configurationPattern(_:)`
-*/
-public protocol ConfigurationPatternConvertible
-    {
-    /// Turns the receiver into a predicate that matches URLs.
-    func configurationPattern(service: Service) -> NSURL -> Bool
-
-    /// A logging-friendly description of the receiver when it acts as a URL pattern.
-    var configurationPatternDescription: String { get }
-    }
-
-/**
-  Support for passing URL patterns with wildcards to `Service.configure(...)`.
-*/
-extension String: ConfigurationPatternConvertible
-    {
-    /**
-      Matches URLs using shell-like wildcards / globs.
-
-      The `urlPattern` is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. `http:`).
-      If it is relative, the leading slash is optional.
-
-      The pattern supports two wildcards:
-
-      - `*` matches zero or more characters within a path segment, and
-      - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
-
-      Examples:
-
-      - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
-      - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
-      - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
-
-      The pattern ignores the resource’s query string.
-    */
-    public func configurationPattern(service: Service) -> NSURL -> Bool
-        {
-        // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
-        // If the service has no baseURL, interpret the pattern as absolure.
-        // Otherwise, interpret pattern as relative to baseURL.
-
-        let resolvedPattern: String
-        if let prefix = service.base?.absoluteString where !containsRegex("^[a-z]+:")
-            { resolvedPattern = prefix + stripPrefix("/") }
-        else
-            { resolvedPattern = self }
-
-        let pattern = NSRegularExpression.compile(
-            "^"
-            + NSRegularExpression.escapedPatternForString(resolvedPattern)
-                .replaceString("\\*\\*\\/", "([^:?]*/|)")
-                .replaceString("\\*\\*",    "[^:?]*")
-                .replaceString("\\*",       "[^/:?]*")
-            + "($|\\?)")
-        debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
-
-        return { pattern.matches($0.absoluteString) }
-        }
-
-    /// :nodoc:
-    public var configurationPatternDescription: String
-        { return self }
-    }
-
-/**
-  Support for passing a specific `Resource` to `Service.configure(...)`.
-*/
-extension Resource: ConfigurationPatternConvertible
-    {
-    /**
-      Matches this specific resource when passed as a pattern to `Service.configure(...)`.
-    */
-    public func configurationPattern(service: Service) -> NSURL -> Bool
-        {
-        let resourceURL = url  // prevent resource capture in closure
-        return { $0 == resourceURL }
-        }
-
-    /// :nodoc:
-    public var configurationPatternDescription: String
-        { return url.absoluteString }
     }

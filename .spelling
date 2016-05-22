@@ -1,0 +1,110 @@
+# markdown-spellcheck spelling configuration file
+# Format - lines beginning # are comments
+# global dictionary is at the start, file overrides afterwards
+# one word per line, to define a file override use ' - filename'
+# where filename is relative to this configuration file
+struct
+wildcard
+config
+roadmap
+endeavor
+Github
+genericized
+multipart
+barista
+behaviors
+stdout
+lifecycles
+lifecycle
+flavor
+structs
+behavior
+subclassing
+namespaced
+globals
+enums
+flavors
+enum
+JSON
+one-offs
+deserializing
+OAuth
+OAuth2
+TODO
+whitelisting
+specs
+ephemerality
+popup
+GCD
+threadsafe
+e.g.
+customizable
+versioning
+backgrounded
+SSL
+UI
+README
+deallocated
+deallocation
+namespace
+runtime
+metadata
+TLS
+willy-nilly
+accessors
+i.e.
+SwiftyJSON
+retarget
+iOS
+Xcode
+dogpiles
+deserialization
+hoc
+multithreaded
+prebaked
+APIs
+Swifty
+featureful
+NSURLSession
+async
+injectable
+NSURLConnection
+whitespace
+parens
+codebase
+URI
+ - Docs/security.md
+p2
+dongri
+OAuthSwift
+TrustKit
+NSURLSessionDelegate
+OWASP
+Alamofire
+ - ./Docs/faq.md
+2.x
+NSURLCache
+siestaframework
+ - ./Docs/memory.md
+removeObserver
+ - ./Docs/security.md
+p2
+dongri
+OAuthSwift
+TrustKit
+NSURLSessionDelegate
+OWASP
+Alamofire
+ - ./Examples/GithubBrowser/README.md
+repos
+repo
+ - ./README.md
+ViewController
+Etag
+AFNetworking’s
+Moya
+RestKit
+AFNetworking
+5.5x
+RPC
+cmd-U

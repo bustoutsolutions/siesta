@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.0-beta.5"
+  s.version      = "1.0-beta.6"
   s.summary      = "iOS REST Client Framework"
 
   s.description  = <<-DESC
-                   An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A resource-centric alternative to the familiar request-centric approach.
+                   An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A **resource-centric** alternative to the familiar **request-centric** approach.
 
                    Siesta ends the stateful headache of client-side network request management by providing an observable model of a RESTful resource’s state. The model answers three basic questions:
 
@@ -69,7 +69,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "8.0"
 
-  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.5" }
+  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.6" }
   s.resources = "Source/**/*.xib"
 
   s.subspec "Core" do |s|

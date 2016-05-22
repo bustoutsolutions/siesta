@@ -3,17 +3,18 @@
 //  Siesta
 //
 //  Created by Paul on 2015/7/17.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
 internal extension NSURL
     {
+    @warn_unused_result
     func alterPath(pathMutator: String -> String) -> NSURL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true)
-        else { return nil }
+        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+            { return nil }
 
         let path = pathMutator(components.path ?? "")
         components.path = (path == "") ? nil : path
@@ -21,10 +22,11 @@ internal extension NSURL
         return components.URL
         }
 
+    @warn_unused_result
     func alterQuery(queryMutator: [String:String?] -> [String:String?]) -> NSURL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true)
-        else { return nil }
+        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+            { return nil }
 
         let queryItems = components.queryItems ?? []
         var queryDict = Dictionary<String,String?>(minimumCapacity: queryItems.count)

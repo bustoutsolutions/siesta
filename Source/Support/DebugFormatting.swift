@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/8/18.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -26,7 +26,7 @@ internal func debugStr(
         { s = "\(x)" }
 
     if consolidateWhitespace
-        { s = s.replaceRegex(whitespacePat, " ") }
+        { s = s.replacingRegex(whitespacePat, " ") }
 
     if let truncate = truncate where s.characters.count > truncate
         { s = s.substringToIndex(s.startIndex.advancedBy(truncate)) + "…" }
@@ -81,13 +81,14 @@ extension Entity
             "\n" + indent + "charset:     \(debugStr(charset))" +
             dumpHeaders(headers, indent: indent) +
             "\n" + indent + "content: (\(content.dynamicType))\n"
-        result += formattedContent.replaceRegex("^|\n", "$0  " + indent)
+        result += formattedContent.replacingRegex("^|\n", "$0  " + indent)
         return result
         }
 
     private var formattedContent: String
         {
         if let jsonContent = content as? NSJSONConvertible
+            where NSJSONSerialization.isValidJSONObject(jsonContent)
             {
             if let jsonData = try? NSJSONSerialization.dataWithJSONObject(jsonContent, options: [.PrettyPrinted]),
                let json = NSString(data: jsonData, encoding: NSUTF8StringEncoding)

@@ -36,7 +36,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 ### The Problem
 
-Want your app to talk to an API? Welcome to your state nightmare!
+Want your app to talk to a remote API? Welcome to your state nightmare!
 
 You need to display response data whenever it arrives. Unless the requesting screen is no longer visible. Unless some other currently visible bit of UI happens to need the same data. Or is about to need it.
 
@@ -64,7 +64,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ## Features
 
-- Decouples view and model lifecycle from network request lifecycle
+- Decouples view, model, and controller lifecycle from network request lifecycle
 - Decouples request initiation from request configuration
 - Eliminates error-prone state tracking logic
 - Eliminates redundant network requests
@@ -79,13 +79,13 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - …also works great from Objective-C thanks to a compatibility layer.
 - Lightweight. Won’t achieve sentience and attempt to destroy you.
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
-- [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
+- [Documentation](https://bustoutsolutions.github.io/siesta/guide/) and [more documentation](http://bustoutsolutions.github.io/siesta/api/)
 
 ### What it doesn’t do
 
 - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
-- It **doesn’t do response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.
+- It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor you prefer, or work directly with parsed JSON.
 
 ## Origin
 
@@ -122,7 +122,7 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.5'
+    pod 'Siesta', '>=1.0-beta.6'
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
@@ -134,7 +134,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.5"
+    github "bustoutsolutions/siesta" "1.0-beta.6"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
@@ -166,10 +166,10 @@ Click the + button in the top left corner to add a Copy Files build phase. Set t
 
 ## Basic Usage
 
-Make a singleton for the REST API you want to use:
+Make a shared service instance for the REST API you want to use:
 
 ```swift
-let MyAPI = Service(base: "https://api.example.com")
+let MyAPI = Service(baseURL: "https://api.example.com")
 ```
 
 Now register your view controller — or view, or anything you like — to receive notifications whenever a particular resource’s state changes:
@@ -185,8 +185,6 @@ override func viewDidLoad() {
 Use those notifications to populate your UI:
 
 ```swift
-@IBOutlet weak var nameLabel, colorLabel, errorLabel: UILabel!
-
 func resourceChanged(resource: Resource, event: ResourceEvent) {
     nameLabel.text = resource.jsonDict["name"] as? String
     colorLabel.text = resource.jsonDict["favoriteColor"] as? String
@@ -198,7 +196,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 Or if you don’t like delegates, Siesta supports closure observers:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) {
+MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, _ in
 
     self?.nameLabel.text = resource.jsonDict["name"] as? String
@@ -210,7 +208,28 @@ MyAPI.resource("/profile").addObserver(self) {
 
 Note that no actual JSON parsing occurs when we invoke `jsonDict`. The JSON has already been parsed off the main thread, in a GCD queue — and unlike other frameworks, it is only parsed _once_ no matter how many observers there are.
 
-Trigger a staleness-aware load when the view appears:
+Of course, you probably don’t want to work with raw JSON in all your controllers. You can configure Siesta to automatically turn raw responses into models:
+
+```swift
+MyAPI.configureTransformer("/profile") {  // Path supports wildcards
+    UserProfile(json: $0)                 // Create models however you like
+}
+```
+
+…and now your observers see models instead of JSON:
+
+```swift
+MyAPI.resource("/profile").addObserver(owner: self) {
+    [weak self] resource, _ in
+    self?.showProfile(resource.typedContent())  // Response now contains UserProfile instead of JSON
+}
+
+func showProfile(profile: UserProfile?) {
+    ...
+}
+```
+
+Trigger a staleness-aware, redundant-request-suppressing load when the view appears:
 
 ```swift
 override func viewWillAppear(animated: Bool) {
@@ -223,7 +242,7 @@ override func viewWillAppear(animated: Bool) {
 Add a loading indicator:
 
 ```swift
-MyAPI.resource("/profile").addObserver(self) {
+MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
     self?.activityIndicator.hidden = !resource.loading
@@ -301,7 +320,7 @@ A thumbnail of both versions, for your code comparing pleasure:
 
 The same functionality. Yes, really.
 
-<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching & updating behavior.)</small>
+<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will transparently update an image everywhere it is displayed if it’s refreshed.)</small>
 
 There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
@@ -337,8 +356,8 @@ With all that in mind, here is a capabilities comparison¹:
 | Core data integration       |                    |                | ✓             |           |                 |                |
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 1830               | 1691           | 10289         | 464       | 4791            | ?              |
+| Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| Nontrivial lines of code²   | 2013               | 1695           | 10651         | 557       | 4055            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>

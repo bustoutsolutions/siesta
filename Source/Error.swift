@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ import Foundation
 
   Siesta can encounter errors from many possible sources, including:
 
-  - client-side parse issues,
+  - client-side encoding / request creation issues,
   - network connectivity problems,
   - protocol issues (e.g. certificate problems),
   - server errors (404, 500, etc.), and
@@ -40,7 +40,8 @@ public struct Error: ErrorType
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
     public var entity: Entity?
 
-    /// Details about the underlying error.
+    /// Details about the underlying error. Errors originating from Siesta will have a cause from `Error.Cause`.
+    /// Errors originating from the `NetworkingProvider` or custom `ResponseTransformer`s have domain-specific causes.
     public var cause: ErrorType?
 
     /// The time at which the error occurred.
@@ -89,9 +90,9 @@ public struct Error: ErrorType
 
     /**
       Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
-      (Note that `cause` may also contain errors from the underlying network library that do not belong to this enum.)
+      (Note that `cause` may also contain errors from the underlying network library that do not appear here.)
 
-      The primary purpose of these errors is to aid debugging. Client code rarely needs to work with these values,
+      The primary purpose of these error causes is to aid debugging. Client code rarely needs to work with them,
       but they can be useful if you want to add special handling for specific errors.
 
       For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,
@@ -183,10 +184,16 @@ public struct Error: ErrorType
 
         /// A response transformer received entity content of a type it doesn’t know how to process. This error means
         /// that the upstream transformations may have succeeded, but did not return a value of the type the next
-        /// transformer expected. This is a configuration error.
+        /// transformer expected.
         public struct WrongTypeInTranformerPipeline: ErrorType
             {
             public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+            public let transformer: ResponseTransformer
+            }
+
+        /// A `ResponseContentTransformer` or a closure passed to `Service.configureTransformer(...)` returned nil.
+        public struct TransformerReturnedNil: ErrorType
+            {
             public let transformer: ResponseTransformer
             }
         }

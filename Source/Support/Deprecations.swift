@@ -3,21 +3,21 @@
 //  Siesta
 //
 //  Created by Paul on 2015/12/12.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
 extension Entity
     {
-    @available(*, deprecated=1.0, renamed="Entity(response:content:)")
+    @available(*, deprecated=0.99, renamed="Entity(response:content:)")
     public init(_ response: NSHTTPURLResponse?, _ content: Any)
         { self.init(response: response, content: content) }
     }
 
 extension Error
     {
-    @available(*, deprecated=1.0, renamed="Error(response:content:cause:userMessage:)")
+    @available(*, deprecated=0.99, renamed="Error(response:content:cause:userMessage:)")
     public init(
             _ response: NSHTTPURLResponse?,
             _ content: AnyObject?,
@@ -28,42 +28,76 @@ extension Error
 
 extension Resource
     {
-    @available(*, deprecated=1.0, renamed="isLoading")
+    @available(*, deprecated=0.99, renamed="isLoading")
     public var loading: Bool
         { return isLoading }
 
-    @available(*, deprecated=1.0, renamed="isRequesting")
+    @available(*, deprecated=0.99, renamed="isRequesting")
     public var requesting: Bool
         { return isRequesting }
 
-    @available(*, deprecated=1.0, renamed="overrideLocalData")
+    @available(*, deprecated=0.99, renamed="overrideLocalData")
     public func localDataOverride(entity: Entity)
         { overrideLocalData(entity) }
 
-    @available(*, deprecated=1.0, renamed="overrideLocalContent")
+    @available(*, deprecated=0.99, renamed="overrideLocalContent")
     public func localContentOverride(content: AnyObject)
         { overrideLocalContent(content) }
     }
 
 extension Request
     {
-    @available(*, deprecated=1.0, renamed="isCompleted")
+    @available(*, deprecated=0.99, renamed="isCompleted")
     public var completed: Bool
         { return isCompleted }
+
+    @available(*, deprecated=0.99, renamed="onCompletion")
+    public func completion(callback: Response -> Void) -> Self
+        { return onCompletion(callback) }
+
+    @available(*, deprecated=0.99, renamed="onSuccess")
+    public func success(callback: Entity -> Void) -> Self
+        { return onSuccess(callback) }
+
+    @available(*, deprecated=0.99, renamed="onNewData")
+    public func newData(callback: Entity -> Void) -> Self
+        { return onNewData(callback) }
+
+    @available(*, deprecated=0.99, renamed="onNotModified")
+    public func notModified(callback: Void -> Void) -> Self
+        { return onNotModified(callback) }
+
+    @available(*, deprecated=0.99, renamed="onFailure")
+    public func failure(callback: Error -> Void) -> Self
+        { return onFailure(callback) }
+
+    @available(*, deprecated=0.99, renamed="onProgress")
+    public func progress(callback: Double -> Void) -> Self
+        { return onProgress(callback) }
+
     }
 
 extension Service
     {
-    @available(*, deprecated=1.0, renamed="base")
-    public var baseURL: NSURL?
-        { return base }
-
-    @available(*, deprecated=1.0, renamed="resourceWithURL")
+    @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
+    @nonobjc
     public final func resource(url url: NSURL?) -> Resource
-        { return resourceWithURL(url) }
+        { return resource(absoluteURL:url) }
 
-    @available(*, deprecated=1.0, renamed="resourceWithURL")
-    @objc(_deprecatedResourceWithURL:)
+    @available(*, deprecated=0.99, renamed="resource(absoluteURL:)")
+    @nonobjc
     public final func resource(url urlString: String?) -> Resource
-        { return resourceWithURL(urlString) }
+        { return resource(absoluteURL:urlString) }
     }
+
+extension TypedContentAccessors
+    {
+    @available(*, deprecated=0.99, renamed="typedContent")
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T) -> T
+        { return typedContent(ifNone: defaultContent) }
+
+    @available(*, deprecated=0.99, renamed="typedContent")
+    public func contentAsType<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
+        { return typedContent(ifNone: defaultContent) }
+    }
+

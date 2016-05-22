@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
@@ -15,6 +15,7 @@ import Foundation
 */
 public struct NSURLSessionProvider: NetworkingProvider
     {
+    /// Session which will create `NSURLSessionDataTask`s.
     public let session: NSURLSession
 
     /// :nodoc:
@@ -64,6 +65,7 @@ extension NSURLSessionConfiguration: NetworkingProviderConvertible
 /// Convenience for `NetworkingProvider` implementations that ultimate rely on an `NSURLSessionTask`.
 public protocol SessionTaskContainer
     {
+    /// Underlying networking task that can report request progress.
     var task: NSURLSessionTask { get }
     }
 

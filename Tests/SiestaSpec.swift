@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/7/29.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Quick
@@ -109,8 +109,8 @@ private class ResultsAggregator
     private func specDescription(spec: QuickSpec) -> String
         {
         return spec.dynamicType.description()
-            .replaceRegex("^[A-Za-z]+Tests\\.", "")
-            .replaceRegex("\\.Type$", "")
+            .replacingRegex("^[A-Za-z]+Tests\\.", "")
+            .replacingRegex("\\.Type$", "")
         }
     }
 

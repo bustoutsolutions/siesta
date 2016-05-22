@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/8/7.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 #import <Siesta/Siesta.h>
@@ -32,7 +32,7 @@
     beforeEach(^
         {
         service = [[TestService alloc] init];
-        resource = [service resourceWithPath:@"/foo"];
+        resource = [service resource:@"/foo"];
         });
 
     afterEach(^
@@ -71,13 +71,13 @@
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         BOSRequest *req = [[[[[[resource load]
-            completion:
+            onCompletion:
                 ^(BOSEntity *entity, BOSError *error)
                     { [expectation fulfill]; }]
-            success: ^(BOSEntity *entity) { }]
-            newData: ^(BOSEntity *entity) { }]  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
-            notModified: ^{ }]
-            failure: ^(BOSError *error) { }];
+            onSuccess: ^(BOSEntity *entity) { }]
+            onNewData: ^(BOSEntity *entity) { }]  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
+            onNotModified: ^{ }]
+            onFailure: ^(BOSError *error) { }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
         [req cancel];
         });
@@ -88,7 +88,7 @@
             {
             XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"failed request"];
             __block BOOL immediatelyFailed = false;
-            [request failure: ^(BOSError *error)
+            [request onFailure: ^(BOSError *error)
                 {
                 [expectation fulfill];
                 immediatelyFailed = true;
@@ -118,7 +118,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
+        [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         expect(resource.jsonDict).to(equal(@{ @"foo": @"bar" }));
@@ -144,7 +144,7 @@
         stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] failure:^(BOSError *error) { [expectation fulfill]; }];
+        [[resource load] onFailure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         BOSError *error = resource.latestError;
@@ -160,7 +160,7 @@
             [resource requestWithMethod:@"POST" json:@{@"Foo": [[UIButton alloc] init]}]];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [req failure:^(BOSError *error) { [expectation fulfill]; }];
+        [req onFailure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         BOSError *error = resource.latestError;
@@ -189,7 +189,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] success:^(BOSEntity *entity) { [expectation fulfill]; }];
+        [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));

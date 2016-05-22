@@ -3,7 +3,7 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/27.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 @testable import Siesta
@@ -27,14 +27,14 @@ class WeakCacheSpec: SiestaSpec
             it("returns a newly created instance")
                 {
                 let retrieved = cache().get("foo") { return doodad0() }
-                expect(retrieved).to(beIdenticalTo(doodad0()))
+                expect(retrieved) === doodad0()
                 }
 
             it("returns the same instance on the second fetch")
                 {
                 cache().get("foo") { return doodad0() }
                 let retrieved = cache().get("foo") { return doodad1() }
-                expect(retrieved).to(beIdenticalTo(doodad0()))
+                expect(retrieved) === doodad0()
                 }
 
             it("does not call the cache miss block on the second fetch")
@@ -54,8 +54,8 @@ class WeakCacheSpec: SiestaSpec
 
                 let retrieved1 = cache().get("bar") { return doodad2() }
                 let retrieved0 = cache().get("foo") { return doodad2() }
-                expect(retrieved0).to(beIdenticalTo(doodad0()))
-                expect(retrieved1).to(beIdenticalTo(doodad1()))
+                expect(retrieved0) === doodad0()
+                expect(retrieved1) === doodad1()
                 }
             }
 
@@ -77,28 +77,28 @@ class WeakCacheSpec: SiestaSpec
                 {
                 expendable = nil
                 cache().flushUnused()
-                expect(Doodad.count).to(equal(0))
+                expect(Doodad.count) == 0
 
                 let newDoodad = Doodad()
                 let secondFetch = cache().get("foo") { return newDoodad }
-                expect(secondFetch).to(beIdenticalTo(newDoodad))
+                expect(secondFetch) === newDoodad
                 }
 
             it("holds on to retained instances")
                 {
                 cache().flushUnused()
-                expect(Doodad.count).to(equal(1))
+                expect(Doodad.count) == 1
 
                 let newDoodad = Doodad()
                 let secondFetch = cache().get("foo") { return newDoodad }
-                expect(secondFetch).to(beIdenticalTo(expendable))
+                expect(secondFetch) === expendable
                 }
 
             it("responds to low memory events")
                 {
                 expendable = nil
                 simulateMemoryWarning()
-                expect(Doodad.count).to(equal(0))
+                expect(Doodad.count) == 0
                 }
             }
         }
@@ -108,6 +108,6 @@ private class Doodad
     {
     static var count: Int = 0
 
-    init() { Doodad.count++ }
-    deinit { Doodad.count-- }
+    init() { Doodad.count += 1 }
+    deinit { Doodad.count -= 1 }
     }

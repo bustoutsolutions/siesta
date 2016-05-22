@@ -3,13 +3,14 @@
 //  Siesta
 //
 //  Created by Paul on 2015/6/22.
-//  Copyright © 2015 Bust Out Solutions. All rights reserved.
+//  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
 import Foundation
 
 internal extension String
     {
+    @warn_unused_result
     func stripPrefix(prefix: String) -> String
         {
         return hasPrefix(prefix)
