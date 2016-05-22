@@ -150,38 +150,11 @@ public class Service: NSObject
         }
 
     /**
-      Applies global configuration to all resources in this service. The `configurer` closure receives a mutable
-      `Configuration`, referenced as `$0.config`, which it may modify as it sees fit.
-
-      For example:
-
-          service.configure { $0.config.headers["Foo"] = "bar" }
-
-      The `configurer` block is evaluated every time a matching resource asks for its configuration.
-
-      The optional `description` is used for logging purposes only.
-
-      Configuration closures apply to any resource they match in the order they were added, whether global or not. That
-      means that you will usually want to add your global configuration first, then resource-specific configuration.
-
-      - SeeAlso: `configure(_:description:configurer:)`
-      - SeeAlso: `invalidateConfiguration()`
-    */
-    public final func configure(
-            description description: String = "global",
-            configurer: Configuration.Builder -> Void)
-        {
-        configure(
-            { _ in true },
-            description: description,
-            configurer: configurer)
-        }
-
-    /**
-      Applies configuration to resources matching the given pattern. You can pass a `String` or `Resource` for the
-      `pattern` argument, or provide your own implementation of `ConfigurationPatternConvertible`.
+      Applies configuration to resources whose URLs match a given pattern.
 
       Examples:
+
+          configure { $0.config.expirationTime = 10 }  // global default
 
           configure("/items")    { $0.config.expirationTime = 5 }
           configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
@@ -190,10 +163,29 @@ public class Service: NSObject
           let user = resource("/user/current")
           configure(user) { $0.config.persistentCache = userProfileCache }
 
-      If you need more fine-grained URL matching, use the predicate flavor of this method.
+      Configuration closures apply to any resource they match, in the order they were added, whether global or not. That
+      means that you will usually want to add your global configuration first, then resource-specific configuration.
 
-      - SeeAlso: `configure(description:configurer:)` for global config
+      If you want to provide global configuration, or if you need more fine-grained URL matching, use the other flavor
+      of this method that takes a predicate as its first argument.
+
+      - Parameter pattern:
+          Selects the subset of resources to which this configuration applies. You can pass a `String`, `Resource`, or
+          `NSRegularExpression` for the `pattern` argument — or write your own custom implementation of
+          `ConfigurationPatternConvertible`.
+      - Parameter description:
+          An optional description of this piece of configuration, for logging and debugging purposes.
+      - Parameter configurer:
+          A closure that receives a mutable `Configuration`, referenced as `$0.config`, which it may modify as it
+          sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should
+          not rely on it being called at any particular time, and should avoid making it cause side effects.
+
+      - SeeAlso: `configure(whenURLMatches:description:configurer:)` for global config and more fine-grained matching
       - SeeAlso: `invalidateConfiguration()`
+      - SeeAlso: For more details about the rules of pattern matching:
+        - `String.configurationPattern(_:)`
+        - `Resource.configurationPattern(_:)`
+        - `NSRegularExpression.configurationPattern(_:)`
     */
     public final func configure(
             pattern: ConfigurationPatternConvertible,
@@ -201,17 +193,25 @@ public class Service: NSObject
             configurer: Configuration.Builder -> Void)
         {
         configure(
-            pattern.configurationPattern(self),
+            whenURLMatches: pattern.configurationPattern(self),
             description: description ?? pattern.configurationPatternDescription,
             configurer: configurer)
         }
 
     /**
-      Applies configuration ro resources whose URL matches an arbitrary predicate. Use this if the wildcards in the
-      `urlPattern` flavor of `configure()` aren’t robust enough.
+      Applies configuration to resources whose URL matches an arbitrary predicate.
+      Use this if the wildcards in the `urlPattern` flavor of `configure()` aren’t robust enough.
+
+      If you do not supply a predicate, then the configuration applies globally to all resources in this service.
+
+      - Parameter whenURLMatches:
+          A predicate that matches absolute URLs of resources. The default is a predicate that matches anything.
+
+      - SeeAlso: `configure(_:description:configurer:)` for pattern-based matching, and for details about the parameters.
+      - SeeAlso: `invalidateConfiguration()`
     */
     public final func configure(
-            configurationPattern: NSURL -> Bool,
+            whenURLMatches configurationPattern: NSURL -> Bool = { _ in true },
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {

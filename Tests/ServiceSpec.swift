@@ -160,6 +160,13 @@ class ServiceSpec: SiestaSpec
                 expect(resource1().config.expirationTime) == 17
                 }
 
+            it("allows config blocks to be named for logging purposes")
+                {
+                service().configure(description: "global config")
+                    { $0.config.expirationTime = 17 }
+                expect(resource0().config.expirationTime) == 17
+                }
+
             it("passes default configuration through if not overridden")
                 {
                 service().configure { $0.config.retryTime = 17 }
@@ -176,7 +183,7 @@ class ServiceSpec: SiestaSpec
 
             it("applies predicate config only to matching resources")
                 {
-                service().configure({ $0.absoluteString.hasSuffix("foo") })
+                service().configure(whenURLMatches: { $0.absoluteString.hasSuffix("foo") })
                     { $0.config.expirationTime = 17 }
                 expect(resource0().config.expirationTime) == 17
                 expect(resource1().config.expirationTime) == 30
