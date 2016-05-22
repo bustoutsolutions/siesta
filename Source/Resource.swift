@@ -5,6 +5,7 @@
 //  Created by Paul on 2015/6/16.
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
+import Foundation
 
 
 // Overridable for testing

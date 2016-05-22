@@ -26,15 +26,16 @@
 		9F2FB5351C2864BD0068DFFA /* PersistentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */; };
 		9F2FB5361C2864C50068DFFA /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
-		9F2FB5381C2864C50068DFFA /* RequestProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* RequestProgress.swift */; };
+		9F2FB5381C2864C50068DFFA /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		9F2FB5391C2864C50068DFFA /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
-		9F2FB53A1C2864C50068DFFA /* FailedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42081C20B10F0020AC5E /* FailedRequest.swift */; };
+		9F2FB53A1C2864C50068DFFA /* RequestCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42081C20B10F0020AC5E /* RequestCreation.swift */; };
 		9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
 		9F2FB53C1C2864CB0068DFFA /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60F5FB1B30B2F800D76DC6 /* Resource.swift */; };
 		9F2FB53D1C2864CB0068DFFA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		9F2FB53E1C2864CB0068DFFA /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
 		9F2FB53F1C2864CB0068DFFA /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* Error.swift */; };
 		9F2FB5401C2864CB0068DFFA /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
+		9F9628841CF1D7AF008092B7 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
 		DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
@@ -506,6 +507,7 @@
 				9F2FB5281C2864970068DFFA /* Progress.swift in Sources */,
 				9F2FB5401C2864CB0068DFFA /* ResourceObserver.swift in Sources */,
 				9F2FB53E1C2864CB0068DFFA /* Entity.swift in Sources */,
+				9F9628841CF1D7AF008092B7 /* ConfigurationPatternConvertible.swift in Sources */,
 				9F2FB5301C2864970068DFFA /* Regex+Siesta.swift in Sources */,
 				9F2FB52E1C2864970068DFFA /* ARC+Siesta.swift in Sources */,
 				9F2FB5271C2864970068DFFA /* WeakCache.swift in Sources */,
@@ -513,7 +515,7 @@
 				9F2FB5351C2864BD0068DFFA /* PersistentCache.swift in Sources */,
 				9F2FB53D1C2864CB0068DFFA /* Configuration.swift in Sources */,
 				9F2FB5341C2864BD0068DFFA /* Networking-NSURLSession.swift in Sources */,
-				9F2FB5381C2864C50068DFFA /* RequestProgress.swift in Sources */,
+				9F2FB5381C2864C50068DFFA /* ProgressTracker.swift in Sources */,
 				9F2FB53C1C2864CB0068DFFA /* Resource.swift in Sources */,
 				9F2FB5361C2864C50068DFFA /* Request.swift in Sources */,
 				9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */,
@@ -522,7 +524,7 @@
 				9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */,
 				9F2FB53F1C2864CB0068DFFA /* Error.swift in Sources */,
 				9F2FB52A1C2864970068DFFA /* DebugFormatting.swift in Sources */,
-				9F2FB53A1C2864C50068DFFA /* FailedRequest.swift in Sources */,
+				9F2FB53A1C2864C50068DFFA /* RequestCreation.swift in Sources */,
 				9F2FB5391C2864C50068DFFA /* NetworkRequest.swift in Sources */,
 				9F2FB5291C2864970068DFFA /* Logging.swift in Sources */,
 				9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */,
