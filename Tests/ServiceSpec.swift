@@ -189,6 +189,15 @@ class ServiceSpec: SiestaSpec
                 expect(resource1().generalConfig.expirationTime) == 30
                 }
 
+            it("applies request config only to matching request methods")
+                {
+                service().configure(requestMethods: [.POST])
+                    { $0.config.expirationTime = 19 }
+                expect(resource0().generalConfig.expirationTime) == 30
+                expect(resource0().config(forRequestMethod: .PUT).expirationTime) == 30
+                expect(resource0().config(forRequestMethod: .POST).expirationTime) == 19
+                }
+
             func checkPattern(
                     pattern: ConfigurationPatternConvertible,
                     matches: Bool,

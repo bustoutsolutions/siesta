@@ -189,7 +189,7 @@ public class Service: NSObject
     */
     public final func configure(
             pattern: ConfigurationPatternConvertible,
-            requestMethods: Set<RequestMethod>? = nil,
+            requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
@@ -214,7 +214,7 @@ public class Service: NSObject
     */
     public final func configure(
             whenURLMatches configurationPattern: NSURL -> Bool = { _ in true },
-            requestMethods: Set<RequestMethod>? = nil,
+            requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
@@ -222,7 +222,7 @@ public class Service: NSObject
 
         let entry = ConfigurationEntry(
             description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
-            requestMethods: requestMethods ?? RequestMethod.all,
+            requestMethods: Set(requestMethods ?? RequestMethod.all),
             configurationPattern: configurationPattern,
             configurer: configurer)
         configurationEntries.append(entry)
@@ -254,7 +254,7 @@ public class Service: NSObject
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
-            requestMethods: Set<RequestMethod>? = nil,
+            requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
         {
