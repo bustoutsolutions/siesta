@@ -189,11 +189,13 @@ public class Service: NSObject
     */
     public final func configure(
             pattern: ConfigurationPatternConvertible,
+            requestMethods: Set<RequestMethod>? = nil,
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
         configure(
             whenURLMatches: pattern.configurationPattern(self),
+            requestMethods: requestMethods,
             description: description ?? pattern.configurationPatternDescription,
             configurer: configurer)
         }
@@ -212,6 +214,7 @@ public class Service: NSObject
     */
     public final func configure(
             whenURLMatches configurationPattern: NSURL -> Bool = { _ in true },
+            requestMethods: Set<RequestMethod>? = nil,
             description: String? = nil,
             configurer: Configuration.Builder -> Void)
         {
@@ -219,6 +222,7 @@ public class Service: NSObject
 
         let entry = ConfigurationEntry(
             description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
+            requestMethods: requestMethods ?? RequestMethod.all,
             configurationPattern: configurationPattern,
             configurer: configurer)
         configurationEntries.append(entry)
@@ -250,10 +254,24 @@ public class Service: NSObject
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
+            requestMethods: Set<RequestMethod>? = nil,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
         {
-        configure(pattern, description: description ?? "\(pattern.configurationPatternDescription) : \(I.self) → \(O.self)")
+        func defaultDescription() -> String
+            {
+            let methodsDescription: String
+            if let requestMethods = requestMethods
+                { methodsDescription = String(requestMethods) }
+            else
+                { methodsDescription = "" }
+
+            return pattern.configurationPatternDescription
+                 + methodsDescription
+                 + " : \(I.self) → \(O.self)"
+            }
+
+        configure(pattern, requestMethods: requestMethods, description: description ?? defaultDescription())
             {
             $0.config.responseTransformers.add(
                 ResponseContentTransformer(processor: contentTransform))
@@ -310,13 +328,14 @@ public class Service: NSObject
 
     private var anyConfigSinceLastInvalidation = false
 
-    internal func configurationForResource(resource: Resource) -> Configuration
+    internal func configuration(forResource resource: Resource, requestMethod: RequestMethod) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
-        debugLog(.Configuration, ["Computing configuration for", resource])
+        debugLog(.Configuration, ["Computing configuration for", requestMethod, resource])
         let builder = Configuration.Builder()
         for entry in configurationEntries
-            where entry.configurationPattern(resource.url)
+            where entry.requestMethods.contains(requestMethod)
+               && entry.configurationPattern(resource.url)
             {
             debugLog(.Configuration, ["Applying", entry, "to", resource])
             entry.configurer(builder)
@@ -327,6 +346,7 @@ public class Service: NSObject
     private struct ConfigurationEntry: CustomStringConvertible
         {
         let description: String
+        let requestMethods: Set<RequestMethod>
         let configurationPattern: NSURL -> Bool
         let configurer: Configuration.Builder -> Void
         }

@@ -10,6 +10,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     {
     // Basic metadata
     private let resource: Resource
+    private let requestMethod: RequestMethod
     private let requestDescription: String
 
     // Networking
@@ -38,6 +39,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         self.resource = resource
         self.nsreq = nsreq
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
+        self.requestMethod = RequestMethod(rawValue: nsreq.HTTPMethod ?? "") ?? .GET
 
         progressTracker = ProgressTracker(isGet: nsreq.HTTPMethod == "GET")
         }
@@ -68,7 +70,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         progressTracker.start(
             networking,
-            reportingInterval: resource.config.progressReportingInterval)
+            reportingInterval: resource.config(forRequestMethod: requestMethod).progressReportingInterval)
 
         return self
         }
@@ -161,7 +163,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
-        let transformer = resource.config.responseTransformers
+        let transformer = resource.config(forRequestMethod: requestMethod).responseTransformers
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             let processedInfo =

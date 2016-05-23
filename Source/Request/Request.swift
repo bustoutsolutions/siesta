@@ -31,6 +31,8 @@ public enum RequestMethod: String
     ///
     /// I’m here all week! Thank you for reading the documentation!
     case DELETE
+
+    internal static let all: Set<RequestMethod> = [.GET, .POST, .PUT, .PATCH, .DELETE]
     }
 
 /**
