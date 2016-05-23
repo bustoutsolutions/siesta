@@ -180,7 +180,8 @@ public class Service: NSObject
           sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should
           not rely on it being called at any particular time, and should avoid making it cause side effects.
 
-      - SeeAlso: `configure(whenURLMatches:description:configurer:)` for global config and more fine-grained matching
+      - SeeAlso: `configure(whenURLMatches:requestMethods:description:configurer:)`
+          for global config and more fine-grained matching
       - SeeAlso: `invalidateConfiguration()`
       - SeeAlso: For more details about the rules of pattern matching:
         - `String.configurationPattern(_:)`
@@ -209,7 +210,8 @@ public class Service: NSObject
       - Parameter whenURLMatches:
           A predicate that matches absolute URLs of resources. The default is a predicate that matches anything.
 
-      - SeeAlso: `configure(_:description:configurer:)` for pattern-based matching, and for details about the parameters.
+      - SeeAlso: `configure(_:requestMethods:description:configurer:)`
+          for pattern-based matching, and for details about the parameters.
       - SeeAlso: `invalidateConfiguration()`
     */
     public final func configure(
@@ -250,7 +252,10 @@ public class Service: NSObject
             $0.content as NSJSONConvertible
           }
 
-      - SeeAlso: ResponseContentTransformer
+      - SeeAlso: `configure(_:requestMethods:description:configurer:)`
+          for more into about the parameters and configuration pattern matching.
+      - SeeAlso: `ResponseContentTransformer`
+          for more robust transformation options.
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
