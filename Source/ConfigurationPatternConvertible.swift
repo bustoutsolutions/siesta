@@ -70,6 +70,7 @@ extension String: ConfigurationPatternConvertible
                 .replacingString("\\*\\*\\/", "([^:?]*/|)")
                 .replacingString("\\*\\*",    "[^:?]*")
                 .replacingString("\\*",       "[^/:?]*")
+                .replacingString("\\?",       "[^/:?]")
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 

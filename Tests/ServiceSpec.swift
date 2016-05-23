@@ -259,6 +259,19 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/**/*",   matches: true,  "/ab")
                     }
 
+                it("matches single non-separator chars with ?")
+                    {
+                    checkPattern("/?",      matches: false, "/")
+                    checkPattern("/?",      matches: true,  "/o")
+                    checkPattern("/??",     matches: false, "/o")
+                    checkPattern("/??",     matches: true,  "/oy")
+                    checkPattern("/??",     matches: false, "/oye")
+                    checkPattern("/??",     matches: false, "/o/")
+                    checkPattern("/x/?*",   matches: false, "/x/")
+                    checkPattern("/x/?*",   matches: true,  "/x/o")
+                    checkPattern("/x/?*",   matches: true,  "/x/oye")
+                    }
+
                 it("ignores query strings in the matched URL")
                     {
                     checkPattern("/*/b",  matches: true, "/a/b", params: ["foo": "bar"])
