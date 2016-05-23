@@ -50,6 +50,13 @@ public final class Resource: NSObject
             { service.configuration(forResource: self, requestMethod: method) }
         }
 
+    internal func config(forRequest request: NSURLRequest) -> Configuration
+        {
+        return config(forRequestMethod:
+            RequestMethod(rawValue: request.HTTPMethod?.uppercaseString ?? "")
+                ?? .GET)  // All unrecognized methods default to .GET
+        }
+
     /// Configuration when there is no request method.
     internal var generalConfig: Configuration
         { return config(forRequestMethod: .GET) }
@@ -294,7 +301,7 @@ public final class Resource: NSObject
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
         trackRequest(req, using: &allRequests)
-        for callback in config(forRequestMethod: method).beforeStartingRequestCallbacks
+        for callback in req.config.beforeStartingRequestCallbacks
             { callback(self, req) }
 
         return req.start()
