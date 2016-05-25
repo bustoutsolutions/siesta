@@ -11,7 +11,7 @@ import Foundation
 internal extension NSURL
     {
     @warn_unused_result
-    func alterPath(pathMutator: String -> String) -> NSURL?
+    func alterPath(@noescape pathMutator: String -> String) -> NSURL?
         {
         guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
             { return nil }
@@ -23,7 +23,7 @@ internal extension NSURL
         }
 
     @warn_unused_result
-    func alterQuery(queryMutator: [String:String?] -> [String:String?]) -> NSURL?
+    func alterQuery(@noescape queryMutator: [String:String?] -> [String:String?]) -> NSURL?
         {
         guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
             { return nil }

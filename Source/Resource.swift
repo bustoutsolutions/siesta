@@ -287,8 +287,8 @@ public final class Resource: NSObject
     */
     @warn_unused_result
     public func request(
-            method:          RequestMethod,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            method: RequestMethod,
+            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         dispatch_assert_main_queue()
@@ -410,7 +410,7 @@ public final class Resource: NSObject
         let req = request(.GET)
             {
             nsreq in
-            if let etag = self.latestData?.etag
+            if let etag = latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
 
