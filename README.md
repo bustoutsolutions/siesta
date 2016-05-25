@@ -212,7 +212,7 @@ Of course, you probably don’t want to work with raw JSON in all your controlle
 
 ```swift
 MyAPI.configureTransformer("/profile") {  // Path supports wildcards
-    UserProfile(json: $0)                 // Create models however you like
+    UserProfile(json: $0.content)         // Create models however you like
 }
 ```
 
@@ -245,7 +245,7 @@ Add a loading indicator:
 MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
-    self?.activityIndicator.hidden = !resource.loading
+    self?.activityIndicator.hidden = !resource.isLoading
 }
 ```
 
