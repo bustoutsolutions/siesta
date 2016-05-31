@@ -439,8 +439,7 @@ public final class Resource: NSObject
 
         trackRequest(req, using: &loadRequests)
 
-        req.onProgress
-            { self.notifyObservers(progress: $0) }
+        req.onProgress(notifyObservers)
 
         req.onNewData(receiveNewDataFromNetwork)
         req.onNotModified(receiveDataNotModified)
