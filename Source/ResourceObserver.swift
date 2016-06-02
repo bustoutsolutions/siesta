@@ -312,7 +312,7 @@ internal struct ObserverEntry: CustomStringConvertible
     mutating func cleanUp()
         {
         // Look for weak refs which refer to objects that are now gone
-        externalOwners = Set(externalOwners.filter { $0.value != nil })  // TODO: improve performance (Can Swift modify Set in place while iterating?)
+        externalOwners.filterInPlace { $0.value != nil }
 
         observerRef.strong = !externalOwners.isEmpty
         }

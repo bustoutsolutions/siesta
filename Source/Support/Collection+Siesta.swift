@@ -26,10 +26,7 @@ internal extension CollectionType
 
         return (included: included, excluded: excluded)
         }
-    }
 
-internal extension Array
-    {
     @warn_unused_result
     func any(@noescape predicate: Generator.Element -> Bool) -> Bool
         {
@@ -44,7 +41,10 @@ internal extension Array
         {
         return !any { !predicate($0) }
         }
+    }
 
+internal extension Array
+    {
     mutating func remove(@noescape predicate: Generator.Element -> Bool)
         {
         var dst = startIndex
@@ -93,5 +93,19 @@ internal extension Dictionary
                     { return nil }
                 }
             )
+        }
+    }
+
+internal extension Set
+    {
+    mutating func filterInPlace(@noescape predicate: Generator.Element -> Bool)
+        {
+        if !all(predicate)
+            {
+            // There's apparently no more performant way of doing this filter in place than creating a whole new set.
+            // Even the stdlib’s internal implementation does this for its similar mutating union/intersection methods.
+
+            self = Set(filter(predicate))
+            }
         }
     }
