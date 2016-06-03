@@ -39,16 +39,19 @@ extension String: ConfigurationPatternConvertible
       The `urlPattern` is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. `http:`).
       If it is relative, the leading slash is optional.
 
-      The pattern supports two wildcards:
+      The pattern supports three wildcards:
 
-      - `*` matches zero or more characters within a path segment, and
+      - `*` matches zero or more characters within a path segment.
       - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
+      - `?` matches exactly one character within a path segment, and thus `?*` matches one or more.
 
       Examples:
 
-      - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
+      - `/foo/*/bar` matches `/foo/1/bar` and `/foo/123/bar`.
       - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
       - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
+      - `/foo/​*` matches `/foo/123` and `/foo/`.
+      - `/foo/?*` matches `/foo/123` but _not_ `/foo/`.
 
       The pattern ignores the resource’s query string.
     */
@@ -70,6 +73,7 @@ extension String: ConfigurationPatternConvertible
                 .replacingString("\\*\\*\\/", "([^:?]*/|)")
                 .replacingString("\\*\\*",    "[^:?]*")
                 .replacingString("\\*",       "[^/:?]*")
+                .replacingString("\\?",       "[^/:?]")
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
