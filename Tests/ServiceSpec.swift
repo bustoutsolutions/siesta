@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+@testable import Siesta
 import Quick
 import Nimble
 
@@ -156,30 +156,46 @@ class ServiceSpec: SiestaSpec
             it("applies global config to all resources")
                 {
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime) == 17
-                expect(resource1().config.expirationTime) == 17
+                expect(resource0().generalConfig.expirationTime) == 17
+                expect(resource1().generalConfig.expirationTime) == 17
+                }
+
+            it("allows config blocks to be named for logging purposes")
+                {
+                service().configure(description: "global config")
+                    { $0.config.expirationTime = 17 }
+                expect(resource0().generalConfig.expirationTime) == 17
                 }
 
             it("passes default configuration through if not overridden")
                 {
                 service().configure { $0.config.retryTime = 17 }
-                expect(resource0().config.expirationTime) == 30
+                expect(resource0().generalConfig.expirationTime) == 30
                 }
 
             it("applies resource-specific config only to that resource")
                 {
                 service().configure(resource0())
                     { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime) == 17
-                expect(resource1().config.expirationTime) == 30
+                expect(resource0().generalConfig.expirationTime) == 17
+                expect(resource1().generalConfig.expirationTime) == 30
                 }
 
             it("applies predicate config only to matching resources")
                 {
-                service().configure({ $0.absoluteString.hasSuffix("foo") })
+                service().configure(whenURLMatches: { $0.absoluteString.hasSuffix("foo") })
                     { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime) == 17
-                expect(resource1().config.expirationTime) == 30
+                expect(resource0().generalConfig.expirationTime) == 17
+                expect(resource1().generalConfig.expirationTime) == 30
+                }
+
+            it("applies request config only to matching request methods")
+                {
+                service().configure(requestMethods: [.POST])
+                    { $0.config.expirationTime = 19 }
+                expect(resource0().generalConfig.expirationTime) == 30
+                expect(resource0().config(forRequestMethod: .PUT).expirationTime) == 30
+                expect(resource0().config(forRequestMethod: .POST).expirationTime) == 19
                 }
 
             func checkPattern(
@@ -198,7 +214,7 @@ class ServiceSpec: SiestaSpec
                 for (k,v) in params
                     { resource = resource.withParam(k, v) }
 
-                let actual = resource.config.expirationTime,
+                let actual = resource.generalConfig.expirationTime,
                     expected = matches ? 6.0 : 30.0,
                     matchword = matches ? "to" : "not to"
                 XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
@@ -320,22 +336,22 @@ class ServiceSpec: SiestaSpec
 
             it("changes when service config added")
                 {
-                expect(resource0().config.expirationTime) == 30
+                expect(resource0().generalConfig.expirationTime) == 30
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().config.expirationTime) == 17
+                expect(resource0().generalConfig.expirationTime) == 17
                 service().configure("*oo") { $0.config.expirationTime = 16 }
-                expect(resource0().config.expirationTime) == 16
+                expect(resource0().generalConfig.expirationTime) == 16
                 }
 
             it("changes when invalidateConfiguration() called")
                 {
                 var x: NSTimeInterval = 3
                 service().configure { $0.config.expirationTime = x }
-                expect(resource0().config.expirationTime) == 3
+                expect(resource0().generalConfig.expirationTime) == 3
                 x = 4
-                expect(resource0().config.expirationTime) == 3
+                expect(resource0().generalConfig.expirationTime) == 3
                 service().invalidateConfiguration()
-                expect(resource0().config.expirationTime) == 4
+                expect(resource0().generalConfig.expirationTime) == 4
                 }
             }
 

@@ -564,7 +564,6 @@ class ResourceRequestsSpec: ResourceSpecBase
                 it("respects custom expiration time")
                     {
                     service().configure("**") { $0.config.expirationTime = 1 }
-                    expect(resource().config.expirationTime) == 1
                     setResourceTime(1002)
                     expectToLoad(resource().loadIfNeeded())
                     }
