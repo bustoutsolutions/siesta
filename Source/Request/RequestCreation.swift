@@ -16,10 +16,10 @@ public extension Resource
     */
     @warn_unused_result
     public func request(
-            method:          RequestMethod,
-            data:            NSData,
-            contentType:     String,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            method:      RequestMethod,
+            data:        NSData,
+            contentType: String,
+            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         return request(method)
@@ -44,11 +44,11 @@ public extension Resource
     */
     @warn_unused_result
     public func request(
-            method:          RequestMethod,
-            text:            String,
-            contentType:     String = "text/plain",
-            encoding:        NSStringEncoding = NSUTF8StringEncoding,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            method:      RequestMethod,
+            text:        String,
+            contentType: String = "text/plain",
+            encoding:    NSStringEncoding = NSUTF8StringEncoding,
+            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
@@ -73,10 +73,10 @@ public extension Resource
     */
     @warn_unused_result
     public func request(
-            method:          RequestMethod,
-            json:            NSJSONConvertible,
-            contentType:     String = "application/json",
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            method:      RequestMethod,
+            json:        NSJSONConvertible,
+            contentType: String = "application/json",
+            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         guard NSJSONSerialization.isValidJSONObject(json) else

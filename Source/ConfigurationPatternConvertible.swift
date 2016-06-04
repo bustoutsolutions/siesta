@@ -39,16 +39,19 @@ extension String: ConfigurationPatternConvertible
       The `urlPattern` is interpreted relative to the service’s base URL unless it begins with a protocol (e.g. `http:`).
       If it is relative, the leading slash is optional.
 
-      The pattern supports two wildcards:
+      The pattern supports three wildcards:
 
-      - `*` matches zero or more characters within a path segment, and
+      - `*` matches zero or more characters within a path segment.
       - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
+      - `?` matches exactly one character within a path segment, and thus `?*` matches one or more.
 
       Examples:
 
-      - `/foo/*/bar` matches `/foo/1/bar` and  `/foo/123/bar`.
+      - `/foo/*/bar` matches `/foo/1/bar` and `/foo/123/bar`.
       - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
       - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
+      - `/foo/​*` matches `/foo/123` and `/foo/`.
+      - `/foo/?*` matches `/foo/123` but _not_ `/foo/`.
 
       The pattern ignores the resource’s query string.
     */
@@ -70,15 +73,41 @@ extension String: ConfigurationPatternConvertible
                 .replacingString("\\*\\*\\/", "([^:?]*/|)")
                 .replacingString("\\*\\*",    "[^:?]*")
                 .replacingString("\\*",       "[^/:?]*")
+                .replacingString("\\?",       "[^/:?]")
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
-        return { pattern.matches($0.absoluteString) }
+        return pattern.configurationPattern(service)
         }
 
     /// :nodoc:
     public var configurationPatternDescription: String
         { return self }
+    }
+
+/**
+  Support for passing regular expressions to `Service.configure(...)`.
+*/
+extension NSRegularExpression: ConfigurationPatternConvertible
+    {
+    /**
+      Matches URLs if this regular expression matches any substring of the URL’s full, absolute form.
+
+      Note that, unlike the simpler wildcard form of `String.configurationPattern(_:)`, the regular expression is _not_
+      matched relative to the Service’s base URL. The match is performed against the full URL: scheme, host, path,
+      query string and all.
+
+      Note also that this implementation matches substrings. Include `^` and `$` if you want your pattern to match
+      against the entire URL.
+    */
+    public func configurationPattern(service: Service) -> NSURL -> Bool
+        {
+        return { self.matches($0.absoluteString) }
+        }
+
+    /// :nodoc:
+    public var configurationPatternDescription: String
+        { return pattern }
     }
 
 /**

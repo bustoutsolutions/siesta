@@ -79,7 +79,7 @@ class ResourceSpecBase: SiestaSpec
         let service  = specVar(serviceBuilder),
             resource = specVar { service().resource("/a/b") }
 
-        self.resourceSpec(service, resource)
+        resourceSpec(service, resource)
         }
 
     var baseURL: String

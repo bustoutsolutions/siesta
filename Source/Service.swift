@@ -338,7 +338,7 @@ public class Service: NSObject
 
       Applies to resources matching the predicate, or all resources by default.
     */
-    public final func wipeResources(predicate: Resource -> Bool =  { _ in true })
+    public final func wipeResources(@noescape predicate: Resource -> Bool =  { _ in true })
         {
         dispatch_assert_main_queue()
 
@@ -364,7 +364,7 @@ public class Service: NSObject
 
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
     */
-    public final func wipeResourcesMatchingURL(predicate: NSURL -> Bool)
+    public final func wipeResourcesMatchingURL(@noescape predicate: NSURL -> Bool)
         {
         wipeResources { predicate($0.url) }
         }
