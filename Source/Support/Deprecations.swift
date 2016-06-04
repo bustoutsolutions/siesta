@@ -6,6 +6,17 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+// MARK: - Deprecated in beta 7
+
+extension Resource
+    {
+    @available(*, deprecated=0.99, message="This property is going away from the public API. If you have a need for it, please file a Github issue describing your use case.")
+    public var config: Configuration
+        { return generalConfig }
+    }
+
+// MARK: - Deprecated in beta 6
+
 extension Entity
     {
     @available(*, deprecated=0.99, renamed="Entity(response:content:)")
