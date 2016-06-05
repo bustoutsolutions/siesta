@@ -87,7 +87,10 @@ public struct Error: ErrorType
         self.cause = cause
         self.entity = entity
         }
+    }
 
+public extension Error
+    {
     /**
       Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
       (Note that `cause` may also contain errors from the underlying network library that do not appear here.)

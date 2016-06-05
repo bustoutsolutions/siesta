@@ -333,7 +333,7 @@ public extension Resource
                 Resource.failedRequest(
                     Error(
                         userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
-                        cause: Error.Cause.InvalidRequestMethod(method: methodString))))
+                        cause: _objc_Error.Cause.InvalidRequestMethod(method: methodString))))
             }
 
         return _objc_Request(closure(method))
@@ -466,11 +466,14 @@ public extension Resource
         }
     }
 
-extension Error.Cause
+public extension _objc_Error
     {
-    /// Request method specified as a string does not match any of the values in the RequestMethod enum.
-    public struct InvalidRequestMethod: ErrorType
+    public struct Cause
         {
-        public let method: String
+        /// Request method specified as a string does not match any of the values in the RequestMethod enum.
+        public struct InvalidRequestMethod: ErrorType
+            {
+            public let method: String
+            }
         }
     }
