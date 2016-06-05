@@ -7,10 +7,10 @@
 //
 
 import Foundation
+import CoreGraphics
 
 #if os(OSX)
     import AppKit
-    import CoreGraphics
 
     public typealias BOSView=NSView
     public typealias BOSViewAutoresizing=NSAutoresizingMaskOptions
