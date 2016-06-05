@@ -288,7 +288,7 @@ public extension Resource
         }
     }
 
-#if TARGET_OS_IOS
+#if !os(OSX)
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event eventString: String)

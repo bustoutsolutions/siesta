@@ -7,6 +7,10 @@
 //
 
 import Foundation
+#if !os(OSX)
+import UIKit
+#endif
+
 /**
     A cache for maintaining a unique instance for a given key as long as any other objects
     retain references to it.
@@ -18,7 +22,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     init()
         {
-#if TARGET_OS_IOS
+#if !os(OSX)
         lowMemoryObserver =
             NSNotificationCenter.defaultCenter().addObserverForName(
                 UIApplicationDidReceiveMemoryWarningNotification,
