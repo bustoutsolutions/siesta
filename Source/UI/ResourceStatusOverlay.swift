@@ -96,7 +96,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         parentVC = parentViewController
 
         #if !os(OSX)
-        layer!.zPosition = 10000
+        layer.zPosition = 10000
         #endif
         parentVC?.view.addSubview(self)
 

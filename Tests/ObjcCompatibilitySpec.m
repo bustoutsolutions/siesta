@@ -106,7 +106,7 @@
         it(@"handles invalid JSON objects", ^
             {
             expectImmediateFailure(
-                [resource requestWithMethod:@"POST" json:[[UIView alloc] init]]);
+                [resource requestWithMethod:@"POST" json:[[NSView alloc] init]]);
             });
         });
 
@@ -157,7 +157,7 @@
     it(@"handles other errors", ^
         {
         BOSRequest *req = [resource loadUsingRequest:
-            [resource requestWithMethod:@"POST" json:@{@"Foo": [[UIButton alloc] init]}]];
+            [resource requestWithMethod:@"POST" json:@{@"Foo": [[NSButton alloc] init]}]];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         [req onFailure:^(BOSError *error) { [expectation fulfill]; }];

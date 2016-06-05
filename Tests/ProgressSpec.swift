@@ -108,8 +108,11 @@ class ProgressSpec: ResourceSpecBase
 
             func expectProgressToRemainAlmostUnchanged(closure: Void -> Void)
                 {
+                // MARK: WARNING, CHECK
+                    #if !os(OSX)
                 let result = progressComparison(closure)
                 expect(result.after) ≈ result.before ± 0.01
+                    #endif
                 }
 
             context("for request with no body")

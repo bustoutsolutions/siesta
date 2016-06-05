@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
+               BuildableName = "SiestaTests OSX.xctest"
+               BlueprintName = "SiestaTests OSX"
+               ReferencedContainer = "container:Siesta.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,7 +42,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
+               BuildableName = "SiestaTests OSX.xctest"
+               BlueprintName = "SiestaTests OSX"
+               ReferencedContainer = "container:Siesta.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9F2FB51D1C28645E0068DFFA"
+            BuildableName = "Siesta.framework"
+            BlueprintName = "Siesta OSX"
+            ReferencedContainer = "container:Siesta.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
