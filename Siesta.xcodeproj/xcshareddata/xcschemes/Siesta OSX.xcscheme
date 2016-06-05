@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
-               BuildableName = "SiestaTests OSX.xctest"
+               BuildableName = "SiestaTests.xctest"
                BlueprintName = "SiestaTests OSX"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
@@ -47,7 +47,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
-               BuildableName = "SiestaTests OSX.xctest"
+               BuildableName = "SiestaTests.xctest"
                BlueprintName = "SiestaTests OSX"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
