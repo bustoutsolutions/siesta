@@ -292,6 +292,15 @@
 			name = OSX;
 			sourceTree = "<group>";
 		};
+		9F2774591D04BABF00B0B67F /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				9F2FB5221C28645E0068DFFA /* Info.plist */,
+				9F9628891CF1DDA1008092B7 /* OSX.swift */,
+			);
+			name = OSX;
+			sourceTree = "<group>";
+		};
 		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,7 +395,6 @@
 			children = (
 				DA336E541B2E6DDB006F702A /* Info.plist */,
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
-				9F2FB5221C28645E0068DFFA /* Info.plist */,
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
 				DA5FE9F31BB9E3EF00B6688A /* Progress.swift */,
@@ -399,7 +407,7 @@
 				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */,
 				DA9850FF1C1CCF33006E9434 /* Deprecations.swift */,
-				9F9628891CF1DDA1008092B7 /* OSX.swift */,
+				9F2774591D04BABF00B0B67F /* OSX */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -541,7 +549,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Bust Out Solutions";
 				TargetAttributes = {
 					9F2FB51D1C28645E0068DFFA = {
@@ -745,6 +753,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
@@ -758,6 +767,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
