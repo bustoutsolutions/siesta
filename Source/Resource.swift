@@ -649,27 +649,15 @@ public final class Resource: NSObject
 
     private func initializeDataFromCache()
         {
-        let pipeline = generalConfig.pipeline,
-            cacheKey = url.absoluteString
-
-        guard pipeline.containsCaches else
-            { return }
-
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+        generalConfig.pipeline.readFromCache(key: url.absoluteString)
             {
-            guard let entity = pipeline.cachedEntity(forKey: cacheKey) else
-                { return }
-
-            dispatch_async(dispatch_get_main_queue())
+            [weak self] entity in
+            if let resource = self where resource.latestData == nil
                 {
-                [weak self] in
-                if let resource = self where resource.latestData == nil
-                    {
-                    resource.receiveNewData(entity, source: .Cache)
-                    }
-                else
-                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
+                resource.receiveNewData(entity, source: .Cache)
                 }
+            else
+                { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
             }
         }
 

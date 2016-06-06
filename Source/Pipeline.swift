@@ -89,7 +89,22 @@ public struct Pipeline
             { resp, stage in stage.process(resp) }
         }
 
-    func cachedEntity(forKey key: String) -> Entity?
+    func readFromCache(key key: String, onHit: (Entity) -> ())
+        {
+        guard containsCaches else
+            { return }
+
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            guard let entity = self.cachedEntity(forKey: key) else
+                { return }
+
+            dispatch_async(dispatch_get_main_queue())
+                { onHit(entity) }
+            }
+        }
+
+    private func cachedEntity(forKey key: String) -> Entity?
         {
         let stagesInOrder = self.stagesInOrder
         for (index, stage) in stagesInOrder.enumerate().reverse()
