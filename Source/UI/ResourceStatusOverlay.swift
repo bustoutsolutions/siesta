@@ -274,6 +274,11 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
     /// Call `loadIfNeeded()` on any resources with errors that this overlay is observing.
     @IBAction public func retryFailedRequests(sender: AnyObject)
         {
+            self.retryFailedRequests()
+        }
+    
+    @IBAction public func retryFailedRequests()
+        {
         for res in observedResources
             where res.latestError != nil
                 {
