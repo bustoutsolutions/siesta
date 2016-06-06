@@ -504,16 +504,12 @@ public final class Resource: NSObject
         latestError = nil
         latestData = entity
 
-        switch source
-            {
-            case .Network, .LocalOverride:
-                writeDataToCache()
+        // A local override means our cached data may be defunct.
+        // (Other sources don't affect the cache: pipeline will have already cached a network success;
+        // we don't write back data just read from cache; wiping doesn't wipe the cache.)
 
-            case .Cache, .Wipe:
-                // Don't write back data just read from cache.
-                // Wipe doesn't wipe cache.
-                break
-            }
+        if case .LocalOverride = source
+            { generalConfig.pipeline.removeCacheEntries(forKey: cacheKey) }
 
         notifyObservers(.NewData(source))
         }
@@ -524,7 +520,7 @@ public final class Resource: NSObject
 
         latestError = nil
         latestData?.touch()
-        writeDataToCache()
+        generalConfig.pipeline.touchCacheEntries(forKey: cacheKey)
 
         notifyObservers(.NotModified)
         }
@@ -647,9 +643,12 @@ public final class Resource: NSObject
 
     // MARK: Caching
 
+    var cacheKey: String
+        { return url.absoluteString }
+
     private func initializeDataFromCache()
         {
-        generalConfig.pipeline.readFromCache(key: url.absoluteString)
+        generalConfig.pipeline.cachedEntity(forKey: cacheKey)
             {
             [weak self] entity in
             if let resource = self where resource.latestData == nil
@@ -658,20 +657,6 @@ public final class Resource: NSObject
                 }
             else
                 { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
-            }
-        }
-
-    private func writeDataToCache()
-        {
-        let pipeline = generalConfig.pipeline,
-            cacheKey = url.absoluteString
-
-        guard let entity = latestData where pipeline.containsCaches else
-            { return }
-
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-//            pipeline.cache(entity, forKey: cacheKey)
             }
         }
 

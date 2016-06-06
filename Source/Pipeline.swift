@@ -77,19 +77,35 @@ public struct Pipeline
         removeAllCaches()
         }
 
-    func process(response: Response) -> Response
-        { return process(response, usingStages: stagesInOrder) }
+    func process(response: Response, cacheKey: String) -> Response
+        { return process(response, cacheKey: cacheKey, usingStages: stagesInOrder) }
 
     private func process<Stages: CollectionType where Stages.Generator.Element == PipelineStage>(
             response: Response,
+            cacheKey: String? = nil,
             usingStages stages: Stages)
         -> Response
         {
         return stages.reduce(response)
-            { resp, stage in stage.process(resp) }
+            {
+            response, stage in
+
+            let processed = stage.process(response)
+
+            if let cacheKey = cacheKey,
+               let cache = stage.cache,
+               case .Success(let entity) = processed
+                {
+                debugLog(.Cache, ["Caching entity with", entity.content.dynamicType, "content for", cacheKey, "in", cache])
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+                    { cache.writeEntity(entity, forKey: cacheKey) }
+                }
+
+            return processed
+            }
         }
 
-    func readFromCache(key key: String, onHit: (Entity) -> ())
+    func cachedEntity(forKey key: String, onHit: (Entity) -> ())
         {
         guard containsCaches else
             { return }
@@ -104,6 +120,16 @@ public struct Pipeline
             }
         }
 
+    func touchCacheEntries(forKey key: String)
+        {
+        // TODO: implement
+        }
+
+    func removeCacheEntries(forKey key: String)
+        {
+        // TODO: implement
+        }
+
     private func cachedEntity(forKey key: String) -> Entity?
         {
         let stagesInOrder = self.stagesInOrder
@@ -111,7 +137,7 @@ public struct Pipeline
             {
             if let result = stage.cache?.readEntity(forKey: key)
                 {
-                debugLog(.Cache, ["Cache hit at", stage, "stage for", self, "in", stage.cache])
+                debugLog(.Cache, ["Cache hit for", key, "in", stage.cache])
 
                 let processed = process(
                     .Success(result),

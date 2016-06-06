@@ -26,10 +26,11 @@ class PipelineSpec: ResourceSpecBase
                 }
             }
 
-        func makeRequest()
+        func makeRequest(expectSuccess expectSuccess: Bool = true)
             {
-            stubRequest(resource, "GET").andReturn(200).withBody("ignored")
-            awaitNewData(resource().load())
+            stubRequest(resource, "GET").andReturn(200).withBody("🍕")
+            let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
+            awaitRequest(resource().load(), alreadyCompleted: false)
             }
 
         beforeEach
@@ -118,16 +119,17 @@ class PipelineSpec: ResourceSpecBase
             func fakeCacheHit(content: String) -> String
                 { return resource().url.absoluteString + ":" + content }
 
-            func pauseForCacheWorker(cache: TestCache)
-                {
-                expect(cache.receivedCacheRead).toEventually(beTrue())
-                }
+            func waitForCacheRead(cache: TestCache)
+                { expect(cache.receivedCacheRead).toEventually(beTrue()) }
 
-            let cache0 = specVar { TestCache(returning: "cache0") },
-                cache1 = specVar { TestCache(returning: "cache1") }
+            func waitForCacheWrite(cache: TestCache)
+                { expect(cache.receivedCacheWrite).toEventually(beTrue()) }
 
             describe("read")
                 {
+                let cache0 = specVar { TestCache(returning: "cache0") },
+                    cache1 = specVar { TestCache(returning: "cache1") }
+
                 it("reinflates resource with cached content")
                     {
                     configureCache(cache0(), at: .cleanup)
@@ -140,7 +142,7 @@ class PipelineSpec: ResourceSpecBase
                     let emptyCache = TestCache()
                     configureCache(emptyCache, at: .cleanup)
                     resource()
-                    pauseForCacheWorker(emptyCache)
+                    waitForCacheRead(emptyCache)
                     expect(resource().text) == ""
                     }
 
@@ -148,7 +150,7 @@ class PipelineSpec: ResourceSpecBase
                     {
                     configureCache(cache0(), at: .cleanup)
                     resource().overrideLocalContent("no race conditions here...except in the specs")
-                    pauseForCacheWorker(cache0())
+                    waitForCacheRead(cache0())
                     expect(resource().text) == "no race conditions here...except in the specs"
                     }
 
@@ -194,13 +196,46 @@ class PipelineSpec: ResourceSpecBase
 
             describe("write")
                 {
-                pending("caches new data on success") { }
+                func expectCacheWrite(to cache: TestCache, content: String)
+                    {
+                    waitForCacheWrite(cache)
+                    expect(Array(cache.entries.keys)) == [resource().url.absoluteString]
+                    expect(cache.entries.values.first?.typedContent()) == content
+                    }
 
-                pending("does not cache errors") { }
+                it("caches new data on success")
+                    {
+                    let testCache = TestCache()
+                    configureCache(testCache, at: .cleanup)
+                    makeRequest()
+                    expectCacheWrite(to: testCache, content: "decparmodcle")
+                    }
 
-                pending("caches local override when cache is at last stage") { }
+                it("writes each stage’s output to that stage’s cache")
+                    {
+                    let parCache = TestCache(),
+                        modCache = TestCache()
+                    configureCache(parCache, at: .parsing)
+                    configureCache(modCache, at: .model)
+                    makeRequest()
+                    expectCacheWrite(to: parCache, content: "decpar")
+                    expectCacheWrite(to: modCache, content: "decparmod")
+                    }
 
-                pending("clears cached data for earlier stages on local override") { }
+                it("does not cache errors")
+                    {
+                    configureCache(UnwritableCache(), at: .parsing) // Neither at the failed stage...
+                    configureCache(UnwritableCache(), at: .model)   // ...nor at a subsequent ones
+
+                    service().configureTransformer("**", atStage: .parsing)
+                        { (_: String, _) -> NSDate? in nil }
+
+                    makeRequest(expectSuccess: false)
+                    }
+
+                pending("updates cached data timestamp on 304") { }
+
+                pending("clears cached data on local override") { }
                 }
             }
 
@@ -226,7 +261,7 @@ private class TestCache: EntityCache
     {
     var fakeHit: String?
     var fakeTimestamp: NSTimeInterval?
-    var receivedCacheRead = false
+    var receivedCacheRead = false, receivedCacheWrite = false
     var entries: [String:Entity] = [:]
 
     init(returning content: String? = nil, timestamp: NSTimeInterval? = nil)
@@ -251,9 +286,25 @@ private class TestCache: EntityCache
         }
 
     func writeEntity(entity: Entity, forKey key: String)
-        { entries[key] = entity }
+        {
+        dispatch_async(dispatch_get_main_queue())
+            {
+            self.entries[key] = entity
+            self.receivedCacheWrite = true
+            }
+        }
     }
 
+private struct UnwritableCache: EntityCache
+    {
+    func readEntity(forKey key: String) -> Entity?
+        { return nil }
+
+    func writeEntity(entity: Entity, forKey key: String)
+        {
+        fatalError("cache should never be written to")
+        }
+    }
 
 private extension String
     {
