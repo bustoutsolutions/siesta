@@ -43,7 +43,7 @@ public struct Pipeline
                 .map { key, _ in key }
             let missingStages = Set(nonEmptyStages).subtract(newValue)
             if !missingStages.isEmpty
-                { debugLog(.ResponseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order:", newValue]) }
+                { debugLog(.ResponseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
             }
         }
 
