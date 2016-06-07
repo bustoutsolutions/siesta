@@ -14,7 +14,6 @@
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
 		DA7462441B4C768B00406D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7462431B4C768B00406D67 /* Assets.xcassets */; };
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
-		DA7462511B4C781E00406D67 /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA74624F1B4C781E00406D67 /* Siesta.framework */; };
 		DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */; };
 		DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */; };
 		DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */; };
@@ -31,7 +30,6 @@
 		DA7462431B4C768B00406D67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA7462461B4C768B00406D67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA7462481B4C768B00406D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DA74624F1B4C781E00406D67 /* Siesta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Siesta.framework; path = Carthage/Build/iOS/Siesta.framework; sourceTree = "<group>"; };
 		DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
 		DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
@@ -43,7 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA7462511B4C781E00406D67 /* Siesta.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				DA74623B1B4C768B00406D67 /* Source */,
-				DA7462521B4C782100406D67 /* Frameworks */,
 				DA74623A1B4C768B00406D67 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,14 +92,6 @@
 				DA2DDA771B5984CA00294A72 /* Resources */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		DA7462521B4C782100406D67 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DA74624F1B4C781E00406D67 /* Siesta.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DAE2F8431B94F10500D2AD96 /* API */ = {
@@ -136,7 +124,6 @@
 				DA7462351B4C768B00406D67 /* Sources */,
 				DA7462361B4C768B00406D67 /* Frameworks */,
 				DA7462371B4C768B00406D67 /* Resources */,
-				DA7462531B4C791D00406D67 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -191,24 +178,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DA7462531B4C791D00406D67 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(PROJECT_DIR)/Carthage/Build/iOS/Siesta.framework",
-				"$(PROJECT_DIR)/Carthage/Build/iOS/SwiftyJSON.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA7462351B4C768B00406D67 /* Sources */ = {
@@ -333,7 +302,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
@@ -346,7 +314,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.GithubBrowser;
