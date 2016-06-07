@@ -225,7 +225,7 @@ class PipelineSpec: ResourceSpecBase
                 it("does not cache errors")
                     {
                     configureCache(UnwritableCache(), at: .parsing) // Neither at the failed stage...
-                    configureCache(UnwritableCache(), at: .model)   // ...nor at a subsequent ones
+                    configureCache(UnwritableCache(), at: .model)   // ...nor subsequent ones
 
                     service().configureTransformer("**", atStage: .parsing)
                         { (_: String, _) -> NSDate? in nil }
