@@ -26,6 +26,13 @@ extension Configuration
         get { return TransformerSequence(stage: pipeline[.parsing]) }
         set { pipeline[.parsing] = newValue.stage }
         }
+
+    @available(*, deprecated=0.99, message="Use .pipeline[…].cache with the appropriate stage, usually .parsing or .cleanup.", renamed="pipeline[.parsing].cache")
+    public var persistentCache: EntityCache?
+        {
+        get { return pipeline[.cleanup].cache }
+        set { pipeline[.cleanup].cache = newValue }
+        }
     }
 
 @available(*, deprecated=0.99, message="Use Pipeline instead")
