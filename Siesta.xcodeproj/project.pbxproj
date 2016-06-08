@@ -381,13 +381,21 @@
 		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA38E4F11D088515008023ED /* iOS */,
+				9F0FAFB31D03464F00CE1B61 /* OSX */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA38E4F11D088515008023ED /* iOS */ = {
+			isa = PBXGroup;
+			children = (
 				DA612E421B38AD1000DE9A9F /* Alamofire.framework */,
 				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
 				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
 				DA612E441B38AD2100DE9A9F /* Nocilla.framework */,
-				9F0FAFB31D03464F00CE1B61 /* OSX */,
 			);
-			name = Frameworks;
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		DA99B5C61B38C356009C6937 /* Support */ = {
@@ -754,8 +762,9 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests OSX/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
@@ -768,8 +777,9 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests OSX/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
@@ -789,7 +799,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Siesta OSX/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-OSX";
 				PRODUCT_NAME = Siesta;
@@ -811,7 +821,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Siesta OSX/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-OSX";
 				PRODUCT_NAME = Siesta;
@@ -954,6 +964,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -967,6 +978,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
