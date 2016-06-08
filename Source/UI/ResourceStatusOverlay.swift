@@ -96,9 +96,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         {
         parentVC = parentViewController
 
-        #if !os(OSX)
-        layer.zPosition = 10000
-        #endif
+        layer?.zPosition = 10000
         parentVC?.view.addSubview(self)
 
         backgroundColor = parentVC?.view.backgroundColor

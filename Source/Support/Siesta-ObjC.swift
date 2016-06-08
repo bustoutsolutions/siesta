@@ -288,7 +288,6 @@ public extension Resource
         }
     }
 
-#if !os(OSX)
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event eventString: String)
@@ -312,14 +311,13 @@ extension ResourceStatusOverlay
                 {
                 let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
                 if condition == nil
-                    { print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
+                    { Swift.print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
                 return condition
                 }
             }
         }
     }
-#endif
-    
+
 public extension Resource
     {
     private func _objc_wrapRequest(
