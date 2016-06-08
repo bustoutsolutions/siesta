@@ -22,17 +22,15 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     init()
         {
-#if !os(OSX)
         lowMemoryObserver =
             NSNotificationCenter.defaultCenter().addObserverForName(
-                UIApplicationDidReceiveMemoryWarningNotification,
+                MemoryWarningNotification,
                 object: nil,
                 queue: nil)
             {
             [weak self] _ in
             self?.flushUnused()
             }
-#endif
         }
 
     deinit

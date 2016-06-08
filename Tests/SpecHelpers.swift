@@ -8,6 +8,7 @@
 
 import Quick
 import Nimble
+@testable import Siesta
 
 public func specVar<T>(builder: () -> T) -> () -> T
     {
@@ -23,13 +24,11 @@ public func specVar<T>(builder: () -> T) -> () -> T
 
 func simulateMemoryWarning()
     {
-#if !os(OSX)
     NSNotificationCenter
         .defaultCenter()
         .postNotificationName(
-            UIApplicationDidReceiveMemoryWarningNotification,
+            Siesta.MemoryWarningNotification,
             object: nil)
-#endif
     }
 
 func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>

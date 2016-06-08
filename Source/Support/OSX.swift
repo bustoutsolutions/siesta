@@ -20,6 +20,10 @@ import CoreGraphics
     public typealias BOSImageView=NSImageView
     public typealias BOSImage=NSImage
     public typealias BOSColor=NSColor
+    
+    // TODO: Should this be part of public API? Do OS X apps want to be able to use NSNotificationCenter to flush weak
+    // caches under memory pressure?
+    internal let MemoryWarningNotification = "Siesta.MemoryWarningNotification"
 #else
     import UIKit
     
@@ -31,6 +35,8 @@ import CoreGraphics
     public typealias BOSImageView=UIImageView
     public typealias BOSImage=UIImage
     public typealias BOSColor=UIColor
+
+    internal let MemoryWarningNotification = UIApplicationDidReceiveMemoryWarningNotification
 #endif
 
 
