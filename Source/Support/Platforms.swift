@@ -10,6 +10,7 @@ import Foundation
 import CoreGraphics
 
 #if os(OSX)
+
     import AppKit
 
     public typealias BOSView=NSView
@@ -24,7 +25,9 @@ import CoreGraphics
     // TODO: Should this be part of public API? Do OS X apps want to be able to use NSNotificationCenter to flush weak
     // caches under memory pressure?
     internal let MemoryWarningNotification = "Siesta.MemoryWarningNotification"
-#else
+
+#elseif os(iOS)
+
     import UIKit
     
     public typealias BOSView=UIView
@@ -37,10 +40,12 @@ import CoreGraphics
     public typealias BOSColor=UIColor
 
     internal let MemoryWarningNotification = UIApplicationDidReceiveMemoryWarningNotification
+
 #endif
 
 
 #if os(OSX)
+
     // NSTextField is OSX's UILabel, and it inherits from NSControl
     extension NSControl
         {
@@ -54,7 +59,7 @@ import CoreGraphics
     
     extension NSView
         {
-        // I guess Apple engineers preferred to not stick to that same old-Cocoa "value" methods when building UIKit?
+        // I guess Apple engineers preferred to not stick to those same old-Cocoa "value" methods when building UIKit?
         public var alpha: CGFloat
             {
             get { return self.alphaValue }
@@ -90,7 +95,7 @@ import CoreGraphics
             }
     }
     
-    // This is to make UIView's resizing mask working.
+    // This is to make UIView's resizing mask work.
     extension NSAutoresizingMaskOptions
         {
         static var None: NSAutoresizingMaskOptions { return ViewNotSizable }
