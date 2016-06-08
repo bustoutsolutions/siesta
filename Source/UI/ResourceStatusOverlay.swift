@@ -272,12 +272,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
     // MARK: Retry & reload
 
     /// Call `loadIfNeeded()` on any resources with errors that this overlay is observing.
-    @IBAction public func retryFailedRequests(sender: AnyObject)
-        {
-            self.retryFailedRequests()
-        }
-    
-    @IBAction public func retryFailedRequests()
+    public func retryFailedRequests()
         {
         for res in observedResources
             where res.latestError != nil
@@ -285,6 +280,12 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
                 if let retryReq = res.loadIfNeeded()
                     { trackManualLoad(retryReq) }
                 }
+        }
+
+    /// Variant of `retryFailedRequests()` suitable for use as an IBOutlet. (The `sender` is ignored.)
+    @IBAction public func retryFailedRequests(sender: AnyObject)
+        {
+        retryFailedRequests()
         }
 
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
