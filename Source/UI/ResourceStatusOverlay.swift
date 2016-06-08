@@ -116,10 +116,10 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
             {
             var bounds = parentVC.view.bounds
             #if !os(OSX)
-            let top = parentVC.topLayoutGuide.length,
-                bot = parentVC.bottomLayoutGuide.length
-            bounds.origin.y += top
-            bounds.size.height -= top + bot
+                let top = parentVC.topLayoutGuide.length,
+                    bot = parentVC.bottomLayoutGuide.length
+                bounds.origin.y += top
+                bounds.size.height -= top + bot
             #endif
             positionToCoverRect(bounds, inView: parentVC.view)
             }
