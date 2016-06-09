@@ -95,10 +95,8 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
     public func embedIn(parentViewController: BOSViewController) -> Self
         {
         parentVC = parentViewController
-
-        layer?.zPosition = 10000
         parentVC?.view.addSubview(self)
-
+            
         backgroundColor = parentVC?.view.backgroundColor
 
         positionToCoverParent()
