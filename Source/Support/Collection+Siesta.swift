@@ -96,6 +96,18 @@ internal extension Dictionary
                 }
             )
         }
+
+    @warn_unused_result
+    mutating func cacheValue(forKey key: Key, @noescape ifNone newValue: () -> Value)
+        -> Value
+        {
+        return self[key] ??
+            {
+            let newValue = newValue()
+            self[key] = newValue
+            return newValue
+            }()
+        }
     }
 
 internal extension Set

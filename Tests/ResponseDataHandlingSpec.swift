@@ -15,9 +15,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
-        func stubText(string: String? = "zwobble", contentType: String = "text/plain", expectSuccess: Bool = true)
+        func stubText(
+                string: String? = "zwobble",
+                method: String = "GET",
+                contentType: String = "text/plain",
+                expectSuccess: Bool = true)
             {
-            stubRequest(resource, "GET").andReturn(200)
+            stubRequest(resource, method).andReturn(200)
                 .withHeader("Content-Type", contentType)
                 .withBody(string)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
@@ -384,12 +388,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**")
                         {
-                        (_: NSData, _) -> String in
+                        (_: String, _) -> NSDate in
                         throw CustomError()
                         }
 
-                    stubRequest(resource, "GET").andReturn(200).withBody("YUP")
-                    awaitFailure(resource().load())
+                    stubText("YUP", expectSuccess: false)
                     expect(resource().latestError?.cause is CustomError) == true
                     }
 
@@ -397,14 +400,39 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**")
                         {
-                        (_: NSData, _) -> String in
-                        throw Error(userMessage: "Everything is broken", cause: CustomError())
+                        (text: String, _) -> NSDate in
+                        throw Error(userMessage: "\(text) is broken", cause: CustomError())
                         }
 
-                    stubRequest(resource, "GET").andReturn(200).withBody("YUP")
-                    awaitFailure(resource().load())
+                    stubText("Everything", expectSuccess: false)
                     expect(resource().latestError?.userMessage) == "Everything is broken"
                     expect(resource().latestError?.cause is CustomError) == true
+                    }
+
+                func stubTextRequest(string: String, method: RequestMethod) -> Entity
+                    {
+                    stubRequest(resource, method.rawValue).andReturn(200)
+                        .withHeader("Content-Type", "text/plain")
+                        .withBody(string)
+
+                    var result: Entity? = nil
+                    let req = resource().request(method)
+                    req.onSuccess { result = $0 }
+                    awaitNewData(req)
+
+                    return result!
+                    }
+
+                it("can be limited to specific HTTP request methods")
+                    {
+                    service().configureTransformer("**", requestMethods: [.PUT, .POST])
+                        { TestModel(name: $0.content) }
+
+                    let getResult: String? = stubTextRequest("got it", method: .GET).typedContent()
+                    expect(getResult) == "got it"
+
+                    let postResult: TestModel? = stubTextRequest("posted it", method: .POST).typedContent()
+                    expect(postResult?.name) == "posted it"
                     }
 
                 context("that returns an optional")

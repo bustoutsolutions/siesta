@@ -37,35 +37,32 @@ public final class Resource: NSObject
 
     internal var observers = [ObserverEntry]()
 
-    // MARK: Configuration
-
-    /**
-      Configuration options for this resource.
-
-      Note that this is a read-only computed property. You cannot directly change an individual resource's configuration.
-      The reason for this is that resource instances are created on demand, and can disappear under memory pressure when
-      not in use. Any configuration applied a particular resource instance would therefore be transient.
-
-      Instead, you must use the `Service.configure(...)` methods. This sets up configuration to be applied to resources
-      according to their URL, whenever they are created or recreated.
-
-      - Complexity:
-        - O(*n*) on first call after creation, or after invalidation (via `Service.invalidateConfiguration()`),
-          where _n_ is the number of past calls to `Service.configure(...)` for this resource’s `Service`.
-        - O(1) on subsequent invocations.
-    */
-    public var config: Configuration
+    internal func config(forRequestMethod method: RequestMethod) -> Configuration
         {
         dispatch_assert_main_queue()
 
         if configVersion != service.configVersion
             {
-            cachedConfig = service.configurationForResource(self)
+            cachedConfig.removeAll()
             configVersion = service.configVersion
             }
-        return cachedConfig
+
+        return cachedConfig.cacheValue(forKey: method)
+            { service.configuration(forResource: self, requestMethod: method) }
         }
-    private var cachedConfig: Configuration = Configuration()
+
+    internal func config(forRequest request: NSURLRequest) -> Configuration
+        {
+        return config(forRequestMethod:
+            RequestMethod(rawValue: request.HTTPMethod?.uppercaseString ?? "")
+                ?? .GET)  // All unrecognized methods default to .GET
+        }
+
+    /// Configuration when there is no request method.
+    internal var generalConfig: Configuration
+        { return config(forRequestMethod: .GET) }
+
+    private var cachedConfig: [RequestMethod:Configuration] = [:]
     private var configVersion: UInt64 = 0
 
 
@@ -296,7 +293,7 @@ public final class Resource: NSObject
 
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
-        for (header,value) in config.headers
+        for (header,value) in config(forRequestMethod: method).headers
             { nsreq.setValue(value, forHTTPHeaderField: header) }
 
         requestMutation(nsreq)
@@ -305,7 +302,7 @@ public final class Resource: NSObject
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
         trackRequest(req, using: &allRequests)
-        for callback in config.beforeStartingRequestCallbacks
+        for callback in req.config.beforeStartingRequestCallbacks
             { callback(self, req) }
 
         return req.start()
@@ -328,8 +325,8 @@ public final class Resource: NSObject
     public var isUpToDate: Bool
         {
         let maxAge = (latestError == nil)
-                ? config.expirationTime
-                : config.retryTime,
+                ? generalConfig.expirationTime
+                : generalConfig.retryTime,
             currentTime = now(),
             result = !invalidated && currentTime - timestamp <= maxAge
 
@@ -360,9 +357,9 @@ public final class Resource: NSObject
 
         debugLog(.Staleness,
             [self, (result ? "is" : "is not"), "up to date:"]
-            + formatExpirationTime("error", latestError?.timestamp, config.retryTime)
+            + formatExpirationTime("error", latestError?.timestamp, generalConfig.retryTime)
             + ["|"]
-            + formatExpirationTime("data",  latestData?.timestamp,  config.expirationTime))
+            + formatExpirationTime("data",  latestData?.timestamp,  generalConfig.expirationTime))
         }
 
     /**
@@ -652,7 +649,7 @@ public final class Resource: NSObject
 
     private func initializeDataFromCache()
         {
-        guard let cache = config.persistentCache else
+        guard let cache = generalConfig.persistentCache else
             { return }
 
         let url = self.url
@@ -678,7 +675,7 @@ public final class Resource: NSObject
 
     private func writeDataToCache()
         {
-        if let cache = config.persistentCache, let entity = latestData
+        if let cache = generalConfig.persistentCache, let entity = latestData
             {
             let url = self.url
             debugLog(.Cache, ["Caching data for", url, "in", cache])
