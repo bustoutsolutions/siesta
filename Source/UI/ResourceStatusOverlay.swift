@@ -96,7 +96,9 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         {
         parentVC = parentViewController
 
-        #if (iOS)
+        // For explanations of the os() function:
+        // https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-XID_20
+        #if os(iOS)
             layer.zPosition = 10000
         #endif
         parentVC?.view.addSubview(self)
