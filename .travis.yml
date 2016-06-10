@@ -77,8 +77,6 @@ script: |
   runTests 'Siesta' 'iOS Simulator,OS=9.3,name=iPhone 6'
   runTests 'Siesta' 'iOS Simulator,OS=8.1,name=iPhone 4s'
 
-  done
-
   sleep 5  # Workaround for Travis log truncation
 
   exit $buildresult
