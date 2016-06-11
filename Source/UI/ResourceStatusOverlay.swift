@@ -18,26 +18,26 @@ import UIKit
   views depending on which state it’s in. The `displayPriority` property governs these states.
 */
 @objc(BOSResourceStatusOverlay)
-public class ResourceStatusOverlay: BOSView, ResourceObserver
+public class ResourceStatusOverlay: UIView, ResourceObserver
     {
     // MARK: Child views
 
     /// A view that is visible in the loading and error states, and hidden in the success state.
-    @IBOutlet public var containerView: BOSView?
+    @IBOutlet public var containerView: UIView?
 
     /// A view that is visible in the loading state, and hidden in all other states.
-    @IBOutlet public var loadingIndicator: BOSView?
+    @IBOutlet public var loadingIndicator: UIView?
 
     /// A view that is visible in the error state, and hidden in all other states.
-    @IBOutlet public var errorView: BOSView?
+    @IBOutlet public var errorView: UIView?
 
     /// Displays a generic message stating that an error occurred. You can change the text of this label to taste.
-    @IBOutlet public var errorHeadline: BOSLabel?
+    @IBOutlet public var errorHeadline: UILabel?
 
     /// Displays `Error.userMessage`.
-    @IBOutlet public var errorDetail: BOSLabel?
+    @IBOutlet public var errorDetail: UILabel?
 
-    private weak var parentVC: BOSViewController?
+    private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
     private var retryRequestsInProgress = 0
 
@@ -67,8 +67,8 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
             {
             addSubview(containerView)
             containerView.frame = bounds
-            containerView.autoresizingMask = [BOSViewAutoresizing.FlexibleWidth,
-                                              BOSViewAutoresizing.FlexibleHeight]
+            containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth,
+                                              UIViewAutoresizing.FlexibleHeight]
             }
 
         showSuccess()
@@ -93,7 +93,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
       Place this child inside the given view controller’s view, and position it so that it covers the entire bounds.
       Be sure to call `positionToCoverParent()` from your `viewDidLayoutSubviews()` method.
     */
-    public func embedIn(parentViewController: BOSViewController) -> Self
+    public func embedIn(parentViewController: UIViewController) -> Self
         {
         parentVC = parentViewController
 
@@ -134,7 +134,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
       Positions this overlay to exactly cover the given view. The two views do not have to be siblings; this method
       works across the view hierarchy.
     */
-    public func positionToCover(view: BOSView)
+    public func positionToCover(view: UIView)
         {
         positionToCoverRect(view.bounds, inView: view)
         }
@@ -143,7 +143,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
       Positions this view within its current superview so that it covers the given rect in the local coordinates of the
       given view. Has no effect if the overlay has no superview.
     */
-    public func positionToCoverRect(rect: CGRect, inView srcView: BOSView)
+    public func positionToCoverRect(rect: CGRect, inView srcView: UIView)
         {
         if let superview = superview
             {
@@ -263,7 +263,7 @@ public class ResourceStatusOverlay: BOSView, ResourceObserver
         errorView?.hidden = true
         loadingIndicator?.hidden = false
         loadingIndicator?.alpha = 0
-        BOSView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
+        UIView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
         }
 
     private func showSuccess()

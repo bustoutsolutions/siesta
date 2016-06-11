@@ -7,20 +7,21 @@
 //
 
 import Foundation
+import UIKit
 
 /**
   A `UIImageView` that asynchronously loads and displays remote images.
 */
-public class RemoteImageView: BOSImageView
+public class RemoteImageView: UIImageView
     {
     /// Optional view to show while image is loading.
-    @IBOutlet public weak var loadingView: BOSView?
+    @IBOutlet public weak var loadingView: UIView?
 
     /// Optional view to show if image is unavailable. Not shown while image is loading.
-    @IBOutlet public weak var alternateView: BOSView?
+    @IBOutlet public weak var alternateView: UIView?
 
     /// Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.
-    @IBOutlet public var placeholderImage: BOSImage?
+    @IBOutlet public var placeholderImage: UIImage?
 
     /// The default service to cache `RemoteImageView` images.
     public static var defaultImageService: Service = Service()
