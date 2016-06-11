@@ -288,6 +288,7 @@ public extension Resource
         }
     }
 
+#if !os(OSX)
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event eventString: String)
@@ -317,6 +318,7 @@ extension ResourceStatusOverlay
             }
         }
     }
+#endif
 
 public extension Resource
     {

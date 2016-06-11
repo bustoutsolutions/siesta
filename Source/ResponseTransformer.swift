@@ -7,6 +7,13 @@
 //
 
 import Foundation
+#if os(OSX)
+    import AppKit
+    public typealias Image=NSImage
+#elseif os(iOS)
+    import UIKit
+    public typealias Image=UIImage
+#endif
 
 /**
   Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
@@ -300,9 +307,9 @@ public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseT
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> BOSImage in
+        (content: NSData, entity: Entity) throws -> Image in
 
-        guard let image = BOSImage(data: content) else
+        guard let image = Image(data: content) else
             { throw Error.Cause.UnparsableImage() }
 
         return image

@@ -7,8 +7,11 @@
 //
 
 import Foundation
-#if !os(OSX)
+#if os(OSX)
+    internal let MemoryWarningNotification = "Siesta.MemoryWarningNotification"
+#elseif os(iOS)
     import UIKit
+    internal let MemoryWarningNotification = UIApplicationDidReceiveMemoryWarningNotification
 #endif
 
 /**

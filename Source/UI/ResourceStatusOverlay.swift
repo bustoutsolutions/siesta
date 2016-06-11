@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 /**
   A ready-made UI component to show an activity indicator and/or error message for a set of `Resource`s. Add this view
