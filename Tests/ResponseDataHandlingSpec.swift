@@ -258,7 +258,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         base64EncodedString: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=",
                         options: []))
                 awaitNewData(resource().load())
-                let image: BOSImage? = resource().typedContent()
+                let image: UIImage? = resource().typedContent()
                 expect(image).notTo(beNil())
                 expect(image?.size) == CGSize(width: 1, height: 1)
                 }
