@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 internal typealias ResponseInfo = (response: Response, isNew: Bool)
 internal typealias ResponseCallback = ResponseInfo -> Void
 

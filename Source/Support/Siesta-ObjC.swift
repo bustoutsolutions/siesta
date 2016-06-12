@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /*
     Glue for using Siesta from Objective-C.
 
@@ -286,6 +288,7 @@ public extension Resource
         }
     }
 
+#if !os(OSX)
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
     public func resourceChanged(resource: Resource, event eventString: String)
@@ -309,12 +312,13 @@ extension ResourceStatusOverlay
                 {
                 let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
                 if condition == nil
-                    { print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
+                    { Swift.print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
                 return condition
                 }
             }
         }
     }
+#endif
 
 public extension Resource
     {
@@ -329,7 +333,7 @@ public extension Resource
                 Resource.failedRequest(
                     Error(
                         userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
-                        cause: Error.Cause.InvalidRequestMethod(method: methodString))))
+                        cause: _objc_Error.Cause.InvalidRequestMethod(method: methodString))))
             }
 
         return _objc_Request(closure(method))
@@ -462,11 +466,14 @@ public extension Resource
         }
     }
 
-extension Error.Cause
+public extension _objc_Error
     {
-    /// Request method specified as a string does not match any of the values in the RequestMethod enum.
-    public struct InvalidRequestMethod: ErrorType
+    public struct Cause
         {
-        public let method: String
+        /// Request method specified as a string does not match any of the values in the RequestMethod enum.
+        public struct InvalidRequestMethod: ErrorType
+            {
+            public let method: String
+            }
         }
     }

@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 internal extension String
     {
     @warn_unused_result

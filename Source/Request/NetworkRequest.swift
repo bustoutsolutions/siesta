@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStringConvertible
     {
     // Basic metadata

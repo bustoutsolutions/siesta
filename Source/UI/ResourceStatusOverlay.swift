@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreGraphics
+import UIKit
 
 /**
   A ready-made UI component to show an activity indicator and/or error message for a set of `Resource`s. Add this view
@@ -84,7 +86,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     public required init?(coder: NSCoder)
         { super.init(coder: coder) }
 
-
+    
     // MARK: Layout
 
     /**
@@ -95,9 +97,13 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         {
         parentVC = parentViewController
 
-        layer.zPosition = 10000
+        // For explanations of the os() function:
+        // https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-XID_20
+        #if os(iOS)
+            layer.zPosition = 10000
+        #endif
         parentVC?.view.addSubview(self)
-
+            
         backgroundColor = parentVC?.view.backgroundColor
 
         positionToCoverParent()
@@ -114,10 +120,12 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         if let parentVC = parentVC
             {
             var bounds = parentVC.view.bounds
-            let top = parentVC.topLayoutGuide.length,
-                bot = parentVC.bottomLayoutGuide.length
-            bounds.origin.y += top
-            bounds.size.height -= top + bot
+            #if !os(OSX)
+                let top = parentVC.topLayoutGuide.length,
+                    bot = parentVC.bottomLayoutGuide.length
+                bounds.origin.y += top
+                bounds.size.height -= top + bot
+            #endif
             positionToCoverRect(bounds, inView: parentVC.view)
             }
         }
@@ -267,7 +275,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     // MARK: Retry & reload
 
     /// Call `loadIfNeeded()` on any resources with errors that this overlay is observing.
-    @IBAction public func retryFailedRequests()
+    public func retryFailedRequests()
         {
         for res in observedResources
             where res.latestError != nil
@@ -275,6 +283,12 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
                 if let retryReq = res.loadIfNeeded()
                     { trackManualLoad(retryReq) }
                 }
+        }
+
+    /// Variant of `retryFailedRequests()` suitable for use as an IBOutlet. (The `sender` is ignored.)
+    @IBAction public func retryFailedRequests(sender: AnyObject)
+        {
+        retryFailedRequests()
         }
 
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.

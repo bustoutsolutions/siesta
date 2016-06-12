@@ -109,7 +109,7 @@ class ProgressSpec: ResourceSpecBase
             func expectProgressToRemainAlmostUnchanged(closure: Void -> Void)
                 {
                 let result = progressComparison(closure)
-                expect(result.after) ≈ result.before ± 0.01
+                expect(result.after) ≈ Double(result.before) ± 0.01  // TODO: Double() coercion should be unnecessary; remove if https://bugs.swift.org/browse/SR-1614 fixed
                 }
 
             context("for request with no body")

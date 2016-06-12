@@ -6,6 +6,21 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
+#if os(OSX)
+    import AppKit
+    
+    /// A cross-platform alias for the output type of Siesta’s image content transformer.
+    /// `UIImage` on iOS; `NSImage` on OS X.
+    public typealias Image = NSImage
+
+#elseif os(iOS)
+    import UIKit
+    
+    public typealias Image = UIImage
+#endif
+
 /**
   Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
   a chain of transformers before being sent to response hooks or observers.
@@ -298,9 +313,9 @@ public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseT
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> UIImage in
+        (content: NSData, entity: Entity) throws -> Image in
 
-        guard let image = UIImage(data: content) else
+        guard let image = Image(data: content) else
             { throw Error.Cause.UnparsableImage() }
 
         return image

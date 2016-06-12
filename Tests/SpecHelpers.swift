@@ -8,6 +8,7 @@
 
 import Quick
 import Nimble
+@testable import Siesta
 
 public func specVar<T>(builder: () -> T) -> () -> T
     {
@@ -26,7 +27,7 @@ func simulateMemoryWarning()
     NSNotificationCenter
         .defaultCenter()
         .postNotificationName(
-            UIApplicationDidReceiveMemoryWarningNotification,
+            Siesta.MemoryWarningNotification,
             object: nil)
     }
 

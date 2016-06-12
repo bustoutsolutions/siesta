@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /**
   If you want to use a different networking library, implement this protocol and pass your implementation to
   `Service.init(...)`.

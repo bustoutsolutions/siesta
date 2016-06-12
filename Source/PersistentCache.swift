@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /**
   A strategy for saving entities between runs of the app. Allows apps to:
 

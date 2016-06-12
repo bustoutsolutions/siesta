@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+
 /**
   A reference that can switched between behaving as a strong or a weak ref to an object,
   and can also hold a non-object type.

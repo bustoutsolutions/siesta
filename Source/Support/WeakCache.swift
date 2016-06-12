@@ -6,6 +6,14 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+#if os(OSX)
+    internal let MemoryWarningNotification = "Siesta.MemoryWarningNotification"
+#elseif os(iOS)
+    import UIKit
+    internal let MemoryWarningNotification = UIApplicationDidReceiveMemoryWarningNotification
+#endif
+
 /**
     A cache for maintaining a unique instance for a given key as long as any other objects
     retain references to it.
@@ -19,7 +27,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
         {
         lowMemoryObserver =
             NSNotificationCenter.defaultCenter().addObserverForName(
-                UIApplicationDidReceiveMemoryWarningNotification,
+                MemoryWarningNotification,
                 object: nil,
                 queue: nil)
             {

@@ -6,6 +6,7 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
 
 /**
   Uses `NSURLSessionDataTask` for Siesta networking.

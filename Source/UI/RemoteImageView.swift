@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+import UIKit
 
 /**
   A `UIImageView` that asynchronously loads and displays remote images.
