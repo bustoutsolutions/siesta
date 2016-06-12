@@ -535,10 +535,17 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("initiates a new request if a non-load request is in progress")
                 {
-                stubRequest(resource, "POST").andReturn(200)
-                let postReq = resource().request(.POST)
-                expectToLoad(resource().loadIfNeeded())
-                awaitNewData(postReq, alreadyCompleted: true)
+                let postReqStub = stubRequest(resource, "POST").andReturn(200).delay(),
+                    loadReqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let postReq = resource().request(.POST),
+                    loadReq = resource().loadIfNeeded()
+                
+                expect(loadReq).toNot(beNil())
+
+                postReqStub.go()
+                awaitNewData(postReq)
+                loadReqStub.go()
+                awaitNewData(loadReq!)
                 }
 
             context("with data present")
