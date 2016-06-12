@@ -539,7 +539,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     loadReqStub = stubRequest(resource, "GET").andReturn(200).delay()
                 let postReq = resource().request(.POST),
                     loadReq = resource().loadIfNeeded()
-                
+
                 expect(loadReq).toNot(beNil())
 
                 postReqStub.go()

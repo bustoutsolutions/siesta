@@ -86,7 +86,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     public required init?(coder: NSCoder)
         { super.init(coder: coder) }
 
-    
+
     // MARK: Layout
 
     /**
@@ -103,7 +103,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             layer.zPosition = 10000
         #endif
         parentVC?.view.addSubview(self)
-            
+
         backgroundColor = parentVC?.view.backgroundColor
 
         positionToCoverParent()
