@@ -97,7 +97,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestError).to(beNil())
                     }
                 resource().overrideLocalData(
-                    Entity(content: UIView(), contentType: "crazy/test"))
+                    Entity(content: BOSView(), contentType: "crazy/test"))
                 }
 
             it("receives not modified event")
@@ -164,7 +164,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 resource().removeObservers(ownedBy: observer())
 
-                let dummy = UIView()
+                let dummy = BOSView()
                 var events = [String]()
                 resource().addObserver(owner: dummy)
                     {
@@ -182,7 +182,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 observer().expect(.Requested, .NewData(.Network), .Requested, .NewData(.Network))
 
-                let dummy = UIView()
+                let dummy = BOSView()
                 var events0 = [String](),
                     events1 = [String]()
 
@@ -214,7 +214,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             context("with multiple owners")
                 {
-                let owner1 = specVar { UIView() },
+                let owner1 = specVar { BOSView() },
                     owner2 = specVar { NSString() }
 
                 beforeEach

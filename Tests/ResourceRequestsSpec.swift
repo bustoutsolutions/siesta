@@ -132,7 +132,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it(".cancel() has no effect if it never started")
                 {
-                let req = resource().request(.POST, json: ["unencodable": UIView()])
+                let req = resource().request(.POST, json: ["unencodable": BOSView()])
                 req.onCompletion
                     { expect($0.isCancellation) == false }
                 awaitFailure(req, alreadyCompleted: true)
@@ -222,7 +222,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("handles JSON encoding errors")
                     {
-                    let req = resource().request(.POST, json: ["question": [2, UIView()]])
+                    let req = resource().request(.POST, json: ["question": [2, BOSView()]])
                     awaitFailure(req, alreadyCompleted: true)
                     req.onFailure
                         { expect($0.cause is Error.Cause.InvalidJSONObject) == true }
