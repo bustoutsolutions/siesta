@@ -32,10 +32,6 @@ script: |
 
   set -x
 
-  #gem install xcpretty --no-rdoc --no-ri --no-document --quiet
-  # Fix parsing bug for Swift output:
-  git clone https://github.com/supermarin/xcpretty.git /tmp/xcpretty
-  
   #brew update
   #brew install carthage
 
@@ -65,8 +61,7 @@ script: |
     xcodebuild test \
         -project Siesta.xcodeproj \
         -scheme "$scheme" \
-        -destination "platform=$platform" 2>&1 \
-      | /tmp/xcpretty/bin/xcpretty -c
+        -destination "platform=$platform" 2>&1
     
     buildresult="$buildresult${PIPESTATUS[0]}"
 
