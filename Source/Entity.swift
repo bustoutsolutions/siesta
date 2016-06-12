@@ -71,25 +71,6 @@ public struct Entity
     /// The time at which this data was last known to be valid.
     public private(set) var timestamp: NSTimeInterval
 
-    internal init(
-            content: Any,
-            charset: String? = nil,
-            headers rawHeaders: [String:String],
-            timestamp: NSTimeInterval? = nil)
-        {
-        self.content = content
-        self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
-        self.charset = charset
-
-        if let timestamp = timestamp
-            { self.timestamp = timestamp }
-        else
-            {
-            self.timestamp = 0
-            self.touch()
-            }
-        }
-
     /**
       Extracts data from a network response.
     */
@@ -119,6 +100,28 @@ public struct Entity
         headers["Content-Type"] = contentType
 
         self.init(content:content, charset:charset, headers:headers)
+        }
+
+    /**
+      Full-width initializer, typically used only for reinflating cached data.
+    */
+    public init(
+            content: Any,
+            charset: String? = nil,
+            headers rawHeaders: [String:String],
+            timestamp: NSTimeInterval? = nil)
+        {
+        self.content = content
+        self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
+        self.charset = charset
+
+        if let timestamp = timestamp
+            { self.timestamp = timestamp }
+        else
+            {
+            self.timestamp = 0
+            self.touch()
+            }
         }
 
     /**

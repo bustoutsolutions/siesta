@@ -30,6 +30,9 @@ public struct Pipeline
     {
     private var stages: [PipelineStageKey:PipelineStage] = [:]
 
+    private var stagesInOrder: [PipelineStage]
+        { return order.flatMap { stages[$0] } }
+
     public var order: [PipelineStageKey] = [.rawData, .decoding, .parsing, .model, .cleanup]
         {
         willSet
@@ -53,6 +56,9 @@ public struct Pipeline
         set { stages[key] = newValue }
         }
 
+    var containsCaches: Bool
+        { return stages.any { $1.cache != nil } }
+
     public mutating func removeAllTransformers()
         {
         for key in stages.keys
@@ -72,10 +78,41 @@ public struct Pipeline
         }
 
     func process(response: Response) -> Response
+        { return process(response, usingStages: stagesInOrder) }
+
+    private func process<Stages: CollectionType where Stages.Generator.Element == PipelineStage>(
+            response: Response,
+            usingStages stages: Stages)
+        -> Response
         {
-        return order
-            .flatMap { stages[$0] }
-            .reduce(response) { resp, stage in stage.process(resp) }
+        return stages.reduce(response)
+            { resp, stage in stage.process(resp) }
+        }
+
+    func cachedEntity(forKey key: String) -> Entity?
+        {
+        let stagesInOrder = self.stagesInOrder
+        for (index, stage) in stagesInOrder.enumerate().reverse()
+            {
+            if let result = stage.cache?.readEntity(forKey: key)
+                {
+                debugLog(.Cache, ["Cache hit at", stage, "stage for", self, "in", stage.cache])
+
+                let processed = process(
+                    .Success(result),
+                    usingStages: stagesInOrder.suffixFrom(index + 1))
+
+                switch(processed)
+                    {
+                    case .Failure:
+                        debugLog(.Cache, ["Error processing cached entity; will ignore cached value. Error:", processed])
+
+                    case .Success(let entity):
+                        return entity
+                    }
+                }
+            }
+        return nil
         }
     }
 

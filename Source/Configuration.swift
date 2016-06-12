@@ -37,14 +37,6 @@ public struct Configuration
     */
     public var retryTime: NSTimeInterval = 1
 
-    /**
-      An optional store to maintain the state of resources between app launches.
-
-      - Note: This property is configured at the resource level, and does not depend on the HTTP method of any request.
-        Siesta uses the value configured for GET; if you override this for other HTTP methods, Siesta will ignore it.
-    */
-    public var persistentCache: EntityCache? = nil
-
     // MARK: Request Handling
 
     /**

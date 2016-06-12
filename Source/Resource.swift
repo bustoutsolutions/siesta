@@ -649,14 +649,15 @@ public final class Resource: NSObject
 
     private func initializeDataFromCache()
         {
-        guard let cache = generalConfig.persistentCache else
+        let pipeline = generalConfig.pipeline,
+            cacheKey = url.absoluteString
+
+        guard pipeline.containsCaches else
             { return }
 
-        let url = self.url
-        debugLog(.Cache, ["Looking for cached data for", url, "in", cache])
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
-            guard let entity = cache.readEntity(forKey: url.absoluteString) else
+            guard let entity = pipeline.cachedEntity(forKey: cacheKey) else
                 { return }
 
             dispatch_async(dispatch_get_main_queue())
@@ -664,7 +665,6 @@ public final class Resource: NSObject
                 [weak self] in
                 if let resource = self where resource.latestData == nil
                     {
-                    debugLog(.Cache, ["Cache hit for", self, "in", cache])
                     resource.receiveNewData(entity, source: .Cache)
                     }
                 else
@@ -675,14 +675,15 @@ public final class Resource: NSObject
 
     private func writeDataToCache()
         {
-        if let cache = generalConfig.persistentCache, let entity = latestData
+        let pipeline = generalConfig.pipeline,
+            cacheKey = url.absoluteString
+
+        guard let entity = latestData where pipeline.containsCaches else
+            { return }
+
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
-            let url = self.url
-            debugLog(.Cache, ["Caching data for", url, "in", cache])
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-                {
-                cache.writeEntity(entity, forKey: url.absoluteString)
-                }
+//            pipeline.cache(entity, forKey: cacheKey)
             }
         }
 
