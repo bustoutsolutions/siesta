@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DA336E4E1B2E6DDB006F702A"
-               BuildableName = "Siesta iOS.framework"
+               BuildableName = "Siesta.framework"
                BlueprintName = "Siesta iOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DA336E581B2E6DDB006F702A"
-               BuildableName = "SiestaTests iOS.xctest"
+               BuildableName = "SiestaTests.xctest"
                BlueprintName = "SiestaTests iOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DA336E4E1B2E6DDB006F702A"
-            BuildableName = "Siesta iOS.framework"
+            BuildableName = "Siesta.framework"
             BlueprintName = "Siesta iOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
@@ -78,7 +78,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DA336E4E1B2E6DDB006F702A"
-            BuildableName = "Siesta iOS.framework"
+            BuildableName = "Siesta.framework"
             BlueprintName = "Siesta iOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
@@ -96,7 +96,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DA336E4E1B2E6DDB006F702A"
-            BuildableName = "Siesta iOS.framework"
+            BuildableName = "Siesta.framework"
             BlueprintName = "Siesta iOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
