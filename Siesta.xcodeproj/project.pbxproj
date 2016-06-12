@@ -489,9 +489,9 @@
 			productReference = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		DA336E4E1B2E6DDB006F702A /* Siesta */ = {
+		DA336E4E1B2E6DDB006F702A /* Siesta iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA336E631B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "Siesta" */;
+			buildConfigurationList = DA336E631B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "Siesta iOS" */;
 			buildPhases = (
 				DA336E4A1B2E6DDB006F702A /* Sources */,
 				DA336E4B1B2E6DDB006F702A /* Frameworks */,
@@ -502,14 +502,14 @@
 			);
 			dependencies = (
 			);
-			name = Siesta;
+			name = "Siesta iOS";
 			productName = Siesta;
 			productReference = DA336E4F1B2E6DDB006F702A /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		DA336E581B2E6DDB006F702A /* SiestaTests */ = {
+		DA336E581B2E6DDB006F702A /* SiestaTests iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests" */;
+			buildConfigurationList = DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests iOS" */;
 			buildPhases = (
 				DA336E551B2E6DDB006F702A /* Sources */,
 				DA336E561B2E6DDB006F702A /* Frameworks */,
@@ -521,7 +521,7 @@
 			dependencies = (
 				DA336E5C1B2E6DDB006F702A /* PBXTargetDependency */,
 			);
-			name = SiestaTests;
+			name = "SiestaTests iOS";
 			productName = SiestaTests;
 			productReference = DA336E591B2E6DDB006F702A /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -559,8 +559,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA336E4E1B2E6DDB006F702A /* Siesta */,
-				DA336E581B2E6DDB006F702A /* SiestaTests */,
+				DA336E4E1B2E6DDB006F702A /* Siesta iOS */,
+				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F2FB51D1C28645E0068DFFA /* Siesta OSX */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests OSX */,
 			);
@@ -722,7 +722,7 @@
 		};
 		DA336E5C1B2E6DDB006F702A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA336E4E1B2E6DDB006F702A /* Siesta */;
+			target = DA336E4E1B2E6DDB006F702A /* Siesta iOS */;
 			targetProxy = DA336E5B1B2E6DDB006F702A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -906,7 +906,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -926,7 +926,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -940,7 +940,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiestaTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -954,7 +954,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiestaTests;
 			};
 			name = Release;
 		};
@@ -988,7 +988,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA336E631B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "Siesta" */ = {
+		DA336E631B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "Siesta iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA336E641B2E6DDB006F702A /* Debug */,
@@ -997,7 +997,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests" */ = {
+		DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA336E671B2E6DDB006F702A /* Debug */,
