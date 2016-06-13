@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.0-beta.6"
-  s.summary      = "iOS REST Client Framework"
+  s.version      = "1.0-beta.7"
+  s.summary      = "Swift REST client library"
 
   s.description  = <<-DESC
                    An elegant abstraction for REST APIs that untangles stateful messes and drastically simplifies app code. A **resource-centric** alternative to the familiar **request-centric** approach.
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
                    ## Stats
 
-                   * **OS:** iOS 8+
+                   * **OS:** iOS 8+, OS X 10.11+
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
                    * **Tool requirements:** Xcode 7, Swift 2.0
                    * **License:** MIT
@@ -69,7 +69,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "8.0"
 
-  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.6" }
+  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.7" }
   s.resources = "Source/**/*.xib"
 
   s.subspec "Core" do |s|

@@ -1,16 +1,18 @@
 # <img alt="Siesta" src="https://bustoutsolutions.github.io/siesta/images/logo@2x.png" width=256 height=88>
 
-**iOS REST Client Framework**
+**The elegant way to write iOS / OS X REST clients**
 
 [![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg)](https://travis-ci.org/bustoutsolutions/siesta)
-[![CocoaPods](https://img.shields.io/cocoapods/v/Siesta.svg)](https://github.com/bustoutsolutions/siesta/releases)
+[![Platform](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](http://cocoadocs.org/docsets/Alamofire)
+[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-5b9dd9.svg)](https://cocoapods.org/pods/Siesta/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/bustoutsolutions/siesta/releases)
+[![Version](https://img.shields.io/github/tag/bustoutsolutions/siesta.svg?label=release)](https://github.com/bustoutsolutions/siesta/releases)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
 [![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+
+* **OS:** iOS 8+, OS X 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
@@ -122,7 +124,7 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.6'
+    pod 'Siesta', '>=1.0-beta.7'
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
@@ -134,7 +136,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.6"
+    github "bustoutsolutions/siesta" "1.0-beta.7"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
@@ -172,7 +174,7 @@ Make a shared service instance for the REST API you want to use:
 let MyAPI = Service(baseURL: "https://api.example.com")
 ```
 
-Now register your view controller — or view, or anything you like — to receive notifications whenever a particular resource’s state changes:
+Now register your view controller — or view, internal glue class, reactive signal/sequence, anything you like — to receive notifications whenever a particular resource’s state changes:
 
 ```swift
 override func viewDidLoad() {
@@ -320,7 +322,7 @@ A thumbnail of both versions, for your code comparing pleasure:
 
 The same functionality. Yes, really.
 
-<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will transparently update an image everywhere it is displayed if it’s refreshed.)</small>
+<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will automatically update an image everywhere it is displayed if it’s refreshed.)</small>
 
 There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
@@ -357,7 +359,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2013               | 1695           | 10651         | 557       | 4055            | ?              |
+| Nontrivial lines of code²   | 2069               | 1943           | 10651         | 639       | 4029            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
