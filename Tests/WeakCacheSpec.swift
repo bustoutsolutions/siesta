@@ -101,6 +101,52 @@ class WeakCacheSpec: SiestaSpec
                 expect(Doodad.count) == 0
                 }
             }
+
+        describe("entryCountLimit")
+            {
+            var entryID = 0
+
+            func makeEntries(count: Int)
+                {
+                for _ in 0 ..< count
+                    {
+                    entryID += 1
+                    cache().get("Entry \(entryID)")
+                        { return Doodad() }
+                    }
+                }
+
+            beforeEach
+                { cache().countLimit = 100 }
+
+            it("flushes unused entried when exceeded")
+                {
+                makeEntries(100)
+                expect(Doodad.count) == 100
+                makeEntries(1)
+                expect(Doodad.count) == 1
+                }
+
+            it("does not flush entries still in use")
+                {
+                let retainedDoodad = Doodad()
+                cache().get("sticky")
+                    { return retainedDoodad }
+
+                makeEntries(101)
+
+                expect(Doodad.count) == 3  // 1 sticky + 2 after total hit 100
+                let refetched = cache().get("sticky") { return Doodad() }
+                expect(refetched) === retainedDoodad
+                }
+
+            it("flushes entries if lowered below current count")
+                {
+                makeEntries(90)
+                cache().countLimit = 80
+                expect(Doodad.count) == 0
+                }
+            }
         }
     }
 

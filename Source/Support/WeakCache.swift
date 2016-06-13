@@ -23,6 +23,11 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
     private var entriesByKey = [K : WeakCacheEntry<V>]()
     private var lowMemoryObserver: AnyObject? = nil
 
+    internal var countLimit = 2048
+        {
+        didSet { checkLimit() }
+        }
+
     init()
         {
         lowMemoryObserver =
@@ -46,10 +51,17 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
         {
         return entriesByKey[key]?.value ??
             {
+            checkLimit()
             let value = onMiss()
             entriesByKey[key] = WeakCacheEntry(value)
             return value
             }()
+        }
+
+    private func checkLimit()
+        {
+        if entriesByKey.count >= countLimit
+            { flushUnused() }
         }
 
     func flushUnused()
