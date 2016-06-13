@@ -66,22 +66,7 @@ public struct Configuration
 
     internal var beforeStartingRequestCallbacks: [(Resource, Request) -> Void] = []
 
-    /**
-      A sequence of parsers to be applied to responses.
-
-      You can add custom parsing using:
-
-          $0.config.responseTransformers.add(MyCustomTransformer())
-          $0.config.responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
-
-      By default, the transformer sequence includes JSON, image, and plain text parsing. You can
-      remove this default behavior by clearing the sequence:
-
-          $0.config.responseTransformers.clear()
-
-      - SeeAlso: `Service.configureTransformer(...)`
-    */
-    public var responseTransformers: TransformerSequence = TransformerSequence()
+    public var pipeline = Pipeline()
 
     /**
       Interval at which request hooks & observers receive progress updates. This affects how frequently

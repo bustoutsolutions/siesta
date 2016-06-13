@@ -83,7 +83,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("bypasses response if another transformer already made it a string")
                 {
                 service().configure
-                    { $0.config.responseTransformers.add(TestTransformer(), first: true) }
+                    { $0.config.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain")
                 expect(resource().text) == "<non-string> processed"
                 }
@@ -278,7 +278,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             beforeEach
                 {
-                service().configure { $0.config.responseTransformers.clear() }
+                service().configure { $0.config.pipeline.clear() }
                 }
 
             for contentType in ["text/plain", "application/json"]
@@ -304,7 +304,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 beforeEach
                     {
                     service().configure
-                        { $0.config.responseTransformers.add(transformer()) }
+                        { $0.config.pipeline[.parsing].add(transformer()) }
                     }
 
                 it("can transform data")

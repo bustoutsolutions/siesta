@@ -51,7 +51,7 @@ public extension ResponseTransformer
         }
     }
 
-// MARK: Chaining
+// MARK: Wrapper types
 
 internal struct ContentTypeMatchTransformer: ResponseTransformer
     {
@@ -92,67 +92,6 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             { return response }
         }
     }
-
-/**
-  A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
-  next. Transformers in the sequence can be limited by content type.
-
-  - SeeAlso: `Service.responseTransformers`
-*/
-public struct TransformerSequence
-    {
-    private var transformers = [ResponseTransformer]()
-
-    /// Removes all transformers from this sequence and starts fresh.
-    public mutating func clear()
-        { transformers.removeAll() }
-
-    /**
-      Adds a transformer to the sequence, to apply only if the response matches the given set of content type patterns.
-      The content type matches regardles of whether the response is a success or failure.
-
-      Content type patterns can use `*` to match subsequences. The wildcard does not cross `/` or `+` boundaries.
-      Examples:
-
-          "text/plain"
-          "text/​*"
-          "application/​*+json"
-
-      The pattern does not match MIME parameters, so `"text/plain"` matches `"text/plain; charset=utf-8"`.
-    */
-    public mutating func add(
-            transformer: ResponseTransformer,
-            contentTypes: [String],
-            first: Bool = false)
-        {
-        add(
-            ContentTypeMatchTransformer(transformer, contentTypes: contentTypes),
-            first: first)
-        }
-
-    /**
-      Adds a transformer to the sequence, either at the end (default) or at the beginning.
-    */
-    public mutating func add(
-            transformer: ResponseTransformer,
-            first: Bool = false)
-        {
-        transformers.insert(
-            transformer,
-            atIndex: first
-                ? transformers.startIndex
-                : transformers.endIndex)
-        }
-
-    /// :nodoc:
-    func process(response: Response) -> Response
-        {
-        return transformers.reduce(response)
-            { $1.process($0) }
-        }
-    }
-
-// MARK: Data transformer plumbing
 
 /**
   A simplified `ResponseTransformer` that deals only with the content of the response entity, and does not touch the

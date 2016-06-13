@@ -18,3 +18,39 @@ extension Resource
         { return generalConfig }
     }
 
+extension Configuration
+    {
+    @available(*, deprecated=0.99, message="Use .pipeline[…] with the appropriate stage, usually .parsing or .model.", renamed="pipeline[.parsing]")
+    public var responseTransformers: TransformerSequence
+        {
+        get { return TransformerSequence(stage: pipeline[.parsing]) }
+        set { pipeline[.parsing] = newValue.stage }
+        }
+    }
+
+@available(*, deprecated=0.99, message="Use Pipeline instead")
+public struct TransformerSequence
+    {
+    private var stage: PipelineStage
+
+    private init(stage: PipelineStage)
+        { self.stage = stage }
+
+    public mutating func clear()
+        {
+        stage.removeTransformers()
+        stage.cache = nil
+        }
+
+    public mutating func add(
+            transformer: ResponseTransformer,
+            contentTypes: [String])
+        {
+        stage.add(transformer, contentTypes: contentTypes)
+        }
+
+    public mutating func add(transformer: ResponseTransformer)
+        {
+        stage.add(transformer)
+        }
+    }

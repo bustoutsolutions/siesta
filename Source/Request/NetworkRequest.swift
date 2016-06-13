@@ -165,12 +165,12 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
-        let transformer = config.responseTransformers
+        let pipeline = config.pipeline
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             let processedInfo =
                 rawInfo.isNew
-                    ? (transformer.process(rawInfo.response), true)
+                    ? (pipeline.process(rawInfo.response), true)
                     : rawInfo
 
             dispatch_async(dispatch_get_main_queue())
