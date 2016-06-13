@@ -1,16 +1,18 @@
 # <img alt="Siesta" src="https://bustoutsolutions.github.io/siesta/images/logo@2x.png" width=256 height=88>
 
-**iOS REST Client Framework**
+**The elegant way to write iOS / OS X REST clients**
 
 [![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg)](https://travis-ci.org/bustoutsolutions/siesta)
-[![CocoaPods](https://img.shields.io/cocoapods/v/Siesta.svg)](https://github.com/bustoutsolutions/siesta/releases)
+[![Platform](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](http://cocoadocs.org/docsets/Alamofire)
+[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-5b9dd9.svg)](https://cocoapods.org/pods/Siesta/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/bustoutsolutions/siesta/releases)
+[![Version](https://img.shields.io/github/tag/bustoutsolutions/siesta.svg?label=release)](https://github.com/bustoutsolutions/siesta/releases)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
 [![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+
+* **OS:** iOS 8+, OS X 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
