@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/NetworkingProvider" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -204,7 +220,7 @@
                 </div>
               </div>
             <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code><a href="../Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_">Service.init(...)</a></code>.</p>
+<code><a href="../Classes/Service.html#/s:FC6Siesta7ServicecFT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_">Service.init(...)</a></code>.</p>
 
 <p>See <code><a href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a></code> and <code>Extensions/Alamofire/Networking-Alamofire.swift</code> for implementation examples.</p>
 
@@ -215,9 +231,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_"></a>
+                    <a name="/s:FP6Siesta18NetworkingProvider12startRequestFTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPs9ErrorType___T__PS_17RequestNetworking_"></a>
                     <a name="//apple_ref/swift/Method/startRequest(_:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_">startRequest(_:completion:)</a>
+                    <a class="token" href="#/s:FP6Siesta18NetworkingProvider12startRequestFTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPs9ErrorType___T__PS_17RequestNetworking_">startRequest(_:completion:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -230,9 +246,9 @@
 <p>If the request is cancelled, call the response closure with an error.</p>
 
 <div class="aside aside-note">
-          <p class="aside-title">Note</p>
-          
-        </div>
+    <p class="aside-title">Note</p>
+    
+</div>
 
 <p>This method will be called on the main thread. It is the implementation’s responsibility to ensure that
   network requests run asynchronously.</p>
@@ -240,10 +256,10 @@
 <p>Implementations may call the <code>completion</code> from a background thread.</p>
 
 <div class="aside aside-warning">
-          <p class="aside-title">Warning</p>
-          Implementations <strong>must</strong> guarante that they will call the <code>completion</code> closure exactly once.
+    <p class="aside-title">Warning</p>
+    Implementations <strong>must</strong> guarante that they will call the <code>completion</code> closure exactly once.
 
-        </div>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -255,7 +271,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Networking.swift#L31">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Networking.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -267,9 +283,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:veRq_6Siesta18NetworkingProvider_S_S0_24siestaNetworkingProviderPS0__"></a>
+                    <a name="/s:vE6SiestaPS_18NetworkingProvider24siestaNetworkingProviderPS0__"></a>
                     <a name="//apple_ref/swift/Property/siestaNetworkingProvider" class="dashAnchor"></a>
-                    <a class="token" href="#/s:veRq_6Siesta18NetworkingProvider_S_S0_24siestaNetworkingProviderPS0__">siestaNetworkingProvider</a>
+                    <a class="token" href="#/s:vE6SiestaPS_18NetworkingProvider24siestaNetworkingProviderPS0__">siestaNetworkingProvider</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -294,7 +310,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Networking.swift#L109-L110">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Networking.swift#L111-L112">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -305,7 +321,7 @@
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

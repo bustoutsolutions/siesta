@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Struct/Entity" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -232,8 +248,8 @@ of object after running though the service’s <code><a href="../Protocols/Respo
 being of an unexpected type. Siesta provides <code><a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a></code> to help deal with this.</p>
 
 <div class="aside aside-note">
-          <p class="aside-title">Note</p>
-          <p>Why is the type of this property <code>Any</code> instead of a generic <code>T</code>? Because an <code><a href="../Structs/Entity.html">Entity&lt;T&gt;</a></code> declaration would mean
+    <p class="aside-title">Note</p>
+    <p>Why is the type of this property <code>Any</code> instead of a generic <code>T</code>? Because an <code><a href="../Structs/Entity.html">Entity&lt;T&gt;</a></code> declaration would mean
 “Siesta guarantees the data is of type <code>T</code>” — that’s what strong static types do — but there is no way to tell
 Swift at <em>compile time</em> what content type a server will actually send at <em>runtime</em>.</p>
 
@@ -247,11 +263,13 @@ is exactly what Swift’s <code>as?</code> operator does — and any scheme wi
 However, limitations of Swift’s type system currently make this unworkable. Given what the core Swift team is
 saying, we’re cautiously optimistic that Swift 3 will be able to support this.</p>
 
-        </div><div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <p><code><a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a></code></p>
+</div>
 
-        </div>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a></code></p>
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -263,7 +281,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L41">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -284,11 +302,11 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         <p>The type of data contained in the content.</p>
 
 <p>If the content was parsed into a data structure, this property typically contains the type of the original raw
-  data. For example, the type might be <code>application/json</code> even though <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentP_">content</a></code> is a <code>Dictionary</code> and no longer the
-  original JSON text data.</p>
+data. For example, the type might be <code>application/json</code> even though <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentP_">content</a></code> is a <code>Dictionary</code> and no longer the
+original JSON text data.</p>
 
 <p>This property may include MIME parameters, so beware of using exact string matches. For a plain text response,
-  for example, you might see “<code>text/plain</code>”, “<code>text/plain; charset=utf-8</code>”, or even “<code>text/foo+plain</code>”.</p>
+for example, you might see “<code>text/plain</code>”, “<code>text/plain; charset=utf-8</code>”, or even “<code>text/foo+plain</code>”.</p>
 
                       </div>
                       <div class="declaration">
@@ -301,7 +319,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L53-L54">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L55-L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -331,7 +349,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L59">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -362,7 +380,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L64-L65">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L66-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -392,7 +410,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L70">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L72">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -400,9 +418,9 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta6EntitycFMS0_FT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_"></a>
+                    <a name="/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(response:content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6EntitycFMS0_FT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_">init(response:content:)</a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_">init(response:content:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -422,7 +440,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L94-L103">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L96-L105">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -430,9 +448,9 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta6EntitycFMS0_FT7contentP_11contentTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_"></a>
+                    <a name="/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(content:contentType:charset:headers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6EntitycFMS0_FT7contentP_11contentTypeSS7charsetGSqSS_7headersGVSs10DictionarySSSS__S0_">init(content:contentType:charset:headers:)</a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_">init(content:contentType:charset:headers:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -440,14 +458,13 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>  For creating ad hoc data locally.
-</code></pre>
+                        <p>For creating ad hoc data locally.</p>
 
 <div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFS0_FVS_6EntityT_">Resource.overrideLocalData(_:)</a></code>
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFVS_6EntityT_">Resource.overrideLocalData(_:)</a></code>
 
-        </div>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -463,7 +480,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L110-L120">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L112-L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -471,9 +488,9 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta6Entity6headerFS0_FSSGSqSS_"></a>
+                    <a name="/s:FV6Siesta6Entity6headerFSSGSqSS_"></a>
                     <a name="//apple_ref/swift/Method/header(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6Entity6headerFS0_FSSGSqSS_">header(_:)</a>
+                    <a class="token" href="#/s:FV6Siesta6Entity6headerFSSGSqSS_">header(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -486,10 +503,10 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
 <p>Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
 
 <div class="aside aside-parameter">
-          <p class="aside-title">Parameter</p>
-          Parameter key: The case-insensitive header name.
+    <p class="aside-title">Parameter</p>
+    Parameter key: The case-insensitive header name.
 
-        </div>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -522,7 +539,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L130-L131">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L132-L133">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -530,9 +547,9 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta6Entity5touchFRS0_FT_T_"></a>
+                    <a name="/s:FV6Siesta6Entity5touchFT_T_"></a>
                     <a name="//apple_ref/swift/Method/touch()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6Entity5touchFRS0_FT_T_">touch()</a>
+                    <a class="token" href="#/s:FV6Siesta6Entity5touchFT_T_">touch()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -553,7 +570,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L134-L135">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L136-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -587,7 +604,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Entity.swift#L226">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Entity.swift#L228">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -598,7 +615,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

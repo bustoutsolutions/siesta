@@ -5,12 +5,12 @@ layout: default
 
 # Siesta
 
-**iOS REST Client Framework**
+**The elegant way to write iOS / OS X REST clients**
 
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+
+* **OS:** iOS 8+, OS X 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
@@ -122,7 +122,7 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.6'
+    pod 'Siesta', '>=1.0-beta.7'
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
@@ -134,7 +134,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.6"
+    github "bustoutsolutions/siesta" "1.0-beta.7"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 
@@ -172,7 +172,7 @@ Make a shared service instance for the REST API you want to use:
 let MyAPI = Service(baseURL: "https://api.example.com")
 ```
 
-Now register your view controller — or view, or anything you like — to receive notifications whenever a particular resource’s state changes:
+Now register your view controller — or view, internal glue class, reactive signal/sequence, anything you like — to receive notifications whenever a particular resource’s state changes:
 
 ```swift
 override func viewDidLoad() {
@@ -212,7 +212,7 @@ Of course, you probably don’t want to work with raw JSON in all your controlle
 
 ```swift
 MyAPI.configureTransformer("/profile") {  // Path supports wildcards
-    UserProfile(json: $0)                 // Create models however you like
+    UserProfile(json: $0.content)         // Create models however you like
 }
 ```
 
@@ -245,7 +245,7 @@ Add a loading indicator:
 MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
-    self?.activityIndicator.hidden = !resource.loading
+    self?.activityIndicator.hidden = !resource.isLoading
 }
 ```
 
@@ -320,7 +320,7 @@ A thumbnail of both versions, for your code comparing pleasure:
 
 The same functionality. Yes, really.
 
-<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will transparently update an image everywhere it is displayed if it’s refreshed.)</small>
+<small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will automatically update an image everywhere it is displayed if it’s refreshed.)</small>
 
 There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
@@ -356,8 +356,8 @@ With all that in mind, here is a capabilities comparison¹:
 | Core data integration       |                    |                | ✓             |           |                 |                |
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary langauge            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2013               | 1695           | 10651         | 557       | 4055            | ?              |
+| Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| Nontrivial lines of code²   | 2069               | 1943           | 10651         | 639       | 4029            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>

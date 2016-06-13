@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Struct/ResponseContentTransformer" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -204,10 +220,11 @@
                 </div>
               </div>
             <p>A simplified <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
-  surrounding metadata.</p>
+surrounding metadata.</p>
 
-<p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.
-  If <code>processContent(_:)</code> throws, the response is transformed to an error.</p>
+<p>If <code>processContent(_:)</code> throws or returns nil, the output is an error.</p>
+
+<p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.</p>
 
           </section>
           <section class="section task-group-section">
@@ -229,19 +246,19 @@
                         <p>A closure that both processes the content and describes the required input and output types.</p>
 
 <p>The closure can throw an error to indicate that parsing failed. If it throws a <code>Siesta.Error</code>, that
-  error is passed on to the resource as is. Other failures are wrapped in a <code>Siesta.Error</code>.</p>
+error is passed on to the resource as is. Other failures are wrapped in a <code>Siesta.Error</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Processor</span> <span class="o">=</span> <span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="kt">InputContentType</span><span class="p">,</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">OutputContentType</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Processor</span> <span class="o">=</span> <span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="kt">InputContentType</span><span class="p">,</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">Entity</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">OutputContentType</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L157">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -249,9 +266,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26ResponseContentTransformercu0_rFMGS0_q_q0__FT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentq_6entityVS_6Entity_q0__GS0_q_q0__"></a>
+                    <a name="/s:FV6Siesta26ResponseContentTransformercFT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__"></a>
                     <a name="//apple_ref/swift/Method/init(skipWhenEntityMatchesOutputType:transformErrors:processor:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26ResponseContentTransformercu0_rFMGS0_q_q0__FT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentq_6entityVS_6Entity_q0__GS0_q_q0__">init(skipWhenEntityMatchesOutputType:transformErrors:processor:)</a>
+                    <a class="token" href="#/s:FV6Siesta26ResponseContentTransformercFT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__">init(skipWhenEntityMatchesOutputType:transformErrors:processor:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -260,26 +277,29 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <div class="aside aside-parameter">
-          <p class="aside-title">Parameter</p>
-          Parameter skipWhenEntityMatchesOutputType:
-  When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing.
-  When false, the tranformer always attempts to parse its input.
-  Default is true.
+    <p class="aside-title">Parameter</p>
+    Parameter skipWhenEntityMatchesOutputType:
+When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing.
+When false, the tranformer always attempts to parse its input.
+Default is true.
+
+</div>
+
 <div class="aside aside-parameter">
-          <p class="aside-title">Parameter</p>
-          Parameter transformErrors:
+    <p class="aside-title">Parameter</p>
+    Parameter transformErrors:
 When true, apply the transformation to <code>Error.content</code> (if present).
 When false, only parse success responses.
 Default is false.
 
-        </div><div class="aside aside-parameter">
-          <p class="aside-title">Parameter</p>
-          Parameter processor:
+</div>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter processor:
 The transformation logic.
 
-        </div>
-<pre class="highlight plaintext"><code>    &lt;/div&gt;
-</code></pre>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -340,7 +360,7 @@ The transformation logic.
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L175-L183">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L191-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -351,7 +371,7 @@ The transformation logic.
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a title="Caching  Reference"></a>
@@ -42,7 +43,13 @@
                 <a href="Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -63,6 +70,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -110,6 +120,9 @@
                 <a href="Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -155,7 +168,7 @@
             <a href="Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/LogCategory.html">LogCategory</a>
@@ -168,6 +181,9 @@
           <li class="nav-group-name">
             <a href="Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -245,15 +261,17 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
 <p>Siesta currently does not include any implementations of <code>EntityCache</code>, but a future version will.</p>
 
 <div class="aside aside-warning">
-          <p class="aside-title">Warning</p>
-          <p>Siesta calls <code>EntityCache</code> methods on a GCD background queue, so your implementation <strong>must be
+    <p class="aside-title">Warning</p>
+    <p>Siesta calls <code>EntityCache</code> methods on a GCD background queue, so your implementation <strong>must be
        thread-safe</strong>.</p>
 
-        </div><div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <p><code><a href="Structs/Configuration.html#/s:vV6Siesta13Configuration15persistentCacheGSqPS_11EntityCache__">Configuration.persistentCache</a></code></p>
+</div>
 
-        </div>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="Structs/Configuration.html#/s:vV6Siesta13Configuration15persistentCacheGSqPS_11EntityCache__">Configuration.persistentCache</a></code></p>
+
+</div>
 
                         <a href="Protocols/EntityCache.html" class="slightly-smaller">See more</a>
                       </div>
@@ -266,7 +284,7 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/PersistentCache.swift#L39-L69">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/PersistentCache.swift#L41-L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -289,11 +307,11 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
 <p>Provided primarily to help <code><a href="Protocols/EntityCache.html">EntityCache</a></code> implementations.</p>
 
 <div class="aside aside-warning">
-          <p class="aside-title">Warning</p>
-          When used with an <code><a href="Protocols/EntityCache.html">EntityCache</a></code>, these methods will run on a GCD background queue, so your implementation
+    <p class="aside-title">Warning</p>
+    When used with an <code><a href="Protocols/EntityCache.html">EntityCache</a></code>, these methods will run on a GCD background queue, so your implementation
        <strong>must be thread-safe</strong>.
 
-        </div>
+</div>
 
                         <a href="Protocols/EntityEncoder.html" class="slightly-smaller">See more</a>
                       </div>
@@ -306,7 +324,7 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/PersistentCache.swift#L80-L88">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/PersistentCache.swift#L82-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -344,7 +362,7 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/PersistentCache.swift#L98-L135">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/PersistentCache.swift#L100-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -355,7 +373,7 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

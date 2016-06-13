@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../../js/jquery.min.js" defer></script>
     <script src="../../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Struct/Cause" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -203,39 +219,39 @@
 
                 </div>
               </div>
-            <p>Underlying causes of errors reported by Siesta. You will find these on the <code><a href="../../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPSs9ErrorType__">Error.cause</a></code> property.
-  (Note that <code><a href="../../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPSs9ErrorType__">cause</a></code> may also contain errors from the underlying network library that do not appear here.)</p>
+            <p>Underlying causes of errors reported by Siesta. You will find these on the <code><a href="../../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPs9ErrorType__">Error.cause</a></code> property.
+(Note that <code><a href="../../Structs/Error.html#/s:vV6Siesta5Error5causeGSqPs9ErrorType__">cause</a></code> may also contain errors from the underlying network library that do not appear here.)</p>
 
 <p>The primary purpose of these error causes is to aid debugging. Client code rarely needs to work with them,
-  but they can be useful if you want to add special handling for specific errors.</p>
+but they can be useful if you want to add special handling for specific errors.</p>
 
 <p>For example, if you’re working with an API that sometimes returns garbled text data that isn’t decodable,
-  and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and
-  (2) you can turn that one specific error into a success by adding a transformer:</p>
+and you want to show users a placeholder message instead of an error, then (1) gee, that’s weird, and
+(2) you can turn that one specific error into a success by adding a transformer:</p>
 
-<pre class="highlight plaintext"><code>  configure {
-    $0.config.responseTransformers.add(GarbledResponseHandler())
-  }
+<pre class="highlight plaintext"><code>configure {
+  $0.config.responseTransformers.add(GarbledResponseHandler())
+}
 
-  ...
+...
 
-  struct GarbledResponseHandler: ResponseTransformer {
-    func process(response: Response) -&gt; Response {
-      switch response {
-        case .Success:
+struct GarbledResponseHandler: ResponseTransformer {
+  func process(response: Response) -&gt; Response {
+    switch response {
+      case .Success:
+        return response
+
+      case .Failure(let error):
+        if error.cause is Siesta.Error.Cause.InvalidTextEncoding {
+          return .Success(Entity(
+            content: "Nothingness. Tumbleweeds. The Void.",
+            contentType: "text/string"))
+        } else {
           return response
-
-        case .Failure(let error):
-          if error.cause is Siesta.Error.Cause.InvalidTextEncoding {
-            return .Success(Entity(
-              content: "Nothingness. Tumbleweeds. The Void.",
-              contentType: "text/string"))
-          } else {
-            return response
-          }
-      }
+        }
     }
   }
+}
 </code></pre>
 
           </section>
@@ -275,7 +291,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L134-L138">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L136-L140">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -305,7 +321,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L143">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -336,7 +352,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L144-L147">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L146-L149">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -378,7 +394,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L152-L155">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L154-L157">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -419,7 +435,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L162">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -450,7 +466,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L165-L168">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L167-L170">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -481,7 +497,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L171-L174">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L173-L176">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -499,10 +515,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <pre class="highlight plaintext"><code>Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
-</code></pre>
-
-<p>sent a response containing a bare JSON primitive.</p>
+                        <p>Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
+sent a response containing a bare JSON primitive.</p>
 
                         <a href="../../Structs/Error/Cause/JSONResponseIsNotDictionaryOrArray.html" class="slightly-smaller">See more</a>
                       </div>
@@ -515,7 +529,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L178-L181">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L180-L183">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -545,7 +559,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L184">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L186">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -578,7 +592,38 @@ transformer expected.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Error.swift#L189-L193">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L191-L195">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VVV6Siesta5Error5Cause22TransformerReturnedNil"></a>
+                    <a name="//apple_ref/swift/Struct/TransformerReturnedNil" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VVV6Siesta5Error5Cause22TransformerReturnedNil">TransformerReturnedNil</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code><a href="../../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></code> or a closure passed to <code><a href="../../Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_16contentTransformFzT7contentx6entityVS_6Entity_GSqq___T_">Service.configureTransformer(...)</a></code> returned nil.</p>
+
+                        <a href="../../Structs/Error/Cause/TransformerReturnedNil.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TransformerReturnedNil</span><span class="p">:</span> <span class="kt">ErrorType</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Error.swift#L198-L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -589,7 +634,7 @@ transformer expected.</p>
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

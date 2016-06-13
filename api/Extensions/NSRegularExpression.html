@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NSURLSessionProvider Struct Reference</title>
+    <title>NSRegularExpression Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/NSURLSessionProvider" class="dashAnchor"></a>
-    <a title="NSURLSessionProvider Struct Reference"></a>
+    <a name="//apple_ref/swift/Extension/NSRegularExpression" class="dashAnchor"></a>
+    <a title="NSRegularExpression Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">Siesta Docs</a> (96% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">Siesta Reference</a>
         <img id="carat" src="../img/carat.png" />
-        NSURLSessionProvider Struct Reference
+        NSRegularExpression Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -212,16 +212,8 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>NSURLSessionProvider</h1>
-              <div class="declaration">
-                <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">NSURLSessionProvider</span><span class="p">:</span> <span class="kt">NetworkingProvider</span></code></pre>
-
-                </div>
-              </div>
-            <p>Uses <code>NSURLSessionDataTask</code> for Siesta networking.</p>
-
-<p>This is Siesta’s default networking provider.</p>
+            <h1>NSRegularExpression</h1>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -230,9 +222,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta20NSURLSessionProvider7sessionCSo12NSURLSession"></a>
-                    <a name="//apple_ref/swift/Property/session" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta20NSURLSessionProvider7sessionCSo12NSURLSession">session</a>
+                    <a name="/s:FE6SiestaCSo19NSRegularExpression20configurationPatternFCS_7ServiceFCSo5NSURLSb"></a>
+                    <a name="//apple_ref/swift/Method/configurationPattern(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FE6SiestaCSo19NSRegularExpression20configurationPatternFCS_7ServiceFCSo5NSURLSb">configurationPattern(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -240,19 +232,26 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Session which will create <code>NSURLSessionDataTask</code>s.</p>
+                        <p>Matches URLs if this regular expression matches any substring of the URL’s full, absolute form.</p>
+
+<p>Note that, unlike the simpler wildcard form of <code><a href="../Extensions/String.html#/s:FE6SiestaSS20configurationPatternFCS_7ServiceFCSo5NSURLSb">String.configurationPattern(_:)</a></code>, the regular expression is <em>not</em>
+matched relative to the Service’s base URL. The match is performed against the full URL: scheme, host, path,
+query string and all.</p>
+
+<p>Note also that this implementation matches substrings. Include <code>^</code> and <code>$</code> if you want your pattern to match
+against the entire URL.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">NSURLSession</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">Service</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Networking-NSURLSession.swift#L19">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ConfigurationPatternConvertible.swift#L103-L106">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

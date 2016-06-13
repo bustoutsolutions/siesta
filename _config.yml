@@ -5,7 +5,7 @@ twitter_usernames: [siestaframework, teambustout]
 github_username:  bustoutsolutions/siesta
 
 # Build settings
-markdown: redcarpet
-redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "tables", "attributes", "with_toc_data"]
-  with_toc_data: true
+markdown: kramdown
+kramdown:
+    input: GFM
+    syntax_highlighter: rouge

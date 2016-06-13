@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/ConfigurationPatternConvertible" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -203,25 +219,28 @@
 
                 </div>
               </div>
-            <pre class="highlight plaintext"><code>  A type that can serve as a URL matcher for service configuration.
-</code></pre>
+            <p>A type that can serve as a URL matcher for service configuration.</p>
 
 <p>Siesta provides implementations of this protocol for <code><a href="../Extensions/String.html">String</a></code> (for glob-based matching) and <code><a href="../Classes/Resource.html">Resource</a></code> (to configure
 one specific resource).</p>
 
 <div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFS0_FTPS_31ConfigurationPatternConvertible_11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(_:description:configurer:)</a></code>
+    <p class="aside-title">See also</p>
+    <code>Service.configure(_:description:configurer:)</code>
 
-        </div><div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code><a href="../Extensions/String.html#/s:FE6SiestaSS20configurationPatternFSSFCS_7ServiceFCSo5NSURLSb">String.configurationPattern(_:)</a></code>
+</div>
 
-        </div><div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource20configurationPatternFS0_FCS_7ServiceFCSo5NSURLSb">Resource.configurationPattern(_:)</a></code>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Extensions/String.html#/s:FE6SiestaSS20configurationPatternFCS_7ServiceFCSo5NSURLSb">String.configurationPattern(_:)</a></code>
 
-        </div>
+</div>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource20configurationPatternFCS_7ServiceFCSo5NSURLSb">Resource.configurationPattern(_:)</a></code>
+
+</div>
 
           </section>
           <section class="section task-group-section">
@@ -230,9 +249,9 @@ one specific resource).</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternuRq_S0__Fq_FCS_7ServiceFCSo5NSURLSb"></a>
+                    <a name="/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternFCS_7ServiceFCSo5NSURLSb"></a>
                     <a name="//apple_ref/swift/Method/configurationPattern(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternuRq_S0__Fq_FCS_7ServiceFCSo5NSURLSb">configurationPattern(_:)</a>
+                    <a class="token" href="#/s:FP6Siesta31ConfigurationPatternConvertible20configurationPatternFCS_7ServiceFCSo5NSURLSb">configurationPattern(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -252,7 +271,7 @@ one specific resource).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L387">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ConfigurationPatternConvertible.swift#L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -282,7 +301,7 @@ one specific resource).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Service.swift#L390">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ConfigurationPatternConvertible.swift#L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -293,7 +312,7 @@ one specific resource).</p>
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

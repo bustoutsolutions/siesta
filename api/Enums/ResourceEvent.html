@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a name="//apple_ref/swift/Enum/ResourceEvent" class="dashAnchor"></a>
@@ -43,7 +44,13 @@
                 <a href="../Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -64,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -111,6 +121,9 @@
                 <a href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -156,7 +169,7 @@
             <a href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="../Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogCategory.html">LogCategory</a>
@@ -169,6 +182,9 @@
           <li class="nav-group-name">
             <a href="../Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -203,13 +219,13 @@
 
                 </div>
               </div>
-            <p>The possible causes of a call to <code><a href="../Protocols/ResourceObserver.html#/s:FP6Siesta16ResourceObserver15resourceChangeduRq_S0__Fq_FTCS_8Resource5eventOS_13ResourceEvent_T_">ResourceObserver.resourceChanged(_:event:)</a></code>.</p>
+            <p>The possible causes of a call to <code><a href="../Protocols/ResourceObserver.html#/s:FP6Siesta16ResourceObserver15resourceChangedFTCS_8Resource5eventOS_13ResourceEvent_T_">ResourceObserver.resourceChanged(_:event:)</a></code>.</p>
 
 <div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_">Resource.load()</a></code>
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFT_PS_7Request_">Resource.load()</a></code>
 
-        </div>
+</div>
 
           </section>
           <section class="section task-group-section">
@@ -229,8 +245,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Immediately sent to a new observer when it first starts observering a resource. This event allows you to gather
-  all of your “update UI from resource state” code in one place, and have that code be called both when the UI first
-  appears <em>and</em> when the resource state changes.</p>
+all of your “update UI from resource state” code in one place, and have that code be called both when the UI first
+appears <em>and</em> when the resource state changes.</p>
 
 <p>Note that this is sent only to the newly attached observer, not all observers.</p>
 
@@ -244,7 +260,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L84">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -278,7 +294,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L87">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -312,7 +328,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L90">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L92">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -346,7 +362,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L93">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -382,7 +398,7 @@ is now nil.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L98">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -416,7 +432,7 @@ is now nil.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L101">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -451,7 +467,7 @@ is now nil.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResourceObserver.swift#L128-L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResourceObserver.swift#L130-L143">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -462,7 +478,7 @@ is now nil.</p>
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

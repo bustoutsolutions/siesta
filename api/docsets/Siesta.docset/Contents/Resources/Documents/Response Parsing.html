@@ -7,6 +7,7 @@
     <meta charset='utf-8'>
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
+    
   </head>
   <body>
     <a title="Response Parsing  Reference"></a>
@@ -42,7 +43,13 @@
                 <a href="Structs/Error.html">Error</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/Error/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Configuration/Builder.html">– Builder</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
@@ -63,6 +70,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
               </li>
             </ul>
           </li>
@@ -110,6 +120,9 @@
                 <a href="Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
@@ -155,7 +168,7 @@
             <a href="Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Logging.html#/s:v6Siesta20enabledLogCategoriesGVSs3SetOS_11LogCategory_">enabledLogCategories</a>
+                <a href="Logging.html#/s:v6Siesta20enabledLogCategoriesGVs3SetOS_11LogCategory_">enabledLogCategories</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/LogCategory.html">LogCategory</a>
@@ -168,6 +181,9 @@
           <li class="nav-group-name">
             <a href="Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSURLSession.html">NSURLSession</a>
               </li>
@@ -228,7 +244,7 @@ failure (with an error).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/Request/Request.swift#L111-L137">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/Request/Request.swift#L115-L141">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -254,12 +270,12 @@ failure (with an error).</p>
 a chain of transformers before being sent to response hooks or observers.</p>
 
 <div class="aside aside-warning">
-          <p class="aside-title">Warning</p>
-          Transformers run in a GCD background queue, and <strong>must be thread-safe</strong>. You’re in the clear if your
+    <p class="aside-title">Warning</p>
+    Transformers run in a GCD background queue, and <strong>must be thread-safe</strong>. You’re in the clear if your
        transformer touches only its input parameters, and those parameters are value types or otherwise
        exclusively owned.
 
-        </div>
+</div>
 
                         <a href="Protocols/ResponseTransformer.html" class="slightly-smaller">See more</a>
                       </div>
@@ -272,7 +288,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L17-L27">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L32-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -302,13 +318,13 @@ a chain of transformers before being sent to response hooks or observers.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A transformer that applies a sequence of transformers to a response, passing the output on one to the input of the
-  next. Transformers in the sequence can be limited by content type.</p>
+next. Transformers in the sequence can be limited by content type.</p>
 
 <div class="aside aside-see-also">
-          <p class="aside-title">See also</p>
-          <code>Service.responseTransformers</code>
+    <p class="aside-title">See also</p>
+    <code>Service.responseTransformers</code>
 
-        </div>
+</div>
 
                         <a href="Structs/TransformerSequence.html" class="slightly-smaller">See more</a>
                       </div>
@@ -321,7 +337,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L87-L138">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L102-L153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -351,10 +367,11 @@ a chain of transformers before being sent to response hooks or observers.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A simplified <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
-  surrounding metadata.</p>
+surrounding metadata.</p>
 
-<p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.
-  If <code>processContent(_:)</code> throws, the response is transformed to an error.</p>
+<p>If <code>processContent(_:)</code> throws or returns nil, the output is an error.</p>
+
+<p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.</p>
 
                         <a href="Structs/ResponseContentTransformer.html" class="slightly-smaller">See more</a>
                       </div>
@@ -367,7 +384,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L149-L250">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L165-L267">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -408,7 +425,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L278-L291">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L295-L308">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -438,7 +455,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L256-L274">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L273-L291">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -468,7 +485,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/d41e12dec2eb3c239f5d6738c6eaf86458c4f209/Source/ResponseTransformer.swift#L295-L306">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.7/Source/ResponseTransformer.swift#L312-L323">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -479,7 +496,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
         </section>
         <section id="footer">
           <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
