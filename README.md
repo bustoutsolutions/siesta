@@ -124,7 +124,7 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.6'
+    pod 'Siesta', '>=1.0-beta.7'
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
@@ -136,7 +136,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.6"
+    github "bustoutsolutions/siesta" "1.0-beta.7"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 

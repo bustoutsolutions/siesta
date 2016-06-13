@@ -1,7 +1,7 @@
 PODS:
-  - Siesta (1.0-beta.6):
-    - Siesta/Core (= 1.0-beta.6)
-  - Siesta/Core (1.0-beta.6)
+  - Siesta (1.0-beta.7):
+    - Siesta/Core (= 1.0-beta.7)
+  - Siesta/Core (1.0-beta.7)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
