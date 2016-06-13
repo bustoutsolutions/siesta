@@ -149,6 +149,20 @@ class ServiceSpec: SiestaSpec
                 expect(service().resource("/foo").child("oogle").child("baz").relative("../bar"))
                      === service().resource("/foo/bar")
                 }
+
+            it("releases unused resources when cache limit exceeded")
+                {
+                service().cachedResourceCountLimit = 10
+                let retainedResource = service().resource("/retained")
+                weak var unretainedResource = service().resource("/unretained")
+                expect(unretainedResource).notTo(beNil())
+
+                for i in 0 ..< 9
+                    { _ = service().resource("/\(i)") }
+
+                expect(service().resource("/retained")) === retainedResource
+                expect(unretainedResource).to(beNil())
+                }
             }
 
         describe("configuration")

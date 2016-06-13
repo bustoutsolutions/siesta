@@ -393,4 +393,17 @@ public class Service: NSObject
         {
         wipeResources { predicate($0.url) }
         }
+
+    // MARK: General Configuration
+
+    /**
+      Soft limit on the number of resources cached in memory. If the internal cache size exceeds this limit, Siesta
+      flushes all unused resources. Note that any resources still in use — i.e. retained outside of Siesta — will remain
+      in the cache, no matter how many there are.
+    */
+    public var cachedResourceCountLimit: Int
+        {
+        get { return resourceCache.countLimit }
+        set { resourceCache.countLimit = newValue }
+        }
     }
