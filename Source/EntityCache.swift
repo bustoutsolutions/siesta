@@ -49,7 +49,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: EntityCacheKey) -> Entity?
 
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
@@ -67,9 +67,30 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
     }
 
+public struct EntityCacheKey
+    {
+    public let bytes: [UInt8]
+
+    public init(url: NSURL)
+        { bytes = [UInt8](url.absoluteString.utf8) }
+    }
+
+extension EntityCacheKey: Hashable
+    {
+    public var hashValue: Int
+        {
+        return bytes.reduce(0)
+            { $0 &* 6287 &+ Int($1) }
+        }
+    }
+
+public func ==(lhs: EntityCacheKey, rhs: EntityCacheKey) -> Bool
+    {
+    return lhs.bytes == rhs.bytes
+    }
 
 /**
   A strategy for transforming `Entity` instances to and from raw byte data.

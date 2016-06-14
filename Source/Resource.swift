@@ -643,8 +643,8 @@ public final class Resource: NSObject
 
     // MARK: Caching
 
-    var cacheKey: String
-        { return url.absoluteString }
+    internal var cacheKey: EntityCacheKey
+        { return EntityCacheKey(url: url) }
 
     private func initializeDataFromCache()
         {

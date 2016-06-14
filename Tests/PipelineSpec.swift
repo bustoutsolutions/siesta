@@ -117,7 +117,7 @@ class PipelineSpec: ResourceSpecBase
                 }
 
             func fakeCacheHit(content: String) -> String
-                { return resource().url.absoluteString + ":" + content }
+                { return "\(resource().internalCacheKey.bytes): \(content)" }
 
             func waitForCacheRead(cache: TestCache)
                 { expect(cache.receivedCacheRead).toEventually(beTrue()) }
@@ -199,7 +199,7 @@ class PipelineSpec: ResourceSpecBase
                 func expectCacheWrite(to cache: TestCache, content: String)
                     {
                     waitForCacheWrite(cache)
-                    expect(Array(cache.entries.keys)) == [resource().url.absoluteString]
+                    expect(Array(cache.entries.keys)) == [resource().internalCacheKey]
                     expect(cache.entries.values.first?.typedContent()) == content
                     }
 
@@ -262,7 +262,7 @@ private class TestCache: EntityCache
     var fakeHit: String?
     var fakeTimestamp: NSTimeInterval?
     var receivedCacheRead = false, receivedCacheWrite = false
-    var entries: [String:Entity] = [:]
+    var entries: [EntityCacheKey:Entity] = [:]
 
     init(returning content: String? = nil, timestamp: NSTimeInterval? = nil)
         {
@@ -270,7 +270,7 @@ private class TestCache: EntityCache
         self.fakeTimestamp = timestamp
         }
 
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: EntityCacheKey) -> Entity?
         {
         dispatch_after(
             dispatch_time(
@@ -282,10 +282,10 @@ private class TestCache: EntityCache
         guard let fakeHit = fakeHit else
             { return nil }
 
-        return Entity(content: key + ":" + fakeHit, headers: [:], timestamp: fakeTimestamp)
+        return Entity(content: "\(key.bytes): \(fakeHit)", headers: [:], timestamp: fakeTimestamp)
         }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
         {
         dispatch_async(dispatch_get_main_queue())
             {
@@ -297,10 +297,10 @@ private class TestCache: EntityCache
 
 private struct UnwritableCache: EntityCache
     {
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: EntityCacheKey) -> Entity?
         { return nil }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
         {
         fatalError("cache should never be written to")
         }

@@ -77,12 +77,12 @@ public struct Pipeline
         removeAllCaches()
         }
 
-    func process(response: Response, cacheKey: String) -> Response
+    func process(response: Response, cacheKey: EntityCacheKey) -> Response
         { return process(response, cacheKey: cacheKey, usingStages: stagesInOrder) }
 
     private func process<Stages: CollectionType where Stages.Generator.Element == PipelineStage>(
             response: Response,
-            cacheKey: String? = nil,
+            cacheKey: EntityCacheKey? = nil,
             usingStages stages: Stages)
         -> Response
         {
@@ -105,7 +105,7 @@ public struct Pipeline
             }
         }
 
-    func cachedEntity(forKey key: String, onHit: (Entity) -> ())
+    func cachedEntity(forKey key: EntityCacheKey, onHit: (Entity) -> ())
         {
         guard containsCaches else
             { return }
@@ -120,17 +120,17 @@ public struct Pipeline
             }
         }
 
-    func touchCacheEntries(forKey key: String)
+    func touchCacheEntries(forKey key: EntityCacheKey)
         {
         // TODO: implement
         }
 
-    func removeCacheEntries(forKey key: String)
+    func removeCacheEntries(forKey key: EntityCacheKey)
         {
         // TODO: implement
         }
 
-    private func cachedEntity(forKey key: String) -> Entity?
+    private func cachedEntity(forKey key: EntityCacheKey) -> Entity?
         {
         let stagesInOrder = self.stagesInOrder
         for (index, stage) in stagesInOrder.enumerate().reverse()
