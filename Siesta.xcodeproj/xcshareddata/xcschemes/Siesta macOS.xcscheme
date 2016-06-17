@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F2FB51D1C28645E0068DFFA"
                BuildableName = "Siesta.framework"
-               BlueprintName = "Siesta OSX"
+               BlueprintName = "Siesta macOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,7 +30,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
                BuildableName = "SiestaTests.xctest"
-               BlueprintName = "SiestaTests OSX"
+               BlueprintName = "SiestaTests macOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -48,7 +48,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F0FAF8C1D033FCD00CE1B61"
                BuildableName = "SiestaTests.xctest"
-               BlueprintName = "SiestaTests OSX"
+               BlueprintName = "SiestaTests macOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -58,7 +58,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F2FB51D1C28645E0068DFFA"
             BuildableName = "Siesta.framework"
-            BlueprintName = "Siesta OSX"
+            BlueprintName = "Siesta macOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +80,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F2FB51D1C28645E0068DFFA"
             BuildableName = "Siesta.framework"
-            BlueprintName = "Siesta OSX"
+            BlueprintName = "Siesta macOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -98,7 +98,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F2FB51D1C28645E0068DFFA"
             BuildableName = "Siesta.framework"
-            BlueprintName = "Siesta OSX"
+            BlueprintName = "Siesta macOS"
             ReferencedContainer = "container:Siesta.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
