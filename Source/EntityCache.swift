@@ -113,7 +113,7 @@ public protocol EntityEncoder
 /**
   Encodes `Entity` instances with JSON content for storage.
 
-  Do not confuse this class with `JSONResponseTransformer`. They have different purposes:
+  Do not confuse this with `JSONResponseTransformer`. They have different purposes:
 
   - `JSONResponseTransformer`: HTTP response ⟶ `Entity` or `Error`
   - `JSONEntityEncoder`: `Entity` ↔ persistent storage

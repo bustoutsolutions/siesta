@@ -13,7 +13,7 @@ import Alamofire
 /**
   Uses [Alamofire](https://github.com/Alamofire/Alamofire) for networking.
 
-  You can create instances of this class with a custom
+  You can create instances of this provider with a custom
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
   in order to control caching, certificate validation rules, etc. For example, here is a `Service` that will
   use an NSURLCache and will not use the cell network:
@@ -53,7 +53,7 @@ public struct AlamofireProvider: NetworkingProvider
         }
     }
 
-internal final class AlamofireRequestNetworking: RequestNetworking, SessionTaskContainer
+internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     internal var alamofireRequest: Alamofire.Request
 
