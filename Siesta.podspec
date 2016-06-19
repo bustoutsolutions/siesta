@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
                    ## Stats
 
-                   * **OS:** iOS 8+, OS X 10.11+
+                   * **OS:** iOS 8+, OS X / macOS 10.11+
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
                    * **Tool requirements:** Xcode 7, Swift 2.0
                    * **License:** MIT

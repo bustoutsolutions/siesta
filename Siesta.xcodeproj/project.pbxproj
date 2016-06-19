@@ -120,7 +120,7 @@
 			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9F2FB51D1C28645E0068DFFA;
-			remoteInfo = "Siesta OSX";
+			remoteInfo = "Siesta macOS";
 		};
 		DA336E5B1B2E6DDB006F702A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -162,13 +162,13 @@
 
 /* Begin PBXFileReference section */
 		9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F0FAFAD1D033FCD00CE1B61 /* Info-OSX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-OSX.plist"; path = "/Users/paul/work/bustout/siesta-osx/Tests/Info-OSX.plist"; sourceTree = "<absolute>"; };
+		9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		9F0FB0531D04184F00CE1B61 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		9F0FB0541D04184F00CE1B61 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
 		9F0FB0551D04184F00CE1B61 /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/Mac/Nocilla.framework; sourceTree = "<group>"; };
 		9F0FB0561D04184F00CE1B61 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		9F2FB51E1C28645E0068DFFA /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F2FB5221C28645E0068DFFA /* Info-OSX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-OSX.plist"; path = "../Info-OSX.plist"; sourceTree = "<group>"; };
+		9F2FB5221C28645E0068DFFA /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-macOS.plist"; path = "../Info-macOS.plist"; sourceTree = "<group>"; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9F0FAFB31D03464F00CE1B61 /* OSX */ = {
+		9F0FAFB31D03464F00CE1B61 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				9F0FB0531D04184F00CE1B61 /* Alamofire.framework */,
@@ -274,7 +274,7 @@
 				9F0FB0551D04184F00CE1B61 /* Nocilla.framework */,
 				9F0FB0561D04184F00CE1B61 /* Quick.framework */,
 			);
-			name = OSX;
+			name = macOS;
 			sourceTree = "<group>";
 		};
 		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
@@ -357,7 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				DA38E4F11D088515008023ED /* iOS */,
-				9F0FAFB31D03464F00CE1B61 /* OSX */,
+				9F0FAFB31D03464F00CE1B61 /* macOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -377,7 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				DA336E541B2E6DDB006F702A /* Info-iOS.plist */,
-				9F2FB5221C28645E0068DFFA /* Info-OSX.plist */,
+				9F2FB5221C28645E0068DFFA /* Info-macOS.plist */,
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
@@ -399,7 +399,7 @@
 			isa = PBXGroup;
 			children = (
 				DA336E601B2E6DDB006F702A /* Info-iOS.plist */,
-				9F0FAFAD1D033FCD00CE1B61 /* Info-OSX.plist */,
+				9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */,
 				DAFA89271B8172920090D283 /* SiestaSpec.swift */,
 				DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */,
 				DA4D61991B7521B900F6BB9C /* TestService.swift */,
@@ -452,9 +452,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		9F0FAF8C1D033FCD00CE1B61 /* SiestaTests OSX */ = {
+		9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F0FAFA91D033FCD00CE1B61 /* Build configuration list for PBXNativeTarget "SiestaTests OSX" */;
+			buildConfigurationList = 9F0FAFA91D033FCD00CE1B61 /* Build configuration list for PBXNativeTarget "SiestaTests macOS" */;
 			buildPhases = (
 				9F0FAF8F1D033FCD00CE1B61 /* Sources */,
 				9F0FAF9D1D033FCD00CE1B61 /* Frameworks */,
@@ -466,14 +466,14 @@
 			dependencies = (
 				9F0FAFAF1D033FE800CE1B61 /* PBXTargetDependency */,
 			);
-			name = "SiestaTests OSX";
+			name = "SiestaTests macOS";
 			productName = SiestaTests;
 			productReference = 9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9F2FB51D1C28645E0068DFFA /* Siesta OSX */ = {
+		9F2FB51D1C28645E0068DFFA /* Siesta macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F2FB5251C28645E0068DFFA /* Build configuration list for PBXNativeTarget "Siesta OSX" */;
+			buildConfigurationList = 9F2FB5251C28645E0068DFFA /* Build configuration list for PBXNativeTarget "Siesta macOS" */;
 			buildPhases = (
 				9F2FB5191C28645E0068DFFA /* Sources */,
 				9F2FB51A1C28645E0068DFFA /* Frameworks */,
@@ -484,8 +484,8 @@
 			);
 			dependencies = (
 			);
-			name = "Siesta OSX";
-			productName = "Siesta OSX";
+			name = "Siesta macOS";
+			productName = "Siesta macOS";
 			productReference = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -561,8 +561,8 @@
 			targets = (
 				DA336E4E1B2E6DDB006F702A /* Siesta iOS */,
 				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
-				9F2FB51D1C28645E0068DFFA /* Siesta OSX */,
-				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests OSX */,
+				9F2FB51D1C28645E0068DFFA /* Siesta macOS */,
+				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -717,7 +717,7 @@
 /* Begin PBXTargetDependency section */
 		9F0FAFAF1D033FE800CE1B61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9F2FB51D1C28645E0068DFFA /* Siesta OSX */;
+			target = 9F2FB51D1C28645E0068DFFA /* Siesta macOS */;
 			targetProxy = 9F0FAFAE1D033FE800CE1B61 /* PBXContainerItemProxy */;
 		};
 		DA336E5C1B2E6DDB006F702A /* PBXTargetDependency */ = {
@@ -734,7 +734,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-OSX.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
@@ -749,7 +749,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-OSX.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
@@ -768,11 +768,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Source/Info-OSX.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -790,11 +790,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Source/Info-OSX.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -961,7 +961,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F0FAFA91D033FCD00CE1B61 /* Build configuration list for PBXNativeTarget "SiestaTests OSX" */ = {
+		9F0FAFA91D033FCD00CE1B61 /* Build configuration list for PBXNativeTarget "SiestaTests macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F0FAFAA1D033FCD00CE1B61 /* Debug */,
@@ -970,7 +970,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F2FB5251C28645E0068DFFA /* Build configuration list for PBXNativeTarget "Siesta OSX" */ = {
+		9F2FB5251C28645E0068DFFA /* Build configuration list for PBXNativeTarget "Siesta macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F2FB5231C28645E0068DFFA /* Debug */,
