@@ -1,6 +1,6 @@
 # <img alt="Siesta" src="https://bustoutsolutions.github.io/siesta/images/logo@2x.png" width=256 height=88>
 
-**The elegant way to write iOS / OS X REST clients**
+**The elegant way to write iOS / macOS REST clients**
 
 [![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg)](https://travis-ci.org/bustoutsolutions/siesta)
 [![Platform](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](http://cocoadocs.org/docsets/Alamofire)
@@ -12,7 +12,7 @@
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+, OS X 10.11+
+* **OS:** iOS 8+, macOS / OS X 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT

@@ -12,7 +12,7 @@ import Foundation
     import AppKit
 
     /// A cross-platform alias for the output type of Siesta’s image content transformer.
-    /// `UIImage` on iOS; `NSImage` on OS X.
+    /// `UIImage` on iOS; `NSImage` on macOS.
     public typealias Image = NSImage
 
 #elseif os(iOS)

@@ -2,7 +2,7 @@ language: objective-c
 os: osx
 osx_image: xcode7.3
 env:
-  - scheme='Siesta OSX' platform='OS X'
+  - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS' platform='iOS Simulator,OS=9.3,name=iPhone 6'
   - scheme='Siesta iOS' platform='iOS Simulator,OS=8.1,name=iPhone 4s'
 
