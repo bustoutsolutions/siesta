@@ -58,6 +58,10 @@ public struct Configuration
 
     internal var beforeStartingRequestCallbacks: [(Resource, Request) -> Void] = []
 
+    /**
+      The sequence of transformations used to process server responses, optionally interspesed with cache(s) which may
+      provide fast app startup & offline access.
+    */
     public var pipeline = Pipeline()
 
     /**

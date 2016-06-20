@@ -30,7 +30,7 @@ public protocol ResourceObserver
     func resourceRequestProgress(resource: Resource, progress: Double)
 
     /**
-      Called when this observer stops observering a resource. Use for making `removeObservers(ownedBy:)` trigger
+      Called when this observer stops observing a resource. Use for making `removeObservers(ownedBy:)` trigger
       other cleanup.
     */
     func stoppedObservingResource(resource: Resource)
@@ -77,7 +77,7 @@ public typealias ResourceObserverClosure = (resource: Resource, event: ResourceE
 public enum ResourceEvent: CustomStringConvertible
     {
     /**
-      Immediately sent to a new observer when it first starts observering a resource. This event allows you to gather
+      Immediately sent to a new observer when it first starts observing a resource. This event allows you to gather
       all of your “update UI from resource state” code in one place, and have that code be called both when the UI first
       appears _and_ when the resource state changes.
 

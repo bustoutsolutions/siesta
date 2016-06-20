@@ -70,16 +70,24 @@ public protocol EntityCache
     func writeEntity(entity: Entity, forKey key: EntityCacheKey)
     }
 
+/**
+  An opaque identifier for an entity in an `EntityCache`.
+*/
 public struct EntityCacheKey
     {
+    /**
+      The bytes that define the identity of this cache key. This is an opaque identifier; do not attempt to parse this.
+      Future versions of Siesta may arbitrarily change the internal format of they key’s bytes.
+    */
     public let bytes: [UInt8]
 
-    public init(url: NSURL)
+    internal init(url: NSURL)
         { bytes = [UInt8](url.absoluteString.utf8) }
     }
 
 extension EntityCacheKey: Hashable
     {
+    /// :nodoc:
     public var hashValue: Int
         {
         return bytes.reduce(0)
@@ -87,6 +95,7 @@ extension EntityCacheKey: Hashable
         }
     }
 
+/// Two entity cache keys are equal iff they have the same bytes.
 public func ==(lhs: EntityCacheKey, rhs: EntityCacheKey) -> Bool
     {
     return lhs.bytes == rhs.bytes
