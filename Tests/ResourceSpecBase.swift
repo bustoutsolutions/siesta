@@ -190,3 +190,13 @@ extension Resource
     var internalCacheKey: EntityCacheKey
         { return cacheKey }
     }
+
+extension Service
+    {
+    func testClone() -> Service
+        {
+        return Service(
+            baseURL: baseURL?.absoluteString,
+            networking: networkingProvider)
+        }
+    }

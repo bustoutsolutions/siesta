@@ -33,6 +33,13 @@ class PipelineSpec: ResourceSpecBase
             awaitRequest(resource().load(), alreadyCompleted: false)
             }
 
+        let resourceCacheKey = specVar
+            {
+            // Use a clone so that real service does not have a resource in its cache yet,
+            // and will thus still touch the cache when a spec asks for it.
+            service().testClone().resource("/a/b").internalCacheKey
+            }
+
         beforeEach
             {
             service().configure
@@ -116,9 +123,6 @@ class PipelineSpec: ResourceSpecBase
                     { $0.config.pipeline[stageKey].cache = cache }
                 }
 
-            func fakeCacheHit(content: String) -> String
-                { return "\(resource().internalCacheKey.bytes): \(content)" }
-
             func waitForCacheRead(cache: TestCache)
                 { expect(cache.receivedCacheRead).toEventually(beTrue()) }
 
@@ -127,14 +131,13 @@ class PipelineSpec: ResourceSpecBase
 
             describe("read")
                 {
-                let cache0 = specVar { TestCache(returning: "cache0") },
-                    cache1 = specVar { TestCache(returning: "cache1") }
+                let cache0 = specVar { TestCache(returning: "cache0", for: resourceCacheKey()) },
+                    cache1 = specVar { TestCache(returning: "cache1", for: resourceCacheKey()) }
 
                 it("reinflates resource with cached content")
                     {
                     configureCache(cache0(), at: .cleanup)
-                    expect(resource().text).toEventually(equal(
-                        fakeCacheHit("cache0")))
+                    expect(resource().text).toEventually(equal("cache0"))
                     }
 
                 it("inflates empty resource if no cached data")
@@ -163,8 +166,12 @@ class PipelineSpec: ResourceSpecBase
 
                 it("allows loadIfNeeded() network access if cached data is stale")
                     {
-                    let aWhileAgo = NSDate.timeIntervalSinceReferenceDate() - 1000
-                    configureCache(TestCache(returning: "foo", timestamp: aWhileAgo), at: .cleanup)
+                    setResourceTime(1000)
+                    configureCache(
+                        TestCache(returning: "foo", for: resourceCacheKey()),
+                        at: .cleanup)
+
+                    setResourceTime(2000)
                     expect(resource().latestData).toEventuallyNot(beNil())
                     stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().loadIfNeeded()!)
@@ -174,23 +181,20 @@ class PipelineSpec: ResourceSpecBase
                     {
                     configureCache(cache1(), at: .cleanup)
                     configureCache(cache0(), at: .model)
-                    expect(resource().text).toEventually(equal(
-                        fakeCacheHit("cache1")))
+                    expect(resource().text).toEventually(equal("cache1"))
                     }
 
                 it("processes cached content with the following stages’ transformers")
                     {
                     configureCache(cache0(), at: .rawData)
-                    expect(resource().text).toEventually(equal(
-                        fakeCacheHit("cache0decparmodcle")))
+                    expect(resource().text).toEventually(equal("cache0decparmodcle"))
                     }
 
                 it("skips cached content that fails subsequent transformation")
                     {
                     configureCache(cache0(), at: .decoding)
-                    configureCache(TestCache(returning: "error on cleanup"), at: .parsing)  // see appender() above
-                    expect(resource().text).toEventually(equal(
-                        fakeCacheHit("cache0parmodcle")))
+                    configureCache(TestCache(returning: "error on cleanup", for: resourceCacheKey()), at: .parsing)  // see appender() above
+                    expect(resource().text).toEventually(equal("cache0parmodcle"))
                     }
                 }
 
@@ -199,7 +203,7 @@ class PipelineSpec: ResourceSpecBase
                 func expectCacheWrite(to cache: TestCache, content: String)
                     {
                     waitForCacheWrite(cache)
-                    expect(Array(cache.entries.keys)) == [resource().internalCacheKey]
+                    expect(Array(cache.entries.keys)) == [resourceCacheKey()]
                     expect(cache.entries.values.first?.typedContent()) == content
                     }
 
@@ -239,7 +243,7 @@ class PipelineSpec: ResourceSpecBase
                     {
                     let testCache = TestCache()
                     configureCache(testCache, at: .cleanup)
-                    testCache.entries[resource().internalCacheKey] =
+                    testCache.entries[resourceCacheKey()] =
                         Entity(content: "should go away", contentType: "text/string")
 
                     resource().overrideLocalData(
@@ -270,15 +274,15 @@ private extension PipelineStageKey
 
 private class TestCache: EntityCache
     {
-    var fakeHit: String?
-    var fakeTimestamp: NSTimeInterval?
     var receivedCacheRead = false, receivedCacheWrite = false
     var entries: [EntityCacheKey:Entity] = [:]
 
-    init(returning content: String? = nil, timestamp: NSTimeInterval? = nil)
+    init()
+        { }
+
+    init(returning content: String, for key: EntityCacheKey)
         {
-        self.fakeHit = content
-        self.fakeTimestamp = timestamp
+        entries[key] = Entity(content: content, contentType: "text/string")
         }
 
     func readEntity(forKey key: EntityCacheKey) -> Entity?
@@ -290,10 +294,7 @@ private class TestCache: EntityCache
             dispatch_get_main_queue())
             { self.receivedCacheRead = true }
 
-        guard let fakeHit = fakeHit else
-            { return nil }
-
-        return Entity(content: "\(key.bytes): \(fakeHit)", headers: [:], timestamp: fakeTimestamp)
+        return entries[key]
         }
 
     func writeEntity(entity: Entity, forKey key: EntityCacheKey)
