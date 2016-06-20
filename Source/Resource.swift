@@ -651,12 +651,13 @@ public final class Resource: NSObject
         generalConfig.pipeline.cachedEntity(forKey: cacheKey)
             {
             [weak self] entity in
-            if let resource = self where resource.latestData == nil
+            guard let resource = self where resource.latestData == nil else
                 {
-                resource.receiveNewData(entity, source: .Cache)
+                debugLog(.Cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
+                return
                 }
-            else
-                { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
+
+            resource.receiveNewData(entity, source: .Cache)
             }
         }
 
