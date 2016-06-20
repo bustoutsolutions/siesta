@@ -261,7 +261,7 @@ class PipelineSpec: ResourceSpecBase
                     resource().overrideLocalData(
                         Entity(content: "should not be cached", contentType: "text/string"))
 
-                    expect(testCache.entries).to(beEmpty())
+                    expect(testCache.entries).toEventually(beEmpty())
                     }
                 }
             }
