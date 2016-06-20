@@ -44,6 +44,9 @@ public struct Pipeline
     private var stagesInOrder: [PipelineStage]
         { return order.flatMap { stages[$0] } }
 
+    private var allCaches: [EntityCache]
+        { return stages.values.flatMap { $0.cache } }
+
     /**
       The order in which the pipeline’s stages run. The default order is:
 
@@ -164,14 +167,20 @@ public struct Pipeline
 
     internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
         {
-        for stage in stages.values
-            { stage.cache?.updateEntityTimestamp(timestamp, forKey: key) }
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            for cache in self.allCaches
+                { cache.updateEntityTimestamp(timestamp, forKey: key) }
+            }
         }
 
     internal func removeCacheEntries(forKey key: EntityCacheKey)
         {
-        for stage in stages.values
-            { stage.cache?.removeEntity(forKey: key) }
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            for cache in self.allCaches
+                { cache.removeEntity(forKey: key) }
+            }
         }
 
     private func cachedEntity(forKey key: EntityCacheKey) -> Entity?
