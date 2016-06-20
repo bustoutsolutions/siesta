@@ -237,7 +237,19 @@ class PipelineSpec: ResourceSpecBase
                     makeRequest(expectSuccess: false)
                     }
 
-                pending("updates cached data timestamp on 304") { }
+                it("updates cached data timestamp on 304")
+                    {
+                    let testCache = TestCache()
+                    configureCache(testCache, at: .cleanup)
+                    setResourceTime(1000)
+                    makeRequest()
+
+                    setResourceTime(2000)
+                    stubRequest(resource, "GET").andReturn(304)
+                    awaitNotModified(resource().load())
+                    expect(testCache.entries[resourceCacheKey()]?.timestamp)
+                        .toEventually(equal(2000))
+                    }
 
                 it("clears cached data on local override")
                     {

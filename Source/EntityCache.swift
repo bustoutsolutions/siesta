@@ -70,10 +70,32 @@ public protocol EntityCache
     func writeEntity(entity: Entity, forKey key: EntityCacheKey)
 
     /**
+      Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
+    */
+    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+
+    /**
       Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
       `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
     */
     func removeEntity(forKey key: EntityCacheKey)
+    }
+
+extension EntityCache
+    {
+    /**
+      Reads the entity from the cache, updates its timestamp, then writes it back.
+
+      While this default implementation always gives the correct behavior, cache implementations may choose to override
+      it for performance reasons.
+    */
+    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+        {
+        guard var entity = readEntity(forKey: key) else
+            { return }
+        entity.timestamp = timestamp
+        writeEntity(entity, forKey: key)
+        }
     }
 
 /**

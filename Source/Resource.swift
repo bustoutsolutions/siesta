@@ -520,7 +520,8 @@ public final class Resource: NSObject
 
         latestError = nil
         latestData?.touch()
-        generalConfig.pipeline.touchCacheEntries(forKey: cacheKey)
+        if let timestamp = latestData?.timestamp
+            { generalConfig.pipeline.updateCacheEntryTimestamps(timestamp, forKey: cacheKey) }
 
         notifyObservers(.NotModified)
         }

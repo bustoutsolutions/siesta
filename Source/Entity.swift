@@ -69,7 +69,7 @@ public struct Entity
     internal var headers: [String:String]
 
     /// The time at which this data was last known to be valid.
-    public private(set) var timestamp: NSTimeInterval
+    public var timestamp: NSTimeInterval
 
     /**
       Extracts data from a network response.

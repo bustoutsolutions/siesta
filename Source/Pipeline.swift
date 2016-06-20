@@ -162,9 +162,10 @@ public struct Pipeline
             }
         }
 
-    internal func touchCacheEntries(forKey key: EntityCacheKey)
+    internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
         {
-        // TODO: implement
+        for stage in stages.values
+            { stage.cache?.updateEntityTimestamp(timestamp, forKey: key) }
         }
 
     internal func removeCacheEntries(forKey key: EntityCacheKey)
