@@ -165,24 +165,6 @@ public struct Pipeline
             }
         }
 
-    internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
-        {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            for cache in self.allCaches
-                { cache.updateEntityTimestamp(timestamp, forKey: key) }
-            }
-        }
-
-    internal func removeCacheEntries(forKey key: EntityCacheKey)
-        {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            for cache in self.allCaches
-                { cache.removeEntity(forKey: key) }
-            }
-        }
-
     private func cachedEntity(forKey key: EntityCacheKey) -> Entity?
         {
         let stagesInOrder = self.stagesInOrder
@@ -207,6 +189,24 @@ public struct Pipeline
                 }
             }
         return nil
+        }
+
+    internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+        {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            for cache in self.allCaches
+                { cache.updateEntityTimestamp(timestamp, forKey: key) }
+            }
+        }
+
+    internal func removeCacheEntries(forKey key: EntityCacheKey)
+        {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+            {
+            for cache in self.allCaches
+                { cache.removeEntity(forKey: key) }
+            }
         }
     }
 
