@@ -235,7 +235,18 @@ class PipelineSpec: ResourceSpecBase
 
                 pending("updates cached data timestamp on 304") { }
 
-                pending("clears cached data on local override") { }
+                it("clears cached data on local override")
+                    {
+                    let testCache = TestCache()
+                    configureCache(testCache, at: .cleanup)
+                    testCache.entries[resource().internalCacheKey] =
+                        Entity(content: "should go away", contentType: "text/string")
+
+                    resource().overrideLocalData(
+                        Entity(content: "should not be cached", contentType: "text/string"))
+
+                    expect(testCache.entries).to(beEmpty())
+                    }
                 }
             }
 
@@ -293,6 +304,9 @@ private class TestCache: EntityCache
             self.receivedCacheWrite = true
             }
         }
+
+    func removeEntity(forKey key: EntityCacheKey)
+        { entries.removeValueForKey(key) }
     }
 
 private struct UnwritableCache: EntityCache
@@ -301,9 +315,10 @@ private struct UnwritableCache: EntityCache
         { return nil }
 
     func writeEntity(entity: Entity, forKey key: EntityCacheKey)
-        {
-        fatalError("cache should never be written to")
-        }
+        { fatalError("cache should never be written to") }
+
+    func removeEntity(forKey key: EntityCacheKey)
+        { fatalError("cache should never be written to") }
     }
 
 private extension String

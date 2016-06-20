@@ -68,6 +68,12 @@ public protocol EntityCache
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
     func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+
+    /**
+      Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
+      `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
+    */
+    func removeEntity(forKey key: EntityCacheKey)
     }
 
 /**

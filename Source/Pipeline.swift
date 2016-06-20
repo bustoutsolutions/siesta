@@ -169,7 +169,8 @@ public struct Pipeline
 
     internal func removeCacheEntries(forKey key: EntityCacheKey)
         {
-        // TODO: implement
+        for stage in stages.values
+            { stage.cache?.removeEntity(forKey: key) }
         }
 
     private func cachedEntity(forKey key: EntityCacheKey) -> Entity?
