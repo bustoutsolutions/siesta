@@ -182,3 +182,21 @@ func setResourceTime(time: NSTimeInterval)
     {
     fakeNow = time
     }
+
+// MARK: - Access to module internals
+
+extension Resource
+    {
+    var internalCacheKey: EntityCacheKey
+        { return cacheKey }
+    }
+
+extension Service
+    {
+    func testClone() -> Service
+        {
+        return Service(
+            baseURL: baseURL?.absoluteString,
+            networking: networkingProvider)
+        }
+    }

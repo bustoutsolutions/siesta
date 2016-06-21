@@ -504,16 +504,12 @@ public final class Resource: NSObject
         latestError = nil
         latestData = entity
 
-        switch source
-            {
-            case .Network, .LocalOverride:
-                writeDataToCache()
+        // A local override means our cached data may be defunct.
+        // (Other sources don't affect the cache: pipeline will have already cached a network success;
+        // we don't write back data just read from cache; wiping doesn't wipe the cache.)
 
-            case .Cache, .Wipe:
-                // Don't write back data just read from cache.
-                // Wipe doesn't wipe cache.
-                break
-            }
+        if case .LocalOverride = source
+            { generalConfig.pipeline.removeCacheEntries(forKey: cacheKey) }
 
         notifyObservers(.NewData(source))
         }
@@ -524,7 +520,8 @@ public final class Resource: NSObject
 
         latestError = nil
         latestData?.touch()
-        writeDataToCache()
+        if let timestamp = latestData?.timestamp
+            { generalConfig.pipeline.updateCacheEntryTimestamps(timestamp, forKey: cacheKey) }
 
         notifyObservers(.NotModified)
         }
@@ -647,42 +644,21 @@ public final class Resource: NSObject
 
     // MARK: Caching
 
+    internal var cacheKey: EntityCacheKey
+        { return EntityCacheKey(url: url) }
+
     private func initializeDataFromCache()
         {
-        guard let cache = generalConfig.persistentCache else
-            { return }
-
-        let url = self.url
-        debugLog(.Cache, ["Looking for cached data for", url, "in", cache])
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+        generalConfig.pipeline.cachedEntity(forKey: cacheKey)
             {
-            guard let entity = cache.readEntity(forKey: url.absoluteString) else
-                { return }
-
-            dispatch_async(dispatch_get_main_queue())
+            [weak self] entity in
+            guard let resource = self where resource.latestData == nil else
                 {
-                [weak self] in
-                if let resource = self where resource.latestData == nil
-                    {
-                    debugLog(.Cache, ["Cache hit for", self, "in", cache])
-                    resource.receiveNewData(entity, source: .Cache)
-                    }
-                else
-                    { debugLog(.Cache, ["Ignoring cache hit for", self, " becuase it is either deallocated or already has data"]) }
+                debugLog(.Cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
+                return
                 }
-            }
-        }
 
-    private func writeDataToCache()
-        {
-        if let cache = generalConfig.persistentCache, let entity = latestData
-            {
-            let url = self.url
-            debugLog(.Cache, ["Caching data for", url, "in", cache])
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-                {
-                cache.writeEntity(entity, forKey: url.absoluteString)
-                }
+            resource.receiveNewData(entity, source: .Cache)
             }
         }
 

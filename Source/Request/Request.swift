@@ -52,7 +52,7 @@ public enum RequestMethod: String
 
   Callbacks are always called on the main queue.
 */
-public protocol Request: AnyObject
+public protocol Request: class
     {
     /// Call the closure once when the request finishes for any reason.
     func onCompletion(callback: Response -> Void) -> Self

@@ -34,7 +34,7 @@ public struct NSURLSessionProvider: NetworkingProvider
         }
     }
 
-internal final class NSURLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
+internal struct NSURLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     var task: NSURLSessionTask
 

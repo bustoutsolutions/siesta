@@ -63,11 +63,11 @@ public class Service: NSObject
 
         if useDefaultTransformers
             {
-            configure(description: "Siesta default response transformers")
+            configure(description: "Siesta default response parsers")
                 {
-                $0.config.responseTransformers.add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
-                $0.config.responseTransformers.add(TextResponseTransformer(),  contentTypes: ["text/*"])
-                $0.config.responseTransformers.add(ImageResponseTransformer(), contentTypes: ["image/*"])
+                $0.config.pipeline[.parsing].add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
+                $0.config.pipeline[.parsing].add(TextResponseTransformer(),  contentTypes: ["text/*"])
+                $0.config.pipeline[.parsing].add(ImageResponseTransformer(), contentTypes: ["image/*"])
                 }
             }
         }
@@ -259,6 +259,8 @@ public class Service: NSObject
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
+            atStage stage: PipelineStageKey = .model,
+            replaceExisting: Bool = true,
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
@@ -278,7 +280,10 @@ public class Service: NSObject
 
         configure(pattern, requestMethods: requestMethods, description: description ?? defaultDescription())
             {
-            $0.config.responseTransformers.add(
+            if replaceExisting
+                { $0.config.pipeline[stage].removeTransformers() }
+
+            $0.config.pipeline[stage].add(
                 ResponseContentTransformer(processor: contentTransform))
             }
         }

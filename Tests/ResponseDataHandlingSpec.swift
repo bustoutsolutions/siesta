@@ -83,7 +83,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("bypasses response if another transformer already made it a string")
                 {
                 service().configure
-                    { $0.config.responseTransformers.add(TestTransformer(), first: true) }
+                    { $0.config.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain")
                 expect(resource().text) == "<non-string> processed"
                 }
@@ -278,7 +278,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             beforeEach
                 {
-                service().configure { $0.config.responseTransformers.clear() }
+                service().configure { $0.config.pipeline.clear() }
                 }
 
             for contentType in ["text/plain", "application/json"]
@@ -304,7 +304,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 beforeEach
                     {
                     service().configure
-                        { $0.config.responseTransformers.add(transformer()) }
+                        { $0.config.pipeline[.parsing].add(transformer()) }
                     }
 
                 it("can transform data")
@@ -374,7 +374,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("infers output type and skips content if already transformed")
                     {
                     configureModelTransformer()
-                    service().configureTransformer("**")
+                    service().configureTransformer("**", atStage: .cleanup)
                         {
                         (content: String, entity: Entity) in
                         return TestModel(name: "should not be called")
@@ -407,6 +407,17 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubText("Everything", expectSuccess: false)
                     expect(resource().latestError?.userMessage) == "Everything is broken"
                     expect(resource().latestError?.cause is CustomError) == true
+                    }
+
+                it("replaces previously configured model transformers")
+                    {
+                    configureModelTransformer()
+                    service().configureTransformer("**")
+                        { TestModel(name: "extra " + $0.content) }
+
+                    stubText("wasabi")
+                    let model: TestModel? = resource().typedContent()
+                    expect(model?.name) == "extra wasabi"
                     }
 
                 func stubTextRequest(string: String, method: RequestMethod) -> Entity

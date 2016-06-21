@@ -45,7 +45,7 @@
 		9F2FB5321C2864BD0068DFFA /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4353511B6AD63C00543843 /* Networking.swift */; };
 		9F2FB5341C2864BD0068DFFA /* Networking-NSURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */; };
-		9F2FB5351C2864BD0068DFFA /* PersistentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */; };
+		9F2FB5351C2864BD0068DFFA /* EntityCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */; };
 		9F2FB5361C2864C50068DFFA /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		9F2FB5381C2864C50068DFFA /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
@@ -71,6 +71,9 @@
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
 		DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBDB01B55BF0E00161A25 /* Logging.swift */; };
+		DA3FD66C1D0DF5DE00C75742 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* Pipeline.swift */; };
+		DA3FD66D1D0DF65B00C75742 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* Pipeline.swift */; };
+		DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAF1D02046500607F3E /* OpenEnum.swift */; };
 		DA4353521B6AD63C00543843 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4353511B6AD63C00543843 /* Networking.swift */; };
 		DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */; };
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
@@ -87,6 +90,8 @@
 		DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
+		DA7285E61D0DF2D900132CD9 /* OpenEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAF1D02046500607F3E /* OpenEnum.swift */; };
+		DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9850FF1C1CCF33006E9434 /* Deprecations.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
@@ -94,12 +99,13 @@
 		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
 		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */; };
 		DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
-		DA9F7B1F1B8BC3B000A604C3 /* PersistentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */; };
+		DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */; };
 		DAAB482A1B5D7B770059C047 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */; };
 		DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */; };
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
+		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
 		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
@@ -204,12 +210,15 @@
 		DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCache.swift; sourceTree = "<group>"; };
 		DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCacheSpec.swift; sourceTree = "<group>"; };
 		DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserver.swift; sourceTree = "<group>"; };
-		DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentCache.swift; sourceTree = "<group>"; };
+		DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCache.swift; sourceTree = "<group>"; };
 		DAAB48291B5D7B770059C047 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePathsSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceRequestsSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserversSpec.swift; sourceTree = "<group>"; };
+		DACE0BAD1D0201F800607F3E /* Pipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
+		DACE0BAF1D02046500607F3E /* OpenEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEnum.swift; sourceTree = "<group>"; };
+		DAD191001D0394E300304193 /* PipelineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineSpec.swift; sourceTree = "<group>"; };
 		DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceStatusOverlay.swift; sourceTree = "<group>"; };
 		DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceStatusOverlay.xib; sourceTree = "<group>"; };
 		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
@@ -327,9 +336,10 @@
 				DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */,
 				DAFA42011C20AF2B0020AC5E /* Request */,
 				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
+				DACE0BAD1D0201F800607F3E /* Pipeline.swift */,
+				DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */,
 				DA4353511B6AD63C00543843 /* Networking.swift */,
 				DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */,
-				DA9F7B1E1B8BC3B000A604C3 /* PersistentCache.swift */,
 				DAE490981B4E51AA004D97D6 /* UI (iOS) */,
 				DA99B5C61B38C356009C6937 /* Support */,
 			);
@@ -344,6 +354,7 @@
 				DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */,
 				DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */,
 				DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */,
+				DAD191001D0394E300304193 /* PipelineSpec.swift */,
 				DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */,
 				DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */,
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
@@ -390,6 +401,7 @@
 				DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */,
 				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */,
+				DACE0BAF1D02046500607F3E /* OpenEnum.swift */,
 				DA9850FF1C1CCF33006E9434 /* Deprecations.swift */,
 			);
 			path = Support;
@@ -616,6 +628,7 @@
 				9F0FAF991D033FCD00CE1B61 /* TestService.swift in Sources */,
 				9F0FAF9A1D033FCD00CE1B61 /* SiestaSpec.swift in Sources */,
 				9F0FAF9B1D033FCD00CE1B61 /* ResourcePathsSpec.swift in Sources */,
+				DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */,
 				9F0FAF9C1D033FCD00CE1B61 /* ResourceSpecBase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,13 +645,15 @@
 				9F2FB52E1C2864970068DFFA /* ARC+Siesta.swift in Sources */,
 				9F2FB5271C2864970068DFFA /* WeakCache.swift in Sources */,
 				9F2FB52D1C2864970068DFFA /* Collection+Siesta.swift in Sources */,
-				9F2FB5351C2864BD0068DFFA /* PersistentCache.swift in Sources */,
+				9F2FB5351C2864BD0068DFFA /* EntityCache.swift in Sources */,
 				9F2FB53D1C2864CB0068DFFA /* Configuration.swift in Sources */,
 				9F2FB5341C2864BD0068DFFA /* Networking-NSURLSession.swift in Sources */,
 				9F2FB5381C2864C50068DFFA /* ProgressTracker.swift in Sources */,
 				9F2FB53C1C2864CB0068DFFA /* Resource.swift in Sources */,
 				9F2FB5361C2864C50068DFFA /* Request.swift in Sources */,
+				DA7285E61D0DF2D900132CD9 /* OpenEnum.swift in Sources */,
 				9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */,
+				DA3FD66C1D0DF5DE00C75742 /* Pipeline.swift in Sources */,
 				9F2FB5321C2864BD0068DFFA /* ResponseTransformer.swift in Sources */,
 				9F2FB5311C2864970068DFFA /* Deprecations.swift in Sources */,
 				9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */,
@@ -675,6 +690,7 @@
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */,
 				DAAB482A1B5D7B770059C047 /* Request.swift in Sources */,
+				DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */,
 				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
 				DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
@@ -688,7 +704,8 @@
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
-				DA9F7B1F1B8BC3B000A604C3 /* PersistentCache.swift in Sources */,
+				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
+				DA3FD66D1D0DF65B00C75742 /* Pipeline.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +725,7 @@
 				DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */,
 				DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */,
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
+				DAD191021D03950100304193 /* PipelineSpec.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

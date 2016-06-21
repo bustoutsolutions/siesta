@@ -37,14 +37,6 @@ public struct Configuration
     */
     public var retryTime: NSTimeInterval = 1
 
-    /**
-      An optional store to maintain the state of resources between app launches.
-
-      - Note: This property is configured at the resource level, and does not depend on the HTTP method of any request.
-        Siesta uses the value configured for GET; if you override this for other HTTP methods, Siesta will ignore it.
-    */
-    public var persistentCache: EntityCache? = nil
-
     // MARK: Request Handling
 
     /**
@@ -67,21 +59,10 @@ public struct Configuration
     internal var beforeStartingRequestCallbacks: [(Resource, Request) -> Void] = []
 
     /**
-      A sequence of parsers to be applied to responses.
-
-      You can add custom parsing using:
-
-          $0.config.responseTransformers.add(MyCustomTransformer())
-          $0.config.responseTransformers.add(MyCustomTransformer(), contentTypes: ["foo/bar"])
-
-      By default, the transformer sequence includes JSON, image, and plain text parsing. You can
-      remove this default behavior by clearing the sequence:
-
-          $0.config.responseTransformers.clear()
-
-      - SeeAlso: `Service.configureTransformer(...)`
+      The sequence of transformations used to process server responses, optionally interspesed with cache(s) which may
+      provide fast app startup & offline access.
     */
-    public var responseTransformers: TransformerSequence = TransformerSequence()
+    public var pipeline = Pipeline()
 
     /**
       Interval at which request hooks & observers receive progress updates. This affects how frequently

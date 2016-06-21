@@ -19,22 +19,24 @@ custom_categories:
     - ConfigurationPatternConvertible
     - TypedContentAccessors
 
-  - name: Observering Resources
+  - name: Observing Resources
     children:
     - ResourceObserver
     - ResourceObserverClosure
     - ResourceEvent
 
-  - name: Requests
+  - name: Network Requests
     children:
     - Request
     - RequestMethod
-
-  - name: Response Parsing
-    children:
     - Response
+
+  - name: Response Pipeline
+    children:
+    - Pipeline
+    - PipelineStage
+    - PipelineStageKey
     - ResponseTransformer
-    - TransformerSequence
     - ResponseContentTransformer
     - JSONResponseTransformer(_:)
     - TextResponseTransformer(_:)
@@ -58,6 +60,7 @@ custom_categories:
   - name: Caching
     children:
     - EntityCache
+    - EntityCacheKey
     - EntityEncoder
     - JSONEntityEncoder
 
