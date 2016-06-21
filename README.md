@@ -95,7 +95,7 @@ This project started as helper code we wrote out of practical need on several [B
 
 For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to make the API as clean as the concepts.
 
-Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a Swifty green field.
+Siesta’s code is therefore both old and new: battle-tested on the App Store, then reincarnated in a Swifty green field.
 
 ## Design Philosophy
 
