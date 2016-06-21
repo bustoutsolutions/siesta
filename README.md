@@ -2,7 +2,7 @@
 
 **The elegant way to write iOS / macOS REST clients**
 
-[![Build Status](https://travis-ci.org/bustoutsolutions/siesta.svg)](https://travis-ci.org/bustoutsolutions/siesta)
+[![Build Status](https://img.shields.io/badge/build-Travis_all_hosed-9A07FF.svg)](https://travis-ci.org/bustoutsolutions/siesta)
 [![Platform](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](https://bustoutsolutions.github.io/siesta/guide/)
 [![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-5b9dd9.svg)](https://cocoapods.org/pods/Siesta/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/bustoutsolutions/siesta/releases)
