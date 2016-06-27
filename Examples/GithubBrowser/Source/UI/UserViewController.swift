@@ -87,7 +87,6 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         repoListVC?.reposResource =
             userResource?
                 .optionalRelative(user?.repositoriesURL)?
-                .withParam("type", "all")
                 .withParam("sort", "updated")
     }
 
