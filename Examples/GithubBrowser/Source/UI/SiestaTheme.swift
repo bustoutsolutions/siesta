@@ -9,24 +9,24 @@ struct SiestaTheme {
         linkColor   = UIColor(red: 0.321, green: 0.901, blue: 0.882, alpha: 1),
         textColor   = UIColor(red: 0.623, green: 0.647, blue: 0.663, alpha: 1),
         boldColor   = UIColor(red: 0.906, green: 0.902, blue: 0.894, alpha: 1)
-    
+
     static func applyAppearanceDefaults() {
         UITextField.appearance().keyboardAppearance = .Dark
         UITextField.appearance().textColor = UIColor.blackColor()
         UITextField.appearance().backgroundColor = textColor
-        
+
         UITableView.appearance().backgroundColor = darkerColor
         UITableView.appearance().separatorColor = UIColor.blackColor()
         UITableViewCell.appearance().backgroundColor = darkerColor
 
         UIButton.appearance().backgroundColor = darkColor
         UIButton.appearance().tintColor = linkColor
-        
+
         UISearchBar.appearance().backgroundColor = darkColor
         UISearchBar.appearance().barTintColor = darkColor
         UISearchBar.appearance().searchBarStyle = .Minimal
         UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = lightColor
-        
+
         UILabel.appearanceWhenContainedInInstancesOfClasses([ResourceStatusOverlay.self]).textColor = textColor
         UIActivityIndicatorView.appearanceWhenContainedInInstancesOfClasses([ResourceStatusOverlay.self]).activityIndicatorViewStyle = .WhiteLarge
     }

@@ -12,7 +12,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
                           .loadIfNeeded()
         }
     }
-    
+
     var repos: [Repository] = [] {
         didSet {
             tableView.reloadData()
@@ -23,8 +23,8 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
         // Siesta’s typedContent() infers from the type of the repos property that reposResource should hold content
-        // of type [Repository]. 
-        
+        // of type [Repository].
+
         repos = reposResource?.typedContent() ?? []
     }
 
@@ -56,7 +56,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
             cell.userLabel.text = repo.owner?.login
             cell.repoLabel.text = repo.name
             cell.starCountLabel.text = repo.starCount?.description
-            
+
             // Note how powerful this next line is:
             //
             // • RemoteImageView calls loadIfNeeded() when we set imageURL, so this automatically triggers a network
@@ -78,7 +78,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         }
         return cell
     }
-    
+
     override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
     }
