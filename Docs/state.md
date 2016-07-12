@@ -9,22 +9,24 @@ The [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.h
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
 **Q.** Is there a request in progress?<br>
-**A.** [`isLoading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource7loadingSb) and [`isRequesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10requestingSb)
+**A.** [`isLoading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource9isLoadingSb) and [`isRequesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource12isRequestingSb)
 
 ## The State Properties
 
 ```swift
-resource.latestData          // Full metadata, in case you need the gory details.
+resource.latestData?.content // Gives the content of the last successful load. This
+                             // is the fully parsed content, after it has run through
+                             // the transformer pipeline.
 
-resource.latestData?.content // Gives a string, dict/array (for JSON), NSData, or
-                             // nil if no data is available. You can also configure
-                             // custom data types using ResponseTransformer.
+resource.latestData?.headers // Because metadata matters too
 
 resource.text                // Convenience accessors return empty string/dict/array
 resource.jsonDict            // if data is either (1) not present or (2) not of the
 resource.jsonArray           // expected type. This reduces futzing with optionals.
 
-resource.latestData?.headers // Because metadata matters too
+resource.typedContent()      // Convenience for casting content to arbitrary types.
+                             // Especially useful if you configured the transformer
+                             // pipeline to return models.
 ```
 
 A resource knows whether it currently is loading, which lets you show/hide a spinner or progress bar:
@@ -42,7 +44,7 @@ resource.latestError               // Present if latest load attempt failed
 resource.latestError?.userMessage  // String suitable for display in UI
 ```
 
-That `latestError` struct rolls up many different kinds of error — transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
+That `latestError` struct rolls up many different kinds of error — encoding errors, transport-level errors, HTTP errors, and client-side parse errors — into a single consistent structure that’s easy to wrap in a UI.
 
 ## Resource State is Multifaceted
 

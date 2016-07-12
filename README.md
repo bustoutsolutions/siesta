@@ -392,7 +392,7 @@ If that approach sounds appealing, give Siesta a try.
 
 This repo includes a [simple example project](https://github.com/bustoutsolutions/siesta/tree/master/Examples/GithubBrowser). To download the example project, install its dependencies, and run it locally:
 
-1. Install Cocoapods ≥ 1.0 if you haven’t already.
+1. Install CocoaPods ≥ 1.0 if you haven’t already.
 2. `pod try Siesta` (Note that there’s no need to download/clone Siesta locally first; this command does that for you.)
 
 ## Contributing and Getting Help
