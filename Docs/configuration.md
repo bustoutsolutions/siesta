@@ -7,7 +7,7 @@ Instead of appearing at the request creation site, your app-specific code for co
 Configuration options include:
 
 - HTTP headers,
-- response parsing,
+- response parsing (covered in detail in the [next section](pipeline.md)),
 - data expiration time, and
 - arbitrary request decoration.
 
@@ -72,7 +72,7 @@ How then can you handle configuration that changes over time — an authenticati
 class MyAPI: Service {
   var authToken: String {
     didSet {
-      configure​ {  // ☠☠☠ WRONG!!! 😱😱😱
+      configure​ {  // 😱😱😱 WRONG 😱😱😱
         $0.config.headers["X-HappyApp-Auth-Token"] = newValue
       }
     }
