@@ -80,12 +80,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(cause?.encodingName) == "utf-8"
                 }
 
-            it("bypasses response if another transformer already made it a string")
+            it("report an error if another transformer already made it a string")
                 {
                 service().configure
                     { $0.config.pipeline[.decoding].add(TestTransformer()) }
-                stubText("blah blah", contentType: "text/plain")
-                expect(resource().text) == "<non-string> processed"
+                stubText("blah blah", contentType: "text/plain", expectSuccess: false)
+                expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
                 }
 
             it("transforms error responses")
@@ -369,19 +369,6 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestData).to(beNil())
 
                     expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
-                    }
-
-                it("infers output type and skips content if already transformed")
-                    {
-                    configureModelTransformer()
-                    service().configureTransformer("**", atStage: .cleanup)
-                        {
-                        (content: String, entity: Entity) in
-                        return TestModel(name: "should not be called")
-                        }
-                    stubText("Fred")
-                    let model: TestModel? = resource().typedContent()
-                    expect(model?.name) == "Fred"
                     }
 
                 it("can throw a custom error")

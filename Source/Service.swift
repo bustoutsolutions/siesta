@@ -284,9 +284,7 @@ public class Service: NSObject
                 { $0.config.pipeline[stage].removeTransformers() }
 
             $0.config.pipeline[stage].add(
-                ResponseContentTransformer(
-                    skipWhenEntityMatchesOutputType: false,
-                    processor: contentTransform))
+                ResponseContentTransformer(processor: contentTransform))
             }
         }
 

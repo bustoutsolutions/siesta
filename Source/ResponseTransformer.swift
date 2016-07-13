@@ -119,7 +119,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       - Parameter skipWhenEntityMatchesOutputType:
           When true, if the input content already matches `OutputContentType`, the transformer does nothing.
           When false, the tranformer always attempts to parse its input.
-          Default is true.
+          Default is false.
       - Parameter transformErrors:
           When true, apply the transformation to `Error.content` (if present).
           When false, only parse success responses.
@@ -128,7 +128,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
           The transformation logic.
     */
     public init(
-            skipWhenEntityMatchesOutputType: Bool = true,
+            skipWhenEntityMatchesOutputType: Bool = false,
             transformErrors: Bool = false,
             processor: Processor)
         {
