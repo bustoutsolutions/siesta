@@ -8,6 +8,8 @@ copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [ope
 
 swift_version: 2.2
 
+theme: fullwidth
+
 custom_categories:
   - name: Resources
     children:
