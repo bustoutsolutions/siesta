@@ -105,5 +105,5 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
 }
 
 private let SwiftyJSONTransformer =
-    ResponseContentTransformer(skipWhenEntityMatchesOutputType: false)
+    ResponseContentTransformer
         { JSON($0.content as AnyObject) }
