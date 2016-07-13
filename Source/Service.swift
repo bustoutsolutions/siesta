@@ -260,7 +260,7 @@ public class Service: NSObject
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
             atStage stage: PipelineStageKey = .model,
-            replaceExisting: Bool = true,
+            action: PipelineStage.MutationAction = .replaceExisting,
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
@@ -280,11 +280,13 @@ public class Service: NSObject
 
         configure(pattern, requestMethods: requestMethods, description: description ?? defaultDescription())
             {
-            if replaceExisting
+            if action == .replaceExisting
                 { $0.config.pipeline[stage].removeTransformers() }
 
             $0.config.pipeline[stage].add(
-                ResponseContentTransformer(processor: contentTransform))
+                ResponseContentTransformer(
+                    skipWhenEntityMatchesOutputType: false,
+                    processor: contentTransform))
             }
         }
 

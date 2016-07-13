@@ -409,7 +409,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestError?.cause is CustomError) == true
                     }
 
-                it("replaces previously configured model transformers")
+                it("replaces previously configured model transformers by default")
                     {
                     configureModelTransformer()
                     service().configureTransformer("**")
@@ -418,6 +418,22 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubText("wasabi")
                     let model: TestModel? = resource().typedContent()
                     expect(model?.name) == "extra wasabi"
+                    }
+
+                it("can append to previously configured model transformers")
+                    {
+                    configureModelTransformer()
+                    service().configureTransformer("**", action: .appendToExisting)
+                        {
+                        (content: TestModel, entity: Entity) -> TestModel in
+                        var model: TestModel = content
+                        model.name += " peas"
+                        return model
+                        }
+
+                    stubText("wasabi")
+                    let model: TestModel? = resource().typedContent()
+                    expect(model?.name) == "wasabi peas"
                     }
 
                 func stubTextRequest(string: String, method: RequestMethod) -> Entity
@@ -544,7 +560,7 @@ private class TestTransformer: ResponseTransformer
 
 private struct TestModel
     {
-    let name: String
+    var name: String
 
     init(name: String)
         { self.name = name }
