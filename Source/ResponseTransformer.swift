@@ -46,7 +46,7 @@ public extension ResponseTransformer
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(result: Response) -> Response
         {
-        debugLog(.ResponseProcessing, [self, "→", result])
+        debugLog(.ResponseProcessing, ["Applied transformer:", self, "\n    → ", result])
         return result
         }
     }
@@ -143,10 +143,10 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         switch response
             {
             case .Success(let entity):
-                return processEntity(entity)
+                return logTransformation(processEntity(entity))
 
             case .Failure(let error):
-                return processError(error)
+                return logTransformation(processError(error))
             }
         }
 
@@ -160,13 +160,12 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
         guard let typedContent = entity.content as? InputContentType else
             {
-            return logTransformation(
-                .Failure(Error(
-                    userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-                    cause: Error.Cause.WrongTypeInTranformerPipeline(
-                        expectedType: debugStr(InputContentType.self),
-                        actualType: debugStr(entity.content.dynamicType),
-                        transformer: self))))
+            return .Failure(Error(
+                userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
+                cause: Error.Cause.WrongTypeInTranformerPipeline(
+                    expectedType: debugStr(InputContentType.self),
+                    actualType: debugStr(entity.content.dynamicType),
+                    transformer: self)))
             }
 
         do  {
@@ -183,7 +182,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 ?? Error(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: error)
-            return logTransformation(.Failure(siestaError))
+            return .Failure(siestaError)
             }
         }
 
