@@ -295,6 +295,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57879B7C1D38493D00180216 /* ReactiveCocoa */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ReactiveCocoa;
+			sourceTree = "<group>";
+		};
 		9F0FAFB31D03464F00CE1B61 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2FF1041C0F97F600C98FF1 /* Alamofire */,
+				57879B7C1D38493D00180216 /* ReactiveCocoa */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
