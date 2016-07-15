@@ -11,6 +11,8 @@
 		570C77E41D38466900226F92 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570C77E31D38466900226F92 /* ReactiveCocoa.framework */; };
 		570C77E61D38468A00226F92 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570C77E51D38468A00226F92 /* Result.framework */; };
 		570C77E81D3846A800226F92 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570C77E71D3846A800226F92 /* Result.framework */; };
+		574156981D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */; };
+		574156991D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */; };
 		57879B781D38483500180216 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E01D38463200226F92 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		57879B791D38483E00180216 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E71D3846A800226F92 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		57879B7A1D38485700180216 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E31D38466900226F92 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -183,6 +185,7 @@
 		570C77E31D38466900226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		570C77E51D38468A00226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		570C77E71D3846A800226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta+ReactiveCocoa.swift"; sourceTree = "<group>"; };
 		9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		9F0FB0531D04184F00CE1B61 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
@@ -295,9 +298,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57879B7C1D38493D00180216 /* ReactiveCocoa */ = {
+		574156961D393AF8009A2EC8 /* ReactiveCocoa */ = {
 			isa = PBXGroup;
 			children = (
+				574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */,
 			);
 			path = ReactiveCocoa;
 			sourceTree = "<group>";
@@ -318,8 +322,8 @@
 		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				574156961D393AF8009A2EC8 /* ReactiveCocoa */,
 				DA2FF1041C0F97F600C98FF1 /* Alamofire */,
-				57879B7C1D38493D00180216 /* ReactiveCocoa */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -656,6 +660,7 @@
 				9F0FAF951D033FCD00CE1B61 /* ObjcCompatibilitySpec.m in Sources */,
 				9F0FAF961D033FCD00CE1B61 /* WeakCacheSpec.swift in Sources */,
 				9F0FAF971D033FCD00CE1B61 /* ResponseDataHandlingSpec.swift in Sources */,
+				574156991D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift in Sources */,
 				9F0FAF981D033FCD00CE1B61 /* ServiceSpec.swift in Sources */,
 				9F0FAF991D033FCD00CE1B61 /* TestService.swift in Sources */,
 				9F0FAF9A1D033FCD00CE1B61 /* SiestaSpec.swift in Sources */,
@@ -753,6 +758,7 @@
 				DA4D61981B751FEE00F6BB9C /* ObjcCompatibilitySpec.m in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */,
 				DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */,
+				574156981D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift in Sources */,
 				DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */,
 				DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */,
 				DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */,
