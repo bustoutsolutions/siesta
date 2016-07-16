@@ -68,11 +68,12 @@ Dir["#{siesta_dir}/{README,Docs/*}.md"].each do |src|
     f.puts "---"
     f.puts
     f.puts(
-      content.gsub(/\]\(([^\)]+)\.md\)/) do
+      content.gsub(/\]\(([^\)]+)\.md(#.*?)?\)/) do
+        raw_path, anchor = $1, $2
         path = dst_path_for.call(
           siesta_dir,
-          File.expand_path(File.join(File.dirname(src), $1)))
-        "](/siesta/#{path})"
+          File.expand_path(File.join(File.dirname(src), raw_path)))
+        "](/siesta/#{path}#{anchor})"
       end)
 
     toc_info = toc[File.expand_path(src)]
