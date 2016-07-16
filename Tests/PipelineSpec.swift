@@ -17,7 +17,7 @@ class PipelineSpec: ResourceSpecBase
         {
         func appender(word: String) -> ResponseContentTransformer<Any,String>
             {
-            return ResponseContentTransformer(skipWhenEntityMatchesOutputType: false)
+            return ResponseContentTransformer
                 {
                 let stringContent = $0.content as? String ?? ""
                 guard !stringContent.containsString("error on \(word)") else

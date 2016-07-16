@@ -186,7 +186,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         if shouldIgnoreResponse(newInfo.response)
             { return }
 
-        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump("   ")])
+        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump()])
 
         progressTracker.complete()
 
