@@ -1,6 +1,7 @@
 # Optional integrations
 
 github "Alamofire/Alamofire" ~> 3.0
+github "ReactiveCocoa/ReactiveCocoa" ~> 4.0
 
 # Testing
 
