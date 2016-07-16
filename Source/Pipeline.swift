@@ -282,6 +282,21 @@ public struct PipelineStage
     public var cache: EntityCache?
     }
 
+extension PipelineStage
+    {
+    /**
+      Ways of modifying a stage’s transformers. Used by `Service.configureTransformer(...)`.
+    */
+    public enum MutationAction
+        {
+        /// Remove all existing transformers and add the new one.
+        case replaceExisting
+
+        /// Add the new transformer at the end of the existing ones.
+        case appendToExisting
+        }
+    }
+
 /**
   An unique identifier for a `PipelineStage` within a `Pipeline`. Transformers and stages have no intrinsic notion of
   identity or equality, so these keys are the only way to alter transformers after they’re configured.
