@@ -46,7 +46,8 @@ class _GithubAPI {
 
         // Note that you can use Siesta without these sorts of model mappings. By default, Siesta parses JSON, text,
         // and images based on content type — and a resource will contain whatever the server happened to return, in a
-        // parsed but unstructured form (string, dictionary, etc.).
+        // parsed but unstructured form (string, dictionary, etc.). If you prefer to work with raw dictionaries instead
+        // of models, no additional transformer config is necessary.
         //
         // If you do apply a path-based mapping like the ones above, then any request for that path that does not return
         // the expected type becomes an error. For example, "/users/foo" must return a JSON response because that's
