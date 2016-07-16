@@ -51,6 +51,8 @@ These interfaces pass only structs as input and output, so you will typically no
 
 ## Networking and Threading
 
+This section is only of concern if you are writing a custom networking provider.
+
 Most networking libraries use threads internally (including `NSURLSession`, Siesta’s default). Siesta therefore delegates threading responsibility to the networking provider. If you write a custom [`NetworkingProvider`](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html) implementation, you thus must exercise a little care about threading.
 
 Siesta will always call your [`startRequest()`](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html#/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_) on the main thread, but it _is_ safe to call the `completion` callback from a background thread without any synchronization.

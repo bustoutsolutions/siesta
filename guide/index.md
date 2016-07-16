@@ -10,6 +10,7 @@ layout: default
 - [Observers](/siesta/guide/observers)
 - [Requests](/siesta/guide/requests)
 - [Configuration](/siesta/guide/configuration)
+- [Transformer Pipeline](/siesta/guide/pipeline)
 - [Security](/siesta/guide/security)
 - [Memory Management](/siesta/guide/memory)
 - [Threading](/siesta/guide/threading)

@@ -11,19 +11,45 @@ layout: default
 
 Siesta is already in use in apps released on the App Store. In that sense, it’s production-ready software.
 
-However, since this began as one team’s internal tool, the API was thus initially validated against that one team’s practices. Now that Siesta is public, we want other teams to have a chance to exercise it and see how it fits into _their_ approach to app-writing before we finalize the API. Once we declare a 1.0 release, we will endeavor to follow semantic versioning — and API tweaking will become much harder at that point.
+However, since this began as one team’s internal tool, the API was thus initially validated against only that one team’s practices. When Siesta went public, we wanted other teams to have a chance to exercise it and see how it fit into _their_ approach to app-writing before we finalized the API. This yielded many valuable insights.
+
+Once we declare a 1.0 release, we will endeavor to follow semantic versioning — and API tweaking will become much harder at that point.
 
 #### If it’s in beta, should I use it in my apps?
 
 Yes! We believe the code is high quality and ready for real-world use.
 
-However, you should be ready for minor breaking changes to the API until we declare an official 1.0 release. That’s what the “beta” label is warning you about.
+However, you should be ready for breaking changes to the API until we declare an official 1.0 release. That’s what the “beta” label is warning you about.
 
-#### What’s in the works for future releases?
+#### What’s the plan for 1.0? How will you manage the big Swift 2 → 3 migration?
+{:#roadmap-1-0}
 
-To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or [tweet to us](https://twitter.com/siestaframework).
+The tentative plan is this:
 
-The thing currently at the top of our wish list is more type safety when using custom transformers that map specific routes to specific model classes. Limitations of Swift’s generic type system — at least as it stands in 2.x — prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice. We’re investigating workarounds and alternatives, and hoping that Swift 3.0 brings improvements to the type system.
+- `1.0-beta.8`: new [transformer pipeline API](/siesta/guide/pipeline), the last major pre-1.0 API change
+- `1.0-beta.9+`:
+  - final API refinements
+  - split UI helpers into separate subproject
+  - reorganize directory structure to anticipate SwiftPM
+
+After these releases, when we are confident that 1.0 functionality is set, we will cut final Swift 2 releases:
+
+- `1.0-swift.2.2`
+- `1.0-swift.2.3` (maaaaybe, if there’s demand for it)
+
+These will be the last releases to support Swift 2, except for any critical bug fixes. If you aren’t ready to move to Swift 3, you can stick with these releases.
+
+The `master` branch will then move to Swift 3. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only:
+
+- `1.0-rc.*`, `1.0`: targeting Swift 3
+
+Post 1.0 development will only support Swift 3.
+
+#### What’s in the works for post-1.0 releases?
+
+To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or tweet to [@siestaframework](https://twitter.com/siestaframework).
+
+One high priority post-1.0 feature is the addition of standard [EntityCache](http://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
 
 
 ## Capabilities
@@ -44,8 +70,15 @@ If you aren’t interested in holding a response entirely in memory, there’s l
 
 Configure them in the underlying networking library you are using with Siesta.
 
-From the time that it has constructed a request until the time it has a complete response, Siesta delegates its networking layer you specify. That is were all these options get configured. See the `networking:` parameter of [`Service.init(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_).
+From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is were all these options get configured. See the `networking:` parameter of [`Service.init(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_).
 
+#### Why doesn’t Siesta provide a typesafe `Resource<T>`?
+
+One big future wish for Siesta is more static type safety when using custom transformers that map specific routes to specific model classes. Unfortunately, limitations of Swift’s generic type system prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice.
+
+The missing feature is support for generalized existential types. There has been extensive discussion of this on [swift-evolution](https://github.com/apple/swift-evolution) ([here](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17418/focus=18810), for example), but the problem proved [too large to solve in time for Swift 3](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17276). That means we won’t be getting `Resource<T>` until at least Swift 4.
+
+In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT6ifNoneKT_qd___qd__) and friends get the job done.
 
 ## Contact
 

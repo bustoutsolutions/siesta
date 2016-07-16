@@ -5,18 +5,18 @@ layout: default
 
 # Siesta
 
-**The elegant way to write iOS / OS X REST clients**
+**The elegant way to write iOS / macOS REST clients**
 
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+, OS X 10.11+
+* **OS:** iOS 8+, macOS / OS X 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 7, Swift 2.0
 * **License:** MIT
 * **Status:** Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
-###Contents
+### Overview
 
 - [What’s It For?](#what’s-it-for)
 - [Features](#features)
@@ -25,12 +25,14 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Comparison With Other Frameworks](#comparison-with-other-frameworks)
-- Documentation
-  - [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
-  - [API Docs](https://bustoutsolutions.github.io/siesta/api/)
-  - [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 - [Examples](#examples)
 - [Contributing and Getting Help](#contributing-and-getting-help)
+
+### Documentation
+
+- [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
+- [API Docs](https://bustoutsolutions.github.io/siesta/api/)
+- [Specs](https://bustoutsolutions.github.io/siesta/specs/)
 
 ## What’s It For?
 
@@ -93,7 +95,7 @@ This project started as helper code we wrote out of practical need on several [B
 
 For the open source transition, we took the time to rewrite our code in Swift — and _rethink_ it in Swift, embracing the language to make the API as clean as the concepts.
 
-Siesta’s code is therefore both old and new: battle-tasted on the App Store, then reincarnated in a Swifty green field.
+Siesta’s code is therefore both old and new: battle-tested on the App Store, then reincarnated in a Swifty green field.
 
 ## Design Philosophy
 
@@ -307,7 +309,7 @@ class RemoteImageView: UIImageView {
     didSet {
       imageResource?.loadIfNeeded()
       imageResource?.addObserver(owner: self) { [weak self] _ in
-        self?.image = imageResource?.contentAsType(ifNone: placeholderImage)
+        self?.image = imageResource?.typedContent(ifNone: placeholderImage)
       }
     }
   }
@@ -316,7 +318,7 @@ class RemoteImageView: UIImageView {
 
 A thumbnail of both versions, for your code comparing pleasure:
 
-<p align="center"><img alt="Code comparison" src="https://bustoutsolutions.github.io/siesta/guide/images/code-comparison@2x.png" width=388 height=628></p>
+<p align="center"><img alt="Code comparison" src="https://bustoutsolutions.github.io/siesta/guide/images/code-comparison@2x.png" width="388" height="628"></p>
 
 The same functionality. Yes, really.
 
@@ -386,7 +388,10 @@ If that approach sounds appealing, give Siesta a try.
 
 ## Examples
 
-This repo includes a [simple example project](https://github.com/bustoutsolutions/siesta/tree/master/Examples/GithubBrowser). Use Carthage to build its dependencies.
+This repo includes a [simple example project](https://github.com/bustoutsolutions/siesta/tree/master/Examples/GithubBrowser). To download the example project, install its dependencies, and run it locally:
+
+1. Install CocoaPods ≥ 1.0 if you haven’t already.
+2. `pod try Siesta` (Note that there’s no need to download/clone Siesta locally first; this command does that for you.)
 
 ## Contributing and Getting Help
 
@@ -402,9 +407,9 @@ To get help, post your question to [Stack Overflow](https://stackoverflow.com) a
 
 Want to _do_ something instead of just talking about it? Fantastic! Be bold.
 
-  - If you have trouble building or testing the project, please file an issue about it — even if you resolve the problem. This will help improve the docs.
   - If you are proposing a design change or nontrivial new functionality, please float your idea as an issue first so you don’t end up doing wasted work.
-  - Please follow the formatting conventions of the existing code. Yes, including Paul’s idiosyncratic taste in brace placement.
-  - Please make sure the tests pass locally before pushing (cmd-U in Xcode).
+  - Please follow the formatting conventions of the existing code. Yes, including Paul’s idiosyncratic taste in brace placement. (Matching braces always go in either the same row or the same column, and always align with the code they enclose.)
+  - Please make sure the tests pass locally (cmd-U in Xcode).
   - Expect a little back and forth on your PR before it’s accepted. Don’t be discouraged. Nit-picking is not a sign of bad work; it’s a sign of interest!
+  - If you have trouble building or testing the project, please submit an issue or PR about it — even if you resolve the problem. This will help improve the docs.
   - If you want to update the user guide, note that the guide is generated from the `Docs` directory in `master`, so that’s where you should make your change. Do not submit pull requests against `gh-pages`.

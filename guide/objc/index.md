@@ -63,7 +63,7 @@ You can then do:
 Objective-C cannot see Swift enums, and `ResourceEvent` and `RequestMethod` are both enums. Objective-C methods that deal with events take strings instead. In the case of `ResourceEvent.NewData`, the string you receive also contains the nested source of the data in parentheses, e.g. `NewData(Network)`. If you just want to check whether new data arrived and don’t care where it came from, look for the `NewData` prefix:
 
 ```objc
--  (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
+- (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
   if([event hasPrefix:@"NewData"]) {
     ...
   }
@@ -94,24 +94,24 @@ Most of the request callbacks translate naturally into Objective-C blocks, but t
 
 ```swift
 resource.request(.POST, json: ["color": "green"])
-    .onCompletion { response in
-        switch response {
-            case .Success(let data):
-                ...
-            
-            case .Failure(let error):
-                ...
-        }
+  .onCompletion { response in
+    switch response {
+      case .Success(let data):
+        …
+      
+      case .Failure(let error):
+        …
     }
+  }
 ```
 
 …has a different, less type-safe flavor in Objective-C:
 
 ```objc
 [[resource.requestWithMethod:@"POST" json:@{@"color": @"mauve"}]
-    onCompletion: ^(BOSEntity *data, BOSError *error) {
-        ...
-    }];
+  onCompletion: ^(BOSEntity *data, BOSError *error) {
+    …
+  }];
 ```
 
 Exactly one of the completion block’s two arguments will be non-nil.
