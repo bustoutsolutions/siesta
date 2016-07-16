@@ -5,6 +5,7 @@
 - [Observers](observers.md)
 - [Requests](requests.md)
 - [Configuration](configuration.md)
+- [Transformer Pipeline](pipeline.md)
 - [Security](security.md)
 - [Memory Management](memory.md)
 - [Threading](threading.md)

@@ -73,6 +73,15 @@ whitespace
 parens
 codebase
 URI
+initializer
+lurchy
+freezy
+macOS
+CocoaPods
+subproject
+SwiftPM
+EntityCache
+typesafe
  - Docs/security.md
 p2
 dongri
@@ -85,6 +94,8 @@ Alamofire
 2.x
 NSURLCache
 siestaframework
+pre-1
+maaaaybe
  - ./Docs/memory.md
 removeObserver
  - ./Docs/security.md
