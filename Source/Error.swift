@@ -137,29 +137,15 @@ public extension Error
             {
             public let encodingName: String
             public let text: String
-            
-            public init(encodingName: String, text: String)
-                {
-                self.encodingName = encodingName
-                self.text = text
-                }
             }
 
         /// Unable to create a JSON request using an object that is not JSON-encodable.
-        public struct InvalidJSONObject: ErrorType
-            {
-            public init() { }
-            }
+        public struct InvalidJSONObject: ErrorType { }
 
         /// Unable to create a URL-encoded request, probably due to unpaired Unicode surrogate chars.
         public struct NotURLEncodable: ErrorType
             {
             public let offendingString: String
-            
-            public init(offendingString: String)
-                {
-                self.offendingString = offendingString
-                }
             }
 
         // MARK: Network Errors

@@ -291,35 +291,22 @@ public final class Resource: NSObject
         {
         dispatch_assert_main_queue()
 
-        let nsreq = nsreqWith(method, requestMutation: requestMutation)
-        return requestWith(nsreq)
-        }
-
-    public func nsreqWith(
-            method: RequestMethod,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
-        -> NSMutableURLRequest
-        {
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config(forRequestMethod: method).headers
             { nsreq.setValue(value, forHTTPHeaderField: header) }
-        
+
         requestMutation(nsreq)
-        
-        return nsreq
-        }
-    
-    public func requestWith(
-            nsreq: NSMutableURLRequest)
-        -> Request
-        {
-        debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+
+        debugLog(
+            .NetworkDetails,
+            ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+
         let req = NetworkRequest(resource: self, nsreq: nsreq)
         trackRequest(req, using: &allRequests)
         for callback in req.config.beforeStartingRequestCallbacks
             { callback(self, req) }
-        
+
         return req.start()
         }
 
