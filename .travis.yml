@@ -49,7 +49,7 @@ script: |
 
   # Uncomment to build with Carthage instead:
   echo "Building dependencies"
-  carthage bootstrap --verbose
+  carthage bootstrap #--verbose
 
   # ------ Project build (at last!) ------
 
