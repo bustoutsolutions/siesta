@@ -27,7 +27,6 @@ public extension Resource
             error: latestError,
             isLoading: isLoading,
             isRequesting: isRequesting)
-
         }
     }
 
@@ -53,8 +52,8 @@ extension ReactiveObserver: ResourceObserver
 public extension Resource
     {
     public func rac_signal(
-        owner: AnyObject)
-            -> Signal<ResourceState, NoError>
+            owner: AnyObject)
+        -> Signal<ResourceState, NoError>
         {
         let reactiveObserver = ReactiveObserver()
         self.addObserver(reactiveObserver, owner: owner)
