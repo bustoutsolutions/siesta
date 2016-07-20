@@ -15,6 +15,8 @@
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
 		DA7462441B4C768B00406D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7462431B4C768B00406D67 /* Assets.xcassets */; };
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
+		DAAC4E461D3AAD1B00FB3CE2 /* RepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC4E451D3AAD1B00FB3CE2 /* RepositoryViewController.swift */; };
+		DAE27A801D3F1EF400D757F9 /* Optional+GithubBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE27A7F1D3F1EF400D757F9 /* Optional+GithubBrowser.swift */; };
 		DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */; };
 		DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */; };
 		DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */; };
@@ -34,6 +36,8 @@
 		DA7462431B4C768B00406D67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA7462461B4C768B00406D67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA7462481B4C768B00406D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAAC4E451D3AAD1B00FB3CE2 /* RepositoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryViewController.swift; sourceTree = "<group>"; };
+		DAE27A7F1D3F1EF400D757F9 /* Optional+GithubBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+GithubBrowser.swift"; sourceTree = "<group>"; };
 		DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
 		DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
@@ -114,8 +118,17 @@
 				DAE2F8431B94F10500D2AD96 /* API */,
 				DAE2F8461B94F10500D2AD96 /* UI */,
 				DA2DDA771B5984CA00294A72 /* Resources */,
+				DAE27A7E1D3F1EDD00D757F9 /* Util */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		DAE27A7E1D3F1EDD00D757F9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				DAE27A7F1D3F1EF400D757F9 /* Optional+GithubBrowser.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		DAE2F8431B94F10500D2AD96 /* API */ = {
@@ -131,6 +144,7 @@
 			children = (
 				DAE2F8491B94F10500D2AD96 /* UserViewController.swift */,
 				DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */,
+				DAAC4E451D3AAD1B00FB3CE2 /* RepositoryViewController.swift */,
 				DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */,
 				DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */,
 				DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */,
@@ -145,12 +159,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA74624B1B4C768B00406D67 /* Build configuration list for PBXNativeTarget "GithubBrowser" */;
 			buildPhases = (
-				589B08AB8210E6BCC8924F81 /* 📦 Check Pods Manifest.lock */,
+				589B08AB8210E6BCC8924F81 /* [CP] Check Pods Manifest.lock */,
 				DA7462351B4C768B00406D67 /* Sources */,
 				DA7462361B4C768B00406D67 /* Frameworks */,
 				DA7462371B4C768B00406D67 /* Resources */,
-				ABBC5F5CF6B83AF37EB2D67F /* 📦 Embed Pods Frameworks */,
-				DD66E6435D504CAF585B7E20 /* 📦 Copy Pods Resources */,
+				ABBC5F5CF6B83AF37EB2D67F /* [CP] Embed Pods Frameworks */,
+				DD66E6435D504CAF585B7E20 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,14 +221,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		589B08AB8210E6BCC8924F81 /* 📦 Check Pods Manifest.lock */ = {
+		589B08AB8210E6BCC8924F81 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,14 +236,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		ABBC5F5CF6B83AF37EB2D67F /* 📦 Embed Pods Frameworks */ = {
+		ABBC5F5CF6B83AF37EB2D67F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,14 +251,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubBrowser/Pods-GithubBrowser-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DD66E6435D504CAF585B7E20 /* 📦 Copy Pods Resources */ = {
+		DD66E6435D504CAF585B7E20 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,10 +277,12 @@
 				DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */,
 				DA2B55681C7ED14800EB4D67 /* SiestaTheme.swift in Sources */,
 				DAE2F84E1B94F10500D2AD96 /* UserViewController.swift in Sources */,
+				DAAC4E461D3AAD1B00FB3CE2 /* RepositoryViewController.swift in Sources */,
 				DA2B556A1C7EDE7B00EB4D67 /* LoginViewController.swift in Sources */,
 				DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */,
 				DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */,
 				DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */,
+				DAE27A801D3F1EF400D757F9 /* Optional+GithubBrowser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,6 +40,12 @@ Siesta solves all these problems transparently, with minimal code.
     - create a view controller which displays a Siesta resource determined by a parent VC and
     - populate a table view with Siesta.
 
+- `Source/UI/RepositoryViewController.swift` shows how to:
+    
+    - show a single-model resource instead of a collection,
+    - make mutating API requests, and
+    - update the UI based on the state of a specific request instead of a resource.
+
 ## Rate limit errors?
 
 If you hit the Github API’s rate limit while running the demo, press the “Log In” button. If you’re experimenting with the demo a lot, you can set `GITHUB_USER` and `GITHUB_PASS` environment variables in the “Run” build scheme to make the app automatically log you in on launch.

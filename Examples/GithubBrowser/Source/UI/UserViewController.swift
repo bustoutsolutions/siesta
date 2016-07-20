@@ -15,12 +15,12 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         didSet {
             // One call to removeObservers() removes both self and statusOverlay as observers of the old resource,
             // since both observers are owned by self (see below).
-            
+
             oldValue?.removeObservers(ownedBy: self)
             oldValue?.cancelLoadIfUnobserved(afterDelay: 0.1)
-            
+
             // Adding ourselves as an observer triggers an immediate call to resourceChanged().
-            
+
             userResource?.addObserver(self)
                          .addObserver(statusOverlay, owner: self)
                          .loadIfNeeded()
@@ -31,29 +31,29 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         // typedContent() infers that we want a User from context: showUser() expects one. Our content tranformer
         // configuation in GithubAPI makes it so that the userResource actually holds a User. It is up to a Siesta
         // client to ensure that the transformer output and the expected content type line up like this.
-        // 
+        //
         // If there were a type mismatch, typedContent() would return nil. (We could also provide a default value with
         // the ifNone: param.)
-        
+
         showUser(userResource?.typedContent())
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = SiestaTheme.darkColor
-        userInfoView.hidden = true
-        
+
         statusOverlay.embedIn(self)
+        showActiveRepos()
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         setNeedsStatusBarAppearanceUpdate()
         updateLoginButton()
     }
-    
+
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent;
     }
@@ -64,31 +64,43 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if let searchText = searchBar.text where !searchText.isEmpty {
-            
+
             // Setting userResource triggers a load and display of the new user data. Note that Siesta’s redunant
             // request elimination and model caching make it reasonable to do this on every keystroke.
-            
+
             userResource = GithubAPI.user(searchText)
+        } else {
+            userResource = nil
+            showActiveRepos()
         }
     }
 
     func showUser(user: User?) {
-        userInfoView.hidden = (user == nil)
-        
+        guard user != nil else {
+            showActiveRepos()
+            return
+        }
+
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
         // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
-        
+
         usernameLabel.text = user?.login
         fullNameLabel.text = user?.name
         avatar.imageURL = user?.avatarURL
-        
-        // Setting the reposResource property of the embedded VC triggers load & display of the user’s repos.
 
-        repoListVC?.reposResource =
+        // Setting the repositoriesResource property of the embedded VC triggers load & display of the user’s repos.
+
+        repoListVC?.repositoriesResource =
             userResource?
                 .optionalRelative(user?.repositoriesURL)?
-                .withParam("type", "all")
                 .withParam("sort", "updated")
+    }
+
+    func showActiveRepos() {
+        usernameLabel.text = "Active Repositories"
+        fullNameLabel.text = nil
+        avatar.imageURL = nil
+        repoListVC?.repositoriesResource = GithubAPI.activeRepositories
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -96,7 +108,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             repoListVC = segue.destinationViewController as? RepositoryListViewController
         }
     }
-    
+
     @IBAction func logInOrOut() {
         if(GithubAPI.isAuthenticated) {
             GithubAPI.logOut()
@@ -105,7 +117,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             performSegueWithIdentifier("login", sender: loginButton)
         }
     }
-    
+
     private func updateLoginButton() {
         loginButton.setTitle(GithubAPI.isAuthenticated ? "Log Out" : "Log In", forState: .Normal)
         userResource?.loadIfNeeded()
