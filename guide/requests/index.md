@@ -121,4 +121,4 @@ resource.load(usingRequest:
 ```
 
 
-<p class='guide-next'>Next: <strong><a href='../configuration'>Configuration</a></p>
+<p class='guide-next'>Next: <strong><a href='../configuration'>Configuration</a></strong></p>

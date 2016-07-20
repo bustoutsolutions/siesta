@@ -150,4 +150,4 @@ configure(
 }
 ```
 
-<p class='guide-next'>Next: <strong><a href='../pipeline'>Transformer Pipeline</a></p>
+<p class='guide-next'>Next: <strong><a href='../pipeline'>Transformer Pipeline</a></strong></p>

@@ -209,4 +209,4 @@ The transformer pipeline also supports a persistent cache to allow fast app laun
 
 For more info on writing your own cache implementation, see the [`EntityCache`](http://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) API docs.
 
-<p class='guide-next'>Next: <strong><a href='../security'>Security</a></p>
+<p class='guide-next'>Next: <strong><a href='../security'>Security</a></strong></p>

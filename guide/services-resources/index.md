@@ -86,4 +86,4 @@ Note that the rule is “at _most_ one.” If memory is low and no code referenc
 
 Note that “URL” includes the _whole_ URL: protocol, host, path, and query string. It does _not_ include headers, however. Different query strings? Different resources. `http` vs `https`? Different resources. Different `Authentication` headers? _Same_ resource. This means it’s up to you to [wipe resource content](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service13wipeResourcesFTFCS_8ResourceSb_T_) when a user logs out.
 
-<p class='guide-next'>Next: <strong><a href='../state'>Resource State</a></p>
+<p class='guide-next'>Next: <strong><a href='../state'>Resource State</a></strong></p>

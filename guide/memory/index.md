@@ -88,4 +88,4 @@ Observers affect the resource lifecycle.
 
 These rules, while tricky when all spelled out, make the right thing the easy thing most of the time.
 
-<p class='guide-next'>Next: <strong><a href='../threading'>Threading</a></p>
+<p class='guide-next'>Next: <strong><a href='../threading'>Threading</a></strong></p>

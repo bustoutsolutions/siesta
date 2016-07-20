@@ -116,4 +116,4 @@ resource.request(.POST, json: ["color": "green"])
 
 Exactly one of the completion block’s two arguments will be non-nil.
 
-<p class='guide-next'>Next: <strong><a href='../faq'>FAQ</a></p>
+<p class='guide-next'>Next: <strong><a href='../faq'>FAQ</a></strong></p>

@@ -94,4 +94,4 @@ TODO: document
 
 See [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html)
 
-<p class='guide-next'>Next: <strong><a href='../objc'>Using Siesta from Objective-C</a></p>
+<p class='guide-next'>Next: <strong><a href='../objc'>Using Siesta from Objective-C</a></strong></p>

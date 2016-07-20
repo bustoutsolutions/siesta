@@ -59,4 +59,4 @@ Siesta will always call your [`startRequest()`](http://bustoutsolutions.github.i
 
 It is your responsibility to ensure that any code that queries or alters the state of a request in progress does so in a threadsafe manner. This includes the members of [`RequestNetworking`](http://bustoutsolutions.github.io/siesta/api/Protocols/RequestNetworking.html). (Most networking libraries already provide the necessary thread safety, and you won’t need to take any thread safety measures yourself. Just make sure that this is indeed the case!)
 
-<p class='guide-next'>Next: <strong><a href='../logging'>Logging</a></p>
+<p class='guide-next'>Next: <strong><a href='../logging'>Logging</a></strong></p>

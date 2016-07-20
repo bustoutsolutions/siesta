@@ -44,4 +44,4 @@ Siesta.logger = { category, message in
 }
 ```
 
-<p class='guide-next'>Next: <strong><a href='../ui-components'>UI Components</a></p>
+<p class='guide-next'>Next: <strong><a href='../ui-components'>UI Components</a></strong></p>

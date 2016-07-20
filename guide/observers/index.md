@@ -84,4 +84,4 @@ Here’s how the various `ResourceEvent` values map to `Resource` state changes:
 
 See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](http://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
 
-<p class='guide-next'>Next: <strong><a href='../requests'>Requests</a></p>
+<p class='guide-next'>Next: <strong><a href='../requests'>Requests</a></strong></p>
