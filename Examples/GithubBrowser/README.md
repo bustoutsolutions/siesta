@@ -2,7 +2,7 @@
 
 This app allows you to type a Github username and see the user’s name, avatar, and repos.
 
-This is a simple app, and intentionally minimizes things outside of Siesta’s purview: no models, minimal functionality, and bare bones UI. (Well, there is the gratuitous use of the Siesta color scheme!)
+This is a simple app, and intentionally minimizes things outside of Siesta’s purview: minimal models, minimal functionality, and bare bones UI. (Well, there is the gratuitous use of the Siesta color scheme!)
 
 ## What’s interesting about it?
 
