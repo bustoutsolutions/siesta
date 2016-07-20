@@ -62,31 +62,31 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         statusOverlay.embedIn(self)
         statusOverlay.displayPriority = [.AnyData, .Loading, .Error]  // Prioritize partial data over loading indicator
 
-        update()
+        showRepository()
     }
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        update()
+        showRepository()
     }
 
-    func update() {
-        updateBasicInfo()
-        updateStarred()
+    func showRepository() {
+        showBasicInfo()
+        showStarred()
     }
 
-    func updateBasicInfo() {
+    func showBasicInfo() {
         navigationItem.title = repository?.name
         descriptionLabel?.text = repository?.description
     }
 
-    func updateStarred() {
+    func showStarred() {
         if let repository = repository {
             starredResource = GithubAPI.currentUserStarred(repository)
         } else {
             starredResource = nil
         }
 
-        starCountLabel?.text = repository?.starCount.description
+        starCountLabel?.text = repository?.starCount?.description
         starIcon?.text = isStarred ? "★" : "☆"
         starButton?.setTitle(isStarred ? "Unstar" : "Star", forState: .Normal)
         starButton?.enabled = (repository != nil)

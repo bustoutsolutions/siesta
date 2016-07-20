@@ -17,7 +17,7 @@ class _GithubAPI {
             Siesta.enabledLogCategories = LogCategory.detailed
         #endif
 
-        // Global configuration
+        // Configuration
 
         service.configure {
             // basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes
@@ -34,6 +34,10 @@ class _GithubAPI {
             $0.config.pipeline[.cleanup].add(GithubErrorMessageExtractor())
         }
 
+        service.configure("/search/**") {
+            $0.config.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
+        }
+
         // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
@@ -41,7 +45,14 @@ class _GithubAPI {
         }
 
         service.configureTransformer("/users/*/repos") {
-            try ($0.content as JSON).arrayValue.map(Repository.init)  // “as JSON” gives Siesta an explicit input type
+            try ($0.content as JSON)   // “as JSON” gives Siesta the expected input type
+                .arrayValue            // SwiftyJSON defaults to []
+                .map(Repository.init)  // Model mapping gives Siesta an implicit output type
+        }
+
+        service.configureTransformer("/search/repositories") {
+            try ($0.content as JSON)["items"].arrayValue
+                .map(Repository.init)
         }
 
         service.configureTransformer("/repos/*/*") {
@@ -99,6 +110,14 @@ class _GithubAPI {
     // Note that this class keeps its service private, making these methods the only entry points for the API.
     // You could also choose to subclass Service, which makes methods like service.resource(…) available to
     // your whole app. That approach is sometimes better for quick and dirty prototyping.
+
+    var activeRepositories: Resource {
+        return service
+            .resource("/search/repositories")
+            .withParam("q", "stars:>0")
+            .withParam("sort", "updated")
+            .withParam("order", "desc")
+    }
 
     func user(username: String) -> Resource {
         return service

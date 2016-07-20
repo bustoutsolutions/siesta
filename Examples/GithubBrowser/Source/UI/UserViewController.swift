@@ -42,9 +42,9 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         super.viewDidLoad()
 
         view.backgroundColor = SiestaTheme.darkColor
-        userInfoView.hidden = true
 
         statusOverlay.embedIn(self)
+        showActiveRepos()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -69,11 +69,17 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             // request elimination and model caching make it reasonable to do this on every keystroke.
 
             userResource = GithubAPI.user(searchText)
+        } else {
+            userResource = nil
+            showActiveRepos()
         }
     }
 
     func showUser(user: User?) {
-        userInfoView.hidden = (user == nil)
+        guard user != nil else {
+            showActiveRepos()
+            return
+        }
 
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
         // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
@@ -82,12 +88,19 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         fullNameLabel.text = user?.name
         avatar.imageURL = user?.avatarURL
 
-        // Setting the reposResource property of the embedded VC triggers load & display of the user’s repos.
+        // Setting the repositoriesResource property of the embedded VC triggers load & display of the user’s repos.
 
         repoListVC?.repositoriesResource =
             userResource?
                 .optionalRelative(user?.repositoriesURL)?
                 .withParam("sort", "updated")
+    }
+
+    func showActiveRepos() {
+        usernameLabel.text = "Active Repositories"
+        fullNameLabel.text = nil
+        avatar.imageURL = nil
+        repoListVC?.repositoriesResource = GithubAPI.activeRepositories
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

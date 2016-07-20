@@ -83,7 +83,7 @@ class RepositoryTableViewCell: UITableViewCell {
         didSet {
             userLabel.text = repository?.owner.login
             repoLabel.text = repository?.name
-            starCountLabel.text = repository?.starCount.description
+            starCountLabel.text = repository?.starCount?.description
 
             // Note how powerful this next line is:
             //
