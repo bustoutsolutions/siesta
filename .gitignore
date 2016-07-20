@@ -2,4 +2,3 @@ xcuserdata
 .*cache*
 *.log
 Carthage/
-.*idea*
