@@ -1,13 +1,19 @@
 import SwiftyJSON
 
 struct Repository {
-    let name: String?
-    let starCount: Int?
-    let owner: User?
+    let url: String
+    let name: String
+    let starCount: Int
+    let owner: User
+    let description: String?
+    let collaboratorsURL: String?
 
-    init(json: JSON) {
-        name      = json["name"].string
-        starCount = json["stargazers_count"].int
-        owner = User(json: json["owner"])
+    init(json: JSON) throws {
+        url              = try json["url"].string.required("repository.url")
+        name             = try json["name"].string.required("repository.name")
+        starCount        = try json["stargazers_count"].int.required("repository.stargazers_count")
+        description      = json["description"].string
+        collaboratorsURL = json["collaboratorsURL"].string
+        owner            = try User(json: json["owner"])
     }
 }

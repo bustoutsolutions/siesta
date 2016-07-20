@@ -1,12 +1,13 @@
 import SwiftyJSON
 
 struct User {
-    let login, name, repositoriesURL, avatarURL: String?
+    let login, repositoriesURL, avatarURL: String
+    let name: String?
 
-    init(json: JSON) {
-        login           = json["login"].string
+    init(json: JSON) throws {
+        login           = try json["login"].string.required("user.login")
         name            = json["name"].string
-        repositoriesURL = json["repos_url"].string
-        avatarURL       = json["avatar_url"].string
+        repositoriesURL = try json["repos_url"].string.required("user.repos_url")
+        avatarURL       = try json["avatar_url"].string.required("user.avatar_url")
     }
 }

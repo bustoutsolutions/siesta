@@ -3,17 +3,20 @@ import Siesta
 
 class RepositoryListViewController: UITableViewController, ResourceObserver {
 
-    var reposResource: Resource? {
+    // MARK: Interesting Siesta stuff
+
+    var repositoriesResource: Resource? {
         didSet {
             oldValue?.removeObservers(ownedBy: self)
 
-            reposResource?.addObserver(self)
-                          .addObserver(statusOverlay, owner: self)
-                          .loadIfNeeded()
+            repositoriesResource?
+                .addObserver(self)
+                .addObserver(statusOverlay, owner: self)
+                .loadIfNeeded()
         }
     }
 
-    var repos: [Repository] = [] {
+    var repositories: [Repository] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -22,19 +25,19 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     var statusOverlay = ResourceStatusOverlay()
 
     func resourceChanged(resource: Resource, event: ResourceEvent) {
-        // Siesta’s typedContent() infers from the type of the repos property that reposResource should hold content
-        // of type [Repository].
+        // Siesta’s typedContent() infers from the type of the repositories property that
+        // repositoriesResource should hold content of type [Repository].
 
-        repos = reposResource?.typedContent() ?? []
+        repositories = repositoriesResource?.typedContent() ?? []
     }
+
+    // MARK: Standard table view stuff
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = SiestaTheme.darkColor
         statusOverlay.embedIn(self)
-
-        self.clearsSelectionOnViewWillAppear = false
     }
 
     override func viewDidLayoutSubviews() {
@@ -46,16 +49,41 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repos.count ?? 0
+        return repositories.count ?? 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("repo", forIndexPath: indexPath)
         if let cell = cell as? RepositoryTableViewCell {
-            let repo = repos[indexPath.row]
-            cell.userLabel.text = repo.owner?.login
-            cell.repoLabel.text = repo.name
-            cell.starCountLabel.text = repo.starCount?.description
+            cell.repository = repositories[indexPath.row]
+        }
+        return cell
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "repoDetail" {
+            if let repositoryVC = segue.destinationViewController as? RepositoryViewController,
+               let cell = sender as? RepositoryTableViewCell {
+
+                repositoryVC.repositoryResource =
+                    repositoriesResource?.optionalRelative(
+                        cell.repository?.url)
+            }
+        }
+    }
+}
+
+class RepositoryTableViewCell: UITableViewCell {
+    @IBOutlet weak var icon: RemoteImageView!
+    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var repoLabel: UILabel!
+    @IBOutlet weak var starCountLabel: UILabel!
+
+    var repository: Repository? {
+        didSet {
+            userLabel.text = repository?.owner.login
+            repoLabel.text = repository?.name
+            starCountLabel.text = repository?.starCount.description
 
             // Note how powerful this next line is:
             //
@@ -74,19 +102,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
             // basic Siesta behaviors you can use for resources of any kind. Look at the RemoteImageView source code
             // and study how it uses the core Siesta API.
 
-            cell.icon.imageURL = repo.owner?.avatarURL
+            icon.imageURL = repository?.owner.avatarURL
         }
-        return cell
     }
-
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-}
-
-class RepositoryTableViewCell: UITableViewCell {
-    @IBOutlet weak var icon: RemoteImageView!
-    @IBOutlet weak var userLabel: UILabel!
-    @IBOutlet weak var repoLabel: UILabel!
-    @IBOutlet weak var starCountLabel: UILabel!
 }

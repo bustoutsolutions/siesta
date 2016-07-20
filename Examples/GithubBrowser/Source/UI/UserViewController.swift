@@ -84,7 +84,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
         // Setting the reposResource property of the embedded VC triggers load & display of the user’s repos.
 
-        repoListVC?.reposResource =
+        repoListVC?.repositoriesResource =
             userResource?
                 .optionalRelative(user?.repositoriesURL)?
                 .withParam("sort", "updated")

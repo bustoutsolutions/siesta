@@ -37,11 +37,20 @@ class _GithubAPI {
         // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
-            User(json: $0.content)  // Input type inferred because User.init takes JSON
+            try User(json: $0.content)  // Input type inferred because User.init takes JSON
         }
 
         service.configureTransformer("/users/*/repos") {
-            ($0.content as JSON).arrayValue.map(Repository.init)  // “as JSON” gives Siesta an explicit input type
+            try ($0.content as JSON).arrayValue.map(Repository.init)  // “as JSON” gives Siesta an explicit input type
+        }
+
+        service.configureTransformer("/repos/*/*") {
+            try Repository(json: $0.content)
+        }
+
+        service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
+            $0.config.pipeline[.model].add(        // This custom transformer turns that curious convention into
+                TrueIfResourceFoundTransformer())  // a resource whose content is a simple boolean.
         }
 
         // Note that you can use Siesta without these sorts of model mappings. By default, Siesta parses JSON, text,
@@ -83,14 +92,52 @@ class _GithubAPI {
         }
     }
 
-    // MARK: Resource convenience accessors
+    // MARK: Endpoints
 
-    // A set of lightweight wrappers that return Siesta resources turn your REST API into a nice Swift API.
+    // You can turn your REST API into a nice Swift API using lightweight wrappers that return Siesta resources.
+    //
+    // Note that this class keeps its service private, making these methods the only entry points for the API.
+    // You could also choose to subclass Service, which makes methods like service.resource(…) available to
+    // your whole app. That approach is sometimes better for quick and dirty prototyping.
 
     func user(username: String) -> Resource {
-        return service.resource("users").child(username.lowercaseString)
+        return service
+            .resource("/users")
+            .child(username.lowercaseString)
+    }
+
+    func repository(ownedBy login: String, named name: String) -> Resource {
+        return service
+            .resource("/repos")
+            .child(login)
+            .child(name)
+    }
+
+    func repository(repositoryModel: Repository) -> Resource {
+        return repository(ownedBy: repositoryModel.owner.login, named: repositoryModel.name)
+    }
+
+    func currentUserStarred(repositoryModel: Repository) -> Resource {
+        return service
+            .resource("/user/starred")
+            .child(repositoryModel.owner.login)
+            .child(repositoryModel.name)
+    }
+
+    func setStarred(isStarred: Bool, repository repositoryModel: Repository) -> Request {
+        let starredResource = currentUserStarred(repositoryModel)
+        return starredResource
+            .request(isStarred ? .PUT : .DELETE)
+            .onSuccess { _ in
+                starredResource.overrideLocalContent(isStarred)
+                self.repository(repositoryModel).load()  // To update star count
+            }
     }
 }
+
+private let SwiftyJSONTransformer =
+    ResponseContentTransformer
+        { JSON($0.content as AnyObject) }
 
 private struct GithubErrorMessageExtractor: ResponseTransformer {
     func process(response: Response) -> Response {
@@ -105,6 +152,22 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
     }
 }
 
-private let SwiftyJSONTransformer =
-    ResponseContentTransformer
-        { JSON($0.content as AnyObject) }
+private struct TrueIfResourceFoundTransformer: ResponseTransformer {
+    func process(response: Response) -> Response {
+        switch response {
+            case .Success(var entity):
+                entity.content = true  // Any success → true
+                return logTransformation(
+                    .Success(entity))
+
+            case .Failure(let error):
+                if var entity = error.entity where error.httpStatusCode == 404 {
+                    entity.content = false  // 404 → false
+                    return logTransformation(
+                        .Success(entity))
+                } else {
+                    return .Failure(error)  // Any other error remains an error
+                }
+        }
+    }
+}
