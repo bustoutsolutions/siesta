@@ -247,6 +247,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     public func stoppedObservingResource(resource: Resource)
         {
         observedResources = observedResources.filter { $0 !== resource }
+        updateDisplay()
         }
 
     private func showError(error: Error)
