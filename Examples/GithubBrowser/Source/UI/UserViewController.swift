@@ -44,7 +44,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         view.backgroundColor = SiestaTheme.darkColor
 
         statusOverlay.embedIn(self)
-        showActiveRepos()
+        showUser(nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -71,36 +71,39 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             userResource = GithubAPI.user(searchText)
         } else {
             userResource = nil
-            showActiveRepos()
+            showUser(nil)
         }
     }
 
     func showUser(user: User?) {
-        guard user != nil else {
-            showActiveRepos()
-            return
-        }
-
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
         // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
 
-        usernameLabel.text = user?.login
         fullNameLabel.text = user?.name
         avatar.imageURL = user?.avatarURL
 
+        // Here the “data” and “no data” states diverge enough that it’s worth taking two separate code paths.
+        // Note however that declaring these two variables without initializers guarantees that they’ll both be
+        // set in either branch before they’re used.
+
+        let title: String?
+        let repositoriesResource: Resource?
+
+        if let user = user {
+            title = user.login
+            repositoriesResource =
+                userResource?
+                    .optionalRelative(user.repositoriesURL)?
+                    .withParam("sort", "updated")
+        } else {
+            title = user?.login
+            repositoriesResource = GithubAPI.activeRepositories
+        }
+
         // Setting the repositoriesResource property of the embedded VC triggers load & display of the user’s repos.
 
-        repoListVC?.repositoriesResource =
-            userResource?
-                .optionalRelative(user?.repositoriesURL)?
-                .withParam("sort", "updated")
-    }
-
-    func showActiveRepos() {
-        usernameLabel.text = "Active Repositories"
-        fullNameLabel.text = nil
-        avatar.imageURL = nil
-        repoListVC?.repositoriesResource = GithubAPI.activeRepositories
+        repoListVC?.repositoriesResource = repositoriesResource
+        usernameLabel.text = title
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
