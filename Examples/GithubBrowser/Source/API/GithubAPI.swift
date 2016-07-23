@@ -20,11 +20,11 @@ class _GithubAPI {
         // Configuration
 
         service.configure {
-            // basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes
+            // The basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes.
 
             $0.config.headers["Authorization"] = self.basicAuthHeader
 
-            // By default, Siesta parses JSON using NSJSONSerialization. This example wraps that with SwiftyJSON.
+            // By default, Siesta parses JSON using NSJSONSerialization. This transformer wraps that with SwiftyJSON.
 
             $0.config.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
 
@@ -67,10 +67,10 @@ class _GithubAPI {
         // Note that you can use Siesta without these sorts of model mappings. By default, Siesta parses JSON, text,
         // and images based on content type — and a resource will contain whatever the server happened to return, in a
         // parsed but unstructured form (string, dictionary, etc.). If you prefer to work with raw dictionaries instead
-        // of models, no additional transformer config is necessary.
+        // of models (good for rapid prototyping), then no additional transformer config is necessary.
         //
         // If you do apply a path-based mapping like the ones above, then any request for that path that does not return
-        // the expected type becomes an error. For example, "/users/foo" must return a JSON response because that's
+        // the expected type becomes an error. For example, "/users/foo" _must_ return a JSON response because that's
         // what the User(json:) expects.
     }
 
@@ -175,17 +175,17 @@ private struct TrueIfResourceFoundTransformer: ResponseTransformer {
     func process(response: Response) -> Response {
         switch response {
             case .Success(var entity):
-                entity.content = true  // Any success → true
+                entity.content = true         // Any success → true
                 return logTransformation(
                     .Success(entity))
 
             case .Failure(let error):
                 if var entity = error.entity where error.httpStatusCode == 404 {
-                    entity.content = false  // 404 → false
+                    entity.content = false    // 404 → false
                     return logTransformation(
                         .Success(entity))
                 } else {
-                    return .Failure(error)  // Any other error remains an error
+                    return response           // Any other error remains unchanged
                 }
         }
     }

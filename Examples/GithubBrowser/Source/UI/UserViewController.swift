@@ -3,11 +3,16 @@ import Siesta
 
 class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserver {
 
+    // MARK: UI Elements
+
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var userInfoView: UIView!
     @IBOutlet weak var usernameLabel, fullNameLabel: UILabel!
     @IBOutlet weak var avatar: RemoteImageView!
+
     var statusOverlay = ResourceStatusOverlay()
+
+    // MARK: Resources
 
     var repoListVC: RepositoryListViewController?
 
@@ -38,6 +43,8 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         showUser(userResource?.typedContent())
     }
 
+    // MARK: Setup
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,6 +69,14 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         statusOverlay.positionToCover(userInfoView)
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "repos" {
+            repoListVC = segue.destinationViewController as? RepositoryListViewController
+        }
+    }
+
+    // MARK: User & repo list
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if let searchText = searchBar.text where !searchText.isEmpty {
 
@@ -83,7 +98,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         avatar.imageURL = user?.avatarURL
 
         // Here the “data” and “no data” states diverge enough that it’s worth taking two separate code paths.
-        // Note however that declaring these two variables without initializers guarantees that they’ll both be
+        // Note, however, that declaring these two variables without initializers guarantees that they’ll both be
         // set in either branch before they’re used.
 
         let title: String?
@@ -106,11 +121,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         usernameLabel.text = title
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "repos" {
-            repoListVC = segue.destinationViewController as? RepositoryListViewController
-        }
-    }
+    // MARK: Log in / out
 
     @IBAction func logInOrOut() {
         if(GithubAPI.isAuthenticated) {
