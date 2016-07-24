@@ -39,15 +39,15 @@ public class Service: NSObject
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(
-            baseURL: String? = nil,
+            baseURL: URLConvertible? = nil,
             useDefaultTransformers: Bool = true,
             networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
         {
         dispatch_assert_main_queue()
 
-        if let baseURL = baseURL
+        if let baseURL = baseURL?.url
             {
-            self.baseURL = NSURL(string: baseURL)?.alterPath
+            self.baseURL = baseURL.alterPath
                 {
                 path in
                 !path.hasSuffix("/")
@@ -97,6 +97,8 @@ public class Service: NSObject
             baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 
+    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
+
     /**
       Returns the unique resource with the given URL, ignoring `baseURL`.
 
@@ -109,36 +111,20 @@ public class Service: NSObject
               came from a malformed URL string), this method returns a resource whose requests always fail.
     */
     @warn_unused_result
-    @objc(resourceWithAbsoluteURL:)
-    public final func resource(absoluteURL url: NSURL?) -> Resource
+    public final func resource(absoluteURL urlConvertible: URLConvertible?) -> Resource
         {
         dispatch_assert_main_queue()
 
-        let key = url?.absoluteString ?? ""
-        return resourceCache.get(key)
+        guard let url = urlConvertible?.url else
             {
-            Resource(service: self, url: url ?? Service.invalidURL)
+            debugLog(.Network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
+            return resource(absoluteURL: Service.invalidURL)
             }
-        }
 
-    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
-
-    /**
-      Returns the unique resource with the given URL string, ignoring `baseURL`.
-
-      - SeeAlso: `resource(absoluteURL:)`
-    */
-    @warn_unused_result
-    @objc(resourceWithAbsoluteURLString:)
-    public final func resource(absoluteURL urlString: String?) -> Resource
-        {
-        guard let urlString = urlString else
-            { return resource(absoluteURL: Service.invalidURL) }
-
-        let url = NSURL(string: urlString)
-        if url == nil
-            { debugLog(.Network, ["WARNING: Invalid URL:", urlString, "(all requests for this resource will fail)"]) }
-        return resource(absoluteURL: url)
+        return resourceCache.get(url.absoluteString)
+            {
+            Resource(service: self, url: url)
+            }
         }
 
     // MARK: Resource Configuration

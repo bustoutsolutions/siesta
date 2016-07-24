@@ -38,32 +38,53 @@ class ServiceSpec: SiestaSpec
                 expect("http://foo.bar/baz/?you=mysunshine").to(expandToBaseURL("http://foo.bar/baz/?you=mysunshine"))
                 }
 
-            context("with no baseURL")
+            it("supports baseURL as String")
                 {
-                let bareService = specVar { Service() }
+                let service = Service(baseURL: "https://frotzle.zing")
+                expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
+                }
 
-                it("returns a nil baseURL")
-                    {
-                    expect(bareService().baseURL).to(beNil())
-                    }
+            it("supports baseURL as NSURL")
+                {
+                let service = Service(baseURL: NSURL(string: "https://frotzle.zing"))
+                expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
+                }
 
-                it("fails requests for path-based resources")
+            func addSpecsForBareServce(description: String, serviceBuidler: Void -> Service)
+                {
+                context(description)
                     {
-                    expectInvalidResource(bareService().resource("foo"))
-                    }
+                    let bareService = specVar { serviceBuidler() }
 
-                it("fails requests for relative URLs")
-                    {
-                    expectInvalidResource(bareService().resource(absoluteURL: "/foo"))
-                    }
+                    it("returns a nil baseURL")
+                        {
+                        expect(bareService().baseURL).to(beNil())
+                        }
 
-                it("allows requests for absolute URLs")
-                    {
-                    let resource = bareService().resource(absoluteURL: "http://foo.bar")
-                    stubRequest({ resource }, "GET").andReturn(200)
-                    awaitNewData(resource.load())
+                    it("fails all requests for path-based resources")
+                        {
+                        expectInvalidResource(bareService().resource("foo"))
+                        }
+
+                    it("fails all requests for relative URLs")
+                        {
+                        expectInvalidResource(bareService().resource(absoluteURL: "/foo"))
+                        }
+
+                    it("allows requests for absolute URLs")
+                        {
+                        let resource = bareService().resource(absoluteURL: "http://foo.bar")
+                        stubRequest({ resource }, "GET").andReturn(200)
+                        awaitNewData(resource.load())
+                        }
                     }
                 }
+
+            addSpecsForBareServce("with no baseURL")
+                { Service() }
+
+            addSpecsForBareServce("with an invalid baseURL")
+                { Service(baseURL: "\0") }
             }
 
         describe("resource(_:)")
@@ -115,9 +136,15 @@ class ServiceSpec: SiestaSpec
 
         describe("resource(absoluteURL:)")
             {
-            it("returns a resource with the given URL")
+            it("returns a resource with the given String URL")
                 {
                 expect(service().resource(absoluteURL: "http://foo.com/bar").url.absoluteString)
+                    == "http://foo.com/bar"
+                }
+
+            it("returns a resource with the given NSURL")
+                {
+                expect(service().resource(absoluteURL: NSURL(string: "http://foo.com/bar")).url.absoluteString)
                      == "http://foo.com/bar"
                 }
 

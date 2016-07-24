@@ -112,6 +112,17 @@ public class _objc_Error: NSObject
         }
     }
 
+public extension Service
+    {
+    @objc(resourceWithAbsoluteURL:)
+    public final func _objc_resourceWithAbsoluteURL(absoluteURL url: NSURL?) -> Resource
+        { return resource(absoluteURL: url) }
+
+    @objc(resourceWithAbsoluteURLString:)
+    public final func _objc_resourceWithAbsoluteURLString(absoluteURL url: String?) -> Resource
+        { return resource(absoluteURL: url) }
+    }
+
 public extension Resource
     {
     @objc(latestData)

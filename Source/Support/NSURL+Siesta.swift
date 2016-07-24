@@ -8,6 +8,26 @@
 
 import Foundation
 
+/// Allows interchangeable use of `String` and `NSURL` in calls that need a URL.
+public protocol URLConvertible
+    {
+    var url: NSURL? { get }
+    }
+
+extension String: URLConvertible
+    {
+    /// Returns the URL represented by this string, if it is a valid URL.
+    public var url: NSURL?
+        { return NSURL(string: self) }
+    }
+
+extension NSURL: URLConvertible
+    {
+    /// Returns self.
+    public var url: NSURL?
+        { return self }
+    }
+
 internal extension NSURL
     {
     @warn_unused_result
