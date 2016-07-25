@@ -70,10 +70,11 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.11"
 
-  s.source       = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.8" }
+  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.8" }
 
   s.subspec "Core" do |s|
     s.source_files = "Source/**/*"
+    s.exclude_files = "**/Info*.plist"
     s.ios.resources = "Source/**/*.xib"
     s.osx.exclude_files = "Source/UI"
   end
