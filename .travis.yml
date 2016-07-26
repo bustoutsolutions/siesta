@@ -44,12 +44,12 @@ script: |
   # ------ Dependencies ------
 
   # Optional pre-download, because builds are so slow on Travis, and Carthage builds _everything_:
-  # echo "Downloading prebuilt dependencies"
-  # curl https://innig.net/tmp/siesta-deps.tar.bz2 | bzcat | tar xv
+  echo "Downloading prebuilt dependencies"
+  curl https://innig.net/tmp/siesta-deps.tar.bz2 | bzcat | tar xv
 
   # Uncomment to build with Carthage instead:
-  echo "Building dependencies"
-  carthage bootstrap --platform iOS,osx #--verbose
+  #echo "Building dependencies"
+  #carthage bootstrap --platform iOS,osx #--verbose
 
   # ------ Project build (at last!) ------
 
