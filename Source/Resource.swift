@@ -298,9 +298,7 @@ public final class Resource: NSObject
 
         requestMutation(nsreq)
 
-        debugLog(
-            .NetworkDetails,
-            ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+        debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
 
         let req = NetworkRequest(resource: self, nsreq: nsreq)
         trackRequest(req, using: &allRequests)
