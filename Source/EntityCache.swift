@@ -110,7 +110,7 @@ public struct EntityCacheKey
     public let bytes: [UInt8]
 
     internal init(url: NSURL)
-        { bytes = [UInt8](url.absoluteString.utf8) }
+        { bytes = [UInt8](url.absoluteString!.utf8) }
     }
 
 extension EntityCacheKey: Hashable

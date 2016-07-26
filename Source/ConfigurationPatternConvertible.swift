@@ -102,7 +102,7 @@ extension NSRegularExpression: ConfigurationPatternConvertible
     */
     public func configurationPattern(service: Service) -> NSURL -> Bool
         {
-        return { self.matches($0.absoluteString) }
+        return { self.matches($0.absoluteString!) }
         }
 
     /// :nodoc:
@@ -126,5 +126,5 @@ extension Resource: ConfigurationPatternConvertible
 
     /// :nodoc:
     public var configurationPatternDescription: String
-        { return url.absoluteString }
+        { return url.absoluteString! }
     }

@@ -142,7 +142,7 @@ public final class Resource: NSObject
         dispatch_assert_main_queue()
 
         self.service = service
-        self.url = url.absoluteURL
+        self.url = url.absoluteURL!
 
         super.init()
 
