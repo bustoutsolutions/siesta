@@ -103,7 +103,7 @@ public extension Request
                 }
             }
         }
-    
+
     public func rac_progress()
         -> Signal<Double, NoError>
         {
