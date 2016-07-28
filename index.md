@@ -124,7 +124,9 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.8'
+    pod 'Siesta', '>=1.0-beta.8a'
+
+(Beta 8a contains a pod-only patch.)
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
