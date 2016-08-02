@@ -17,7 +17,6 @@ import UIKit
   An overlay can be in exactly one of three states: **loading**, **success**, or **error**. It shows and hides child
   views depending on which state it’s in. The `displayPriority` property governs these states.
 */
-@objc(BOSResourceStatusOverlay)
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
     // MARK: Child views
