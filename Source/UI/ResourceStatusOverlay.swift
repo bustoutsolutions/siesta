@@ -17,7 +17,6 @@ import UIKit
   An overlay can be in exactly one of three states: **loading**, **success**, or **error**. It shows and hides child
   views depending on which state it’s in. The `displayPriority` property governs these states.
 */
-@objc(BOSResourceStatusOverlay)
 public class ResourceStatusOverlay: UIView, ResourceObserver
     {
     // MARK: Child views
@@ -46,21 +45,34 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     /**
       Creates a status overlay with the default layout.
     */
-    public convenience init()
+    public required init()
         {
-        self.init(nibName: "ResourceStatusOverlay", bundle: NSBundle(forClass: ResourceStatusOverlay.self))
+        super.init(frame: CGRectZero)
+        loadFrom(
+            nibName: "ResourceStatusOverlay",
+            bundle: NSBundle(forClass: ResourceStatusOverlay.self))
         }
 
     /**
-      Creates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
+      Create an overlay with a programmatic layout.
+    */
+    public override init(frame: CGRect)
+        { super.init(frame: frame) }
+
+    /**
+      Create an overlay with a programmatic or serialized layout.
+    */
+    public required init?(coder: NSCoder)
+        { super.init(coder: coder) }
+
+    /**
+      Populates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
       `@IBOutlet`s as it likes.
     */
-    public convenience init(
-            nibName: String,
+    public func loadFrom(
+            nibName nibName: String,
             bundle: NSBundle = NSBundle.mainBundle())
         {
-        self.init(frame: CGRectZero)
-
         bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
 
         if let containerView = containerView
@@ -73,19 +85,6 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
 
         showSuccess()
         }
-
-    /**
-      Create an overlay with a programmatic layout.
-    */
-    override init(frame: CGRect)
-        { super.init(frame: frame) }
-
-    /**
-      Create an overlay with a programmatic or serialized layout.
-    */
-    public required init?(coder: NSCoder)
-        { super.init(coder: coder) }
-
 
     // MARK: Layout
 
