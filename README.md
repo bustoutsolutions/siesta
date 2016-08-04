@@ -20,7 +20,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 ### Overview
 
-- [What’s It For?](#what’s-it-for)
+- [What’s It For?](#whats-it-for)
 - [Features](#features)
 - [Origin](#origin)
 - [Design Philosophy](#design-philosophy)
