@@ -128,7 +128,7 @@ In your `Podfile`:
 
     pod 'Siesta', '1.0-beta.8a'
 
-(Beta 8a contains a pod-only patch. Do not use `>=`. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718), does not work properly with prerelease version numbers and may pick up the wrong version.)
+(Beta 8a contains a pod-only patch. Do not use `>=`. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718), it does not work properly with prerelease version numbers and may pick up the wrong version.)
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
