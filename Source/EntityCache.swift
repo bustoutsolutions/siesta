@@ -40,6 +40,10 @@ import Foundation
 */
 public protocol EntityCache
     {
+    associatedtype Key
+
+    func key(for resource: Resource) -> Key?
+
     /**
       Return the entity associated with the given key, or nil if it is not in the cache.
 
@@ -49,7 +53,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
+    func readEntity(forKey key: Key) -> Entity?
 
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
@@ -67,18 +71,18 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+    func writeEntity(entity: Entity, forKey key: Key)
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
     */
-    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
 
     /**
       Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
       `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
     */
-    func removeEntity(forKey key: EntityCacheKey)
+    func removeEntity(forKey key: Key)
     }
 
 extension EntityCache
@@ -89,44 +93,13 @@ extension EntityCache
       While this default implementation always gives the correct behavior, cache implementations may choose to override
       it for performance reasons.
     */
-    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
         {
         guard var entity = readEntity(forKey: key) else
             { return }
         entity.timestamp = timestamp
         writeEntity(entity, forKey: key)
         }
-    }
-
-/**
-  An opaque identifier for an entity in an `EntityCache`.
-*/
-public struct EntityCacheKey
-    {
-    /**
-      The bytes that define the identity of this cache key. This is an opaque identifier; do not attempt to parse this.
-      Future versions of Siesta may arbitrarily change the internal format of they key’s bytes.
-    */
-    public let bytes: [UInt8]
-
-    internal init(url: NSURL)
-        { bytes = [UInt8](url.absoluteString.utf8) }
-    }
-
-extension EntityCacheKey: Hashable
-    {
-    /// :nodoc:
-    public var hashValue: Int
-        {
-        return bytes.reduce(0)
-            { $0 &* 6287 &+ Int($1) }
-        }
-    }
-
-/// Two entity cache keys are equal iff they have the same bytes.
-public func ==(lhs: EntityCacheKey, rhs: EntityCacheKey) -> Bool
-    {
-    return lhs.bytes == rhs.bytes
     }
 
 /**

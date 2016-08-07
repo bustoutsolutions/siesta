@@ -165,13 +165,13 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
-        let cacheKey = resource.cacheKey
-        let pipeline = config.pipeline
+        let processor = config.pipeline.makeProcessor(rawInfo.response, resource: resource)
+
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             let processedInfo =
                 rawInfo.isNew
-                    ? (pipeline.process(rawInfo.response, cacheKey: cacheKey), true)
+                    ? (processor(), true)
                     : rawInfo
 
             dispatch_async(dispatch_get_main_queue())

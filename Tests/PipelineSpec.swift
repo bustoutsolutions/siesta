@@ -37,7 +37,7 @@ class PipelineSpec: ResourceSpecBase
             {
             // Use a clone so that real service does not have a resource in its cache yet,
             // and will thus still touch the cache when a spec asks for it.
-            service().testClone().resource("/a/b").internalCacheKey
+            service().testClone().resource("/a/b").opaqueCacheKey
             }
 
         beforeEach
@@ -117,10 +117,10 @@ class PipelineSpec: ResourceSpecBase
 
         describe("cache")
             {
-            func configureCache(cache: EntityCache, at stageKey: PipelineStageKey)
+            func configureCache<C: EntityCache>(cache: C, at stageKey: PipelineStageKey)
                 {
                 service().configure
-                    { $0.config.pipeline[stageKey].cache = cache }
+                    { $0.config.pipeline[stageKey].cacheUsing(cache) }
                 }
 
             func waitForCacheRead(cache: TestCache)
@@ -287,17 +287,20 @@ private extension PipelineStageKey
 private class TestCache: EntityCache
     {
     var receivedCacheRead = false, receivedCacheWrite = false
-    var entries: [EntityCacheKey:Entity] = [:]
+    var entries: [OpaqueEntityCacheKey:Entity] = [:]
 
     init()
         { }
 
-    init(returning content: String, for key: EntityCacheKey)
+    init(returning content: String, for key: OpaqueEntityCacheKey)
         {
         entries[key] = Entity(content: content, contentType: "text/string")
         }
 
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
+    func key(for resource: Resource) -> OpaqueEntityCacheKey?
+        { return OpaqueEntityCacheKey(url: resource.url) }
+
+    func readEntity(forKey key: OpaqueEntityCacheKey) -> Entity?
         {
         dispatch_after(
             dispatch_time(
@@ -309,7 +312,7 @@ private class TestCache: EntityCache
         return entries[key]
         }
 
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+    func writeEntity(entity: Entity, forKey key: OpaqueEntityCacheKey)
         {
         dispatch_async(dispatch_get_main_queue())
             {
@@ -318,19 +321,22 @@ private class TestCache: EntityCache
             }
         }
 
-    func removeEntity(forKey key: EntityCacheKey)
+    func removeEntity(forKey key: OpaqueEntityCacheKey)
         { entries.removeValueForKey(key) }
     }
 
 private struct UnwritableCache: EntityCache
     {
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
+    func key(for resource: Resource) -> NSURL?
+        { return resource.url }
+
+    func readEntity(forKey key: NSURL) -> Entity?
         { return nil }
 
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+    func writeEntity(entity: Entity, forKey key: NSURL)
         { fatalError("cache should never be written to") }
 
-    func removeEntity(forKey key: EntityCacheKey)
+    func removeEntity(forKey key: NSURL)
         { fatalError("cache should never be written to") }
     }
 
@@ -340,4 +346,30 @@ private extension String
         {
         return self[startIndex ..< startIndex.advancedBy(n)]
         }
+    }
+
+private struct OpaqueEntityCacheKey
+    {
+    let string: String
+
+    init(url: NSURL)
+        { string = url.absoluteString }
+    }
+
+extension OpaqueEntityCacheKey: Hashable
+    {
+    /// :nodoc:
+    var hashValue: Int
+        { return string.hashValue }
+    }
+
+private func ==(lhs: OpaqueEntityCacheKey, rhs: OpaqueEntityCacheKey) -> Bool
+    {
+    return lhs.string == rhs.string
+    }
+
+extension Resource
+    {
+    private var opaqueCacheKey: OpaqueEntityCacheKey
+        { return OpaqueEntityCacheKey(url: url) }
     }

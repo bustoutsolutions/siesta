@@ -509,7 +509,7 @@ public final class Resource: NSObject
         // we don't write back data just read from cache; wiping doesn't wipe the cache.)
 
         if case .LocalOverride = source
-            { generalConfig.pipeline.removeCacheEntries(forKey: cacheKey) }
+            { generalConfig.pipeline.removeCacheEntries(for: self) }
 
         notifyObservers(.NewData(source))
         }
@@ -521,7 +521,7 @@ public final class Resource: NSObject
         latestError = nil
         latestData?.touch()
         if let timestamp = latestData?.timestamp
-            { generalConfig.pipeline.updateCacheEntryTimestamps(timestamp, forKey: cacheKey) }
+            { generalConfig.pipeline.updateCacheEntryTimestamps(timestamp, for: self) }
 
         notifyObservers(.NotModified)
         }
@@ -644,12 +644,9 @@ public final class Resource: NSObject
 
     // MARK: Caching
 
-    internal var cacheKey: EntityCacheKey
-        { return EntityCacheKey(url: url) }
-
     private func initializeDataFromCache()
         {
-        generalConfig.pipeline.cachedEntity(forKey: cacheKey)
+        generalConfig.pipeline.cachedEntity(for: self)
             {
             [weak self] entity in
             guard let resource = self where resource.latestData == nil else

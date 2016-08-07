@@ -185,12 +185,6 @@ func setResourceTime(time: NSTimeInterval)
 
 // MARK: - Access to module internals
 
-extension Resource
-    {
-    var internalCacheKey: EntityCacheKey
-        { return cacheKey }
-    }
-
 extension Service
     {
     func testClone() -> Service
