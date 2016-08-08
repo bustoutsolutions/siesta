@@ -326,6 +326,36 @@ private class TestCache: EntityCache
         { entries.removeValueForKey(key) }
     }
 
+private class MainQueueThreadCache: TestCache
+    {
+    override func readEntity(forKey key: TestCacheKey) -> Entity?
+        {
+        assertMainQueue()
+        return super.readEntity(forKey: key)
+        }
+
+    override func writeEntity(entity: Entity, forKey key: TestCacheKey)
+        {
+        assertMainQueue()
+        return super.writeEntity(entity, forKey: key)
+        }
+
+    override func removeEntity(forKey key: TestCacheKey)
+        {
+        assertMainQueue()
+        return super.removeEntity(forKey: key)
+        }
+
+    var workQueue: dispatch_queue_t
+        { return dispatch_get_main_queue() }
+
+    private func assertMainQueue()
+        {
+        if !NSThread.isMainThread()
+            { fatalError("MainQueueThreadCache method not called on main queue") }
+        }
+    }
+
 private struct UnwritableCache: EntityCache
     {
     func key(for resource: Resource) -> NSURL?

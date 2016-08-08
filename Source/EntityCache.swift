@@ -83,6 +83,21 @@ public protocol EntityCache
       `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
     */
     func removeEntity(forKey key: Key)
+
+    /**
+      Returns the GCD queue on which this cache implementation will do its work.
+    */
+    var workQueue: dispatch_queue_t { get }
+    }
+
+internal var defaultEntityCacheWorkQueue: dispatch_queue_t =
+    dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+
+public extension EntityCache
+    {
+    /// Returns a concurrent queue with priority `QOS_CLASS_USER_INITIATED`.
+    public var workQueue: dispatch_queue_t
+        { return defaultEntityCacheWorkQueue }
     }
 
 extension EntityCache
