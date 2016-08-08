@@ -263,6 +263,31 @@ class PipelineSpec: ResourceSpecBase
                     expect(testCache.entries).toEventually(beEmpty())
                     }
                 }
+
+            func exerciseCache()
+                {
+                makeRequest()
+                resource().overrideLocalData(
+                    Entity(content: "should not be cached", contentType: "text/string"))
+                }
+
+            it("can specify a custom workQueue")
+                {
+                // MainThreadCache will blow up if any cache methods touched off main thread
+                let cache = MainThreadCache()
+                configureCache(cache, at: .model)
+
+                expect(resource().text).toEventually(equal("bicycle"))
+                exerciseCache()
+
+                expect(cache.calls).toEventually(equal(["readEntity", "writeEntity", "removeEntity"]))
+                }
+
+            it("can opt out by returning a nil key")
+                {
+                configureCache(KeylessCache(), at: .model)
+                exerciseCache()
+                }
             }
 
         it("can clear previously configured transformers")
@@ -306,7 +331,7 @@ private class TestCache: EntityCache
         dispatch_after(
             dispatch_time(
                 DISPATCH_TIME_NOW,
-                Int64(0.2 * Double(NSEC_PER_SEC))),
+                Int64(0.05 * Double(NSEC_PER_SEC))),
             dispatch_get_main_queue())
             { self.receivedCacheRead = true }
 
@@ -324,51 +349,6 @@ private class TestCache: EntityCache
 
     func removeEntity(forKey key: TestCacheKey)
         { entries.removeValueForKey(key) }
-    }
-
-private class MainQueueThreadCache: TestCache
-    {
-    override func readEntity(forKey key: TestCacheKey) -> Entity?
-        {
-        assertMainQueue()
-        return super.readEntity(forKey: key)
-        }
-
-    override func writeEntity(entity: Entity, forKey key: TestCacheKey)
-        {
-        assertMainQueue()
-        return super.writeEntity(entity, forKey: key)
-        }
-
-    override func removeEntity(forKey key: TestCacheKey)
-        {
-        assertMainQueue()
-        return super.removeEntity(forKey: key)
-        }
-
-    var workQueue: dispatch_queue_t
-        { return dispatch_get_main_queue() }
-
-    private func assertMainQueue()
-        {
-        if !NSThread.isMainThread()
-            { fatalError("MainQueueThreadCache method not called on main queue") }
-        }
-    }
-
-private struct UnwritableCache: EntityCache
-    {
-    func key(for resource: Resource) -> NSURL?
-        { return resource.url }
-
-    func readEntity(forKey key: NSURL) -> Entity?
-        { return nil }
-
-    func writeEntity(entity: Entity, forKey key: NSURL)
-        { fatalError("cache should never be written to") }
-
-    func removeEntity(forKey key: NSURL)
-        { fatalError("cache should never be written to") }
     }
 
 private struct TestCacheKey
@@ -399,4 +379,67 @@ private extension String
         {
         return self[startIndex ..< startIndex.advancedBy(n)]
         }
+    }
+
+private class MainThreadCache: EntityCache
+    {
+    var calls: [String] = []
+
+    func key(for resource: Resource) -> String?
+        { return "bi" }
+
+    func readEntity(forKey key: String) -> Entity?
+        {
+        recordCall("readEntity")
+        return Entity(content: "\(key)cy", contentType: "text/bogus")
+        }
+
+    func writeEntity(entity: Entity, forKey key: String)
+        { recordCall("writeEntity") }
+
+    func removeEntity(forKey key: String)
+        { recordCall("removeEntity") }
+
+    var workQueue: dispatch_queue_t
+        { return dispatch_get_main_queue() }
+
+    private func recordCall(name: String)
+        {
+        if !NSThread.isMainThread()
+            { fatalError("MainThreadCache method not called on main queue") }
+        calls.append(name)
+        }
+    }
+
+private class KeylessCache: EntityCache
+    {
+    func key(for resource: Resource) -> String?
+        { return nil }
+
+    func readEntity(forKey key: String) -> Entity?
+        { fatalError("should not be called") }
+
+    func writeEntity(entity: Entity, forKey key: String)
+        { fatalError("should not be called") }
+
+    func removeEntity(forKey key: String)
+        { fatalError("should not be called") }
+
+    var workQueue: dispatch_queue_t
+        { fatalError("should not be called") }
+    }
+
+private struct UnwritableCache: EntityCache
+    {
+    func key(for resource: Resource) -> NSURL?
+        { return resource.url }
+
+    func readEntity(forKey key: NSURL) -> Entity?
+        { return nil }
+
+    func writeEntity(entity: Entity, forKey key: NSURL)
+        { fatalError("cache should never be written to") }
+
+    func removeEntity(forKey key: NSURL)
+        { fatalError("cache should never be written to") }
     }
