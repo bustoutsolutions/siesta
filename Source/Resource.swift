@@ -37,7 +37,12 @@ public final class Resource: NSObject
 
     internal var observers = [ObserverEntry]()
 
-    internal func config(forRequestMethod method: RequestMethod) -> Configuration
+    /// Configuration when there is no request method.
+    public var configuration: Configuration
+        { return configuration(forRequestMethod: .GET) }
+
+    /// Configuration for requests with the given request method.
+    public func configuration(forRequestMethod method: RequestMethod) -> Configuration
         {
         dispatch_assert_main_queue()
 
@@ -51,16 +56,12 @@ public final class Resource: NSObject
             { service.configuration(forResource: self, requestMethod: method) }
         }
 
-    internal func config(forRequest request: NSURLRequest) -> Configuration
+    internal func configuration(forRequest request: NSURLRequest) -> Configuration
         {
-        return config(forRequestMethod:
+        return configuration(forRequestMethod:
             RequestMethod(rawValue: request.HTTPMethod?.uppercaseString ?? "")
                 ?? .GET)  // All unrecognized methods default to .GET
         }
-
-    /// Configuration when there is no request method.
-    internal var generalConfig: Configuration
-        { return config(forRequestMethod: .GET) }
 
     private var cachedConfig: [RequestMethod:Configuration] = [:]
     private var configVersion: UInt64 = 0
@@ -293,7 +294,7 @@ public final class Resource: NSObject
 
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
-        for (header,value) in config(forRequestMethod: method).headers
+        for (header,value) in configuration(forRequestMethod: method).headers
             { nsreq.setValue(value, forHTTPHeaderField: header) }
 
         requestMutation(nsreq)
@@ -325,8 +326,8 @@ public final class Resource: NSObject
     public var isUpToDate: Bool
         {
         let maxAge = (latestError == nil)
-                ? generalConfig.expirationTime
-                : generalConfig.retryTime,
+                ? configuration.expirationTime
+                : configuration.retryTime,
             currentTime = now(),
             result = !invalidated && currentTime - timestamp <= maxAge
 
@@ -357,9 +358,9 @@ public final class Resource: NSObject
 
         debugLog(.Staleness,
             [self, (result ? "is" : "is not"), "up to date:"]
-            + formatExpirationTime("error", latestError?.timestamp, generalConfig.retryTime)
+            + formatExpirationTime("error", latestError?.timestamp, configuration.retryTime)
             + ["|"]
-            + formatExpirationTime("data",  latestData?.timestamp,  generalConfig.expirationTime))
+            + formatExpirationTime("data",  latestData?.timestamp,  configuration.expirationTime))
         }
 
     /**
@@ -509,7 +510,7 @@ public final class Resource: NSObject
         // we don't write back data just read from cache; wiping doesn't wipe the cache.)
 
         if case .LocalOverride = source
-            { generalConfig.pipeline.removeCacheEntries(for: self) }
+            { configuration.pipeline.removeCacheEntries(for: self) }
 
         notifyObservers(.NewData(source))
         }
@@ -521,7 +522,7 @@ public final class Resource: NSObject
         latestError = nil
         latestData?.touch()
         if let timestamp = latestData?.timestamp
-            { generalConfig.pipeline.updateCacheEntryTimestamps(timestamp, for: self) }
+            { configuration.pipeline.updateCacheEntryTimestamps(timestamp, for: self) }
 
         notifyObservers(.NotModified)
         }
@@ -646,7 +647,7 @@ public final class Resource: NSObject
 
     private func initializeDataFromCache()
         {
-        generalConfig.pipeline.cachedEntity(for: self)
+        configuration.pipeline.cachedEntity(for: self)
             {
             [weak self] entity in
             guard let resource = self where resource.latestData == nil else
