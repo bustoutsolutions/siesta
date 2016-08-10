@@ -95,7 +95,7 @@ class ServiceSpec: SiestaSpec
                      == service()
                 }
 
-            it("resolves all strings as subpaths of baseURL")
+            it("resolves all strings as subpaths of baseURL, interposing a slash if needed")
                 {
                 // Note that checkPathExpansion tests both with & without leading slash
                 checkPathExpansion("https://foo.bar",    path: "",         expect: "https://foo.bar/")
@@ -131,6 +131,30 @@ class ServiceSpec: SiestaSpec
                 {
                 checkPathExpansion("https://foo.bar/?a=b&x=y",   path: "baz/fez/", expect: "https://foo.bar/baz/fez/?a=b&x=y")
                 checkPathExpansion("https://foo.bar/v1?a=b&x=y", path: "baz",      expect: "https://foo.bar/v1/baz?a=b&x=y")
+                }
+            }
+
+        describe("resource(baseURL:path:)")
+            {
+            it("ignores the service’s baseURL")
+                {
+                expect(service().resource(baseURL: NSURL(string: "http://fraz.bot/"), path: "/bar")
+                                .url.absoluteString)
+                    == "http://fraz.bot/bar"
+                }
+
+             it("interposes a slash if needed")
+                {
+                expect(service().resource(baseURL: "http://fraz.bot", path: "bar")
+                                .url.absoluteString)
+                    == "http://fraz.bot/bar"
+                }
+
+            it("escapes all characters as part of the path")
+                {
+                expect(service().resource(baseURL: "http://alpha.beta/gamma", path: "../delta?upsilon&omega")
+                                .url.absoluteString)
+                    == "http://alpha.beta/gamma/../delta%3Fupsilon&omega"
                 }
             }
 
