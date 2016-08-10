@@ -93,8 +93,14 @@ public class Service: NSObject
     @objc(resource:)
     public final func resource(path: String) -> Resource
         {
+        return resource(baseURL: baseURL, path: path)
+        }
+
+    @warn_unused_result
+    public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
+        {
         return resource(absoluteURL:
-            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+            customBaseURL?.url?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 
     private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
