@@ -183,13 +183,21 @@ public struct PipelineStage
     /**
       An optional persistent cache for this stage.
 
-      When processing a response, the cache will received an entities after the stage’s transformers have run.
+      When processing a response, the cache will receive the resulting entity after this stage’s transformers have run.
 
-      When inflating a new resource, Siesta will ask
+      When inflating a new resource, Siesta will ask caches if it has any content for the resource, starting with the
+      _last_ cache in the pipeline and working backwards. If there is a cache hit, the resulting entity runs through all
+      the pipeline stages _after_ the one that provided the cache hit.
+
+      - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
+              initially see an empty resources and then get a `NewData(Cache)` event — even if you never call `load()`.
     */
     public mutating func cacheUsing<T: EntityCache>(cache: T)
         { cacheBox = CacheBox(cache: cache) }
 
+    /**
+      Removes any caching that had been configured at this stage.
+    */
     public mutating func doNotCache()
         { cacheBox = nil}
     }

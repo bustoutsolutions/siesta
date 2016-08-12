@@ -40,8 +40,25 @@ import Foundation
 */
 public protocol EntityCache
     {
+    /**
+      The type this cache uses to look up cache entries. The structure of keys is entirely up to the cache, and is
+      opaque to Siesta.
+    */
     associatedtype Key
 
+    /**
+      Provides the key appropriate to this cache for the given resource.
+
+      A cache may opt out of handling the given resource by returning nil.
+
+      This method is called for both cache writes _and_ for cache reads. The `resource` therefore may not have
+      any content. Implementations will almost always examine `resource.url`. (Cache keys should be _at least_ as unique
+      as URLs except in very unusual circumstances.) Implementations may also want to examine `resource.configuration`,
+      for example to take authentication into account.
+
+      - Note: This method is always called on the **main thread**. However, the key it returns will be passed repeatedly
+              across threads. Siesta therefore strongly recommends making `Key` a value type, i.e. a struct.
+    */
     func key(for resource: Resource) -> Key?
 
     /**
