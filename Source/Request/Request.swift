@@ -54,8 +54,10 @@ public enum RequestMethod: String
 */
 public protocol Request: class
     {
-    /// Call the closure once when the request finishes for any reason.
-    func onCompletion(callback: Response -> Void) -> Self
+    /**
+      Call the closure once when the request finishes for any reason.
+    */
+    func onCompletion(callback: (response: Response, isNew: Bool) -> Void) -> Self
 
     /// Call the closure once if the request succeeds.
     func onSuccess(callback: Entity -> Void) -> Self

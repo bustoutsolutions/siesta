@@ -174,7 +174,7 @@ public class _objc_Request: NSObject
         {
         request.onCompletion
             {
-            switch $0
+            switch $0.response
                 {
                 case .Success(let entity):
                     objcCallback(_objc_Entity(entity), nil)

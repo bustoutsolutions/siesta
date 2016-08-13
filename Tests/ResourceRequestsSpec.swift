@@ -113,7 +113,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 req.onFailure
                     { expect($0.cause is Error.Cause.RequestCancelled) == true }
                 req.onCompletion
-                    { expect($0.isCancellation) == true }
+                    { expect($0.response.isCancellation) == true }
                 req.cancel()
                 reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
@@ -124,7 +124,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 let req = resource().request(.GET)
                 req.onCompletion
-                    { expect($0.isCancellation) == false }
+                    { expect($0.response.isCancellation) == false }
                 awaitNewData(req)
                 req.cancel()
                 awaitNewData(req, alreadyCompleted: true)
@@ -134,7 +134,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let req = resource().request(.POST, json: ["unencodable": NSData()])
                 req.onCompletion
-                    { expect($0.isCancellation) == false }
+                    { expect($0.response.isCancellation) == false }
                 awaitFailure(req, alreadyCompleted: true)
                 req.cancel()
                 }

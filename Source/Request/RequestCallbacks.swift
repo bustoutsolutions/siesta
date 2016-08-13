@@ -19,12 +19,12 @@ internal protocol RequestWithDefaultCallbacks: Request
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
 extension RequestWithDefaultCallbacks
     {
-    func onCompletion(callback: Response -> Void) -> Self
+    func onCompletion(callback: (response: Response, isNew: Bool) -> Void) -> Self
         {
         addResponseCallback
             {
-            response, _ in
-            callback(response)
+            response, isNew in
+            callback(response: response, isNew: isNew)
             }
         return self
         }
