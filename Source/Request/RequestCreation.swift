@@ -60,7 +60,7 @@ public extension Resource
                     cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
             }
 
-        return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)")
+        return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)", requestMutation: requestMutation)
         }
 
     /**
@@ -89,7 +89,7 @@ public extension Resource
 
         do  {
             let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
-            return request(method, data: rawBody, contentType: contentType)
+            return request(method, data: rawBody, contentType: contentType, requestMutation: requestMutation)
             }
         catch
             {
@@ -135,7 +135,8 @@ public extension Resource
                       .joinWithSeparator("&")
             return request(method,
                 data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // Reason for !: ASCII guaranteed safe because of escaping
-                contentType: "application/x-www-form-urlencoded")
+                contentType: "application/x-www-form-urlencoded",
+                requestMutation: requestMutation)
             }
         catch
             {
