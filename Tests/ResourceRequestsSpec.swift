@@ -48,18 +48,19 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(resource().request(.GET))
                 }
 
-            describe("beforeStartingRequest hook from configuation")
+            describe("decorateRequests")
                 {
                 it("is called for every request")
                     {
                     var beforeHookCount = 0
                     service().configure
                         {
-                        $0.config.beforeStartingRequest
+                        $0.config.decorateRequests
                             {
                             res, req in
                             expect(res) === resource()
                             beforeHookCount += 1
+                            return req
                             }
                         }
 
@@ -76,7 +77,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     var successHookCalled = false
                     service().configure
                         {
-                        $0.config.beforeStartingRequest
+                        $0.config.decorateRequests
                             { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
@@ -90,8 +91,11 @@ class ResourceRequestsSpec: ResourceSpecBase
                     {
                     service().configure
                         {
-                        $0.config.beforeStartingRequest
-                            { $1.cancel() }
+                        $0.config.decorateRequests
+                            {
+                            $1.cancel()
+                            return $1
+                            }
                         }
 
                     awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through

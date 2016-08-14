@@ -46,7 +46,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         progressTracker = ProgressTracker(isGet: nsreq.HTTPMethod == "GET")
         }
 
-    func start() -> Self
+    func start()
         {
         dispatch_assert_main_queue()
 
@@ -57,7 +57,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
-            return self
+            return
             }
 
         debugLog(.Network, [requestDescription])
@@ -73,8 +73,6 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         progressTracker.start(
             networking,
             reportingInterval: config.progressReportingInterval)
-
-        return self
         }
 
     func cancel()

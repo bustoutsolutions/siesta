@@ -291,6 +291,8 @@ public final class Resource: NSObject
         {
         dispatch_assert_main_queue()
 
+        // Apply header configuration
+
         let nsreq = NSMutableURLRequest(URL: url)
         nsreq.HTTPMethod = method.rawValue
         for (header,value) in config(forRequestMethod: method).headers
@@ -300,12 +302,20 @@ public final class Resource: NSObject
 
         debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
 
-        let req = NetworkRequest(resource: self, nsreq: nsreq)
-        trackRequest(req, using: &allRequests)
-        for callback in req.config.beforeStartingRequestCallbacks
-            { callback(self, req) }
+        // Optionally decorate the request
 
-        return req.start()
+        let rawReq = NetworkRequest(resource: self, nsreq: nsreq)
+        let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
+            { req, decorate in decorate(self, req) }
+
+        // Start the underlying request, now that decorators have had their chance to preemptively cancel it
+
+        rawReq.start()
+
+        // Track the fully decorated request
+
+        trackRequest(req, using: &allRequests)
+        return req
         }
 
     /**
