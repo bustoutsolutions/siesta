@@ -87,7 +87,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     expect(successHookCalled) == true
                     }
 
-                it("can cancel requests")
+                it("can preemptively cancel requests")
                     {
                     service().configure
                         {
@@ -99,6 +99,51 @@ class ResourceRequestsSpec: ResourceSpecBase
                         }
 
                     awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                    }
+
+                describe("substituting requests")
+                    {
+                    let dummyRequest = { Resource.failedRequest(Error(userMessage: "dummy", cause: DummyError())) }
+                    let dummyReq0 = specVar { dummyRequest() },
+                        dummyReq1 = specVar { dummyRequest() }
+
+                    it("causes outside observers to see the replacement")
+                        {
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                {
+                                $1.cancel()
+                                return dummyReq0()
+                                }
+                            }
+
+                        let req = resource().load()
+                        expect(req) === dummyReq0()
+                        awaitFailure(req, alreadyCompleted: true)
+                        }
+
+                    it("causes downstream decorators to see the replacement")
+                        {
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                {
+                                expect($0) == resource()
+                                $1.cancel()
+                                return dummyReq0()  // passed here
+                                }
+                            $0.config.decorateRequests
+                                {
+                                expect($1) === dummyReq0()  // seen here
+                                return dummyReq1()
+                                }
+                            }
+
+                        let req = resource().load()
+                        expect(req) === dummyReq1()
+                        awaitFailure(req, alreadyCompleted: true)
+                        }
                     }
                 }
 
@@ -972,3 +1017,5 @@ private func dataAsString(data: Any?) -> String?
     }
 
 private class DummyObject { }
+
+private struct DummyError: ErrorType { }
