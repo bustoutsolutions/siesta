@@ -8,7 +8,6 @@
 
 import Foundation
 
-internal typealias ResponseInfo = (response: Response, isNew: Bool)
 internal typealias ResponseCallback = ResponseInfo -> Void
 
 internal protocol RequestWithDefaultCallbacks: Request
@@ -19,13 +18,9 @@ internal protocol RequestWithDefaultCallbacks: Request
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
 extension RequestWithDefaultCallbacks
     {
-    func onCompletion(callback: (response: Response, isNew: Bool) -> Void) -> Self
+    func onCompletion(callback: (ResponseInfo) -> Void) -> Self
         {
-        addResponseCallback
-            {
-            response, isNew in
-            callback(response: response, isNew: isNew)
-            }
+        addResponseCallback(callback)
         return self
         }
 
@@ -33,8 +28,7 @@ extension RequestWithDefaultCallbacks
         {
         addResponseCallback
             {
-            response, _ in
-            if case .Success(let entity) = response
+            if case .Success(let entity) = $0.response
                 { callback(entity) }
             }
         return self
@@ -44,8 +38,7 @@ extension RequestWithDefaultCallbacks
         {
         addResponseCallback
             {
-            response, isNew in
-            if case .Success(let entity) = response where isNew
+            if case .Success(let entity) = $0.response where $0.isNew
                 { callback(entity) }
             }
         return self
@@ -55,8 +48,7 @@ extension RequestWithDefaultCallbacks
         {
         addResponseCallback
             {
-            response, isNew in
-            if case .Success = response where !isNew
+            if case .Success = $0.response where !$0.isNew
                 { callback() }
             }
         return self
@@ -66,8 +58,7 @@ extension RequestWithDefaultCallbacks
         {
         addResponseCallback
             {
-            response, _ in
-            if case .Failure(let error) = response
+            if case .Failure(let error) = $0.response
                 { callback(error) }
             }
         return self

@@ -57,7 +57,7 @@ public protocol Request: class
     /**
       Call the closure once when the request finishes for any reason.
     */
-    func onCompletion(callback: (response: Response, isNew: Bool) -> Void) -> Self
+    func onCompletion(callback: ResponseInfo -> Void) -> Self
 
     /// Call the closure once if the request succeeds.
     func onSuccess(callback: Entity -> Void) -> Self
@@ -139,5 +139,23 @@ public enum Response: CustomStringConvertible
             case .Success(let value): return debugStr(value)
             case .Failure(let value): return debugStr(value)
             }
+        }
+    }
+
+/// A `Response`, plus metadata about the nature of the response.
+public struct ResponseInfo
+    {
+    /// The result of a `Request`.
+    public var response: Response
+
+    /// Indicates whether `response` is newly received data, or a previous response reused.
+    /// Used to distinguish `ResourceEvent.NewData` from `ResourceEvent.NotModified`.
+    public var isNew: Bool
+
+    /// Creates new responseInfo, with `isNew` true by default.
+    public init(response: Response, isNew: Bool = true)
+        {
+        self.response = response
+        self.isNew = isNew
         }
     }

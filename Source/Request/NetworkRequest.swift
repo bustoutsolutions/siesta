@@ -94,11 +94,10 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         // Prevent start() from have having any effect if it hasn't been called yet
         wasCancelled = true
 
-        broadcastResponse((
+        broadcastResponse(ResponseInfo(
             response: .Failure(Error(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: Error.Cause.RequestCancelled(networkError: nil))),
-            isNew: true))
+                cause: Error.Cause.RequestCancelled(networkError: nil)))))
         }
 
     // MARK: Callbacks
@@ -140,26 +139,25 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         {
         if nsres?.statusCode >= 400 || error != nil
             {
-            return (.Failure(Error(response:nsres, content: body, cause: error)), true)
+            return ResponseInfo(response: .Failure(Error(response:nsres, content: body, cause: error)))
             }
         else if nsres?.statusCode == 304
             {
             if let entity = resource.latestData
                 {
-                return (.Success(entity), false)
+                return ResponseInfo(response: .Success(entity), isNew: false)
                 }
             else
                 {
-                return (
-                    .Failure(Error(
+                return ResponseInfo(
+                    response: .Failure(Error(
                         userMessage: NSLocalizedString("No data available", comment: "userMessage"),
-                        cause: Error.Cause.NoLocalDataFor304())),
-                    true)
+                        cause: Error.Cause.NoLocalDataFor304())))
                 }
             }
         else
             {
-            return (.Success(Entity(response: nsres, content: body ?? NSData())), true)
+            return ResponseInfo(response: .Success(Entity(response: nsres, content: body ?? NSData())))
             }
         }
 
@@ -171,7 +169,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             {
             let processedInfo =
                 rawInfo.isNew
-                    ? (pipeline.process(rawInfo.response, cacheKey: cacheKey), true)
+                    ? ResponseInfo(response: pipeline.process(rawInfo.response, cacheKey: cacheKey))
                     : rawInfo
 
             dispatch_async(dispatch_get_main_queue())

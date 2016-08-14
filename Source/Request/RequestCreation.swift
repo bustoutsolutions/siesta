@@ -188,7 +188,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
         // Callback should not be called synchronously
 
         dispatch_async(dispatch_get_main_queue())
-            { callback((.Failure(self.error), isNew: true)) }
+            { callback(ResponseInfo(response: .Failure(self.error))) }
         }
 
     func onProgress(callback: Double -> Void) -> Self
