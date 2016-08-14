@@ -178,7 +178,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
     init(error: Error)
         { self.error = error }
 
-    func addResponseCallback(callback: ResponseCallback)
+    func addResponseCallback(callback: ResponseCallback) -> Self
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.
@@ -189,6 +189,8 @@ private final class FailedRequest: RequestWithDefaultCallbacks
 
         dispatch_async(dispatch_get_main_queue())
             { callback(ResponseInfo(response: .Failure(self.error))) }
+
+        return self
         }
 
     func onProgress(callback: Double -> Void) -> Self

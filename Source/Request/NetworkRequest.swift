@@ -102,9 +102,10 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Callbacks
 
-    internal func addResponseCallback(callback: ResponseCallback)
+    internal func addResponseCallback(callback: ResponseCallback) -> Self
         {
         responseCallbacks.addCallback(callback)
+        return self
         }
 
     func onProgress(callback: Double -> Void) -> Self
