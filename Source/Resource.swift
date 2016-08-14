@@ -304,13 +304,14 @@ public final class Resource: NSObject
 
         // Optionally decorate the request
 
-        let rawReq = NetworkRequest(resource: self, nsreq: nsreq)
+        var rawReq = NetworkRequest(resource: self, nsreq: nsreq)
         let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
 
-        // Start the underlying request, now that decorators have had their chance to preemptively cancel it
+        // Start the underlying request, unless the decorators discarded it
 
-        rawReq.start()
+        if !isUniquelyReferencedNonObjC(&rawReq)
+            { rawReq.start() }
 
         // Track the fully decorated request
 

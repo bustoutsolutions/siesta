@@ -144,6 +144,16 @@ class ResourceRequestsSpec: ResourceSpecBase
                         expect(req) === dummyReq1()
                         awaitFailure(req, alreadyCompleted: true)
                         }
+
+                    it("does not start the original request if the chain discarded it")
+                        {
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                { _ in dummyReq0() }
+                            }
+                        awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                        }
                     }
                 }
 
