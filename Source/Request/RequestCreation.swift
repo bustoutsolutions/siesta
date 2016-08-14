@@ -19,7 +19,7 @@ public extension Resource
             method:      RequestMethod,
             data:        NSData,
             contentType: String,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         return request(method)
@@ -48,7 +48,7 @@ public extension Resource
             text:        String,
             contentType: String = "text/plain",
             encoding:    NSStringEncoding = NSUTF8StringEncoding,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
@@ -76,7 +76,7 @@ public extension Resource
             method:      RequestMethod,
             json:        NSJSONConvertible,
             contentType: String = "application/json",
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         guard NSJSONSerialization.isValidJSONObject(json) else

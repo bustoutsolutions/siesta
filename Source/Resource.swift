@@ -286,25 +286,30 @@ public final class Resource: NSObject
     @warn_unused_result
     public func request(
             method: RequestMethod,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         dispatch_assert_main_queue()
 
-        // Apply header configuration
+        // Header configuration
 
-        let nsreq = NSMutableURLRequest(URL: url)
-        nsreq.HTTPMethod = method.rawValue
-        for (header,value) in config(forRequestMethod: method).headers
-            { nsreq.setValue(value, forHTTPHeaderField: header) }
+        let requestBuilder: Void -> NSURLRequest =
+            {
+            let nsreq = NSMutableURLRequest(URL: self.url)
+            nsreq.HTTPMethod = method.rawValue
+            for (header,value) in self.config(forRequestMethod: method).headers
+                { nsreq.setValue(value, forHTTPHeaderField: header) }
 
-        requestMutation(nsreq)
+            requestMutation(nsreq)
 
-        debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+            debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+
+            return nsreq
+            }
 
         // Optionally decorate the request
 
-        var rawReq = NetworkRequest(resource: self, nsreq: nsreq)
+        var rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
         let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
 
@@ -419,7 +424,7 @@ public final class Resource: NSObject
         let req = request(.GET)
             {
             nsreq in
-            if let etag = latestData?.etag
+            if let etag = self.latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
 

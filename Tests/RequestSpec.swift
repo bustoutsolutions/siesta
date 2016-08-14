@@ -260,6 +260,56 @@ class RequestSpec: ResourceSpecBase
 
                 expect(oldRequestHookCalls) == 1
                 }
+
+            it("picks up header config changes")
+                {
+                var flavor: String? = nil
+                service().configure
+                    { $0.config.headers["X-Flavor"] = flavor }
+
+                oldRequest()
+
+                flavor = "iced maple ginger chcocolate pasta swirl"
+                service().invalidateConfiguration()
+
+                stubRepeatedRequest(flavorHeader: flavor)
+                awaitNewData(newRequest())
+                }
+
+            it("repeats custom response mutation")
+                {
+                stubRepeatedRequest(flavorHeader: "mutant flavor 0")
+
+                var mutationCount = 0
+                let req = resource().request(.PATCH, text: "Is there an echo in here?")
+                    {
+                    expect($0.valueForHTTPHeaderField("X-Flavor")).to(beNil())
+                    $0.setValue("mutant flavor \(mutationCount)", forHTTPHeaderField: "X-Flavor")
+                    mutationCount += 1
+                    }
+                awaitNewData(req)
+
+                stubRepeatedRequest(flavorHeader: "mutant flavor 1")
+                awaitNewData(req.repeated())
+                }
+
+            it("does not repeat request decorations")
+                {
+                var decorations = 0
+                service().configure
+                    {
+                    $0.config.decorateRequests
+                        {
+                        decorations += 1
+                        return $1
+                        }
+                    }
+
+                stubRepeatedRequest()
+                awaitNewData(newRequest())
+
+                expect(decorations) == 1
+                }
             }
 
         context("request body")

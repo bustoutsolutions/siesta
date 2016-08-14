@@ -117,13 +117,32 @@ public protocol Request: class
           because you do not always know whether the server processed your request before the error occurred. **Ensure
           that it is safe to repeat a request before calling this method.**
 
+      This method picks up certain contextual changes:
+
+      - It **will** honor any changes to `Configuration.headers` made since the original request.
+      - It **will** rerun the `requestMutation` closure you passed to `Resource.request(...)` (if you passed one).
+      - It **will not** redecorate the request, and **will not** pick up any changes to
+        `Configuration.decorateRequests(...)` since the original call. This is so that a request wrapper can safely
+        retry its nested request without triggering a brain-bending hall of mirrors effect.
+
+      Note that this means the new request may not be indentical to the original one.
+
+      - Warning:
+          Because `repeated()` will pick up header changes from configuration, it is possible for a request to run
+          again with different auth credentials. This is intentional: one of the primary use cases for this dangerous
+          method is automatically retrying a request with an updated auth token. However, the onus is on you to ensure
+          that you do not hold on to and repeat a request after a user logs out. Put those safety goggles on.
+
       - Note:
-          The new `Request` does **not** attach to all the callbacks (e.g. `onCompletion(_:)`) from the old one.
+          The new `Request` does **not** attach all the callbacks (e.g. `onCompletion(_:)`) from the old one.
           Doing so would violate the API contract of `Request` that any callback will be called at most once.
 
-          After calling `retry()`, you will need to attach new callbacks to the new request. Otherwise nobody will hear
-          about the response when it arrives. (Q: If a request completes and nobody’s around to hear it, does it make a
-          response? A: Yes, because it still uses bandwidth.)
+          After calling `repeated()`, you will need to attach new callbacks to the new request. Otherwise nobody will
+          hear about the response when it arrives. (Q: If a request completes and nobody’s around to hear it, does it
+          make a response? A: Yes, because it still uses bandwidth.)
+
+          By the same principle, repeating a `load()` request will trigger a second network call, but will not cause the
+          resource’s state to be updated again with the result.
     */
     func repeated() -> Request
     }

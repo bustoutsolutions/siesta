@@ -17,6 +17,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         { return resource.config(forRequest: nsreq) }
 
     // Networking
+    private let requestBuilder: Void -> NSURLRequest
     private let nsreq: NSURLRequest
     internal var networking: RequestNetworking?  // present only after start()
     internal var underlyingNetworkRequestCompleted = false  // so tests can wait for it to finish
@@ -37,10 +38,11 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Managing request
 
-    init(resource: Resource, nsreq: NSURLRequest)
+    init(resource: Resource, requestBuilder: Void -> NSURLRequest)
         {
         self.resource = resource
-        self.nsreq = nsreq
+        self.requestBuilder = requestBuilder  // for repeated()
+        self.nsreq = requestBuilder()
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
 
         progressTracker = ProgressTracker(isGet: nsreq.HTTPMethod == "GET")
@@ -96,6 +98,13 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             response: .Failure(Error(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
                 cause: Error.Cause.RequestCancelled(networkError: nil)))))
+        }
+
+    func repeated() -> Request
+        {
+        let req = NetworkRequest(resource: resource, requestBuilder: requestBuilder)
+        req.start()
+        return req
         }
 
     // MARK: Callbacks
