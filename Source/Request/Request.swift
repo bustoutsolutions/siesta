@@ -108,6 +108,24 @@ public protocol Request: class
       ignored and not trigger any callbacks.
     */
     func cancel()
+
+    /**
+      Send the same request again, returning a new `Request` instance for the new attempt.
+
+      - Warning:
+          Use with caution! Repeating a failed request for any HTTP method other than GET is potentially unsafe,
+          because you do not always know whether the server processed your request before the error occurred. **Ensure
+          that it is safe to repeat a request before calling this method.**
+
+      - Note:
+          The new `Request` does **not** attach to all the callbacks (e.g. `onCompletion(_:)`) from the old one.
+          Doing so would violate the API contract of `Request` that any callback will be called at most once.
+
+          After calling `retry()`, you will need to attach new callbacks to the new request. Otherwise nobody will hear
+          about the response when it arrives. (Q: If a request completes and nobody’s around to hear it, does it make a
+          response? A: Yes, because it still uses bandwidth.)
+    */
+    func repeated() -> Request
     }
 
 /**

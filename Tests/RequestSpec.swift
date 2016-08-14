@@ -199,6 +199,69 @@ class RequestSpec: ResourceSpecBase
             req.cancel()
             }
 
+        context("repeated()")
+            {
+            func stubRepeatedRequest(answer: String = "No.", flavorHeader: String? = nil)
+                {
+                LSNocilla.sharedInstance().clearStubs()
+                stubRequest(resource, "PATCH")
+                    .withBody("Is there an echo in here?")
+                    .withHeader("X-Flavor", flavorHeader)
+                    .andReturn(200)
+                    .withHeader("Content-Type", "text/plain")
+                    .withBody(answer)
+                }
+
+            func expectResonseText(request: Request, text: String)
+                {
+                let expectation = QuickSpec.current().expectationWithDescription("response text")
+                request.onSuccess
+                    {
+                    expectation.fulfill()
+                    expect($0.typedContent()) == text
+                    }
+                QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+                }
+
+            let oldRequest = specVar
+                {
+                () -> Request in
+                stubRepeatedRequest()
+                let req = resource().request(.PATCH, text: "Is there an echo in here?")
+                awaitNewData(req)
+                return req
+                }
+
+            let newRequest = specVar { oldRequest().repeated() }
+
+            it("sends a new network request")
+                {
+                stubRepeatedRequest()
+                awaitNewData(newRequest())
+                }
+
+            it("leaves the old request’s result intact")
+                {
+                oldRequest()
+                stubRepeatedRequest("OK, maybe.")
+                awaitNewData(newRequest())
+
+                expectResonseText(oldRequest(), text: "No.")        // still has old result
+                expectResonseText(newRequest(), text: "OK, maybe.") // has new result
+                }
+
+            it("does not call the old request’s callbacks")
+                {
+                var oldRequestHookCalls = 0
+                oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
+
+                stubRepeatedRequest()
+                awaitNewData(newRequest())
+
+                expect(oldRequestHookCalls) == 1
+                }
+            }
+
         context("request body")
             {
             it("handles raw data")
@@ -355,4 +418,6 @@ private class RequestWrapper: Request
         }
 
     func cancel() { wrapped.cancel() }
+
+    func repeated() -> Request { fatalError() }
     }

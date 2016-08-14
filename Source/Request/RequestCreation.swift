@@ -205,4 +205,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
 
     func cancel()
         { dispatch_assert_main_queue() }
+
+    func repeated() -> Request
+        { return self }
     }
