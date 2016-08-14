@@ -420,7 +420,7 @@ class ServiceSpec: SiestaSpec
                 }
             }
 
-        describe("wipeResources")
+        describe("wipeResources()")
             {
             beforeEach
                 {

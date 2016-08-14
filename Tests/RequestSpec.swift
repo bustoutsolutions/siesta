@@ -389,7 +389,7 @@ class RequestSpec: ResourceSpecBase
                     awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
 
-                it("give request failure for unencodable strings")
+                it("gives request failure for unencodable strings")
                     {
                     let bogus = String(
                         bytes: [0xD8, 0x00] as [UInt8],  // Unpaired surrogate char in UTF-16
