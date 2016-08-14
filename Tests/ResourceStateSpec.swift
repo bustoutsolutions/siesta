@@ -485,7 +485,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitFailure(req1, alreadyCompleted: true)
                 }
 
-            context("(afterDelay:)")
+            describe("(afterDelay:)")
                 {
                 it("cancels load if resource has loses observers during delay")
                     {
@@ -618,7 +618,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitNewData(req!)
                 }
 
-            describe("only affects loadIfNeeded() once")
+            context("only affects loadIfNeeded() once")
                 {
                 beforeEach
                     { resource().invalidate() }

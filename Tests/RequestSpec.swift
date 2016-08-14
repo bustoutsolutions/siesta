@@ -15,7 +15,7 @@ class RequestSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
-        context("Resource.request()")
+        describe("Resource.request()")
             {
             it("initates a network call")
                 {
@@ -91,7 +91,7 @@ class RequestSpec: ResourceSpecBase
                     awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
                     }
 
-                describe("substituting a request")
+                context("substituting a request")
                     {
                     let dummyRequest = { Resource.failedRequest(Error(userMessage: "dummy", cause: DummyError())) }
                     let dummyReq0 = specVar { dummyRequest() },
@@ -199,7 +199,7 @@ class RequestSpec: ResourceSpecBase
             req.cancel()
             }
 
-        context("repeated()")
+        describe("repeated()")
             {
             func stubRepeatedRequest(answer: String = "No.", flavorHeader: String? = nil)
                 {
@@ -312,7 +312,7 @@ class RequestSpec: ResourceSpecBase
                 }
             }
 
-        context("request body")
+        describe("request body generation")
             {
             it("handles raw data")
                 {
