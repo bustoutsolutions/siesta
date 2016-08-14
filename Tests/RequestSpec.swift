@@ -135,7 +135,23 @@ class RequestSpec: ResourceSpecBase
                         awaitFailure(req, alreadyCompleted: true)
                         }
 
-                    pending("starts the original request if it was wrapped") { }
+                    it("starts the original request if it was wrapped")
+                        {
+                        var wrapper: RequestWrapper!
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                {
+                                wrapper = RequestWrapper($1)
+                                return wrapper
+                                }
+                            }
+
+                        stubRequest(resource, "GET").andReturn(200)
+                            .withHeader("Secret-Message", "wonglezob")
+                        awaitNewData(resource().request(.GET))
+                        expect(wrapper.secretMessage) == "wonglezob"
+                        }
 
                     it("does not start the original request it was discarded")
                         {
@@ -285,3 +301,58 @@ class RequestSpec: ResourceSpecBase
 // MARK: - Helpers
 
 private struct DummyError: ErrorType { }
+
+private class RequestWrapper: Request
+    {
+    private var wrapped: Request
+    var secretMessage: String?
+
+    init(_ wrapped: Request)
+        {
+        self.wrapped = wrapped
+        wrapped.onSuccess
+            { self.secretMessage = $0.header("Secret-Message") }
+        }
+
+    func onCompletion(callback: ResponseInfo -> Void) -> Self
+        {
+        wrapped.onCompletion(callback)
+        return self
+        }
+
+    func onSuccess(callback: Entity -> Void) -> Self
+        {
+        wrapped.onSuccess(callback)
+        return self
+        }
+
+    func onNewData(callback: Entity -> Void) -> Self
+        {
+        wrapped.onNewData(callback)
+        return self
+        }
+
+    func onNotModified(callback: Void -> Void) -> Self
+        {
+        wrapped.onNotModified(callback)
+        return self
+        }
+
+    func onFailure(callback: Error -> Void) -> Self
+        {
+        wrapped.onFailure(callback)
+        return self
+        }
+
+    var isCompleted: Bool { return wrapped.isCompleted }
+
+    var progress: Double { return wrapped.progress }
+
+    func onProgress(callback: Double -> Void) -> Self
+        {
+        wrapped.onProgress(callback)
+        return self
+        }
+
+    func cancel() { wrapped.cancel() }
+    }
