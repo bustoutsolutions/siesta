@@ -85,7 +85,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 service().configure
                     { $0.config.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
-                expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
+                expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
                 }
 
             it("transforms error responses")
@@ -362,13 +362,47 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestError?.text) == "I am not a model"
                     }
 
-                it("infers input type and treats wrong type as an error")
+                context("with mismatched input type")
                     {
-                    configureModelTransformer()
-                    stubText("{}", contentType: "application/json", expectSuccess: false)
-                    expect(resource().latestData).to(beNil())
+                    it("treats it as an error by default")
+                        {
+                        configureModelTransformer()
 
-                    expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
+                        stubText("{}", contentType: "application/json", expectSuccess: false)
+                        expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        }
+
+                    it("skips the transformer on .Skip")
+                        {
+                        service().configureTransformer("**", onInputTypeMismatch: .Skip)
+                            { TestModel(name: $0.content) }
+
+                        stubText("{\"status\": \"untouched\"}", contentType: "application/json")
+                        expect(resource().jsonDict["status"] as? String) == "untouched"
+                        }
+
+                    it("can skip the transformer with .SkipIfOutputTypeMatches")
+                        {
+                        service().configureTransformer("**")
+                            { TestModel(name: $0.content + " Sr.") }
+                        service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .SkipIfOutputTypeMatches)
+                            { TestModel(name: $0.content + " Jr.") }
+
+                        stubText("Fred")
+                        let model: TestModel? = resource().typedContent()
+                        expect(model?.name) == "Fred Sr."
+                        }
+
+                    it("can flag output type mistmatch with .SkipIfOutputTypeMatches")
+                        {
+                        service().configureTransformer("**")
+                            { [$0.content + " who is not a model"] }
+                        service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .SkipIfOutputTypeMatches)
+                            { TestModel(name: $0.content + " Jr.") }
+
+                        stubText("Fred", expectSuccess: false)
+                        expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        }
                     }
 
                 it("can throw a custom error")

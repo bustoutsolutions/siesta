@@ -112,14 +112,13 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType?
 
     private let processor: Processor
-    private let skipWhenEntityMatchesOutputType: Bool
+    private let mismatchAction: InputTypeMismatchAction
     private let transformErrors: Bool
 
     /**
-      - Parameter skipWhenEntityMatchesOutputType:
-          When true, if the input content already matches `OutputContentType`, the transformer does nothing.
-          When false, the tranformer always attempts to parse its input.
-          Default is false.
+      - Parameter mismatchAction:
+          Determines what happens when the actual content coming down the pipeline doesn’t match `InputContentType`.
+          See `InputTypeMismatchAction` for options. The default is `.Error`.
       - Parameter transformErrors:
           When true, apply the transformation to `Error.content` (if present).
           When false, only parse success responses.
@@ -128,11 +127,11 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
           The transformation logic.
     */
     public init(
-            skipWhenEntityMatchesOutputType: Bool = false,
+            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
             transformErrors: Bool = false,
             processor: Processor)
         {
-        self.skipWhenEntityMatchesOutputType = skipWhenEntityMatchesOutputType
+        self.mismatchAction = mismatchAction
         self.transformErrors = transformErrors
         self.processor = processor
         }
@@ -152,20 +151,19 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
     private func processEntity(entity: Entity) -> Response
         {
-        if skipWhenEntityMatchesOutputType && entity.content is OutputContentType
-            {
-            debugLog(.ResponseProcessing, [self, "ignoring content because it is already a \(OutputContentType.self)"])
-            return .Success(entity)
-            }
-
         guard let typedContent = entity.content as? InputContentType else
             {
-            return .Failure(Error(
-                userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-                cause: Error.Cause.WrongInputTypeInTranformerPipeline(
-                    expectedType: debugStr(InputContentType.self),
-                    actualType: debugStr(entity.content.dynamicType),
-                    transformer: self)))
+            switch(mismatchAction)
+                {
+                case .Skip,
+                     .SkipIfOutputTypeMatches where entity.content is OutputContentType:
+
+                    debugLog(.ResponseProcessing, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", entity.content.dynamicType])
+                    return .Success(entity)
+
+                case .Error, .SkipIfOutputTypeMatches:
+                    return contentTypeMismatchError(entity)
+                }
             }
 
         do  {
@@ -186,6 +184,16 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
+    private func contentTypeMismatchError(entityFromUpstream: Entity) -> Response
+        {
+        return .Failure(Error(
+            userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
+            cause: Error.Cause.WrongInputTypeInTranformerPipeline(
+                expectedType: debugStr(InputContentType.self),
+                actualType: debugStr(entityFromUpstream.content.dynamicType),
+                transformer: self)))
+        }
+
     private func processError(error: Error) -> Response
         {
         var error = error
@@ -203,6 +211,25 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         return .Failure(error)
         }
     }
+
+/**
+  Action to take when actual input type at runtime does not match expected input type declared in code.
+
+  - See: `ResponseContentTransformer.init(...)`
+  - See: `Service.configureTransformer(...)`
+*/
+public enum InputTypeMismatchAction
+    {
+    /// Output `Error.Cause.WrongInputTypeInTranformerPipeline`.
+    case Error
+
+    /// Pass the input response through unmodified.
+    case Skip
+
+    /// Pass the input response through unmodified if it matches the output type; otherwise output an error.
+    case SkipIfOutputTypeMatches
+    }
+
 
 // MARK: Transformers for standard types
 
