@@ -2,70 +2,70 @@
   "warnings": [
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 138,
+      "line": 136,
       "symbol": "Error.Cause.UnencodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 139,
+      "line": 137,
       "symbol": "Error.Cause.UnencodableText.text",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 148,
+      "line": 146,
       "symbol": "Error.Cause.NotURLEncodable.offendingString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 156,
+      "line": 154,
       "symbol": "Error.Cause.RequestCancelled.networkError",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 169,
+      "line": 167,
       "symbol": "Error.Cause.InvalidTextEncoding.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 175,
+      "line": 173,
       "symbol": "Error.Cause.UndecodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 182,
+      "line": 180,
       "symbol": "Error.Cause.JSONResponseIsNotDictionaryOrArray.actualType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 193,
-      "symbol": "Error.Cause.WrongTypeInTranformerPipeline.expectedType",
+      "line": 191,
+      "symbol": "Error.Cause.WrongInputTypeInTranformerPipeline.expectedType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 194,
-      "symbol": "Error.Cause.WrongTypeInTranformerPipeline.transformer",
+      "line": 192,
+      "symbol": "Error.Cause.WrongInputTypeInTranformerPipeline.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Error.swift",
-      "line": 200,
+      "line": 198,
       "symbol": "Error.Cause.TransformerReturnedNil.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"

@@ -136,6 +136,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/EntityCache.html">EntityCache</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -173,23 +181,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Caching.html">Caching</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/EntityCacheKey.html">EntityCacheKey</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -210,6 +201,9 @@
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/NSURL.html">NSURL</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -221,14 +215,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Functions.html">Other Functions</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Other Functions.html#/s:ZF6Siestaoi2eeFTVS_14EntityCacheKeyS0__Sb">==(_:_:)</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -236,6 +222,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
               </li>
             </ul>
           </li>
@@ -279,7 +268,7 @@ response has already arrived, the callback is still called as usual.</p>
 
 <p><code>Request</code> guarantees that it will call any given callback <em>at most</em> one time.</p>
 
-<p>Callbacks are always called on the main queue.</p>
+<p>Callbacks are always called on the main thread.</p>
 
                         <a href="Protocols/Request.html" class="slightly-smaller">See more</a>
                       </div>
@@ -292,7 +281,7 @@ response has already arrived, the callback is still called as usual.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Request/Request.swift#L55-L109">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Request/Request.swift#L55-L109">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -325,7 +314,7 @@ response has already arrived, the callback is still called as usual.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Request/Request.swift#L16-L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Request/Request.swift#L16-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -357,7 +346,7 @@ failure (with an error).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Request/Request.swift#L115-L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Request/Request.swift#L115-L141">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

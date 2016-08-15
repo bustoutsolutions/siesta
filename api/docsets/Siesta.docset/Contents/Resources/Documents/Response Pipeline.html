@@ -136,6 +136,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/EntityCache.html">EntityCache</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -173,23 +181,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Caching.html">Caching</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/EntityCacheKey.html">EntityCacheKey</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -210,6 +201,9 @@
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/NSURL.html">NSURL</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -221,14 +215,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Functions.html">Other Functions</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Other Functions.html#/s:ZF6Siestaoi2eeFTVS_14EntityCacheKeyS0__Sb">==(_:_:)</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -236,6 +222,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
               </li>
             </ul>
           </li>
@@ -306,7 +295,7 @@ such as <code>clear()</code> and <code>removeAllTransformers()</code>, or you ca
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L40-L211">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L40-L118">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -349,7 +338,7 @@ transform without disabling JSON parsing.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L225-L283">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L132-L203">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -400,7 +389,7 @@ service.configure {
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L322-L330">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L242-L250">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -444,7 +433,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/ResponseTransformer.swift#L32-L42">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L32-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -491,7 +480,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/ResponseTransformer.swift#L104-L205">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L104-L205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -532,7 +521,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/ResponseTransformer.swift#L233-L246">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L233-L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -562,7 +551,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/ResponseTransformer.swift#L211-L229">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L211-L229">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -592,7 +581,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/ResponseTransformer.swift#L250-L261">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L250-L261">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

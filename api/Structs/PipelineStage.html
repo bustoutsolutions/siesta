@@ -137,6 +137,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -174,23 +182,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Caching.html">Caching</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/EntityCacheKey.html">EntityCacheKey</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -211,6 +202,9 @@
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/NSURL.html">NSURL</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -222,14 +216,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Functions.html">Other Functions</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Functions.html#/s:ZF6Siestaoi2eeFTVS_14EntityCacheKeyS0__Sb">==(_:_:)</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -237,6 +223,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
               </li>
             </ul>
           </li>
@@ -299,7 +288,7 @@ transform without disabling JSON parsing.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L232-L233">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L140-L141">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -341,7 +330,7 @@ the <code>contentTypes</code>. The content type matching applies regardles of wh
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L247-L253">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L155-L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -377,7 +366,7 @@ transformers for specific resources:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L263-L264">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L171-L172">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -385,9 +374,9 @@ transformers for specific resources:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vV6Siesta13PipelineStage5cacheGSqPS_11EntityCache__"></a>
-                    <a name="//apple_ref/swift/Property/cache" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta13PipelineStage5cacheGSqPS_11EntityCache__">cache</a>
+                    <a name="/s:FV6Siesta13PipelineStage10cacheUsinguRxS_11EntityCacherFxT_"></a>
+                    <a name="//apple_ref/swift/Method/cacheUsing(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13PipelineStage10cacheUsinguRxS_11EntityCacherFxT_">cacheUsing(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -397,21 +386,60 @@ transformers for specific resources:</p>
                       <div class="abstract">
                         <p>An optional persistent cache for this stage.</p>
 
-<p>When processing a response, the cache will received an entities after the stage’s transformers have run.</p>
+<p>When processing a response, the cache will receive the resulting entity after this stage’s transformers have run.</p>
 
-<p>When inflating a new resource, Siesta will ask</p>
+<p>When inflating a new resource, Siesta will ask caches if it has any content for the resource, starting with the
+<em>last</em> cache in the pipeline and working backwards. If there is a cache hit, the resulting entity runs through all
+the pipeline stages <em>after</em> the one that provided the cache hit.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Siesta may ask your cache for content before any load requests run. This means that your observer may
+    initially see an empty resources and then get a <code>NewData(Cache)</code> event — even if you never call <code>load()</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cache</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EntityCache.html">EntityCache</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">cacheUsing</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EntityCache.html">EntityCache</a></span><span class="o">&gt;</span><span class="p">(</span><span class="nv">cache</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L282">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L195-L196">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta13PipelineStage10doNotCacheFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/doNotCache()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13PipelineStage10doNotCacheFT_T_">doNotCache()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes any caching that had been configured at this stage.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">doNotCache</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L201-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -446,7 +474,7 @@ transformers for specific resources:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Pipeline.swift#L290-L297">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L210-L217">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -137,6 +137,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -174,23 +182,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Caching.html">Caching</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/EntityCacheKey.html">EntityCacheKey</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/EntityEncoder.html">EntityEncoder</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/JSONEntityEncoder.html">JSONEntityEncoder</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Logging.html">Logging</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -211,6 +202,9 @@
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/NSURL.html">NSURL</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSURLSession.html">NSURLSession</a>
               </li>
               <li class="nav-group-task">
@@ -222,14 +216,6 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Functions.html">Other Functions</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Functions.html#/s:ZF6Siestaoi2eeFTVS_14EntityCacheKeyS0__Sb">==(_:_:)</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -237,6 +223,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
               </li>
             </ul>
           </li>
@@ -253,10 +242,20 @@
 
                 </div>
               </div>
-            <p>A set of logically connected RESTful resources, grouped under a base URL. Resources within a service share caching,
-configuration, and a “same URL → same resource” uniqueness guarantee.</p>
+            <p>A set of logically connected RESTful resources. Resources within a service share caching, configuration, and a
+“same URL → same resource” uniqueness guarantee.</p>
 
-<p>You will typically create a separate subclass of <code>Service</code> for each REST API you use.</p>
+<p>You will typically create a separate instance of <code>Service</code> for each REST API you use. You can either subclass
+<code>Service</code> or encapsulte it inside a wrapper. Regardless, to reap the benefits of Siesta, you’ll want to ensure that
+all the observers of an API share a single instance.</p>
+
+<p>You can optionally specify a <code>baseURL</code>, which allows you to get endpoints by path: <code>service.resource(&quot;/foo&quot;)</code>.
+Specifying a <code>baseURL</code> does <em>not</em> limit the service only to subpaths of that URL. Its one and only purpose is to be
+the starting point for <code>resource(_:)</code></p>
+
+<p>Note that <code>baseURL</code> is only a convenience, and is optional.
+If you want to group multiple base URLs in a single <code>Service</code> instance, use <code>resource(baseURL:path:)</code>.
+If you want to feed your service arbitrary URLs with no common root, use <code>resource(absoluteURL:)</code>.</p>
 
           </div>
         </section>
@@ -290,7 +289,7 @@ configuration, and a “same URL → same resource” uniqueness guarantee.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L22">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -298,9 +297,9 @@ configuration, and a “same URL → same resource” uniqueness guarantee.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7ServicecFT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_"></a>
+                    <a name="/s:FC6Siesta7ServicecFT7baseURLGSqPS_14URLConvertible__22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_"></a>
                     <a name="//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7ServicecFT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_">init(baseURL:useDefaultTransformers:networking:)</a>
+                    <a class="token" href="#/s:FC6Siesta7ServicecFT7baseURLGSqPS_14URLConvertible__22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_">init(baseURL:useDefaultTransformers:networking:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -314,7 +313,7 @@ configuration, and a “same URL → same resource” uniqueness guarantee.</p>
     <p class="aside-title">Parameter</p>
     Parameter baseURL:
 The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-only <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code> to acquire resources.
+only <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource">resource(absoluteURL:)</a></code> and <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT7baseURLGSqPS_14URLConvertible__4pathSS_CS_8Resource">resource(baseURL:path:)</a></code> to acquire resources.
 
 </div>
 
@@ -341,7 +340,7 @@ custom configuration. You can also use your own networking library of choice by 
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">baseURL</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">baseURL</span><span class="p">:</span> <span class="kt"><a href="../Protocols/URLConvertible.html">URLConvertible</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="nv">useDefaultTransformers</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
             <span class="nv">networking</span><span class="p">:</span> <span class="kt"><a href="../Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a></span> <span class="o">=</span> <span class="kt">NSURLSessionConfiguration</span><span class="o">.</span><span class="nf">ephemeralSessionConfiguration</span><span class="p">())</span></code></pre>
 
@@ -359,7 +358,7 @@ custom configuration. You can also use your own networking library of choice by 
                               </td>
                               <td>
                                 <div>
-                                  <p>The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use only <code>resource(absoluteURL:)</code> to acquire resources.</p>
+                                  <p>The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use only <code>resource(absoluteURL:)</code> and <code>resource(baseURL:path:)</code> to acquire resources.</p>
 
                                 </div>
                               </td>
@@ -394,7 +393,7 @@ custom configuration. You can also use your own networking library of choice by 
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L41-L73">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L51-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -426,7 +425,7 @@ service.resource("/users")  // thing
 such as <code>..</code>, <code>//</code>, <code>?</code>, and <code>https:</code> have no special meaning; they go directly into the resulting
 resource’s path, with escaping if necessary.</p>
 
-<p>If you want to pass an absolute URL, use <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code>.</p>
+<p>If you want to pass an absolute URL, use <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource">resource(absoluteURL:)</a></code>.</p>
 
 <p>If you want to pass a relative URL to be resolved against <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>, use <code>resource(&quot;/&quot;).relative(relativeURL)</code>.</p>
 
@@ -442,7 +441,7 @@ resource’s path, with escaping if necessary.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L94-L98">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L104-L107">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -450,9 +449,48 @@ resource’s path, with escaping if necessary.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC6Siesta7Service8resourceFT11absoluteURLGSqCSo5NSURL__CS_8Resource"></a>
+                    <a name="/s:FC6Siesta7Service8resourceFT7baseURLGSqPS_14URLConvertible__4pathSS_CS_8Resource"></a>
+                    <a name="//apple_ref/swift/Method/resource(baseURL:path:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFT7baseURLGSqPS_14URLConvertible__4pathSS_CS_8Resource">resource(baseURL:path:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the unique resource with the given path appended to <code>customBaseURL</code>’s path, ignoring the service’s
+<code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code> property.</p>
+
+<p>As with <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFSSCS_8Resource">resource(_:)</a></code>:</p>
+
+<ul>
+<li>leading slashes on <code>path</code> are optional and have no effect, and</li>
+<li><code>path</code> is <em>always</em> escaped if necessary so that it is part of the URL’s path, and is never interpreted as a
+query string or a relative URL.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n"><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></span> <span class="nv">customBaseURL</span><span class="p">:</span> <span class="kt"><a href="../Protocols/URLConvertible.html">URLConvertible</a></span><span class="p">?,</span> <span class="nv">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L120-L124">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource"></a>
                     <a name="//apple_ref/swift/Method/resource(absoluteURL:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a>
+                    <a class="token" href="#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource">resource(absoluteURL:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -479,48 +517,12 @@ occurs, at which point they are summarily evicted.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">absoluteURL</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">absoluteURL</span> <span class="nv">urlConvertible</span><span class="p">:</span> <span class="kt"><a href="../Protocols/URLConvertible.html">URLConvertible</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L113-L122">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC6Siesta7Service8resourceFT11absoluteURLGSqSS__CS_8Resource"></a>
-                    <a name="//apple_ref/swift/Method/resource(absoluteURL:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqSS__CS_8Resource">resource(absoluteURL:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns the unique resource with the given URL string, ignoring <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_">baseURL</a></code>.</p>
-
-<div class="aside aside-see-also">
-    <p class="aside-title">See also</p>
-    <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqCSo5NSURL__CS_8Resource">resource(absoluteURL:)</a></code>
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">resource</span><span class="p">(</span><span class="n">absoluteURL</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L133-L142">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L140-L154">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -679,7 +681,7 @@ for global config and more fine-grained matching</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L191-L202">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L203-L214">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -756,7 +758,7 @@ for pattern-based matching, and for details about the parameters.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L217-L232">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L229-L244">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -826,7 +828,7 @@ for more robust transformation options.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L260-L289">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L272-L301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -884,7 +886,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L328-L337">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L340-L349">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -927,7 +929,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L371-L379">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L383-L391">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -961,7 +963,7 @@ service.wipeResources(profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L387-L390">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L399-L402">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -993,7 +995,7 @@ service.wipeResources(profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L397-L400">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L409-L412">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1036,7 +1038,7 @@ in the cache, no matter how many there are.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.8/Source/Service.swift#L409-L413">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L421-L425">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
