@@ -275,6 +275,7 @@ public class Service: NSObject
             atStage stage: PipelineStageKey = .model,
             action: PipelineStage.MutationAction = .replaceExisting,
             onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
+            transformErrors: Bool = false,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
         {
@@ -299,6 +300,7 @@ public class Service: NSObject
             $0.config.pipeline[stage].add(
                 ResponseContentTransformer(
                     onInputTypeMismatch: mismatchAction,
+                    transformErrors: transformErrors,
                     processor: contentTransform))
             }
         }

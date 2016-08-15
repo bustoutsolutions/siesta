@@ -351,7 +351,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(model?.name) == "Fred"
                     }
 
-                it("leaves errors untouched")
+                it("leaves errors untouched by default")
                     {
                     configureModelTransformer()
                     stubRequest(resource, "GET").andReturn(500)
@@ -360,6 +360,18 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     awaitFailure(resource().load())
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError?.text) == "I am not a model"
+                    }
+
+                it("can transform errors")
+                    {
+                    service().configureTransformer("**", transformErrors: true)
+                        { TestModel(name: $0.content) }
+                    stubRequest(resource, "GET").andReturn(500)
+                        .withHeader("Content-Type", "text/plain")
+                        .withBody("Fred T. Error")
+                    awaitFailure(resource().load())
+                    let model: TestModel? = resource().latestError?.typedContent()
+                    expect(model?.name) == "Fred T. Error"
                     }
 
                 context("with mismatched input type")
