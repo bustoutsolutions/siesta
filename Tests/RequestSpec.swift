@@ -408,6 +408,90 @@ class RequestSpec: ResourceSpecBase
                     }
                 }
             }
+
+        describe("chained()")
+            {
+            func stubText(body: String, method: String = "GET")
+                {
+                stubRequest(resource, method).andReturn(200)
+                    .withHeader("Content-Type", "text/plain")
+                    .withBody(body)
+                }
+
+            func expectResult(expectedResult: String, for req: Request)
+                {
+                var actualResult: String? = nil
+                req.onSuccess { actualResult = $0.typedContent() }
+                awaitNewData(req)
+
+                expect(actualResult) == expectedResult
+                }
+
+            it("it can use the wrapped request’s response")
+                {
+                stubText("yo")
+                let req = resource().request(.GET)
+                    .chained { _ in .UseThisResponse }
+                expectResult("yo", for: req)
+                }
+
+            it("it can use a custom response")
+                {
+                stubText("yo")
+                let req = resource().request(.GET).chained
+                    {
+                    _ in
+                    .UseCustomResponse(ResponseInfo(
+                        response: .Success(Entity(
+                            content: "custom",
+                            contentType: "text/special"))))
+                    }
+                expectResult("custom", for: req)
+                }
+
+            it("it can chain to a new request")
+                {
+                stubText("yo")
+                stubText("oy", method: "POST")
+                let req = resource().request(.GET).chained
+                    {
+                    _ in
+                    .PassTo(resource().request(.POST))
+                    }
+                expectResult("oy", for: req)
+                }
+
+            it("it can use the result of repeating the request")
+                {
+                stubText("yo")
+                let originalReq = resource().request(.GET)
+                let req = originalReq.chained
+                    {
+                    _ in
+                    LSNocilla.sharedInstance().clearStubs()
+                    stubText("yoyo")
+                    return .PassTo(originalReq.repeated())
+                    }
+                expectResult("yoyo", for: req)
+                }
+
+            it("isCompleted is false until a “use” action")
+                {
+                stubText("yo")
+                let req = resource().request(.GET).chained
+                    { _ in .UseThisResponse }
+                expect(req.isCompleted).to(beFalse())
+                expect(req.isCompleted).toEventually(beTrue())
+                }
+
+            describe("cancel()")
+                {
+                pending("cancels the underlying request") { }
+                pending("stops the chain from proceeding") { }
+                }
+
+            pending("repeated()") { }
+            }
         }
     }
 
