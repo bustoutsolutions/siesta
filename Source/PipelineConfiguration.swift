@@ -39,13 +39,7 @@ import Foundation
 */
 public struct Pipeline
     {
-    private var stages: [PipelineStageKey:PipelineStage] = [:]
-
-    private var stagesInOrder: [PipelineStage]
-        { return order.flatMap { stages[$0] } }
-
-    private var allCaches: [EntityCache]
-        { return stages.values.flatMap { $0.cache } }
+    internal var stages: [PipelineStageKey:PipelineStage] = [:]
 
     /**
       The order in which the pipeline’s stages run. The default order is:
@@ -89,7 +83,7 @@ public struct Pipeline
         }
 
     internal var containsCaches: Bool
-        { return stages.any { $1.cache != nil } }
+        { return stages.any { $1.cacheBox != nil } }
 
     /**
       Removes all transformers from all stages in the pipeline. Leaves caches intact.
@@ -110,7 +104,7 @@ public struct Pipeline
     public mutating func removeAllCaches()
         {
         for key in stages.keys
-            { stages[key]?.cache = nil }
+            { stages[key]?.doNotCache() }
         }
 
     /**
@@ -120,93 +114,6 @@ public struct Pipeline
         {
         removeAllTransformers()
         removeAllCaches()
-        }
-
-    internal func process(response: Response, cacheKey: EntityCacheKey) -> Response
-        { return process(response, cacheKey: cacheKey, usingStages: stagesInOrder) }
-
-    private func process<Stages: CollectionType where Stages.Generator.Element == PipelineStage>(
-            response: Response,
-            cacheKey: EntityCacheKey? = nil,
-            usingStages stages: Stages)
-        -> Response
-        {
-        return stages.reduce(response)
-            {
-            response, stage in
-
-            let processed = stage.process(response)
-
-            if let cacheKey = cacheKey,
-               let cache = stage.cache,
-               case .Success(let entity) = processed
-                {
-                debugLog(.Cache, ["Caching entity with", entity.content.dynamicType, "content for", cacheKey, "in", cache])
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-                    { cache.writeEntity(entity, forKey: cacheKey) }
-                }
-
-            return processed
-            }
-        }
-
-    internal func cachedEntity(forKey key: EntityCacheKey, onHit: (Entity) -> ())
-        {
-        guard containsCaches else
-            { return }
-
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            guard let entity = self.cachedEntity(forKey: key) else
-                { return }
-
-            dispatch_async(dispatch_get_main_queue())
-                { onHit(entity) }
-            }
-        }
-
-    private func cachedEntity(forKey key: EntityCacheKey) -> Entity?
-        {
-        let stagesInOrder = self.stagesInOrder
-        for (index, stage) in stagesInOrder.enumerate().reverse()
-            {
-            if let result = stage.cache?.readEntity(forKey: key)
-                {
-                debugLog(.Cache, ["Cache hit for", key, "in", stage.cache])
-
-                let processed = process(
-                    .Success(result),
-                    usingStages: stagesInOrder.suffixFrom(index + 1))
-
-                switch(processed)
-                    {
-                    case .Failure:
-                        debugLog(.Cache, ["Error processing cached entity; will ignore cached value. Error:", processed])
-
-                    case .Success(let entity):
-                        return entity
-                    }
-                }
-            }
-        return nil
-        }
-
-    internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
-        {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            for cache in self.allCaches
-                { cache.updateEntityTimestamp(timestamp, forKey: key) }
-            }
-        }
-
-    internal func removeCacheEntries(forKey key: EntityCacheKey)
-        {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-            {
-            for cache in self.allCaches
-                { cache.removeEntity(forKey: key) }
-            }
         }
     }
 
@@ -225,6 +132,7 @@ public struct Pipeline
 public struct PipelineStage
     {
     private var transformers: [ResponseTransformer] = []
+    internal var cacheBox: CacheBox?
 
     /**
       Appends the given transformer to this stage.
@@ -264,7 +172,7 @@ public struct PipelineStage
         { transformers.removeAll() }
 
     private var isEmpty: Bool
-        { return cache == nil && transformers.isEmpty }
+        { return cacheBox == nil && transformers.isEmpty }
 
     internal func process(response: Response) -> Response
         {
@@ -275,11 +183,23 @@ public struct PipelineStage
     /**
       An optional persistent cache for this stage.
 
-      When processing a response, the cache will received an entities after the stage’s transformers have run.
+      When processing a response, the cache will receive the resulting entity after this stage’s transformers have run.
 
-      When inflating a new resource, Siesta will ask
+      When inflating a new resource, Siesta will ask caches if it has any content for the resource, starting with the
+      _last_ cache in the pipeline and working backwards. If there is a cache hit, the resulting entity runs through all
+      the pipeline stages _after_ the one that provided the cache hit.
+
+      - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
+              initially see an empty resources and then get a `NewData(Cache)` event — even if you never call `load()`.
     */
-    public var cache: EntityCache?
+    public mutating func cacheUsing<T: EntityCache>(cache: T)
+        { cacheBox = CacheBox(cache: cache) }
+
+    /**
+      Removes any caching that had been configured at this stage.
+    */
+    public mutating func doNotCache()
+        { cacheBox = nil}
     }
 
 extension PipelineStage
