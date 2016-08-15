@@ -162,7 +162,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             {
             return .Failure(Error(
                 userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-                cause: Error.Cause.WrongTypeInTranformerPipeline(
+                cause: Error.Cause.WrongInputTypeInTranformerPipeline(
                     expectedType: debugStr(InputContentType.self),
                     actualType: debugStr(entity.content.dynamicType),
                     transformer: self)))

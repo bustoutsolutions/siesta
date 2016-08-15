@@ -696,7 +696,6 @@
 				9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */,
 				DA3FD66C1D0DF5DE00C75742 /* PipelineConfiguration.swift in Sources */,
 				9F2FB5321C2864BD0068DFFA /* ResponseTransformer.swift in Sources */,
-				9F2FB5311C2864970068DFFA /* Deprecations.swift in Sources */,
 				9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */,
 				9F2FB53F1C2864CB0068DFFA /* Error.swift in Sources */,
 				9F2FB52A1C2864970068DFFA /* DebugFormatting.swift in Sources */,
@@ -709,6 +708,7 @@
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
+				9F2FB5311C2864970068DFFA /* Deprecations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,7 +740,6 @@
 				DAFA42091C20B10F0020AC5E /* RequestCreation.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */,
-				DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */,
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
 				DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Error.swift in Sources */,
@@ -749,6 +748,7 @@
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
 				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
 				DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */,
+				DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

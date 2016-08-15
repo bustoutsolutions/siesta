@@ -8,3 +8,11 @@
 
 
 import Foundation
+
+// Deprecated in 1.0-beta.9
+
+extension Error.Cause
+    {
+    @available(*, deprecated=0.99, renamed="WrongInputTypeInTranformerPipeline")
+    public typealias WrongTypeInTranformerPipeline = Error.Cause.WrongInputTypeInTranformerPipeline
+    }
