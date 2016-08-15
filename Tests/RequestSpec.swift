@@ -458,7 +458,7 @@ class RequestSpec: ResourceSpecBase
                 expectResult("oy", for: req)
                 }
 
-            it("it can use the result of repeating the request")
+            it("it can repeat the request")
                 {
                 stubText("yo")
                 let originalReq = resource().request(.GET)
@@ -536,7 +536,54 @@ class RequestSpec: ResourceSpecBase
                     }
                 }
 
-            pending("repeated()") { }
+            describe("repeated()")
+                {
+                it("restarts the chain at the restart point")
+                    {
+                    stubText("yo")
+                    stubText("oy", method: "PATCH")
+
+                    var responseCount = 0
+                    let req = resource().request(.GET).chained
+                        {
+                        _ in
+                        responseCount += 1
+                        if responseCount == 1
+                            { return .PassTo(resource().request(.PATCH)) }
+                        else
+                            { return .UseThisResponse }
+                        }
+
+                    expectResult("oy", for: req)
+                    expectResult("yo", for: req.repeated())
+                    expectResult("oy", for: req, alreadyCompleted: true)
+                    }
+
+                it("does not rerun chained requests wrapped outside of the restart")
+                    {
+                    stubText("yo")
+                    stubText("oy", method: "PATCH")
+
+                    var req0Count = 0, req1Count = 0
+                    let req0 = resource().request(.GET).chained
+                        {
+                        _ in
+                        req0Count += 1
+                        return .UseThisResponse
+                        }
+                    let req1 = req0.chained
+                        {
+                        _ in
+                        req1Count += 1
+                        return .UseThisResponse
+                        }
+
+                    expectResult("yo", for: req1)
+                    expectResult("yo", for: req0.repeated())
+                    expect(req0Count) == 2
+                    expect(req1Count) == 1
+                    }
+                }
             }
         }
     }
