@@ -479,7 +479,7 @@ public extension Resource
 
 public extension _objc_Error
     {
-    public struct Cause
+    public enum Cause
         {
         /// Request method specified as a string does not match any of the values in the RequestMethod enum.
         public struct InvalidRequestMethod: ErrorType

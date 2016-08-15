@@ -22,7 +22,9 @@ However, you should be ready for breaking changes to the API until we declare an
 The tentative plan is this:
 
 - `1.0-beta.8`: new [transformer pipeline API](pipeline.md), the last major pre-1.0 API change
-- `1.0-beta.9+`:
+- `1.0-beta.9`: `EntityCache` improvements
+- `1.0-beta.10`: Request decorating, chaining, repeating
+- `1.0-beta.11`:
   - final API refinements
   - split UI helpers into separate subproject
   - reorganize directory structure to anticipate SwiftPM
@@ -34,7 +36,7 @@ After these releases, when we are confident that 1.0 functionality is set, we wi
 
 These will be the last releases to support Swift 2, except for any critical bug fixes. If you aren’t ready to move to Swift 3, you can stick with these releases.
 
-The `master` branch will then move to Swift 3. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only:
+The `master` branch will then move to Swift 3. The goal is to do this before Swift 3 goes GM. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only:
 
 - `1.0-rc.*`, `1.0`: targeting Swift 3
 

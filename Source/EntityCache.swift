@@ -41,6 +41,27 @@ import Foundation
 public protocol EntityCache
     {
     /**
+      The type this cache uses to look up cache entries. The structure of keys is entirely up to the cache, and is
+      opaque to Siesta.
+    */
+    associatedtype Key
+
+    /**
+      Provides the key appropriate to this cache for the given resource.
+
+      A cache may opt out of handling the given resource by returning nil.
+
+      This method is called for both cache writes _and_ for cache reads. The `resource` therefore may not have
+      any content. Implementations will almost always examine `resource.url`. (Cache keys should be _at least_ as unique
+      as URLs except in very unusual circumstances.) Implementations may also want to examine `resource.configuration`,
+      for example to take authentication into account.
+
+      - Note: This method is always called on the **main thread**. However, the key it returns will be passed repeatedly
+              across threads. Siesta therefore strongly recommends making `Key` a value type, i.e. a struct.
+    */
+    func key(for resource: Resource) -> Key?
+
+    /**
       Return the entity associated with the given key, or nil if it is not in the cache.
 
       If this method returns an entity, it does _not_ pass through the transformer pipeline. Implementations should
@@ -49,7 +70,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
+    func readEntity(forKey key: Key) -> Entity?
 
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
@@ -67,18 +88,33 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+    func writeEntity(entity: Entity, forKey key: Key)
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
     */
-    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
 
     /**
       Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
       `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
     */
-    func removeEntity(forKey key: EntityCacheKey)
+    func removeEntity(forKey key: Key)
+
+    /**
+      Returns the GCD queue on which this cache implementation will do its work.
+    */
+    var workQueue: dispatch_queue_t { get }
+    }
+
+internal var defaultEntityCacheWorkQueue: dispatch_queue_t =
+    dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+
+public extension EntityCache
+    {
+    /// Returns a concurrent queue with priority `QOS_CLASS_USER_INITIATED`.
+    public var workQueue: dispatch_queue_t
+        { return defaultEntityCacheWorkQueue }
     }
 
 extension EntityCache
@@ -89,107 +125,11 @@ extension EntityCache
       While this default implementation always gives the correct behavior, cache implementations may choose to override
       it for performance reasons.
     */
-    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: EntityCacheKey)
+    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
         {
         guard var entity = readEntity(forKey: key) else
             { return }
         entity.timestamp = timestamp
         writeEntity(entity, forKey: key)
-        }
-    }
-
-/**
-  An opaque identifier for an entity in an `EntityCache`.
-*/
-public struct EntityCacheKey
-    {
-    /**
-      The bytes that define the identity of this cache key. This is an opaque identifier; do not attempt to parse this.
-      Future versions of Siesta may arbitrarily change the internal format of they key’s bytes.
-    */
-    public let bytes: [UInt8]
-
-    internal init(url: NSURL)
-        { bytes = [UInt8](url.absoluteString.utf8) }
-    }
-
-extension EntityCacheKey: Hashable
-    {
-    /// :nodoc:
-    public var hashValue: Int
-        {
-        return bytes.reduce(0)
-            { $0 &* 6287 &+ Int($1) }
-        }
-    }
-
-/// Two entity cache keys are equal iff they have the same bytes.
-public func ==(lhs: EntityCacheKey, rhs: EntityCacheKey) -> Bool
-    {
-    return lhs.bytes == rhs.bytes
-    }
-
-/**
-  A strategy for transforming `Entity` instances to and from raw byte data.
-
-  Provided primarily to help `EntityCache` implementations.
-
-  - Warning: When used with an `EntityCache`, these methods will run on a GCD background queue, so your implementation
-             **must be thread-safe**.
-*/
-public protocol EntityEncoder
-    {
-    /// Returns entity, including all of its metadata, serialized as raw data. Returns nil if this encoder does not know
-    /// how to encode the entity.
-    func encodeEntity(entity: Entity) -> NSData?
-
-    /// Decodes the data as an entity. Returns nil if the decoding fails for any reason.
-    func decodeEntity(data: NSData) -> Entity?
-    }
-
-/**
-  Encodes `Entity` instances with JSON content for storage.
-
-  Do not confuse this with `JSONResponseTransformer`. They have different purposes:
-
-  - `JSONResponseTransformer`: HTTP response ⟶ `Entity` or `Error`
-  - `JSONEntityEncoder`: `Entity` ↔ persistent storage
-*/
-public struct JSONEntityEncoder: EntityEncoder
-    {
-    /// :nodoc:
-    public init() { }
-
-    /// Encodes the entity iff its `content` is a valid JSON object.
-    public func encodeEntity(entity: Entity) -> NSData?
-        {
-        guard let obj = entity.content as? AnyObject where NSJSONSerialization.isValidJSONObject(obj) else
-            { return nil }
-
-        let json = NSMutableDictionary()
-        json["content"]   = obj
-        json["headers"]   = entity.headers
-        json["charset"]   = entity.charset
-        json["timestamp"] = entity.timestamp
-
-        return try? NSJSONSerialization.dataWithJSONObject(json, options: [])
-        }
-
-    /// Decodes an entity with JSON content.
-    public func decodeEntity(data: NSData) -> Entity?
-        {
-        let decoded: AnyObject
-        do { decoded = try NSJSONSerialization.JSONObjectWithData(data, options: []) }
-        catch { return nil }
-
-        guard let json = decoded as? NSDictionary,
-                  content   = json["content"],
-                  headers   = json["headers"] as? [String:String],
-                  timestamp = json["timestamp"] as? NSTimeInterval
-        else { return nil }
-
-        let charset = json["charset"] as? String  // can be nil
-
-        return Entity(content: content, charset: charset, headers: headers, timestamp: timestamp)
         }
     }

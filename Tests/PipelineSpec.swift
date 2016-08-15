@@ -33,12 +33,8 @@ class PipelineSpec: ResourceSpecBase
             awaitRequest(resource().load(), alreadyCompleted: false)
             }
 
-        let resourceCacheKey = specVar
-            {
-            // Use a clone so that real service does not have a resource in its cache yet,
-            // and will thus still touch the cache when a spec asks for it.
-            service().testClone().resource("/a/b").internalCacheKey
-            }
+        func resourceCacheKey(prefix: String) -> TestCacheKey
+            { return TestCacheKey(prefix: prefix, path: "/a/b") }
 
         beforeEach
             {
@@ -117,10 +113,10 @@ class PipelineSpec: ResourceSpecBase
 
         describe("cache")
             {
-            func configureCache(cache: EntityCache, at stageKey: PipelineStageKey)
+            func configureCache<C: EntityCache>(cache: C, at stageKey: PipelineStageKey)
                 {
                 service().configure
-                    { $0.config.pipeline[stageKey].cache = cache }
+                    { $0.config.pipeline[stageKey].cacheUsing(cache) }
                 }
 
             func waitForCacheRead(cache: TestCache)
@@ -131,8 +127,8 @@ class PipelineSpec: ResourceSpecBase
 
             describe("read")
                 {
-                let cache0 = specVar { TestCache(returning: "cache0", for: resourceCacheKey()) },
-                    cache1 = specVar { TestCache(returning: "cache1", for: resourceCacheKey()) }
+                let cache0 = specVar { TestCache(returning: "cache0", for: resourceCacheKey("cache0")) },
+                    cache1 = specVar { TestCache(returning: "cache1", for: resourceCacheKey("cache1")) }
 
                 it("reinflates resource with cached content")
                     {
@@ -142,7 +138,7 @@ class PipelineSpec: ResourceSpecBase
 
                 it("inflates empty resource if no cached data")
                     {
-                    let emptyCache = TestCache()
+                    let emptyCache = TestCache("empty")
                     configureCache(emptyCache, at: .cleanup)
                     resource()
                     waitForCacheRead(emptyCache)
@@ -168,7 +164,7 @@ class PipelineSpec: ResourceSpecBase
                     {
                     setResourceTime(1000)
                     configureCache(
-                        TestCache(returning: "foo", for: resourceCacheKey()),
+                        TestCache(returning: "foo", for: resourceCacheKey("foo")),
                         at: .cleanup)
 
                     setResourceTime(2000)
@@ -193,7 +189,10 @@ class PipelineSpec: ResourceSpecBase
                 it("skips cached content that fails subsequent transformation")
                     {
                     configureCache(cache0(), at: .decoding)
-                    configureCache(TestCache(returning: "error on cleanup", for: resourceCacheKey()), at: .parsing)  // see appender() above
+                    configureCache(TestCache(
+                        returning: "error on cleanup",
+                        for: resourceCacheKey("error on cleanup")),
+                        at: .parsing)  // see appender() above
                     expect(resource().text).toEventually(equal("cache0parmodcle"))
                     }
                 }
@@ -203,13 +202,13 @@ class PipelineSpec: ResourceSpecBase
                 func expectCacheWrite(to cache: TestCache, content: String)
                     {
                     waitForCacheWrite(cache)
-                    expect(Array(cache.entries.keys)) == [resourceCacheKey()]
+                    expect(Array(cache.entries.keys)) == [resourceCacheKey(cache.name)]
                     expect(cache.entries.values.first?.typedContent()) == content
                     }
 
                 it("caches new data on success")
                     {
-                    let testCache = TestCache()
+                    let testCache = TestCache("new data")
                     configureCache(testCache, at: .cleanup)
                     makeRequest()
                     expectCacheWrite(to: testCache, content: "decparmodcle")
@@ -217,8 +216,8 @@ class PipelineSpec: ResourceSpecBase
 
                 it("writes each stage’s output to that stage’s cache")
                     {
-                    let parCache = TestCache(),
-                        modCache = TestCache()
+                    let parCache = TestCache("par cache"),
+                        modCache = TestCache("mod cache")
                     configureCache(parCache, at: .parsing)
                     configureCache(modCache, at: .model)
                     makeRequest()
@@ -239,7 +238,7 @@ class PipelineSpec: ResourceSpecBase
 
                 it("updates cached data timestamp on 304")
                     {
-                    let testCache = TestCache()
+                    let testCache = TestCache("updated data")
                     configureCache(testCache, at: .cleanup)
                     setResourceTime(1000)
                     makeRequest()
@@ -247,15 +246,15 @@ class PipelineSpec: ResourceSpecBase
                     setResourceTime(2000)
                     stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
-                    expect(testCache.entries[resourceCacheKey()]?.timestamp)
+                    expect(testCache.entries[resourceCacheKey("updated data")]?.timestamp)
                         .toEventually(equal(2000))
                     }
 
                 it("clears cached data on local override")
                     {
-                    let testCache = TestCache()
+                    let testCache = TestCache("local override")
                     configureCache(testCache, at: .cleanup)
-                    testCache.entries[resourceCacheKey()] =
+                    testCache.entries[resourceCacheKey("local override")] =
                         Entity(content: "should go away", contentType: "text/string")
 
                     resource().overrideLocalData(
@@ -263,6 +262,31 @@ class PipelineSpec: ResourceSpecBase
 
                     expect(testCache.entries).toEventually(beEmpty())
                     }
+                }
+
+            func exerciseCache()
+                {
+                makeRequest()
+                resource().overrideLocalData(
+                    Entity(content: "should not be cached", contentType: "text/string"))
+                }
+
+            it("can specify a custom workQueue")
+                {
+                // MainThreadCache will blow up if any cache methods touched off main thread
+                let cache = MainThreadCache()
+                configureCache(cache, at: .model)
+
+                expect(resource().text).toEventually(equal("bicycle"))
+                exerciseCache()
+
+                expect(cache.calls).toEventually(equal(["readEntity", "writeEntity", "removeEntity"]))
+                }
+
+            it("can opt out by returning a nil key")
+                {
+                configureCache(KeylessCache(), at: .model)
+                exerciseCache()
                 }
             }
 
@@ -286,30 +310,35 @@ private extension PipelineStageKey
 
 private class TestCache: EntityCache
     {
+    var name: String
     var receivedCacheRead = false, receivedCacheWrite = false
-    var entries: [EntityCacheKey:Entity] = [:]
+    var entries: [TestCacheKey:Entity] = [:]
 
-    init()
-        { }
+    init(_ name: String)
+        { self.name = name }
 
-    init(returning content: String, for key: EntityCacheKey)
+    init(returning content: String, for key: TestCacheKey)
         {
+        name = content
         entries[key] = Entity(content: content, contentType: "text/string")
         }
 
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
+    func key(for resource: Resource) -> TestCacheKey?
+        { return TestCacheKey(prefix: name, path: resource.url.path) }
+
+    func readEntity(forKey key: TestCacheKey) -> Entity?
         {
         dispatch_after(
             dispatch_time(
                 DISPATCH_TIME_NOW,
-                Int64(0.2 * Double(NSEC_PER_SEC))),
+                Int64(0.05 * Double(NSEC_PER_SEC))),
             dispatch_get_main_queue())
             { self.receivedCacheRead = true }
 
         return entries[key]
         }
 
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
+    func writeEntity(entity: Entity, forKey key: TestCacheKey)
         {
         dispatch_async(dispatch_get_main_queue())
             {
@@ -318,20 +347,30 @@ private class TestCache: EntityCache
             }
         }
 
-    func removeEntity(forKey key: EntityCacheKey)
+    func removeEntity(forKey key: TestCacheKey)
         { entries.removeValueForKey(key) }
     }
 
-private struct UnwritableCache: EntityCache
+private struct TestCacheKey
     {
-    func readEntity(forKey key: EntityCacheKey) -> Entity?
-        { return nil }
+    let string: String
 
-    func writeEntity(entity: Entity, forKey key: EntityCacheKey)
-        { fatalError("cache should never be written to") }
+    // Including a cache-specific prefix in the key ensure that pipeline correctly
+    // associates a cache with the keys it generated.
 
-    func removeEntity(forKey key: EntityCacheKey)
-        { fatalError("cache should never be written to") }
+    init(prefix: String, path: String?)
+        { string = "\(prefix)•\(path)" }
+    }
+
+extension TestCacheKey: Hashable
+    {
+    var hashValue: Int
+        { return string.hashValue }
+    }
+
+private func ==(lhs: TestCacheKey, rhs: TestCacheKey) -> Bool
+    {
+    return lhs.string == rhs.string
     }
 
 private extension String
@@ -340,4 +379,67 @@ private extension String
         {
         return self[startIndex ..< startIndex.advancedBy(n)]
         }
+    }
+
+private class MainThreadCache: EntityCache
+    {
+    var calls: [String] = []
+
+    func key(for resource: Resource) -> String?
+        { return "bi" }
+
+    func readEntity(forKey key: String) -> Entity?
+        {
+        recordCall("readEntity")
+        return Entity(content: "\(key)cy", contentType: "text/bogus")
+        }
+
+    func writeEntity(entity: Entity, forKey key: String)
+        { recordCall("writeEntity") }
+
+    func removeEntity(forKey key: String)
+        { recordCall("removeEntity") }
+
+    var workQueue: dispatch_queue_t
+        { return dispatch_get_main_queue() }
+
+    private func recordCall(name: String)
+        {
+        if !NSThread.isMainThread()
+            { fatalError("MainThreadCache method not called on main queue") }
+        calls.append(name)
+        }
+    }
+
+private class KeylessCache: EntityCache
+    {
+    func key(for resource: Resource) -> String?
+        { return nil }
+
+    func readEntity(forKey key: String) -> Entity?
+        { fatalError("should not be called") }
+
+    func writeEntity(entity: Entity, forKey key: String)
+        { fatalError("should not be called") }
+
+    func removeEntity(forKey key: String)
+        { fatalError("should not be called") }
+
+    var workQueue: dispatch_queue_t
+        { fatalError("should not be called") }
+    }
+
+private struct UnwritableCache: EntityCache
+    {
+    func key(for resource: Resource) -> NSURL?
+        { return resource.url }
+
+    func readEntity(forKey key: NSURL) -> Entity?
+        { return nil }
+
+    func writeEntity(entity: Entity, forKey key: NSURL)
+        { fatalError("cache should never be written to") }
+
+    func removeEntity(forKey key: NSURL)
+        { fatalError("cache should never be written to") }
     }

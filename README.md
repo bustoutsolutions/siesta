@@ -126,9 +126,9 @@ Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.app
 
 In your `Podfile`:
 
-    pod 'Siesta', '1.0-beta.8a'
+    pod 'Siesta', '1.0-beta.9'
 
-(Beta 8a contains a pod-only patch. Do not use `>=`. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718), it does not work properly with prerelease version numbers and may pick up the wrong version.)
+(If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718), it does not work properly with prerelease version numbers and may pick up the wrong version.)
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
@@ -140,7 +140,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.8"
+    github "bustoutsolutions/siesta" "1.0-beta.9"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
 

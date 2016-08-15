@@ -50,7 +50,7 @@ public enum RequestMethod: String
 
   `Request` guarantees that it will call any given callback _at most_ one time.
 
-  Callbacks are always called on the main queue.
+  Callbacks are always called on the main thread.
 */
 public protocol Request: class
     {
