@@ -445,7 +445,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 let req = resource().request(.GET)
-                    .chained { _ in .UseCustomResponse(customResponse) }
+                    .chained { _ in .UseResponse(customResponse) }
                 expectResult("custom", for: req)
                 }
 
@@ -526,7 +526,7 @@ class RequestSpec: ResourceSpecBase
                     let chainedReq = originalReq.chained
                         {
                         expect($0.response.isCancellation) == true
-                        return .UseCustomResponse(customResponse)
+                        return .UseResponse(customResponse)
                         }
 
                     originalReq.cancel()

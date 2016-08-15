@@ -24,7 +24,7 @@ public enum RequestChainAction
     {
     case PassTo(Request)
     case UseThisResponse
-    case UseCustomResponse(ResponseInfo)
+    case UseResponse(ResponseInfo)
     }
 
 internal final class RequestChain: RequestWithDefaultCallbacks
@@ -60,7 +60,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
             case .UseThisResponse:
                 responseCallbacks.notifyOfCompletion(responseInfo)
 
-            case .UseCustomResponse(let customResponseInfo):
+            case .UseResponse(let customResponseInfo):
                 responseCallbacks.notifyOfCompletion(customResponseInfo)
 
             case .PassTo(let request):
