@@ -126,10 +126,8 @@ public extension Error
             }
           }
     */
-    public struct Cause
+    public enum Cause
         {
-        private init() { fatalError("Siesta.Error.Cause is only a namespace") }
-
         // MARK: Request Errors
 
         /// Unable to create a text request with the requested character encoding.
