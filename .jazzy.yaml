@@ -44,6 +44,10 @@ custom_categories:
     - TextResponseTransformer(_:)
     - ImageResponseTransformer(_:)
 
+  - name: Caching
+    children:
+    - EntityCache
+
   - name: UI Helpers
     children:
     - ResourceStatusOverlay
@@ -58,13 +62,6 @@ custom_categories:
     - RequestTransferMetrics
     - NSURLSessionProvider
     - AlamofireProvider
-
-  - name: Caching
-    children:
-    - EntityCache
-    - EntityCacheKey
-    - EntityEncoder
-    - JSONEntityEncoder
 
   - name: Logging
     children:
