@@ -51,7 +51,6 @@
 		9F2FB52E1C2864970068DFFA /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
 		9F2FB5301C2864970068DFFA /* Regex+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */; };
-		9F2FB5311C2864970068DFFA /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9850FF1C1CCF33006E9434 /* Deprecations.swift */; };
 		9F2FB5321C2864BD0068DFFA /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4353511B6AD63C00543843 /* Networking.swift */; };
 		9F2FB5341C2864BD0068DFFA /* Networking-NSURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */; };
@@ -105,7 +104,6 @@
 		DA7D05C41D57C2B500431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
 		DA7D05C51D57C30400431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
-		DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9850FF1C1CCF33006E9434 /* Deprecations.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
 		DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
 		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
@@ -117,6 +115,8 @@
 		DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */; };
 		DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */; };
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
+		DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
+		DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
 		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
@@ -226,7 +226,6 @@
 		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineProcessing.swift; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
-		DA9850FF1C1CCF33006E9434 /* Deprecations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deprecations.swift; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
 		DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationPatternConvertible.swift; sourceTree = "<group>"; };
 		DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCache.swift; sourceTree = "<group>"; };
@@ -238,6 +237,7 @@
 		DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePathsSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceRequestsSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserversSpec.swift; sourceTree = "<group>"; };
+		DACD23451D618CE300848C04 /* Ω_Deprecations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ω_Deprecations.swift"; sourceTree = "<group>"; };
 		DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineConfiguration.swift; sourceTree = "<group>"; };
 		DACE0BAF1D02046500607F3E /* OpenEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEnum.swift; sourceTree = "<group>"; };
 		DAD191001D0394E300304193 /* PipelineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineSpec.swift; sourceTree = "<group>"; };
@@ -442,7 +442,7 @@
 				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
 				DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */,
 				DACE0BAF1D02046500607F3E /* OpenEnum.swift */,
-				DA9850FF1C1CCF33006E9434 /* Deprecations.swift */,
+				DACD23451D618CE300848C04 /* Ω_Deprecations.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -708,7 +708,7 @@
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
-				9F2FB5311C2864970068DFFA /* Deprecations.swift in Sources */,
+				DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,7 +748,7 @@
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
 				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
 				DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */,
-				DA9851001C1CCF33006E9434 /* Deprecations.swift in Sources */,
+				DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
