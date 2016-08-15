@@ -195,4 +195,10 @@ public struct ResponseInfo
         self.response = response
         self.isNew = isNew
         }
+
+    internal static let cancellation =
+        ResponseInfo(
+            response: .Failure(Error(
+                userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
+                cause: Error.Cause.RequestCancelled(networkError: nil))))
     }

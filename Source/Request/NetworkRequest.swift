@@ -94,10 +94,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         // Prevent start() from have having any effect if it hasn't been called yet
         wasCancelled = true
 
-        broadcastResponse(ResponseInfo(
-            response: .Failure(Error(
-                userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: Error.Cause.RequestCancelled(networkError: nil)))))
+        broadcastResponse(ResponseInfo.cancellation)
         }
 
     func repeated() -> Request

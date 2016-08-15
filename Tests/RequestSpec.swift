@@ -411,21 +411,27 @@ class RequestSpec: ResourceSpecBase
 
         describe("chained()")
             {
-            func stubText(body: String, method: String = "GET")
+            func stubText(body: String, method: String = "GET") -> LSStubResponseDSL
                 {
-                stubRequest(resource, method).andReturn(200)
+                return stubRequest(resource, method).andReturn(200)
                     .withHeader("Content-Type", "text/plain")
                     .withBody(body)
                 }
 
-            func expectResult(expectedResult: String, for req: Request)
+            func expectResult(expectedResult: String, for req: Request, alreadyCompleted: Bool = false)
                 {
                 var actualResult: String? = nil
-                req.onSuccess { actualResult = $0.typedContent() }
-                awaitNewData(req)
+                req.onSuccess { actualResult = $0.text }
+                awaitNewData(req, alreadyCompleted: alreadyCompleted)
 
                 expect(actualResult) == expectedResult
                 }
+
+            let customResponse =
+                ResponseInfo(
+                    response: .Success(Entity(
+                        content: "custom",
+                        contentType: "text/special")))
 
             it("it can use the wrapped request’s response")
                 {
@@ -438,14 +444,8 @@ class RequestSpec: ResourceSpecBase
             it("it can use a custom response")
                 {
                 stubText("yo")
-                let req = resource().request(.GET).chained
-                    {
-                    _ in
-                    .UseCustomResponse(ResponseInfo(
-                        response: .Success(Entity(
-                            content: "custom",
-                            contentType: "text/special"))))
-                    }
+                let req = resource().request(.GET)
+                    .chained { _ in .UseCustomResponse(customResponse) }
                 expectResult("custom", for: req)
                 }
 
@@ -453,11 +453,8 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 stubText("oy", method: "POST")
-                let req = resource().request(.GET).chained
-                    {
-                    _ in
-                    .PassTo(resource().request(.POST))
-                    }
+                let req = resource().request(.GET)
+                    .chained { _ in .PassTo(resource().request(.POST)) }
                 expectResult("oy", for: req)
                 }
 
@@ -465,29 +462,78 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 let originalReq = resource().request(.GET)
-                let req = originalReq.chained
+                let chainedReq = originalReq.chained
                     {
                     _ in
                     LSNocilla.sharedInstance().clearStubs()
                     stubText("yoyo")
                     return .PassTo(originalReq.repeated())
                     }
-                expectResult("yoyo", for: req)
+                expectResult("yoyo", for: chainedReq)
                 }
 
             it("isCompleted is false until a “use” action")
                 {
-                stubText("yo")
+                let reqStub = stubText("yo").delay()
                 let req = resource().request(.GET).chained
                     { _ in .UseThisResponse }
                 expect(req.isCompleted).to(beFalse())
+                reqStub.go()
                 expect(req.isCompleted).toEventually(beTrue())
                 }
 
             describe("cancel()")
                 {
-                pending("cancels the underlying request") { }
-                pending("stops the chain from proceeding") { }
+                it("cancels the underlying request")
+                    {
+                    let reqStub = stubText("yo").delay()
+
+                    let originalReq = resource().request(.GET)
+                    let chainedReq = originalReq.chained
+                        { _ in .UseThisResponse }
+                    for req in [originalReq, chainedReq]
+                        {
+                        req.onCompletion
+                            { expect($0.response.isCancellation) == true }
+                        }
+
+                    chainedReq.cancel()
+                    reqStub.go()
+                    awaitFailure(originalReq, alreadyCompleted: true)
+                    }
+
+                it("stops the chain from proceeding")
+                    {
+                    let reqStub = stubText("yo").delay()
+
+                    let req = resource().request(.GET).chained
+                        {
+                        _ in
+                        fail("should not be called")
+                        return .UseThisResponse
+                        }
+
+                    req.cancel()
+                    reqStub.go()
+                    awaitFailure(req, alreadyCompleted: true)
+                    }
+
+                it("does not stop the chain if the underlying request is cancelled")
+                    {
+                    let reqStub = stubText("yo").delay()
+
+                    let originalReq = resource().request(.GET)
+                    let chainedReq = originalReq.chained
+                        {
+                        expect($0.response.isCancellation) == true
+                        return .UseCustomResponse(customResponse)
+                        }
+
+                    originalReq.cancel()
+                    reqStub.go()
+                    awaitFailure(originalReq, alreadyCompleted: true)
+                    expectResult("custom", for: chainedReq, alreadyCompleted: true)
+                    }
                 }
 
             pending("repeated()") { }

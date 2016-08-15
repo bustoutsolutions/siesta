@@ -32,6 +32,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
+    private var isCancelled = false
 
     init(wrapping request: Request, whenCompleted determineAction: ActionCallback)
         {
@@ -48,6 +49,12 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
     func processResponse(responseInfo: ResponseInfo)
         {
+        guard !isCancelled else
+            {
+            return responseCallbacks.notifyOfCompletion(
+                ResponseInfo.cancellation)
+            }
+
         switch determineAction(responseInfo)
             {
             case .UseThisResponse:
@@ -71,7 +78,10 @@ internal final class RequestChain: RequestWithDefaultCallbacks
         }
 
     func cancel()
-        { wrappedRequest.cancel() }
+        {
+        isCancelled = true
+        wrappedRequest.cancel()
+        }
 
     func repeated() -> Request
         {
