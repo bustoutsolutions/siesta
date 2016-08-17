@@ -114,6 +114,13 @@
 		DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		DAC0B3731D63880600D25C44 /* ResourceNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */; };
 		DAC0B3741D63880600D25C44 /* ResourceNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */; };
+		DAC0B3941D651CB500D25C44 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
+		DAC0B39A1D651CB500D25C44 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
+		DAC0B3A41D651CB500D25C44 /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAC0B3A61D651CB500D25C44 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
+		DAC0B3D11D651CC700D25C44 /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAC0B3DA1D6529BA00D25C44 /* SiestaUI-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */; };
+		DAC0B3DE1D652AD300D25C44 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */; };
 		DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */; };
 		DAC0CE6B1B4A3A9D004FBB4B /* ResourceStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */; };
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
@@ -124,9 +131,6 @@
 		DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
-		DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
-		DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */; };
-		DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
@@ -241,6 +245,10 @@
 		DAAB48291B5D7B770059C047 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceNavigation.swift; sourceTree = "<group>"; };
+		DAC0B3AA1D651CB500D25C44 /* SiestaUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAC0B3D61D651CC700D25C44 /* SiestaUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SiestaUI-ObjC.swift"; sourceTree = "<group>"; };
+		DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Collection+Siesta.swift"; path = "Source/Siesta/Support/Collection+Siesta.swift"; sourceTree = SOURCE_ROOT; };
 		DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePathsSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceStateSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserversSpec.swift; sourceTree = "<group>"; };
@@ -307,6 +315,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DAC0B3A21D651CB500D25C44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3CF1D651CC700D25C44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -366,6 +388,8 @@
 				DA336E591B2E6DDB006F702A /* SiestaTests.xctest */,
 				9F2FB51E1C28645E0068DFFA /* Siesta.framework */,
 				9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */,
+				DAC0B3AA1D651CB500D25C44 /* SiestaUI.framework */,
+				DAC0B3D61D651CC700D25C44 /* SiestaUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -501,6 +525,8 @@
 				DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */,
 				DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */,
 				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
+				DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */,
+				DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */,
 			);
 			name = "UI (iOS)";
 			path = SiestaUI;
@@ -535,6 +561,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA336E531B2E6DDB006F702A /* Siesta.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3A31D651CB500D25C44 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAC0B3A41D651CB500D25C44 /* Siesta.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3D01D651CC700D25C44 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAC0B3D11D651CC700D25C44 /* Siesta.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,6 +657,42 @@
 			productReference = DA336E591B2E6DDB006F702A /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAC0B3A71D651CB500D25C44 /* Build configuration list for PBXNativeTarget "SiestaUI iOS" */;
+			buildPhases = (
+				DAC0B37E1D651CB500D25C44 /* Sources */,
+				DAC0B3A21D651CB500D25C44 /* Frameworks */,
+				DAC0B3A31D651CB500D25C44 /* Headers */,
+				DAC0B3A51D651CB500D25C44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SiestaUI iOS";
+			productName = Siesta;
+			productReference = DAC0B3AA1D651CB500D25C44 /* SiestaUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAC0B3D31D651CC700D25C44 /* Build configuration list for PBXNativeTarget "SiestaUI macOS" */;
+			buildPhases = (
+				DAC0B3AD1D651CC700D25C44 /* Sources */,
+				DAC0B3CF1D651CC700D25C44 /* Frameworks */,
+				DAC0B3D01D651CC700D25C44 /* Headers */,
+				DAC0B3D21D651CC700D25C44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SiestaUI macOS";
+			productName = "Siesta macOS";
+			productReference = DAC0B3D61D651CC700D25C44 /* SiestaUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -649,8 +727,10 @@
 			projectRoot = "";
 			targets = (
 				DA336E4E1B2E6DDB006F702A /* Siesta iOS */,
-				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F2FB51D1C28645E0068DFFA /* Siesta macOS */,
+				DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */,
+				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
+				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
 			);
 		};
@@ -675,11 +755,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE4909C1B4E51C1004D97D6 /* ResourceStatusOverlay.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DA336E571B2E6DDB006F702A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3A51D651CB500D25C44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAC0B3A61D651CB500D25C44 /* ResourceStatusOverlay.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3D21D651CC700D25C44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -777,13 +871,11 @@
 				DAAB482A1B5D7B770059C047 /* Request.swift in Sources */,
 				DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */,
 				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
-				DAE4909B1B4E51C1004D97D6 /* ResourceStatusOverlay.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DAFA42091C20B10F0020AC5E /* RequestCreation.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */,
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
-				DAE96F7A1B8ECB3D00506AE7 /* RemoteImageView.swift in Sources */,
 				DAFB3C4F1B3DEFE8009CF96C /* Error.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
@@ -814,6 +906,24 @@
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
 				DAD191021D03950100304193 /* PipelineSpec.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B37E1D651CB500D25C44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAC0B3DA1D6529BA00D25C44 /* SiestaUI-ObjC.swift in Sources */,
+				DAC0B3941D651CB500D25C44 /* ResourceStatusOverlay.swift in Sources */,
+				DAC0B3DE1D652AD300D25C44 /* Collection+Siesta.swift in Sources */,
+				DAC0B39A1D651CB500D25C44 /* RemoteImageView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAC0B3AD1D651CC700D25C44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,6 +1173,89 @@
 			};
 			name = Release;
 		};
+		DAC0B3A81D651CB500D25C44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
+				PRODUCT_NAME = SiestaUI;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DAC0B3A91D651CB500D25C44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
+				PRODUCT_NAME = SiestaUI;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DAC0B3D41D651CC700D25C44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
+				PRODUCT_NAME = SiestaUI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DAC0B3D51D651CC700D25C44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
+				PRODUCT_NAME = SiestaUI;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1107,6 +1300,24 @@
 			buildConfigurations = (
 				DA336E671B2E6DDB006F702A /* Debug */,
 				DA336E681B2E6DDB006F702A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAC0B3A71D651CB500D25C44 /* Build configuration list for PBXNativeTarget "SiestaUI iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAC0B3A81D651CB500D25C44 /* Debug */,
+				DAC0B3A91D651CB500D25C44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAC0B3D31D651CC700D25C44 /* Build configuration list for PBXNativeTarget "SiestaUI macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAC0B3D41D651CC700D25C44 /* Debug */,
+				DAC0B3D51D651CC700D25C44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
