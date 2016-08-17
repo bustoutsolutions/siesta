@@ -17,7 +17,7 @@
 		57879B791D38483E00180216 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E71D3846A800226F92 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		57879B7A1D38485700180216 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E31D38466900226F92 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		57879B7B1D38485D00180216 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 570C77E51D38468A00226F92 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F0FAF901D033FCD00CE1B61 /* ResourceRequestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */; };
+		9F0FAF901D033FCD00CE1B61 /* ResourceStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */; };
 		9F0FAF911D033FCD00CE1B61 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		9F0FAF921D033FCD00CE1B61 /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		9F0FAF931D033FCD00CE1B61 /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
@@ -113,8 +113,12 @@
 		DAAB482A1B5D7B770059C047 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */; };
-		DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */; };
+		DAC0CE6B1B4A3A9D004FBB4B /* ResourceStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */; };
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
+		DACD23401D60D0FE00848C04 /* RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD233E1D60CE0400848C04 /* RequestSpec.swift */; };
+		DACD23411D60D0FF00848C04 /* RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD233E1D60CE0400848C04 /* RequestSpec.swift */; };
+		DACD23431D6105B600848C04 /* RequestChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23421D6105B600848C04 /* RequestChaining.swift */; };
+		DACD23441D6105E600848C04 /* RequestChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23421D6105B600848C04 /* RequestChaining.swift */; };
 		DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
@@ -235,8 +239,11 @@
 		DAAB48291B5D7B770059C047 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePathsSpec.swift; sourceTree = "<group>"; };
-		DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceRequestsSpec.swift; sourceTree = "<group>"; };
+		DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceStateSpec.swift; sourceTree = "<group>"; };
 		DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserversSpec.swift; sourceTree = "<group>"; };
+		DACD233E1D60CE0400848C04 /* RequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestSpec.swift; sourceTree = "<group>"; };
+		DACD23421D6105B600848C04 /* RequestChaining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestChaining.swift; sourceTree = "<group>"; };
+		DACE0BAD1D0201F800607F3E /* Pipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		DACD23451D618CE300848C04 /* Ω_Deprecations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ω_Deprecations.swift"; sourceTree = "<group>"; };
 		DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineConfiguration.swift; sourceTree = "<group>"; };
 		DACE0BAF1D02046500607F3E /* OpenEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEnum.swift; sourceTree = "<group>"; };
@@ -390,8 +397,9 @@
 				DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */,
 				DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */,
 				DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */,
-				DAC0CE6A1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift */,
+				DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */,
 				DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */,
+				DACD233E1D60CE0400848C04 /* RequestSpec.swift */,
 				DAD191001D0394E300304193 /* PipelineSpec.swift */,
 				DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */,
 				DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */,
@@ -478,6 +486,7 @@
 				DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */,
 				DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */,
 				DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */,
+				DACD23421D6105B600848C04 /* RequestChaining.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -656,7 +665,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F0FAF901D033FCD00CE1B61 /* ResourceRequestsSpec.swift in Sources */,
+				DACD23411D60D0FF00848C04 /* RequestSpec.swift in Sources */,
+				9F0FAF901D033FCD00CE1B61 /* ResourceStateSpec.swift in Sources */,
 				9F0FAF911D033FCD00CE1B61 /* Networking-Alamofire.swift in Sources */,
 				9F0FAF921D033FCD00CE1B61 /* ProgressSpec.swift in Sources */,
 				9F0FAF931D033FCD00CE1B61 /* ResourceObserversSpec.swift in Sources */,
@@ -684,6 +694,7 @@
 				9F9628841CF1D7AF008092B7 /* ConfigurationPatternConvertible.swift in Sources */,
 				9F2FB5301C2864970068DFFA /* Regex+Siesta.swift in Sources */,
 				9F2FB52E1C2864970068DFFA /* ARC+Siesta.swift in Sources */,
+				DACD23441D6105E600848C04 /* RequestChaining.swift in Sources */,
 				9F2FB5271C2864970068DFFA /* WeakCache.swift in Sources */,
 				9F2FB52D1C2864970068DFFA /* Collection+Siesta.swift in Sources */,
 				9F2FB5351C2864BD0068DFFA /* EntityCache.swift in Sources */,
@@ -732,6 +743,7 @@
 				DA7D05C41D57C2B500431980 /* PipelineProcessing.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */,
+				DACD23431D6105B600848C04 /* RequestChaining.swift in Sources */,
 				DAAB482A1B5D7B770059C047 /* Request.swift in Sources */,
 				DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */,
 				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
@@ -756,7 +768,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAC0CE6B1B4A3A9D004FBB4B /* ResourceRequestsSpec.swift in Sources */,
+				DACD23401D60D0FE00848C04 /* RequestSpec.swift in Sources */,
+				DAC0CE6B1B4A3A9D004FBB4B /* ResourceStateSpec.swift in Sources */,
 				DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */,
 				DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */,
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,

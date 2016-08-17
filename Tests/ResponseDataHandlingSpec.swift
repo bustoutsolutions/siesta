@@ -274,7 +274,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 }
             }
 
-        describe("with standard parsing disabled in configuration")
+        context("with standard parsing disabled in configuration")
             {
             beforeEach
                 {
@@ -297,7 +297,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
         describe("custom transformer")
             {
-            context("using ResponseTransformer protocol")
+            describe("using ResponseTransformer protocol")
                 {
                 let transformer = specVar { TestTransformer() }
 
@@ -335,7 +335,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     }
                 }
 
-            context("using closure")
+            describe("using closure")
                 {
                 func configureModelTransformer()
                     {

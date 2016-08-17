@@ -287,26 +287,42 @@ public final class Resource: NSObject
     @warn_unused_result
     public func request(
             method: RequestMethod,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         dispatch_assert_main_queue()
 
-        let nsreq = NSMutableURLRequest(URL: url)
-        nsreq.HTTPMethod = method.rawValue
-        for (header,value) in configuration(forRequestMethod: method).headers
-            { nsreq.setValue(value, forHTTPHeaderField: header) }
+        // Header configuration
 
-        requestMutation(nsreq)
+        let requestBuilder: Void -> NSURLRequest =
+            {
+            let nsreq = NSMutableURLRequest(URL: self.url)
+            nsreq.HTTPMethod = method.rawValue
+            for (header,value) in self.configuration(forRequestMethod: method).headers
+                { nsreq.setValue(value, forHTTPHeaderField: header) }
 
-        debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+            requestMutation(nsreq)
 
-        let req = NetworkRequest(resource: self, nsreq: nsreq)
+            debugLog(.NetworkDetails, ["Request:", dumpHeaders(nsreq.allHTTPHeaderFields ?? [:], indent: "    ")])
+
+            return nsreq
+            }
+
+        // Optionally decorate the request
+
+        var rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+        let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
+            { req, decorate in decorate(self, req) }
+
+        // Start the underlying request, unless the decorators discarded it
+
+        if !isUniquelyReferencedNonObjC(&rawReq)
+            { rawReq.start() }
+
+        // Track the fully decorated request
+
         trackRequest(req, using: &allRequests)
-        for callback in req.config.beforeStartingRequestCallbacks
-            { callback(self, req) }
-
-        return req.start()
+        return req
         }
 
     /**
@@ -409,7 +425,7 @@ public final class Resource: NSObject
         let req = request(.GET)
             {
             nsreq in
-            if let etag = latestData?.etag
+            if let etag = self.latestData?.etag
                 { nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
 

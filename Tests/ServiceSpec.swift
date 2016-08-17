@@ -285,7 +285,7 @@ class ServiceSpec: SiestaSpec
                 XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
                 }
 
-            context("using wilcards")
+            describe("using wilcards")
                 {
                 it("matches against the base URL")
                     {
@@ -374,7 +374,7 @@ class ServiceSpec: SiestaSpec
                     }
                 }
 
-            context("using regexps")
+            describe("using regexps")
                 {
                 func regexp(pattern: String, options: NSRegularExpressionOptions = []) -> NSRegularExpression
                     { return try! NSRegularExpression(pattern: pattern, options: options) }
@@ -420,7 +420,7 @@ class ServiceSpec: SiestaSpec
                 }
             }
 
-        describe("wipeResources")
+        describe("wipeResources()")
             {
             beforeEach
                 {
