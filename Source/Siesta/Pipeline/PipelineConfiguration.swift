@@ -1,5 +1,5 @@
 //
-//  Pipeline.swift
+//  PipelineConfiguration.swift
 //  Siesta
 //
 //  Created by Paul on 2016/6/3.

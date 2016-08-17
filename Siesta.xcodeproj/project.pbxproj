@@ -201,7 +201,7 @@
 		9F0FB0551D04184F00CE1B61 /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/Mac/Nocilla.framework; sourceTree = "<group>"; };
 		9F0FB0561D04184F00CE1B61 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		9F2FB51E1C28645E0068DFFA /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F2FB5221C28645E0068DFFA /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-macOS.plist"; path = "../Info-macOS.plist"; sourceTree = "<group>"; };
+		9F2FB5221C28645E0068DFFA /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-macOS.plist"; path = "Source/Info-macOS.plist"; sourceTree = SOURCE_ROOT; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 		DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataHandlingSpec.swift; sourceTree = "<group>"; };
 		DA336E4F1B2E6DDB006F702A /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E521B2E6DDB006F702A /* Siesta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Siesta.h; sourceTree = "<group>"; };
-		DA336E541B2E6DDB006F702A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-iOS.plist"; path = "../Info-iOS.plist"; sourceTree = "<group>"; };
+		DA336E541B2E6DDB006F702A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-iOS.plist"; path = "Source/Info-iOS.plist"; sourceTree = SOURCE_ROOT; };
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E601B2E6DDB006F702A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -373,21 +373,8 @@
 		DA336E511B2E6DDB006F702A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DA336E701B2F6659006F702A /* Service.swift */,
-				DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */,
-				DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */,
-				DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */,
-				DAFB3C4E1B3DEFE8009CF96C /* Error.swift */,
-				DAC0B3711D637A9700D25C44 /* Resource */,
-				DAFA42011C20AF2B0020AC5E /* Request */,
-				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
-				DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */,
-				DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */,
-				DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */,
-				DA4353511B6AD63C00543843 /* Networking.swift */,
-				DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */,
+				DAC0B37B1D651A4600D25C44 /* Core */,
 				DAE490981B4E51AA004D97D6 /* UI (iOS) */,
-				DA99B5C61B38C356009C6937 /* Support */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -478,6 +465,36 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		DAC0B37A1D64FF2D00D25C44 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */,
+				DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */,
+				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
+			);
+			path = Pipeline;
+			sourceTree = "<group>";
+		};
+		DAC0B37B1D651A4600D25C44 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DA336E701B2F6659006F702A /* Service.swift */,
+				DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */,
+				DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */,
+				DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */,
+				DAFB3C4E1B3DEFE8009CF96C /* Error.swift */,
+				DAC0B3711D637A9700D25C44 /* Resource */,
+				DAFA42011C20AF2B0020AC5E /* Request */,
+				DAC0B37A1D64FF2D00D25C44 /* Pipeline */,
+				DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */,
+				DA4353511B6AD63C00543843 /* Networking.swift */,
+				DA5EC2731B91E39000DC33C8 /* Networking-NSURLSession.swift */,
+				DA99B5C61B38C356009C6937 /* Support */,
+			);
+			name = Core;
+			path = Siesta;
+			sourceTree = "<group>";
+		};
 		DAE490981B4E51AA004D97D6 /* UI (iOS) */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,7 +503,7 @@
 				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
 			);
 			name = "UI (iOS)";
-			path = UI;
+			path = SiestaUI;
 			sourceTree = "<group>";
 		};
 		DAFA42011C20AF2B0020AC5E /* Request */ = {
