@@ -20,10 +20,17 @@ extension Request
         }
     }
 
-// Deprecated in 1.0-beta.9
-
-extension Error.Cause
+extension ResponseContentTransformer
     {
-    @available(*, deprecated=0.99, renamed="WrongInputTypeInTranformerPipeline")
-    public typealias WrongTypeInTranformerPipeline = Error.Cause.WrongInputTypeInTranformerPipeline
+    @available(*, deprecated=0.99, message="skipWhenEntityMatchesOutputType: removed in favor of onInputTypeMismatch:", renamed="init(onInputTypeMismatch:transformErrors:processor:)")
+    public init(
+            skipWhenEntityMatchesOutputType: Bool,
+            transformErrors: Bool = false,
+            processor: Processor)
+        {
+        self.init(
+            onInputTypeMismatch: skipWhenEntityMatchesOutputType ? .SkipIfOutputTypeMatches : .Error,
+            transformErrors: transformErrors,
+            processor: processor)
+        }
     }

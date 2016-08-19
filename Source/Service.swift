@@ -271,9 +271,11 @@ public class Service: NSObject
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
+            requestMethods: [RequestMethod]? = nil,
             atStage stage: PipelineStageKey = .model,
             action: PipelineStage.MutationAction = .replaceExisting,
-            requestMethods: [RequestMethod]? = nil,
+            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
+            transformErrors: Bool = false,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
         {
@@ -296,7 +298,10 @@ public class Service: NSObject
                 { $0.config.pipeline[stage].removeTransformers() }
 
             $0.config.pipeline[stage].add(
-                ResponseContentTransformer(processor: contentTransform))
+                ResponseContentTransformer(
+                    onInputTypeMismatch: mismatchAction,
+                    transformErrors: transformErrors,
+                    processor: contentTransform))
             }
         }
 
