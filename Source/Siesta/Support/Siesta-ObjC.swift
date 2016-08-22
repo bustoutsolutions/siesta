@@ -279,14 +279,10 @@ extension ResourceEvent
     {
     fileprivate var _objc_stringForm: String
         {
-        // If anyone knows a way around this monstrosity, please send me a PR. -PPC
-        switch self
-            {
-            case .newData(let source):
-                return "NewData(\(source.description.capitalized))"
-            default:
-                return String(describing: self).capitalized
-            }
+        if case .newData(let source) = self
+            { return "NewData(\(source.description.capitalized))" }
+        else
+            { return String(describing: self).capitalized }
         }
     }
 
