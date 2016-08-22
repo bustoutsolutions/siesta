@@ -29,7 +29,7 @@ internal struct StrongOrWeakRef<T>
     init(_ value: T)
         {
         strongRef = value
-        weakRef = value as AnyObject
+        weakRef = value as AnyObject?
         }
 
     var strong: Bool

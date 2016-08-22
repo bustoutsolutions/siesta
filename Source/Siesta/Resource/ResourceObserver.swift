@@ -54,9 +54,7 @@ public extension ResourceObserver
     func isEquivalentTo(observer other: ResourceObserver) -> Bool
         {
         // TODO: Possible to check whether self and other are truly class types without expense of wrapper object alloc?
-        let selfObj = self as AnyObject
-        let otherObj = other as AnyObject
-        return selfObj === otherObj
+        return (self as AnyObject) === (other as AnyObject)
         }
     }
 
@@ -296,7 +294,7 @@ internal struct ObserverEntry: CustomStringConvertible
             ifObserver selfOwnerAction: (Void) -> Void,
             else externalOwnerAction: (Void) -> Void)
         {
-        if let observer = observer, owner === (observer as AnyObject)
+        if owner === (observer as AnyObject?)
             { selfOwnerAction() }
         else
             { externalOwnerAction() }
