@@ -13,7 +13,7 @@ import Nocilla
 
 class RequestSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
         describe("Resource.request()")
             {
@@ -93,7 +93,7 @@ class RequestSpec: ResourceSpecBase
 
                 context("substituting a request")
                     {
-                    let dummyRequest = { Resource.failedRequest(Error(userMessage: "dummy", cause: DummyError())) }
+                    let dummyRequest = { Resource.failedRequest(Siesta.Error(userMessage: "dummy", cause: DummyError())) }
                     let dummyReq0 = specVar { dummyRequest() },
                         dummyReq1 = specVar { dummyRequest() }
 
@@ -171,7 +171,7 @@ class RequestSpec: ResourceSpecBase
             let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
             let req = resource().request(.GET)
             req.onFailure
-                { expect($0.cause is Error.Cause.RequestCancelled) == true }
+                { expect($0.cause is Siesta.Error.Cause.RequestCancelled) == true }
             req.onCompletion
                 { expect($0.response.isCancellation) == true }
             req.cancel()
@@ -192,7 +192,7 @@ class RequestSpec: ResourceSpecBase
 
         it(".cancel() has no effect if it never started")
             {
-            let req = resource().request(.POST, json: ["unencodable": NSData()])
+            let req = resource().request(.POST, json: ["unencodable": Data()])
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
             awaitFailure(req, alreadyCompleted: true)
@@ -201,26 +201,27 @@ class RequestSpec: ResourceSpecBase
 
         describe("repeated()")
             {
-            func stubRepeatedRequest(answer: String = "No.", flavorHeader: String? = nil)
+            @discardableResult
+            func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
                 LSNocilla.sharedInstance().clearStubs()
                 stubRequest(resource, "PATCH")
-                    .withBody("Is there an echo in here?")
+                    .withBody("Is there an echo in here?" as NSString)
                     .withHeader("X-Flavor", flavorHeader)
                     .andReturn(200)
                     .withHeader("Content-Type", "text/plain")
-                    .withBody(answer)
+                    .withBody(answer as NSString)
                 }
 
-            func expectResonseText(request: Request, text: String)
+            func expectResonseText(_ request: Request, text: String)
                 {
-                let expectation = QuickSpec.current().expectationWithDescription("response text")
+                let expectation = QuickSpec.current().expectation(description: "response text")
                 request.onSuccess
                     {
                     expectation.fulfill()
                     expect($0.typedContent()) == text
                     }
-                QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+                QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
                 }
 
             let oldRequest = specVar
@@ -242,7 +243,7 @@ class RequestSpec: ResourceSpecBase
 
             it("leaves the old request’s result intact")
                 {
-                oldRequest()
+                _ = oldRequest()
                 stubRepeatedRequest("OK, maybe.")
                 awaitNewData(newRequest())
 
@@ -267,7 +268,7 @@ class RequestSpec: ResourceSpecBase
                 service().configure
                     { $0.config.headers["X-Flavor"] = flavor }
 
-                oldRequest()
+                _ = oldRequest()
 
                 flavor = "iced maple ginger chcocolate pasta swirl"
                 service().invalidateConfiguration()
@@ -283,7 +284,8 @@ class RequestSpec: ResourceSpecBase
                 var mutationCount = 0
                 let req = resource().request(.PATCH, text: "Is there an echo in here?")
                     {
-                    expect($0.valueForHTTPHeaderField("X-Flavor")).to(beNil())
+                    let flavor = $0.value(forHTTPHeaderField: "X-Flavor")
+                    expect(flavor).to(beNil())
                     $0.setValue("mutant flavor \(mutationCount)", forHTTPHeaderField: "X-Flavor")
                     mutationCount += 1
                     }
@@ -317,11 +319,11 @@ class RequestSpec: ResourceSpecBase
             it("handles raw data")
                 {
                 let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
-                let nsdata = NSData(bytes: bytes, length: bytes.count)
+                let nsdata = Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count)
 
                 stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
-                    .withBody(nsdata)
+                    .withBody(nsdata as NSData)
                     .andReturn(200)
 
                 awaitNewData(resource().request(.POST, data: nsdata, contentType: "application/monkey"))
@@ -331,7 +333,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubRequest(resource, "POST")
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody("Très bien!")
+                    .withBody("Très bien!" as NSString)
                     .andReturn(200)
 
                 awaitNewData(resource().request(.POST, text: "Très bien!"))
@@ -339,11 +341,11 @@ class RequestSpec: ResourceSpecBase
 
             it("handles string encoding errors")
                 {
-                let req = resource().request(.POST, text: "Hélas!", encoding: NSASCIIStringEncoding)
+                let req = resource().request(.POST, text: "Hélas!", encoding: String.Encoding.ascii)
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
                     {
-                    let cause = $0.cause as? Error.Cause.UnencodableText
+                    let cause = $0.cause as? Siesta.Error.Cause.UnencodableText
                     expect(cause?.encodingName) == "us-ascii"
                     expect(cause?.text) == "Hélas!"
                     }
@@ -353,7 +355,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubRequest(resource, "PUT")
                     .withHeader("Content-Type", "application/json")
-                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
+                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}" as NSString)
                     .andReturn(200)
 
                 awaitNewData(resource().request(.PUT, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
@@ -361,10 +363,10 @@ class RequestSpec: ResourceSpecBase
 
             it("handles JSON encoding errors")
                 {
-                let req = resource().request(.POST, json: ["question": [2, NSData()]])
+                let req = resource().request(.POST, json: ["question": [2, Data()]])
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
-                    { expect($0.cause is Error.Cause.InvalidJSONObject) == true }
+                    { expect($0.cause is Siesta.Error.Cause.InvalidJSONObject) == true }
                 }
 
             context("with URL encoding")
@@ -373,7 +375,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("brown=cow&foo=bar&how=now")
+                        .withBody("brown=cow&foo=bar&how=now" as NSString)
                         .andReturn(200)
 
                     awaitNewData(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
@@ -383,7 +385,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
+                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r" as NSString)
                         .andReturn(200)
 
                     awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
@@ -393,7 +395,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     let bogus = String(
                         bytes: [0xD8, 0x00] as [UInt8],  // Unpaired surrogate char in UTF-16
-                        encoding: NSUTF16BigEndianStringEncoding)!
+                        encoding: String.Encoding.utf16BigEndian)!
 
                     for badParams in [[bogus: "foo"], ["foo": bogus]]
                         {
@@ -401,7 +403,7 @@ class RequestSpec: ResourceSpecBase
                         awaitFailure(req, alreadyCompleted: true)
                         req.onFailure
                             {
-                            let cause = $0.cause as? Error.Cause.NotURLEncodable
+                            let cause = $0.cause as? Siesta.Error.Cause.NotURLEncodable
                             expect(cause?.offendingString) == bogus
                             }
                         }
@@ -411,14 +413,15 @@ class RequestSpec: ResourceSpecBase
 
         describe("chained()")
             {
-            func stubText(body: String, method: String = "GET") -> LSStubResponseDSL
+            @discardableResult
+            func stubText(_ body: String, method: String = "GET") -> LSStubResponseDSL
                 {
                 return stubRequest(resource, method).andReturn(200)
                     .withHeader("Content-Type", "text/plain")
-                    .withBody(body)
+                    .withBody(body as NSString)
                 }
 
-            func expectResult(expectedResult: String, for req: Request, alreadyCompleted: Bool = false)
+            func expectResult(_ expectedResult: String, for req: Request, alreadyCompleted: Bool = false)
                 {
                 var actualResult: String? = nil
                 req.onSuccess { actualResult = $0.text }
@@ -429,7 +432,7 @@ class RequestSpec: ResourceSpecBase
 
             let customResponse =
                 ResponseInfo(
-                    response: .Success(Entity(
+                    response: .success(Entity(
                         content: "custom",
                         contentType: "text/special")))
 
@@ -437,7 +440,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 let req = resource().request(.GET)
-                    .chained { _ in .UseThisResponse }
+                    .chained { _ in .useThisResponse }
                 expectResult("yo", for: req)
                 }
 
@@ -445,7 +448,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 let req = resource().request(.GET)
-                    .chained { _ in .UseResponse(customResponse) }
+                    .chained { _ in .useResponse(customResponse) }
                 expectResult("custom", for: req)
                 }
 
@@ -454,7 +457,7 @@ class RequestSpec: ResourceSpecBase
                 stubText("yo")
                 stubText("oy", method: "POST")
                 let req = resource().request(.GET)
-                    .chained { _ in .PassTo(resource().request(.POST)) }
+                    .chained { _ in .passTo(resource().request(.POST)) }
                 expectResult("oy", for: req)
                 }
 
@@ -467,7 +470,7 @@ class RequestSpec: ResourceSpecBase
                     _ in
                     LSNocilla.sharedInstance().clearStubs()
                     stubText("yoyo")
-                    return .PassTo(originalReq.repeated())
+                    return .passTo(originalReq.repeated())
                     }
                 expectResult("yoyo", for: chainedReq)
                 }
@@ -476,7 +479,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 let reqStub = stubText("yo").delay()
                 let req = resource().request(.GET).chained
-                    { _ in .UseThisResponse }
+                    { _ in .useThisResponse }
                 expect(req.isCompleted).to(beFalse())
                 reqStub.go()
                 expect(req.isCompleted).toEventually(beTrue())
@@ -490,7 +493,7 @@ class RequestSpec: ResourceSpecBase
 
                     let originalReq = resource().request(.GET)
                     let chainedReq = originalReq.chained
-                        { _ in .UseThisResponse }
+                        { _ in .useThisResponse }
                     for req in [originalReq, chainedReq]
                         {
                         req.onCompletion
@@ -510,7 +513,7 @@ class RequestSpec: ResourceSpecBase
                         {
                         _ in
                         fail("should not be called")
-                        return .UseThisResponse
+                        return .useThisResponse
                         }
 
                     req.cancel()
@@ -526,7 +529,7 @@ class RequestSpec: ResourceSpecBase
                     let chainedReq = originalReq.chained
                         {
                         expect($0.response.isCancellation) == true
-                        return .UseResponse(customResponse)
+                        return .useResponse(customResponse)
                         }
 
                     originalReq.cancel()
@@ -549,9 +552,9 @@ class RequestSpec: ResourceSpecBase
                         _ in
                         responseCount += 1
                         if responseCount == 1
-                            { return .PassTo(resource().request(.PATCH)) }
+                            { return .passTo(resource().request(.PATCH)) }
                         else
-                            { return .UseThisResponse }
+                            { return .useThisResponse }
                         }
 
                     expectResult("oy", for: req)
@@ -569,13 +572,13 @@ class RequestSpec: ResourceSpecBase
                         {
                         _ in
                         req0Count += 1
-                        return .UseThisResponse
+                        return .useThisResponse
                         }
                     let req1 = req0.chained
                         {
                         _ in
                         req1Count += 1
-                        return .UseThisResponse
+                        return .useThisResponse
                         }
 
                     expectResult("yo", for: req1)
@@ -590,7 +593,7 @@ class RequestSpec: ResourceSpecBase
 
 // MARK: - Helpers
 
-private struct DummyError: ErrorType { }
+private struct DummyError: Swift.Error { }
 
 private class RequestWrapper: Request
     {
@@ -601,34 +604,34 @@ private class RequestWrapper: Request
         {
         self.wrapped = wrapped
         wrapped.onSuccess
-            { self.secretMessage = $0.header("Secret-Message") }
+            { self.secretMessage = $0.header(forKey: "Secret-Message") }
         }
 
-    func onCompletion(callback: ResponseInfo -> Void) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
         {
         wrapped.onCompletion(callback)
         return self
         }
 
-    func onSuccess(callback: Entity -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity) -> Void) -> Self
         {
         wrapped.onSuccess(callback)
         return self
         }
 
-    func onNewData(callback: Entity -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity) -> Void) -> Self
         {
         wrapped.onNewData(callback)
         return self
         }
 
-    func onNotModified(callback: Void -> Void) -> Self
+    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
         {
         wrapped.onNotModified(callback)
         return self
         }
 
-    func onFailure(callback: Error -> Void) -> Self
+    func onFailure(_ callback: @escaping (Siesta.Error) -> Void) -> Self
         {
         wrapped.onFailure(callback)
         return self
@@ -638,7 +641,7 @@ private class RequestWrapper: Request
 
     var progress: Double { return wrapped.progress }
 
-    func onProgress(callback: Double -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
         {
         wrapped.onProgress(callback)
         return self

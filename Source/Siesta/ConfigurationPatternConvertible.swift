@@ -22,7 +22,7 @@ import Foundation
 public protocol ConfigurationPatternConvertible
     {
     /// Turns the receiver into a predicate that matches URLs.
-    func configurationPattern(service: Service) -> NSURL -> Bool
+    func configurationPattern(for service: Service) -> (URL) -> Bool
 
     /// A logging-friendly description of the receiver when it acts as a URL pattern.
     var configurationPatternDescription: String { get }
@@ -55,21 +55,21 @@ extension String: ConfigurationPatternConvertible
 
       The pattern ignores the resource’s query string.
     */
-    public func configurationPattern(service: Service) -> NSURL -> Bool
+    public func configurationPattern(for service: Service) -> (URL) -> Bool
         {
         // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
         // If the service has no baseURL, interpret the pattern as absolure.
         // Otherwise, interpret pattern as relative to baseURL.
 
         let resolvedPattern: String
-        if let prefix = service.baseURL?.absoluteString where !containsRegex("^[a-z]+:")
+        if let prefix = service.baseURL?.absoluteString , !containsRegex("^[a-z]+:")
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }
 
         let pattern = NSRegularExpression.compile(
             "^"
-            + NSRegularExpression.escapedPatternForString(resolvedPattern)
+            + NSRegularExpression.escapedPattern(for: resolvedPattern)
                 .replacingString("\\*\\*\\/", "([^:?]*/|)")
                 .replacingString("\\*\\*",    "[^:?]*")
                 .replacingString("\\*",       "[^/:?]*")
@@ -77,7 +77,7 @@ extension String: ConfigurationPatternConvertible
             + "($|\\?)")
         debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
-        return pattern.configurationPattern(service)
+        return pattern.configurationPattern(for: service)
         }
 
     /// :nodoc:
@@ -100,7 +100,7 @@ extension NSRegularExpression: ConfigurationPatternConvertible
       Note also that this implementation matches substrings. Include `^` and `$` if you want your pattern to match
       against the entire URL.
     */
-    public func configurationPattern(service: Service) -> NSURL -> Bool
+    public func configurationPattern(for service: Service) -> (URL) -> Bool
         {
         return { self.matches($0.absoluteString) }
         }
@@ -118,7 +118,7 @@ extension Resource: ConfigurationPatternConvertible
     /**
       Matches this specific resource when passed as a pattern to `Service.configure(...)`.
     */
-    public func configurationPattern(service: Service) -> NSURL -> Bool
+    public func configurationPattern(for service: Service) -> (URL) -> Bool
         {
         let resourceURL = url  // prevent resource capture in closure
         return { $0 == resourceURL }

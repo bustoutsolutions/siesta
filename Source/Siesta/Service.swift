@@ -26,10 +26,10 @@ import Foundation
   If you want to feed your service arbitrary URLs with no common root, use `resource(absoluteURL:)`.
 */
 @objc(BOSService)
-public class Service: NSObject
+open class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
-    public let baseURL: NSURL?
+    public let baseURL: URL?
 
     internal let networkingProvider: NetworkingProvider
     private var resourceCache = WeakCache<String,Resource>()
@@ -44,16 +44,16 @@ public class Service: NSObject
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networking:
-          The handler to use for networking. The default is `NSURLSession` with ephemeral session configuration. You can
-          pass an `NSURLSession`, `NSURLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
+          The handler to use for networking. The default is `URLSession` with ephemeral session configuration. You can
+          pass an `URLSession`, `URLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(
             baseURL: URLConvertible? = nil,
             useDefaultTransformers: Bool = true,
-            networking: NetworkingProviderConvertible = NSURLSessionConfiguration.ephemeralSessionConfiguration())
+            networking: NetworkingProviderConvertible = URLSessionConfiguration.ephemeral)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         if let baseURL = baseURL?.url
             {
@@ -99,9 +99,8 @@ public class Service: NSObject
 
           If you want to pass a relative URL to be resolved against `baseURL`, use `resource("/").relative(relativeURL)`.
     */
-    @warn_unused_result
     @objc(resource:)
-    public final func resource(path: String) -> Resource
+    public final func resource(_ path: String) -> Resource
         {
         return resource(baseURL: baseURL, path: path)
         }
@@ -116,14 +115,13 @@ public class Service: NSObject
       - `path` is _always_ escaped if necessary so that it is part of the URL’s path, and is never interpreted as a
         query string or a relative URL.
     */
-    @warn_unused_result
     public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
         {
         return resource(absoluteURL:
-            customBaseURL?.url?.URLByAppendingPathComponent(path.stripPrefix("/")))
+            customBaseURL?.url?.appendingPathComponent(path.stripPrefix("/")))
         }
 
-    private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
+    private static let invalidURL = URL(string: "")!     // URL we use when given bad URL for a resource
 
     /**
       Returns the unique resource with the given URL, ignoring `baseURL`.
@@ -136,10 +134,9 @@ public class Service: NSObject
       - Note: This method always returns a `Resource`, and does not throw errors. If `url` is nil (likely because it
               came from a malformed URL string), this method returns a resource whose requests always fail.
     */
-    @warn_unused_result
     public final func resource(absoluteURL urlConvertible: URLConvertible?) -> Resource
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         guard let url = urlConvertible?.url else
             {
@@ -201,13 +198,13 @@ public class Service: NSObject
         - `NSRegularExpression.configurationPattern(_:)`
     */
     public final func configure(
-            pattern: ConfigurationPatternConvertible,
+            _ pattern: ConfigurationPatternConvertible,
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
-            configurer: Configuration.Builder -> Void)
+            configurer: @escaping (Configuration.Builder) -> Void)
         {
         configure(
-            whenURLMatches: pattern.configurationPattern(self),
+            whenURLMatches: pattern.configurationPattern(for: self),
             requestMethods: requestMethods,
             description: description ?? pattern.configurationPatternDescription,
             configurer: configurer)
@@ -227,12 +224,12 @@ public class Service: NSObject
       - SeeAlso: `invalidateConfiguration()`
     */
     public final func configure(
-            whenURLMatches configurationPattern: NSURL -> Bool = { _ in true },
+            whenURLMatches configurationPattern: @escaping (URL) -> Bool = { _ in true },
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
-            configurer: Configuration.Builder -> Void)
+            configurer: @escaping (Configuration.Builder) -> Void)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         let entry = ConfigurationEntry(
             description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
@@ -270,11 +267,11 @@ public class Service: NSObject
           for more robust transformation options.
     */
     public final func configureTransformer<I,O>(
-            pattern: ConfigurationPatternConvertible,
+            _ pattern: ConfigurationPatternConvertible,
             requestMethods: [RequestMethod]? = nil,
             atStage stage: PipelineStageKey = .model,
             action: PipelineStage.MutationAction = .replaceExisting,
-            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
+            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
@@ -283,7 +280,7 @@ public class Service: NSObject
             {
             let methodsDescription: String
             if let requestMethods = requestMethods
-                { methodsDescription = String(requestMethods) }
+                { methodsDescription = String(describing: requestMethods) }
             else
                 { methodsDescription = "" }
 
@@ -344,7 +341,7 @@ public class Service: NSObject
     */
     public final func invalidateConfiguration()
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         if anyConfigSinceLastInvalidation
             { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
@@ -374,8 +371,8 @@ public class Service: NSObject
         {
         let description: String
         let requestMethods: Set<RequestMethod>
-        let configurationPattern: NSURL -> Bool
-        let configurer: Configuration.Builder -> Void
+        let configurationPattern: (URL) -> Bool
+        let configurer: (Configuration.Builder) -> Void
         }
 
     // MARK: Wiping state
@@ -385,9 +382,9 @@ public class Service: NSObject
 
       Applies to resources matching the predicate, or all resources by default.
     */
-    public final func wipeResources(@noescape predicate: Resource -> Bool =  { _ in true })
+    public final func wipeResources(_ predicate: (Resource) -> Bool =  { _ in true })
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         resourceCache.flushUnused()
         for resource in resourceCache.values
@@ -401,9 +398,9 @@ public class Service: NSObject
           service.wipeResources("/secure/​**")
           service.wipeResources(profileResource)
     */
-    public final func wipeResources(pattern: ConfigurationPatternConvertible)
+    public final func wipeResources(_ pattern: ConfigurationPatternConvertible)
         {
-        wipeResourcesMatchingURL(pattern.configurationPattern(self))
+        wipeResourcesMatchingURL(pattern.configurationPattern(for: self))
         }
 
     /**
@@ -411,7 +408,7 @@ public class Service: NSObject
 
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
     */
-    public final func wipeResourcesMatchingURL(@noescape predicate: NSURL -> Bool)
+    public final func wipeResourcesMatchingURL(_ predicate: (URL) -> Bool)
         {
         wipeResources { predicate($0.url) }
         }

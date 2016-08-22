@@ -37,14 +37,13 @@ public protocol ResponseTransformer
       Note that a `Response` can contain either data or an error, so this method can turn success into failure if the
       response fails to parse.
     */
-    @warn_unused_result
-    func process(response: Response) -> Response
+    func process(_ response: Response) -> Response
     }
 
 public extension ResponseTransformer
     {
     /// Helper to log a transformation. Call this in your custom transformer.
-    public func logTransformation(result: Response) -> Response
+    public func logTransformation(_ result: Response) -> Response
         {
         debugLog(.ResponseProcessing, ["Applied transformer:", self, "\n    → ", result])
         return result
@@ -64,26 +63,26 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
         let contentTypeRegexps = contentTypes.map
             {
-            NSRegularExpression.escapedPatternForString($0)
-                .stringByReplacingOccurrencesOfString("\\*", withString:"[^/+]+")
+            NSRegularExpression.escapedPattern(for: $0)
+                .replacingOccurrences(of: "\\*", with:"[^/+]+")
             }
-        let pattern = "^" + contentTypeRegexps.joinWithSeparator("|") + "($|;)"
+        let pattern = "^" + contentTypeRegexps.joined(separator: "|") + "($|;)"
         self.contentTypeMatcher = NSRegularExpression.compile(pattern)
         }
 
-    func process(response: Response) -> Response
+    func process(_ response: Response) -> Response
         {
         let contentType: String?
         switch response
             {
-            case .Success(let entity):
+            case .success(let entity):
                 contentType = entity.contentType
 
-            case .Failure(let error):
+            case .failure(let error):
                 contentType = error.entity?.contentType
             }
 
-        if let contentType = contentType where contentTypeMatcher.matches(contentType)
+        if let contentType = contentType , contentTypeMatcher.matches(contentType)
             {
             debugLog(.ResponseProcessing, [delegate, "matches content type", debugStr(contentType)])
             return delegate.process(response)
@@ -109,7 +108,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
       error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
     */
-    public typealias Processor = (content: InputContentType, entity: Entity) throws -> OutputContentType?
+    public typealias Processor = (_ content: InputContentType, _ entity: Entity) throws -> OutputContentType?
 
     private let processor: Processor
     private let mismatchAction: InputTypeMismatchAction
@@ -127,7 +126,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
           The transformation logic.
     */
     public init(
-            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
+            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
             processor: Processor)
         {
@@ -137,41 +136,41 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         }
 
     /// :nodoc:
-    public func process(response: Response) -> Response
+    public func process(_ response: Response) -> Response
         {
         switch response
             {
-            case .Success(let entity):
+            case .success(let entity):
                 return logTransformation(processEntity(entity))
 
-            case .Failure(let error):
+            case .failure(let error):
                 return logTransformation(processError(error))
             }
         }
 
-    private func processEntity(entity: Entity) -> Response
+    private func processEntity(_ entity: Entity) -> Response
         {
         guard let typedContent = entity.content as? InputContentType else
             {
             switch(mismatchAction)
                 {
-                case .Skip,
-                     .SkipIfOutputTypeMatches where entity.content is OutputContentType:
+                case .skip,
+                     .skipIfOutputTypeMatches where entity.content is OutputContentType:
 
-                    debugLog(.ResponseProcessing, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", entity.content.dynamicType])
-                    return .Success(entity)
+                    debugLog(.ResponseProcessing, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
+                    return .success(entity)
 
-                case .Error, .SkipIfOutputTypeMatches:
+                case .error, .skipIfOutputTypeMatches:
                     return contentTypeMismatchError(entity)
                 }
             }
 
         do  {
-            guard let result = try processor(content: typedContent, entity: entity) else
+            guard let result = try processor(typedContent, entity) else
                 { throw Error.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
-            return .Success(entity)
+            return .success(entity)
             }
         catch
             {
@@ -180,35 +179,35 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 ?? Error(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: error)
-            return .Failure(siestaError)
+            return .failure(siestaError)
             }
         }
 
-    private func contentTypeMismatchError(entityFromUpstream: Entity) -> Response
+    private func contentTypeMismatchError(_ entityFromUpstream: Entity) -> Response
         {
-        return .Failure(Error(
+        return .failure(Error(
             userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
             cause: Error.Cause.WrongInputTypeInTranformerPipeline(
                 expectedType: debugStr(InputContentType.self),
-                actualType: debugStr(entityFromUpstream.content.dynamicType),
+                actualType: debugStr(type(of: entityFromUpstream.content)),
                 transformer: self)))
         }
 
-    private func processError(error: Error) -> Response
+    private func processError(_ error: Error) -> Response
         {
         var error = error
-        if let errorData = error.entity where transformErrors
+        if let errorData = error.entity , transformErrors
             {
             switch processEntity(errorData)
                 {
-                case .Success(let errorDataTransformed):
+                case .success(let errorDataTransformed):
                     error.entity = errorDataTransformed
 
-                case .Failure(let error):
+                case .failure(let error):
                     debugLog(.ResponseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])
                 }
             }
-        return .Failure(error)
+        return .failure(error)
         }
     }
 
@@ -221,29 +220,29 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 public enum InputTypeMismatchAction
     {
     /// Output `Error.Cause.WrongInputTypeInTranformerPipeline`.
-    case Error
+    case error
 
     /// Pass the input response through unmodified.
-    case Skip
+    case skip
 
     /// Pass the input response through unmodified if it matches the output type; otherwise output an error.
-    case SkipIfOutputTypeMatches
+    case skipIfOutputTypeMatches
     }
 
 
 // MARK: Transformers for standard types
 
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
-@warn_unused_result
-public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
+public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> String in
+        (content: Data, entity: Entity) throws -> String in
 
         let charsetName = entity.charset ?? "ISO-8859-1"
         let encoding = CFStringConvertEncodingToNSStringEncoding(
-            CFStringConvertIANACharSetNameToEncoding(charsetName))
+            CFStringConvertIANACharSetNameToEncoding(
+                charsetName as NSString as CFString))  // TODO: See if double “as” still necessary in Swift 3 GM
 
         guard encoding != UInt(kCFStringEncodingInvalidId) else
             { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
@@ -256,29 +255,27 @@ public func TextResponseTransformer(transformErrors: Bool = true) -> ResponseTra
     }
 
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
-@warn_unused_result
-public func JSONResponseTransformer(transformErrors: Bool = true) -> ResponseTransformer
+public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> NSJSONConvertible in
+        (content: Data, entity: Entity) throws -> NSJSONConvertible in
 
-        let rawObj = try NSJSONSerialization.JSONObjectWithData(content, options: [.AllowFragments])
+        let rawObj = try JSONSerialization.jsonObject(with: content, options: [.allowFragments])
 
         guard let jsonObj = rawObj as? NSJSONConvertible else
-            { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(rawObj.dynamicType)) }
+            { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
 
         return jsonObj
         }
     }
 
 /// Parses `NSData` content as an image, yielding a `UIImage`.
-@warn_unused_result
-public func ImageResponseTransformer(transformErrors: Bool = false) -> ResponseTransformer
+public func ImageResponseTransformer(_ transformErrors: Bool = false) -> ResponseTransformer
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: NSData, entity: Entity) throws -> Image in
+        (content: Data, entity: Entity) throws -> Image in
 
         guard let image = Image(data: content) else
             { throw Error.Cause.UnparsableImage() }

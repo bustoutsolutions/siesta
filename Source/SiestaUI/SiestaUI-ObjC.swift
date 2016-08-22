@@ -13,10 +13,10 @@ import Siesta
 
 extension ResourceEvent
     {
-    internal static let all = [ObserverAdded, Requested, RequestCancelled, NotModified, Error,
-                               NewData(.Network), NewData(.Cache), NewData(.LocalOverride), NewData(.Wipe)]
+    internal static let all = [observerAdded, requested, requestCancelled, notModified, error,
+                               newData(.network), newData(.cache), newData(.localOverride), newData(.wipe)]
 
-    internal static func fromDescription(description: String) -> ResourceEvent?
+    internal static func fromDescription(_ description: String) -> ResourceEvent?
         {
         let matching = ResourceEvent.all.filter { $0.description == description }
         return (matching.count == 1) ? matching[0] : nil
@@ -25,7 +25,7 @@ extension ResourceEvent
 
 extension ResourceStatusOverlay: _objc_ResourceObserver
     {
-    public func resourceChanged(resource: Resource, event eventString: String)
+    public func resourceChanged(_ resource: Resource, event eventString: String)
         {
         if let event = ResourceEvent.fromDescription(eventString)
             { resourceChanged(resource, event: event) }

@@ -13,27 +13,28 @@ import Nocilla
 
 class PipelineSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        func appender(word: String) -> ResponseContentTransformer<Any,String>
+        func appender(_ word: String) -> ResponseContentTransformer<Any,String>
             {
             return ResponseContentTransformer
                 {
-                let stringContent = $0.content as? String ?? ""
-                guard !stringContent.containsString("error on \(word)") else
+                content, _ in  // TODO: concise replacement for $0.content?
+                let stringContent = content as? String ?? ""
+                guard !stringContent.contains("error on \(word)") else
                     { return nil }
                 return stringContent + word
                 }
             }
 
-        func makeRequest(expectSuccess expectSuccess: Bool = true)
+        func makeRequest(expectSuccess: Bool = true)
             {
-            stubRequest(resource, "GET").andReturn(200).withBody("🍕")
+            stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
-            awaitRequest(resource().load(), alreadyCompleted: false)
+            awaitRequest(resource().load(), false)
             }
 
-        func resourceCacheKey(prefix: String) -> TestCacheKey
+        func resourceCacheKey(_ prefix: String) -> TestCacheKey
             { return TestCacheKey(prefix: prefix, path: "/a/b") }
 
         beforeEach
@@ -77,8 +78,8 @@ class PipelineSpec: ResourceSpecBase
                 {
                 service().configure
                     {
-                    $0.config.pipeline.order.insert(.funk, atIndex: 3)
-                    $0.config.pipeline.order.insert(.silence, atIndex: 1)
+                    $0.config.pipeline.order.insert(.funk, at: 3)
+                    $0.config.pipeline.order.insert(.silence, at: 1)
                     $0.config.pipeline[.funk].add(appender("♫"))
                     }
                 makeRequest()
@@ -113,16 +114,16 @@ class PipelineSpec: ResourceSpecBase
 
         describe("cache")
             {
-            func configureCache<C: EntityCache>(cache: C, at stageKey: PipelineStageKey)
+            func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
                 {
                 service().configure
                     { $0.config.pipeline[stageKey].cacheUsing(cache) }
                 }
 
-            func waitForCacheRead(cache: TestCache)
+            func waitForCacheRead(_ cache: TestCache)
                 { expect(cache.receivedCacheRead).toEventually(beTrue()) }
 
-            func waitForCacheWrite(cache: TestCache)
+            func waitForCacheWrite(_ cache: TestCache)
                 { expect(cache.receivedCacheWrite).toEventually(beTrue()) }
 
             describe("read")
@@ -148,7 +149,7 @@ class PipelineSpec: ResourceSpecBase
                 it("ignores cached data if resource populated before cache read completes")
                     {
                     configureCache(cache0(), at: .cleanup)
-                    resource().overrideLocalContent("no race conditions here...except in the specs")
+                    resource().overrideLocalContent(with: "no race conditions here...except in the specs")
                     waitForCacheRead(cache0())
                     expect(resource().text) == "no race conditions here...except in the specs"
                     }
@@ -231,7 +232,7 @@ class PipelineSpec: ResourceSpecBase
                     configureCache(UnwritableCache(), at: .model)   // ...nor subsequent ones
 
                     service().configureTransformer("**", atStage: .parsing)
-                        { (_: String, _) -> NSDate? in nil }
+                        { (_: String, _) -> Date? in nil }
 
                     makeRequest(expectSuccess: false)
                     }
@@ -258,7 +259,7 @@ class PipelineSpec: ResourceSpecBase
                         Entity(content: "should go away", contentType: "text/string")
 
                     resource().overrideLocalData(
-                        Entity(content: "should not be cached", contentType: "text/string"))
+                        with: Entity(content: "should not be cached", contentType: "text/string"))
 
                     expect(testCache.entries).toEventually(beEmpty())
                     }
@@ -268,7 +269,7 @@ class PipelineSpec: ResourceSpecBase
                 {
                 makeRequest()
                 resource().overrideLocalData(
-                    Entity(content: "should not be cached", contentType: "text/string"))
+                    with: Entity(content: "should not be cached", contentType: "text/string"))
                 }
 
             it("can specify a custom workQueue")
@@ -328,19 +329,16 @@ private class TestCache: EntityCache
 
     func readEntity(forKey key: TestCacheKey) -> Entity?
         {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(0.05 * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue())
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC))
             { self.receivedCacheRead = true }
 
         return entries[key]
         }
 
-    func writeEntity(entity: Entity, forKey key: TestCacheKey)
+    func writeEntity(_ entity: Entity, forKey key: TestCacheKey)
         {
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
             {
             self.entries[key] = entity
             self.receivedCacheWrite = true
@@ -348,7 +346,7 @@ private class TestCache: EntityCache
         }
 
     func removeEntity(forKey key: TestCacheKey)
-        { entries.removeValueForKey(key) }
+        { entries.removeValue(forKey: key) }
     }
 
 private struct TestCacheKey
@@ -375,9 +373,9 @@ private func ==(lhs: TestCacheKey, rhs: TestCacheKey) -> Bool
 
 private extension String
     {
-    func prefix(n: Int) -> String
+    func prefix(_ n: Int) -> String
         {
-        return self[startIndex ..< startIndex.advancedBy(n)]
+        return self[startIndex ..< characters.index(startIndex, offsetBy: n)]
         }
     }
 
@@ -394,18 +392,18 @@ private class MainThreadCache: EntityCache
         return Entity(content: "\(key)cy", contentType: "text/bogus")
         }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity, forKey key: String)
         { recordCall("writeEntity") }
 
     func removeEntity(forKey key: String)
         { recordCall("removeEntity") }
 
-    var workQueue: dispatch_queue_t
-        { return dispatch_get_main_queue() }
+    var workQueue: DispatchQueue
+        { return DispatchQueue.main }
 
-    private func recordCall(name: String)
+    private func recordCall(_ name: String)
         {
-        if !NSThread.isMainThread()
+        if !Thread.isMainThread
             { fatalError("MainThreadCache method not called on main queue") }
         calls.append(name)
         }
@@ -419,27 +417,27 @@ private class KeylessCache: EntityCache
     func readEntity(forKey key: String) -> Entity?
         { fatalError("should not be called") }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity, forKey key: String)
         { fatalError("should not be called") }
 
     func removeEntity(forKey key: String)
         { fatalError("should not be called") }
 
-    var workQueue: dispatch_queue_t
+    var workQueue: DispatchQueue
         { fatalError("should not be called") }
     }
 
 private struct UnwritableCache: EntityCache
     {
-    func key(for resource: Resource) -> NSURL?
+    func key(for resource: Resource) -> URL?
         { return resource.url }
 
-    func readEntity(forKey key: NSURL) -> Entity?
+    func readEntity(forKey key: URL) -> Entity?
         { return nil }
 
-    func writeEntity(entity: Entity, forKey key: NSURL)
+    func writeEntity(_ entity: Entity, forKey key: URL)
         { fatalError("cache should never be written to") }
 
-    func removeEntity(forKey key: NSURL)
+    func removeEntity(forKey key: URL)
         { fatalError("cache should never be written to") }
     }

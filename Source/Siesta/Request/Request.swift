@@ -57,19 +57,24 @@ public protocol Request: class
     /**
       Call the closure once when the request finishes for any reason.
     */
-    func onCompletion(callback: ResponseInfo -> Void) -> Self
+    @discardableResult
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
 
     /// Call the closure once if the request succeeds.
-    func onSuccess(callback: Entity -> Void) -> Self
+    @discardableResult
+    func onSuccess(_ callback: @escaping (Entity) -> Void) -> Self
 
     /// Call the closure once if the request succeeds and the data changed.
-    func onNewData(callback: Entity -> Void) -> Self
+    @discardableResult
+    func onNewData(_ callback: @escaping (Entity) -> Void) -> Self
 
     /// Call the closure once if the request succeeds with a 304.
-    func onNotModified(callback: Void -> Void) -> Self
+    @discardableResult
+    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
-    func onFailure(callback: Error -> Void) -> Self
+    @discardableResult
+    func onFailure(_ callback: @escaping (Error) -> Void) -> Self
 
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
@@ -91,7 +96,8 @@ public protocol Request: class
       Call the given closure with progress updates at regular intervals while the request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
-    func onProgress(callback: Double -> Void) -> Self
+    @discardableResult
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
 
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
@@ -154,15 +160,15 @@ public protocol Request: class
 public enum Response: CustomStringConvertible
     {
     /// The request succeeded, and returned the given entity.
-    case Success(Entity)
+    case success(Entity)
 
     /// The request failed because of the given error.
-    case Failure(Error)
+    case failure(Error)
 
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
-        if case .Failure(let error) = self
+        if case .failure(let error) = self
             { return error.cause is Error.Cause.RequestCancelled }
         else
             { return false }
@@ -173,8 +179,8 @@ public enum Response: CustomStringConvertible
         {
         switch self
             {
-            case .Success(let value): return debugStr(value)
-            case .Failure(let value): return debugStr(value)
+            case .success(let value): return debugStr(value)
+            case .failure(let value): return debugStr(value)
             }
         }
     }
@@ -198,7 +204,7 @@ public struct ResponseInfo
 
     internal static let cancellation =
         ResponseInfo(
-            response: .Failure(Error(
+            response: .failure(Error(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
                 cause: Error.Cause.RequestCancelled(networkError: nil))))
     }

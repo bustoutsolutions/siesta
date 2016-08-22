@@ -12,7 +12,7 @@ import Foundation
   If you want to use a different networking library, implement this protocol and pass your implementation to
   `Service.init(...)`.
 
-  See `NSURLSessionProvider` and `Extensions/Alamofire/Networking-Alamofire.swift` for implementation examples.
+  See `URLSessionProvider` and `Extensions/Alamofire/Networking-Alamofire.swift` for implementation examples.
 */
 public protocol NetworkingProvider: NetworkingProviderConvertible
     {
@@ -31,7 +31,7 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
       - Warning: Implementations **must** guarante that they will call the `completion` closure exactly once.
     */
     func startRequest(
-            request: NSURLRequest,
+            _ request: URLRequest,
             completion: RequestNetworkingCompletionCallback)
         -> RequestNetworking
     }
@@ -71,7 +71,7 @@ public struct RequestTransferMetrics
     }
 
 /// Used by a `NetworkingProvider` implementation to pass the result of a network request back to Siesta.
-public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?) -> Void
+public typealias RequestNetworkingCompletionCallback = (_ nsres: HTTPURLResponse?, _ body: Data?, _ error: Swift.Error?) -> Void
 
 /**
   A convenience to turn create the appropriate `NetworkingProvider` for a variety of networking configuration objects.
@@ -80,19 +80,19 @@ public typealias RequestNetworkingCompletionCallback = (nsres: NSHTTPURLResponse
   For example, instead of having to do this:
 
       Service(baseURL: "http://foo.bar", networking:
-        NSURLSessionProvider(session:
-            NSURLSession(configuration:
-                NSURLSessionConfiguration.defaultSessionConfiguration()))
+        URLSessionProvider(session:
+            URLSession(configuration:
+                URLSessionConfiguration.defaultSessionConfiguration()))
 
   …you can do this:
 
       Service(baseURL: "http://foo.bar", networking:
-        NSURLSessionConfiguration.defaultSessionConfiguration()))
+        URLSessionConfiguration.defaultSessionConfiguration()))
 
   Siesta supports conversion of the following types into a networking provider:
 
-  - NSURLSession
-  - NSURLSessionConfiguration
+  - URLSession
+  - URLSessionConfiguration
   - Alamofire.Manager
 
   …and you can add to the list by writing an extension to implement `NetworkingProviderConvertible`.

@@ -67,7 +67,7 @@ public struct Pipeline
             let nonEmptyStages = stages
                 .filter { _, stage in !stage.isEmpty }
                 .map { key, _ in key }
-            let missingStages = Set(nonEmptyStages).subtract(newValue)
+            let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
                 { debugLog(.ResponseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
             }
@@ -137,7 +137,7 @@ public struct PipelineStage
     /**
       Appends the given transformer to this stage.
     */
-    public mutating func add(transformer: ResponseTransformer)
+    public mutating func add(_ transformer: ResponseTransformer)
         { transformers.append(transformer) }
 
     /**
@@ -153,7 +153,7 @@ public struct PipelineStage
       The pattern does not match MIME parameters, so "text/plain" matches "text/plain; charset=utf-8".
     */
     public mutating func add(
-            transformer: ResponseTransformer,
+            _ transformer: ResponseTransformer,
             contentTypes: [String])
         {
         add(ContentTypeMatchTransformer(
@@ -171,10 +171,10 @@ public struct PipelineStage
     public mutating func removeTransformers()
         { transformers.removeAll() }
 
-    private var isEmpty: Bool
+    fileprivate var isEmpty: Bool
         { return cacheBox == nil && transformers.isEmpty }
 
-    internal func process(response: Response) -> Response
+    internal func process(_ response: Response) -> Response
         {
         return transformers.reduce(response)
             { $1.process($0) }
@@ -192,7 +192,7 @@ public struct PipelineStage
       - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
               initially see an empty resources and then get a `NewData(Cache)` event — even if you never call `load()`.
     */
-    public mutating func cacheUsing<T: EntityCache>(cache: T)
+    public mutating func cacheUsing<T: EntityCache>(_ cache: T)
         { cacheBox = CacheBox(cache: cache) }
 
     /**

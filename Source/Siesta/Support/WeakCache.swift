@@ -8,10 +8,10 @@
 
 import Foundation
 #if os(OSX)
-    internal let MemoryWarningNotification = "Siesta.MemoryWarningNotification"
+    internal let MemoryWarningNotification = NSNotification.Name("Siesta.MemoryWarningNotification")
 #elseif os(iOS)
     import UIKit
-    internal let MemoryWarningNotification = UIApplicationDidReceiveMemoryWarningNotification
+    internal let MemoryWarningNotification = NSNotification.Name.UIApplicationDidReceiveMemoryWarning
 #endif
 
 /**
@@ -31,8 +31,8 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
     init()
         {
         lowMemoryObserver =
-            NSNotificationCenter.defaultCenter().addObserverForName(
-                MemoryWarningNotification,
+            NotificationCenter.default.addObserver(
+                forName: MemoryWarningNotification,
                 object: nil,
                 queue: nil)
             {
@@ -44,10 +44,10 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
     deinit
         {
         if let lowMemoryObserver = lowMemoryObserver
-            { NSNotificationCenter.defaultCenter().removeObserver(lowMemoryObserver) }
+            { NotificationCenter.default.removeObserver(lowMemoryObserver) }
         }
 
-    func get(key: K, @noescape onMiss: () -> V) -> V
+    func get(_ key: K, onMiss: () -> V) -> V
         {
         return entriesByKey[key]?.value ??
             {
@@ -72,7 +72,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             if entry.value == nil
                 {
                 // TODO: double lookup is inefficient; does Swift have a mutating iterator?
-                entriesByKey.removeValueForKey(key)
+                entriesByKey.removeValue(forKey: key)
                 }
             }
         }

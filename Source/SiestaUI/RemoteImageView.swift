@@ -13,7 +13,7 @@ import UIKit
 /**
   A `UIImageView` that asynchronously loads and displays remote images.
 */
-public class RemoteImageView: UIImageView
+open class RemoteImageView: UIImageView
     {
     /// Optional view to show while image is loading.
     @IBOutlet public weak var loadingView: UIView?
@@ -25,7 +25,7 @@ public class RemoteImageView: UIImageView
     @IBOutlet public var placeholderImage: UIImage?
 
     /// The default service to cache `RemoteImageView` images.
-    public static var defaultImageService: Service = Service()
+    open static var defaultImageService: Service = Service()
 
     /// The service this view should use to request & cache its images.
     public var imageService: Service = RemoteImageView.defaultImageService
@@ -67,7 +67,7 @@ public class RemoteImageView: UIImageView
         image = imageResource?.typedContent(ifNone: placeholderImage)
 
         let isLoading = imageResource?.isLoading ?? false
-        loadingView?.hidden = !isLoading
-        alternateView?.hidden = (image != nil) || isLoading
+        loadingView?.isHidden = !isLoading
+        alternateView?.isHidden = (image != nil) || isLoading
         }
     }

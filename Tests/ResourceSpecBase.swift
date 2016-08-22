@@ -14,16 +14,16 @@ import Alamofire
 
 class ResourceSpecBase: SiestaSpec
     {
-    func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         { }
 
     override final func spec()
         {
         super.spec()
 
-        func envFlag(key: String) -> Bool
+        func envFlag(_ key: String) -> Bool
             {
-            let value = NSProcessInfo.processInfo().environment["Siesta_\(key)"] ?? ""
+            let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
             return value == "1" || value == "true"
             }
 
@@ -32,7 +32,7 @@ class ResourceSpecBase: SiestaSpec
             // Nocilla’s threading is broken, and Travis exposes a race condition in it.
             // This delay is a workaround.
             print("Using awful sleep workaround for Nocilla’s thread safety problems \u{1f4a9}")
-            afterEach { NSThread.sleepForTimeInterval(0.02) }  // must happen before clearStubs()
+            afterEach { Thread.sleep(forTimeInterval: 0.02) }  // must happen before clearStubs()
             }
 
         beforeSuite { LSNocilla.sharedInstance().start() }
@@ -43,23 +43,23 @@ class ResourceSpecBase: SiestaSpec
 
         if envFlag("TestMultipleNetworkProviders")
             {
-            runSpecsWithNetworkingProvider("default NSURLSession",   networking: NSURLSessionConfiguration.defaultSessionConfiguration())
-            runSpecsWithNetworkingProvider("ephemeral NSURLSession", networking: NSURLSessionConfiguration.ephemeralSessionConfiguration())
-            runSpecsWithNetworkingProvider("threaded NSURLSession",  networking:
+            runSpecsWithNetworkingProvider("default URLSession",   networking: URLSessionConfiguration.default)
+            runSpecsWithNetworkingProvider("ephemeral URLSession", networking: URLSessionConfiguration.ephemeral)
+            runSpecsWithNetworkingProvider("threaded URLSession",  networking:
                 {
-                let backgroundQueue = NSOperationQueue()
-                return NSURLSession(
-                    configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+                let backgroundQueue = OperationQueue()
+                return URLSession(
+                    configuration: URLSessionConfiguration.default,
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
-            runSpecsWithNetworkingProvider("Alamofire networking", networking: Alamofire.Manager())
+            runSpecsWithNetworkingProvider("Alamofire networking", networking: Alamofire.SessionManager.default)
             }
         else
             { runSpecsWithDefaultProvider() }
         }
 
-    private func runSpecsWithNetworkingProvider(description: String?, networking: NetworkingProviderConvertible)
+    private func runSpecsWithNetworkingProvider(_ description: String?, networking: NetworkingProviderConvertible)
         {
         context(debugStr(["with", description]))
             {
@@ -74,7 +74,7 @@ class ResourceSpecBase: SiestaSpec
             { Service(baseURL: self.baseURL) }
         }
 
-    private func runSpecsWithService(serviceBuilder: Void -> Service)
+    private func runSpecsWithService(_ serviceBuilder: @escaping (Void) -> Service)
         {
         let service  = specVar(serviceBuilder),
             resource = specVar { service().resource("/a/b") }
@@ -97,53 +97,54 @@ class ResourceSpecBase: SiestaSpec
 
 // MARK: - Request stubbing
 
-func stubRequest(resource: () -> Resource, _ method: String) -> LSStubRequestDSL
+@discardableResult
+func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    return stubRequest(method, resource().url.absoluteString)
+    return stubRequest(method, resource().url.absoluteString as NSString)
     }
 
-func awaitNewData(req: Siesta.Request, alreadyCompleted: Bool = false)
+func awaitNewData(_ req: Siesta.Request, alreadyCompleted: Bool = false)
     {
     expect(req.isCompleted) == alreadyCompleted
-    let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
-    let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
-    let newDataExpectation = QuickSpec.current().expectationWithDescription("awaiting newData callback: \(req)")
+    let responseExpectation = QuickSpec.current().expectation(description: "awaiting response callback: \(req)")
+    let successExpectation = QuickSpec.current().expectation(description: "awaiting success callback: \(req)")
+    let newDataExpectation = QuickSpec.current().expectation(description: "awaiting newData callback: \(req)")
     req.onCompletion  { _ in responseExpectation.fulfill() }
        .onSuccess     { _ in successExpectation.fulfill() }
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in newDataExpectation.fulfill() }
        .onNotModified { _ in fail("notModified callback should not be called") }
-    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
     expect(req.isCompleted) == true
     }
 
-func awaitNotModified(req: Siesta.Request)
+func awaitNotModified(_ req: Siesta.Request)
     {
     expect(req.isCompleted) == false
-    let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
-    let successExpectation = QuickSpec.current().expectationWithDescription("awaiting success callback: \(req)")
-    let notModifiedExpectation = QuickSpec.current().expectationWithDescription("awaiting notModified callback: \(req)")
+    let responseExpectation = QuickSpec.current().expectation(description: "awaiting response callback: \(req)")
+    let successExpectation = QuickSpec.current().expectation(description: "awaiting success callback: \(req)")
+    let notModifiedExpectation = QuickSpec.current().expectation(description: "awaiting notModified callback: \(req)")
     req.onCompletion  { _ in responseExpectation.fulfill() }
        .onSuccess     { _ in successExpectation.fulfill() }
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in fail("newData callback should not be called") }
        .onNotModified { _ in notModifiedExpectation.fulfill() }
-    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
     expect(req.isCompleted) == true
     }
 
-func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
+func awaitFailure(_ req: Siesta.Request, alreadyCompleted: Bool = false)
     {
     expect(req.isCompleted) == alreadyCompleted
-    let responseExpectation = QuickSpec.current().expectationWithDescription("awaiting response callback: \(req)")
-    let errorExpectation = QuickSpec.current().expectationWithDescription("awaiting failure callback: \(req)")
+    let responseExpectation = QuickSpec.current().expectation(description: "awaiting response callback: \(req)")
+    let errorExpectation = QuickSpec.current().expectation(description: "awaiting failure callback: \(req)")
     req.onCompletion  { _ in responseExpectation.fulfill() }
        .onFailure     { _ in errorExpectation.fulfill() }
        .onSuccess     { _ in fail("success callback should not be called") }
        .onNewData     { _ in fail("newData callback should not be called") }
        .onNotModified { _ in fail("notModified callback should not be called") }
 
-    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
     expect(req.isCompleted) == true
 
     // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
@@ -154,23 +155,23 @@ func awaitFailure(req: Siesta.Request, alreadyCompleted: Bool = false)
         { awaitUnderlyingNetworkRequest(req) }
     }
 
-func awaitUnderlyingNetworkRequest(req: Siesta.Request)
+func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
     {
     if let netReq = req as? NetworkRequest
         {
-        let networkExpectation = QuickSpec.current().expectationWithDescription("awaiting underlying network response: \(req)")
+        let networkExpectation = QuickSpec.current().expectation(description: "awaiting underlying network response: \(req)")
         pollUnderlyingCompletion(netReq, expectation: networkExpectation)
-        QuickSpec.current().waitForExpectationsWithTimeout(1.0, handler: nil)
+        QuickSpec.current().waitForExpectations(timeout: 1.0, handler: nil)
         }
     }
 
-private func pollUnderlyingCompletion(req: NetworkRequest, expectation: XCTestExpectation)
+private func pollUnderlyingCompletion(_ req: NetworkRequest, expectation: XCTestExpectation)
     {
     if req.underlyingNetworkRequestCompleted
         { expectation.fulfill() }
     else
         {
-        dispatch_on_main_queue(after: 0.0001)
+        DispatchQueue.main.async(after: 0.0001)
             { pollUnderlyingCompletion(req, expectation: expectation) }
         }
     }
@@ -178,7 +179,7 @@ private func pollUnderlyingCompletion(req: NetworkRequest, expectation: XCTestEx
 
 // MARK: - Clock stubbing
 
-func setResourceTime(time: NSTimeInterval)
+func setResourceTime(_ time: TimeInterval)
     {
     fakeNow = time
     }

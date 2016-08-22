@@ -8,17 +8,38 @@
 
 import Foundation
 
+//private func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//  switch (lhs, rhs) {
+//  case let (l?, r?):
+//    return l < r
+//  case (nil, _?):
+//    return true
+//  default:
+//    return false
+//  }
+//}
+//
+//private func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//  switch (lhs, rhs) {
+//  case let (l?, r?):
+//    return l >= r
+//  default:
+//    return !(lhs < rhs)
+//  }
+//}
+
+
 internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStringConvertible
     {
     // Basic metadata
     private let resource: Resource
     private let requestDescription: String
     internal var config: Configuration
-        { return resource.configuration(forRequest: nsreq) }
+        { return resource.configuration(forRequest: underlyingRequest) }
 
     // Networking
-    private let requestBuilder: Void -> NSURLRequest
-    private let nsreq: NSURLRequest
+    private let requestBuilder: (Void) -> URLRequest
+    private let underlyingRequest: URLRequest
     internal var networking: RequestNetworking?  // present only after start()
     internal var underlyingNetworkRequestCompleted = false  // so tests can wait for it to finish
 
@@ -32,25 +53,25 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     private var wasCancelled: Bool = false
     var isCompleted: Bool
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
         return responseCallbacks.completedValue != nil
         }
 
     // MARK: Managing request
 
-    init(resource: Resource, requestBuilder: Void -> NSURLRequest)
+    init(resource: Resource, requestBuilder: @escaping (Void) -> URLRequest)
         {
         self.resource = resource
         self.requestBuilder = requestBuilder  // for repeated()
-        self.nsreq = requestBuilder()
-        self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
+        self.underlyingRequest = requestBuilder()
+        self.requestDescription = debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
 
-        progressTracker = ProgressTracker(isGet: nsreq.HTTPMethod == "GET")
+        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")
         }
 
     func start()
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         guard self.networking == nil else
             { fatalError("NetworkRequest.start() called twice") }
@@ -64,11 +85,11 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         debugLog(.Network, [requestDescription])
 
-        let networking = resource.service.networkingProvider.startRequest(nsreq)
+        let networking = resource.service.networkingProvider.startRequest(underlyingRequest)
             {
             res, data, err in
-            dispatch_async(dispatch_get_main_queue())
-                { self.responseReceived(nsres: res, body: data, error: err) }
+            DispatchQueue.main.async
+                { self.responseReceived(underlyingResponse: res, body: data, error: err) }
             }
         self.networking = networking
 
@@ -79,7 +100,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     func cancel()
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         guard !isCompleted else
             {
@@ -106,13 +127,13 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Callbacks
 
-    internal func addResponseCallback(callback: ResponseCallback) -> Self
+    internal func addResponseCallback(_ callback: ResponseCallback) -> Self
         {
         responseCallbacks.addCallback(callback)
         return self
         }
 
-    func onProgress(callback: Double -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
         {
         progressTracker.callbacks.addCallback(callback)
         return self
@@ -121,17 +142,17 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     // MARK: Response handling
 
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
-    private func responseReceived(nsres nsres: NSHTTPURLResponse?, body: NSData?, error: ErrorType?)
+    private func responseReceived(underlyingResponse: HTTPURLResponse?, body: Data?, error: Swift.Error?)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         underlyingNetworkRequestCompleted = true
 
-        debugLog(.Network, [nsres?.statusCode ?? error, "←", requestDescription])
-        debugLog(.NetworkDetails, ["Raw response headers:", nsres?.allHeaderFields])
-        debugLog(.NetworkDetails, ["Raw response body:", body?.length ?? 0, "bytes"])
+        debugLog(.Network, [underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        debugLog(.NetworkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
+        debugLog(.NetworkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
-        let responseInfo = interpretResponse(nsres, body, error)
+        let responseInfo = interpretResponse(underlyingResponse, body, error)
 
         if shouldIgnoreResponse(responseInfo.response)
             { return }
@@ -139,52 +160,68 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         transformResponse(responseInfo, then: broadcastResponse)
         }
 
-    private func interpretResponse(nsres: NSHTTPURLResponse?, _ body: NSData?, _ error: ErrorType?)
+    private func isError(httpStatusCode: Int?) -> Bool
+        {
+        guard let httpStatusCode = httpStatusCode else
+            { return false }
+        return httpStatusCode >= 400
+        }
+
+    private func interpretResponse(
+            _ underlyingResponse: HTTPURLResponse?,
+            _ body: Data?,
+            _ error: Swift.Error?)
         -> ResponseInfo
         {
-        if nsres?.statusCode >= 400 || error != nil
+        if isError(httpStatusCode: underlyingResponse?.statusCode) || error != nil
             {
-            return ResponseInfo(response: .Failure(Error(response:nsres, content: body, cause: error)))
+            return ResponseInfo(
+                response: .failure(Error(
+                    response: underlyingResponse,
+                    content: body,
+                    cause: error)))
             }
-        else if nsres?.statusCode == 304
+        else if underlyingResponse?.statusCode == 304
             {
             if let entity = resource.latestData
                 {
-                return ResponseInfo(response: .Success(entity), isNew: false)
+                return ResponseInfo(response: .success(entity), isNew: false)
                 }
             else
                 {
                 return ResponseInfo(
-                    response: .Failure(Error(
+                    response: .failure(Error(
                         userMessage: NSLocalizedString("No data available", comment: "userMessage"),
                         cause: Error.Cause.NoLocalDataFor304())))
                 }
             }
         else
             {
-            return ResponseInfo(response: .Success(Entity(response: nsres, content: body ?? NSData())))
+            return ResponseInfo(response: .success(Entity(response: underlyingResponse, content: body ?? Data())))
             }
         }
 
-    private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
+    private func transformResponse(
+            _ rawInfo: ResponseInfo,
+            then afterTransformation: @escaping (ResponseInfo) -> Void)
         {
         let processor = config.pipeline.makeProcessor(rawInfo.response, resource: resource)
 
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async
             {
             let processedInfo =
                 rawInfo.isNew
                     ? ResponseInfo(response: processor(), isNew: true)
                     : rawInfo
 
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
                 { afterTransformation(processedInfo) }
             }
         }
 
-    private func broadcastResponse(newInfo: ResponseInfo)
+    private func broadcastResponse(_ newInfo: ResponseInfo)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         if shouldIgnoreResponse(newInfo.response)
             { return }
@@ -196,7 +233,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         responseCallbacks.notifyOfCompletion(newInfo)
         }
 
-    private func shouldIgnoreResponse(newResponse: Response) -> Bool
+    private func shouldIgnoreResponse(_ newResponse: Response) -> Bool
         {
         guard let existingResponse = responseCallbacks.completedValue?.response else
             { return false }
@@ -234,7 +271,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     var debugDescription: String
         {
         return "Siesta.Request:"
-            + String(ObjectIdentifier(self).uintValue, radix: 16)
+            + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
             + "("
             + requestDescription
             + ")"

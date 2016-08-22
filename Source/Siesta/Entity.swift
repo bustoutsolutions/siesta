@@ -69,12 +69,12 @@ public struct Entity
     internal var headers: [String:String]
 
     /// The time at which this data was last known to be valid.
-    public var timestamp: NSTimeInterval
+    public var timestamp: TimeInterval
 
     /**
       Extracts data from a network response.
     */
-    public init(response: NSHTTPURLResponse?, content: Any)
+    public init(response: HTTPURLResponse?, content: Any)
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
@@ -109,10 +109,10 @@ public struct Entity
             content: Any,
             charset: String? = nil,
             headers rawHeaders: [String:String],
-            timestamp: NSTimeInterval? = nil)
+            timestamp: TimeInterval? = nil)
         {
         self.content = content
-        self.headers = rawHeaders.mapDict { ($0.lowercaseString, $1) }
+        self.headers = rawHeaders.mapDict { ($0.lowercased(), $1) }
         self.charset = charset
 
         if let timestamp = timestamp
@@ -131,9 +131,8 @@ public struct Entity
 
       - Parameter key: The case-insensitive header name.
     */
-    @warn_unused_result
-    public func header(key: String) -> String?
-        { return headers[key.lowercaseString] }
+    public func header(forKey key: String) -> String?
+        { return headers[key.lowercased()] }
 
     /// Updates `timestamp` to the current time.
     public mutating func touch()
@@ -186,15 +185,13 @@ public extension TypedContentAccessors
       - SeeAlso: `typedContent()`
       - SeeAlso: `ResponseTransformer`
     */
-    @warn_unused_result
-    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T) -> T
+    public func typedContent<T>(ifNone defaultContent: @autoclosure () -> T) -> T
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
     /// Variant of `typedContent(ifNone:)` with optional input & output.
-    @warn_unused_result
-    public func typedContent<T>(@autoclosure ifNone defaultContent: () -> T?) -> T?
+    public func typedContent<T>(ifNone defaultContent: @autoclosure () -> T?) -> T?
         {
         return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
@@ -209,20 +206,19 @@ public extension TypedContentAccessors
 
           showUser(resource.typedContent())  // Infers that desired type is User
     */
-    @warn_unused_result
     public func typedContent<T>() -> T?
         {
         return typedContent(ifNone: nil)
         }
 
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var jsonDict: [String:AnyObject] { return typedContent(ifNone: [:]) }
+    public var jsonDict: [String:Any] { return typedContent(ifNone: [:]) }
 
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [AnyObject]       { return typedContent(ifNone: []) }
+    public var jsonArray: [Any]       { return typedContent(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String                 { return typedContent(ifNone: "") }
+    public var text: String           { return typedContent(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors

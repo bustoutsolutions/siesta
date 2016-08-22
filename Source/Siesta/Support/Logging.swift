@@ -58,7 +58,7 @@ public var enabledLogCategories = Set<LogCategory>()
 /// Inject your custom logger to do something other than print to stdout.
 public var logger: (LogCategory, String) -> Void = { print("[Siesta:\($0.rawValue)] \($1)") }
 
-internal func debugLog(category: LogCategory, @autoclosure _ messageParts: () -> [Any?])
+internal func debugLog(_ category: LogCategory, _ messageParts: @autoclosure () -> [Any?])
     {
     if enabledLogCategories.contains(category)
         { logger(category, debugStr(messageParts())) }

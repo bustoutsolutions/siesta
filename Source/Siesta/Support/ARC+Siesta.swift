@@ -29,7 +29,7 @@ internal struct StrongOrWeakRef<T>
     init(_ value: T)
         {
         strongRef = value
-        weakRef = value as? AnyObject
+        weakRef = value as AnyObject
         }
 
     var strong: Bool
@@ -53,15 +53,15 @@ internal struct WeakRef<T: AnyObject>: Hashable
         {
         self.value = value
         let ident = ObjectIdentifier(value)
-        self.originalIdentity = ident.uintValue
+        self.originalIdentity = UInt(bitPattern: ident)
         self.originalHash = ident.hashValue
         }
 
     var hashValue: Int
         { return originalHash }
-    }
 
-internal func == <T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
-    {
-    return lhs.originalIdentity == rhs.originalIdentity
+    internal static func == <T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
+        {
+        return lhs.originalIdentity == rhs.originalIdentity
+        }
     }

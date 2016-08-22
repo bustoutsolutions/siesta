@@ -20,7 +20,7 @@ import Alamofire
 
       class MyAPI: Service {
           init() {
-              let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+              let configuration = URLSessionConfiguration.defaultSessionConfiguration()
               configuration.allowsCellularAccess = false
               super.init(
                   baseURL: "http://foo.bar/v1",
@@ -30,16 +30,16 @@ import Alamofire
 */
 public struct AlamofireProvider: NetworkingProvider
     {
-    public let manager: Alamofire.Manager
+    public let manager: Alamofire.SessionManager
 
-    public init(manager: Alamofire.Manager = Manager.sharedInstance)
+    public init(manager: Alamofire.SessionManager = SessionManager.default)
         { self.manager = manager }
 
-    public init(configuration: NSURLSessionConfiguration)
-        { self.init(manager: Alamofire.Manager(configuration: configuration)) }
+    public init(configuration: URLSessionConfiguration)
+        { self.init(manager: Alamofire.SessionManager(configuration: configuration)) }
 
     public func startRequest(
-            request: NSURLRequest,
+            _ request: URLRequest,
             completion: RequestNetworkingCompletionCallback)
         -> RequestNetworking
         {
@@ -48,7 +48,7 @@ public struct AlamofireProvider: NetworkingProvider
                 .response
                     {
                     req, res, body, error in
-                    completion(nsres: res, body: body, error: error)
+                    completion(res, body, error)
                     })
         }
     }
@@ -63,7 +63,7 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
         alamofireRequest.resume()   // in case manager.startRequestsImmediately is false
         }
 
-    var task: NSURLSessionTask
+    var task: URLSessionTask
         {
         return alamofireRequest.task
         }
@@ -72,7 +72,7 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
         { alamofireRequest.cancel() }
     }
 
-extension Alamofire.Manager: NetworkingProviderConvertible
+extension Alamofire.SessionManager: NetworkingProviderConvertible
     {
     /// You can pass an `AlamoFire.Manager` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider

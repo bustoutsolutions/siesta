@@ -88,12 +88,12 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(entity: Entity, forKey key: Key)
+    func writeEntity(_ entity: Entity, forKey key: Key)
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
     */
-    func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
+    func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key)
 
     /**
       Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
@@ -104,16 +104,16 @@ public protocol EntityCache
     /**
       Returns the GCD queue on which this cache implementation will do its work.
     */
-    var workQueue: dispatch_queue_t { get }
+    var workQueue: DispatchQueue { get }
     }
 
-internal var defaultEntityCacheWorkQueue: dispatch_queue_t =
-    dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+internal var defaultEntityCacheWorkQueue: DispatchQueue =
+    DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
 
 public extension EntityCache
     {
     /// Returns a concurrent queue with priority `QOS_CLASS_USER_INITIATED`.
-    public var workQueue: dispatch_queue_t
+    public var workQueue: DispatchQueue
         { return defaultEntityCacheWorkQueue }
     }
 
@@ -125,7 +125,7 @@ extension EntityCache
       While this default implementation always gives the correct behavior, cache implementations may choose to override
       it for performance reasons.
     */
-    public func updateEntityTimestamp(timestamp: NSTimeInterval, forKey key: Key)
+    public func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key)
         {
         guard var entity = readEntity(forKey: key) else
             { return }

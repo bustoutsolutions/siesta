@@ -8,19 +8,18 @@
 
 import Foundation
 
-internal extension CollectionType
+internal extension Collection
     {
-    @warn_unused_result
     func bipartition(
-            @noescape includeElement: (Self.Generator.Element) -> Bool)
-        -> (included: [Self.Generator.Element], excluded: [Self.Generator.Element])
+            with predicate: (Self.Iterator.Element) -> Bool)
+        -> (included: [Self.Iterator.Element], excluded: [Self.Iterator.Element])
         {
-        var included: [Self.Generator.Element] = []
-        var excluded: [Self.Generator.Element] = []
+        var included: [Self.Iterator.Element] = []
+        var excluded: [Self.Iterator.Element] = []
 
         for elem in self
             {
-            if includeElement(elem)
+            if predicate(elem)
                 { included.append(elem) }
             else
                 { excluded.append(elem) }
@@ -29,8 +28,7 @@ internal extension CollectionType
         return (included: included, excluded: excluded)
         }
 
-    @warn_unused_result
-    func any(@noescape predicate: Generator.Element -> Bool) -> Bool
+    func any(match predicate: (Iterator.Element) -> Bool) -> Bool
         {
         for elem in self
             where predicate(elem)
@@ -38,8 +36,7 @@ internal extension CollectionType
         return false
         }
 
-    @warn_unused_result
-    func all(@noescape predicate: Generator.Element -> Bool) -> Bool
+    func all(match predicate: (Iterator.Element) -> Bool) -> Bool
         {
         return !any { !predicate($0) }
         }
@@ -47,7 +44,7 @@ internal extension CollectionType
 
 internal extension Array
     {
-    mutating func remove(@noescape predicate: Generator.Element -> Bool)
+    mutating func remove(matching predicate: (Iterator.Element) -> Bool)
         {
         var dst = startIndex
         for src in indices
@@ -56,17 +53,16 @@ internal extension Array
             if !predicate(elem)
                 {
                 self[dst] = elem
-                dst = dst.advancedBy(1)
+                dst = dst.advanced(by: 1)
                 }
             }
-        removeRange(dst ..< endIndex)
+        removeSubrange(dst ..< endIndex)
         }
     }
 
 internal extension Dictionary
     {
-    @warn_unused_result
-    static func fromArray<K,V>(arrayOfTuples: [(K,V)]) -> [K:V]
+    static func fromArray<K,V>(_ arrayOfTuples: [(K,V)]) -> [K:V]
         {
         var dict = Dictionary<K,V>(minimumCapacity: arrayOfTuples.count)
         for (k,v) in arrayOfTuples
@@ -74,15 +70,13 @@ internal extension Dictionary
         return dict
         }
 
-    @warn_unused_result
-    func mapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey,MappedValue))
+    func mapDict<MappedKey,MappedValue>(transform: (Key,Value) -> (MappedKey,MappedValue))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(map(transform))
         }
 
-    @warn_unused_result
-    func flatMapDict<MappedKey,MappedValue>(@noescape transform: (Key,Value) -> (MappedKey?,MappedValue?))
+    func flatMapDict<MappedKey,MappedValue>(transform: (Key,Value) -> (MappedKey?,MappedValue?))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(
@@ -97,8 +91,7 @@ internal extension Dictionary
             )
         }
 
-    @warn_unused_result
-    mutating func cacheValue(forKey key: Key, @noescape ifNone newValue: () -> Value)
+    mutating func cacheValue(forKey key: Key, ifNone newValue: () -> Value)
         -> Value
         {
         return self[key] ??
@@ -112,9 +105,9 @@ internal extension Dictionary
 
 internal extension Set
     {
-    mutating func filterInPlace(@noescape predicate: Generator.Element -> Bool)
+    mutating func filterInPlace(predicate: (Iterator.Element) -> Bool)
         {
-        if !all(predicate)
+        if !all(match: predicate)
             {
             // There's apparently no more performant way of doing this filter in place than creating a whole new set.
             // Even the stdlib’s internal implementation does this for its similar mutating union/intersection methods.

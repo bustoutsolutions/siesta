@@ -13,7 +13,7 @@ import Nocilla
 
 class ProgressSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
         describe("always reaches 1")
             {
@@ -27,7 +27,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on request error")
                 {
-                let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: NSASCIIStringEncoding)
+                let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: String.Encoding.ascii)
                 awaitFailure(req, alreadyCompleted: true)
                 expect(req.progress) == 1.0
                 }
@@ -79,37 +79,37 @@ class ProgressSpec: ResourceSpecBase
                 setResourceTime(100)
                 }
 
-            func progressComparison(closure: Void -> Void) -> (before: Double, after: Double)
+            func progressComparison(_ closure: (Void) -> Void) -> (before: Double, after: Double)
                 {
                 progress = progress ?? RequestProgressComputation(isGet: getRequest)
 
-                progress!.update(metrics)
+                progress!.update(from: metrics)
                 let before = progress!.fractionDone
 
                 closure()
 
-                progress!.update(metrics)
+                progress!.update(from: metrics)
                 let after = progress!.fractionDone
 
                 return (before, after)
                 }
 
-            func expectProgressToIncrease(closure: Void -> Void)
+            func expectProgressToIncrease(_ closure: (Void) -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after) > result.before
                 }
 
-            func expectProgressToRemainUnchanged(closure: Void -> Void)
+            func expectProgressToRemainUnchanged(_ closure: (Void) -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after) == result.before
                 }
 
-            func expectProgressToRemainAlmostUnchanged(closure: Void -> Void)
+            func expectProgressToRemainAlmostUnchanged(_ closure: (Void) -> Void)
                 {
                 let result = progressComparison(closure)
-                expect(result.after) ≈ Double(result.before) ± 0.01  // TODO: Double() coercion should be unnecessary; remove if https://bugs.swift.org/browse/SR-1614 fixed
+                expect(result.after) ≈ (Double(result.before) ± 0.01)  // TODO: Double() coercion should be unnecessary; remove if https://bugs.swift.org/browse/SR-1614 fixed
                 }
 
             context("for request with no body")
@@ -264,14 +264,15 @@ class ProgressSpec: ResourceSpecBase
 
         describe("callback")
             {
+            @discardableResult
             func recordProgress(
-                    setup setup: Request -> Void = { _ in },
-                    until stopCondition: [Double] -> Bool)
+                    setup: (Request) -> Void = { _ in },
+                    until stopCondition: @escaping ([Double]) -> Bool)
                 -> [Double]
                 {
                 var progressReports: [Double] = []
 
-                let expectation = QuickSpec.current().expectationWithDescription("recordProgressUntil")
+                let expectation = QuickSpec.current().expectation(description: "recordProgressUntil")
                 var fulfilled = false
 
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
@@ -285,7 +286,7 @@ class ProgressSpec: ResourceSpecBase
                         }
                     }
                 setup(req)
-                QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+                QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
 
                 reqStub.go()
                 awaitNewData(req)
@@ -299,7 +300,7 @@ class ProgressSpec: ResourceSpecBase
 
                 // The mere passage of time should increase latency, and thus make progress increase beyond 0
                 expect(progressReports.any { $0 > 0 }) == true
-                expect(progressReports.sort()) == progressReports
+                expect(progressReports.sorted()) == progressReports
                 }
 
             describe("last notification")

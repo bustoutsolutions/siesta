@@ -14,22 +14,21 @@ public extension Resource
     /**
       Convenience method to initiate a request with a body containing arbitrary data.
     */
-    @warn_unused_result
     public func request(
-            method:      RequestMethod,
-            data:        NSData,
+            _ method:      RequestMethod,
+            data:        Data,
             contentType: String,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
         return request(method)
             {
-            nsreq in
+            underlyingRequest in
 
-            nsreq.addValue(contentType, forHTTPHeaderField: "Content-Type")
-            nsreq.HTTPBody = data
+            underlyingRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
+            underlyingRequest.httpBody = data
 
-            requestMutation(nsreq)
+            requestMutation(&underlyingRequest)
             }
         }
 
@@ -42,22 +41,26 @@ public extension Resource
       - Parameter contentType: `text/plain` by default.
       - Parameter encoding: UTF-8 (`NSUTF8StringEncoding`) by default.
     */
-    @warn_unused_result
     public func request(
-            method:      RequestMethod,
+            _ method:      RequestMethod,
             text:        String,
             contentType: String = "text/plain",
-            encoding:    NSStringEncoding = NSUTF8StringEncoding,
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            encoding:    String.Encoding = String.Encoding.utf8,
+            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
-        let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
-        guard let rawBody = text.dataUsingEncoding(encoding) else
+        let encodingName =
+            CFStringConvertEncodingToIANACharSetName(
+                CFStringConvertNSStringEncodingToEncoding(
+                    encoding.rawValue))
+            as String
+
+        guard let rawBody = text.data(using: encoding) else
             {
             return Resource.failedRequest(
                 Error(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
+                    cause: Error.Cause.UnencodableText(encodingName: encodingName, text: text)))
             }
 
         return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)", requestMutation: requestMutation)
@@ -71,15 +74,14 @@ public extension Resource
 
       - Parameter contentType: `application/json` by default.
     */
-    @warn_unused_result
     public func request(
-            method:      RequestMethod,
+            _ method:      RequestMethod,
             json:        NSJSONConvertible,
             contentType: String = "application/json",
-            requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
-        guard NSJSONSerialization.isValidJSONObject(json) else
+        guard JSONSerialization.isValidJSONObject(json) else
             {
             return Resource.failedRequest(
                 Error(
@@ -88,7 +90,7 @@ public extension Resource
             }
 
         do  {
-            let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
+            let rawBody = try JSONSerialization.data(withJSONObject: json, options: [])
             return request(method, data: rawBody, contentType: contentType, requestMutation: requestMutation)
             }
         catch
@@ -112,16 +114,15 @@ public extension Resource
 
       The content type is `application/x-www-form-urlencoded`.
     */
-    @warn_unused_result
     public func request(
-            method:            RequestMethod,
+            _ method:          RequestMethod,
             urlEncoded params: [String:String],
-            requestMutation:   NSMutableURLRequest -> () = { _ in })
+            requestMutation:   @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
-        func urlEscape(string: String) throws -> String
+        func urlEscape(_ string: String) throws -> String
             {
-            guard let escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(Resource.allowedCharsInURLEncoding) else
+            guard let escaped = string.addingPercentEncoding(withAllowedCharacters: Resource.allowedCharsInURLEncoding) else
                 { throw Error.Cause.NotURLEncodable(offendingString: string) }
 
             return escaped
@@ -131,10 +132,10 @@ public extension Resource
             {
             let paramString = try
                 params.map { try urlEscape($0.0) + "=" + urlEscape($0.1) }
-                      .sort()
-                      .joinWithSeparator("&")
+                      .sorted()
+                      .joined(separator: "&")
             return request(method,
-                data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // Reason for !: ASCII guaranteed safe because of escaping
+                data: paramString.data(using: String.Encoding.ascii)!,  // Reason for !: ASCII guaranteed safe because of escaping
                 contentType: "application/x-www-form-urlencoded",
                 requestMutation: requestMutation)
             }
@@ -147,13 +148,12 @@ public extension Resource
             }
         }
 
-    private static let allowedCharsInURLEncoding: NSCharacterSet =
+    private static let allowedCharsInURLEncoding: CharacterSet =
         {
         // Based on https://github.com/Alamofire/Alamofire/blob/338955a54722dea6051ed5c5c76a8736f4195515/Source/ParameterEncoding.swift#L186
         let charsToEscape = ":#[]@!$&'()*+,;="
-        let allowedChars = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy()
-                           as! NSMutableCharacterSet  // Reason for !: No typesafe NSMutableCharacterSet copy constructor
-        allowedChars.removeCharactersInString(charsToEscape)
+        var allowedChars = CharacterSet.urlQueryAllowed
+        allowedChars.remove(charactersIn: charsToEscape)
         return allowedChars
         }()
 
@@ -161,7 +161,7 @@ public extension Resource
       Returns a request for this resource that immedately fails, without ever touching the network. Useful for creating
       your own custom requests that perform pre-request validation.
      */
-    public static func failedRequest(error: Error) -> Request
+    public static func failedRequest(_ error: Error) -> Request
         {
         return FailedRequest(error: error)
         }
@@ -179,33 +179,33 @@ private final class FailedRequest: RequestWithDefaultCallbacks
     init(error: Error)
         { self.error = error }
 
-    func addResponseCallback(callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: ResponseCallback) -> Self
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.
 
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         // Callback should not be called synchronously
 
-        dispatch_async(dispatch_get_main_queue())
-            { callback(ResponseInfo(response: .Failure(self.error))) }
+        DispatchQueue.main.async
+            { callback(ResponseInfo(response: .failure(self.error))) }
 
         return self
         }
 
-    func onProgress(callback: Double -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
             { callback(1) }
 
         return self
         }
 
     func cancel()
-        { dispatch_assert_main_queue() }
+        { DispatchQueue.mainThreadPrecondition() }
 
     func repeated() -> Request
         { return self }

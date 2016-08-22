@@ -21,7 +21,7 @@ internal extension Pipeline
             { stage in (stage, stage.cacheBox?.buildEntry(resource)) }
         }
 
-    internal func makeProcessor(rawResponse: Response, resource: Resource) -> Void -> Response
+    internal func makeProcessor(_ rawResponse: Response, resource: Resource) -> (Void) -> Response
         {
         // Generate cache keys on main thread (because this touches Resource)
         let stagesAndEntries = self.stagesAndEntries(for: resource)
@@ -31,10 +31,11 @@ internal extension Pipeline
         }
 
     // Runs on a background queue
-    private func processAndCache<StagesAndEntries: CollectionType where StagesAndEntries.Generator.Element == StageAndEntry>(
-            rawResponse: Response,
+    private func processAndCache<StagesAndEntries: Collection>(
+            _ rawResponse: Response,
             using stagesAndEntries: StagesAndEntries)
         -> Response
+        where StagesAndEntries.Iterator.Element == StageAndEntry
         {
         return stagesAndEntries.reduce(rawResponse)
             {
@@ -42,10 +43,10 @@ internal extension Pipeline
 
             let output = stage.process(input)
 
-            if case .Success(let entity) = output,
+            if case .success(let entity) = output,
                let cacheEntry = cacheEntry
                 {
-                debugLog(.Cache, ["Caching entity with", entity.content.dynamicType, "content in", cacheEntry])
+                debugLog(.Cache, ["Caching entity with", type(of: entity.content), "content in", cacheEntry])
                 cacheEntry.write(entity)
                 }
 
@@ -53,16 +54,16 @@ internal extension Pipeline
             }
         }
 
-    internal func cachedEntity(for resource: Resource, onHit: (Entity) -> ())
+    internal func cachedEntity(for resource: Resource, onHit: @escaping (Entity) -> ())
         {
         // Extract cache keys on main thread
         let stagesAndEntries = self.stagesAndEntries(for: resource)
 
-        dispatch_async(defaultEntityCacheWorkQueue)
+        defaultEntityCacheWorkQueue.async
             {
             if let entity = self.cacheLookup(using: stagesAndEntries)
                 {
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                     { onHit(entity) }
                 }
             }
@@ -71,22 +72,22 @@ internal extension Pipeline
     // Runs on a background queue
     private func cacheLookup(using stagesAndEntries: [StageAndEntry]) -> Entity?
         {
-        for (index, (_, cacheEntry)) in stagesAndEntries.enumerate().reverse()
+        for (index, (_, cacheEntry)) in stagesAndEntries.enumerated().reversed()
             {
             if let result = cacheEntry?.read()
                 {
                 debugLog(.Cache, ["Cache hit for", cacheEntry])
 
                 let processed = processAndCache(
-                    .Success(result),
-                    using: stagesAndEntries.suffixFrom(index + 1))
+                    .success(result),
+                    using: stagesAndEntries.suffix(from: index + 1))
 
                 switch(processed)
                     {
-                    case .Failure:
+                    case .failure:
                         debugLog(.Cache, ["Error processing cached entity; will ignore cached value. Error:", processed])
 
-                    case .Success(let entity):
+                    case .success(let entity):
                         return entity
                     }
                 }
@@ -94,7 +95,7 @@ internal extension Pipeline
         return nil
         }
 
-    internal func updateCacheEntryTimestamps(timestamp: NSTimeInterval, for resource: Resource)
+    internal func updateCacheEntryTimestamps(_ timestamp: TimeInterval, for resource: Resource)
         {
         for (_, cacheEntry) in stagesAndEntries(for: resource)
             { cacheEntry?.updateTimestamp(timestamp) }
@@ -111,7 +112,7 @@ internal extension Pipeline
 
 internal struct CacheBox
     {
-    private let buildEntry: (Resource) -> (CacheEntryProtocol?)
+    fileprivate let buildEntry: (Resource) -> (CacheEntryProtocol?)
 
     init?<T: EntityCache>(cache: T?)
         {
@@ -123,19 +124,20 @@ internal struct CacheBox
 private protocol CacheEntryProtocol
     {
     func read() -> Entity?
-    func write(entity: Entity)
-    func updateTimestamp(timestamp: NSTimeInterval)
+    func write(_ entity: Entity)
+    func updateTimestamp(_ timestamp: TimeInterval)
     func remove()
     }
 
-private struct CacheEntry<Cache, Key where Cache: EntityCache, Cache.Key == Key>: CacheEntryProtocol
+private struct CacheEntry<Cache, Key>: CacheEntryProtocol
+    where Cache: EntityCache, Cache.Key == Key
     {
     let cache: Cache
     let key: Key
 
     init?(cache: Cache, resource: Resource)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         guard let key = cache.key(for: resource) else { return nil }
 
@@ -149,32 +151,32 @@ private struct CacheEntry<Cache, Key where Cache: EntityCache, Cache.Key == Key>
             { self.cache.readEntity(forKey: self.key) }
         }
 
-    func write(entity: Entity)
+    func write(_ entity: Entity)
         {
-        dispatch_async(cache.workQueue)
+        cache.workQueue.async
             { self.cache.writeEntity(entity, forKey: self.key) }
         }
 
-    func updateTimestamp(timestamp: NSTimeInterval)
+    func updateTimestamp(_ timestamp: TimeInterval)
         {
-        dispatch_async(cache.workQueue)
+        cache.workQueue.async
             { self.cache.updateEntityTimestamp(timestamp, forKey: self.key) }
         }
 
     func remove()
         {
-        dispatch_async(cache.workQueue)
+        cache.workQueue.async
             { self.cache.removeEntity(forKey: self.key) }
         }
 
-    private func dispatchSyncOnWorkQueue<T>(action: (Void) -> T) -> T
+    private func dispatchSyncOnWorkQueue<T>(_ action: (Void) -> T) -> T
         {
         if currentQueueIsWorkQueue
             { return action() }
         else
             {
             var result: T?
-            dispatch_sync(cache.workQueue)
+            cache.workQueue.sync
                 { result = action() }
             return result!
             }
@@ -186,7 +188,6 @@ private struct CacheEntry<Cache, Key where Cache: EntityCache, Cache.Key == Key>
         // to be a safe assumption; however, it is unlikely that a user will happen
         // to give their custom queue exactly the same name as the default work queue.
 
-        return dispatch_queue_get_label(cache.workQueue)
-            == dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)
+        return false; // TODO: Figure out how to reproduce in Swift 3: cache.workQueue.label == DISPATCH_CURRENT_QUEUE_LABEL
         }
     }

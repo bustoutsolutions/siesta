@@ -16,11 +16,11 @@ class ResourcePathsSpec: ResourceSpecBase
     override var baseURL: String
         { return "https://zingle.frotz/v1" }
 
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
         describe("child()")
             {
-            func expectChild(childPath: String, toResolveTo url: String)
+            func expectChild(_ childPath: String, toResolveTo url: String)
                 { expect((resource(), childPath)).to(expandToChildURL(url)) }
 
             it("returns a resource with the same service")
@@ -66,10 +66,10 @@ class ResourcePathsSpec: ResourceSpecBase
 
         describe("relative()")
             {
-            func expectRelativeOf(resource: Resource, _ childPath: String, toResolveTo url: String)
+            func expectRelativeOf(_ resource: Resource, _ childPath: String, toResolveTo url: String)
                 { expect((resource, childPath)).to(expandToRelativeURL(url)) }
 
-            func expectRelative(childPath: String, toResolveTo url: String)
+            func expectRelative(_ childPath: String, toResolveTo url: String)
                 { expectRelativeOf(resource(), childPath, toResolveTo: url) }
 
             it("returns a resource with the same service")
@@ -193,9 +193,9 @@ class ResourcePathsSpec: ResourceSpecBase
 // MARK: - Custom matchers
 
 private func resourceExpansionMatcher(
-             expectedURL: String,
+             _ expectedURL: String,
         relationshipName: String,
-            relationship: (Resource,String) -> Resource)
+            relationship: @escaping (Resource,String) -> Resource)
     -> MatcherFunc<(Resource,String)>
     {
     return MatcherFunc
@@ -212,13 +212,13 @@ private func resourceExpansionMatcher(
         }
     }
 
-private func expandToChildURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
+private func expandToChildURL(_ expectedURL: String) -> MatcherFunc<(Resource,String)>
     {
     return resourceExpansionMatcher(expectedURL, relationshipName: "child")
         { resource, path in resource.child(path) }
     }
 
-private func expandToRelativeURL(expectedURL: String) -> MatcherFunc<(Resource,String)>
+private func expandToRelativeURL(_ expectedURL: String) -> MatcherFunc<(Resource,String)>
     {
     return resourceExpansionMatcher(expectedURL, relationshipName: "relative")
         { resource, path in resource.relative(path) }

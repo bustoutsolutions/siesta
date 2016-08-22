@@ -31,10 +31,9 @@ extension Resource
 
       - SeeAlso: `relative(_:)`
     */
-    @warn_unused_result
-    public func child(subpath: String) -> Resource
+    public func child(_ subpath: String) -> Resource
         {
-        return service.resource(absoluteURL: url.URLByAppendingPathComponent(subpath))
+        return service.resource(absoluteURL: url.appendingPathComponent(subpath))
         }
 
     /**
@@ -49,10 +48,9 @@ extension Resource
         - `optionalRelative(_:)`
         - `child(_:)`
     */
-    @warn_unused_result
-    public func relative(href: String) -> Resource
+    public func relative(_ href: String) -> Resource
         {
-        return service.resource(absoluteURL: NSURL(string: href, relativeToURL: url))
+        return service.resource(absoluteURL: URL(string: href, relativeTo: url))
         }
 
     /**
@@ -65,8 +63,7 @@ extension Resource
             // ...
           }
     */
-    @warn_unused_result
-    public func optionalRelative(href: String?) -> Resource?
+    public func optionalRelative(_ href: String?) -> Resource?
         {
         if let href = href
             { return relative(href) }
@@ -91,9 +88,8 @@ extension Resource
       Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
       up to you to canonicalize your parameter order.
     */
-    @warn_unused_result
     @objc(withParam:value:)
-    public func withParam(name: String, _ value: String?) -> Resource
+    public func withParam(_ name: String, _ value: String?) -> Resource
         {
         return service.resource(absoluteURL:
             url.alterQuery

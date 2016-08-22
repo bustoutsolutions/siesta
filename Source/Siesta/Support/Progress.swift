@@ -31,17 +31,17 @@ internal struct RequestProgressComputation: Progress
                     (downloadProgress, weight: isGet ? 1 : 0.1)))
         }
 
-    mutating func update(metrics: RequestTransferMetrics)
+    mutating func update(from metrics: RequestTransferMetrics)
         {
-        updateByteCounts(metrics)
-        updateLatency(metrics)
+        updateByteCounts(from: metrics)
+        updateLatency(from: metrics)
         }
 
-    mutating func updateByteCounts(metrics: RequestTransferMetrics)
+    mutating func updateByteCounts(from metrics: RequestTransferMetrics)
         {
-        func optionalTotal(n: Int64?) -> Double?
+        func optionalTotal(_ n: Int64?) -> Double?
             {
-            if let n = n where n > 0
+            if let n = n, n > 0
                 { return Double(n) }
             else
                 { return nil }
@@ -57,7 +57,7 @@ internal struct RequestProgressComputation: Progress
         downloadProgress.completed = Double(metrics.responseBytesReceived)
         }
 
-    mutating func updateLatency(metrics: RequestTransferMetrics)
+    mutating func updateLatency(from metrics: RequestTransferMetrics)
         {
         let requestStarted = metrics.requestBytesSent > 0,
             responseStarted = metrics.responseBytesReceived > 0,
@@ -104,7 +104,7 @@ extension Progress
     final var fractionDone: Double
         {
         let raw = rawFractionDone
-        return isnan(raw) ? raw : max(0, min(1, raw))
+        return raw.isNaN ? raw : max(0, min(1, raw))
         }
     }
 
@@ -146,7 +146,7 @@ private class TaskProgress: Progress
         { return TaskProgress(completed: 1, actualTotal: 1) }
 
     static var unknown: TaskProgress
-        { return TaskProgress(completed: 0, estimatedTotal: Double.NaN) }
+        { return TaskProgress(completed: 0, estimatedTotal: Double.nan) }
     }
 
 /// Several individual progress measurements combined into one.
@@ -186,7 +186,7 @@ private struct MonotonicProgress: Progress
     var rawFractionDone: Double
         { return (child.fractionDone - 1) * adjustment + 1 }
 
-    mutating func holdConstant(@noescape closure: Void -> Void)
+    mutating func holdConstant(closure: (Void) -> Void)
         {
         let before = fractionDone
         closure()
@@ -199,7 +199,7 @@ private struct MonotonicProgress: Progress
 /// Progress spent waiting for something that will take an unknown amount of time.
 private class WaitingProgress: Progress
     {
-    private var startTime: NSTimeInterval?
+    private var startTime: TimeInterval?
     private var progress: TaskProgress
 
     init(estimatedTotal: Double)

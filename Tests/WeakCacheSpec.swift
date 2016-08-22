@@ -32,15 +32,15 @@ class WeakCacheSpec: SiestaSpec
 
             it("returns the same instance on the second fetch")
                 {
-                cache().get("foo") { return doodad0() }
+                _ = cache().get("foo") { return doodad0() }
                 let retrieved = cache().get("foo") { return doodad1() }
                 expect(retrieved) === doodad0()
                 }
 
             it("does not call the cache miss block on the second fetch")
                 {
-                cache().get("foo") { return doodad0() }
-                cache().get("foo")
+                _ = cache().get("foo") { return doodad0() }
+                _ = cache().get("foo")
                     {
                     XCTFail("Block should not have been called")
                     return doodad0()
@@ -49,8 +49,8 @@ class WeakCacheSpec: SiestaSpec
 
             it("returns different instances for different keys")
                 {
-                cache().get("foo") { return doodad0() }
-                cache().get("bar") { return doodad1() }
+                _ = cache().get("foo") { return doodad0() }
+                _ = cache().get("bar") { return doodad1() }
 
                 let retrieved1 = cache().get("bar") { return doodad2() }
                 let retrieved0 = cache().get("foo") { return doodad2() }
@@ -67,7 +67,7 @@ class WeakCacheSpec: SiestaSpec
                 {
                 Doodad.count = 0
                 expendable = Doodad()
-                cache().get("foo") { return expendable! }
+                _ = cache().get("foo") { return expendable! }
                 }
 
             afterEach
@@ -106,12 +106,12 @@ class WeakCacheSpec: SiestaSpec
             {
             var entryID = 0
 
-            func makeEntries(count: Int)
+            func makeEntries(_ count: Int)
                 {
                 for _ in 0 ..< count
                     {
                     entryID += 1
-                    cache().get("Entry \(entryID)")
+                    _ = cache().get("Entry \(entryID)")
                         { return Doodad() }
                     }
                 }
@@ -130,7 +130,7 @@ class WeakCacheSpec: SiestaSpec
             it("does not flush entries still in use")
                 {
                 let retainedDoodad = Doodad()
-                cache().get("sticky")
+                _ = cache().get("sticky")
                     { return retainedDoodad }
 
                 makeEntries(101)

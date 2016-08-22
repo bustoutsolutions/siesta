@@ -11,7 +11,7 @@ import Foundation
 private let whitespacePat = NSRegularExpression.compile("\\s+")
 
 internal func debugStr(
-        x: Any?,
+        _ x: Any?,
         consolidateWhitespace: Bool = false,
         truncate: Int? = 500)
     -> String
@@ -21,21 +21,21 @@ internal func debugStr(
 
     var s: String
     if let debugPrintable = x as? CustomDebugStringConvertible
-        { s = debugPrintable.debugDescription ?? "–" }
+        { s = debugPrintable.debugDescription }
     else
         { s = "\(x)" }
 
     if consolidateWhitespace
         { s = s.replacingRegex(whitespacePat, " ") }
 
-    if let truncate = truncate where s.characters.count > truncate
-        { s = s.substringToIndex(s.startIndex.advancedBy(truncate)) + "…" }
+    if let truncate = truncate , s.characters.count > truncate
+        { s = s.substring(to: s.index(s.startIndex, offsetBy: truncate)) + "…" }
 
     return s
     }
 
 internal func debugStr(
-        messageParts: [Any?],
+        _ messageParts: [Any?],
         join: String = " ",
         consolidateWhitespace: Bool = true,
         truncate: Int? = 300)
@@ -47,10 +47,10 @@ internal func debugStr(
             ($0 as? String)
                 ?? debugStr($0, consolidateWhitespace: consolidateWhitespace, truncate: truncate)
             }
-        .joinWithSeparator(" ")
+        .joined(separator: " ")
     }
 
-internal func dumpHeaders(headers: [String:String], indent: String = "") -> String
+internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> String
     {
     var result = "\n" + indent + "headers: (\(headers.count))"
 
@@ -62,36 +62,36 @@ internal func dumpHeaders(headers: [String:String], indent: String = "") -> Stri
 
 extension Response
     {
-    internal func dump(indent: String = "") -> String
+    internal func dump(_ indent: String = "") -> String
         {
         switch self
             {
-            case .Success(let value): return "\n" + indent + "Success" + value.dump(indent + "  ")
-            case .Failure(let value): return "\n" + indent + "Failure" + value.dump(indent + "  ")
+            case .success(let value): return "\n" + indent + "Success" + value.dump(indent + "  ")
+            case .failure(let value): return "\n" + indent + "Failure" + value.dump(indent + "  ")
             }
         }
     }
 
 extension Entity
     {
-    internal func dump(indent: String = "") -> String
+    internal func dump(_ indent: String = "") -> String
         {
         var result =
             "\n" + indent + "contentType: \(contentType)" +
             "\n" + indent + "charset:     \(debugStr(charset))" +
             dumpHeaders(headers, indent: indent) +
-            "\n" + indent + "content: (\(content.dynamicType))\n"
+            "\n" + indent + "content: (\(type(of: content)))\n"
         result += formattedContent.replacingRegex("^|\n", "$0  " + indent)
         return result
         }
 
     private var formattedContent: String
         {
-        if let jsonContent = content as? NSJSONConvertible
-            where NSJSONSerialization.isValidJSONObject(jsonContent)
+        if let jsonContent = content as? NSJSONConvertible,
+            JSONSerialization.isValidJSONObject(jsonContent)
             {
-            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(jsonContent, options: [.PrettyPrinted]),
-               let json = NSString(data: jsonData, encoding: NSUTF8StringEncoding)
+            if let jsonData = try? JSONSerialization.data(withJSONObject: jsonContent, options: [.prettyPrinted]),
+               let json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
                 { return json as String }
             }
 
@@ -101,7 +101,7 @@ extension Entity
 
 extension Error
     {
-    internal func dump(indent: String = "") -> String
+    internal func dump(_ indent: String = "") -> String
         {
         var result = "\n" + indent + "userMessage:    \(debugStr(userMessage, consolidateWhitespace: true, truncate: 80))"
         if httpStatusCode != nil

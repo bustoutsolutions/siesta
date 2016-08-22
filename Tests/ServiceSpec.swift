@@ -46,11 +46,11 @@ class ServiceSpec: SiestaSpec
 
             it("supports baseURL as NSURL")
                 {
-                let service = Service(baseURL: NSURL(string: "https://frotzle.zing"))
+                let service = Service(baseURL: URL(string: "https://frotzle.zing"))
                 expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
                 }
 
-            func addSpecsForBareServce(description: String, serviceBuidler: Void -> Service)
+            func addSpecsForBareServce(_ description: String, serviceBuidler: @escaping (Void) -> Service)
                 {
                 context(description)
                     {
@@ -138,7 +138,7 @@ class ServiceSpec: SiestaSpec
             {
             it("ignores the service’s baseURL")
                 {
-                expect(service().resource(baseURL: NSURL(string: "http://fraz.bot/"), path: "/bar")
+                expect(service().resource(baseURL: URL(string: "http://fraz.bot/"), path: "/bar")
                                 .url.absoluteString)
                     == "http://fraz.bot/bar"
                 }
@@ -168,7 +168,7 @@ class ServiceSpec: SiestaSpec
 
             it("returns a resource with the given NSURL")
                 {
-                expect(service().resource(absoluteURL: NSURL(string: "http://foo.com/bar")).url.absoluteString)
+                expect(service().resource(absoluteURL: URL(string: "http://foo.com/bar")).url.absoluteString)
                      == "http://foo.com/bar"
                 }
 
@@ -182,7 +182,7 @@ class ServiceSpec: SiestaSpec
                 {
                 expectInvalidResource(service().resource(absoluteURL: "http://[URL syntax error]"))
                 expectInvalidResource(service().resource(absoluteURL: "\0"))
-                expectInvalidResource(service().resource(absoluteURL: nil as NSURL?))
+                expectInvalidResource(service().resource(absoluteURL: nil as URL?))
                 expectInvalidResource(service().resource(absoluteURL: nil as String?))
                 }
             }
@@ -264,7 +264,7 @@ class ServiceSpec: SiestaSpec
                 }
 
             func checkPattern(
-                    pattern: ConfigurationPatternConvertible,
+                    _ pattern: ConfigurationPatternConvertible,
                     matches: Bool,
                     _ pathOrURL: String,
                     absolute: Bool = false,
@@ -361,7 +361,7 @@ class ServiceSpec: SiestaSpec
 
                 it("handles service with no baseURL")
                     {
-                    func checkBareServicePattern(pattern: String, matches: Bool, _ url: String)
+                    func checkBareServicePattern(_ pattern: String, matches: Bool, _ url: String)
                         { checkPattern(pattern, matches: matches, url, absolute: true, service: Service()) }
 
                     checkBareServicePattern("/foo", matches: true,  "/foo")
@@ -376,7 +376,7 @@ class ServiceSpec: SiestaSpec
 
             describe("using regexps")
                 {
-                func regexp(pattern: String, options: NSRegularExpressionOptions = []) -> NSRegularExpression
+                func regexp(_ pattern: String, options: NSRegularExpression.Options = []) -> NSRegularExpression
                     { return try! NSRegularExpression(pattern: pattern, options: options) }
 
                 it("matches substrings")
@@ -395,7 +395,7 @@ class ServiceSpec: SiestaSpec
                 it("respects regexp options")
                     {
                     checkPattern(regexp("/wu+"), matches: false, "/WUUUUUMP")
-                    checkPattern(regexp("/wu+", options: [.CaseInsensitive]), matches: true, "/WUUUUUMP")
+                    checkPattern(regexp("/wu+", options: [.caseInsensitive]), matches: true, "/WUUUUUMP")
                     }
                 }
 
@@ -410,7 +410,7 @@ class ServiceSpec: SiestaSpec
 
             it("changes when invalidateConfiguration() called")
                 {
-                var x: NSTimeInterval = 3
+                var x: TimeInterval = 3
                 service().configure { $0.config.expirationTime = x }
                 expect(resource0().configuration.expirationTime) == 3
                 x = 4
@@ -424,8 +424,8 @@ class ServiceSpec: SiestaSpec
             {
             beforeEach
                 {
-                resource0().overrideLocalData(Entity(content: "foo content", contentType: "text/plain"))
-                resource1().overrideLocalData(Entity(content: "bar content", contentType: "text/plain"))
+                resource0().overrideLocalData(with: Entity(content: "foo content", contentType: "text/plain"))
+                resource1().overrideLocalData(with: Entity(content: "bar content", contentType: "text/plain"))
                 }
 
             it("wipes all resources by default")
@@ -462,7 +462,7 @@ class ServiceSpec: SiestaSpec
 
 // MARK: - Custom matchers
 
-func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
+func expandToBaseURL(_ expectedURL: String) -> MatcherFunc<String>
     {
     return MatcherFunc
         {
@@ -479,7 +479,7 @@ func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
         }
     }
 
-func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
+func expandToResourceURL(_ expectedURL: String) -> MatcherFunc<(String,String)>
     {
     return MatcherFunc
         {
@@ -500,7 +500,7 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
 
 /// Checks resourcePath with and without a leading slash.
 ///
-func checkPathExpansion(baseURL: String, path resourcePath: String, expect expectedExpansion: String)
+func checkPathExpansion(_ baseURL: String, path resourcePath: String, expect expectedExpansion: String)
     {
     for resourcePathVariant in [resourcePath, "/" + resourcePath]
         {
@@ -509,7 +509,7 @@ func checkPathExpansion(baseURL: String, path resourcePath: String, expect expec
         }
     }
 
-func expectInvalidResource(resource: Resource)
+func expectInvalidResource(_ resource: Resource)
     {
     awaitFailure(resource.load())
     }

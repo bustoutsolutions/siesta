@@ -13,7 +13,7 @@ import Nocilla
 
 class ResourceRequestsSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
         it("starts in a blank state")
             {
@@ -41,7 +41,8 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("tracks concurrent requests")
                 {
-                func stubDelayedAndRequest(ident: String) -> (LSStubResponseDSL, Request)
+                @discardableResult
+                func stubDelayedAndRequest(_ ident: String) -> (LSStubResponseDSL, Request)
                     {
                     let reqStub = stubRequest(resource, "GET")
                         .withHeader("Request-ident", ident)
@@ -87,7 +88,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("stores the response data")
                 {
                 stubRequest(resource, "GET").andReturn(200)
-                    .withBody("eep eep")
+                    .withBody("eep eep" as NSString)
                 awaitNewData(resource().load())
 
                 expect(resource().latestData).notTo(beNil())
@@ -150,9 +151,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Personal-Disposition", "Quirky")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.header("Personal-Disposition")) == "Quirky"
-                expect(resource().latestData?.header("pErsonal-dIsposition")) == "Quirky"
-                expect(resource().latestData?.header("pErsonaldIsposition")).to(beNil())
+                expect(resource().latestData?.header(forKey: "Personal-Disposition")) == "Quirky"
+                expect(resource().latestData?.header(forKey: "pErsonal-dIsposition")) == "Quirky"
+                expect(resource().latestData?.header(forKey: "pErsonaldIsposition")).to(beNil())
                 }
 
             it("handles missing etag")
@@ -169,7 +170,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .andReturn(200)
                     .withHeader("eTaG", "123 456 xyz")
                     .withHeader("Content-Type", "applicaiton/zoogle+plotz")
-                    .withBody("zoogleplotz")
+                    .withBody("zoogleplotz" as NSString)
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
@@ -204,7 +205,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .andReturn(200)
                         .withHeader("eTaG", "ABC DEF 789")
                         .withHeader("Content-Type", "applicaiton/ploogle+zotz")
-                        .withBody("plooglezotz")
+                        .withBody("plooglezotz" as NSString)
                     awaitNewData(resource().load())
 
                     expect(dataAsString(resource().latestData?.content)) == "plooglezotz"
@@ -299,7 +300,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
         describe("loadIfNeeded()")
             {
-            func expectToLoad(@autoclosure reqClosure: () -> Request?, returning loadReq: Request? = nil)
+            func expectToLoad(_ reqClosure: @autoclosure () -> Request?, returning loadReq: Request? = nil)
                 {
                 stubRequest(resource, "GET").andReturn(200) // Stub first...
                 let reqReturned = reqClosure()             // ...then allow loading
@@ -307,14 +308,14 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(reqReturned).notTo(beNil())
                 if loadReq != nil
                     {
-                    expect(reqReturned as? AnyObject)
-                         === loadReq as? AnyObject
+                    expect(reqReturned as AnyObject)
+                         === loadReq as AnyObject
                     }
                 if let reqReturned = reqReturned
                     { awaitNewData(reqReturned) }
                 }
 
-            func expectNotToLoad(req: Request?)
+            func expectNotToLoad(_ req: Request?)
                 {
                 expect(req).to(beNil())
                 expect(resource().isLoading) == false
@@ -415,7 +416,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 stubRequest(resource, "POST")
                     .andReturn(200)
                     .withHeader("Content-type", "text/plain")
-                    .withBody("Posted!")
+                    .withBody("Posted!" as NSString)
                 }
 
             it("updates resource state")
@@ -445,8 +446,8 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             beforeEach
                 {
-                reqStub()
-                req()
+                _ = reqStub()
+                _ = req()
                 owner = DummyObject()
                 resource().addObserver(owner: owner!) { _ in }
                 owner = DummyObject() // replaces old one
@@ -489,12 +490,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 it("cancels load if resource has loses observers during delay")
                     {
-                    let expectation = QuickSpec.current().expectationWithDescription("cancelLoadIfUnobserved(afterDelay:")
+                    let expectation = QuickSpec.current().expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().addObserver(owner: owner!) { _ in }
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
                     owner = nil
-                    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+                    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
 
                     reqStub().go()
                     awaitFailure(req(), alreadyCompleted: true)
@@ -502,11 +503,11 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("does not cancel load if resource gains an observer during delay")
                     {
-                    let expectation = QuickSpec.current().expectationWithDescription("cancelLoadIfUnobserved(afterDelay:")
+                    let expectation = QuickSpec.current().expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
                     resource().addObserver(owner: owner!) { _ in }
-                    QuickSpec.current().waitForExpectationsWithTimeout(1, handler: nil)
+                    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
 
                     reqStub().go()
                     awaitNewData(req())
@@ -517,13 +518,13 @@ class ResourceRequestsSpec: ResourceSpecBase
         describe("overrideLocalData()")
             {
             let arbitraryContentType = "content-can-be/anything"
-            let arbitraryContent = specVar { NSCalendar(calendarIdentifier: NSCalendarIdentifierEthiopicAmeteMihret) as! AnyObject }
+            let arbitraryContent = specVar { NSCalendar(identifier: NSCalendar.Identifier.ethiopicAmeteMihret) as AnyObject }
             let localData = specVar { Entity(content: arbitraryContent(), contentType: arbitraryContentType) }
 
             it("updates the data")
                 {
-                resource().overrideLocalData(localData())
-                expect(resource().latestData?.content as? AnyObject) === arbitraryContent()
+                resource().overrideLocalData(with: localData())
+                expect(resource().latestData?.content as AnyObject) === arbitraryContent()
                 expect(resource().latestData?.contentType) == arbitraryContentType
                 }
 
@@ -533,16 +534,16 @@ class ResourceRequestsSpec: ResourceSpecBase
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
-                resource().overrideLocalData(localData())
+                resource().overrideLocalData(with: localData())
                 expect(resource().latestData).notTo(beNil())
                 expect(resource().latestError).to(beNil())
                 }
 
             it("does not touch the transformer pipeline")
                 {
-                let rawData = "a string".dataUsingEncoding(NSASCIIStringEncoding)
-                resource().overrideLocalData(Entity(content: rawData!, contentType: "text/plain"))
-                expect(resource().latestData?.content as? NSData) === rawData
+                let rawData = "a string".data(using: String.Encoding.ascii)
+                resource().overrideLocalData(with: Entity(content: rawData!, contentType: "text/plain"))
+                expect(resource().latestData?.content as? Data) === rawData
                 }
             }
 
@@ -554,24 +555,24 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .andReturn(200)
                     .withHeader("Content-type", "food/pasta")
                     .withHeader("Sauce-disposition", "garlic")
-                    .withBody("linguine")
+                    .withBody("linguine" as NSString)
 
                 awaitNewData(resource().load())
 
-                resource().overrideLocalContent("farfalle")
+                resource().overrideLocalContent(with: "farfalle")
                 expect(resource().text) == "farfalle"
                 expect(resource().latestData?.contentType) == "food/pasta"
-                expect(resource().latestData?.header("Sauce-disposition")) == "garlic"
+                expect(resource().latestData?.header(forKey: "Sauce-disposition")) == "garlic"
                 }
 
             it("updates latestData’s timestamp")
                 {
                 setResourceTime(1000)
-                stubRequest(resource, "GET").andReturn(200).withBody("hello")
+                stubRequest(resource, "GET").andReturn(200).withBody("hello" as NSString)
                 awaitNewData(resource().load())
 
                 setResourceTime(2000)
-                resource().overrideLocalContent("ahoy")
+                resource().overrideLocalContent(with: "ahoy")
 
                 expect(resource().latestData?.timestamp) == 2000
                 expect(resource().timestamp) == 2000
@@ -579,7 +580,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("creates new application/binary entity if latestData is nil")
                 {
-                resource().overrideLocalContent("fusilli")
+                resource().overrideLocalContent(with: "fusilli")
                 expect(resource().text) == "fusilli"
                 expect(resource().latestData?.contentType) == "application/binary"
                 }
@@ -587,8 +588,8 @@ class ResourceRequestsSpec: ResourceSpecBase
 
         describe("invalidate()")
             {
-            let dataTimestamp  = NSTimeInterval(1000),
-                errorTimestamp = NSTimeInterval(2000)
+            let dataTimestamp  = TimeInterval(1000),
+                errorTimestamp = TimeInterval(2000)
 
             beforeEach
                 {
@@ -650,7 +651,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("if local*Override() called")
                     {
-                    resource().overrideLocalContent("I am a banana")
+                    resource().overrideLocalContent(with: "I am a banana")
                     }
                 }
 
@@ -758,12 +759,12 @@ class ResourceRequestsSpec: ResourceSpecBase
 
 // MARK: - Helpers
 
-private func dataAsString(data: Any?) -> String?
+private func dataAsString(_ data: Any?) -> String?
     {
-    guard let nsdata = data as? NSData else
+    guard let nsdata = data as? Data else
         { return nil }
 
-    return NSString(data: nsdata, encoding: NSUTF8StringEncoding) as? String
+    return NSString(data: nsdata, encoding: String.Encoding.utf8.rawValue) as? String
     }
 
 private class DummyObject { }
