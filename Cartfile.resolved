@@ -1,4 +1,4 @@
 github "Alamofire/Alamofire" "1dc3992a3854ca369368c8997ea3c45054070e67"
-github "ikesyo/Nimble" "4caecb3cef0c9a2973c598b99e1495009faf57b1"
+github "norio-nomura/Nimble" "8ed5cb99287b041d01cfcec7fa0fc082b6543423"
 github "pcantrell/Nocilla" "a8f666be5deab9327210946fcc8aacd78edb542f"
 github "pcantrell/Quick" "1f17fb6b38f7a65c108ca4dfa62c4d3f85b9392b"

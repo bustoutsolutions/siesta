@@ -307,7 +307,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().isLoading) == true
                 expect(reqReturned).notTo(beNil())
                 if loadReq != nil
-                    { expect(reqReturned).to(beIdenticalTo(loadReq)) }
+                    { expect(reqReturned) === loadReq }
                 if let reqReturned = reqReturned
                     { awaitNewData(reqReturned) }
                 }
@@ -521,7 +521,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("updates the data")
                 {
                 resource().overrideLocalData(with: localData())
-                expect(resource().latestData?.content).to(beIdenticalTo(arbitraryContent()))
+                expect(resource().latestData?.content) === arbitraryContent()
                 expect(resource().latestData?.contentType) == arbitraryContentType
                 }
 
