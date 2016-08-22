@@ -287,19 +287,31 @@ internal struct ObserverEntry: CustomStringConvertible
 
     mutating func addOwner(_ owner: AnyObject)
         {
-        if owner === (observer as AnyObject)
-            { observerIsOwner = true }
-        else
-            { externalOwners.insert(WeakRef(owner)) }
-        cleanUp()
+        withOwner(owner,
+            ifObserver:
+                { observerIsOwner = true },
+            else:
+                { externalOwners.insert(WeakRef(owner)) })
         }
 
     mutating func removeOwner(_ owner: AnyObject)
         {
-        if owner === (observer as AnyObject)
-            { observerIsOwner = false }
+        withOwner(owner,
+            ifObserver:
+                { observerIsOwner = false },
+            else:
+                { externalOwners.remove(WeakRef(owner)) })
+        }
+
+    private mutating func withOwner(
+            _ owner: AnyObject,
+            ifObserver selfOwnerAction: (Void) -> Void,
+            else externalOwnerAction: (Void) -> Void)
+        {
+        if let observer = observer, owner === (observer as AnyObject)
+            { selfOwnerAction() }
         else
-            { externalOwners.remove(WeakRef(owner)) }
+            { externalOwnerAction() }
         cleanUp()
         }
 

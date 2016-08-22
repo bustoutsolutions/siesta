@@ -189,7 +189,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(owner: dummy)
                     { _, event in events0.append(event.description) }
 
-                stubRequest(resource, "GET").andReturn(200).delay()  // TODO: parens added!
+                stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
                 resource().addObserver(owner: dummy)
