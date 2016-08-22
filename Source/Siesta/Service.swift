@@ -121,7 +121,7 @@ open class Service: NSObject
             customBaseURL?.url?.appendingPathComponent(path.stripPrefix("/")))
         }
 
-    private static let invalidURL = URL(string: "")!     // URL we use when given bad URL for a resource
+    private static let invalidURL = URL(string: "null:")!     // URL we use when given bad URL for a resource
 
     /**
       Returns the unique resource with the given URL, ignoring `baseURL`.
