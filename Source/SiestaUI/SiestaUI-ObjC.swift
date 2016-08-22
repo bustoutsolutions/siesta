@@ -18,7 +18,7 @@ extension ResourceEvent
 
     internal static func fromDescription(_ description: String) -> ResourceEvent?
         {
-        let matching = ResourceEvent.all.filter { $0.description == description }
+        let matching = ResourceEvent.all.filter { String(describing: $0) == description }
         return (matching.count == 1) ? matching[0] : nil
         }
     }
