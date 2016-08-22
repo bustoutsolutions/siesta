@@ -71,7 +71,7 @@ private class ResultsAggregator
         if !resultsDirty
             { return }
 
-        let json = ["results": results.toJson["children"]]
+        let json = ["results": results.toJson["children"]!]
         let jsonData = try! JSONSerialization.data(withJSONObject: json, options: [])
         if !((try? jsonData.write(to: URL(fileURLWithPath: "/tmp/siesta-spec-results.json"), options: [.atomic])) != nil)
             { print("unable to write spec results json") }
@@ -136,7 +136,7 @@ private class Result
 
     var toJson: [String:Any]
         {
-        var json: [String:Any] = ["name": name as AnyObject]
+        var json: [String:Any] = ["name": name]
         if let callsite = callsite
             {
             json["file"] = callsite.file
@@ -145,7 +145,7 @@ private class Result
         if let passed = passed
             { json["passed"] = passed }
         if !children.isEmpty
-            { json["children"] = children.map { $0.toJson } as NSArray }
+            { json["children"] = children.map { $0.toJson } }
         return json
         }
     }
