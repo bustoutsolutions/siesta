@@ -250,7 +250,7 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
         { self.objcObserver = objcObserver }
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
-        { objcObserver?.resourceChanged(resource, event: event.description) }
+        { objcObserver?.resourceChanged(resource, event: event._objc_stringForm) }
 
     func resourceRequestProgress(_ resource: Resource, progress: Double)
         { objcObserver?.resourceRequestProgress?(resource, progress: progress) }
@@ -266,12 +266,39 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
             { return "_objc_ResourceObserverGlue<deallocated delegate>" }
         }
 
-    func isEquivalentToObserver(_ other: ResourceObserver) -> Bool
+    func isEquivalentTo(observer other: ResourceObserver) -> Bool
         {
         if let otherGlue = (other as? _objc_ResourceObserverGlue)
             { return self.objcObserver === otherGlue.objcObserver }
         else
             { return false }
+        }
+    }
+
+extension ResourceEvent
+    {
+    fileprivate var _objc_stringForm: String
+        {
+        // If anyone knows a way around this monstrosity, please send me a PR. -PPC
+        switch self
+            {
+            case .newData(let source):
+                return "NewData(\(source.description.capitalized))"
+            default:
+                return String(describing: self).capitalized
+            }
+        }
+    }
+
+extension String
+    {
+    public var capitalized: String
+        {
+        guard !isEmpty else
+            { return self }
+        let secondChar = index(after: startIndex)
+        return substring(to: secondChar).uppercased()
+             + substring(from: secondChar)
         }
     }
 
@@ -289,7 +316,7 @@ public extension Resource
     public func _objc_addObserver(owner: AnyObject, block: @escaping @convention(block) (Resource,String) -> Void) -> Self
         {
         return addObserver(owner: owner)
-            { block($0, $1.description) }
+            { block($0, $1._objc_stringForm) }
         }
     }
 

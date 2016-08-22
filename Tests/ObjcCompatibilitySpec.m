@@ -192,8 +192,8 @@
         [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
-        expect(observer0.eventsReceived).to(equal(@[@"observerAdded", @"requested", @"newData(Network)"]));
-        expect(observer1.eventsReceived).to(equal(@[@"observerAdded", @"requested", @"newData(Network)"]));
+        expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
+        expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(@(blockObserverCalls)).to(equal(@3));
         });
 

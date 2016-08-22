@@ -169,7 +169,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(owner: dummy)
                     {
                     resource, event in
-                    events.append(event.description)
+                    events.append(String(describing: event))
                     }
 
                 stubRequest(resource, "GET").andReturn(200)
@@ -187,13 +187,13 @@ class ResourceObserversSpec: ResourceSpecBase
                     events1 = [String]()
 
                 resource().addObserver(owner: dummy)
-                    { _, event in events0.append(event.description) }
+                    { _, event in events0.append(String(describing: event)) }
 
                 stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
                 resource().addObserver(owner: dummy)
-                    { _, event in events1.append(event.description) }
+                    { _, event in events1.append(String(describing: event)) }
 
                 awaitNewData(resource().load())
 
@@ -416,7 +416,7 @@ private class TestObserverWithExpectations: ResourceObserver
         else
             {
             let expectation = expectedEvents.remove(at: 0)
-            if event.description != expectation.event.description
+            if String(describing: event) != String(describing: expectation.event)
                 { XCTFail("Received unexpected observer event: \(event) (was expecting \(expectation.event))") }
             else
                 { expectation.callback() }

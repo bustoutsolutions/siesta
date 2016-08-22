@@ -72,7 +72,7 @@ public typealias ResourceObserverClosure = (_ resource: Resource, _ event: Resou
 
   - SeeAlso: `Resource.load()`
 */
-public enum ResourceEvent: CustomStringConvertible
+public enum ResourceEvent
     {
     /**
       Immediately sent to a new observer when it first starts observing a resource. This event allows you to gather
@@ -100,23 +100,8 @@ public enum ResourceEvent: CustomStringConvertible
     /// The request in progress failed. Details are in the resource’s `latestError` property.
     case error
 
-    /// :nodoc:
-    public var description: String
-        {
-        // If anyone knows a way around this monstrosity, please send me a PR. -PPC
-        switch self
-            {
-            case .observerAdded:       return "observerAdded"
-            case .requested:           return "requested"
-            case .requestCancelled:    return "requestCancelled"
-            case .newData(let source): return "newData(\(source))"
-            case .notModified:         return "notModified"
-            case .error:               return "error"
-            }
-        }
-
     /// Possible sources of `ResourceEvent.newData`.
-    public enum NewDataSource
+    public enum NewDataSource: String, CustomStringConvertible
         {
         /// The new value of `latestData` comes from a successful network request.
         case network
@@ -129,6 +114,9 @@ public enum ResourceEvent: CustomStringConvertible
 
         /// The resource was wiped, and `latestData` is now nil.
         case wipe
+
+        public var description: String
+            { return rawValue }
         }
     }
 
@@ -164,7 +152,7 @@ public extension Resource
 
       - Note: By default, this method prevents duplicates **only if the observer is an object**. If you pass a struct
               twice, you will receive two calls for every event. This is because only objects have a notion of identity
-              in Swift. You can implement `ResourceObserver.isEquivalentToObserver(_:)` to make a struct prevent
+              in Swift. You can implement `ResourceObserver.isEquivalentTo(observer:)` to make a struct prevent
               duplicates; however, it’s usually easier to ensure that you don’t make redundant calls to this method if
               you’re passing a struct.
     */
