@@ -190,7 +190,7 @@ public struct PipelineStage
       the pipeline stages _after_ the one that provided the cache hit.
 
       - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
-              initially see an empty resources and then get a `NewData(Cache)` event — even if you never call `load()`.
+              initially see an empty resources and then get a `newData(Cache)` event — even if you never call `load()`.
     */
     public mutating func cacheUsing<T: EntityCache>(_ cache: T)
         { cacheBox = CacheBox(cache: cache) }

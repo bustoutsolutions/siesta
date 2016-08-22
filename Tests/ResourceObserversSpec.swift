@@ -89,7 +89,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives new data event from local override")
                 {
-                // No .Requested event!
+                // No .requested event!
                 observer().expect(.newData(.localOverride))
                     {
                     expect(resource().isLoading) == false
@@ -175,7 +175,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
-                expect(events) == ["ObserverAdded", "Requested", "NewData(Network)"]
+                expect(events) == ["observerAdded", "requested", "newData(network)"]
                 }
 
             it("can have multiple closure observers")
@@ -197,8 +197,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 awaitNewData(resource().load())
 
-                expect(events0) == ["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]
-                expect(events1) == ["ObserverAdded", "Requested", "NewData(Network)"]
+                expect(events0) == ["observerAdded", "requested", "newData(network)", "requested", "newData(network)"]
+                expect(events1) == ["observerAdded", "requested", "newData(network)"]
                 }
 
             it("is not added twice if it is an object")
@@ -423,7 +423,7 @@ private class TestObserverWithExpectations: ResourceObserver
             }
         }
 
-    private func stoppedObservingResource(_ resource: Resource)
+    func stoppedObserving(resource: Resource)
         {
         stoppedObservingCalled = true
         }

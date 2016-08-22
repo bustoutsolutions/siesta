@@ -106,16 +106,16 @@ public enum ResourceEvent: CustomStringConvertible
         // If anyone knows a way around this monstrosity, please send me a PR. -PPC
         switch self
             {
-            case .observerAdded:       return "ObserverAdded"
-            case .requested:           return "Requested"
-            case .requestCancelled:    return "RequestCancelled"
-            case .newData(let source): return "NewData(\(source))"
-            case .notModified:         return "NotModified"
-            case .error:               return "Error"
+            case .observerAdded:       return "observerAdded"
+            case .requested:           return "requested"
+            case .requestCancelled:    return "requestCancelled"
+            case .newData(let source): return "newData(\(source))"
+            case .notModified:         return "notModified"
+            case .error:               return "error"
             }
         }
 
-    /// Possible sources of `ResourceEvent.NewData`.
+    /// Possible sources of `ResourceEvent.newData`.
     public enum NewDataSource
         {
         /// The new value of `latestData` comes from a successful network request.

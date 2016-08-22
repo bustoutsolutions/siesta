@@ -192,7 +192,7 @@ public struct ResponseInfo
     public var response: Response
 
     /// Indicates whether `response` is newly received data, or a previous response reused.
-    /// Used to distinguish `ResourceEvent.NewData` from `ResourceEvent.NotModified`.
+    /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 
     /// Creates new responseInfo, with `isNew` true by default.

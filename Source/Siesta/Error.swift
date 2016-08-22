@@ -111,12 +111,12 @@ public extension Error
           struct GarbledResponseHandler: ResponseTransformer {
             func process(response: Response) -> Response {
               switch response {
-                case .Success:
+                case .success:
                   return response
 
-                case .Failure(let error):
+                case .failure(let error):
                   if error.cause is Siesta.Error.Cause.InvalidTextEncoding {
-                    return .Success(Entity(
+                    return .success(Entity(
                       content: "Nothingness. Tumbleweeds. The Void.",
                       contentType: "text/string"))
                   } else {

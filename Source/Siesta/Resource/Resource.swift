@@ -318,14 +318,14 @@ public final class Resource: NSObject
       Sequence of events:
 
       1. This resource’s `isLoading` property becomes true, and remains true until the request either succeeds or fails.
-         Observers immedately receive `ResourceEvent.Requested`.
-      2. If the request is cancelled before completion, observers receive `ResourceEvent.RequestCancelled`.
+         Observers immedately receive `ResourceEvent.requested`.
+      2. If the request is cancelled before completion, observers receive `ResourceEvent.requestCancelled`.
       3. If the server returns a success response, that goes in `latestData`, and `latestError` becomes nil.
-         Observers receive `ResourceEvent.NewData`.
+         Observers receive `ResourceEvent.newData`.
       3. If the server returns a 304, `latestData`’s timestamp is updated but the entity is otherwise untouched.
-         `latestError` becomes nil. Observers receive `ResourceEvent.NotModified`.
+         `latestError` becomes nil. Observers receive `ResourceEvent.notModified`.
       4. If the request fails for any reason, whether client-, server-, or network-related, observers receive
-         `ResourceEvent.Error`. Note that `latestData` does _not_ become nil; the last valid response always sticks
+         `ResourceEvent.error`. Note that `latestData` does _not_ become nil; the last valid response always sticks
          around until another valid response arrives.
     */
     @discardableResult
@@ -472,7 +472,7 @@ public final class Resource: NSObject
 
     /**
       Directly updates `latestData` without touching the network. Clears `latestError` and broadcasts
-      `ResourceEvent.NewData` to observers.
+      `ResourceEvent.newData` to observers.
 
       This method is useful for incremental and optimistic updates.
 
@@ -548,7 +548,7 @@ public final class Resource: NSObject
       - Sets `latestError` to nil.
       - Cancels all resource requests in progress.
 
-      Observers receive a `NewData` event. Requests in progress call completion hooks with a cancellation error.
+      Observers receive a `newData` event. Requests in progress call completion hooks with a cancellation error.
 
       - SeeAlso: `invalidate()`
     */

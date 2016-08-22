@@ -66,8 +66,8 @@ extension Response
         {
         switch self
             {
-            case .success(let value): return "\n" + indent + "Success" + value.dump(indent + "  ")
-            case .failure(let value): return "\n" + indent + "Failure" + value.dump(indent + "  ")
+            case .success(let value): return "\n" + indent + "success" + value.dump(indent + "  ")
+            case .failure(let value): return "\n" + indent + "failure" + value.dump(indent + "  ")
             }
         }
     }
