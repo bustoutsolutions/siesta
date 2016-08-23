@@ -50,7 +50,7 @@ extension RequestWithDefaultCallbacks
             }
         }
 
-    func onFailure(_ callback: @escaping (Error) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
         {
         return addResponseCallback
             {

@@ -99,7 +99,7 @@ extension Entity
         }
     }
 
-extension Error
+extension RequestError
     {
     internal func dump(_ indent: String = "") -> String
         {

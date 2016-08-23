@@ -66,7 +66,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 stubText("abc", contentType: "text/plain; charset=oodlefratz", expectSuccess: false)
 
-                let cause = resource().latestError?.cause as? Siesta.Error.Cause.InvalidTextEncoding
+                let cause = resource().latestError?.cause as? RequestError.Cause.InvalidTextEncoding
                 expect(cause?.encodingName) == "oodlefratz"
                 }
 
@@ -77,7 +77,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody(Data(bytes: UnsafePointer<UInt8>([0xD8] as [UInt8]), count: 1) as NSData)
                 awaitFailure(resource().load())
 
-                let cause = resource().latestError?.cause as? Siesta.Error.Cause.UndecodableText
+                let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
                 expect(cause?.encodingName) == "utf-8"
                 }
 
@@ -86,7 +86,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 service().configure
                     { $0.config.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
-                expect(resource().latestError?.cause is Siesta.Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                 }
 
             it("transforms error responses")
@@ -176,7 +176,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withBody(atom as NSString)
                     awaitFailure(resource().load())
 
-                    expect(resource().latestError?.cause is Siesta.Error.Cause.JSONResponseIsNotDictionaryOrArray) == true
+                    expect(resource().latestError?.cause is RequestError.Cause.JSONResponseIsNotDictionaryOrArray) == true
                     }
                 }
 
@@ -272,7 +272,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     .withBody("Ceci n’est pas une image" as NSString)
                 awaitFailure(resource().load())
 
-                expect(resource().latestError?.cause is Siesta.Error.Cause.UnparsableImage) == true
+                expect(resource().latestError?.cause is RequestError.Cause.UnparsableImage) == true
                 }
             }
 
@@ -383,7 +383,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         configureModelTransformer()
 
                         stubText("{}", contentType: "application/json", expectSuccess: false)
-                        expect(resource().latestError?.cause is Siesta.Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                         }
 
                     it("skips the transformer on .Skip")
@@ -415,7 +415,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                             { content, _ in TestModel(name: content + " Jr.") }
 
                         stubText("Fred", expectSuccess: false)
-                        expect(resource().latestError?.cause is Siesta.Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                         }
                     }
 
@@ -431,12 +431,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestError?.cause is CustomError) == true
                     }
 
-                it("can throw a Siesta.Error")
+                it("can throw a RequestError")
                     {
                     service().configureTransformer("**")
                         {
                         (text: String, _) -> Date in
-                        throw Siesta.Error(userMessage: "\(text) is broken", cause: CustomError())
+                        throw RequestError(userMessage: "\(text) is broken", cause: CustomError())
                         }
 
                     stubText("Everything", expectSuccess: false)
@@ -510,7 +510,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         {
                         stubText("Orange", expectSuccess: false)
                         awaitFailure(resource().load())
-                        expect(resource().latestError?.cause is Siesta.Error.Cause.TransformerReturnedNil) == true
+                        expect(resource().latestError?.cause is RequestError.Cause.TransformerReturnedNil) == true
                         }
 
                     it("can return a value to signal success")
@@ -609,4 +609,4 @@ private struct TestModel
         }
     }
 
-private struct CustomError: Swift.Error { }
+private struct CustomError: Error { }

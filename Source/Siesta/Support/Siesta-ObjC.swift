@@ -37,7 +37,7 @@ import Foundation
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
 
-// (Why not just make Entity and Error classes and avoid all these
+// (Why not just make Entity and RequestError classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via overrideLocalData() so that observers always know about changes.)
@@ -95,7 +95,7 @@ public class _objc_Error: NSObject
     public var entity: _objc_Entity?
     public let timestamp: TimeInterval
 
-    internal init(_ error: Error)
+    internal init(_ error: RequestError)
         {
         self.httpStatusCode = error.httpStatusCode ?? -1
         self.cause          = error.cause as? NSError
@@ -327,7 +327,7 @@ public extension Resource
             {
             return _objc_Request(
                 Resource.failedRequest(
-                    Error(
+                    RequestError(
                         userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
                         cause: _objc_Error.Cause.InvalidRequestMethod(method: methodString))))
             }
@@ -345,9 +345,9 @@ public extension Resource
             {
             return _objc_Request(
                 Resource.failedRequest(
-                    Error(
+                    RequestError(
                         userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                        cause: Error.Cause.InvalidJSONObject())))
+                        cause: RequestError.Cause.InvalidJSONObject())))
             }
 
         return _objc_wrapRequest(methodString) { closure($0, json) }
@@ -474,7 +474,7 @@ public extension _objc_Error
     public enum Cause
         {
         /// Request method specified as a string does not match any of the values in the RequestMethod enum.
-        public struct InvalidRequestMethod: Swift.Error
+        public struct InvalidRequestMethod: Error
             {
             public let method: String
             }

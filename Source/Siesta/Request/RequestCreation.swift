@@ -58,9 +58,9 @@ public extension Resource
         guard let rawBody = text.data(using: encoding) else
             {
             return Resource.failedRequest(
-                Error(
+                RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.UnencodableText(encodingName: encodingName, text: text)))
+                    cause: RequestError.Cause.UnencodableText(encodingName: encodingName, text: text)))
             }
 
         return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)", requestMutation: requestMutation)
@@ -84,9 +84,9 @@ public extension Resource
         guard JSONSerialization.isValidJSONObject(json) else
             {
             return Resource.failedRequest(
-                Error(
+                RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: Error.Cause.InvalidJSONObject()))
+                    cause: RequestError.Cause.InvalidJSONObject()))
             }
 
         do  {
@@ -101,7 +101,7 @@ public extension Resource
             // but we catch the exception anyway instead of using try! and crashing.
 
             return Resource.failedRequest(
-                Error(
+                RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
             }
@@ -123,7 +123,7 @@ public extension Resource
         func urlEscape(_ string: String) throws -> String
             {
             guard let escaped = string.addingPercentEncoding(withAllowedCharacters: Resource.allowedCharsInURLEncoding) else
-                { throw Error.Cause.NotURLEncodable(offendingString: string) }
+                { throw RequestError.Cause.NotURLEncodable(offendingString: string) }
 
             return escaped
             }
@@ -142,7 +142,7 @@ public extension Resource
         catch
             {
             return Resource.failedRequest(
-                Error(
+                RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
             }
@@ -161,7 +161,7 @@ public extension Resource
       Returns a request for this resource that immedately fails, without ever touching the network. Useful for creating
       your own custom requests that perform pre-request validation.
      */
-    public static func failedRequest(_ error: Error) -> Request
+    public static func failedRequest(_ error: RequestError) -> Request
         {
         return FailedRequest(error: error)
         }
@@ -171,12 +171,12 @@ public extension Resource
 /// For requests that failed before they even made it to the network layer
 private final class FailedRequest: RequestWithDefaultCallbacks
     {
-    private let error: Error
+    private let error: RequestError
 
     var isCompleted: Bool { return true }
     var progress: Double { return 1 }
 
-    init(error: Error)
+    init(error: RequestError)
         { self.error = error }
 
     func addResponseCallback(_ callback: ResponseCallback) -> Self

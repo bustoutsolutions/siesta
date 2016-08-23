@@ -71,7 +71,7 @@ public struct RequestTransferMetrics
     }
 
 /// Used by a `NetworkingProvider` implementation to pass the result of a network request back to Siesta.
-public typealias RequestNetworkingCompletionCallback = (_ nsres: HTTPURLResponse?, _ body: Data?, _ error: Swift.Error?) -> Void
+public typealias RequestNetworkingCompletionCallback = (_ nsres: HTTPURLResponse?, _ body: Data?, _ error: Error?) -> Void
 
 /**
   A convenience to turn create the appropriate `NetworkingProvider` for a variety of networking configuration objects.

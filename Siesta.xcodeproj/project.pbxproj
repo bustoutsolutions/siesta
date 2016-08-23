@@ -53,7 +53,7 @@
 		9F2FB53C1C2864CB0068DFFA /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60F5FB1B30B2F800D76DC6 /* Resource.swift */; };
 		9F2FB53D1C2864CB0068DFFA /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		9F2FB53E1C2864CB0068DFFA /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
-		9F2FB53F1C2864CB0068DFFA /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* Error.swift */; };
+		9F2FB53F1C2864CB0068DFFA /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */; };
 		9F2FB5401C2864CB0068DFFA /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
 		9F9628841CF1D7AF008092B7 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
 		DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
@@ -129,7 +129,7 @@
 		DAFA4BB11B8377B300EFF117 /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
-		DAFB3C4F1B3DEFE8009CF96C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* Error.swift */; };
+		DAFB3C4F1B3DEFE8009CF96C /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -270,7 +270,7 @@
 		DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugFormatting.swift; sourceTree = "<group>"; };
 		DAFA89271B8172920090D283 /* SiestaSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaSpec.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
-		DAFB3C4E1B3DEFE8009CF96C /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,7 +504,7 @@
 				DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */,
 				DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */,
 				DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */,
-				DAFB3C4E1B3DEFE8009CF96C /* Error.swift */,
+				DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */,
 				DAC0B3711D637A9700D25C44 /* Resource */,
 				DAFA42011C20AF2B0020AC5E /* Request */,
 				DAC0B37A1D64FF2D00D25C44 /* Pipeline */,
@@ -835,7 +835,7 @@
 				9F2FB5321C2864BD0068DFFA /* ResponseTransformer.swift in Sources */,
 				DAC0B3741D63880600D25C44 /* ResourceNavigation.swift in Sources */,
 				9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */,
-				9F2FB53F1C2864CB0068DFFA /* Error.swift in Sources */,
+				9F2FB53F1C2864CB0068DFFA /* RequestError.swift in Sources */,
 				9F2FB52A1C2864970068DFFA /* DebugFormatting.swift in Sources */,
 				9F2FB53A1C2864C50068DFFA /* RequestCreation.swift in Sources */,
 				9F2FB5391C2864C50068DFFA /* NetworkRequest.swift in Sources */,
@@ -880,7 +880,7 @@
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,
 				DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */,
 				DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */,
-				DAFB3C4F1B3DEFE8009CF96C /* Error.swift in Sources */,
+				DAFB3C4F1B3DEFE8009CF96C /* RequestError.swift in Sources */,
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,

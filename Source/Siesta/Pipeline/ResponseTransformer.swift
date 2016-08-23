@@ -105,8 +105,8 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     /**
       A closure that both processes the content and describes the required input and output types.
 
-      The closure can throw an error to indicate that parsing failed. If it throws a `Siesta.Error`, that
-      error is passed on to the resource as is. Other failures are wrapped in a `Siesta.Error`.
+      The closure can throw an error to indicate that parsing failed. If it throws a `RequestError`, that
+      error is passed on to the resource as is. Other failures are wrapped in a `RequestError`.
     */
     public typealias Processor = (_ content: InputContentType, _ entity: Entity) throws -> OutputContentType?
 
@@ -119,7 +119,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
           Determines what happens when the actual content coming down the pipeline doesn’t match `InputContentType`.
           See `InputTypeMismatchAction` for options. The default is `.Error`.
       - Parameter transformErrors:
-          When true, apply the transformation to `Error.content` (if present).
+          When true, apply the transformation to `RequestError.content` (if present).
           When false, only parse success responses.
           Default is false.
       - Parameter processor:
@@ -167,7 +167,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
         do  {
             guard let result = try processor(typedContent, entity) else
-                { throw Error.Cause.TransformerReturnedNil(transformer: self) }
+                { throw RequestError.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
             return .success(entity)
@@ -175,8 +175,8 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         catch
             {
             let siestaError =
-                error as? Error
-                ?? Error(
+                error as? RequestError
+                ?? RequestError(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: error)
             return .failure(siestaError)
@@ -185,15 +185,15 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
     private func contentTypeMismatchError(_ entityFromUpstream: Entity) -> Response
         {
-        return .failure(Error(
+        return .failure(RequestError(
             userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
-            cause: Error.Cause.WrongInputTypeInTranformerPipeline(
+            cause: RequestError.Cause.WrongInputTypeInTranformerPipeline(
                 expectedType: debugStr(InputContentType.self),
                 actualType: debugStr(type(of: entityFromUpstream.content)),
                 transformer: self)))
         }
 
-    private func processError(_ error: Error) -> Response
+    private func processError(_ error: RequestError) -> Response
         {
         var error = error
         if let errorData = error.entity , transformErrors
@@ -219,7 +219,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 */
 public enum InputTypeMismatchAction
     {
-    /// Output `Error.Cause.WrongInputTypeInTranformerPipeline`.
+    /// Output `RequestError.Cause.WrongInputTypeInTranformerPipeline`.
     case error
 
     /// Pass the input response through unmodified.
@@ -245,10 +245,10 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
                 charsetName as NSString as CFString))  // TODO: See if double “as” still necessary in Swift 3 GM
 
         guard encoding != UInt(kCFStringEncodingInvalidId) else
-            { throw Error.Cause.InvalidTextEncoding(encodingName: charsetName) }
+            { throw RequestError.Cause.InvalidTextEncoding(encodingName: charsetName) }
 
         guard let string = NSString(data: content, encoding: encoding) as? String else
-            { throw Error.Cause.UndecodableText(encodingName: charsetName) }
+            { throw RequestError.Cause.UndecodableText(encodingName: charsetName) }
 
         return string
         }
@@ -264,7 +264,7 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
         let rawObj = try JSONSerialization.jsonObject(with: content, options: [.allowFragments])
 
         guard let jsonObj = rawObj as? NSJSONConvertible else
-            { throw Error.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
+            { throw RequestError.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
 
         return jsonObj
         }
@@ -278,7 +278,7 @@ public func ImageResponseTransformer(_ transformErrors: Bool = false) -> Respons
         (content: Data, entity: Entity) throws -> Image in
 
         guard let image = Image(data: content) else
-            { throw Error.Cause.UnparsableImage() }
+            { throw RequestError.Cause.UnparsableImage() }
 
         return image
         }

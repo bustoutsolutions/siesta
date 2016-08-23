@@ -74,7 +74,7 @@ public protocol Request: class
 
     /// Call the closure once if the request fails for any reason.
     @discardableResult
-    func onFailure(_ callback: @escaping (Error) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
 
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
@@ -103,7 +103,7 @@ public protocol Request: class
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
 
       If this method is called while the request is in progress, it immediately triggers the `failure`/`completion`
-      callbacks, with the error’s `cause` set to `Error.Cause.RequestCancelled`.
+      callbacks, with the error’s `cause` set to `RequestError.Cause.RequestCancelled`.
 
       Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
       to have any effect at all on the underlying request, subject to the whims of the `NetworkingProvider`. Therefore,
@@ -163,13 +163,13 @@ public enum Response: CustomStringConvertible
     case success(Entity)
 
     /// The request failed because of the given error.
-    case failure(Error)
+    case failure(RequestError)
 
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
         if case .failure(let error) = self
-            { return error.cause is Error.Cause.RequestCancelled }
+            { return error.cause is RequestError.Cause.RequestCancelled }
         else
             { return false }
         }
@@ -204,7 +204,7 @@ public struct ResponseInfo
 
     internal static let cancellation =
         ResponseInfo(
-            response: .failure(Error(
+            response: .failure(RequestError(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: Error.Cause.RequestCancelled(networkError: nil))))
+                cause: RequestError.Cause.RequestCancelled(networkError: nil))))
     }

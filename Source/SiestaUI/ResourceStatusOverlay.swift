@@ -34,7 +34,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     /// Displays a generic message stating that an error occurred. You can change the text of this label to taste.
     @IBOutlet open var errorHeadline: UILabel?
 
-    /// Displays `Error.userMessage`.
+    /// Displays `RequestError.userMessage`.
     @IBOutlet open var errorDetail: UILabel?
 
     private weak var parentVC: UIViewController?
@@ -250,7 +250,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
         updateDisplay()
         }
 
-    private func showError(_ error: Siesta.Error)
+    private func showError(_ error: RequestError)
         {
         isHidden = false
         errorView?.isHidden = false

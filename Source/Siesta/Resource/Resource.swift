@@ -95,7 +95,7 @@ public final class Resource: NSObject
       Note that this only reports error from `load()` and `loadIfNeeded()`, not any of the various
       flavors of `request(...)`.
     */
-    public private(set) var latestError: Error?
+    public private(set) var latestError: RequestError?
         {
         didSet { invalidated = false }
         }
@@ -453,9 +453,9 @@ public final class Resource: NSObject
         notifyObservers(.notModified)
         }
 
-    private func receiveError(_ error: Error)
+    private func receiveError(_ error: RequestError)
         {
-        if error.cause is Error.Cause.RequestCancelled
+        if error.cause is RequestError.Cause.RequestCancelled
             {
             notifyObservers(.requestCancelled)
             return

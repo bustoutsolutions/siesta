@@ -14,7 +14,7 @@ import Result
 public struct ResourceState<T>
     {
     public var content: T?
-    public var error: Siesta.Error?
+    public var error: RequestError?
     public var isLoading, isRequesting: Bool
     }
 
@@ -24,11 +24,11 @@ public extension Resource
         -> ResourceState<T>
         {
         let content: T? = latestData?.typedContent()
-        let contentTypeError: Siesta.Error? =
+        let contentTypeError: RequestError? =
             (latestData != nil && content == nil)
-                ? Siesta.Error(
+                ? RequestError(
                     userMessage: "The server return an unexpected response type",
-                    cause: Siesta.Error.Cause.WrongContentType())
+                    cause: RequestError.Cause.WrongContentType())
                 : nil
 
         return ResourceState<T>(
@@ -40,9 +40,9 @@ public extension Resource
         }
     }
 
-extension Siesta.Error.Cause
+extension RequestError.Cause
     {
-    public struct WrongContentType: Error { }
+    public struct WrongContentType: RequestError { }
     }
 
 public struct ReactiveObserver<T>
@@ -79,7 +79,7 @@ public extension Resource
 public extension Request
     {
     public func rac_signal()
-        -> SignalProducer<Entity, Siesta.Error>
+        -> SignalProducer<Entity, RequestError>
         {
         return SignalProducer
             {

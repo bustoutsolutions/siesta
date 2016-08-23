@@ -93,7 +93,7 @@ class RequestSpec: ResourceSpecBase
 
                 context("substituting a request")
                     {
-                    let dummyRequest = { Resource.failedRequest(Siesta.Error(userMessage: "dummy", cause: DummyError())) }
+                    let dummyRequest = { Resource.failedRequest(RequestError(userMessage: "dummy", cause: DummyError())) }
                     let dummyReq0 = specVar { dummyRequest() },
                         dummyReq1 = specVar { dummyRequest() }
 
@@ -171,7 +171,7 @@ class RequestSpec: ResourceSpecBase
             let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
             let req = resource().request(.GET)
             req.onFailure
-                { expect($0.cause is Siesta.Error.Cause.RequestCancelled) == true }
+                { expect($0.cause is RequestError.Cause.RequestCancelled) == true }
             req.onCompletion
                 { expect($0.response.isCancellation) == true }
             req.cancel()
@@ -345,7 +345,7 @@ class RequestSpec: ResourceSpecBase
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
                     {
-                    let cause = $0.cause as? Siesta.Error.Cause.UnencodableText
+                    let cause = $0.cause as? RequestError.Cause.UnencodableText
                     expect(cause?.encodingName) == "us-ascii"
                     expect(cause?.text) == "Hélas!"
                     }
@@ -366,7 +366,7 @@ class RequestSpec: ResourceSpecBase
                 let req = resource().request(.POST, json: ["question": [2, Data()]])
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
-                    { expect($0.cause is Siesta.Error.Cause.InvalidJSONObject) == true }
+                    { expect($0.cause is RequestError.Cause.InvalidJSONObject) == true }
                 }
 
             context("with URL encoding")
@@ -403,7 +403,7 @@ class RequestSpec: ResourceSpecBase
                         awaitFailure(req, alreadyCompleted: true)
                         req.onFailure
                             {
-                            let cause = $0.cause as? Siesta.Error.Cause.NotURLEncodable
+                            let cause = $0.cause as? RequestError.Cause.NotURLEncodable
                             expect(cause?.offendingString) == bogus
                             }
                         }
@@ -593,7 +593,7 @@ class RequestSpec: ResourceSpecBase
 
 // MARK: - Helpers
 
-private struct DummyError: Swift.Error { }
+private struct DummyError: Error { }
 
 private class RequestWrapper: Request
     {
@@ -631,7 +631,7 @@ private class RequestWrapper: Request
         return self
         }
 
-    func onFailure(_ callback: @escaping (Siesta.Error) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
         {
         wrapped.onFailure(callback)
         return self

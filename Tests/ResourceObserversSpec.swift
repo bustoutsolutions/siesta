@@ -123,7 +123,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer().expect(.requested)
                 observer().expect(.error)
                 awaitFailure(resource().load())
-                expect(resource().latestError?.cause is Siesta.Error.Cause.NoLocalDataFor304) == true
+                expect(resource().latestError?.cause is RequestError.Cause.NoLocalDataFor304) == true
                 }
 
             it("receives cancel event")

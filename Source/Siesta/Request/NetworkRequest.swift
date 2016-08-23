@@ -142,7 +142,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     // MARK: Response handling
 
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
-    private func responseReceived(underlyingResponse: HTTPURLResponse?, body: Data?, error: Swift.Error?)
+    private func responseReceived(underlyingResponse: HTTPURLResponse?, body: Data?, error: Error?)
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -170,13 +170,13 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     private func interpretResponse(
             _ underlyingResponse: HTTPURLResponse?,
             _ body: Data?,
-            _ error: Swift.Error?)
+            _ error: Error?)
         -> ResponseInfo
         {
         if isError(httpStatusCode: underlyingResponse?.statusCode) || error != nil
             {
             return ResponseInfo(
-                response: .failure(Error(
+                response: .failure(RequestError(
                     response: underlyingResponse,
                     content: body,
                     cause: error)))
@@ -190,9 +190,9 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             else
                 {
                 return ResponseInfo(
-                    response: .failure(Error(
+                    response: .failure(RequestError(
                         userMessage: NSLocalizedString("No data available", comment: "userMessage"),
-                        cause: Error.Cause.NoLocalDataFor304())))
+                        cause: RequestError.Cause.NoLocalDataFor304())))
                 }
             }
         else

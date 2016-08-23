@@ -233,7 +233,7 @@ extension Resource: TypedContentAccessors
     public var entityForTypedContentAccessors: Entity? { return latestData }
     }
 
-extension Error: TypedContentAccessors
+extension RequestError: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to `entity?.content`.
     public var entityForTypedContentAccessors: Entity? { return entity }
