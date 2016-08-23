@@ -19,7 +19,7 @@ class ProgressSpec: ResourceSpecBase
             {
             it("on success")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 let req = resource().load()
                 awaitNewData(req)
                 expect(req.progress) == 1.0
@@ -34,7 +34,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on server error")
                 {
-                stubRequest(resource, "GET").andReturn(500)
+                _ = stubRequest(resource, "GET").andReturn(500)
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0
@@ -42,7 +42,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on connection error")
                 {
-                stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
+                _ = stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0
@@ -54,7 +54,7 @@ class ProgressSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 expect(req.progress) == 1.0
-                reqStub.go()
+                _ = reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
                 }
             }
@@ -288,7 +288,7 @@ class ProgressSpec: ResourceSpecBase
                 setup(req)
                 QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
 
-                reqStub.go()
+                _ = reqStub.go()
                 awaitNewData(req)
 
                 return progressReports

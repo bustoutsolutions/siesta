@@ -29,7 +29,7 @@ class PipelineSpec: ResourceSpecBase
 
         func makeRequest(expectSuccess: Bool = true)
             {
-            stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
+            _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), false)
             }
@@ -141,7 +141,7 @@ class PipelineSpec: ResourceSpecBase
                     {
                     let emptyCache = TestCache("empty")
                     configureCache(emptyCache, at: .cleanup)
-                    resource()
+                    _ = resource()
                     waitForCacheRead(emptyCache)
                     expect(resource().text) == ""
                     }
@@ -170,7 +170,7 @@ class PipelineSpec: ResourceSpecBase
 
                     setResourceTime(2000)
                     expect(resource().latestData).toEventuallyNot(beNil())
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().loadIfNeeded()!)
                     }
 
@@ -245,7 +245,7 @@ class PipelineSpec: ResourceSpecBase
                     makeRequest()
 
                     setResourceTime(2000)
-                    stubRequest(resource, "GET").andReturn(304)
+                    _ = stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
                     expect(testCache.entries[resourceCacheKey("updated data")]?.timestamp)
                         .toEventually(equal(2000))

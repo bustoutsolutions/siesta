@@ -19,20 +19,20 @@ class RequestSpec: ResourceSpecBase
             {
             it("initates a network call")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(.GET))
                 }
 
             it("handles various HTTP methods")
                 {
-                stubRequest(resource, "PATCH").andReturn(200)
+                _ = stubRequest(resource, "PATCH").andReturn(200)
                 awaitNewData(resource().request(.PATCH))
                 }
 
             it("sends headers from configuration")
                 {
                 service().configure { $0.config.headers["Zoogle"] = "frotz" }
-                stubRequest(resource, "GET")
+                _ = stubRequest(resource, "GET")
                     .withHeader("Zoogle", "frotz")
                     .andReturn(200)
                 awaitNewData(resource().request(.GET))
@@ -54,8 +54,8 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    stubRequest(resource, "GET").andReturn(200)
-                    stubRequest(resource, "POST").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "POST").andReturn(200)
                     awaitNewData(resource().load())
                     awaitNewData(resource().request(.POST))
 
@@ -71,7 +71,7 @@ class RequestSpec: ResourceSpecBase
                             { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().load())
 
                     expect(successHookCalled) == true
@@ -147,7 +147,7 @@ class RequestSpec: ResourceSpecBase
                                 }
                             }
 
-                        stubRequest(resource, "GET").andReturn(200)
+                        _ = stubRequest(resource, "GET").andReturn(200)
                             .withHeader("Secret-Message", "wonglezob")
                         awaitNewData(resource().request(.GET))
                         expect(wrapper.secretMessage) == "wonglezob"
@@ -175,13 +175,13 @@ class RequestSpec: ResourceSpecBase
             req.onCompletion
                 { expect($0.response.isCancellation) == true }
             req.cancel()
-            reqStub.go()
+            _ = reqStub.go()
             awaitFailure(req, alreadyCompleted: true)
             }
 
         it(".cancel() has no effect if it already succeeded")
             {
-            stubRequest(resource, "GET").andReturn(200)
+            _ = stubRequest(resource, "GET").andReturn(200)
             let req = resource().request(.GET)
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
@@ -205,7 +205,7 @@ class RequestSpec: ResourceSpecBase
             func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
                 LSNocilla.sharedInstance().clearStubs()
-                stubRequest(resource, "PATCH")
+                _ = stubRequest(resource, "PATCH")
                     .withBody("Is there an echo in here?" as NSString)
                     .withHeader("X-Flavor", flavorHeader)
                     .andReturn(200)
@@ -321,7 +321,7 @@ class RequestSpec: ResourceSpecBase
                 let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
                 let nsdata = Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count)
 
-                stubRequest(resource, "POST")
+                _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
                     .withBody(nsdata as NSData)
                     .andReturn(200)
@@ -331,7 +331,7 @@ class RequestSpec: ResourceSpecBase
 
             it("handles string data")
                 {
-                stubRequest(resource, "POST")
+                _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
                     .withBody("Très bien!" as NSString)
                     .andReturn(200)
@@ -353,7 +353,7 @@ class RequestSpec: ResourceSpecBase
 
             it("handles JSON data")
                 {
-                stubRequest(resource, "PUT")
+                _ = stubRequest(resource, "PUT")
                     .withHeader("Content-Type", "application/json")
                     .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}" as NSString)
                     .andReturn(200)
@@ -373,7 +373,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 it("encodes parameters")
                     {
-                    stubRequest(resource, "PATCH")
+                    _ = stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
                         .withBody("brown=cow&foo=bar&how=now" as NSString)
                         .andReturn(200)
@@ -383,7 +383,7 @@ class RequestSpec: ResourceSpecBase
 
                 it("escapes unsafe characters")
                     {
-                    stubRequest(resource, "PATCH")
+                    _ = stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
                         .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r" as NSString)
                         .andReturn(200)
@@ -481,7 +481,7 @@ class RequestSpec: ResourceSpecBase
                 let req = resource().request(.GET).chained
                     { _ in .useThisResponse }
                 expect(req.isCompleted).to(beFalse())
-                reqStub.go()
+                _ = reqStub.go()
                 expect(req.isCompleted).toEventually(beTrue())
                 }
 
@@ -501,7 +501,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     chainedReq.cancel()
-                    reqStub.go()
+                    _ = reqStub.go()
                     awaitFailure(originalReq, alreadyCompleted: true)
                     }
 
@@ -517,7 +517,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     req.cancel()
-                    reqStub.go()
+                    _ = reqStub.go()
                     awaitFailure(req, alreadyCompleted: true)
                     }
 
@@ -533,7 +533,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     originalReq.cancel()
-                    reqStub.go()
+                    _ = reqStub.go()
                     awaitFailure(originalReq, alreadyCompleted: true)
                     expectResult("custom", for: chainedReq, alreadyCompleted: true)
                     }

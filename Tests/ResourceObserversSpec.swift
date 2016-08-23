@@ -60,7 +60,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives request event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.requested)
                     {
                     expect(resource().isLoading) == true
@@ -76,7 +76,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives new data event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.requested)
                 observer().expect(.newData(.network))
                     {
@@ -102,13 +102,13 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives not modified event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.requested)
                 observer().expect(.newData(.network))
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
 
-                stubRequest(resource, "GET").andReturn(304)
+                _ = stubRequest(resource, "GET").andReturn(304)
                 observer().expect(.requested)
                 observer().expect(.notModified)
                     {
@@ -119,7 +119,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives error if server sends not modified but no local data")
                 {
-                stubRequest(resource, "GET").andReturn(304)
+                _ = stubRequest(resource, "GET").andReturn(304)
                 observer().expect(.requested)
                 observer().expect(.error)
                 awaitFailure(resource().load())
@@ -137,13 +137,13 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
-                reqStub.go()
+                _ = reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
                 }
 
             it("receives failure event")
                 {
-                stubRequest(resource, "GET").andReturn(500)
+                _ = stubRequest(resource, "GET").andReturn(500)
                 observer().expect(.requested)
                 observer().expect(.error)
                     {
@@ -156,7 +156,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("does not receive notifications for request(), only load()")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().request(.GET))
                 }
 
@@ -172,7 +172,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     events.append(String(describing: event))
                     }
 
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
                 expect(events) == ["observerAdded", "requested", "newData(network)"]
@@ -189,7 +189,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(owner: dummy)
                     { _, event in events0.append(String(describing: event)) }
 
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
                 resource().addObserver(owner: dummy)
@@ -206,7 +206,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer())
                 resource().addObserver(observer())
 
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 observer().expect(.requested)
                 observer().expect(.newData(.network))
                 awaitNewData(resource().load())
@@ -225,7 +225,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 func expectStillObserving(_ stillObserving: Bool)
                     {
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                     if stillObserving
                         {
                         observer().expect(.requested)
@@ -348,7 +348,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
-                reqStub.go()
+                _ = reqStub.go()
                 awaitNewData(req)
                 }
 

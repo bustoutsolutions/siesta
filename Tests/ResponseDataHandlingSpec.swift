@@ -22,7 +22,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 contentType: String = "text/plain",
                 expectSuccess: Bool = true)
             {
-            stubRequest(resource, method).andReturn(200)
+            _ = stubRequest(resource, method).andReturn(200)
                 .withHeader("Content-Type", contentType)
                 .withBody(string as NSString?)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
@@ -72,7 +72,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("treats illegal byte sequence for encoding as an error")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
                     .withBody(Data(bytes: UnsafePointer<UInt8>([0xD8] as [UInt8]), count: 1) as NSData)
                 awaitFailure(resource().load())
@@ -91,7 +91,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("transforms error responses")
                 {
-                stubRequest(resource, "GET").andReturn(500)
+                _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
                     .withBody(Data(bytes: UnsafePointer<UInt8>([0xD8, 0x3D, 0xDC, 0xA3] as [UInt8]), count: 4) as NSData)
                 awaitFailure(resource().load())
@@ -121,7 +121,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("gives empty string on error")
                     {
-                    stubRequest(resource, "GET").andReturn(404)
+                    _ = stubRequest(resource, "GET").andReturn(404)
                     expect(resource().text) == ""
                     }
                 }
@@ -171,7 +171,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 for atom in ["17", "\"foo\"", "null"]
                     {
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(atom as NSString)
                     awaitFailure(resource().load())
@@ -182,7 +182,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("transforms error responses")
                 {
-                stubRequest(resource, "GET").andReturn(500)
+                _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ \"error\": \"pigeon drove bus\" }" as NSString)
                 awaitFailure(resource().load())
@@ -192,7 +192,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("preserves root error if error response is unparsable")
                 {
-                stubRequest(resource, "GET").andReturn(500)
+                _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "application/json")
                     .withBody("{ malformed JSON[[{{#$!@" as NSString)
                 awaitFailure(resource().load())
@@ -216,7 +216,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("gives empty dict on error")
                     {
-                    stubRequest(resource, "GET").andReturn(500)
+                    _ = stubRequest(resource, "GET").andReturn(500)
                     expect(resource().jsonDict as NSObject) == [:] as NSObject
                     }
                 }
@@ -225,7 +225,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 it("gives JSON data")
                     {
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody("[1,\"two\"]" as NSString)
                     awaitNewData(resource().load())
@@ -254,7 +254,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             it("parses images")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "image/gif")
                     .withBody(NSData(
                         base64Encoded: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=",
@@ -267,7 +267,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("gives an error for unparsable images")
                 {
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "image/gif")
                     .withBody("Ceci n’est pas une image" as NSString)
                 awaitFailure(resource().load())
@@ -287,7 +287,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 it("does not parse \(contentType)")
                     {
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", contentType)
                         .withBody("]]glarble}{blargble[[" as NSString)
                     awaitNewData(resource().load())
@@ -318,7 +318,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("can transform errors")
                     {
-                    stubRequest(resource, "GET").andReturn(401)
+                    _ = stubRequest(resource, "GET").andReturn(401)
                     awaitFailure(resource().load())
                     expect(resource().latestError?.userMessage) == "Unauthorized processed"
                     expect(transformer().callCount) == 1
@@ -329,7 +329,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubText("ahoy")
 
                     LSNocilla.sharedInstance().clearStubs()
-                    stubRequest(resource, "GET").andReturn(304)
+                    _ = stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
 
                     expect(resource().typedContent()) == "ahoy processed"
@@ -356,7 +356,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("leaves errors untouched by default")
                     {
                     configureModelTransformer()
-                    stubRequest(resource, "GET").andReturn(500)
+                    _ = stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
                         .withBody("I am not a model" as NSString)
                     awaitFailure(resource().load())
@@ -368,7 +368,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**", transformErrors: true)
                         { content, _ in TestModel(name: content) }
-                    stubRequest(resource, "GET").andReturn(500)
+                    _ = stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
                         .withBody("Fred T. Error" as NSString)
                     awaitFailure(resource().load())
@@ -474,7 +474,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 @discardableResult
                 func stubTextRequest(_ string: String, method: RequestMethod) -> Entity
                     {
-                    stubRequest(resource, method.rawValue).andReturn(200)
+                    _ = stubRequest(resource, method.rawValue).andReturn(200)
                         .withHeader("Content-Type", "text/plain")
                         .withBody(string as NSString)
 
