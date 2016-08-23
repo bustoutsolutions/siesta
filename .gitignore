@@ -2,3 +2,4 @@ xcuserdata
 .*cache*
 *.log
 Carthage/
+.build
