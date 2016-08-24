@@ -73,10 +73,15 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.9" }
 
   s.subspec "Core" do |s|
-    s.source_files = "Source/**/*"
+    s.source_files = "Source/Siesta/**/*"
+    s.exclude_files = "**/Info*.plist"
+  end
+
+  s.subspec "UI" do |s|
+    s.source_files = "Source/SiestaUI/**/*"
+    s.dependency "Siesta/Core"
     s.exclude_files = "**/Info*.plist"
     s.ios.resources = "Source/**/*.xib"
-    s.osx.exclude_files = "Source/UI"
   end
 
   s.subspec "Alamofire" do |s|

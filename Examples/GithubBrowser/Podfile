@@ -3,6 +3,6 @@ platform :ios, '9.0'
 target 'GithubBrowser' do
   use_frameworks!
 
-  pod 'Siesta', path: '../..'
+  pod 'Siesta/UI', path: '../..'
   pod 'SwiftyJSON'
 end

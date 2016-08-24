@@ -2,7 +2,11 @@ module: Siesta
 author: Bust Out Solutions
 author_url: http://bustoutsolutions.com
 github_url: https://github.com/bustoutsolutions/siesta
-exclude: ["**/*-ObjC.swift", "**/*Deprecations.swift"]
+exclude:
+  - "**/*-ObjC.swift"
+  - "**/*Deprecations.swift"
+  - "Source/Support/Siesta-ObjC.swift"     # until Cocoadocs gets latest jazzy
+  - "Source/Support/Ω_Deprecations.swift"  # until Cocoadocs gets latest jazzy
 
 copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
