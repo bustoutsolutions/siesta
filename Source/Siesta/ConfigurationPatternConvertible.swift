@@ -42,15 +42,15 @@ extension String: ConfigurationPatternConvertible
       The pattern supports three wildcards:
 
       - `*` matches zero or more characters within a path segment.
-      - `**` matches zero or more characters across path segments, with the special case that `/**/` matches `/`.
+      - `**` matches zero or more characters across path segments, with the special case that `/​**​/` matches `/`.
       - `?` matches exactly one character within a path segment, and thus `?*` matches one or more.
 
       Examples:
 
-      - `/foo/*/bar` matches `/foo/1/bar` and `/foo/123/bar`.
-      - `/foo/**/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
-      - `/foo*/bar` matches `/foo/bar` and `/food/bar`.
-      - `/foo/​*` matches `/foo/123` and `/foo/`.
+      - `/foo/​*​/bar` matches `/foo/1/bar` and `/foo/123/bar`.
+      - `/foo/​**​/bar` matches `/foo/bar`, `/foo/123/bar`, and `/foo/1/2/3/bar`.
+      - `/foo*​/bar` matches `/foo/bar` and `/food/bar`.
+      - `/foo/​​*` matches `/foo/123` and `/foo/`.
       - `/foo/?*` matches `/foo/123` but _not_ `/foo/`.
 
       The pattern ignores the resource’s query string.
