@@ -72,6 +72,19 @@ public protocol Request: class
     func onFailure(callback: Error -> Void) -> Self
 
     /**
+      Immediately start this request if it was deferred. Does nothing if the request is already started.
+
+      You rarely need to call this method directly:
+
+      - Any request you receive from `Resource.request(...)` or `Resource.load()` is already started.
+      - Requests start automatically when you use `RequestChainAction.PassTo` in a chain.
+
+      When do you need this method, then? It’s rare. `Configuration.decorateRequests` can defer a request by hanging on
+      to it while returning a different request. You can use this method to manually start a request deferred this way.
+    */
+    func start()
+
+    /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
       or been cancelled.
     */

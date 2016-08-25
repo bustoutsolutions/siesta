@@ -111,12 +111,18 @@ internal final class RequestChain: RequestWithDefaultCallbacks
                 responseCallbacks.notifyOfCompletion(customResponseInfo)
 
             case .PassTo(let request):
+                request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
                     { self.responseCallbacks.notifyOfCompletion($0) }
             }
         }
 
     typealias ActionCallback = ResponseInfo -> RequestChainAction
+
+    func start()
+        {
+        wrappedRequest.start()
+        }
 
     var isCompleted: Bool
         {
