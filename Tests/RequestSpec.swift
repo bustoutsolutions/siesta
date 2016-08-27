@@ -270,22 +270,29 @@ class RequestSpec: ResourceSpecBase
                 return req
                 }
 
-            let newRequest = specVar { oldRequest().repeated() }
+            let repeatedRequest = specVar { oldRequest().repeated() }
 
-            it("sends a new network request")
+            it("does not send the repeated request automatically")
+                {
+                repeatedRequest()  // Nocilla will flag any request
+                }
+
+            it("sends a new network request on start()")
                 {
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
                 }
 
             it("leaves the old request’s result intact")
                 {
                 oldRequest()
                 stubRepeatedRequest("OK, maybe.")
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expectResonseText(oldRequest(), text: "No.")        // still has old result
-                expectResonseText(newRequest(), text: "OK, maybe.") // has new result
+                expectResonseText(repeatedRequest(), text: "OK, maybe.") // has new result
                 }
 
             it("does not call the old request’s callbacks")
@@ -294,7 +301,8 @@ class RequestSpec: ResourceSpecBase
                 oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
 
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expect(oldRequestHookCalls) == 1
                 }
@@ -311,7 +319,8 @@ class RequestSpec: ResourceSpecBase
                 service().invalidateConfiguration()
 
                 stubRepeatedRequest(flavorHeader: flavor)
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
                 }
 
             it("repeats custom response mutation")
@@ -325,10 +334,13 @@ class RequestSpec: ResourceSpecBase
                     $0.setValue("mutant flavor \(mutationCount)", forHTTPHeaderField: "X-Flavor")
                     mutationCount += 1
                     }
+
                 awaitNewData(req)
 
                 stubRepeatedRequest(flavorHeader: "mutant flavor 1")
-                awaitNewData(req.repeated())
+                let repeated = req.repeated()
+                repeated.start()
+                awaitNewData(repeated)
                 }
 
             it("does not repeat request decorations")
@@ -344,7 +356,8 @@ class RequestSpec: ResourceSpecBase
                     }
 
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expect(decorations) == 1
                 }

@@ -102,9 +102,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     func repeated() -> Request
         {
-        let req = NetworkRequest(resource: resource, requestBuilder: requestBuilder)
-        req.start()
-        return req
+        return NetworkRequest(resource: resource, requestBuilder: requestBuilder)
         }
 
     // MARK: Callbacks
