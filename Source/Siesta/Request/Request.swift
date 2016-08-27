@@ -45,12 +45,15 @@ public enum RequestMethod: String
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
   and `overrideLocalData(_:)`.
 
-  There is no race condition between a callback being added and a response arriving. If you add a callback after the
-  response has already arrived, the callback is still called as usual.
-
   `Request` guarantees that it will call any given callback _at most_ one time.
 
   Callbacks are always called on the main thread.
+
+  - Note:
+      There is no race condition between a callback being added and a response arriving. If you add a callback after the
+      response has already arrived, the callback is still called as usual. In other words, when attaching a hook, you
+      **do not need to worry** about where the request is in its lifecycle. Except for how soon it’s called, your hook
+      will see the same behavior regardless of whether the request has not started yet, is in progress, or is completed.
 */
 public protocol Request: class
     {
@@ -74,13 +77,17 @@ public protocol Request: class
     /**
       Immediately start this request if it was deferred. Does nothing if the request is already started.
 
-      You rarely need to call this method directly:
+      You rarely need to call this method directly, because most requests are started for you automatically:
 
       - Any request you receive from `Resource.request(...)` or `Resource.load()` is already started.
       - Requests start automatically when you use `RequestChainAction.PassTo` in a chain.
 
-      When do you need this method, then? It’s rare. `Configuration.decorateRequests` can defer a request by hanging on
-      to it while returning a different request. You can use this method to manually start a request deferred this way.
+      When do you need this method, then? It’s rare. There are two situations:
+
+      - `Configuration.decorateRequests` can defer a request by hanging on to it while returning a different request.
+        You can use this method to manually start a request that was deferred this way.
+      - `Request.repeated()` does not automatically start the request it returns. This is to allow you to implement
+        time-delayed retries.
     */
     func start()
 
@@ -124,6 +131,8 @@ public protocol Request: class
 
     /**
       Send the same request again, returning a new `Request` instance for the new attempt.
+
+      The return request is not already started. You must call `start()` when you are ready for it to begin.
 
       - Warning:
           Use with caution! Repeating a failed request for any HTTP method other than GET is potentially unsafe,
