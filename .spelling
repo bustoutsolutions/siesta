@@ -93,6 +93,9 @@ Alamofire
 composability
 RemoteImageView
 ReactiveCocoa
+expirations
+untrusted
+non-whitelisted
  - Docs/security.md
 p2
 dongri
