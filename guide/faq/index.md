@@ -28,9 +28,9 @@ The tentative plan is this:
 
 - `1.0-beta.8`: new [transformer pipeline API](/siesta/guide/pipeline), the last major pre-1.0 API change
 - `1.0-beta.9`: `EntityCache` improvements
-- `1.0-beta.10`: Request decorating, chaining, repeating
-- `1.0-beta.11`:
-  - final API refinements
+- `1.0-beta.10`:
+  - Request decorating, chaining, repeating
+  - Any other final API refinements
   - split UI helpers into separate subproject
   - reorganize directory structure to anticipate SwiftPM
 
