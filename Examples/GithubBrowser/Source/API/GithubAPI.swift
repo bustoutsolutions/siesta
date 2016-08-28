@@ -12,7 +12,7 @@ class _GithubAPI {
 
     private let service = Service(baseURL: "https://api.github.com")
 
-    private init() {
+    fileprivate init() {
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.detailed
         #endif
@@ -41,22 +41,23 @@ class _GithubAPI {
         // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
-            try User(json: $0.content)  // Input type inferred because User.init takes JSON
+            // Swift 3 TODO: see if bare $0 bug is finally fixed, or consider passing struct that still supports $0.content
+            try User(json: $0.0)  // Input type inferred because User.init takes JSON
         }
 
         service.configureTransformer("/users/*/repos") {
-            try ($0.content as JSON)   // “as JSON” gives Siesta the expected input type
+            try ($0.0 as JSON)   // “as JSON” gives Siesta the expected input type
                 .arrayValue            // SwiftyJSON defaults to []
                 .map(Repository.init)  // Model mapping gives Siesta an implicit output type
         }
 
         service.configureTransformer("/search/repositories") {
-            try ($0.content as JSON)["items"].arrayValue
+            try ($0.0 as JSON)["items"].arrayValue
                 .map(Repository.init)
         }
 
         service.configureTransformer("/repos/*/*") {
-            try Repository(json: $0.content)
+            try Repository(json: $0.0)
         }
 
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
@@ -76,9 +77,9 @@ class _GithubAPI {
 
     // MARK: Authentication
 
-    func logIn(username username: String, password: String) {
-        if let auth = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding) {
-            basicAuthHeader = "Basic \(auth.base64EncodedStringWithOptions([]))"
+    func logIn(username: String, password: String) {
+        if let auth = "\(username):\(password)".data(using: String.Encoding.utf8) {
+            basicAuthHeader = "Basic \(auth.base64EncodedString())"
         }
     }
 
@@ -119,10 +120,10 @@ class _GithubAPI {
             .withParam("order", "desc")
     }
 
-    func user(username: String) -> Resource {
+    func user(_ username: String) -> Resource {
         return service
             .resource("/users")
-            .child(username.lowercaseString)
+            .child(username.lowercased())
     }
 
     func repository(ownedBy login: String, named name: String) -> Resource {
@@ -132,23 +133,23 @@ class _GithubAPI {
             .child(name)
     }
 
-    func repository(repositoryModel: Repository) -> Resource {
+    func repository(_ repositoryModel: Repository) -> Resource {
         return repository(ownedBy: repositoryModel.owner.login, named: repositoryModel.name)
     }
 
-    func currentUserStarred(repositoryModel: Repository) -> Resource {
+    func currentUserStarred(_ repositoryModel: Repository) -> Resource {
         return service
             .resource("/user/starred")
             .child(repositoryModel.owner.login)
             .child(repositoryModel.name)
     }
 
-    func setStarred(isStarred: Bool, repository repositoryModel: Repository) -> Request {
+    func setStarred(_ isStarred: Bool, repository repositoryModel: Repository) -> Request {
         let starredResource = currentUserStarred(repositoryModel)
         return starredResource
             .request(isStarred ? .PUT : .DELETE)
             .onSuccess { _ in
-                starredResource.overrideLocalContent(isStarred)
+                starredResource.overrideLocalContent(with: isStarred)
                 self.repository(repositoryModel).load()  // To update star count
             }
     }
@@ -156,34 +157,34 @@ class _GithubAPI {
 
 private let SwiftyJSONTransformer =
     ResponseContentTransformer
-        { JSON($0.content as AnyObject) }
+        { JSON($0.0 as AnyObject) }
 
 private struct GithubErrorMessageExtractor: ResponseTransformer {
-    func process(response: Response) -> Response {
+    func process(_ response: Response) -> Response {
         switch response {
-            case .Success:
+            case .success:
                 return response
 
-            case .Failure(var error):
+            case .failure(var error):
                 error.userMessage = error.jsonDict["message"] as? String ?? error.userMessage
-                return .Failure(error)
+                return .failure(error)
         }
     }
 }
 
 private struct TrueIfResourceFoundTransformer: ResponseTransformer {
-    func process(response: Response) -> Response {
+    func process(_ response: Response) -> Response {
         switch response {
-            case .Success(var entity):
+            case .success(var entity):
                 entity.content = true         // Any success → true
                 return logTransformation(
-                    .Success(entity))
+                    .success(entity))
 
-            case .Failure(let error):
-                if var entity = error.entity where error.httpStatusCode == 404 {
+            case .failure(let error):
+                if var entity = error.entity, error.httpStatusCode == 404 {
                     entity.content = false    // 404 → false
                     return logTransformation(
-                        .Success(entity))
+                        .success(entity))
                 } else {
                     return response           // Any other error remains unchanged
                 }
