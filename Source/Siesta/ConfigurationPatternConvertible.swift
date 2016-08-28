@@ -15,7 +15,7 @@ import Foundation
   Siesta provides implementations of this protocol for `String` (for glob-based matching) and `Resource` (to configure
   one specific resource).
 
-  - SeeAlso: `Service.configure(_:description:configurer:)`
+  - SeeAlso: `Service.configure(...)`
   - SeeAlso: `String.configurationPattern(_:)`
   - SeeAlso: `Resource.configurationPattern(_:)`
 */
