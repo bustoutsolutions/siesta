@@ -93,6 +93,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
       Place this child inside the given view controller’s view, and position it so that it covers the entire bounds.
       Be sure to call `positionToCoverParent()` from your `viewDidLayoutSubviews()` method.
     */
+    @discardableResult
     public func embedIn(_ parentViewController: UIViewController) -> Self
         {
         parentVC = parentViewController
