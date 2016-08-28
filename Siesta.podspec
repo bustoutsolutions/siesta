@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UI" do |s|
-    s.source_files = "Source/SiestaUI/**/*"
+    s.ios.source_files = "Source/SiestaUI/**/*"
     s.dependency "Siesta/Core"
     s.exclude_files = "**/Info*.plist"
     s.ios.resources = "Source/**/*.xib"
