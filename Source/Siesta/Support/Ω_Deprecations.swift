@@ -34,3 +34,17 @@ extension ResponseContentTransformer
             processor: processor)
         }
     }
+
+extension Configuration
+    {
+    @available(*, deprecated=0.99, renamed="decorateRequests")
+    public mutating func beforeStartingRequest(callback: (Resource, Request) -> Void)
+        {
+        decorateRequests
+            {
+            res, req in
+            callback(res, req)
+            return req
+            }
+        }
+    }
