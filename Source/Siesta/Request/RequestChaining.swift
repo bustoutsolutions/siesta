@@ -45,7 +45,7 @@ extension Request
 
               let foo = ThingThatNeedsCleanup()
               request
-                .chain { …some logic… }             // May not be called if chain is cancelled
+                .chained { …some logic… }           // May not be called if chain is cancelled
                 .onCompletion{ _ in foo.cleanUp() } // Guaranteed to be called exactly once
 
       Chained requests currently do not support progress. If you are reading these words and want that feature, please
