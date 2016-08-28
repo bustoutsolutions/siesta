@@ -24,6 +24,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             _ = stubRequest(resource, method).andReturn(200)
                 .withHeader("Content-Type", contentType)
+                .withHeader("X-Custom-Header", "Sprotzle")
                 .withBody(string as NSString?)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), false)
@@ -81,7 +82,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(cause?.encodingName) == "utf-8"
                 }
 
-            it("report an error if another transformer already made it a string")
+            it("reports an error if another transformer already made it a string")
                 {
                 service().configure
                     { $0.config.pipeline[.decoding].add(TestTransformer()) }
@@ -335,6 +336,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().typedContent()) == "ahoy processed"
                     expect(transformer().callCount) == 1
                     }
+
+                it("can modify headers")
+                    {
+                    stubText("ahoy")
+                    expect(resource().latestData?.header(key: "x-cUSTOM-hEADER")) == "elztorpS"
+                    }
                 }
 
             describe("using closure")
@@ -585,6 +592,8 @@ private class TestTransformer: ResponseTransformer
             {
             case .success(var entity):
                 entity.content = (entity.content as? String ?? "<non-string>") + " processed"
+                if let header = entity.headers["x-custom-header"]
+                    { entity.headers["x-custom-header"] = String(header.characters.reversed()) }
                 return .success(entity)
 
             case .failure(var error):

@@ -217,18 +217,14 @@ public final class Resource: NSObject
 
         // Optionally decorate the request
 
-        var rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
         let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
-
-        // Start the underlying request, unless the decorators discarded it
-
-        if !isKnownUniquelyReferenced(&rawReq)
-            { rawReq.start() }
 
         // Track the fully decorated request
 
         trackRequest(req, using: &allRequests)
+        req.start()
         return req
         }
 

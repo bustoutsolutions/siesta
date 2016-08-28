@@ -5,8 +5,9 @@ github_url: https://github.com/bustoutsolutions/siesta
 exclude:
   - "**/*-ObjC.swift"
   - "**/*Deprecations.swift"
-  - "Source/Support/Siesta-ObjC.swift"     # until Cocoadocs gets latest jazzy
-  - "Source/Support/Ω_Deprecations.swift"  # until Cocoadocs gets latest jazzy
+  - "Source/Siesta/Support/Siesta-ObjC.swift"     # until Cocoadocs gets https://github.com/realm/jazzy/pull/640
+  - "Source/SiestaUI/SiestaUI-ObjC.swift"         # ditto
+  - "Source/Siesta/Support/Ω_Deprecations.swift"  # ditto
 
 copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
@@ -36,6 +37,7 @@ custom_categories:
     - RequestMethod
     - RequestError
     - Response
+    - ResponseInfo
     - RequestChainAction
 
   - name: Response Pipeline
@@ -45,6 +47,7 @@ custom_categories:
     - PipelineStageKey
     - ResponseTransformer
     - ResponseContentTransformer
+    - InputTypeMismatchAction
     - JSONResponseTransformer(_:)
     - TextResponseTransformer(_:)
     - ImageResponseTransformer(_:)
@@ -66,6 +69,7 @@ custom_categories:
     - RequestNetworkingCompletionCallback
     - RequestTransferMetrics
     - NSURLSessionProvider
+    - SessionTaskContainer
     - AlamofireProvider
 
   - name: Logging

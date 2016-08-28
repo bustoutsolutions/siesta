@@ -45,7 +45,7 @@ extension Request
 
               let foo = ThingThatNeedsCleanup()
               request
-                .chain { …some logic… }             // May not be called if chain is cancelled
+                .chained { …some logic… }           // May not be called if chain is cancelled
                 .onCompletion{ _ in foo.cleanUp() } // Guaranteed to be called exactly once
 
       Chained requests currently do not support progress. If you are reading these words and want that feature, please
@@ -111,12 +111,18 @@ internal final class RequestChain: RequestWithDefaultCallbacks
                 responseCallbacks.notifyOfCompletion(customResponseInfo)
 
             case .passTo(let request):
+                request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
                     { self.responseCallbacks.notifyOfCompletion($0) }
             }
         }
 
     typealias ActionCallback = (ResponseInfo) -> RequestChainAction
+
+    func start()
+        {
+        wrappedRequest.start()
+        }
 
     var isCompleted: Bool
         {

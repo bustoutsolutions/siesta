@@ -82,6 +82,20 @@ subproject
 SwiftPM
 EntityCache
 typesafe
+UIImage
+preconfigures
+GithubBrowser
+4xx
+5xx
+2xx
+rewrapping
+Alamofire
+composability
+RemoteImageView
+ReactiveCocoa
+expirations
+untrusted
+non-whitelisted
  - Docs/security.md
 p2
 dongri

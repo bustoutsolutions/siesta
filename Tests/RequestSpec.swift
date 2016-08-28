@@ -135,25 +135,7 @@ class RequestSpec: ResourceSpecBase
                         awaitFailure(req, alreadyCompleted: true)
                         }
 
-                    it("starts the original request if it was wrapped")
-                        {
-                        var wrapper: RequestWrapper!
-                        service().configure
-                            {
-                            $0.config.decorateRequests
-                                {
-                                wrapper = RequestWrapper($1)
-                                return wrapper
-                                }
-                            }
-
-                        _ = stubRequest(resource, "GET").andReturn(200)
-                            .withHeader("Secret-Message", "wonglezob")
-                        awaitNewData(resource().request(.GET))
-                        expect(wrapper.secretMessage) == "wonglezob"
-                        }
-
-                    it("does not start the original request it was discarded")
+                    it("does not start the original request if it was discarded")
                         {
                         service().configure
                             {
@@ -161,6 +143,63 @@ class RequestSpec: ResourceSpecBase
                                 { _ in dummyReq0() }
                             }
                         awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                        }
+
+                    it("starts the original request if it is the first in a chain")
+                        {
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                {
+                                _, req in req.chained
+                                    {
+                                    var responseInfo = $0
+                                    guard case .success(var entity) = responseInfo.response else
+                                        { fatalError() }
+                                    entity.content = entity.text + " redux"
+                                    responseInfo.response = .success(entity)
+                                    return .useResponse(responseInfo)
+                                    }
+                                }
+                            }
+
+                        _ = stubRequest(resource, "GET").andReturn(200)
+                            .withHeader("Content-Type", "text/plain")
+                            .withBody("ducks" as NSString)
+                        awaitNewData(resource().load())
+                        expect(resource().text) == "ducks redux"
+                        }
+
+                    func configureDeferredRequestChain(passToOriginalRequest: Bool)
+                        {
+                        service().configure
+                            {
+                            $0.config.decorateRequests
+                                {
+                                _, req in
+                                Resource.failedRequest(RequestError(userMessage: "dummy", cause: DummyError()))
+                                    .chained
+                                        {
+                                        _ in if passToOriginalRequest
+                                            { return .passTo(req) }
+                                        else
+                                            { return .useThisResponse }
+                                        }
+                                }
+                            }
+                        }
+
+                    it("runs the original request if it is deferred but used by a chain")
+                        {
+                        configureDeferredRequestChain(passToOriginalRequest: true)
+                        _ = stubRequest(resource, "GET").andReturn(200)
+                        awaitNewData(resource().load())
+                        }
+
+                    it("does not run the original request if it is unused by a chain")
+                        {
+                        configureDeferredRequestChain(passToOriginalRequest: false)
+                        awaitFailure(resource().load())
                         }
                     }
                 }
@@ -233,22 +272,29 @@ class RequestSpec: ResourceSpecBase
                 return req
                 }
 
-            let newRequest = specVar { oldRequest().repeated() }
+            let repeatedRequest = specVar { oldRequest().repeated() }
 
-            it("sends a new network request")
+            it("does not send the repeated request automatically")
+                {
+                _ = repeatedRequest()  // Nocilla will flag any request
+                }
+
+            it("sends a new network request on start()")
                 {
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
                 }
 
             it("leaves the old request’s result intact")
                 {
                 _ = oldRequest()
                 stubRepeatedRequest("OK, maybe.")
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expectResonseText(oldRequest(), text: "No.")        // still has old result
-                expectResonseText(newRequest(), text: "OK, maybe.") // has new result
+                expectResonseText(repeatedRequest(), text: "OK, maybe.") // has new result
                 }
 
             it("does not call the old request’s callbacks")
@@ -257,7 +303,8 @@ class RequestSpec: ResourceSpecBase
                 oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
 
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expect(oldRequestHookCalls) == 1
                 }
@@ -274,7 +321,8 @@ class RequestSpec: ResourceSpecBase
                 service().invalidateConfiguration()
 
                 stubRepeatedRequest(flavorHeader: flavor)
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
                 }
 
             it("repeats custom response mutation")
@@ -289,10 +337,13 @@ class RequestSpec: ResourceSpecBase
                     $0.setValue("mutant flavor \(mutationCount)", forHTTPHeaderField: "X-Flavor")
                     mutationCount += 1
                     }
+
                 awaitNewData(req)
 
                 stubRepeatedRequest(flavorHeader: "mutant flavor 1")
-                awaitNewData(req.repeated())
+                let repeated = req.repeated()
+                repeated.start()
+                awaitNewData(repeated)
                 }
 
             it("does not repeat request decorations")
@@ -308,7 +359,8 @@ class RequestSpec: ResourceSpecBase
                     }
 
                 stubRepeatedRequest()
-                awaitNewData(newRequest())
+                repeatedRequest().start()
+                awaitNewData(repeatedRequest())
 
                 expect(decorations) == 1
                 }
@@ -594,60 +646,3 @@ class RequestSpec: ResourceSpecBase
 // MARK: - Helpers
 
 private struct DummyError: Error { }
-
-private class RequestWrapper: Request
-    {
-    private var wrapped: Request
-    var secretMessage: String?
-
-    init(_ wrapped: Request)
-        {
-        self.wrapped = wrapped
-        wrapped.onSuccess
-            { self.secretMessage = $0.header(forKey: "Secret-Message") }
-        }
-
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
-        {
-        wrapped.onCompletion(callback)
-        return self
-        }
-
-    func onSuccess(_ callback: @escaping (Entity) -> Void) -> Self
-        {
-        wrapped.onSuccess(callback)
-        return self
-        }
-
-    func onNewData(_ callback: @escaping (Entity) -> Void) -> Self
-        {
-        wrapped.onNewData(callback)
-        return self
-        }
-
-    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
-        {
-        wrapped.onNotModified(callback)
-        return self
-        }
-
-    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
-        {
-        wrapped.onFailure(callback)
-        return self
-        }
-
-    var isCompleted: Bool { return wrapped.isCompleted }
-
-    var progress: Double { return wrapped.progress }
-
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
-        {
-        wrapped.onProgress(callback)
-        return self
-        }
-
-    func cancel() { wrapped.cancel() }
-
-    func repeated() -> Request { fatalError() }
-    }

@@ -64,9 +64,35 @@ public struct Entity
       The etag of this data. If non-nil, Siesta will send an `If-None-Match` header with subsequent loads.
     */
     public var etag: String?
-        { return headers["etag"] }
+        { return header(key: "etag") }
 
-    internal var headers: [String:String]
+    /**
+      Returns the value of the HTTP header with the given key. The key is case insensitive.
+
+      Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).
+
+      - Parameter key: The case-insensitive header name.
+    */
+    @discardableResult
+    public func header(key: String) -> String?
+        { return headers[key.lowercased()] }
+
+    /**
+      All HTTP headers sent with this entity. The keys are in lower case (and will be converted to lowercase if you
+      mutate the dictionary).
+
+      - See also: `header(_:)`
+    */
+    public var headers: [String:String]
+        {
+        get { return headersNormalized }
+        set {
+            headersNormalized = newValue.mapDict
+                { ($0.lowercased(), $1) }
+            }
+        }
+
+    private var headersNormalized: [String:String] = [:]
 
     /// The time at which this data was last known to be valid.
     public var timestamp: TimeInterval
@@ -99,7 +125,7 @@ public struct Entity
         var headers = headers
         headers["Content-Type"] = contentType
 
-        self.init(content:content, charset:charset, headers:headers)
+        self.init(content: content, charset: charset, headers: headers)
         }
 
     /**
@@ -108,11 +134,10 @@ public struct Entity
     public init(
             content: Any,
             charset: String? = nil,
-            headers rawHeaders: [String:String],
+            headers: [String:String],
             timestamp: TimeInterval? = nil)
         {
         self.content = content
-        self.headers = rawHeaders.mapDict { ($0.lowercased(), $1) }
         self.charset = charset
 
         if let timestamp = timestamp
@@ -122,17 +147,9 @@ public struct Entity
             self.timestamp = 0
             self.touch()
             }
+
+        self.headers = headers
         }
-
-    /**
-      Returns the value of the HTTP header with the given key.
-
-      Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).
-
-      - Parameter key: The case-insensitive header name.
-    */
-    public func header(forKey key: String) -> String?
-        { return headers[key.lowercased()] }
 
     /// Updates `timestamp` to the current time.
     public mutating func touch()

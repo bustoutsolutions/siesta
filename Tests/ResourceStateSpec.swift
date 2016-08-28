@@ -151,9 +151,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Personal-Disposition", "Quirky")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.header(forKey: "Personal-Disposition")) == "Quirky"
-                expect(resource().latestData?.header(forKey: "pErsonal-dIsposition")) == "Quirky"
-                expect(resource().latestData?.header(forKey: "pErsonaldIsposition")).to(beNil())
+                expect(resource().latestData?.header(key: "Personal-Disposition")) == "Quirky"
+                expect(resource().latestData?.header(key: "pErsonal-dIsposition")) == "Quirky"
+                expect(resource().latestData?.header(key: "pErsonaldIsposition")).to(beNil())
                 }
 
             it("handles missing etag")
@@ -559,7 +559,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().overrideLocalContent(with: "farfalle")
                 expect(resource().text) == "farfalle"
                 expect(resource().latestData?.contentType) == "food/pasta"
-                expect(resource().latestData?.header(forKey: "Sauce-disposition")) == "garlic"
+                expect(resource().latestData?.header(key: "Sauce-disposition")) == "garlic"
                 }
 
             it("updates latestData’s timestamp")
