@@ -53,7 +53,10 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         dispatch_assert_main_queue()
 
         guard self.networking == nil else
-            { fatalError("NetworkRequest.start() called twice") }
+            {
+            debugLog(.NetworkDetails, [requestDescription, "already started"])
+            return
+            }
 
         guard !wasCancelled else
             {
@@ -99,9 +102,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     func repeated() -> Request
         {
-        let req = NetworkRequest(resource: resource, requestBuilder: requestBuilder)
-        req.start()
-        return req
+        return NetworkRequest(resource: resource, requestBuilder: requestBuilder)
         }
 
     // MARK: Callbacks
