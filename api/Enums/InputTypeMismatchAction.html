@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RemoteImageView Class Reference</title>
+    <title>InputTypeMismatchAction Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/RemoteImageView" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/InputTypeMismatchAction" class="dashAnchor"></a>
 
-    <a title="RemoteImageView Class Reference"></a>
+    <a title="InputTypeMismatchAction Enum Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -35,7 +35,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Siesta Reference</a>
       <img class="carat" src="../img/carat.png" />
-      RemoteImageView Class Reference
+      InputTypeMismatchAction Enum Reference
     </p>
 
     <div class="content-wrapper">
@@ -102,6 +102,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -126,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -141,20 +150,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -178,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -222,9 +220,6 @@
                 <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
               </li>
             </ul>
@@ -235,14 +230,26 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>RemoteImageView</h1>
+            <h1>InputTypeMismatchAction</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RemoteImageView</span><span class="p">:</span> <span class="kt">UIImageView</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">InputTypeMismatchAction</span></code></pre>
 
                 </div>
               </div>
-            <p>A <code>UIImageView</code> that asynchronously loads and displays remote images.</p>
+            <p>Action to take when actual input type at runtime does not match expected input type declared in code.</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Structs/ResponseContentTransformer.html#/s:FV6Siesta26ResponseContentTransformercFT19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__">ResponseContentTransformer.init(...)</a></code>
+
+</div>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__7atStageCS_16PipelineStageKey6actionOVS_13PipelineStage14MutationAction19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb11descriptionGSqSS_16contentTransformFzT7contentx6entityVS_6Entity_GSqq___T_">Service.configureTransformer(...)</a></code>
+
+</div>
 
           </div>
         </section>
@@ -254,9 +261,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta15RemoteImageView11loadingViewXwGSqCSo6UIView_"></a>
-                    <a name="//apple_ref/swift/Property/loadingView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView11loadingViewXwGSqCSo6UIView_">loadingView</a>
+                    <a name="/s:FO6Siesta23InputTypeMismatchAction5ErrorFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/Error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO6Siesta23InputTypeMismatchAction5ErrorFMS0_S0_">Error</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -264,29 +271,33 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Optional view to show while image is loading.</p>
+                        <p>Output <code>Error.Cause.WrongInputTypeInTranformerPipeline</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">loadingView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Error</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L18">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/ResponseTransformer.swift#L224">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta15RemoteImageView13alternateViewXwGSqCSo6UIView_"></a>
-                    <a name="//apple_ref/swift/Property/alternateView" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView13alternateViewXwGSqCSo6UIView_">alternateView</a>
+                    <a name="/s:FO6Siesta23InputTypeMismatchAction4SkipFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/Skip" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO6Siesta23InputTypeMismatchAction4SkipFMS0_S0_">Skip</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -294,29 +305,33 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Optional view to show if image is unavailable. Not shown while image is loading.</p>
+                        <p>Pass the input response through unmodified.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">alternateView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Skip</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L21">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/ResponseTransformer.swift#L227">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC6Siesta15RemoteImageView16placeholderImageGSqCSo7UIImage_"></a>
-                    <a name="//apple_ref/swift/Property/placeholderImage" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView16placeholderImageGSqCSo7UIImage_">placeholderImage</a>
+                    <a name="/s:FO6Siesta23InputTypeMismatchAction23SkipIfOutputTypeMatchesFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/SkipIfOutputTypeMatches" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO6Siesta23InputTypeMismatchAction23SkipIfOutputTypeMatchesFMS0_S0_">SkipIfOutputTypeMatches</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -324,142 +339,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.</p>
+                        <p>Pass the input response through unmodified if it matches the output type; otherwise output an error.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@IBOutlet</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">placeholderImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">SkipIfOutputTypeMatches</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L24">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:ZvC6Siesta15RemoteImageView19defaultImageServiceCS_7Service"></a>
-                    <a name="//apple_ref/swift/Variable/defaultImageService" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC6Siesta15RemoteImageView19defaultImageServiceCS_7Service">defaultImageService</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The default service to cache <code>RemoteImageView</code> images.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">defaultImageService</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span> <span class="o">=</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L27">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta15RemoteImageView12imageServiceCS_7Service"></a>
-                    <a name="//apple_ref/swift/Property/imageService" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView12imageServiceCS_7Service">imageService</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The service this view should use to request &amp; cache its images.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageService</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span> <span class="o">=</span> <span class="kt">RemoteImageView</span><span class="o">.</span><span class="n"><a href="../Classes/RemoteImageView.html#/s:ZvC6Siesta15RemoteImageView19defaultImageServiceCS_7Service">defaultImageService</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L30">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta15RemoteImageView8imageURLGSqSS_"></a>
-                    <a name="//apple_ref/swift/Property/imageURL" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView8imageURLGSqSS_">imageURL</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A URL whose content is the image to display in this view.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageURL</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L33-L37">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC6Siesta15RemoteImageView13imageResourceGSqCS_8Resource_"></a>
-                    <a name="//apple_ref/swift/Property/imageResource" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC6Siesta15RemoteImageView13imageResourceGSqCS_8Resource_">imageResource</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A remote resource whose content is the image to display in this view.</p>
-
-<p>If this image is already in memory, it is displayed synchronously (no flicker!). If the image is missing or
-potentially stale, setting this property triggers a load.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">imageResource</span><span class="p">:</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/UI/RemoteImageView.swift#L45-L62">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/ResponseTransformer.swift#L230">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -102,6 +102,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -126,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -141,20 +150,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -178,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -220,9 +218,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -307,7 +302,7 @@ saying, we’re cautiously optimistic that Swift 3 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L43">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -344,7 +339,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L55-L56">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L55-L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -374,7 +369,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L61">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -404,141 +399,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L66-L67">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vV6Siesta6Entity9timestampSd"></a>
-                    <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vV6Siesta6Entity9timestampSd">timestamp</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The time at which this data was last known to be valid.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L72">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(response:content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_">init(response:content:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Extracts data from a network response.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L77-L86">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(content:contentType:charset:headers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_">init(content:contentType:charset:headers:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>For creating ad hoc data locally.</p>
-
-<div class="aside aside-see-also">
-    <p class="aside-title">See also</p>
-    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFVS_6EntityT_">Resource.overrideLocalData(_:)</a></code>
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
-            <span class="nv">contentType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">charset</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:])</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L93-L103">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FV6Siesta6EntitycFT7contentP_7charsetGSqSS_7headersGVs10DictionarySSSS_9timestampGSqSd__S0_"></a>
-                    <a name="//apple_ref/swift/Method/init(content:charset:headers:timestamp:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta6EntitycFT7contentP_7charsetGSqSS_7headersGVs10DictionarySSSS_9timestampGSqSd__S0_">init(content:charset:headers:timestamp:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Full-width initializer, typically used only for reinflating cached data.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
-            <span class="nv">charset</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="n">headers</span> <span class="nv">rawHeaders</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">],</span>
-            <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L108-L125">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L66-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -556,7 +417,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns the value of the HTTP header with the given key.</p>
+                        <p>Returns the value of the HTTP header with the given key. The key is case insensitive.</p>
 
 <p>Entity does not support multi-valued headers (i.e. headers which occur more than once in the response).</p>
 
@@ -596,7 +457,178 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L135-L136">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L77-L78">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta6Entity7headersGVs10DictionarySSSS_"></a>
+                    <a name="//apple_ref/swift/Property/headers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta6Entity7headersGVs10DictionarySSSS_">headers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All HTTP headers sent with this entity. The keys are in lower case (and will be converted to lowercase if you
+mutate the dictionary).</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    See also: <code><a href="../Structs/Entity.html#/s:FV6Siesta6Entity6headerFSSGSqSS_">header(_:)</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L86-L93">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vV6Siesta6Entity9timestampSd"></a>
+                    <a name="//apple_ref/swift/Property/timestamp" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV6Siesta6Entity9timestampSd">timestamp</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The time at which this data was last known to be valid.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L98">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(response:content:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFT8responseGSqCSo17NSHTTPURLResponse_7contentP__S0_">init(response:content:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Extracts data from a network response.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">response</span><span class="p">:</span> <span class="kt">NSHTTPURLResponse</span><span class="p">?,</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L103-L112">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(content:contentType:charset:headers:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFT7contentP_11contentTypeSS7charsetGSqSS_7headersGVs10DictionarySSSS__S0_">init(content:contentType:charset:headers:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For creating ad hoc data locally.</p>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFVS_6EntityT_">Resource.overrideLocalData(_:)</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
+            <span class="nv">contentType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">charset</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L119-L129">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FV6Siesta6EntitycFT7contentP_7charsetGSqSS_7headersGVs10DictionarySSSS_9timestampGSqSd__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(content:charset:headers:timestamp:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta6EntitycFT7contentP_7charsetGSqSS_7headersGVs10DictionarySSSS_9timestampGSqSd__S0_">init(content:charset:headers:timestamp:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Full-width initializer, typically used only for reinflating cached data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+            <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span>
+            <span class="nv">charset</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">],</span>
+            <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L134-L152">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -626,7 +658,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L139-L140">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L155-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -660,7 +692,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L231">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L247">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -102,6 +102,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -126,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -141,20 +150,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -178,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -220,9 +218,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -284,7 +279,7 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L112">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/ResponseTransformer.swift#L112">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -292,9 +287,9 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta26ResponseContentTransformercFT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__"></a>
-                    <a name="//apple_ref/swift/Method/init(skipWhenEntityMatchesOutputType:transformErrors:processor:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta26ResponseContentTransformercFT31skipWhenEntityMatchesOutputTypeSb15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__">init(skipWhenEntityMatchesOutputType:transformErrors:processor:)</a>
+                    <a name="/s:FV6Siesta26ResponseContentTransformercFT19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__"></a>
+                    <a name="//apple_ref/swift/Method/init(onInputTypeMismatch:transformErrors:processor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta26ResponseContentTransformercFT19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb9processorFzT7contentx6entityVS_6Entity_GSqq___GS0_xq__">init(onInputTypeMismatch:transformErrors:processor:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -304,10 +299,9 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                       <div class="abstract">
                         <div class="aside aside-parameter">
     <p class="aside-title">Parameter</p>
-    Parameter skipWhenEntityMatchesOutputType:
-When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing.
-When false, the tranformer always attempts to parse its input.
-Default is false.
+    Parameter mismatchAction:
+Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>.
+See <code><a href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a></code> for options. The default is <code><a href="../Structs/Error.html">.Error</a></code>.
 
 </div>
 
@@ -333,7 +327,7 @@ The transformation logic.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
-            <span class="nv">skipWhenEntityMatchesOutputType</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="n">onInputTypeMismatch</span> <span class="nv">mismatchAction</span><span class="p">:</span> <span class="kt"><a href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a></span> <span class="o">=</span> <span class="o">.</span><span class="kt"><a href="../Structs/Error.html">Error</a></span><span class="p">,</span>
             <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
             <span class="nv">processor</span><span class="p">:</span> <span class="kt"><a href="../Structs/ResponseContentTransformer.html#/s:V6Siesta26ResponseContentTransformer9Processor">Processor</a></span><span class="p">)</span></code></pre>
 
@@ -346,12 +340,12 @@ The transformation logic.
                             <tr>
                               <td>
                                 <code>
-                                <em>skipWhenEntityMatchesOutputType</em>
+                                <em>mismatchAction</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>When true, if the input content already matches <code>OutputContentType</code>, the transformer does nothing. When false, the tranformer always attempts to parse its input. Default is false.</p>
+                                  <p>Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>. See <code>InputTypeMismatchAction</code> for options. The default is <code>.Error</code>.</p>
 
                                 </div>
                               </td>
@@ -386,7 +380,7 @@ The transformation logic.
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ResponseTransformer.swift#L130-L138">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/ResponseTransformer.swift#L129-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

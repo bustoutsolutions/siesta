@@ -38,7 +38,7 @@ In Swift, everything is namespaced to the framework (`Service` is shorthand for 
  * `BOSError`
  * `BOSResourceObserver`
 
-Siesta structs are exposed as Objective-C classes. This incurs a _very_ slight performance overhead, which will not be a problem 99.9% of the time — but if for some reason you need to iterate over a massive number of resources and examine their `latestData`, it _might_ be better to write that bit of code in Swift. Benchmark it and find out.
+Siesta structs are exposed as Objective-C classes, and some Swift classes get wrapped in Obj-C friendly compatibility objects. This may incur a slight performance overhead, which will not be a problem 99.9% of the time — but if for some reason you need to iterate over a massive number of resources and examine their `latestData`, it _might_ be better to write that bit of code in Swift. Benchmark it and find out.
 
 ## Setting Up Services
 
@@ -94,8 +94,8 @@ Most of the request callbacks translate naturally into Objective-C blocks, but t
 
 ```swift
 resource.request(.POST, json: ["color": "green"])
-  .onCompletion { response in
-    switch response {
+  .onCompletion { info in
+    switch info.response {
       case .Success(let data):
         …
       

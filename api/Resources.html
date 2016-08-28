@@ -101,6 +101,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -125,6 +131,9 @@
                 <a class="nav-group-task-link" href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -140,20 +149,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -177,6 +172,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -219,9 +217,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
@@ -282,7 +277,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Service.swift#L29-L426">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Service.swift#L29-L431">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -328,7 +323,7 @@ questions changes.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Resource.swift#L28-L676">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Resource/Resource.swift#L28-L596">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -366,7 +361,7 @@ the content’s type and freshness.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L17-L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L17-L157">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -422,7 +417,7 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Entity.swift#L169-L173">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Entity.swift#L185-L189">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -474,7 +469,7 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Error.swift#L29-L90">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Error.swift#L29-L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -515,7 +510,7 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L16-L93">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L16-L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -544,7 +539,7 @@ one specific resource).</p>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>Service.configure(_:description:configurer:)</code>
+    <code><a href="Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_">Service.configure(...)</a></code>
 
 </div>
 
@@ -571,7 +566,7 @@ one specific resource).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -102,6 +102,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -126,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -141,20 +150,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -178,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -220,9 +218,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -298,7 +293,7 @@ Siesta uses the value configured for GET; if you override this for other HTTP me
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L28">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -337,7 +332,7 @@ Siesta uses the value configured for GET; if you override this for other HTTP me
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -387,7 +382,7 @@ will depend on the <em>post-mutation</em> request method.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -395,9 +390,9 @@ will depend on the <em>post-mutation</em> request method.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FV6Siesta13Configuration21beforeStartingRequestFFTCS_8ResourcePS_7Request__T_T_"></a>
-                    <a name="//apple_ref/swift/Method/beforeStartingRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FV6Siesta13Configuration21beforeStartingRequestFFTCS_8ResourcePS_7Request__T_T_">beforeStartingRequest(_:)</a>
+                    <a name="/s:FV6Siesta13Configuration16decorateRequestsFFTCS_8ResourcePS_7Request__PS2__T_"></a>
+                    <a name="//apple_ref/swift/Method/decorateRequests(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FV6Siesta13Configuration16decorateRequestsFFTCS_8ResourcePS_7Request__PS2__T_">decorateRequests(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -405,20 +400,39 @@ will depend on the <em>post-mutation</em> request method.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a closure to be called after a <code><a href="../Protocols/Request.html">Request</a></code> is created, but before it is started. Use this to add response
-hooks or cancel the request before sending.</p>
+                        <p>Adds a closure to be called after a <code><a href="../Protocols/Request.html">Request</a></code> is created, but before it is started. Use this to globally observe
+requests, or wrap them in special behavior that is transparent to outside observers.</p>
+
+<p>You can add any number of decorators. Decorators are called in the order they were added, and each receives the
+request returned by the previous one.
+If the closure returns a different request than the one passed to it, then that request replaces the original one.
+In other words, a caller of <code>Service.request(...)</code> or <code>Service.load(...)</code> sees <em>only</em> the request returned by the
+last decorator, not the originally created one.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>If a decorator returns a different request, then the original request is not started. This means that a
+decorator may choose to defer requests, or prevent them from ever reaching the network at all.</p>
+
+</div>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Protocols/Request.html#/s:FE6SiestaPS_7Request7chainedFT13whenCompletedFVS_12ResponseInfoOS_18RequestChainAction_PS0__">Request.chained(...)</a></code></p>
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">beforeStartingRequest</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="p">(</span><span class="kt"><a href="../Classes/Resource.html">Resource</a></span><span class="p">,</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">decorateRequests</span><span class="p">(</span><span class="nv">decorator</span><span class="p">:</span> <span class="p">(</span><span class="kt"><a href="../Classes/Resource.html">Resource</a></span><span class="p">,</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L56-L57">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L67-L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -449,7 +463,7 @@ provide fast app startup &amp; offline access.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L65">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -481,7 +495,7 @@ provide fast app startup &amp; offline access.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L72">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -534,7 +548,7 @@ flavor of closure declaration that makes the API much harder to use:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/Configuration.swift#L88-L92">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Configuration.swift#L99-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

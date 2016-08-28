@@ -102,6 +102,12 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -126,6 +132,9 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:F6Siesta23JSONResponseTransformerFTSb_PS_19ResponseTransformer_">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
@@ -141,20 +150,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../UI Helpers.html">UI Helpers</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay.html">ResourceStatusOverlay</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/ResourceStatusOverlay/StateRule.html">– StateRule</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/RemoteImageView.html">RemoteImageView</a>
               </li>
             </ul>
           </li>
@@ -178,6 +173,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/NSURLSessionProvider.html">NSURLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
             </ul>
           </li>
@@ -220,9 +218,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -288,7 +283,7 @@ transform without disabling JSON parsing.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L140-L141">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L140-L141">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,7 +325,7 @@ the <code>contentTypes</code>. The content type matching applies regardles of wh
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L155-L161">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L155-L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -366,7 +361,7 @@ transformers for specific resources:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L171-L172">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L171-L172">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -409,7 +404,7 @@ the pipeline stages <em>after</em> the one that provided the cache hit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L195-L196">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L195-L196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -439,7 +434,7 @@ the pipeline stages <em>after</em> the one that provided the cache hit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L201-L202">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L201-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -461,7 +456,7 @@ the pipeline stages <em>after</em> the one that provided the cache hit.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Ways of modifying a stage’s transformers. Used by <code><a href="../Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_7atStageCS_16PipelineStageKey6actionOVS_13PipelineStage14MutationAction14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_16contentTransformFzT7contentx6entityVS_6Entity_GSqq___T_">Service.configureTransformer(...)</a></code>.</p>
+                        <p>Ways of modifying a stage’s transformers. Used by <code><a href="../Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__7atStageCS_16PipelineStageKey6actionOVS_13PipelineStage14MutationAction19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb11descriptionGSqSS_16contentTransformFzT7contentx6entityVS_6Entity_GSqq___T_">Service.configureTransformer(...)</a></code>.</p>
 
                         <a href="../Structs/PipelineStage/MutationAction.html" class="slightly-smaller">See more</a>
                       </div>
@@ -474,7 +469,7 @@ the pipeline stages <em>after</em> the one that provided the cache hit.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.9/Source/PipelineConfiguration.swift#L210-L217">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-beta.10/Source/Siesta/Pipeline/PipelineConfiguration.swift#L210-L217">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

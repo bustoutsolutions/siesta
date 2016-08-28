@@ -9,7 +9,7 @@ As part of its design goal of making the code that _initiates_ an API request kn
 
 What is an “app-appropriate type?” It might be raw bytes. It might be a general-purpose data structure (e.g. a dictionary or string). It might be your “Swift does JSON” library of choice. It might be an app-specific model. Most likely it’s all of the above in sequence. The only certain thing is that one size does not fit all!
 
-Siesta gives you control over response parsing with the [tranformer pipeline](http://bustoutsolutions.github.io/siesta/api/Structs/Pipeline.html), a lightly structured sequence of transformations which Siesta applies to network responses before passing them on to your app.
+Siesta gives you control over response parsing with the [transformer pipeline](http://bustoutsolutions.github.io/siesta/api/Structs/Pipeline.html), a lightly structured sequence of transformations which Siesta applies to network responses before passing them on to your app.
 
 Each step in the pipeline is a [`ResponseTransformer`](http://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html). Each transformer takes a [`Response`](http://bustoutsolutions.github.io/siesta/api/Enums/Response.html) and returns a `Response` (possibly identical, possibly altered). Note that a `Response` can be either a success or a failure, which means that transformers can create or alter errors.
 
