@@ -54,18 +54,15 @@ public struct Configuration
       requests, or wrap them in special behavior that is transparent to outside observers.
 
       You can add any number of decorators. Decorators are called in the order they were added, and each receives the
-      request returns by the previous one.
-
+      request returned by the previous one.
       If the closure returns a different request than the one passed to it, then that request replaces the original one.
       In other words, a caller of `Service.request(...)` or `Service.load(...)` sees _only_ the request returned by the
       last decorator, not the originally created one.
 
-      - Note: If a decorator returns a different request, but still retains the original one internally, then the
-          original request is still started. However, if a decorator not only replaces but _discards_ the input request,
-          then the upstream request is _never_ started. This means that a decorator may choose to prevent requests from
-          ever reaching the network.
+      - Note: If a decorator returns a different request, then the original request is not started. This means that a
+          decorator may choose to defer requests, or prevent them from ever reaching the network at all.
 
-     - SeeAlso: `Request.chained(...)`
+      - SeeAlso: `Request.chained(...)`
     */
     public mutating func decorateRequests(decorator: (Resource, Request) -> Request)
         { requestDecorators.append(decorator) }

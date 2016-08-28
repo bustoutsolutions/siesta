@@ -125,13 +125,15 @@ Configuration closures run:
 
 ## Decorating Requests via Configuration
 
-Siesta’s configuration mechanism is quite robust, particularly when combining [`Configuration.beforeStartingRequest(_:)`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:FV6Siesta13Configuration21beforeStartingRequestFRS0_FFTCS_8ResourcePS_7Request__T_T_) with request hooks. For example:
+Siesta’s configuration mechanism is quite robust, particularly when combining [`Configuration.decorateRequests(…)`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:FV6Siesta13Configuration16decorateRequestsFFTCS_8ResourcePS_7Request__PS2__T_) with request hooks and [`Request.chained(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html#/s:FE6SiestaPS_7Request7chainedFT13whenCompletedFVS_12ResponseInfoOS_18RequestChainAction_PS0__).
+
+For example, you could globally trigger a login prompt when you receive a response that indicates auth failure:
 
 ```swift
 let authURL = authenticationResource.url
 
 configure(
-    { url in url != authURL },                 // For all resources except auth:
+    whenURLMatches: { $0 != authURL },         // For all resources except auth:
     description: "catch auth failures") {
 
   $0.config.beforeStartingRequest { _, req in
@@ -144,3 +146,46 @@ configure(
 
 }
 ```
+
+Alternatively, suppose we persist the user’s password or other long-term auth, but the API uses auth tokens that expire periodically. The code below intercepts token expirations, automatically gets a fresh token, then repeats the newly authorized request — and makes that all appear to observers as if the initial request succeeded:
+
+```swift
+var authToken: String?
+
+service.configure("**", description: "auth token") {
+  $0.config.headers["X-Auth-Token"] = authToken      // Set the token header from a var that we can update
+  $0.config.decorateRequests {
+    refreshTokenOnAuthFailure($1)
+  }
+}
+
+// Refactor away this pyramid of doom however you see fit
+func refreshTokenOnAuthFailure(request: Request) -> Request {
+  request.chained {
+      guard case .Failure(let error) = $0.response   // Did request fail…
+        where error.httpStatusCode == 401 else {     // …because of expired token?
+          return .UseThisResponse                    // If not, use the response we got.
+      }
+
+      return .PassTo(createNewAuthToken().chained {  // If so, first request a new token, then:
+        if case .Failure = $0.response {             // If token request failed…
+          return .UseThisResponse                    // …report that error.
+        } else {
+          return .PassTo(request.repeated())         // We have a new token! Repeat the original request.
+        }
+      })
+    }
+  }
+}
+
+func createNewAuthToken() -> Request {
+  return tokenCreationResource.request(.POST, json: userAuthData())
+    .onSuccess {
+      authToken = $0.json["token"]                   // Store the new token, then…
+      service.invalidateConfiguration()              // …make future requests use it
+    }
+  }
+}
+```
+
+In these auth examples, note that the configuration uses `"**"`. This pattern only matches URLs under the `service.baseURL`, preventing auth tokens from accidentally being sent to other servers.

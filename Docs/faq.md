@@ -31,14 +31,14 @@ The tentative plan is this:
 
 After these releases, when we are confident that 1.0 functionality is set, we will cut final Swift 2 releases:
 
-- `1.0-swift.2.2`
-- `1.0-swift.2.3` (maaaaybe, if there’s demand for it)
+- `1.0.x-swift.2.2`
+- `1.0.x-swift.2.3` (maaaaybe, if there’s demand for it)
 
 These will be the last releases to support Swift 2, except for any critical bug fixes. If you aren’t ready to move to Swift 3, you can stick with these releases.
 
-The `master` branch will then move to Swift 3. The goal is to do this before Swift 3 goes GM. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only:
+The `master` branch will then move to Swift 3. The goal is to do this before Swift 3 goes GM. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only, and with luck will happen immediately on the heels of Swift 3’s official release:
 
-- `1.0-rc.*`, `1.0`: targeting Swift 3
+- `1.0.0-rc.*`, `1.0.0`: targeting Swift 3
 
 Post 1.0 development will only support Swift 3.
 
