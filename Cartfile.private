@@ -6,5 +6,5 @@ github "Alamofire/Alamofire" "swift3"
 # Testing
 
 github "pcantrell/Quick" "expose-current-spec-swift3"   # fork for Swift 3, use of XCTestExpectation
-github "norio-nomura/Nimble" "nn-swift-3-compatibility" # fork for Swift 3
-github "pcantrell/Nocilla" "null-annotations"           # fork adds delay() / go(), nullability annotations
+github "Quick/Nimble" "swift-3.0"
+github "pcantrell/Nocilla" "siesta"                     # fork adds delay() / go(), nullability annotations
