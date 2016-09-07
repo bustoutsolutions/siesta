@@ -75,7 +75,7 @@ extension String: ConfigurationPatternConvertible
                 .replacingString("\\*",       "[^/:?]*")
                 .replacingString("\\?",       "[^/:?]")
             + "($|\\?)")
-        debugLog(.Configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
+        debugLog(.configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
         return pattern.configurationPattern(for: service)
         }

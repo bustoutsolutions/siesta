@@ -140,7 +140,7 @@ open class Service: NSObject
 
         guard let url = urlConvertible?.url else
             {
-            debugLog(.Network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
+            debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
             return resource(absoluteURL: Service.invalidURL)
             }
 
@@ -237,7 +237,7 @@ open class Service: NSObject
             configurationPattern: configurationPattern,
             configurer: configurer)
         configurationEntries.append(entry)
-        debugLog(.Configuration, ["Added", entry])
+        debugLog(.configuration, ["Added", entry])
         }
 
     /**
@@ -344,7 +344,7 @@ open class Service: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         if anyConfigSinceLastInvalidation
-            { debugLog(.Configuration, ["Configurations need to be recomputed"]) }
+            { debugLog(.configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
 
         configVersion += 1
@@ -355,13 +355,13 @@ open class Service: NSObject
     internal func configuration(forResource resource: Resource, requestMethod: RequestMethod) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
-        debugLog(.Configuration, ["Computing configuration for", requestMethod, resource])
+        debugLog(.configuration, ["Computing configuration for", requestMethod, resource])
         let builder = Configuration.Builder()
         for entry in configurationEntries
             where entry.requestMethods.contains(requestMethod)
                && entry.configurationPattern(resource.url)
             {
-            debugLog(.Configuration, ["Applying", entry, "to", resource])
+            debugLog(.configuration, ["Applying", entry, "to", resource])
             entry.configurer(builder)
             }
         return builder.config

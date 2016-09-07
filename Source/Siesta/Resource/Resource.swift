@@ -210,7 +210,7 @@ public final class Resource: NSObject
 
             requestMutation(&underlyingRequest)
 
-            debugLog(.NetworkDetails, ["Request:", dumpHeaders(underlyingRequest.allHTTPHeaderFields ?? [:], indent: "    ")])
+            debugLog(.networkDetails, ["Request:", dumpHeaders(underlyingRequest.allHTTPHeaderFields ?? [:], indent: "    ")])
 
             return underlyingRequest
             }
@@ -275,7 +275,7 @@ public final class Resource: NSObject
                 : [name, "expired", deltaFormatted, "sec ago"]
             }
 
-        debugLog(.Staleness,
+        debugLog(.staleness,
             [self, (result ? "is" : "is not"), "up to date:"]
             + formatExpirationTime("error", latestError?.timestamp, configuration.retryTime)
             + ["|"]
@@ -298,7 +298,7 @@ public final class Resource: NSObject
 
         if let loadReq = loadRequests.first
             {
-            debugLog(.Staleness, [self, "loadIfNeeded(): load is already in progress: \(loadReq)"])
+            debugLog(.staleness, [self, "loadIfNeeded(): load is already in progress: \(loadReq)"])
             return loadReq
             }
 
@@ -379,11 +379,11 @@ public final class Resource: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         if beingObserved
-            { debugLog(.NetworkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
+            { debugLog(.networkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
         else
             {
             if !loadRequests.isEmpty
-                { debugLog(.Network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+                { debugLog(.network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
 
             for req in loadRequests
                 { req.cancel() }
@@ -424,7 +424,7 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        debugLog(.StateChanges, [self, "received new data from", source, ":", entity])
+        debugLog(.stateChanges, [self, "received new data from", source, ":", entity])
 
         latestError = nil
         latestData = entity
@@ -441,7 +441,7 @@ public final class Resource: NSObject
 
     private func receiveDataNotModified()
         {
-        debugLog(.StateChanges, [self, "existing data is still valid"])
+        debugLog(.stateChanges, [self, "existing data is still valid"])
 
         latestError = nil
         latestData?.touch()
@@ -459,7 +459,7 @@ public final class Resource: NSObject
             return
             }
 
-        debugLog(.StateChanges, [self, "received error:", error])
+        debugLog(.stateChanges, [self, "received error:", error])
 
         latestError = error
 
@@ -554,7 +554,7 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        debugLog(.StateChanges, [self, "wiped"])
+        debugLog(.stateChanges, [self, "wiped"])
 
         for request in allRequests + loadRequests  // need to do both because load(using:) can cross resource boundaries
             { request.cancel() }
@@ -576,7 +576,7 @@ public final class Resource: NSObject
             [weak self] entity in
             guard let resource = self , resource.latestData == nil else
                 {
-                debugLog(.Cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
+                debugLog(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
                 return
                 }
 

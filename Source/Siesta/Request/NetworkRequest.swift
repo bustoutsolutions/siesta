@@ -54,18 +54,18 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         guard self.networking == nil else
             {
-            debugLog(.NetworkDetails, [requestDescription, "already started"])
+            debugLog(.networkDetails, [requestDescription, "already started"])
             return
             }
 
         guard !wasCancelled else
             {
-            debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
+            debugLog(.network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
             return
             }
 
-        debugLog(.Network, [requestDescription])
+        debugLog(.network, [requestDescription])
 
         let networking = resource.service.networkingProvider.startRequest(underlyingRequest)
             {
@@ -86,11 +86,11 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         guard !isCompleted else
             {
-            debugLog(.Network, ["cancel() called but request already completed:", requestDescription])
+            debugLog(.network, ["cancel() called but request already completed:", requestDescription])
             return
             }
 
-        debugLog(.Network, ["Cancelled", requestDescription])
+        debugLog(.network, ["Cancelled", requestDescription])
 
         networking?.cancel()
 
@@ -128,9 +128,9 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         underlyingNetworkRequestCompleted = true
 
-        debugLog(.Network, [underlyingResponse?.statusCode ?? error, "←", requestDescription])
-        debugLog(.NetworkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
-        debugLog(.NetworkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
+        debugLog(.network, [underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        debugLog(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
+        debugLog(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
         let responseInfo = interpretResponse(underlyingResponse, body, error)
 
@@ -206,7 +206,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         if shouldIgnoreResponse(newInfo.response)
             { return }
 
-        debugLog(.NetworkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump()])
+        debugLog(.networkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump()])
 
         progressTracker.complete()
 
@@ -222,7 +222,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         if !existingResponse.isCancellation
             {
-            debugLog(.Network,
+            debugLog(.network,
                 [
                 "WARNING: Received response for request that was already completed:", requestDescription,
                 "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
@@ -236,7 +236,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
             // we were cancelled. If we received any other response after cancellation, log that we ignored it.
 
-            debugLog(.NetworkDetails,
+            debugLog(.networkDetails,
                 [
                 "Received response, but request was already cancelled:", requestDescription,
                 "\n    New response:", newResponse

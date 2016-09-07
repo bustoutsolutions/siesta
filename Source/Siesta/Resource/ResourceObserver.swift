@@ -218,10 +218,10 @@ public extension Resource
         {
         cleanDefunctObservers()
 
-        debugLog(.Observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
+        debugLog(.observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
             {
-            debugLog(.Observers, [self, "sending", event, "to", entry.observer])
+            debugLog(.observers, [self, "sending", event, "to", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
             }
         }
@@ -244,7 +244,7 @@ public extension Resource
 
         for entry in removed
             {
-            debugLog(.Observers, [self, "removing observer whose owners are all gone:", entry])
+            debugLog(.observers, [self, "removing observer whose owners are all gone:", entry])
             entry.observer?.stoppedObserving(resource: self)
             }
         }
