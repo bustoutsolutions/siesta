@@ -40,7 +40,7 @@ public struct AlamofireProvider: NetworkingProvider
 
     public func startRequest(
             _ request: URLRequest,
-            completion: RequestNetworkingCompletionCallback)
+            completion: @escaping RequestNetworkingCompletionCallback)
         -> RequestNetworking
         {
         return AlamofireRequestNetworking(

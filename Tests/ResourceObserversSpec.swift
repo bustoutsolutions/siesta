@@ -397,7 +397,7 @@ private class TestObserverWithExpectations: ResourceObserver
     deinit
         { checkForUnfulfilledExpectations() }
 
-    func expect(_ events: ResourceEvent..., callback: ((Void) -> Void) = {})
+    func expect(_ events: ResourceEvent..., callback: @escaping ((Void) -> Void) = {})
         {
         for event in events
             { expectedEvents.append(Expectation(event: event, callback: callback)) }

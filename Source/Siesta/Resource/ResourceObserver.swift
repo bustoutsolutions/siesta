@@ -188,7 +188,7 @@ public extension Resource
               detect duplicates. It is thus the caller’s responsibility to prevent redundant calls to this method.
     */
     @discardableResult
-    public func addObserver(owner: AnyObject, closure: ResourceObserverClosure) -> Self
+    public func addObserver(owner: AnyObject, closure: @escaping ResourceObserverClosure) -> Self
         {
         return addObserver(ClosureObserver(closure: closure), owner: owner)
         }

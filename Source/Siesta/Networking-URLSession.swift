@@ -25,7 +25,7 @@ public struct URLSessionProvider: NetworkingProvider
     /// :nodoc:
     public func startRequest(
             _ request: URLRequest,
-            completion: RequestNetworkingCompletionCallback)
+            completion: @escaping RequestNetworkingCompletionCallback)
         -> RequestNetworking
         {
         let task = self.session.dataTask(with: request)

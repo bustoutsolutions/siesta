@@ -274,7 +274,7 @@ open class Service: NSObject
             onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
             description: String? = nil,
-            contentTransform: ResponseContentTransformer<I,O>.Processor)
+            contentTransform: @escaping ResponseContentTransformer<I,O>.Processor)
         {
         func defaultDescription() -> String
             {

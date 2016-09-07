@@ -81,14 +81,14 @@ internal final class RequestChain: RequestWithDefaultCallbacks
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var isCancelled = false
 
-    init(wrapping request: Request, whenCompleted determineAction: ActionCallback)
+    init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
         self.wrappedRequest = request
         self.determineAction = determineAction
         request.onCompletion(self.processResponse)
         }
 
-    func addResponseCallback(_ callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
         {
         responseCallbacks.addCallback(callback)
         return self

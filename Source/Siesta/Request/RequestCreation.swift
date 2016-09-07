@@ -179,7 +179,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
     init(error: RequestError)
         { self.error = error }
 
-    func addResponseCallback(_ callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.

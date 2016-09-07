@@ -131,7 +131,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     public init(
             onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
-            processor: Processor)
+            processor: @escaping Processor)
         {
         self.mismatchAction = mismatchAction
         self.transformErrors = transformErrors

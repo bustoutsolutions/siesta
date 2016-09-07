@@ -8,11 +8,11 @@
 
 import Foundation
 
-internal typealias ResponseCallback = @escaping (ResponseInfo) -> Void
+internal typealias ResponseCallback = (ResponseInfo) -> Void
 
 internal protocol RequestWithDefaultCallbacks: Request
     {
-    func addResponseCallback(_ callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
     }
 
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
