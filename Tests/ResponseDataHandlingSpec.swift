@@ -340,7 +340,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can modify headers")
                     {
                     stubText("ahoy")
-                    expect(resource().latestData?.header(key: "x-cUSTOM-hEADER")) == "elztorpS"
+                    expect(resource().latestData?.header(forKey: "x-cUSTOM-hEADER")) == "elztorpS"
                     }
                 }
 
@@ -481,7 +481,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 @discardableResult
                 func stubTextRequest(_ string: String, method: RequestMethod) -> Entity
                     {
-                    _ = stubRequest(resource, method.rawValue).andReturn(200)
+                    _ = stubRequest(resource, method.rawValue.uppercased()).andReturn(200)
                         .withHeader("Content-Type", "text/plain")
                         .withBody(string as NSString)
 
@@ -495,13 +495,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("can be limited to specific HTTP request methods")
                     {
-                    service().configureTransformer("**", requestMethods: [.PUT, .POST])
+                    service().configureTransformer("**", requestMethods: [.put, .post])
                         { content, _ in TestModel(name: content) }
 
-                    let getResult: String? = stubTextRequest("got it", method: .GET).typedContent()
+                    let getResult: String? = stubTextRequest("got it", method: .get).typedContent()
                     expect(getResult) == "got it"
 
-                    let postResult: TestModel? = stubTextRequest("posted it", method: .POST).typedContent()
+                    let postResult: TestModel? = stubTextRequest("posted it", method: .post).typedContent()
                     expect(postResult?.name) == "posted it"
                     }
 

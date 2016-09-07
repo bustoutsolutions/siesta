@@ -30,7 +30,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not update the resource state")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(.get))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
                 }
@@ -48,7 +48,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                         .withHeader("Request-ident", ident)
                         .andReturn(200)
                         .delay()
-                    let req = resource().request(.GET)
+                    let req = resource().request(.get)
                         { $0.setValue(ident, forHTTPHeaderField: "Request-ident") }
                     return (reqStub, req)
                     }
@@ -151,9 +151,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                     .withHeader("Personal-Disposition", "Quirky")
                 awaitNewData(resource().load())
 
-                expect(resource().latestData?.header(key: "Personal-Disposition")) == "Quirky"
-                expect(resource().latestData?.header(key: "pErsonal-dIsposition")) == "Quirky"
-                expect(resource().latestData?.header(key: "pErsonaldIsposition")).to(beNil())
+                expect(resource().latestData?.header(forKey: "Personal-Disposition")) == "Quirky"
+                expect(resource().latestData?.header(forKey: "pErsonal-dIsposition")) == "Quirky"
+                expect(resource().latestData?.header(forKey: "pErsonaldIsposition")).to(beNil())
                 }
 
             it("handles missing etag")
@@ -334,7 +334,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 let postReqStub = stubRequest(resource, "POST").andReturn(200).delay(),
                     loadReqStub = stubRequest(resource, "GET").andReturn(200).delay()
-                let postReq = resource().request(.POST),
+                let postReq = resource().request(.post),
                     loadReq = resource().loadIfNeeded()
 
                 expect(loadReq).toNot(beNil())
@@ -404,9 +404,9 @@ class ResourceRequestsSpec: ResourceSpecBase
                 }
             }
 
-        describe("load(usingRequest:)")
+        describe("load(using:)")
             {
-            let request = specVar { resource().request(.POST) }
+            let request = specVar { resource().request(.post) }
 
             beforeEach
                 {
@@ -418,7 +418,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("updates resource state")
                 {
-                awaitNewData(resource().load(usingRequest: request()))
+                awaitNewData(resource().load(using: request()))
                 expect(resource().text) == "Posted!"
                 }
 
@@ -428,7 +428,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().addObserver(owner: request())
                     { _ in observerNotified = true }
 
-                resource().load(usingRequest: request())
+                resource().load(using: request())
 
                 awaitNewData(request())
                 expect(observerNotified) == true
@@ -559,7 +559,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().overrideLocalContent(with: "farfalle")
                 expect(resource().text) == "farfalle"
                 expect(resource().latestData?.contentType) == "food/pasta"
-                expect(resource().latestData?.header(key: "Sauce-disposition")) == "garlic"
+                expect(resource().latestData?.header(forKey: "Sauce-disposition")) == "garlic"
                 }
 
             it("updates latestData’s timestamp")
@@ -718,8 +718,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let reqs =
                     [
                     resource().load(),
-                    resource().request(.PUT),
-                    resource().request(.POST)
+                    resource().request(.put),
+                    resource().request(.post)
                     ]
 
                 expect(resource().isLoading) == true
@@ -736,12 +736,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestError).to(beNil())
                 }
 
-            it("cancels requests attached with load(usingRequest:) even if they came from another resource")
+            it("cancels requests attached with load(using:) even if they came from another resource")
                 {
                 let otherResource = resource().relative("/second_cousin_twice_removed")
                 let stub = stubRequest({ otherResource }, "PUT").andReturn(200).delay()
-                let otherResourceReq = otherResource.request(.PUT)
-                resource().load(usingRequest: otherResourceReq)
+                let otherResourceReq = otherResource.request(.put)
+                resource().load(using: otherResourceReq)
 
                 resource().wipe()
 

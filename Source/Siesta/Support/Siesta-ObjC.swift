@@ -323,7 +323,7 @@ public extension Resource
             closure: (RequestMethod) -> Request)
         -> _objc_Request
         {
-        guard let method = RequestMethod(rawValue: methodString) else
+        guard let method = RequestMethod(rawValue: methodString.lowercased()) else
             {
             return _objc_Request(
                 Resource.failedRequest(
@@ -462,9 +462,9 @@ public extension Resource
          }
 
     @objc(loadUsingRequest:)
-    public func _objc_load(usingRequest req: _objc_Request) -> _objc_Request
+    public func _objc_load(using req: _objc_Request) -> _objc_Request
         {
-        load(usingRequest: req.request)
+        load(using: req.request)
         return req
         }
     }

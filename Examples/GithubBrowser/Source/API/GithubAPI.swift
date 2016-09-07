@@ -147,7 +147,7 @@ class _GithubAPI {
     func setStarred(_ isStarred: Bool, repository repositoryModel: Repository) -> Request {
         let starredResource = currentUserStarred(repositoryModel)
         return starredResource
-            .request(isStarred ? .PUT : .DELETE)
+            .request(isStarred ? .put : .delete)
             .onSuccess { _ in
                 starredResource.overrideLocalContent(with: isStarred)
                 self.repository(repositoryModel).load()  // To update star count

@@ -27,7 +27,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on request error")
                 {
-                let req = resource().request(.POST, text: "𐀯𐀁𐀱𐀲", encoding: String.Encoding.ascii)
+                let req = resource().request(.post, text: "𐀯𐀁𐀱𐀲", encoding: String.Encoding.ascii)
                 awaitFailure(req, alreadyCompleted: true)
                 expect(req.progress) == 1.0
                 }

@@ -157,7 +157,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("does not receive notifications for request(), only load()")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(.get))
                 }
 
             it("can be a closure")

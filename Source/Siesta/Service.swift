@@ -382,7 +382,7 @@ open class Service: NSObject
 
       Applies to resources matching the predicate, or all resources by default.
     */
-    public final func wipeResources(_ predicate: (Resource) -> Bool =  { _ in true })
+    public final func wipeResources(matching predicate: (Resource) -> Bool =  { _ in true })
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -398,9 +398,9 @@ open class Service: NSObject
           service.wipeResources("/secure/​**")
           service.wipeResources(profileResource)
     */
-    public final func wipeResources(_ pattern: ConfigurationPatternConvertible)
+    public final func wipeResources(matching pattern: ConfigurationPatternConvertible)
         {
-        wipeResourcesMatchingURL(pattern.configurationPattern(for: self))
+        wipeResources(withURLsMatching: pattern.configurationPattern(for: self))
         }
 
     /**
@@ -408,7 +408,7 @@ open class Service: NSObject
 
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
     */
-    public final func wipeResourcesMatchingURL(_ predicate: (URL) -> Bool)
+    public final func wipeResources(withURLsMatching predicate: (URL) -> Bool)
         {
         wipeResources { predicate($0.url) }
         }

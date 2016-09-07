@@ -41,10 +41,10 @@ public final class Resource: NSObject
 
     /// Configuration when there is no request method.
     public var configuration: Configuration
-        { return configuration(forRequestMethod: .GET) }
+        { return configuration(for: .get) }
 
     /// Configuration for requests with the given request method.
-    public func configuration(forRequestMethod method: RequestMethod) -> Configuration
+    public func configuration(for method: RequestMethod) -> Configuration
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -58,11 +58,11 @@ public final class Resource: NSObject
             { service.configuration(forResource: self, requestMethod: method) }
         }
 
-    internal func configuration(forRequest request: URLRequest) -> Configuration
+    internal func configuration(for request: URLRequest) -> Configuration
         {
-        return configuration(forRequestMethod:
-            RequestMethod(rawValue: request.httpMethod?.uppercased() ?? "")
-                ?? .GET)  // All unrecognized methods default to .GET
+        return configuration(for:
+            RequestMethod(rawValue: request.httpMethod?.lowercased() ?? "")
+                ?? .get)  // All unrecognized methods default to .get
         }
 
     private var cachedConfig: [RequestMethod:Configuration] = [:]
@@ -159,7 +159,7 @@ public final class Resource: NSObject
 
       Handle the result of the request by attaching response handlers:
 
-          resource.request(.GET)
+          resource.request(.get)
               .success { ... }
               .failure { ... }
 
@@ -172,7 +172,7 @@ public final class Resource: NSObject
       - Parameter requestMutation:
           An optional callback to change details of the request before it is sent. For example:
 
-              request(.POST) { underlyingRequest in
+              request(.post) { underlyingRequest in
                 underlyingRequest.HTTPBody = imageData
                 underlyingRequest.addValue(
                   "image/png",
@@ -204,8 +204,8 @@ public final class Resource: NSObject
         let requestBuilder: (Void) -> URLRequest =
             {
             var underlyingRequest = URLRequest(url: self.url)
-            underlyingRequest.httpMethod = method.rawValue
-            for (header,value) in self.configuration(forRequestMethod: method).headers
+            underlyingRequest.httpMethod = method.rawValue.uppercased()
+            for (header,value) in self.configuration(for: method).headers
                 { underlyingRequest.setValue(value, forHTTPHeaderField: header) }
 
             requestMutation(&underlyingRequest)
@@ -327,14 +327,14 @@ public final class Resource: NSObject
     @discardableResult
     public func load() -> Request
         {
-        let req = request(.GET)
+        let req = request(.get)
             {
             underlyingRequest in
             if let etag = self.latestData?.etag
                 { underlyingRequest.setValue(etag, forHTTPHeaderField: "If-None-Match") }
             }
 
-        return load(usingRequest: req)
+        return load(using: req)
         }
 
     /**
@@ -349,12 +349,12 @@ public final class Resource: NSObject
       For example, an authentication resource might return its state only in response to a POST:
 
           let auth = MyAPI.authentication
-          auth.load(usingRequest:
+          auth.load(using:
             auth.request(
-                .POST, json: ["user": user, "password": pass]))
+                .post, json: ["user": user, "password": pass]))
     */
     @discardableResult
-    public func load(usingRequest req: Request) -> Request
+    public func load(using req: Request) -> Request
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -394,8 +394,10 @@ public final class Resource: NSObject
       Convenience to call `cancelLoadIfUnobserved()` after a delay. Useful for situations such as table view scrolling
       where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
       views a chance to express interest in it before canceling any requests.
+
+      The `callback` is called aftrer the given delay, regardless of whether the request was cancelled.
     */
-    public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, callback: @escaping (Void) -> Void = {})
+    public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping (Void) -> Void = {})
         {
         DispatchQueue.main.async(after: 0.05)
             {
@@ -476,13 +478,13 @@ public final class Resource: NSObject
       but which still changes the state of the resource. You could handle this by initiating a refresh immedately
       after success:
 
-          resource.request(method: .POST, json: ["name": "Fred"])
+          resource.request(method: .post, json: ["name": "Fred"])
             .success { _ in resource.load() }
 
       However, if you already _know_ the resulting state of the resource given a success response, you can avoid the
       second network call by updating the entity yourself:
 
-          resource.request(method: .POST, json: ["name": "Fred"])
+          resource.request(method: .post, json: ["name": "Fred"])
             .success { partialEntity in
 
                 // Make a mutable copy of the current content
@@ -554,7 +556,7 @@ public final class Resource: NSObject
 
         debugLog(.StateChanges, [self, "wiped"])
 
-        for request in allRequests + loadRequests  // need to do both because load(usingRequest:) can cross resource boundaries
+        for request in allRequests + loadRequests  // need to do both because load(using:) can cross resource boundaries
             { request.cancel() }
 
         latestError = nil
@@ -607,5 +609,5 @@ extension Resource: WeakCacheValue
 public protocol NSJSONConvertible { }
 extension NSDictionary: NSJSONConvertible { }
 extension NSArray:      NSJSONConvertible { }
-extension Dictionary: NSJSONConvertible { }
-extension Array:      NSJSONConvertible { }
+extension Dictionary:   NSJSONConvertible { }
+extension Array:        NSJSONConvertible { }

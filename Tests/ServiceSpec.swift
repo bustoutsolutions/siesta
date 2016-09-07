@@ -256,11 +256,11 @@ class ServiceSpec: SiestaSpec
 
             it("applies request config only to matching request methods")
                 {
-                service().configure(requestMethods: [.POST])
+                service().configure(requestMethods: [.post])
                     { $0.config.expirationTime = 19 }
                 expect(resource0().configuration.expirationTime) == 30
-                expect(resource0().configuration(forRequestMethod: .PUT).expirationTime) == 30
-                expect(resource0().configuration(forRequestMethod: .POST).expirationTime) == 19
+                expect(resource0().configuration(for: .put).expirationTime) == 30
+                expect(resource0().configuration(for: .post).expirationTime) == 19
                 }
 
             func checkPattern(
@@ -437,14 +437,14 @@ class ServiceSpec: SiestaSpec
 
             it("can wipe a specific resource")
                 {
-                service().wipeResources(resource0())
+                service().wipeResources(matching: resource0())
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }
 
             it("wipes only resources matching a pattern")
                 {
-                service().wipeResources("/*o*")
+                service().wipeResources(matching: "/*o*")
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }

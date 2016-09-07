@@ -20,13 +20,13 @@ class RequestSpec: ResourceSpecBase
             it("initates a network call")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(.get))
                 }
 
             it("handles various HTTP methods")
                 {
                 _ = stubRequest(resource, "PATCH").andReturn(200)
-                awaitNewData(resource().request(.PATCH))
+                awaitNewData(resource().request(.patch))
                 }
 
             it("sends headers from configuration")
@@ -35,7 +35,7 @@ class RequestSpec: ResourceSpecBase
                 _ = stubRequest(resource, "GET")
                     .withHeader("Zoogle", "frotz")
                     .andReturn(200)
-                awaitNewData(resource().request(.GET))
+                awaitNewData(resource().request(.get))
                 }
 
             describe("decorators")
@@ -57,7 +57,7 @@ class RequestSpec: ResourceSpecBase
                     _ = stubRequest(resource, "GET").andReturn(200)
                     _ = stubRequest(resource, "POST").andReturn(200)
                     awaitNewData(resource().load())
-                    awaitNewData(resource().request(.POST))
+                    awaitNewData(resource().request(.post))
 
                     expect(beforeHookCount) == 2
                     }
@@ -208,7 +208,7 @@ class RequestSpec: ResourceSpecBase
         it("can be cancelled")
             {
             let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
-            let req = resource().request(.GET)
+            let req = resource().request(.get)
             req.onFailure
                 { expect($0.cause is RequestError.Cause.RequestCancelled) == true }
             req.onCompletion
@@ -221,7 +221,7 @@ class RequestSpec: ResourceSpecBase
         it(".cancel() has no effect if it already succeeded")
             {
             _ = stubRequest(resource, "GET").andReturn(200)
-            let req = resource().request(.GET)
+            let req = resource().request(.get)
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
             awaitNewData(req)
@@ -231,7 +231,7 @@ class RequestSpec: ResourceSpecBase
 
         it(".cancel() has no effect if it never started")
             {
-            let req = resource().request(.POST, json: ["unencodable": Data()])
+            let req = resource().request(.post, json: ["unencodable": Data()])
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
             awaitFailure(req, alreadyCompleted: true)
@@ -267,7 +267,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 () -> Request in
                 stubRepeatedRequest()
-                let req = resource().request(.PATCH, text: "Is there an echo in here?")
+                let req = resource().request(.patch, text: "Is there an echo in here?")
                 awaitNewData(req)
                 return req
                 }
@@ -330,7 +330,7 @@ class RequestSpec: ResourceSpecBase
                 stubRepeatedRequest(flavorHeader: "mutant flavor 0")
 
                 var mutationCount = 0
-                let req = resource().request(.PATCH, text: "Is there an echo in here?")
+                let req = resource().request(.patch, text: "Is there an echo in here?")
                     {
                     let flavor = $0.value(forHTTPHeaderField: "X-Flavor")
                     expect(flavor).to(beNil())
@@ -378,7 +378,7 @@ class RequestSpec: ResourceSpecBase
                     .withBody(nsdata as NSData)
                     .andReturn(200)
 
-                awaitNewData(resource().request(.POST, data: nsdata, contentType: "application/monkey"))
+                awaitNewData(resource().request(.post, data: nsdata, contentType: "application/monkey"))
                 }
 
             it("handles string data")
@@ -388,12 +388,12 @@ class RequestSpec: ResourceSpecBase
                     .withBody("Très bien!" as NSString)
                     .andReturn(200)
 
-                awaitNewData(resource().request(.POST, text: "Très bien!"))
+                awaitNewData(resource().request(.post, text: "Très bien!"))
                 }
 
             it("handles string encoding errors")
                 {
-                let req = resource().request(.POST, text: "Hélas!", encoding: String.Encoding.ascii)
+                let req = resource().request(.post, text: "Hélas!", encoding: String.Encoding.ascii)
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
                     {
@@ -410,12 +410,12 @@ class RequestSpec: ResourceSpecBase
                     .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}" as NSString)
                     .andReturn(200)
 
-                awaitNewData(resource().request(.PUT, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
+                awaitNewData(resource().request(.put, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
                 }
 
             it("handles JSON encoding errors")
                 {
-                let req = resource().request(.POST, json: ["question": [2, Data()]])
+                let req = resource().request(.post, json: ["question": [2, Data()]])
                 awaitFailure(req, alreadyCompleted: true)
                 req.onFailure
                     { expect($0.cause is RequestError.Cause.InvalidJSONObject) == true }
@@ -430,7 +430,7 @@ class RequestSpec: ResourceSpecBase
                         .withBody("brown=cow&foo=bar&how=now" as NSString)
                         .andReturn(200)
 
-                    awaitNewData(resource().request(.PATCH, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
+                    awaitNewData(resource().request(.patch, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
                     }
 
                 it("escapes unsafe characters")
@@ -440,7 +440,7 @@ class RequestSpec: ResourceSpecBase
                         .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r" as NSString)
                         .andReturn(200)
 
-                    awaitNewData(resource().request(.PATCH, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
+                    awaitNewData(resource().request(.patch, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
 
                 it("gives request failure for unencodable strings")
@@ -451,7 +451,7 @@ class RequestSpec: ResourceSpecBase
 
                     for badParams in [[bogus: "foo"], ["foo": bogus]]
                         {
-                        let req = resource().request(.PATCH, urlEncoded: badParams)
+                        let req = resource().request(.patch, urlEncoded: badParams)
                         awaitFailure(req, alreadyCompleted: true)
                         req.onFailure
                             {
@@ -491,7 +491,7 @@ class RequestSpec: ResourceSpecBase
             it("it can use the wrapped request’s response")
                 {
                 stubText("yo")
-                let req = resource().request(.GET)
+                let req = resource().request(.get)
                     .chained { _ in .useThisResponse }
                 expectResult("yo", for: req)
                 }
@@ -499,7 +499,7 @@ class RequestSpec: ResourceSpecBase
             it("it can use a custom response")
                 {
                 stubText("yo")
-                let req = resource().request(.GET)
+                let req = resource().request(.get)
                     .chained { _ in .useResponse(customResponse) }
                 expectResult("custom", for: req)
                 }
@@ -508,15 +508,15 @@ class RequestSpec: ResourceSpecBase
                 {
                 stubText("yo")
                 stubText("oy", method: "POST")
-                let req = resource().request(.GET)
-                    .chained { _ in .passTo(resource().request(.POST)) }
+                let req = resource().request(.get)
+                    .chained { _ in .passTo(resource().request(.post)) }
                 expectResult("oy", for: req)
                 }
 
             it("it can repeat the request")
                 {
                 stubText("yo")
-                let originalReq = resource().request(.GET)
+                let originalReq = resource().request(.get)
                 let chainedReq = originalReq.chained
                     {
                     _ in
@@ -530,7 +530,7 @@ class RequestSpec: ResourceSpecBase
             it("isCompleted is false until a “use” action")
                 {
                 let reqStub = stubText("yo").delay()
-                let req = resource().request(.GET).chained
+                let req = resource().request(.get).chained
                     { _ in .useThisResponse }
                 expect(req.isCompleted).to(beFalse())
                 _ = reqStub.go()
@@ -543,7 +543,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     let reqStub = stubText("yo").delay()
 
-                    let originalReq = resource().request(.GET)
+                    let originalReq = resource().request(.get)
                     let chainedReq = originalReq.chained
                         { _ in .useThisResponse }
                     for req in [originalReq, chainedReq]
@@ -561,7 +561,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     let reqStub = stubText("yo").delay()
 
-                    let req = resource().request(.GET).chained
+                    let req = resource().request(.get).chained
                         {
                         _ in
                         fail("should not be called")
@@ -577,7 +577,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     let reqStub = stubText("yo").delay()
 
-                    let originalReq = resource().request(.GET)
+                    let originalReq = resource().request(.get)
                     let chainedReq = originalReq.chained
                         {
                         expect($0.response.isCancellation) == true
@@ -599,12 +599,12 @@ class RequestSpec: ResourceSpecBase
                     stubText("oy", method: "PATCH")
 
                     var responseCount = 0
-                    let req = resource().request(.GET).chained
+                    let req = resource().request(.get).chained
                         {
                         _ in
                         responseCount += 1
                         if responseCount == 1
-                            { return .passTo(resource().request(.PATCH)) }
+                            { return .passTo(resource().request(.patch)) }
                         else
                             { return .useThisResponse }
                         }
@@ -620,7 +620,7 @@ class RequestSpec: ResourceSpecBase
                     stubText("oy", method: "PATCH")
 
                     var req0Count = 0, req1Count = 0
-                    let req0 = resource().request(.GET).chained
+                    let req0 = resource().request(.get).chained
                         {
                         _ in
                         req0Count += 1

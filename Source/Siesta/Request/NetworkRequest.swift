@@ -35,7 +35,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     private let resource: Resource
     private let requestDescription: String
     internal var config: Configuration
-        { return resource.configuration(forRequest: underlyingRequest) }
+        { return resource.configuration(for: underlyingRequest) }
 
     // Networking
     private let requestBuilder: (Void) -> URLRequest

@@ -16,25 +16,25 @@ import Foundation
 public enum RequestMethod: String
     {
     /// GET
-    case GET
+    case get
 
     /// POST. Just POST. Doc comment is the same as the enum.
-    case POST
+    case post
 
     /// So you’re really reading the docs for all these, huh?
-    case PUT
+    case put
 
     /// OK then, I’ll reward your diligence. Or punish it, depending on your level of refinement.
     ///
     /// What’s the difference between a poorly maintained Greyhound terminal and a lobster with breast implants?
-    case PATCH
+    case patch
 
     /// One’s a crusty bus station, and the other’s a busty crustacean.
     ///
     /// I’m here all week! Thank you for reading the documentation!
-    case DELETE
+    case delete
 
-    internal static let all: [RequestMethod] = [.GET, .POST, .PUT, .PATCH, .DELETE]
+    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete]
     }
 
 /**

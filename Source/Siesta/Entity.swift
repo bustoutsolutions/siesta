@@ -64,7 +64,7 @@ public struct Entity
       The etag of this data. If non-nil, Siesta will send an `If-None-Match` header with subsequent loads.
     */
     public var etag: String?
-        { return header(key: "etag") }
+        { return header(forKey: "etag") }
 
     /**
       Returns the value of the HTTP header with the given key. The key is case insensitive.
@@ -74,7 +74,7 @@ public struct Entity
       - Parameter key: The case-insensitive header name.
     */
     @discardableResult
-    public func header(key: String) -> String?
+    public func header(forKey key: String) -> String?
         { return headers[key.lowercased()] }
 
     /**

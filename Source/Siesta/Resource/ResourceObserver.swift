@@ -63,7 +63,7 @@ public extension ResourceObserver
 
   See `Resource.addObserver(owner:closure:)`.
 */
-public typealias ResourceObserverClosure = (_ resource: Resource, _ event: ResourceEvent) -> ()
+public typealias ResourceObserverClosure = (Resource, ResourceEvent) -> ()
 
 /**
   The possible causes of a call to `ResourceObserver.resourceChanged(_:event:)`.
