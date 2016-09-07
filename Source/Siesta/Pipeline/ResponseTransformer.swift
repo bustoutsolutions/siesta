@@ -105,10 +105,13 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     /**
       A closure that both processes the content and describes the required input and output types.
 
+      The first argument will be the `Entity.content` property of the second argument, safely cast
+      to the type expected by the closure.
+
       The closure can throw an error to indicate that parsing failed. If it throws a `RequestError`, that
       error is passed on to the resource as is. Other failures are wrapped in a `RequestError`.
     */
-    public typealias Processor = (_ content: InputContentType, _ entity: Entity) throws -> OutputContentType?
+    public typealias Processor = (InputContentType, Entity) throws -> OutputContentType?
 
     private let processor: Processor
     private let mismatchAction: InputTypeMismatchAction
