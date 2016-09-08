@@ -31,7 +31,7 @@ class RequestSpec: ResourceSpecBase
 
             it("sends headers from configuration")
                 {
-                service().configure { $0.config.headers["Zoogle"] = "frotz" }
+                service().configure { $0.headers["Zoogle"] = "frotz" }
                 _ = stubRequest(resource, "GET")
                     .withHeader("Zoogle", "frotz")
                     .andReturn(200)
@@ -45,7 +45,7 @@ class RequestSpec: ResourceSpecBase
                     var beforeHookCount = 0
                     service().configure
                         {
-                        $0.config.decorateRequests
+                        $0.decorateRequests
                             {
                             res, req in
                             expect(res) === resource()
@@ -67,7 +67,7 @@ class RequestSpec: ResourceSpecBase
                     var successHookCalled = false
                     service().configure
                         {
-                        $0.config.decorateRequests
+                        $0.decorateRequests
                             { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
@@ -81,7 +81,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     service().configure
                         {
-                        $0.config.decorateRequests
+                        $0.decorateRequests
                             {
                             $1.cancel()
                             return $1
@@ -101,7 +101,7 @@ class RequestSpec: ResourceSpecBase
                         {
                         service().configure
                             {
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 {
                                 $1.cancel()
                                 return dummyReq0()
@@ -117,13 +117,13 @@ class RequestSpec: ResourceSpecBase
                         {
                         service().configure
                             {
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 {
                                 expect($0) == resource()
                                 $1.cancel()
                                 return dummyReq0()  // passed here
                                 }
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 {
                                 expect($1) === dummyReq0()  // seen here
                                 return dummyReq1()
@@ -139,7 +139,7 @@ class RequestSpec: ResourceSpecBase
                         {
                         service().configure
                             {
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 { _ in dummyReq0() }
                             }
                         awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
@@ -149,7 +149,7 @@ class RequestSpec: ResourceSpecBase
                         {
                         service().configure
                             {
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 {
                                 _, req in req.chained
                                     {
@@ -174,7 +174,7 @@ class RequestSpec: ResourceSpecBase
                         {
                         service().configure
                             {
-                            $0.config.decorateRequests
+                            $0.decorateRequests
                                 {
                                 _, req in
                                 Resource.failedRequest(RequestError(userMessage: "dummy", cause: DummyError()))
@@ -313,7 +313,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 var flavor: String? = nil
                 service().configure
-                    { $0.config.headers["X-Flavor"] = flavor }
+                    { $0.headers["X-Flavor"] = flavor }
 
                 _ = oldRequest()
 
@@ -351,7 +351,7 @@ class RequestSpec: ResourceSpecBase
                 var decorations = 0
                 service().configure
                     {
-                    $0.config.decorateRequests
+                    $0.decorateRequests
                         {
                         decorations += 1
                         return $1

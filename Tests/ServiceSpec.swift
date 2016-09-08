@@ -220,7 +220,7 @@ class ServiceSpec: SiestaSpec
             {
             it("applies global config to all resources")
                 {
-                service().configure { $0.config.expirationTime = 17 }
+                service().configure { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 17
                 }
@@ -228,20 +228,20 @@ class ServiceSpec: SiestaSpec
             it("allows config blocks to be named for logging purposes")
                 {
                 service().configure(description: "global config")
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 }
 
             it("passes default configuration through if not overridden")
                 {
-                service().configure { $0.config.retryTime = 17 }
+                service().configure { $0.retryTime = 17 }
                 expect(resource0().configuration.expirationTime) == 30
                 }
 
             it("applies resource-specific config only to that resource")
                 {
                 service().configure(resource0())
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 30
                 }
@@ -249,7 +249,7 @@ class ServiceSpec: SiestaSpec
             it("applies predicate config only to matching resources")
                 {
                 service().configure(whenURLMatches: { $0.absoluteString.hasSuffix("foo") })
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 30
                 }
@@ -257,7 +257,7 @@ class ServiceSpec: SiestaSpec
             it("applies request config only to matching request methods")
                 {
                 service().configure(requestMethods: [.post])
-                    { $0.config.expirationTime = 19 }
+                    { $0.expirationTime = 19 }
                 expect(resource0().configuration.expirationTime) == 30
                 expect(resource0().configuration(for: .put).expirationTime) == 30
                 expect(resource0().configuration(for: .post).expirationTime) == 19
@@ -271,7 +271,7 @@ class ServiceSpec: SiestaSpec
                     params: [String:String] = [:],
                     service: Service  = Service(baseURL: "https://foo.bar/v1"))
                 {
-                service.configure(pattern) { $0.config.expirationTime = 6 }
+                service.configure(pattern) { $0.expirationTime = 6 }
 
                 var resource = absolute
                     ? service.resource(absoluteURL: pathOrURL)
@@ -402,16 +402,16 @@ class ServiceSpec: SiestaSpec
             it("changes when service config added")
                 {
                 expect(resource0().configuration.expirationTime) == 30
-                service().configure { $0.config.expirationTime = 17 }
+                service().configure { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
-                service().configure("*oo") { $0.config.expirationTime = 16 }
+                service().configure("*oo") { $0.expirationTime = 16 }
                 expect(resource0().configuration.expirationTime) == 16
                 }
 
             it("changes when invalidateConfiguration() called")
                 {
                 var x: TimeInterval = 3
-                service().configure { $0.config.expirationTime = x }
+                service().configure { $0.expirationTime = x }
                 expect(resource0().configuration.expirationTime) == 3
                 x = 4
                 expect(resource0().configuration.expirationTime) == 3

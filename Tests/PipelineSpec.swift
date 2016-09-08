@@ -41,10 +41,10 @@ class PipelineSpec: ResourceSpecBase
             {
             service().configure
                 {
-                $0.config.pipeline.clear()
+                $0.pipeline.clear()
                 for stage in [.decoding, .parsing, .model, .cleanup] as [PipelineStageKey]
                     {
-                    $0.config.pipeline[stage].add(
+                    $0.pipeline[stage].add(
                         appender(stage.description.prefix(3)))
                     }
                 }
@@ -61,7 +61,7 @@ class PipelineSpec: ResourceSpecBase
             it("can reorder transformers already added")
                 {
                 service().configure
-                    { $0.config.pipeline.order = [.rawData, .parsing, .cleanup, .model, .decoding] }
+                    { $0.pipeline.order = [.rawData, .parsing, .cleanup, .model, .decoding] }
                 makeRequest()
                 expect(resource().text) == "parclemoddec"
                 }
@@ -69,7 +69,7 @@ class PipelineSpec: ResourceSpecBase
             it("will skip unlisted stages")
                 {
                 service().configure
-                    { $0.config.pipeline.order = [.parsing, .decoding] }
+                    { $0.pipeline.order = [.parsing, .decoding] }
                 makeRequest()
                 expect(resource().text) == "pardec"
                 }
@@ -78,9 +78,9 @@ class PipelineSpec: ResourceSpecBase
                 {
                 service().configure
                     {
-                    $0.config.pipeline.order.insert(.funk, at: 3)
-                    $0.config.pipeline.order.insert(.silence, at: 1)
-                    $0.config.pipeline[.funk].add(appender("♫"))
+                    $0.pipeline.order.insert(.funk, at: 3)
+                    $0.pipeline.order.insert(.silence, at: 1)
+                    $0.pipeline[.funk].add(appender("♫"))
                     }
                 makeRequest()
                 expect(resource().text) == "decpar♫modcle"
@@ -94,7 +94,7 @@ class PipelineSpec: ResourceSpecBase
                 service().configure
                     {
                     for solfegg in ["do", "re", "mi"]
-                        { $0.config.pipeline[.decoding].add(appender(solfegg)) }
+                        { $0.pipeline[.decoding].add(appender(solfegg)) }
                     }
                 makeRequest()
                 expect(resource().text) == "decdoremiparmodcle"
@@ -104,8 +104,8 @@ class PipelineSpec: ResourceSpecBase
                 {
                 service().configure
                     {
-                    $0.config.pipeline[.model].removeTransformers()
-                    $0.config.pipeline[.model].add(appender("ti"))
+                    $0.pipeline[.model].removeTransformers()
+                    $0.pipeline[.model].add(appender("ti"))
                     }
                 makeRequest()
                 expect(resource().text) == "decparticle"
@@ -117,7 +117,7 @@ class PipelineSpec: ResourceSpecBase
             func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
                 {
                 service().configure
-                    { $0.config.pipeline[stageKey].cacheUsing(cache) }
+                    { $0.pipeline[stageKey].cacheUsing(cache) }
                 }
 
             func waitForCacheRead(_ cache: TestCache)
@@ -294,7 +294,7 @@ class PipelineSpec: ResourceSpecBase
         it("can clear previously configured transformers")
             {
             service().configure
-                { $0.config.pipeline.clear() }
+                { $0.pipeline.clear() }
             makeRequest()
             expect(resource().latestData?.content is NSData) == true
             }

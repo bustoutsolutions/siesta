@@ -85,7 +85,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("reports an error if another transformer already made it a string")
                 {
                 service().configure
-                    { $0.config.pipeline[.decoding].add(TestTransformer()) }
+                    { $0.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
                 expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                 }
@@ -281,7 +281,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             beforeEach
                 {
-                service().configure { $0.config.pipeline.clear() }
+                service().configure { $0.pipeline.clear() }
                 }
 
             for contentType in ["text/plain", "application/json"]
@@ -307,7 +307,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 beforeEach
                     {
                     service().configure
-                        { $0.config.pipeline[.parsing].add(transformer()) }
+                        { $0.pipeline[.parsing].add(transformer()) }
                     }
 
                 it("can transform data")

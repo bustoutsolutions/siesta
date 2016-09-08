@@ -75,9 +75,9 @@ open class Service: NSObject
             {
             configure(description: "Siesta default response parsers")
                 {
-                $0.config.pipeline[.parsing].add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
-                $0.config.pipeline[.parsing].add(TextResponseTransformer(),  contentTypes: ["text/*"])
-                $0.config.pipeline[.parsing].add(ImageResponseTransformer(), contentTypes: ["image/*"])
+                $0.pipeline[.parsing].add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
+                $0.pipeline[.parsing].add(TextResponseTransformer(),  contentTypes: ["text/*"])
+                $0.pipeline[.parsing].add(ImageResponseTransformer(), contentTypes: ["image/*"])
                 }
             }
         }
@@ -163,14 +163,14 @@ open class Service: NSObject
 
       Examples:
 
-          configure { $0.config.expirationTime = 10 }  // global default
+          configure { $0.expirationTime = 10 }  // global default
 
-          configure("/items")    { $0.config.expirationTime = 5 }
-          configure("/items/​*")  { $0.config.headers["Funkiness"] = "Very" }
-          configure("/admin/​**") { $0.config.headers["Auth-token"] = token }
+          configure("/items")    { $0.expirationTime = 5 }
+          configure("/items/​*")  { $0.headers["Funkiness"] = "Very" }
+          configure("/admin/​**") { $0.headers["Auth-token"] = token }
 
           let user = resource("/user/current")
-          configure(user) { $0.config.persistentCache = userProfileCache }
+          configure(user) { $0.persistentCache = userProfileCache }
 
       Configuration closures apply to any resource they match, in the order they were added, whether global or not. That
       means that you will usually want to add your global configuration first, then resource-specific configuration.
@@ -185,7 +185,7 @@ open class Service: NSObject
       - Parameter description:
           An optional description of this piece of configuration, for logging and debugging purposes.
       - Parameter configurer:
-          A closure that receives a mutable `Configuration`, referenced as `$0.config`, which it may modify as it
+          A closure that receives a mutable `Configuration`, referenced as `$0`, which it may modify as it
           sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should
           not rely on it being called at any particular time, and should avoid making it cause side effects.
 
@@ -201,7 +201,7 @@ open class Service: NSObject
             _ pattern: ConfigurationPatternConvertible,
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
-            configurer: @escaping (Configuration.Builder) -> Void)
+            configurer: @escaping (inout Configuration) -> Void)
         {
         configure(
             whenURLMatches: pattern.configurationPattern(for: self),
@@ -227,7 +227,7 @@ open class Service: NSObject
             whenURLMatches configurationPattern: @escaping (URL) -> Bool = { _ in true },
             requestMethods: [RequestMethod]? = nil,
             description: String? = nil,
-            configurer: @escaping (Configuration.Builder) -> Void)
+            configurer: @escaping (inout Configuration) -> Void)
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -292,9 +292,9 @@ open class Service: NSObject
         configure(pattern, requestMethods: requestMethods, description: description ?? defaultDescription())
             {
             if action == .replaceExisting
-                { $0.config.pipeline[stage].removeTransformers() }
+                { $0.pipeline[stage].removeTransformers() }
 
-            $0.config.pipeline[stage].add(
+            $0.pipeline[stage].add(
                 ResponseContentTransformer(
                     onInputTypeMismatch: mismatchAction,
                     transformErrors: transformErrors,
@@ -331,7 +331,7 @@ open class Service: NSObject
           init() {
             super.init(baseURL: "https://api.github.com")
             configure​ {
-              $0.config.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
+              $0.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
           }
 
@@ -356,15 +356,15 @@ open class Service: NSObject
         {
         anyConfigSinceLastInvalidation = true
         debugLog(.configuration, ["Computing configuration for", requestMethod, resource])
-        let builder = Configuration.Builder()
+        var config = Configuration()
         for entry in configurationEntries
             where entry.requestMethods.contains(requestMethod)
                && entry.configurationPattern(resource.url)
             {
             debugLog(.configuration, ["Applying", entry, "to", resource])
-            entry.configurer(builder)
+            entry.configurer(&config)
             }
-        return builder.config
+        return config
         }
 
     private struct ConfigurationEntry: CustomStringConvertible
@@ -372,7 +372,7 @@ open class Service: NSObject
         let description: String
         let requestMethods: Set<RequestMethod>
         let configurationPattern: (URL) -> Bool
-        let configurer: (Configuration.Builder) -> Void
+        let configurer: (inout Configuration) -> Void
         }
 
     // MARK: Wiping state

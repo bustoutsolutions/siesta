@@ -11,7 +11,7 @@ class MyApi: Service {
     init() {
         ...
 
-        configure { $0.config.headers["Authorization"] = authHeader }
+        configure { $0.headers["Authorization"] = authHeader }
     }
 
     var authHeader: String? {
@@ -63,7 +63,7 @@ The simplest such check is to use the configuration pattern `"**"`, which matche
 
 ```swift
 service.configure("**", description: "auth token") {
-  $0.config.headers["X-Auth-Token"] = authToken
+  $0.headers["X-Auth-Token"] = authToken
 }
 ```
 
@@ -71,7 +71,7 @@ A more drastic measure is to forcibly cut off all requests that attempt to reach
 
 ```swift
 service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
-  $0.config.decorateRequests {
+  $0.decorateRequests {
     _ in Resource.failedRequest(
       Error(
         userMessage: "Attempted to connect to unauthorized server",

@@ -8,3 +8,15 @@
 
 
 import Foundation
+
+// MARK: Swift 3 deprecations
+
+extension Configuration
+    {
+    @available(*, unavailable, message: "Globally replace `$0.config` with `$0`")
+    public var config: Configuration
+        {
+        get { fatalError("no longer available") }
+        set { fatalError("no longer available") }
+        }
+    }

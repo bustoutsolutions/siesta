@@ -81,24 +81,4 @@ public struct Configuration
       `Request.progress` property (which is partially time-based) is updated.
     */
     public var progressReportingInterval: TimeInterval = 0.05
-
-    // MARK: Creating Configurations
-
-    /**
-      Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.
-
-      The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
-      flavor of closure declaration that makes the API much harder to use:
-
-          configure("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
-
-      This wrapper class allows usage to instead look like:
-
-          configure("/things/​*") { $0.config.retryTime = 1 }
-    */
-    public final class Builder
-        {
-        /// Mutable for modification while building a resource’s config.
-        public var config: Configuration = Configuration()
-        }
     }

@@ -21,9 +21,9 @@ import Foundation
   The pipeline is a part of a `Configuration`, so you can thus customize the pipeline per API or per resource.
 
       service.configure {
-        $0.config.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
-        $0.config.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-        $0.config.pipeline[.model].cache = myRealmCache
+        $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
+        $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
+        $0.pipeline[.model].cache = myRealmCache
       }
 
       service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -99,7 +99,7 @@ public struct Pipeline
 
       You can use this to prevent sensitive resources from being cached:
 
-          configure("/secret") { $0.config.pipeline.removeAllCaches() }
+          configure("/secret") { $0.pipeline.removeAllCaches() }
     */
     public mutating func removeAllCaches()
         {
@@ -165,7 +165,7 @@ public struct PipelineStage
       transformers for specific resources:
 
           configure("/thinger/​*.raw") {
-            $0.config.pipeline[.parsing].removeTransformers()
+            $0.pipeline[.parsing].removeTransformers()
           }
     */
     public mutating func removeTransformers()
@@ -236,7 +236,7 @@ extension PipelineStage
       ...
 
       service.configure {
-          $0.config.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
+          $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
       }
 */
 public final class PipelineStageKey: _OpenEnum, CustomStringConvertible

@@ -24,8 +24,8 @@ class MyAPI: Service {
 
     // Global default headers
     configure {
-      $0.config.headers["X-App-Secret"] = "2g3h4bkv234"
-      $0.config.headers["User-Agent"] = "MyAwesomeApp 1.0"
+      $0.headers["X-App-Secret"] = "2g3h4bkv234"
+      $0.headers["User-Agent"] = "MyAwesomeApp 1.0"
     }
   }
 }
@@ -35,7 +35,7 @@ To apply configuration to only a subset of resources, you can pass a pattern:
 
 ```swift
 configure("/volcanos/*/status") {
-  $0.config.expirationTime = 0.5  // default is 30 seconds
+  $0.expirationTime = 0.5  // default is 30 seconds
 }
 ```
 
@@ -43,7 +43,7 @@ configure("/volcanos/*/status") {
 
 ```swift
 configure(whenURLMatches: { $0.scheme == "https" }) {
-  $0.config.headers["X-App-Secret"] = "2g3h4bkv234"
+  $0.headers["X-App-Secret"] = "2g3h4bkv234"
 }
 ```
 
@@ -51,12 +51,12 @@ Configuration blocks run in the order they’re added. This lets you set global 
 
 ```swift
 configure {
-  $0.config.headers["User-Agent"] = "MyAwesomeApp 1.0"
-  $0.config.headers["Accept"] = "application/json"
+  $0.headers["User-Agent"] = "MyAwesomeApp 1.0"
+  $0.headers["Accept"] = "application/json"
 }
 
 configure("/**/knob") {
-  $0.config.headers["Accept"] = "doorknob/round, doorknob/handle, */*"
+  $0.headers["Accept"] = "doorknob/round, doorknob/handle, */*"
 }
 ```
 
@@ -73,7 +73,7 @@ class MyAPI: Service {
   var authToken: String {
     didSet {
       configure​ {  // 😱😱😱 WRONG 😱😱😱
-        $0.config.headers["X-HappyApp-Auth-Token"] = newValue
+        $0.headers["X-HappyApp-Auth-Token"] = newValue
       }
     }
   }
@@ -93,7 +93,7 @@ class MyAPI: Service {
   init() {
     // Call configure(…) only once during Service setup
     configure​ {
-      $0.config.headers["X-HappyApp-Auth-Token"] = self.authToken  // NB: If service isn’t a singleton, use weak self
+      $0.headers["X-HappyApp-Auth-Token"] = self.authToken  // NB: If service isn’t a singleton, use weak self
     }
   }
 
@@ -136,7 +136,7 @@ configure(
     whenURLMatches: { $0 != authURL },         // For all resources except auth:
     description: "catch auth failures") {
 
-  $0.config.beforeStartingRequest { _, req in
+  $0.beforeStartingRequest { _, req in
     req.onFailure { error in                   // If a request fails...
       if error.httpStatusCode == 401 {         // ...with a 401...
         showLoginScreen()                      // ...then prompt the user to log in
@@ -153,8 +153,8 @@ Alternatively, suppose we persist the user’s password or other long-term auth,
 var authToken: String?
 
 service.configure("**", description: "auth token") {
-  $0.config.headers["X-Auth-Token"] = authToken      // Set the token header from a var that we can update
-  $0.config.decorateRequests {
+  $0.headers["X-Auth-Token"] = authToken      // Set the token header from a var that we can update
+  $0.decorateRequests {
     refreshTokenOnAuthFailure($1)
   }
 }

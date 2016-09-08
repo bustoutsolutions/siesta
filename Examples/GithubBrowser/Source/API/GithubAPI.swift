@@ -22,20 +22,20 @@ class _GithubAPI {
         service.configure("**") {
             // The basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes.
 
-            $0.config.headers["Authorization"] = self.basicAuthHeader
+            $0.headers["Authorization"] = self.basicAuthHeader
 
             // By default, Siesta parses JSON using NSJSONSerialization. This transformer wraps that with SwiftyJSON.
 
-            $0.config.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
+            $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
 
             // Custom transformers can change any response into any other — in this case, replacing the default error
             // message with the one provided by the Github API.
 
-            $0.config.pipeline[.cleanup].add(GithubErrorMessageExtractor())
+            $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
         }
 
         service.configure("/search/**") {
-            $0.config.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
+            $0.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
         }
 
         // Mapping from specific paths to models
@@ -61,7 +61,7 @@ class _GithubAPI {
         }
 
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
-            $0.config.pipeline[.model].add(        // This custom transformer turns that curious convention into
+            $0.pipeline[.model].add(        // This custom transformer turns that curious convention into
                 TrueIfResourceFoundTransformer())  // a resource whose content is a simple boolean.
         }
 

@@ -103,7 +103,7 @@ public extension RequestError
       (2) you can turn that one specific error into a success by adding a transformer:
 
           configure {
-            $0.config.responseTransformers.add(GarbledResponseHandler())
+            $0.responseTransformers.add(GarbledResponseHandler())
           }
 
           ...
