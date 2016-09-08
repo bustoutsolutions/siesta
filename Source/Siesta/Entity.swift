@@ -73,7 +73,6 @@ public struct Entity
 
       - Parameter key: The case-insensitive header name.
     */
-    @discardableResult
     public func header(forKey key: String) -> String?
         { return headers[key.lowercased()] }
 
