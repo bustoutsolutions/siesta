@@ -44,7 +44,7 @@ public struct AlamofireProvider: NetworkingProvider
         -> RequestNetworking
         {
         return AlamofireRequestNetworking(
-            manager.request(request)
+            manager.request(resource: request)
                 .response { completion($0.response, $0.data, $0.error) })
         }
     }
