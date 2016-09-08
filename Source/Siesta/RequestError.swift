@@ -21,7 +21,7 @@ import Foundation
 
   `RequestError` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
-  even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. exception/NSError-based, for example,
+  even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
   because network implementations may sometimes provide _both_ an underlying NSError _and_ an HTTP diagnostic.
 
   The one ironclad guarantee that `RequestError` makes is the presence of a `userMessage`.
@@ -31,6 +31,10 @@ public struct RequestError: Error
     /**
       A description of this error suitable for showing to the user. Typically messages are brief and in plain language,
       e.g. “Not found,” “Invalid username or password,” or “The internet connection is offline.”
+
+      - Note: This property is similar to Swift’s `Error.localizedDescription`, but is **not optional**. Siesta
+          guarantees the presence of a user-displayable message on a `RequestError`, so you never have to come up with
+          a default error message for your UI.
     */
     public var userMessage: String
 
@@ -67,7 +71,7 @@ public struct RequestError: Error
 
         if let message = userMessage
             { self.userMessage = message }
-        else if let message = (cause as? NSError)?.localizedDescription
+        else if let message = cause?.localizedDescription
             { self.userMessage = message }
         else if let code = self.httpStatusCode
             { self.userMessage = HTTPURLResponse.localizedString(forStatusCode: code).capitalizedFirstCharacter }
