@@ -10,10 +10,20 @@ import Foundation
 
 
 /**
-  A set of logically connected RESTful resources, grouped under a base URL. Resources within a service share caching,
-  configuration, and a “same URL → same resource” uniqueness guarantee.
+  A set of logically connected RESTful resources. Resources within a service share caching, configuration, and a
+  “same URL → same resource” uniqueness guarantee.
 
-  You will typically create a separate subclass of `Service` for each REST API you use.
+  You will typically create a separate instance of `Service` for each REST API you use. You can either subclass
+  `Service` or encapsulte it inside a wrapper. Regardless, to reap the benefits of Siesta, you’ll want to ensure that
+  all the observers of an API share a single instance.
+
+  You can optionally specify a `baseURL`, which allows you to get endpoints by path: `service.resource("/foo")`.
+  Specifying a `baseURL` does _not_ limit the service only to subpaths of that URL. Its one and only purpose is to be
+  the starting point for `resource(_:)`
+
+  Note that `baseURL` is only a convenience, and is optional.
+  If you want to group multiple base URLs in a single `Service` instance, use `resource(baseURL:path:)`.
+  If you want to feed your service arbitrary URLs with no common root, use `resource(absoluteURL:)`.
 */
 @objc(BOSService)
 public class Service: NSObject
@@ -29,7 +39,7 @@ public class Service: NSObject
 
       - Parameter baseURL:
           The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-          only `resource(absoluteURL:)` to acquire resources.
+          only `resource(absoluteURL:)` and `resource(baseURL:path:)` to acquire resources.
       - Parameter useDefaultTransformers:
           If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
@@ -93,8 +103,24 @@ public class Service: NSObject
     @objc(resource:)
     public final func resource(path: String) -> Resource
         {
+        return resource(baseURL: baseURL, path: path)
+        }
+
+    /**
+      Returns the unique resource with the given path appended to `customBaseURL`’s path, ignoring the service’s
+      `baseURL` property.
+
+      As with `resource(_:)`:
+
+      - leading slashes on `path` are optional and have no effect, and
+      - `path` is _always_ escaped if necessary so that it is part of the URL’s path, and is never interpreted as a
+        query string or a relative URL.
+    */
+    @warn_unused_result
+    public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
+        {
         return resource(absoluteURL:
-            baseURL?.URLByAppendingPathComponent(path.stripPrefix("/")))
+            customBaseURL?.url?.URLByAppendingPathComponent(path.stripPrefix("/")))
         }
 
     private static let invalidURL = NSURL(string: "")!     // URL we use when given bad URL for a resource
@@ -245,9 +271,11 @@ public class Service: NSObject
     */
     public final func configureTransformer<I,O>(
             pattern: ConfigurationPatternConvertible,
+            requestMethods: [RequestMethod]? = nil,
             atStage stage: PipelineStageKey = .model,
             action: PipelineStage.MutationAction = .replaceExisting,
-            requestMethods: [RequestMethod]? = nil,
+            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .Error,
+            transformErrors: Bool = false,
             description: String? = nil,
             contentTransform: ResponseContentTransformer<I,O>.Processor)
         {
@@ -270,7 +298,10 @@ public class Service: NSObject
                 { $0.config.pipeline[stage].removeTransformers() }
 
             $0.config.pipeline[stage].add(
-                ResponseContentTransformer(processor: contentTransform))
+                ResponseContentTransformer(
+                    onInputTypeMismatch: mismatchAction,
+                    transformErrors: transformErrors,
+                    processor: contentTransform))
             }
         }
 

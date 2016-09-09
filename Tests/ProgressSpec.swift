@@ -15,7 +15,7 @@ class ProgressSpec: ResourceSpecBase
     {
     override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
         {
-        context("always reaches 1")
+        describe("always reaches 1")
             {
             it("on success")
                 {
@@ -62,7 +62,7 @@ class ProgressSpec: ResourceSpecBase
         // Exact progress values are subjective, and subject to change. These specs only examine
         // what affects the progress computation.
 
-        context("computation")
+        describe("computation")
             {
             var getRequest: Bool!
             var metrics: RequestTransferMetrics!
@@ -262,7 +262,7 @@ class ProgressSpec: ResourceSpecBase
                 }
             }
 
-        context("callback")
+        describe("callback")
             {
             func recordProgress(
                     setup setup: Request -> Void = { _ in },
@@ -302,7 +302,7 @@ class ProgressSpec: ResourceSpecBase
                 expect(progressReports.sort()) == progressReports
                 }
 
-            context("last notification")
+            describe("last notification")
                 {
                 it("is 1")
                     {

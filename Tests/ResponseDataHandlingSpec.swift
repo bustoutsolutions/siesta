@@ -23,6 +23,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             stubRequest(resource, method).andReturn(200)
                 .withHeader("Content-Type", contentType)
+                .withHeader("X-Custom-Header", "Sprotzle")
                 .withBody(string)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), alreadyCompleted: false)
@@ -80,12 +81,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(cause?.encodingName) == "utf-8"
                 }
 
-            it("report an error if another transformer already made it a string")
+            it("reports an error if another transformer already made it a string")
                 {
                 service().configure
                     { $0.config.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
-                expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
+                expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
                 }
 
             it("transforms error responses")
@@ -274,7 +275,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 }
             }
 
-        describe("with standard parsing disabled in configuration")
+        context("with standard parsing disabled in configuration")
             {
             beforeEach
                 {
@@ -297,7 +298,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
         describe("custom transformer")
             {
-            context("using ResponseTransformer protocol")
+            describe("using ResponseTransformer protocol")
                 {
                 let transformer = specVar { TestTransformer() }
 
@@ -333,9 +334,15 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().typedContent()) == "ahoy processed"
                     expect(transformer().callCount) == 1
                     }
+
+                it("can modify headers")
+                    {
+                    stubText("ahoy")
+                    expect(resource().latestData?.header("x-cUSTOM-hEADER")) == "elztorpS"
+                    }
                 }
 
-            context("using closure")
+            describe("using closure")
                 {
                 func configureModelTransformer()
                     {
@@ -351,7 +358,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(model?.name) == "Fred"
                     }
 
-                it("leaves errors untouched")
+                it("leaves errors untouched by default")
                     {
                     configureModelTransformer()
                     stubRequest(resource, "GET").andReturn(500)
@@ -362,13 +369,59 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     expect(resource().latestError?.text) == "I am not a model"
                     }
 
-                it("infers input type and treats wrong type as an error")
+                it("can transform errors")
                     {
-                    configureModelTransformer()
-                    stubText("{}", contentType: "application/json", expectSuccess: false)
-                    expect(resource().latestData).to(beNil())
+                    service().configureTransformer("**", transformErrors: true)
+                        { TestModel(name: $0.content) }
+                    stubRequest(resource, "GET").andReturn(500)
+                        .withHeader("Content-Type", "text/plain")
+                        .withBody("Fred T. Error")
+                    awaitFailure(resource().load())
+                    let model: TestModel? = resource().latestError?.typedContent()
+                    expect(model?.name) == "Fred T. Error"
+                    }
 
-                    expect(resource().latestError?.cause is Error.Cause.WrongTypeInTranformerPipeline) == true
+                context("with mismatched input type")
+                    {
+                    it("treats it as an error by default")
+                        {
+                        configureModelTransformer()
+
+                        stubText("{}", contentType: "application/json", expectSuccess: false)
+                        expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        }
+
+                    it("skips the transformer on .Skip")
+                        {
+                        service().configureTransformer("**", onInputTypeMismatch: .Skip)
+                            { TestModel(name: $0.content) }
+
+                        stubText("{\"status\": \"untouched\"}", contentType: "application/json")
+                        expect(resource().jsonDict["status"] as? String) == "untouched"
+                        }
+
+                    it("can skip the transformer with .SkipIfOutputTypeMatches")
+                        {
+                        service().configureTransformer("**")
+                            { TestModel(name: $0.content + " Sr.") }
+                        service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .SkipIfOutputTypeMatches)
+                            { TestModel(name: $0.content + " Jr.") }
+
+                        stubText("Fred")
+                        let model: TestModel? = resource().typedContent()
+                        expect(model?.name) == "Fred Sr."
+                        }
+
+                    it("can flag output type mistmatch with .SkipIfOutputTypeMatches")
+                        {
+                        service().configureTransformer("**")
+                            { [$0.content + " who is not a model"] }
+                        service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .SkipIfOutputTypeMatches)
+                            { TestModel(name: $0.content + " Jr.") }
+
+                        stubText("Fred", expectSuccess: false)
+                        expect(resource().latestError?.cause is Error.Cause.WrongInputTypeInTranformerPipeline) == true
+                        }
                     }
 
                 it("can throw a custom error")
@@ -536,6 +589,8 @@ private class TestTransformer: ResponseTransformer
             {
             case .Success(var entity):
                 entity.content = (entity.content as? String ?? "<non-string>") + " processed"
+                if let header = entity.headers["x-custom-header"]
+                    { entity.headers["x-custom-header"] = String(header.characters.reverse()) }
                 return .Success(entity)
 
             case .Failure(var error):

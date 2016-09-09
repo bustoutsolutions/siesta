@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-@testable import Siesta
+import Siesta
 import Quick
 import Nimble
 
@@ -95,7 +95,7 @@ class ServiceSpec: SiestaSpec
                      == service()
                 }
 
-            it("resolves all strings as subpaths of baseURL")
+            it("resolves all strings as subpaths of baseURL, interposing a slash if needed")
                 {
                 // Note that checkPathExpansion tests both with & without leading slash
                 checkPathExpansion("https://foo.bar",    path: "",         expect: "https://foo.bar/")
@@ -131,6 +131,30 @@ class ServiceSpec: SiestaSpec
                 {
                 checkPathExpansion("https://foo.bar/?a=b&x=y",   path: "baz/fez/", expect: "https://foo.bar/baz/fez/?a=b&x=y")
                 checkPathExpansion("https://foo.bar/v1?a=b&x=y", path: "baz",      expect: "https://foo.bar/v1/baz?a=b&x=y")
+                }
+            }
+
+        describe("resource(baseURL:path:)")
+            {
+            it("ignores the service’s baseURL")
+                {
+                expect(service().resource(baseURL: NSURL(string: "http://fraz.bot/"), path: "/bar")
+                                .url.absoluteString)
+                    == "http://fraz.bot/bar"
+                }
+
+             it("interposes a slash if needed")
+                {
+                expect(service().resource(baseURL: "http://fraz.bot", path: "bar")
+                                .url.absoluteString)
+                    == "http://fraz.bot/bar"
+                }
+
+            it("escapes all characters as part of the path")
+                {
+                expect(service().resource(baseURL: "http://alpha.beta/gamma", path: "../delta?upsilon&omega")
+                                .url.absoluteString)
+                    == "http://alpha.beta/gamma/../delta%3Fupsilon&omega"
                 }
             }
 
@@ -197,46 +221,46 @@ class ServiceSpec: SiestaSpec
             it("applies global config to all resources")
                 {
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 17
-                expect(resource1().generalConfig.expirationTime) == 17
+                expect(resource0().configuration.expirationTime) == 17
+                expect(resource1().configuration.expirationTime) == 17
                 }
 
             it("allows config blocks to be named for logging purposes")
                 {
                 service().configure(description: "global config")
                     { $0.config.expirationTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 17
+                expect(resource0().configuration.expirationTime) == 17
                 }
 
             it("passes default configuration through if not overridden")
                 {
                 service().configure { $0.config.retryTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 30
+                expect(resource0().configuration.expirationTime) == 30
                 }
 
             it("applies resource-specific config only to that resource")
                 {
                 service().configure(resource0())
                     { $0.config.expirationTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 17
-                expect(resource1().generalConfig.expirationTime) == 30
+                expect(resource0().configuration.expirationTime) == 17
+                expect(resource1().configuration.expirationTime) == 30
                 }
 
             it("applies predicate config only to matching resources")
                 {
                 service().configure(whenURLMatches: { $0.absoluteString.hasSuffix("foo") })
                     { $0.config.expirationTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 17
-                expect(resource1().generalConfig.expirationTime) == 30
+                expect(resource0().configuration.expirationTime) == 17
+                expect(resource1().configuration.expirationTime) == 30
                 }
 
             it("applies request config only to matching request methods")
                 {
                 service().configure(requestMethods: [.POST])
                     { $0.config.expirationTime = 19 }
-                expect(resource0().generalConfig.expirationTime) == 30
-                expect(resource0().config(forRequestMethod: .PUT).expirationTime) == 30
-                expect(resource0().config(forRequestMethod: .POST).expirationTime) == 19
+                expect(resource0().configuration.expirationTime) == 30
+                expect(resource0().configuration(forRequestMethod: .PUT).expirationTime) == 30
+                expect(resource0().configuration(forRequestMethod: .POST).expirationTime) == 19
                 }
 
             func checkPattern(
@@ -255,13 +279,13 @@ class ServiceSpec: SiestaSpec
                 for (k,v) in params
                     { resource = resource.withParam(k, v) }
 
-                let actual = resource.generalConfig.expirationTime,
+                let actual = resource.configuration.expirationTime,
                     expected = matches ? 6.0 : 30.0,
                     matchword = matches ? "to" : "not to"
                 XCTAssert(expected == actual, "Expected \(pattern) \(matchword) match \(pathOrURL)")
                 }
 
-            context("using wilcards")
+            describe("using wilcards")
                 {
                 it("matches against the base URL")
                     {
@@ -350,7 +374,7 @@ class ServiceSpec: SiestaSpec
                     }
                 }
 
-            context("using regexps")
+            describe("using regexps")
                 {
                 func regexp(pattern: String, options: NSRegularExpressionOptions = []) -> NSRegularExpression
                     { return try! NSRegularExpression(pattern: pattern, options: options) }
@@ -377,26 +401,26 @@ class ServiceSpec: SiestaSpec
 
             it("changes when service config added")
                 {
-                expect(resource0().generalConfig.expirationTime) == 30
+                expect(resource0().configuration.expirationTime) == 30
                 service().configure { $0.config.expirationTime = 17 }
-                expect(resource0().generalConfig.expirationTime) == 17
+                expect(resource0().configuration.expirationTime) == 17
                 service().configure("*oo") { $0.config.expirationTime = 16 }
-                expect(resource0().generalConfig.expirationTime) == 16
+                expect(resource0().configuration.expirationTime) == 16
                 }
 
             it("changes when invalidateConfiguration() called")
                 {
                 var x: NSTimeInterval = 3
                 service().configure { $0.config.expirationTime = x }
-                expect(resource0().generalConfig.expirationTime) == 3
+                expect(resource0().configuration.expirationTime) == 3
                 x = 4
-                expect(resource0().generalConfig.expirationTime) == 3
+                expect(resource0().configuration.expirationTime) == 3
                 service().invalidateConfiguration()
-                expect(resource0().generalConfig.expirationTime) == 4
+                expect(resource0().configuration.expirationTime) == 4
                 }
             }
 
-        describe("wipeResources")
+        describe("wipeResources()")
             {
             beforeEach
                 {

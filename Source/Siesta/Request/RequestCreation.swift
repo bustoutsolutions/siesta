@@ -19,7 +19,7 @@ public extension Resource
             method:      RequestMethod,
             data:        NSData,
             contentType: String,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         return request(method)
@@ -48,7 +48,7 @@ public extension Resource
             text:        String,
             contentType: String = "text/plain",
             encoding:    NSStringEncoding = NSUTF8StringEncoding,
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         let encodingName = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))
@@ -60,7 +60,7 @@ public extension Resource
                     cause: Error.Cause.UnencodableText(encodingName: encodingName as String, text: text)))
             }
 
-        return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)")
+        return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)", requestMutation: requestMutation)
         }
 
     /**
@@ -76,7 +76,7 @@ public extension Resource
             method:      RequestMethod,
             json:        NSJSONConvertible,
             contentType: String = "application/json",
-            @noescape requestMutation: NSMutableURLRequest -> () = { _ in })
+            requestMutation: NSMutableURLRequest -> () = { _ in })
         -> Request
         {
         guard NSJSONSerialization.isValidJSONObject(json) else
@@ -89,7 +89,7 @@ public extension Resource
 
         do  {
             let rawBody = try NSJSONSerialization.dataWithJSONObject(json, options: [])
-            return request(method, data: rawBody, contentType: contentType)
+            return request(method, data: rawBody, contentType: contentType, requestMutation: requestMutation)
             }
         catch
             {
@@ -135,7 +135,8 @@ public extension Resource
                       .joinWithSeparator("&")
             return request(method,
                 data: paramString.dataUsingEncoding(NSASCIIStringEncoding)!,  // Reason for !: ASCII guaranteed safe because of escaping
-                contentType: "application/x-www-form-urlencoded")
+                contentType: "application/x-www-form-urlencoded",
+                requestMutation: requestMutation)
             }
         catch
             {
@@ -178,7 +179,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
     init(error: Error)
         { self.error = error }
 
-    func addResponseCallback(callback: ResponseCallback)
+    func addResponseCallback(callback: ResponseCallback) -> Self
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.
@@ -188,7 +189,9 @@ private final class FailedRequest: RequestWithDefaultCallbacks
         // Callback should not be called synchronously
 
         dispatch_async(dispatch_get_main_queue())
-            { callback((.Failure(self.error), isNew: true)) }
+            { callback(ResponseInfo(response: .Failure(self.error))) }
+
+        return self
         }
 
     func onProgress(callback: Double -> Void) -> Self
@@ -201,6 +204,11 @@ private final class FailedRequest: RequestWithDefaultCallbacks
         return self
         }
 
+    func start() { }
+
     func cancel()
         { dispatch_assert_main_queue() }
+
+    func repeated() -> Request
+        { return self }
     }

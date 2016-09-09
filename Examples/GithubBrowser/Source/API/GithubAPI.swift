@@ -19,7 +19,7 @@ class _GithubAPI {
 
         // Configuration
 
-        service.configure {
+        service.configure("**") {
             // The basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes.
 
             $0.config.headers["Authorization"] = self.basicAuthHeader

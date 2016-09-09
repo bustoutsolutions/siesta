@@ -61,6 +61,9 @@ internal extension NSURL
 
         components.queryItems = newItems.isEmpty ? nil : newItems
 
+        components.percentEncodedQuery = components.percentEncodedQuery?
+            .stringByReplacingOccurrencesOfString("+", withString: "%2B")
+
         return components.URL
         }
     }

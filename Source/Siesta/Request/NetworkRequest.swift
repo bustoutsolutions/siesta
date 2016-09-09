@@ -14,9 +14,10 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
     private let resource: Resource
     private let requestDescription: String
     internal var config: Configuration
-        { return resource.config(forRequest: nsreq) }
+        { return resource.configuration(forRequest: nsreq) }
 
     // Networking
+    private let requestBuilder: Void -> NSURLRequest
     private let nsreq: NSURLRequest
     internal var networking: RequestNetworking?  // present only after start()
     internal var underlyingNetworkRequestCompleted = false  // so tests can wait for it to finish
@@ -37,27 +38,31 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Managing request
 
-    init(resource: Resource, nsreq: NSURLRequest)
+    init(resource: Resource, requestBuilder: Void -> NSURLRequest)
         {
         self.resource = resource
-        self.nsreq = nsreq
+        self.requestBuilder = requestBuilder  // for repeated()
+        self.nsreq = requestBuilder()
         self.requestDescription = debugStr([nsreq.HTTPMethod, nsreq.URL])
 
         progressTracker = ProgressTracker(isGet: nsreq.HTTPMethod == "GET")
         }
 
-    func start() -> Self
+    func start()
         {
         dispatch_assert_main_queue()
 
         guard self.networking == nil else
-            { fatalError("NetworkRequest.start() called twice") }
+            {
+            debugLog(.NetworkDetails, [requestDescription, "already started"])
+            return
+            }
 
         guard !wasCancelled else
             {
             debugLog(.Network, [requestDescription, "will not start because it was already cancelled"])
             underlyingNetworkRequestCompleted = true
-            return self
+            return
             }
 
         debugLog(.Network, [requestDescription])
@@ -73,8 +78,6 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         progressTracker.start(
             networking,
             reportingInterval: config.progressReportingInterval)
-
-        return self
         }
 
     func cancel()
@@ -94,18 +97,20 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         // Prevent start() from have having any effect if it hasn't been called yet
         wasCancelled = true
 
-        broadcastResponse((
-            response: .Failure(Error(
-                userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: Error.Cause.RequestCancelled(networkError: nil))),
-            isNew: true))
+        broadcastResponse(ResponseInfo.cancellation)
+        }
+
+    func repeated() -> Request
+        {
+        return NetworkRequest(resource: resource, requestBuilder: requestBuilder)
         }
 
     // MARK: Callbacks
 
-    internal func addResponseCallback(callback: ResponseCallback)
+    internal func addResponseCallback(callback: ResponseCallback) -> Self
         {
         responseCallbacks.addCallback(callback)
+        return self
         }
 
     func onProgress(callback: Double -> Void) -> Self
@@ -140,38 +145,37 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         {
         if nsres?.statusCode >= 400 || error != nil
             {
-            return (.Failure(Error(response:nsres, content: body, cause: error)), true)
+            return ResponseInfo(response: .Failure(Error(response:nsres, content: body, cause: error)))
             }
         else if nsres?.statusCode == 304
             {
             if let entity = resource.latestData
                 {
-                return (.Success(entity), false)
+                return ResponseInfo(response: .Success(entity), isNew: false)
                 }
             else
                 {
-                return (
-                    .Failure(Error(
+                return ResponseInfo(
+                    response: .Failure(Error(
                         userMessage: NSLocalizedString("No data available", comment: "userMessage"),
-                        cause: Error.Cause.NoLocalDataFor304())),
-                    true)
+                        cause: Error.Cause.NoLocalDataFor304())))
                 }
             }
         else
             {
-            return (.Success(Entity(response: nsres, content: body ?? NSData())), true)
+            return ResponseInfo(response: .Success(Entity(response: nsres, content: body ?? NSData())))
             }
         }
 
     private func transformResponse(rawInfo: ResponseInfo, then afterTransformation: ResponseInfo -> Void)
         {
-        let cacheKey = resource.cacheKey
-        let pipeline = config.pipeline
+        let processor = config.pipeline.makeProcessor(rawInfo.response, resource: resource)
+
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
             {
             let processedInfo =
                 rawInfo.isNew
-                    ? (pipeline.process(rawInfo.response, cacheKey: cacheKey), true)
+                    ? ResponseInfo(response: processor(), isNew: true)
                     : rawInfo
 
             dispatch_async(dispatch_get_main_queue())

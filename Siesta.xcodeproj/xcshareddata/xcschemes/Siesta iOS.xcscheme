@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DAC0B37D1D651CB500D25C44"
+               BuildableName = "SiestaUI.framework"
+               BlueprintName = "SiestaUI iOS"
+               ReferencedContainer = "container:Siesta.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

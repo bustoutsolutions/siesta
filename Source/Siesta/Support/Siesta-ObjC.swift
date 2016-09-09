@@ -174,7 +174,7 @@ public class _objc_Request: NSObject
         {
         request.onCompletion
             {
-            switch $0
+            switch $0.response
                 {
                 case .Success(let entity):
                     objcCallback(_objc_Entity(entity), nil)
@@ -298,38 +298,6 @@ public extension Resource
             { block($0, $1.description) }
         }
     }
-
-#if !os(OSX)
-extension ResourceStatusOverlay: _objc_ResourceObserver
-    {
-    public func resourceChanged(resource: Resource, event eventString: String)
-        {
-        if let event = ResourceEvent.fromDescription(eventString)
-            { resourceChanged(resource, event: event) }
-        }
-    }
-
-extension ResourceStatusOverlay
-    {
-    @objc(displayPriority)
-    public var _objc_displayPriority: [String]
-        {
-        get {
-            return displayPriority.map { $0.rawValue }
-            }
-
-        set {
-            displayPriority = newValue.flatMap
-                {
-                let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
-                if condition == nil
-                    { Swift.print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
-                return condition
-                }
-            }
-        }
-    }
-#endif
 
 public extension Resource
     {
@@ -479,7 +447,7 @@ public extension Resource
 
 public extension _objc_Error
     {
-    public struct Cause
+    public enum Cause
         {
         /// Request method specified as a string does not match any of the values in the RequestMethod enum.
         public struct InvalidRequestMethod: ErrorType

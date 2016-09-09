@@ -50,13 +50,24 @@ public struct Configuration
     public var headers: [String:String] = [:]
 
     /**
-      Adds a closure to be called after a `Request` is created, but before it is started. Use this to add response
-      hooks or cancel the request before sending.
-    */
-    public mutating func beforeStartingRequest(callback: (Resource, Request) -> Void)
-        { beforeStartingRequestCallbacks.append(callback) }
+      Adds a closure to be called after a `Request` is created, but before it is started. Use this to globally observe
+      requests, or wrap them in special behavior that is transparent to outside observers.
 
-    internal var beforeStartingRequestCallbacks: [(Resource, Request) -> Void] = []
+      You can add any number of decorators. Decorators are called in the order they were added, and each receives the
+      request returned by the previous one.
+      If the closure returns a different request than the one passed to it, then that request replaces the original one.
+      In other words, a caller of `Service.request(...)` or `Service.load(...)` sees _only_ the request returned by the
+      last decorator, not the originally created one.
+
+      - Note: If a decorator returns a different request, then the original request is not started. This means that a
+          decorator may choose to defer requests, or prevent them from ever reaching the network at all.
+
+      - SeeAlso: `Request.chained(...)`
+    */
+    public mutating func decorateRequests(decorator: (Resource, Request) -> Request)
+        { requestDecorators.append(decorator) }
+
+    internal var requestDecorators: [(Resource, Request) -> Request] = []
 
     /**
       The sequence of transformations used to process server responses, optionally interspesed with cache(s) which may

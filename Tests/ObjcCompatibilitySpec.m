@@ -82,7 +82,7 @@
         [req cancel];
         });
 
-    context(@"converting into Swift’s typesafe world", ^
+    describe(@"converting into Swift’s typesafe world", ^
         {
         void (^expectImmediateFailure)(BOSRequest*) = ^(BOSRequest *request)
             {

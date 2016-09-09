@@ -117,15 +117,6 @@ public enum ResourceEvent: CustomStringConvertible
             }
         }
 
-    internal static let all = [ObserverAdded, Requested, RequestCancelled, NotModified, Error,
-                               NewData(.Network), NewData(.Cache), NewData(.LocalOverride), NewData(.Wipe)]
-
-    internal static func fromDescription(description: String) -> ResourceEvent?
-        {
-        let matching = all.filter { $0.description == description }
-        return (matching.count == 1) ? matching[0] : nil
-        }
-
     /// Possible sources of `ResourceEvent.NewData`.
     public enum NewDataSource
         {

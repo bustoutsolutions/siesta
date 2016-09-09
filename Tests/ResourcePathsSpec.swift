@@ -150,8 +150,8 @@ class ResourcePathsSpec: ResourceSpecBase
 
             it("escapes params")
                 {
-                expect(resource().withParam("fo=o", "ba r").url.absoluteString)
-                     == "https://zingle.frotz/v1/a/b?fo%3Do=ba%20r"
+                expect(resource().withParam("fo=o", "ba r+baz").url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?fo%3Do=ba%20r%2Bbaz"
                 }
 
             let resourceWithParams = specVar { resource().withParam("foo", "bar").withParam("zoogle", "oogle") }

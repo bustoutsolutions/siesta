@@ -126,10 +126,8 @@ public extension Error
             }
           }
     */
-    public struct Cause
+    public enum Cause
         {
-        private init() { fatalError("Siesta.Error.Cause is only a namespace") }
-
         // MARK: Request Errors
 
         /// Unable to create a text request with the requested character encoding.
@@ -188,7 +186,7 @@ public extension Error
         /// A response transformer received entity content of a type it doesn’t know how to process. This error means
         /// that the upstream transformations may have succeeded, but did not return a value of the type the next
         /// transformer expected.
-        public struct WrongTypeInTranformerPipeline: ErrorType
+        public struct WrongInputTypeInTranformerPipeline: ErrorType
             {
             public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
             public let transformer: ResponseTransformer
