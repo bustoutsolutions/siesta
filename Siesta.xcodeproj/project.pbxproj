@@ -1228,6 +1228,7 @@
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1247,6 +1248,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
