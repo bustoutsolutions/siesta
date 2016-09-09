@@ -288,7 +288,7 @@ extension ResourceEvent
 
 extension String
     {
-    public var capitalized: String
+    var capitalized: String
         {
         guard !isEmpty else
             { return self }
