@@ -8,8 +8,8 @@ osx_image: xcode8
 env:
   - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS' platform='iOS Simulator,OS=10.0,name=iPhone SE'
-  #- scheme='Siesta iOS' platform='iOS Simulator,OS=9.3,name=iPhone 6'
-  #- scheme='Siesta iOS' platform='iOS Simulator,OS=8.1,name=iPhone 4s'
+  - scheme='Siesta iOS' platform='iOS Simulator,OS=9.3,name=iPhone 6'
+  - scheme='Siesta iOS' platform='iOS Simulator,OS=8.1,name=iPhone 4s'
 
 script: |
   # ------ Certificates ------
