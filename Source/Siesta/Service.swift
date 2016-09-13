@@ -147,7 +147,7 @@ public class Service: NSObject
             return resource(absoluteURL: Service.invalidURL)
             }
 
-        return resourceCache.get(url.absoluteString)
+        return resourceCache.get(url.absoluteString!)
             {
             Resource(service: self, url: url)
             }

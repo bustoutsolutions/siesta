@@ -718,7 +718,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Bust Out Solutions";
 				TargetAttributes = {
 					9F2FB51D1C28645E0068DFFA = {
@@ -726,9 +726,11 @@
 					};
 					DA336E4E1B2E6DDB006F702A = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					DA336E581B2E6DDB006F702A = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -997,6 +999,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -1041,6 +1044,7 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -1152,6 +1156,7 @@
 				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1171,6 +1176,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1185,6 +1192,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1198,6 +1206,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1218,6 +1228,7 @@
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1237,6 +1248,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
