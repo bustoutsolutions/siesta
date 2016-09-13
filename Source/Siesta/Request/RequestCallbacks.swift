@@ -23,7 +23,7 @@ extension RequestWithDefaultCallbacks
         return addResponseCallback(callback)
         }
 
-    func onSuccess(_ callback: @escaping (Entity) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
         {
         return addResponseCallback
             {
@@ -32,7 +32,7 @@ extension RequestWithDefaultCallbacks
             }
         }
 
-    func onNewData(_ callback: @escaping (Entity) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
         {
         return addResponseCallback
             {

@@ -54,7 +54,7 @@ internal extension Pipeline
             }
         }
 
-    internal func cachedEntity(for resource: Resource, onHit: @escaping (Entity) -> ())
+    internal func cachedEntity(for resource: Resource, onHit: @escaping (Entity<Any>) -> ())
         {
         // Extract cache keys on main thread
         let stagesAndEntries = self.stagesAndEntries(for: resource)
@@ -70,7 +70,7 @@ internal extension Pipeline
         }
 
     // Runs on a background queue
-    private func cacheLookup(using stagesAndEntries: [StageAndEntry]) -> Entity?
+    private func cacheLookup(using stagesAndEntries: [StageAndEntry]) -> Entity<Any>?
         {
         for (index, (_, cacheEntry)) in stagesAndEntries.enumerated().reversed()
             {
@@ -123,8 +123,8 @@ internal struct CacheBox
 
 private protocol CacheEntryProtocol
     {
-    func read() -> Entity?
-    func write(_ entity: Entity)
+    func read() -> Entity<Any>?
+    func write(_ entity: Entity<Any>)
     func updateTimestamp(_ timestamp: TimeInterval)
     func remove()
     }
@@ -145,13 +145,13 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
         self.key = key
         }
 
-    func read() -> Entity?
+    func read() -> Entity<Any>?
         {
         return dispatchSyncOnWorkQueue
             { self.cache.readEntity(forKey: self.key) }
         }
 
-    func write(_ entity: Entity)
+    func write(_ entity: Entity<Any>)
         {
         cache.workQueue.async
             { self.cache.writeEntity(entity, forKey: self.key) }

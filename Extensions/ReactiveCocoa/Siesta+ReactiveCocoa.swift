@@ -79,7 +79,7 @@ public extension Resource
 public extension Request
     {
     public func rac_signal()
-        -> SignalProducer<Entity, RequestError>
+        -> SignalProducer<Entity<Any>, RequestError>
         {
         return SignalProducer
             {

@@ -467,7 +467,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     configureModelTransformer()
                     service().configureTransformer("**", action: .appendToExisting)
                         {
-                        (content: TestModel, entity: Entity) -> TestModel in
+                        (content: TestModel, entity: Entity<Any>) -> TestModel in
                         var model: TestModel = content
                         model.name += " peas"
                         return model
@@ -479,13 +479,13 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     }
 
                 @discardableResult
-                func stubTextRequest(_ string: String, method: RequestMethod) -> Entity
+                func stubTextRequest(_ string: String, method: RequestMethod) -> Entity<Any>
                     {
                     _ = stubRequest(resource, method.rawValue.uppercased()).andReturn(200)
                         .withHeader("Content-Type", "text/plain")
                         .withBody(string as NSString)
 
-                    var result: Entity? = nil
+                    var result: Entity<Any>? = nil
                     let req = resource().request(method)
                     req.onSuccess { result = $0 }
                     awaitNewData(req)

@@ -65,11 +65,11 @@ public protocol Request: class
 
     /// Call the closure once if the request succeeds.
     @discardableResult
-    func onSuccess(_ callback: @escaping (Entity) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
 
     /// Call the closure once if the request succeeds and the data changed.
     @discardableResult
-    func onNewData(_ callback: @escaping (Entity) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
 
     /// Call the closure once if the request succeeds with a 304.
     @discardableResult
@@ -182,7 +182,7 @@ public protocol Request: class
 public enum Response: CustomStringConvertible
     {
     /// The request succeeded, and returned the given entity.
-    case success(Entity)
+    case success(Entity<Any>)
 
     /// The request failed because of the given error.
     case failure(RequestError)

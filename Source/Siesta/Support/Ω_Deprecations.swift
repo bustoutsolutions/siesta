@@ -33,7 +33,7 @@ extension Resource
         { return load(using: req) }
 
     @available(*, deprecated: 0.99, renamed: "overrideLocalData(with:)")
-    public func overrideLocalData(_ entity: Siesta.Entity)
+    public func overrideLocalData(_ entity: Siesta.Entity<Any>)
         { return overrideLocalData(with: entity) }
 
     @available(*, deprecated: 0.99, renamed: "overrideLocalContent(with:)")

@@ -484,7 +484,7 @@ class RequestSpec: ResourceSpecBase
 
             let customResponse =
                 ResponseInfo(
-                    response: .success(Entity(
+                    response: .success(Entity<Any>(
                         content: "custom",
                         contentType: "text/special")))
 

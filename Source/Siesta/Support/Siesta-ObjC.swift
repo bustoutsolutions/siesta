@@ -37,7 +37,7 @@ import Foundation
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
 
-// (Why not just make Entity and RequestError classes and avoid all these
+// (Why not just make Entity<Any> and RequestError classes and avoid all these
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via overrideLocalData() so that observers always know about changes.)
@@ -62,7 +62,7 @@ public class _objc_Entity: NSObject
     public convenience init(content: AnyObject, contentType: String)
         { self.init(content: content, contentType: contentType, headers: [:]) }
 
-    internal init(_ entity: Entity)
+    internal init(_ entity: Entity<Any>)
         {
         self.content     = entity.content as AnyObject?
         self.contentType = entity.contentType
@@ -75,14 +75,14 @@ public class _objc_Entity: NSObject
         { return headers[key.lowercased()] }
 
     public override var description: String
-        { return debugStr(Entity(entity: self)) }
+        { return debugStr(Entity<Any>.convertedFromObjc(self)) }
     }
 
 internal extension Entity
     {
-    init(entity: _objc_Entity)
+    static func convertedFromObjc(_ entity: _objc_Entity) -> Entity<Any>
         {
-        self.init(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
+        return Entity<Any>(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
         }
     }
 
@@ -151,7 +151,7 @@ public extension Resource
 
     @objc(overrideLocalData:)
     public func _objc_overrideLocalData(_ entity: _objc_Entity)
-        { overrideLocalData(with: Entity(entity: entity)) }
+        { overrideLocalData(with: Entity<Any>.convertedFromObjc(entity)) }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks

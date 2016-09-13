@@ -177,7 +177,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
             }
         else
             {
-            return ResponseInfo(response: .success(Entity(response: underlyingResponse, content: body ?? Data())))
+            return ResponseInfo(response: .success(Entity<Any>(response: underlyingResponse, content: body ?? Data())))
             }
         }
 

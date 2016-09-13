@@ -70,7 +70,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: Key) -> Entity?
+    func readEntity(forKey key: Key) -> Entity<Any>?
 
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
@@ -88,7 +88,7 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(_ entity: Entity, forKey key: Key)
+    func writeEntity(_ entity: Entity<Any>, forKey key: Key)
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.

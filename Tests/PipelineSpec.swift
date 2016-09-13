@@ -256,10 +256,10 @@ class PipelineSpec: ResourceSpecBase
                     let testCache = TestCache("local override")
                     configureCache(testCache, at: .cleanup)
                     testCache.entries[resourceCacheKey("local override")] =
-                        Entity(content: "should go away", contentType: "text/string")
+                        Entity<Any>(content: "should go away", contentType: "text/string")
 
                     resource().overrideLocalData(
-                        with: Entity(content: "should not be cached", contentType: "text/string"))
+                        with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
 
                     expect(testCache.entries).toEventually(beEmpty())
                     }
@@ -269,7 +269,7 @@ class PipelineSpec: ResourceSpecBase
                 {
                 makeRequest()
                 resource().overrideLocalData(
-                    with: Entity(content: "should not be cached", contentType: "text/string"))
+                    with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
                 }
 
             it("can specify a custom workQueue")
@@ -313,7 +313,7 @@ private class TestCache: EntityCache
     {
     var name: String
     var receivedCacheRead = false, receivedCacheWrite = false
-    var entries: [TestCacheKey:Entity] = [:]
+    var entries: [TestCacheKey:Entity<Any>] = [:]
 
     init(_ name: String)
         { self.name = name }
@@ -321,13 +321,13 @@ private class TestCache: EntityCache
     init(returning content: String, for key: TestCacheKey)
         {
         name = content
-        entries[key] = Entity(content: content, contentType: "text/string")
+        entries[key] = Entity<Any>(content: content, contentType: "text/string")
         }
 
     func key(for resource: Resource) -> TestCacheKey?
         { return TestCacheKey(prefix: name, path: resource.url.path) }
 
-    func readEntity(forKey key: TestCacheKey) -> Entity?
+    func readEntity(forKey key: TestCacheKey) -> Entity<Any>?
         {
         DispatchQueue.main.asyncAfter(
             deadline: DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC))
@@ -336,7 +336,7 @@ private class TestCache: EntityCache
         return entries[key]
         }
 
-    func writeEntity(_ entity: Entity, forKey key: TestCacheKey)
+    func writeEntity(_ entity: Entity<Any>, forKey key: TestCacheKey)
         {
         DispatchQueue.main.async
             {
@@ -386,13 +386,13 @@ private class MainThreadCache: EntityCache
     func key(for resource: Resource) -> String?
         { return "bi" }
 
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: String) -> Entity<Any>?
         {
         recordCall("readEntity")
-        return Entity(content: "\(key)cy", contentType: "text/bogus")
+        return Entity<Any>(content: "\(key)cy", contentType: "text/bogus")
         }
 
-    func writeEntity(_ entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity<Any>, forKey key: String)
         { recordCall("writeEntity") }
 
     func removeEntity(forKey key: String)
@@ -414,10 +414,10 @@ private class KeylessCache: EntityCache
     func key(for resource: Resource) -> String?
         { return nil }
 
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: String) -> Entity<Any>?
         { fatalError("should not be called") }
 
-    func writeEntity(_ entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity<Any>, forKey key: String)
         { fatalError("should not be called") }
 
     func removeEntity(forKey key: String)
@@ -432,10 +432,10 @@ private struct UnwritableCache: EntityCache
     func key(for resource: Resource) -> URL?
         { return resource.url }
 
-    func readEntity(forKey key: URL) -> Entity?
+    func readEntity(forKey key: URL) -> Entity<Any>?
         { return nil }
 
-    func writeEntity(_ entity: Entity, forKey key: URL)
+    func writeEntity(_ entity: Entity<Any>, forKey key: URL)
         { fatalError("cache should never be written to") }
 
     func removeEntity(forKey key: URL)

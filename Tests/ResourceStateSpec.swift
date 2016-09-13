@@ -516,7 +516,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             {
             let arbitraryContentType = "content-can-be/anything"
             let arbitraryContent = specVar { NSCalendar(identifier: NSCalendar.Identifier.ethiopicAmeteMihret) as AnyObject }
-            let localData = specVar { Entity(content: arbitraryContent(), contentType: arbitraryContentType) }
+            let localData = specVar { Entity<Any>(content: arbitraryContent(), contentType: arbitraryContentType) }
 
             it("updates the data")
                 {
@@ -539,7 +539,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             it("does not touch the transformer pipeline")
                 {
                 let rawData = "a string".data(using: String.Encoding.ascii)
-                resource().overrideLocalData(with: Entity(content: rawData!, contentType: "text/plain"))
+                resource().overrideLocalData(with: Entity<Any>(content: rawData!, contentType: "text/plain"))
                 expect(resource().latestData?.content as? Data) === rawData
                 }
             }

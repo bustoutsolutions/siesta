@@ -424,8 +424,8 @@ class ServiceSpec: SiestaSpec
             {
             beforeEach
                 {
-                resource0().overrideLocalData(with: Entity(content: "foo content", contentType: "text/plain"))
-                resource1().overrideLocalData(with: Entity(content: "bar content", contentType: "text/plain"))
+                resource0().overrideLocalData(with: Entity<Any>(content: "foo content", contentType: "text/plain"))
+                resource1().overrideLocalData(with: Entity<Any>(content: "bar content", contentType: "text/plain"))
                 }
 
             it("wipes all resources by default")

@@ -111,7 +111,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       The closure can throw an error to indicate that parsing failed. If it throws a `RequestError`, that
       error is passed on to the resource as is. Other failures are wrapped in a `RequestError`.
     */
-    public typealias Processor = (InputContentType, Entity) throws -> OutputContentType?
+    public typealias Processor = (InputContentType, Entity<Any>) throws -> OutputContentType?
 
     private let processor: Processor
     private let mismatchAction: InputTypeMismatchAction
@@ -151,7 +151,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func processEntity(_ entity: Entity) -> Response
+    private func processEntity(_ entity: Entity<Any>) -> Response
         {
         guard let typedContent = entity.content as? InputContentType else
             {
@@ -186,7 +186,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
         }
 
-    private func contentTypeMismatchError(_ entityFromUpstream: Entity) -> Response
+    private func contentTypeMismatchError(_ entityFromUpstream: Entity<Any>) -> Response
         {
         return .failure(RequestError(
             userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
@@ -240,7 +240,7 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity) throws -> String in
+        (content: Data, entity: Entity<Any>) throws -> String in
 
         let charsetName = entity.charset ?? "ISO-8859-1"
         let encoding = CFStringConvertEncodingToNSStringEncoding(
@@ -262,7 +262,7 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity) throws -> NSJSONConvertible in
+        (content: Data, entity: Entity<Any>) throws -> NSJSONConvertible in
 
         let rawObj = try JSONSerialization.jsonObject(with: content, options: [.allowFragments])
 
@@ -278,7 +278,7 @@ public func ImageResponseTransformer(_ transformErrors: Bool = false) -> Respons
     {
     return ResponseContentTransformer(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity) throws -> Image in
+        (content: Data, entity: Entity<Any>) throws -> Image in
 
         guard let image = Image(data: content) else
             { throw RequestError.Cause.UnparsableImage() }

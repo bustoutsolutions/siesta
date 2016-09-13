@@ -97,7 +97,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     expect(resource().latestError).to(beNil())
                     }
                 resource().overrideLocalData(with:
-                    Entity(content: Data(), contentType: "crazy/test"))
+                    Entity<Any>(content: Data(), contentType: "crazy/test"))
                 }
 
             it("receives not modified event")

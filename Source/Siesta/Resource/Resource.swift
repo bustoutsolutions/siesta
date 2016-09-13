@@ -83,7 +83,7 @@ public final class Resource: NSObject
 
        - SeeAlso: `TypedContentAccessors`
     */
-    public private(set) var latestData: Entity?
+    public private(set) var latestData: Entity<Any>?
         {
         didSet { invalidated = false }
         }
@@ -417,10 +417,10 @@ public final class Resource: NSObject
             }
         }
 
-    private func receiveNewDataFromNetwork(_ entity: Entity)
+    private func receiveNewDataFromNetwork(_ entity: Entity<Any>)
         { receiveNewData(entity, source: .network) }
 
-    private func receiveNewData(_ entity: Entity, source: ResourceEvent.NewDataSource)
+    private func receiveNewData(_ entity: Entity<Any>, source: ResourceEvent.NewDataSource)
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -505,7 +505,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `overrideLocalContent(_:)`
     */
-    public func overrideLocalData(with entity: Entity)
+    public func overrideLocalData(with entity: Entity<Any>)
         { receiveNewData(entity, source: .localOverride) }
 
     /**
@@ -515,7 +515,7 @@ public final class Resource: NSObject
     */
     public func overrideLocalContent(with content: Any)
         {
-        var updatedEntity = latestData ?? Entity(content: content, contentType: "application/binary")
+        var updatedEntity = latestData ?? Entity<Any>(content: content, contentType: "application/binary")
         updatedEntity.content = content
         updatedEntity.touch()
         overrideLocalData(with: updatedEntity)

@@ -42,7 +42,7 @@ public struct RequestError: Error
     public var httpStatusCode: Int?
 
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
-    public var entity: Entity?
+    public var entity: Entity<Any>?
 
     /// Details about the underlying error. Errors originating from Siesta will have a cause from `RequestError.Cause`.
     /// Errors originating from the `NetworkingProvider` or custom `ResponseTransformer`s have domain-specific causes.
@@ -67,7 +67,7 @@ public struct RequestError: Error
         self.cause = cause
 
         if let content = content
-            { self.entity = Entity(response: response, content: content) }
+            { self.entity = Entity<Any>(response: response, content: content) }
 
         if let message = userMessage
             { self.userMessage = message }
@@ -85,7 +85,7 @@ public struct RequestError: Error
     public init(
             userMessage: String,
             cause: Error,
-            entity: Entity? = nil)
+            entity: Entity<Any>? = nil)
         {
         self.userMessage = userMessage
         self.cause = cause
@@ -120,7 +120,7 @@ public extension RequestError
 
                 case .failure(let error):
                   if error.cause is RequestError.Cause.InvalidTextEncoding {
-                    return .success(Entity(
+                    return .success(Entity<Any>(
                       content: "Nothingness. Tumbleweeds. The Void.",
                       contentType: "text/string"))
                   } else {

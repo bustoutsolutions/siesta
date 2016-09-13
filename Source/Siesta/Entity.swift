@@ -14,7 +14,7 @@ import Foundation
 
   Typically extracted from an HTTP message body.
 */
-public struct Entity
+public struct Entity<ContentType>
     {
     /**
       The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
@@ -24,23 +24,14 @@ public struct Entity
       being of an unexpected type. Siesta provides `TypedContentAccessors` to help deal with this.
 
       - Note:
-          Why is the type of this property `Any` instead of a generic `T`? Because an `Entity<T>` declaration would mean
-          “Siesta guarantees the data is of type `T`” — that’s what strong static types do — but there is no way to tell
-          Swift at _compile time_ what content type a server will actually send at _runtime_.
-
-          The best client code can do is to say, “I expect the server to have returned data of type `T`; did it?” That
-          is exactly what Swift’s `as?` operator does — and any scheme within the current system involving a generic
-          `Entity<T>` ends up being an obfuscated equivalent to `as?` — or, far worse, an obfuscated `as!`, a.k.a.
-          “The Amazing Server-Triggered Client Crash-o-Matic.”
-
           Siesta’s future direction is to let users declare their expected type at the resource level by asking for a
           `Resource<T>`, and have that resource report an unexpected content type from the server as a request failure.
           However, limitations of Swift’s type system currently make this unworkable. Given what the core Swift team is
-          saying, we’re cautiously optimistic that Swift 3 will be able to support this.
+          saying, we’re cautiously optimistic that Swift 4 will be able to support this.
 
       - SeeAlso: `TypedContentAccessors`
     */
-    public var content: Any
+    public var content: ContentType
 
     /**
       The type of data contained in the content.
@@ -99,7 +90,7 @@ public struct Entity
     /**
       Extracts data from a network response.
     */
-    public init(response: HTTPURLResponse?, content: Any)
+    public init(response: HTTPURLResponse?, content: ContentType)
         {
         let headers = (response?.allHeaderFields ?? [:])
             .flatMapDict { ($0 as? String, $1 as? String) }
@@ -116,7 +107,7 @@ public struct Entity
       - SeeAlso: `Resource.overrideLocalData(_:)`
     */
     public init(
-            content: Any,
+            content: ContentType,
             contentType: String,
             charset: String? = nil,
             headers: [String:String] = [:])
@@ -131,7 +122,7 @@ public struct Entity
       Full-width initializer, typically used only for reinflating cached data.
     */
     public init(
-            content: Any,
+            content: ContentType,
             charset: String? = nil,
             headers: [String:String],
             timestamp: TimeInterval? = nil)
@@ -183,8 +174,10 @@ public struct Entity
 */
 public protocol TypedContentAccessors
     {
+    associatedtype ContentType
+
     /// The entity to which the convenience accessors will apply.
-    var entityForTypedContentAccessors: Entity? { get }
+    var entityForTypedContentAccessors: Entity<ContentType>? { get }
     }
 
 public extension TypedContentAccessors
@@ -240,17 +233,17 @@ public extension TypedContentAccessors
 extension Entity: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to this entity’s content.
-    public var entityForTypedContentAccessors: Entity? { return self }
+    public var entityForTypedContentAccessors: Entity<ContentType>? { return self }
     }
 
 extension Resource: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to `latestData?.content`.
-    public var entityForTypedContentAccessors: Entity? { return latestData }
+    public var entityForTypedContentAccessors: Entity<Any>? { return latestData }
     }
 
 extension RequestError: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to `entity?.content`.
-    public var entityForTypedContentAccessors: Entity? { return entity }
+    public var entityForTypedContentAccessors: Entity<Any>? { return entity }
     }
