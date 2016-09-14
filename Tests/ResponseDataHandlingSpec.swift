@@ -244,7 +244,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 let notValidJSONObject: NSArray = [NSObject()]
                 service().configureTransformer("**")
-                    { (_: Any, _) in notValidJSONObject }
+                    { (_: Entity<Any>) -> NSArray in notValidJSONObject }
 
                 stubJson()
                 expect(resource().typedContent()) === notValidJSONObject
@@ -349,7 +349,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 func configureModelTransformer()
                     {
                     service().configureTransformer("**")
-                        { content, _ in TestModel(name: content) }
+                        { TestModel(name: $0.content) }
                     }
 
                 it("can transform data")
@@ -374,7 +374,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can transform errors")
                     {
                     service().configureTransformer("**", transformErrors: true)
-                        { content, _ in TestModel(name: content) }
+                        { TestModel(name: $0.content) }
                     _ = stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
                         .withBody("Fred T. Error" as NSString)
@@ -396,7 +396,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     it("skips the transformer on .Skip")
                         {
                         service().configureTransformer("**", onInputTypeMismatch: .skip)
-                            { content, _ in TestModel(name: content) }
+                            { TestModel(name: $0.content) }
 
                         stubText("{\"status\": \"untouched\"}", contentType: "application/json")
                         expect(resource().jsonDict["status"] as? String) == "untouched"
@@ -405,9 +405,9 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     it("can skip the transformer with .SkipIfOutputTypeMatches")
                         {
                         service().configureTransformer("**")
-                            { content, _ in TestModel(name: content + " Sr.") }
+                            { TestModel(name: $0.content + " Sr.") }
                         service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .skipIfOutputTypeMatches)
-                            { content, _ in TestModel(name: content + " Jr.") }
+                            { TestModel(name: $0.content + " Jr.") }
 
                         stubText("Fred")
                         let model: TestModel? = resource().typedContent()
@@ -417,9 +417,9 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     it("can flag output type mistmatch with .SkipIfOutputTypeMatches")
                         {
                         service().configureTransformer("**")
-                            { content, _ in [content + " who is not a model"] }
+                            { [$0.content + " who is not a model"] }
                         service().configureTransformer("**", atStage: .cleanup, onInputTypeMismatch: .skipIfOutputTypeMatches)
-                            { content, _ in TestModel(name: content + " Jr.") }
+                            { TestModel(name: $0.content + " Jr.") }
 
                         stubText("Fred", expectSuccess: false)
                         expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
@@ -430,7 +430,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**")
                         {
-                        (_: String, _) -> Date in
+                        (_: Entity<String>) -> Date in
                         throw CustomError()
                         }
 
@@ -442,8 +442,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**")
                         {
-                        (text: String, _) -> Date in
-                        throw RequestError(userMessage: "\(text) is broken", cause: CustomError())
+                        (text: Entity<String>) -> Date in
+                        throw RequestError(userMessage: "\(text.content) is broken", cause: CustomError())
                         }
 
                     stubText("Everything", expectSuccess: false)
@@ -455,7 +455,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     configureModelTransformer()
                     service().configureTransformer("**")
-                        { content, _ in TestModel(name: "extra " + content) }
+                        { TestModel(name: "extra " + $0.content) }
 
                     stubText("wasabi")
                     let model: TestModel? = resource().typedContent()
@@ -467,8 +467,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     configureModelTransformer()
                     service().configureTransformer("**", action: .appendToExisting)
                         {
-                        (content: TestModel, entity: Entity<Any>) -> TestModel in
-                        var model: TestModel = content
+                        (entity: Entity<TestModel>) -> TestModel in  // TODO: Why can’t Swift infer from $0.content here?
+                        var model: TestModel = entity.content
                         model.name += " peas"
                         return model
                         }
@@ -496,7 +496,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("can be limited to specific HTTP request methods")
                     {
                     service().configureTransformer("**", requestMethods: [.put, .post])
-                        { content, _ in TestModel(name: content) }
+                        { TestModel(name: $0.content) }
 
                     let getResult: String? = stubTextRequest("got it", method: .get).typedContent()
                     expect(getResult) == "got it"
@@ -510,7 +510,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     beforeEach
                         {
                         service().configureTransformer("**")
-                            { content, _ in TestModel(anythingButOrange: content) }
+                            { TestModel(anythingButOrange: $0.content) }
                         }
 
                     it("can return nil to signal failure")

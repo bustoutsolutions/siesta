@@ -111,7 +111,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
       The closure can throw an error to indicate that parsing failed. If it throws a `RequestError`, that
       error is passed on to the resource as is. Other failures are wrapped in a `RequestError`.
     */
-    public typealias Processor = (InputContentType, Entity<Any>) throws -> OutputContentType?
+    public typealias Processor = (Entity<InputContentType>) throws -> OutputContentType?
 
     private let processor: Processor
     private let mismatchAction: InputTypeMismatchAction
@@ -153,7 +153,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
 
     private func processEntity(_ entity: Entity<Any>) -> Response
         {
-        guard let typedContent = entity.content as? InputContentType else
+        guard let typedEntity = entity.withContentRetyped() as Entity<InputContentType>? else
             {
             switch(mismatchAction)
                 {
@@ -169,7 +169,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
             }
 
         do  {
-            guard let result = try processor(typedContent, entity) else
+            guard let result = try processor(typedEntity) else
                 { throw RequestError.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
@@ -238,11 +238,9 @@ public enum InputTypeMismatchAction
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data,String>(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity<Any>) throws -> String in
-
-        let charsetName = entity.charset ?? "ISO-8859-1"
+        let charsetName = $0.charset ?? "ISO-8859-1"
         let encoding = CFStringConvertEncodingToNSStringEncoding(
             CFStringConvertIANACharSetNameToEncoding(
                 charsetName as NSString as CFString))  // TODO: See if double “as” still necessary in Swift 3 GM
@@ -250,7 +248,7 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
         guard encoding != UInt(kCFStringEncodingInvalidId) else
             { throw RequestError.Cause.InvalidTextEncoding(encodingName: charsetName) }
 
-        guard let string = NSString(data: content, encoding: encoding) as? String else
+        guard let string = NSString(data: $0.content, encoding: encoding) as? String else
             { throw RequestError.Cause.UndecodableText(encodingName: charsetName) }
 
         return string
@@ -260,11 +258,9 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
 public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data,NSJSONConvertible>(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity<Any>) throws -> NSJSONConvertible in
-
-        let rawObj = try JSONSerialization.jsonObject(with: content, options: [.allowFragments])
+        let rawObj = try JSONSerialization.jsonObject(with: $0.content, options: [.allowFragments])
 
         guard let jsonObj = rawObj as? NSJSONConvertible else
             { throw RequestError.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
@@ -276,11 +272,9 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `NSData` content as an image, yielding a `UIImage`.
 public func ImageResponseTransformer(_ transformErrors: Bool = false) -> ResponseTransformer
     {
-    return ResponseContentTransformer(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data,Image>(transformErrors: transformErrors)
         {
-        (content: Data, entity: Entity<Any>) throws -> Image in
-
-        guard let image = Image(data: content) else
+        guard let image = Image(data: $0.content) else
             { throw RequestError.Cause.UnparsableImage() }
 
         return image

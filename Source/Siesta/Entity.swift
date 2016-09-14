@@ -144,6 +144,14 @@ public struct Entity<ContentType>
     /// Updates `timestamp` to the current time.
     public mutating func touch()
         { timestamp = now() }
+
+    public func withContentRetyped<NewType>() -> Entity<NewType>?
+        {
+        guard let retypedContent = content as? NewType else
+            { return nil }
+
+        return Entity<NewType>(content: retypedContent, charset: charset, headers: headers, timestamp: timestamp)
+        }
     }
 
 

@@ -19,8 +19,7 @@ class PipelineSpec: ResourceSpecBase
             {
             return ResponseContentTransformer
                 {
-                content, _ in  // TODO: concise replacement for $0.content?
-                let stringContent = content as? String ?? ""
+                let stringContent = $0.content as? String ?? ""
                 guard !stringContent.contains("error on \(word)") else
                     { return nil }
                 return stringContent + word
@@ -232,7 +231,7 @@ class PipelineSpec: ResourceSpecBase
                     configureCache(UnwritableCache(), at: .model)   // ...nor subsequent ones
 
                     service().configureTransformer("**", atStage: .parsing)
-                        { (_: String, _) -> Date? in nil }
+                        { (_: Entity<String>) -> Date? in nil }
 
                     makeRequest(expectSuccess: false)
                     }
