@@ -18,14 +18,14 @@ internal class ProgressTracker
 
     private var lastProgressBroadcast: Double?
     private var progressComputation: RequestProgressComputation
-    private var progressUpdateTimer: NSTimer?
+    private var progressUpdateTimer: Timer?
 
     init(isGet: Bool)
         {
         progressComputation = RequestProgressComputation(isGet: isGet)
         }
 
-    func start(networking: RequestNetworking, reportingInterval: NSTimeInterval)
+    func start(_ networking: RequestNetworking, reportingInterval: TimeInterval)
         {
         precondition(self.networking == nil, "already started")
 
@@ -37,7 +37,7 @@ internal class ProgressTracker
                     CFAbsoluteTimeGetCurrent(),
                     reportingInterval, 0, 0)
                 { [weak self] _ in self?.updateProgress() }
-        CFRunLoopAddTimer(CFRunLoopGetCurrent(), progressUpdateTimer, kCFRunLoopCommonModes)
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), progressUpdateTimer, CFRunLoopMode.commonModes)
         }
 
     deinit
@@ -50,7 +50,7 @@ internal class ProgressTracker
         guard let networking = networking else
             { return }
 
-        progressComputation.update(networking.transferMetrics)
+        progressComputation.update(from: networking.transferMetrics)
 
         let progress = self.progress
         if lastProgressBroadcast != progress

@@ -24,7 +24,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
 
     var statusOverlay = ResourceStatusOverlay()
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         // Siesta’s typedContent() infers from the type of the repositories property that
         // repositoriesResource should hold content of type [Repository].
 
@@ -44,25 +44,25 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         statusOverlay.positionToCoverParent()
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repositories.count ?? 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return repositories.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("repo", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "repo", for: indexPath)
         if let cell = cell as? RepositoryTableViewCell {
-            cell.repository = repositories[indexPath.row]
+            cell.repository = repositories[(indexPath as NSIndexPath).row]
         }
         return cell
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "repoDetail" {
-            if let repositoryVC = segue.destinationViewController as? RepositoryViewController,
+            if let repositoryVC = segue.destination as? RepositoryViewController,
                let cell = sender as? RepositoryTableViewCell {
 
                 repositoryVC.repositoryResource =

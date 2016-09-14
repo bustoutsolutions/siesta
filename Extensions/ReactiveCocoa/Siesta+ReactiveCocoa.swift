@@ -14,7 +14,7 @@ import Result
 public struct ResourceState<T>
     {
     public var content: T?
-    public var error: Error?
+    public var error: RequestError?
     public var isLoading, isRequesting: Bool
     }
 
@@ -24,11 +24,11 @@ public extension Resource
         -> ResourceState<T>
         {
         let content: T? = latestData?.typedContent()
-        let contentTypeError: Error? =
+        let contentTypeError: RequestError? =
             (latestData != nil && content == nil)
-                ? Siesta.Error(
+                ? RequestError(
                     userMessage: "The server return an unexpected response type",
-                    cause: Error.Cause.WrongContentType())
+                    cause: RequestError.Cause.WrongContentType())
                 : nil
 
         return ResourceState<T>(
@@ -40,9 +40,9 @@ public extension Resource
         }
     }
 
-extension Siesta.Error.Cause
+extension RequestError.Cause
     {
-    public struct WrongContentType: ErrorType { }
+    public struct WrongContentType: RequestError { }
     }
 
 public struct ReactiveObserver<T>
@@ -58,7 +58,7 @@ public struct ReactiveObserver<T>
 
 extension ReactiveObserver: ResourceObserver
     {
-    public func resourceChanged(resource: Resource, event: ResourceEvent)
+    public func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
         observer.sendNext(resource.snapshot())
         }
@@ -67,7 +67,7 @@ extension ReactiveObserver: ResourceObserver
 public extension Resource
     {
     public func rac_signal<T>(
-            owner: AnyObject)
+            _ owner: AnyObject)
         -> Signal<ResourceState<T>, NoError>
         {
         let reactiveObserver = ReactiveObserver<T>()
@@ -79,7 +79,7 @@ public extension Resource
 public extension Request
     {
     public func rac_signal()
-        -> SignalProducer<Entity, Error>
+        -> SignalProducer<Entity<Any>, RequestError>
         {
         return SignalProducer
             {

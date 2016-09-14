@@ -21,44 +21,40 @@ public protocol ResourceObserver
       Called when anything happens that might change the value of the reosurce’s `latestData`, `latestError`, or
       `isLoading` flag. The `event` explains the reason for the notification.
     */
-    func resourceChanged(resource: Resource, event: ResourceEvent)
+    func resourceChanged(_ resource: Resource, event: ResourceEvent)
 
     /**
       Receive updates on progress at regular intervals while a request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
-    func resourceRequestProgress(resource: Resource, progress: Double)
+    func resourceRequestProgress(for resource: Resource, progress: Double)
 
     /**
       Called when this observer stops observing a resource. Use for making `removeObservers(ownedBy:)` trigger
       other cleanup.
     */
-    func stoppedObservingResource(resource: Resource)
+    func stoppedObserving(resource: Resource)
 
     /**
       Allows you to prevent redundant observers from being added to the same resource. If an existing observer
       says it is equivalent to a new observer passed to `Resource.addObserver(...)`, then the call has no effect.
     */
-    @warn_unused_result
-    func isEquivalentToObserver(other: ResourceObserver) -> Bool
+    func isEquivalentTo(observer other: ResourceObserver) -> Bool
     }
 
 public extension ResourceObserver
     {
     /// Does nothing.
-    func resourceRequestProgress(resource: Resource, progress: Double) { }
+    func resourceRequestProgress(for resource: Resource, progress: Double) { }
 
     /// Does nothing.
-    func stoppedObservingResource(resource: Resource) { }
+    func stoppedObserving(resource: Resource) { }
 
     /// True iff self and other are (1) both objects and (2) are the _same_ object.
-    func isEquivalentToObserver(other: ResourceObserver) -> Bool
+    func isEquivalentTo(observer other: ResourceObserver) -> Bool
         {
-        if let selfObj = self as? AnyObject,
-           let otherObj = other as? AnyObject
-            { return selfObj === otherObj }
-        else
-            { return false }
+        // TODO: Possible to check whether self and other are truly class types without expense of wrapper object alloc?
+        return (self as AnyObject) === (other as AnyObject)
         }
     }
 
@@ -67,14 +63,14 @@ public extension ResourceObserver
 
   See `Resource.addObserver(owner:closure:)`.
 */
-public typealias ResourceObserverClosure = (resource: Resource, event: ResourceEvent) -> ()
+public typealias ResourceObserverClosure = (Resource, ResourceEvent) -> ()
 
 /**
   The possible causes of a call to `ResourceObserver.resourceChanged(_:event:)`.
 
   - SeeAlso: `Resource.load()`
 */
-public enum ResourceEvent: CustomStringConvertible
+public enum ResourceEvent
     {
     /**
       Immediately sent to a new observer when it first starts observing a resource. This event allows you to gather
@@ -83,54 +79,42 @@ public enum ResourceEvent: CustomStringConvertible
 
       Note that this is sent only to the newly attached observer, not all observers.
     */
-    case ObserverAdded
+    case observerAdded
 
     /// A load request for this resource started. `Resource.isLoading` is now true.
-    case Requested
+    case requested
 
     /// The request in progress was cancelled before it finished.
-    case RequestCancelled
+    case requestCancelled
 
     /// The resource’s `latestData` property has been updated.
-    case NewData(NewDataSource)
+    case newData(NewDataSource)
 
     /// The request in progress succeeded, but did not result in a change to the resource’s `latestData` (except
     /// the timestamp). Note that you may still need to update the UI, because if `latestError` was present before, it
     /// is now nil.
-    case NotModified
+    case notModified
 
     /// The request in progress failed. Details are in the resource’s `latestError` property.
-    case Error
+    case error
 
-    /// :nodoc:
-    public var description: String
-        {
-        // If anyone knows a way around this monstrosity, please send me a PR. -PPC
-        switch self
-            {
-            case ObserverAdded:       return "ObserverAdded"
-            case Requested:           return "Requested"
-            case RequestCancelled:    return "RequestCancelled"
-            case NewData(let source): return "NewData(\(source))"
-            case NotModified:         return "NotModified"
-            case Error:               return "Error"
-            }
-        }
-
-    /// Possible sources of `ResourceEvent.NewData`.
-    public enum NewDataSource
+    /// Possible sources of `ResourceEvent.newData`.
+    public enum NewDataSource: String, CustomStringConvertible
         {
         /// The new value of `latestData` comes from a successful network request.
-        case Network
+        case network
 
         /// The new value of `latestData` comes from this resource’s `Configuration.persistentCache`.
-        case Cache
+        case cache
 
         /// The new value of `latestData` came from a call to `Resource.overrideLocalData(_:)`
-        case LocalOverride
+        case localOverride
 
         /// The resource was wiped, and `latestData` is now nil.
-        case Wipe
+        case wipe
+
+        public var description: String
+            { return rawValue }
         }
     }
 
@@ -150,7 +134,8 @@ public extension Resource
       - Note: This method prevents duplicates; adding the same observer object a second time has no effect. This is
               _not_ necessarily true of other flavors of `addObserver`, which accept observers that are not objects.
     */
-    public func addObserver(observerAndOwner: protocol<ResourceObserver, AnyObject>) -> Self
+    @discardableResult
+    public func addObserver(_ observerAndOwner: ResourceObserver & AnyObject) -> Self
         {
         return addObserver(observerAndOwner, owner: observerAndOwner)
         }
@@ -165,16 +150,17 @@ public extension Resource
 
       - Note: By default, this method prevents duplicates **only if the observer is an object**. If you pass a struct
               twice, you will receive two calls for every event. This is because only objects have a notion of identity
-              in Swift. You can implement `ResourceObserver.isEquivalentToObserver(_:)` to make a struct prevent
+              in Swift. You can implement `ResourceObserver.isEquivalentTo(observer:)` to make a struct prevent
               duplicates; however, it’s usually easier to ensure that you don’t make redundant calls to this method if
               you’re passing a struct.
     */
-    public func addObserver(observer: ResourceObserver, owner: AnyObject) -> Self
+    @discardableResult
+    public func addObserver(_ observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        for (i, entry) in observers.enumerate()
+        for (i, entry) in observers.enumerated()
             {
-            if let existingObserver = entry.observer
-                where existingObserver.isEquivalentToObserver(observer)
+            if let existingObserver = entry.observer,
+                existingObserver.isEquivalentTo(observer: observer)
                 {
                 // have to use observers[i] instead of loop var to
                 // make mutator actually change struct in place in array
@@ -186,7 +172,7 @@ public extension Resource
         var newEntry = ObserverEntry(observer: observer, resource: self)
         newEntry.addOwner(owner)
         observers.append(newEntry)
-        observer.resourceChanged(self, event: .ObserverAdded)
+        observer.resourceChanged(self, event: .observerAdded)
         return self
         }
 
@@ -201,7 +187,8 @@ public extension Resource
               of closure identity: there is no such thing as “the same” closure in the language, and thus no way to
               detect duplicates. It is thus the caller’s responsibility to prevent redundant calls to this method.
     */
-    public func addObserver(owner owner: AnyObject, closure: ResourceObserverClosure) -> Self
+    @discardableResult
+    public func addObserver(owner: AnyObject, closure: @escaping ResourceObserverClosure) -> Self
         {
         return addObserver(ClosureObserver(closure: closure), owner: owner)
         }
@@ -227,23 +214,23 @@ public extension Resource
         return !observers.isEmpty
         }
 
-    internal func notifyObservers(event: ResourceEvent)
+    internal func notifyObservers(_ event: ResourceEvent)
         {
         cleanDefunctObservers()
 
-        debugLog(.Observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
+        debugLog(.observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
             {
-            debugLog(.Observers, [self, "sending", event, "to", entry.observer])
+            debugLog(.observers, [self, "sending", event, "to", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
             }
         }
 
-    internal func notifyObservers(progress progress: Double)
+    internal func notifyObservers(progress: Double)
         {
         for entry in observers
             {
-            entry.observer?.resourceRequestProgress(self, progress: progress)
+            entry.observer?.resourceRequestProgress(for: self, progress: progress)
             }
         }
 
@@ -257,8 +244,8 @@ public extension Resource
 
         for entry in removed
             {
-            debugLog(.Observers, [self, "removing observer whose owners are all gone:", entry])
-            entry.observer?.stoppedObservingResource(self)
+            debugLog(.observers, [self, "removing observer whose owners are all gone:", entry])
+            entry.observer?.stoppedObserving(resource: self)
             }
         }
     }
@@ -284,21 +271,33 @@ internal struct ObserverEntry: CustomStringConvertible
         originalObserverDescription = debugStr(observer)  // So we know what was deallocated if it gets logged
         }
 
-    mutating func addOwner(owner: AnyObject)
+    mutating func addOwner(_ owner: AnyObject)
         {
-        if owner === (observer as? AnyObject)
-            { observerIsOwner = true }
-        else
-            { externalOwners.insert(WeakRef(owner)) }
-        cleanUp()
+        withOwner(owner,
+            ifObserver:
+                { observerIsOwner = true },
+            else:
+                { externalOwners.insert(WeakRef(owner)) })
         }
 
-    mutating func removeOwner(owner: AnyObject)
+    mutating func removeOwner(_ owner: AnyObject)
         {
-        if owner === (observer as? AnyObject)
-            { observerIsOwner = false }
+        withOwner(owner,
+            ifObserver:
+                { observerIsOwner = false },
+            else:
+                { externalOwners.remove(WeakRef(owner)) })
+        }
+
+    private mutating func withOwner(
+            _ owner: AnyObject,
+            ifObserver selfOwnerAction: (Void) -> Void,
+            else externalOwnerAction: (Void) -> Void)
+        {
+        if owner === (observer as AnyObject?)
+            { selfOwnerAction() }
         else
-            { externalOwners.remove(WeakRef(owner)) }
+            { externalOwnerAction() }
         cleanUp()
         }
 
@@ -328,10 +327,10 @@ internal struct ObserverEntry: CustomStringConvertible
 
 private struct ClosureObserver: ResourceObserver
     {
-    private let closure: ResourceObserverClosure
+    fileprivate let closure: ResourceObserverClosure
 
-    func resourceChanged(resource: Resource, event: ResourceEvent)
+    func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
-        closure(resource: resource, event: event)
+        closure(resource, event)
         }
     }

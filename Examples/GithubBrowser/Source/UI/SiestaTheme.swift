@@ -12,16 +12,16 @@ enum SiestaTheme {
         boldColor     = UIColor(red: 0.906, green: 0.902, blue: 0.894, alpha: 1)
 
     static func applyAppearanceDefaults() {
-        UITextField.appearance().keyboardAppearance = .Dark
-        UITextField.appearance().textColor = UIColor.blackColor()
+        UITextField.appearance().keyboardAppearance = .dark
+        UITextField.appearance().textColor = UIColor.black
         UITextField.appearance().backgroundColor = textColor
 
-        UINavigationBar.appearance().barStyle = UIBarStyle.Black
+        UINavigationBar.appearance().barStyle = UIBarStyle.black
         UINavigationBar.appearance().barTintColor = darkColor
         UINavigationBar.appearance().tintColor = linkColor
 
         UITableView.appearance().backgroundColor = darkerColor
-        UITableView.appearance().separatorColor = UIColor.blackColor()
+        UITableView.appearance().separatorColor = UIColor.black
         UITableViewCell.appearance().backgroundColor = darkerColor
         UITableViewCell.appearance().selectedBackgroundView = emptyView(withBackground: selectedColor)
 
@@ -30,11 +30,11 @@ enum SiestaTheme {
 
         UISearchBar.appearance().backgroundColor = darkColor
         UISearchBar.appearance().barTintColor = darkColor
-        UISearchBar.appearance().searchBarStyle = .Minimal
-        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = lightColor
+        UISearchBar.appearance().searchBarStyle = .minimal
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = lightColor
 
-        UILabel.appearanceWhenContainedInInstancesOfClasses([ResourceStatusOverlay.self]).textColor = textColor
-        UIActivityIndicatorView.appearanceWhenContainedInInstancesOfClasses([ResourceStatusOverlay.self]).activityIndicatorViewStyle = .WhiteLarge
+        UILabel.appearance(whenContainedInInstancesOf: [ResourceStatusOverlay.self]).textColor = textColor
+        UIActivityIndicatorView.appearance(whenContainedInInstancesOf: [ResourceStatusOverlay.self]).activityIndicatorViewStyle = .whiteLarge
     }
 
     static private func emptyView(withBackground color: UIColor) -> UIView {

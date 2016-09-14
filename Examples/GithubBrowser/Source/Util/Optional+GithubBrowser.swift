@@ -9,7 +9,7 @@
 import Foundation
 
 extension Optional {
-    func required(name: String = "<unknown>") throws -> Wrapped {
+    func required(_ name: String = "<unknown>") throws -> Wrapped {
         guard let value = self else {
             throw MissingRequiredValue(name: name, type: Wrapped.self)
         }
@@ -17,7 +17,7 @@ extension Optional {
     }
 }
 
-struct MissingRequiredValue: ErrorType {
+struct MissingRequiredValue: Error {
     let name: String?
     let type: Any.Type
 }

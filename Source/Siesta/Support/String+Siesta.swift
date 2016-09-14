@@ -10,11 +10,10 @@ import Foundation
 
 internal extension String
     {
-    @warn_unused_result
-    func stripPrefix(prefix: String) -> String
+    func stripPrefix(_ prefix: String) -> String
         {
         return hasPrefix(prefix)
-            ? self[startIndex.advancedBy(prefix.characters.count) ..< endIndex]
+            ? self[characters.index(startIndex, offsetBy: prefix.characters.count) ..< endIndex]
             : self
         }
 
@@ -24,7 +23,7 @@ internal extension String
             { return self }
 
         var result = self
-        result.replaceRange(startIndex...startIndex, with: String(self[startIndex]).uppercaseString)
+        result.replaceSubrange(startIndex...startIndex, with: String(self[startIndex]).uppercased())
         return result
         }
 

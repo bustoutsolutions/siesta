@@ -8,53 +8,53 @@
 
 import Foundation
 
-internal typealias ResponseCallback = ResponseInfo -> Void
+internal typealias ResponseCallback = (ResponseInfo) -> Void
 
 internal protocol RequestWithDefaultCallbacks: Request
     {
-    func addResponseCallback(callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
     }
 
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
 extension RequestWithDefaultCallbacks
     {
-    func onCompletion(callback: (ResponseInfo) -> Void) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
         {
         return addResponseCallback(callback)
         }
 
-    func onSuccess(callback: Entity -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
         {
         return addResponseCallback
             {
-            if case .Success(let entity) = $0.response
+            if case .success(let entity) = $0.response
                 { callback(entity) }
             }
         }
 
-    func onNewData(callback: Entity -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
         {
         return addResponseCallback
             {
-            if case .Success(let entity) = $0.response where $0.isNew
+            if case .success(let entity) = $0.response , $0.isNew
                 { callback(entity) }
             }
         }
 
-    func onNotModified(callback: Void -> Void) -> Self
+    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
         {
         return addResponseCallback
             {
-            if case .Success = $0.response where !$0.isNew
+            if case .success = $0.response , !$0.isNew
                 { callback() }
             }
         }
 
-    func onFailure(callback: Error -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
         {
         return addResponseCallback
             {
-            if case .Failure(let error) = $0.response
+            if case .failure(let error) = $0.response
                 { callback(error) }
             }
         }
@@ -64,18 +64,18 @@ extension RequestWithDefaultCallbacks
 internal struct CallbackGroup<CallbackArguments>
     {
     private(set) var completedValue: CallbackArguments?
-    private var callbacks: [CallbackArguments -> Void] = []
+    private var callbacks: [(CallbackArguments) -> Void] = []
 
-    mutating func addCallback(callback: CallbackArguments -> Void)
+    mutating func addCallback(_ callback: @escaping (CallbackArguments) -> Void)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         if let completedValue = completedValue
             {
             // Request already completed. Callback can run immediately, but queue it on the main thread so that the
             // caller can finish their business first.
 
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
                 { callback(completedValue) }
             }
         else
@@ -84,9 +84,9 @@ internal struct CallbackGroup<CallbackArguments>
             }
         }
 
-    func notify(arguments: CallbackArguments)
+    func notify(_ arguments: CallbackArguments)
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
 
         // Note that callbacks will be [] after notifyOfCompletion() called, so this becomes a noop.
 
@@ -94,7 +94,7 @@ internal struct CallbackGroup<CallbackArguments>
             { callback(arguments) }
         }
 
-    mutating func notifyOfCompletion(arguments: CallbackArguments)
+    mutating func notifyOfCompletion(_ arguments: CallbackArguments)
         {
         precondition(completedValue == nil, "notifyOfCompletion() already called")
 

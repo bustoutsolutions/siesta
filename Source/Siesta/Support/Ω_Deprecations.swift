@@ -9,42 +9,197 @@
 
 import Foundation
 
-// Deprecated in 1.0-beta.10
-
-extension Request
-    {
-    @available(*, deprecated=0.99, message="Your onCompletion() should take ResponseInfo instead of Response. If you’re using $0, replace it with $0.response.")
-    public func onCompletion(callback: Response -> Void) -> Self
-        {
-        return onCompletion { callback($0.response) }
-        }
-    }
-
-extension ResponseContentTransformer
-    {
-    @available(*, deprecated=0.99, message="skipWhenEntityMatchesOutputType: removed in favor of onInputTypeMismatch:", renamed="init(onInputTypeMismatch:transformErrors:processor:)")
-    public init(
-            skipWhenEntityMatchesOutputType: Bool,
-            transformErrors: Bool = false,
-            processor: Processor)
-        {
-        self.init(
-            onInputTypeMismatch: skipWhenEntityMatchesOutputType ? .SkipIfOutputTypeMatches : .Error,
-            transformErrors: transformErrors,
-            processor: processor)
-        }
-    }
+// MARK: Swift 3 deprecations
 
 extension Configuration
     {
-    @available(*, deprecated=0.99, renamed="decorateRequests")
-    public mutating func beforeStartingRequest(callback: (Resource, Request) -> Void)
+    @available(*, unavailable, message: "Globally replace `$0.config` with `$0`")
+    public var config: Configuration
         {
-        decorateRequests
-            {
-            res, req in
-            callback(res, req)
-            return req
-            }
+        get { fatalError("no longer available") }
+        set { fatalError("no longer available") }
         }
+    }
+
+extension Resource
+    {
+    @available(*, deprecated: 0.99, renamed: "configuration(for:)")
+    public func configuration(forRequestMethod method: Siesta.RequestMethod) -> Siesta.Configuration
+        { return configuration(for: method) }
+
+
+    @available(*, deprecated: 0.99, renamed: "load(using:)")
+    public func load(usingRequest req: Request) -> Request
+        { return load(using: req) }
+
+    @available(*, deprecated: 0.99, renamed: "overrideLocalData(with:)")
+    public func overrideLocalData(_ entity: Siesta.Entity<Any>)
+        { return overrideLocalData(with: entity) }
+
+    @available(*, deprecated: 0.99, renamed: "overrideLocalContent(with:)")
+    public func overrideLocalContent(_ content: AnyObject)
+        { return overrideLocalContent(with: content) }
+    }
+
+extension Service
+    {
+    @available(*, deprecated: 0.99, renamed: "wipeResources(withURLsMatching:)")
+    final public func wipeResourcesMatchingURL(predicate: (URL) -> Bool)
+        { return wipeResources(withURLsMatching: predicate) }
+    }
+
+extension NSRegularExpression
+    {
+    @available(*, deprecated: 0.99, renamed: "configurationPattern(for:)")
+    public func configurationPattern(_ service: Siesta.Service) -> (URL) -> Bool
+        { return configurationPattern(for: service) }
+    }
+
+extension Resource
+    {
+    @available(*, deprecated: 0.99, renamed: "configurationPattern(for:)")
+    public func configurationPattern(_ service: Siesta.Service) -> (URL) -> Bool
+        { return configurationPattern(for: service) }
+    }
+
+extension ResourceObserver
+    {
+    @available(*, deprecated: 0.99, renamed: "isEquivalentTo(observer:)")
+    public func isEquivalentToObserver(_ other: ResourceObserver) -> Bool
+        { return isEquivalentTo(observer: other) }
+    }
+
+extension String
+    {
+    @available(*, deprecated: 0.99, renamed: "configurationPattern(for:)")
+    public func configurationPattern(_ service: Siesta.Service) -> (URL) -> Bool
+        { return configurationPattern(for: service) }
+    }
+
+extension InputTypeMismatchAction
+    {
+    @available(*, deprecated: 0.99, renamed: "error")
+    public static let Error = InputTypeMismatchAction.error
+
+    @available(*, deprecated: 0.99, renamed: "skip")
+    public static let Skip = InputTypeMismatchAction.skip
+
+    @available(*, deprecated: 0.99, renamed: "skipIfOutputTypeMatches")
+    public static let SkipIfOutputTypeMatches = InputTypeMismatchAction.skipIfOutputTypeMatches
+    }
+
+extension LogCategory
+    {
+    @available(*, deprecated: 0.99, renamed: "network")
+    public static let Network = LogCategory.network
+
+    @available(*, deprecated: 0.99, renamed: "networkDetails")
+    public static let NetworkDetails = LogCategory.networkDetails
+
+    @available(*, deprecated: 0.99, renamed: "responseProcessing")
+    public static let ResponseProcessing = LogCategory.responseProcessing
+
+    @available(*, deprecated: 0.99, renamed: "stateChanges")
+    public static let StateChanges = LogCategory.stateChanges
+
+    @available(*, deprecated: 0.99, renamed: "observers")
+    public static let Observers = LogCategory.observers
+
+    @available(*, deprecated: 0.99, renamed: "staleness")
+    public static let Staleness = LogCategory.staleness
+
+    @available(*, deprecated: 0.99, renamed: "cache")
+    public static let Cache = LogCategory.cache
+
+    @available(*, deprecated: 0.99, renamed: "configuration")
+    public static let Configuration = LogCategory.configuration
+    }
+
+extension RequestChainAction
+    {
+    @available(*, deprecated: 0.99, renamed: "passTo")
+    public static let PassTo = RequestChainAction.passTo
+
+    @available(*, deprecated: 0.99, renamed: "useResponse")
+    public static let UseResponse = RequestChainAction.useResponse
+
+    @available(*, deprecated: 0.99, renamed: "useThisResponse")
+    public static let UseThisResponse = RequestChainAction.useThisResponse
+    }
+
+extension RequestMethod
+    {
+    @available(*, deprecated: 0.99, renamed: "get")
+    public static let GET = RequestMethod.get
+
+    @available(*, deprecated: 0.99, renamed: "post")
+    public static let POST = RequestMethod.post
+
+    @available(*, deprecated: 0.99, renamed: "put")
+    public static let PUT = RequestMethod.put
+
+    @available(*, deprecated: 0.99, renamed: "patch")
+    public static let PATCH = RequestMethod.patch
+
+    @available(*, deprecated: 0.99, renamed: "delete")
+    public static let DELETE = RequestMethod.delete
+    }
+
+extension ResourceEvent
+    {
+    @available(*, deprecated: 0.99, renamed: "observerAdded")
+    public static let ObserverAdded = ResourceEvent.observerAdded
+
+    @available(*, deprecated: 0.99, renamed: "requested")
+    public static let Requested = ResourceEvent.requested
+
+    @available(*, deprecated: 0.99, renamed: "requestCancelled")
+    public static let RequestCancelled = ResourceEvent.requestCancelled
+
+    @available(*, deprecated: 0.99, renamed: "newData")
+    public static let NewData = ResourceEvent.newData
+
+    @available(*, deprecated: 0.99, renamed: "notModified")
+    public static let NotModified = ResourceEvent.notModified
+
+    @available(*, deprecated: 0.99, renamed: "error")
+    public static let Error = ResourceEvent.error
+    }
+
+extension ResourceEvent.NewDataSource
+    {
+    @available(*, deprecated: 0.99, renamed: "network")
+    public static let Network = ResourceEvent.NewDataSource.network
+
+    @available(*, deprecated: 0.99, renamed: "cache")
+    public static let Cache = ResourceEvent.NewDataSource.cache
+
+    @available(*, deprecated: 0.99, renamed: "localOverride")
+    public static let LocalOverride = ResourceEvent.NewDataSource.localOverride
+
+    @available(*, deprecated: 0.99, renamed: "wipe")
+    public static let Wipe = ResourceEvent.NewDataSource.wipe
+    }
+
+extension Response
+    {
+    @available(*, deprecated: 0.99, renamed: "success")
+    public static let Success = Response.success
+
+    @available(*, deprecated: 0.99, renamed: "failure")
+    public static let Failure = Response.failure
+    }
+
+extension ConfigurationPatternConvertible
+    {
+    @available(*, deprecated: 0.99, renamed: "configurationPattern(for:)")
+    public func configurationPattern(_ service: Siesta.Service) -> (URL) -> Bool
+        { return configurationPattern(for: service) }
+    }
+
+extension Entity
+    {
+    @available(*, deprecated: 0.99, renamed: "header(forKey:)")
+    public func header(_ key: String) -> String?
+        { return header(forKey: key) }
     }

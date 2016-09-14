@@ -65,7 +65,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         showRepository()
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         showRepository()
     }
 
@@ -88,13 +88,13 @@ class RepositoryViewController: UIViewController, ResourceObserver {
 
         starCountLabel?.text = repository?.starCount?.description
         starIcon?.text = isStarred ? "★" : "☆"
-        starButton?.setTitle(isStarred ? "Unstar" : "Star", forState: .Normal)
-        starButton?.enabled = (repository != nil)
+        starButton?.setTitle(isStarred ? "Unstar" : "Star", for: .normal)
+        starButton?.isEnabled = (repository != nil)
     }
 
     // MARK: Actions
 
-    @IBAction func toggleStar(sender: AnyObject) {
+    @IBAction func toggleStar(_ sender: AnyObject) {
         guard let repository = repository else { return }
 
         // Two things of note here:
@@ -119,21 +119,21 @@ class RepositoryViewController: UIViewController, ResourceObserver {
     }
 
     private func startStarRequestAnimation() {
-        starButton?.enabled = false
+        starButton?.isEnabled = false
         let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotation.fromValue = 0
         rotation.toValue = 2 * M_PI
         rotation.duration = 1.6
         rotation.repeatCount = Float.infinity
-        starIcon?.layer.addAnimation(rotation, forKey: "loadingIndicator")
+        starIcon?.layer.add(rotation, forKey: "loadingIndicator")
     }
 
     @objc private func stopStarRequestAnimation() {
-        starButton?.enabled = true
+        starButton?.isEnabled = true
         let stopRotation = CASpringAnimation(keyPath: "transform.rotation.z")
         stopRotation.toValue = -M_PI * 2 / 5
         stopRotation.damping = 6
         stopRotation.duration = stopRotation.settlingDuration
-        starIcon?.layer.addAnimation(stopRotation, forKey: "loadingIndicator")
+        starIcon?.layer.add(stopRotation, forKey: "loadingIndicator")
     }
 }

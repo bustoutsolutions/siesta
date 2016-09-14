@@ -8,7 +8,7 @@
 
 import Siesta
 
-public class TestService: Service
+@objc public class TestService: Service
     {
     public init()
         { super.init(baseURL: "http://example.api") }

@@ -32,7 +32,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         }
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         // typedContent() infers that we want a User from context: showUser() expects one. Our content tranformer
         // configuation in GithubAPI makes it so that the userResource actually holds a User. It is up to a Siesta
         // client to ensure that the transformer output and the expected content type line up like this.
@@ -54,31 +54,31 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         showUser(nil)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         setNeedsStatusBarAppearanceUpdate()
         updateLoginButton()
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent;
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent;
     }
 
     override func viewDidLayoutSubviews() {
         statusOverlay.positionToCover(userInfoView)
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "repos" {
-            repoListVC = segue.destinationViewController as? RepositoryListViewController
+            repoListVC = segue.destination as? RepositoryListViewController
         }
     }
 
     // MARK: User & repo list
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        if let searchText = searchBar.text where !searchText.isEmpty {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let searchText = searchBar.text, !searchText.isEmpty {
 
             // Setting userResource triggers a load and display of the new user data. Note that Siesta’s redunant
             // request elimination and model caching make it reasonable to do this on every keystroke.
@@ -90,7 +90,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         }
     }
 
-    func showUser(user: User?) {
+    func showUser(_ user: User?) {
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
         // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
 
@@ -128,12 +128,12 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             GithubAPI.logOut()
             updateLoginButton()
         } else {
-            performSegueWithIdentifier("login", sender: loginButton)
+            performSegue(withIdentifier: "login", sender: loginButton)
         }
     }
 
     private func updateLoginButton() {
-        loginButton.setTitle(GithubAPI.isAuthenticated ? "Log Out" : "Log In", forState: .Normal)
+        loginButton.setTitle(GithubAPI.isAuthenticated ? "Log Out" : "Log In", for: UIControlState())
         userResource?.loadIfNeeded()
     }
 }

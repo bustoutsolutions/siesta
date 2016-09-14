@@ -16,25 +16,25 @@ import Foundation
 public enum RequestMethod: String
     {
     /// GET
-    case GET
+    case get
 
     /// POST. Just POST. Doc comment is the same as the enum.
-    case POST
+    case post
 
     /// So you’re really reading the docs for all these, huh?
-    case PUT
+    case put
 
     /// OK then, I’ll reward your diligence. Or punish it, depending on your level of refinement.
     ///
     /// What’s the difference between a poorly maintained Greyhound terminal and a lobster with breast implants?
-    case PATCH
+    case patch
 
     /// One’s a crusty bus station, and the other’s a busty crustacean.
     ///
     /// I’m here all week! Thank you for reading the documentation!
-    case DELETE
+    case delete
 
-    internal static let all: [RequestMethod] = [.GET, .POST, .PUT, .PATCH, .DELETE]
+    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete]
     }
 
 /**
@@ -60,19 +60,24 @@ public protocol Request: class
     /**
       Call the closure once when the request finishes for any reason.
     */
-    func onCompletion(callback: ResponseInfo -> Void) -> Self
+    @discardableResult
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
 
     /// Call the closure once if the request succeeds.
-    func onSuccess(callback: Entity -> Void) -> Self
+    @discardableResult
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
 
     /// Call the closure once if the request succeeds and the data changed.
-    func onNewData(callback: Entity -> Void) -> Self
+    @discardableResult
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
 
     /// Call the closure once if the request succeeds with a 304.
-    func onNotModified(callback: Void -> Void) -> Self
+    @discardableResult
+    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
-    func onFailure(callback: Error -> Void) -> Self
+    @discardableResult
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
 
     /**
       Immediately start this request if it was deferred. Does nothing if the request is already started.
@@ -111,13 +116,14 @@ public protocol Request: class
       Call the given closure with progress updates at regular intervals while the request is in progress.
       Will _always_ receive a call with a value of 1 when the request completes.
     */
-    func onProgress(callback: Double -> Void) -> Self
+    @discardableResult
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
 
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
 
       If this method is called while the request is in progress, it immediately triggers the `failure`/`completion`
-      callbacks, with the error’s `cause` set to `Error.Cause.RequestCancelled`.
+      callbacks, with the error’s `cause` set to `RequestError.Cause.RequestCancelled`.
 
       Note that `cancel()` is not guaranteed to stop the request from reaching the server. In fact, it is not guaranteed
       to have any effect at all on the underlying request, subject to the whims of the `NetworkingProvider`. Therefore,
@@ -176,16 +182,16 @@ public protocol Request: class
 public enum Response: CustomStringConvertible
     {
     /// The request succeeded, and returned the given entity.
-    case Success(Entity)
+    case success(Entity<Any>)
 
     /// The request failed because of the given error.
-    case Failure(Error)
+    case failure(RequestError)
 
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
-        if case .Failure(let error) = self
-            { return error.cause is Error.Cause.RequestCancelled }
+        if case .failure(let error) = self
+            { return error.cause is RequestError.Cause.RequestCancelled }
         else
             { return false }
         }
@@ -195,8 +201,8 @@ public enum Response: CustomStringConvertible
         {
         switch self
             {
-            case .Success(let value): return debugStr(value)
-            case .Failure(let value): return debugStr(value)
+            case .success(let value): return debugStr(value)
+            case .failure(let value): return debugStr(value)
             }
         }
     }
@@ -208,7 +214,7 @@ public struct ResponseInfo
     public var response: Response
 
     /// Indicates whether `response` is newly received data, or a previous response reused.
-    /// Used to distinguish `ResourceEvent.NewData` from `ResourceEvent.NotModified`.
+    /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 
     /// Creates new responseInfo, with `isNew` true by default.
@@ -220,7 +226,7 @@ public struct ResponseInfo
 
     internal static let cancellation =
         ResponseInfo(
-            response: .Failure(Error(
+            response: .failure(RequestError(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
-                cause: Error.Cause.RequestCancelled(networkError: nil))))
+                cause: RequestError.Cause.RequestCancelled(networkError: nil))))
     }

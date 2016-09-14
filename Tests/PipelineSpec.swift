@@ -13,37 +13,37 @@ import Nocilla
 
 class PipelineSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        func appender(word: String) -> ResponseContentTransformer<Any,String>
+        func appender(_ word: String) -> ResponseContentTransformer<Any,String>
             {
             return ResponseContentTransformer
                 {
                 let stringContent = $0.content as? String ?? ""
-                guard !stringContent.containsString("error on \(word)") else
+                guard !stringContent.contains("error on \(word)") else
                     { return nil }
                 return stringContent + word
                 }
             }
 
-        func makeRequest(expectSuccess expectSuccess: Bool = true)
+        func makeRequest(expectSuccess: Bool = true)
             {
-            stubRequest(resource, "GET").andReturn(200).withBody("🍕")
+            _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
-            awaitRequest(resource().load(), alreadyCompleted: false)
+            awaitRequest(resource().load(), false)
             }
 
-        func resourceCacheKey(prefix: String) -> TestCacheKey
+        func resourceCacheKey(_ prefix: String) -> TestCacheKey
             { return TestCacheKey(prefix: prefix, path: "/a/b") }
 
         beforeEach
             {
             service().configure
                 {
-                $0.config.pipeline.clear()
+                $0.pipeline.clear()
                 for stage in [.decoding, .parsing, .model, .cleanup] as [PipelineStageKey]
                     {
-                    $0.config.pipeline[stage].add(
+                    $0.pipeline[stage].add(
                         appender(stage.description.prefix(3)))
                     }
                 }
@@ -60,7 +60,7 @@ class PipelineSpec: ResourceSpecBase
             it("can reorder transformers already added")
                 {
                 service().configure
-                    { $0.config.pipeline.order = [.rawData, .parsing, .cleanup, .model, .decoding] }
+                    { $0.pipeline.order = [.rawData, .parsing, .cleanup, .model, .decoding] }
                 makeRequest()
                 expect(resource().text) == "parclemoddec"
                 }
@@ -68,7 +68,7 @@ class PipelineSpec: ResourceSpecBase
             it("will skip unlisted stages")
                 {
                 service().configure
-                    { $0.config.pipeline.order = [.parsing, .decoding] }
+                    { $0.pipeline.order = [.parsing, .decoding] }
                 makeRequest()
                 expect(resource().text) == "pardec"
                 }
@@ -77,9 +77,9 @@ class PipelineSpec: ResourceSpecBase
                 {
                 service().configure
                     {
-                    $0.config.pipeline.order.insert(.funk, atIndex: 3)
-                    $0.config.pipeline.order.insert(.silence, atIndex: 1)
-                    $0.config.pipeline[.funk].add(appender("♫"))
+                    $0.pipeline.order.insert(.funk, at: 3)
+                    $0.pipeline.order.insert(.silence, at: 1)
+                    $0.pipeline[.funk].add(appender("♫"))
                     }
                 makeRequest()
                 expect(resource().text) == "decpar♫modcle"
@@ -93,7 +93,7 @@ class PipelineSpec: ResourceSpecBase
                 service().configure
                     {
                     for solfegg in ["do", "re", "mi"]
-                        { $0.config.pipeline[.decoding].add(appender(solfegg)) }
+                        { $0.pipeline[.decoding].add(appender(solfegg)) }
                     }
                 makeRequest()
                 expect(resource().text) == "decdoremiparmodcle"
@@ -103,8 +103,8 @@ class PipelineSpec: ResourceSpecBase
                 {
                 service().configure
                     {
-                    $0.config.pipeline[.model].removeTransformers()
-                    $0.config.pipeline[.model].add(appender("ti"))
+                    $0.pipeline[.model].removeTransformers()
+                    $0.pipeline[.model].add(appender("ti"))
                     }
                 makeRequest()
                 expect(resource().text) == "decparticle"
@@ -113,16 +113,16 @@ class PipelineSpec: ResourceSpecBase
 
         describe("cache")
             {
-            func configureCache<C: EntityCache>(cache: C, at stageKey: PipelineStageKey)
+            func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
                 {
                 service().configure
-                    { $0.config.pipeline[stageKey].cacheUsing(cache) }
+                    { $0.pipeline[stageKey].cacheUsing(cache) }
                 }
 
-            func waitForCacheRead(cache: TestCache)
+            func waitForCacheRead(_ cache: TestCache)
                 { expect(cache.receivedCacheRead).toEventually(beTrue()) }
 
-            func waitForCacheWrite(cache: TestCache)
+            func waitForCacheWrite(_ cache: TestCache)
                 { expect(cache.receivedCacheWrite).toEventually(beTrue()) }
 
             describe("read")
@@ -140,7 +140,7 @@ class PipelineSpec: ResourceSpecBase
                     {
                     let emptyCache = TestCache("empty")
                     configureCache(emptyCache, at: .cleanup)
-                    resource()
+                    _ = resource()
                     waitForCacheRead(emptyCache)
                     expect(resource().text) == ""
                     }
@@ -148,7 +148,7 @@ class PipelineSpec: ResourceSpecBase
                 it("ignores cached data if resource populated before cache read completes")
                     {
                     configureCache(cache0(), at: .cleanup)
-                    resource().overrideLocalContent("no race conditions here...except in the specs")
+                    resource().overrideLocalContent(with: "no race conditions here...except in the specs")
                     waitForCacheRead(cache0())
                     expect(resource().text) == "no race conditions here...except in the specs"
                     }
@@ -169,7 +169,7 @@ class PipelineSpec: ResourceSpecBase
 
                     setResourceTime(2000)
                     expect(resource().latestData).toEventuallyNot(beNil())
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                     awaitNewData(resource().loadIfNeeded()!)
                     }
 
@@ -231,7 +231,7 @@ class PipelineSpec: ResourceSpecBase
                     configureCache(UnwritableCache(), at: .model)   // ...nor subsequent ones
 
                     service().configureTransformer("**", atStage: .parsing)
-                        { (_: String, _) -> NSDate? in nil }
+                        { (_: Entity<String>) -> Date? in nil }
 
                     makeRequest(expectSuccess: false)
                     }
@@ -244,7 +244,7 @@ class PipelineSpec: ResourceSpecBase
                     makeRequest()
 
                     setResourceTime(2000)
-                    stubRequest(resource, "GET").andReturn(304)
+                    _ = stubRequest(resource, "GET").andReturn(304)
                     awaitNotModified(resource().load())
                     expect(testCache.entries[resourceCacheKey("updated data")]?.timestamp)
                         .toEventually(equal(2000))
@@ -255,10 +255,10 @@ class PipelineSpec: ResourceSpecBase
                     let testCache = TestCache("local override")
                     configureCache(testCache, at: .cleanup)
                     testCache.entries[resourceCacheKey("local override")] =
-                        Entity(content: "should go away", contentType: "text/string")
+                        Entity<Any>(content: "should go away", contentType: "text/string")
 
                     resource().overrideLocalData(
-                        Entity(content: "should not be cached", contentType: "text/string"))
+                        with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
 
                     expect(testCache.entries).toEventually(beEmpty())
                     }
@@ -268,7 +268,7 @@ class PipelineSpec: ResourceSpecBase
                 {
                 makeRequest()
                 resource().overrideLocalData(
-                    Entity(content: "should not be cached", contentType: "text/string"))
+                    with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
                 }
 
             it("can specify a custom workQueue")
@@ -293,7 +293,7 @@ class PipelineSpec: ResourceSpecBase
         it("can clear previously configured transformers")
             {
             service().configure
-                { $0.config.pipeline.clear() }
+                { $0.pipeline.clear() }
             makeRequest()
             expect(resource().latestData?.content is NSData) == true
             }
@@ -312,7 +312,7 @@ private class TestCache: EntityCache
     {
     var name: String
     var receivedCacheRead = false, receivedCacheWrite = false
-    var entries: [TestCacheKey:Entity] = [:]
+    var entries: [TestCacheKey:Entity<Any>] = [:]
 
     init(_ name: String)
         { self.name = name }
@@ -320,27 +320,24 @@ private class TestCache: EntityCache
     init(returning content: String, for key: TestCacheKey)
         {
         name = content
-        entries[key] = Entity(content: content, contentType: "text/string")
+        entries[key] = Entity<Any>(content: content, contentType: "text/string")
         }
 
     func key(for resource: Resource) -> TestCacheKey?
         { return TestCacheKey(prefix: name, path: resource.url.path) }
 
-    func readEntity(forKey key: TestCacheKey) -> Entity?
+    func readEntity(forKey key: TestCacheKey) -> Entity<Any>?
         {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(0.05 * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue())
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC))
             { self.receivedCacheRead = true }
 
         return entries[key]
         }
 
-    func writeEntity(entity: Entity, forKey key: TestCacheKey)
+    func writeEntity(_ entity: Entity<Any>, forKey key: TestCacheKey)
         {
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
             {
             self.entries[key] = entity
             self.receivedCacheWrite = true
@@ -348,7 +345,7 @@ private class TestCache: EntityCache
         }
 
     func removeEntity(forKey key: TestCacheKey)
-        { entries.removeValueForKey(key) }
+        { entries.removeValue(forKey: key) }
     }
 
 private struct TestCacheKey
@@ -375,9 +372,9 @@ private func ==(lhs: TestCacheKey, rhs: TestCacheKey) -> Bool
 
 private extension String
     {
-    func prefix(n: Int) -> String
+    func prefix(_ n: Int) -> String
         {
-        return self[startIndex ..< startIndex.advancedBy(n)]
+        return self[startIndex ..< characters.index(startIndex, offsetBy: n)]
         }
     }
 
@@ -388,24 +385,24 @@ private class MainThreadCache: EntityCache
     func key(for resource: Resource) -> String?
         { return "bi" }
 
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: String) -> Entity<Any>?
         {
         recordCall("readEntity")
-        return Entity(content: "\(key)cy", contentType: "text/bogus")
+        return Entity<Any>(content: "\(key)cy", contentType: "text/bogus")
         }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity<Any>, forKey key: String)
         { recordCall("writeEntity") }
 
     func removeEntity(forKey key: String)
         { recordCall("removeEntity") }
 
-    var workQueue: dispatch_queue_t
-        { return dispatch_get_main_queue() }
+    var workQueue: DispatchQueue
+        { return DispatchQueue.main }
 
-    private func recordCall(name: String)
+    private func recordCall(_ name: String)
         {
-        if !NSThread.isMainThread()
+        if !Thread.isMainThread
             { fatalError("MainThreadCache method not called on main queue") }
         calls.append(name)
         }
@@ -416,30 +413,30 @@ private class KeylessCache: EntityCache
     func key(for resource: Resource) -> String?
         { return nil }
 
-    func readEntity(forKey key: String) -> Entity?
+    func readEntity(forKey key: String) -> Entity<Any>?
         { fatalError("should not be called") }
 
-    func writeEntity(entity: Entity, forKey key: String)
+    func writeEntity(_ entity: Entity<Any>, forKey key: String)
         { fatalError("should not be called") }
 
     func removeEntity(forKey key: String)
         { fatalError("should not be called") }
 
-    var workQueue: dispatch_queue_t
+    var workQueue: DispatchQueue
         { fatalError("should not be called") }
     }
 
 private struct UnwritableCache: EntityCache
     {
-    func key(for resource: Resource) -> NSURL?
+    func key(for resource: Resource) -> URL?
         { return resource.url }
 
-    func readEntity(forKey key: NSURL) -> Entity?
+    func readEntity(forKey key: URL) -> Entity<Any>?
         { return nil }
 
-    func writeEntity(entity: Entity, forKey key: NSURL)
+    func writeEntity(_ entity: Entity<Any>, forKey key: URL)
         { fatalError("cache should never be written to") }
 
-    func removeEntity(forKey key: NSURL)
+    func removeEntity(forKey key: URL)
         { fatalError("cache should never be written to") }
     }

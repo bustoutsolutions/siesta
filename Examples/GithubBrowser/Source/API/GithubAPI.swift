@@ -12,7 +12,7 @@ class _GithubAPI {
 
     private let service = Service(baseURL: "https://api.github.com")
 
-    private init() {
+    fileprivate init() {
         #if DEBUG
             Siesta.enabledLogCategories = LogCategory.detailed
         #endif
@@ -22,25 +22,26 @@ class _GithubAPI {
         service.configure("**") {
             // The basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes.
 
-            $0.config.headers["Authorization"] = self.basicAuthHeader
+            $0.headers["Authorization"] = self.basicAuthHeader
 
             // By default, Siesta parses JSON using NSJSONSerialization. This transformer wraps that with SwiftyJSON.
 
-            $0.config.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
+            $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
 
             // Custom transformers can change any response into any other — in this case, replacing the default error
             // message with the one provided by the Github API.
 
-            $0.config.pipeline[.cleanup].add(GithubErrorMessageExtractor())
+            $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
         }
 
         service.configure("/search/**") {
-            $0.config.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
+            $0.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
         }
 
         // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
+            // Swift 3 TODO: see if bare $0 bug is finally fixed, or consider passing struct that still supports $0.content
             try User(json: $0.content)  // Input type inferred because User.init takes JSON
         }
 
@@ -60,7 +61,7 @@ class _GithubAPI {
         }
 
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
-            $0.config.pipeline[.model].add(        // This custom transformer turns that curious convention into
+            $0.pipeline[.model].add(        // This custom transformer turns that curious convention into
                 TrueIfResourceFoundTransformer())  // a resource whose content is a simple boolean.
         }
 
@@ -76,9 +77,9 @@ class _GithubAPI {
 
     // MARK: Authentication
 
-    func logIn(username username: String, password: String) {
-        if let auth = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding) {
-            basicAuthHeader = "Basic \(auth.base64EncodedStringWithOptions([]))"
+    func logIn(username: String, password: String) {
+        if let auth = "\(username):\(password)".data(using: String.Encoding.utf8) {
+            basicAuthHeader = "Basic \(auth.base64EncodedString())"
         }
     }
 
@@ -119,10 +120,10 @@ class _GithubAPI {
             .withParam("order", "desc")
     }
 
-    func user(username: String) -> Resource {
+    func user(_ username: String) -> Resource {
         return service
             .resource("/users")
-            .child(username.lowercaseString)
+            .child(username.lowercased())
     }
 
     func repository(ownedBy login: String, named name: String) -> Resource {
@@ -132,23 +133,23 @@ class _GithubAPI {
             .child(name)
     }
 
-    func repository(repositoryModel: Repository) -> Resource {
+    func repository(_ repositoryModel: Repository) -> Resource {
         return repository(ownedBy: repositoryModel.owner.login, named: repositoryModel.name)
     }
 
-    func currentUserStarred(repositoryModel: Repository) -> Resource {
+    func currentUserStarred(_ repositoryModel: Repository) -> Resource {
         return service
             .resource("/user/starred")
             .child(repositoryModel.owner.login)
             .child(repositoryModel.name)
     }
 
-    func setStarred(isStarred: Bool, repository repositoryModel: Repository) -> Request {
+    func setStarred(_ isStarred: Bool, repository repositoryModel: Repository) -> Request {
         let starredResource = currentUserStarred(repositoryModel)
         return starredResource
-            .request(isStarred ? .PUT : .DELETE)
+            .request(isStarred ? .put : .delete)
             .onSuccess { _ in
-                starredResource.overrideLocalContent(isStarred)
+                starredResource.overrideLocalContent(with: isStarred)
                 self.repository(repositoryModel).load()  // To update star count
             }
     }
@@ -159,31 +160,31 @@ private let SwiftyJSONTransformer =
         { JSON($0.content as AnyObject) }
 
 private struct GithubErrorMessageExtractor: ResponseTransformer {
-    func process(response: Response) -> Response {
+    func process(_ response: Response) -> Response {
         switch response {
-            case .Success:
+            case .success:
                 return response
 
-            case .Failure(var error):
+            case .failure(var error):
                 error.userMessage = error.jsonDict["message"] as? String ?? error.userMessage
-                return .Failure(error)
+                return .failure(error)
         }
     }
 }
 
 private struct TrueIfResourceFoundTransformer: ResponseTransformer {
-    func process(response: Response) -> Response {
+    func process(_ response: Response) -> Response {
         switch response {
-            case .Success(var entity):
+            case .success(var entity):
                 entity.content = true         // Any success → true
                 return logTransformation(
-                    .Success(entity))
+                    .success(entity))
 
-            case .Failure(let error):
-                if var entity = error.entity where error.httpStatusCode == 404 {
+            case .failure(let error):
+                if var entity = error.entity, error.httpStatusCode == 404 {
                     entity.content = false    // 404 → false
                     return logTransformation(
-                        .Success(entity))
+                        .success(entity))
                 } else {
                     return response           // Any other error remains unchanged
                 }

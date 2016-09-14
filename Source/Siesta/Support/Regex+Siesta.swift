@@ -10,30 +10,26 @@ import Foundation
 
 internal extension String
     {
-    @warn_unused_result
-    func containsRegex(regex: String) -> Bool
+    func containsRegex(_ regex: String) -> Bool
         {
-        return rangeOfString(regex, options: .RegularExpressionSearch) != nil
+        return range(of: regex, options: .regularExpression) != nil
         }
 
-    @warn_unused_result
-    func replacingRegex(regex: String, _ replacement: String) -> String
+    func replacingRegex(_ regex: String, _ replacement: String) -> String
         {
-        return stringByReplacingOccurrencesOfString(
-            regex, withString: replacement, options: .RegularExpressionSearch, range: nil)
+        return replacingOccurrences(
+            of: regex, with: replacement, options: .regularExpression, range: nil)
         }
 
-    @warn_unused_result
-    func replacingString(string: String, _ replacement: String) -> String
+    func replacingString(_ string: String, _ replacement: String) -> String
         {
         // Maybe this method name looked more reasonable in Objective-C.
-        return stringByReplacingOccurrencesOfString(string, withString: replacement)
+        return replacingOccurrences(of: string, with: replacement)
         }
 
-    @warn_unused_result
-    func replacingRegex(regex: NSRegularExpression, _ template: String) -> String
+    func replacingRegex(_ regex: NSRegularExpression, _ template: String) -> String
         {
-        return regex.stringByReplacingMatchesInString(self, options: [], range: fullRange, withTemplate: template)
+        return regex.stringByReplacingMatches(in: self, options: [], range: fullRange, withTemplate: template)
         }
 
     var fullRange: NSRange
@@ -44,8 +40,7 @@ internal extension String
 
 internal extension NSRegularExpression
     {
-    @warn_unused_result
-    static func compile(pattern: String, options: NSRegularExpressionOptions = [])
+    static func compile(_ pattern: String, options: NSRegularExpression.Options = [])
         -> NSRegularExpression
         {
         do  {
@@ -57,10 +52,9 @@ internal extension NSRegularExpression
             }
         }
 
-    @warn_unused_result
-    func matches(string: String) -> Bool
+    func matches(_ string: String) -> Bool
         {
-        let match = firstMatchInString(string, options: [], range: string.fullRange)
+        let match = firstMatch(in: string, options: [], range: string.fullRange)
         return match != nil && match?.range.location != NSNotFound
         }
     }

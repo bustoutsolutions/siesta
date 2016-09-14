@@ -21,7 +21,6 @@ custom_categories:
     - Service
     - Resource
     - Entity
-    - Error
     - Configuration
     - ConfigurationPatternConvertible
     - TypedContentAccessors
@@ -32,10 +31,11 @@ custom_categories:
     - ResourceObserverClosure
     - ResourceEvent
 
-  - name: Network Requests
+  - name: Requests
     children:
     - Request
     - RequestMethod
+    - RequestError
     - Response
     - ResponseInfo
     - RequestChainAction

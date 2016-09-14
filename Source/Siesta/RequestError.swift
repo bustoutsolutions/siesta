@@ -1,5 +1,5 @@
 //
-//  Error.swift
+//  RequestError.swift
 //  Siesta
 //
 //  Created by Paul on 2015/6/26.
@@ -19,18 +19,22 @@ import Foundation
   - server errors (404, 500, etc.), and
   - client-side parsing and entity validation failures.
 
-  `Error` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
+  `RequestError` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
-  even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. exception/NSError-based, for example,
+  even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
   because network implementations may sometimes provide _both_ an underlying NSError _and_ an HTTP diagnostic.
 
-  The one ironclad guarantee that `Error` makes is the presence of a `userMessage`.
+  The one ironclad guarantee that `RequestError` makes is the presence of a `userMessage`.
 */
-public struct Error: ErrorType
+public struct RequestError: Error
     {
     /**
       A description of this error suitable for showing to the user. Typically messages are brief and in plain language,
       e.g. “Not found,” “Invalid username or password,” or “The internet connection is offline.”
+
+      - Note: This property is similar to Swift’s `Error.localizedDescription`, but is **not optional**. Siesta
+          guarantees the presence of a user-displayable message on a `RequestError`, so you never have to come up with
+          a default error message for your UI.
     */
     public var userMessage: String
 
@@ -38,14 +42,14 @@ public struct Error: ErrorType
     public var httpStatusCode: Int?
 
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
-    public var entity: Entity?
+    public var entity: Entity<Any>?
 
-    /// Details about the underlying error. Errors originating from Siesta will have a cause from `Error.Cause`.
+    /// Details about the underlying error. Errors originating from Siesta will have a cause from `RequestError.Cause`.
     /// Errors originating from the `NetworkingProvider` or custom `ResponseTransformer`s have domain-specific causes.
-    public var cause: ErrorType?
+    public var cause: Error?
 
     /// The time at which the error occurred.
-    public let timestamp: NSTimeInterval = now()
+    public let timestamp: TimeInterval = now()
 
     /**
       Initializes the error using a network response.
@@ -54,23 +58,23 @@ public struct Error: ErrorType
       a user message. That failing, it gives a generic failure message.
     */
     public init(
-            response: NSHTTPURLResponse?,
-            content: AnyObject?,
-            cause: ErrorType?,
+            response: HTTPURLResponse?,
+            content: Any?,
+            cause: Error?,
             userMessage: String? = nil)
         {
         self.httpStatusCode = response?.statusCode
         self.cause = cause
 
         if let content = content
-            { self.entity = Entity(response: response, content: content) }
+            { self.entity = Entity<Any>(response: response, content: content) }
 
         if let message = userMessage
             { self.userMessage = message }
-        else if let message = (cause as? NSError)?.localizedDescription
+        else if let message = cause?.localizedDescription
             { self.userMessage = message }
         else if let code = self.httpStatusCode
-            { self.userMessage = NSHTTPURLResponse.localizedStringForStatusCode(code).capitalizedFirstCharacter }
+            { self.userMessage = HTTPURLResponse.localizedString(forStatusCode: code).capitalizedFirstCharacter }
         else
             { self.userMessage = NSLocalizedString("Request failed", comment: "userMessage") }   // Is this reachable?
         }
@@ -80,8 +84,8 @@ public struct Error: ErrorType
     */
     public init(
             userMessage: String,
-            cause: ErrorType,
-            entity: Entity? = nil)
+            cause: Error,
+            entity: Entity<Any>? = nil)
         {
         self.userMessage = userMessage
         self.cause = cause
@@ -89,10 +93,10 @@ public struct Error: ErrorType
         }
     }
 
-public extension Error
+public extension RequestError
     {
     /**
-      Underlying causes of errors reported by Siesta. You will find these on the `Error.cause` property.
+      Underlying causes of errors reported by Siesta. You will find these on the `RequestError.cause` property.
       (Note that `cause` may also contain errors from the underlying network library that do not appear here.)
 
       The primary purpose of these error causes is to aid debugging. Client code rarely needs to work with them,
@@ -103,7 +107,7 @@ public extension Error
       (2) you can turn that one specific error into a success by adding a transformer:
 
           configure {
-            $0.config.responseTransformers.add(GarbledResponseHandler())
+            $0.responseTransformers.add(GarbledResponseHandler())
           }
 
           ...
@@ -111,12 +115,12 @@ public extension Error
           struct GarbledResponseHandler: ResponseTransformer {
             func process(response: Response) -> Response {
               switch response {
-                case .Success:
+                case .success:
                   return response
 
-                case .Failure(let error):
-                  if error.cause is Siesta.Error.Cause.InvalidTextEncoding {
-                    return .Success(Entity(
+                case .failure(let error):
+                  if error.cause is RequestError.Cause.InvalidTextEncoding {
+                    return .success(Entity<Any>(
                       content: "Nothingness. Tumbleweeds. The Void.",
                       contentType: "text/string"))
                   } else {
@@ -131,17 +135,17 @@ public extension Error
         // MARK: Request Errors
 
         /// Unable to create a text request with the requested character encoding.
-        public struct UnencodableText: ErrorType
+        public struct UnencodableText: Error
             {
             public let encodingName: String
             public let text: String
             }
 
         /// Unable to create a JSON request using an object that is not JSON-encodable.
-        public struct InvalidJSONObject: ErrorType { }
+        public struct InvalidJSONObject: Error { }
 
         /// Unable to create a URL-encoded request, probably due to unpaired Unicode surrogate chars.
-        public struct NotURLEncodable: ErrorType
+        public struct NotURLEncodable: Error
             {
             public let offendingString: String
             }
@@ -149,9 +153,9 @@ public extension Error
         // MARK: Network Errors
 
         /// Underlying network request was cancelled before response arrived.
-        public struct RequestCancelled: ErrorType
+        public struct RequestCancelled: Error
             {
-            public let networkError: ErrorType?
+            public let networkError: Error?
             }
 
         // TODO: Consider explicitly detecting offline connection
@@ -159,41 +163,41 @@ public extension Error
         // MARK: Response Errors
 
         /// Server sent 304 (“not changed”), but we have no local data for the resource.
-        public struct NoLocalDataFor304: ErrorType { }
+        public struct NoLocalDataFor304: Error { }
 
         /// The server sent a text encoding name that the OS does not recognize.
-        public struct InvalidTextEncoding: ErrorType
+        public struct InvalidTextEncoding: Error
             {
             public let encodingName: String
             }
 
         /// The server’s response could not be decoded using the text encoding it specified.
-        public struct UndecodableText: ErrorType
+        public struct UndecodableText: Error
             {
             public let encodingName: String
             }
 
         /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
         /// sent a response containing a bare JSON primitive.
-        public struct JSONResponseIsNotDictionaryOrArray: ErrorType
+        public struct JSONResponseIsNotDictionaryOrArray: Error
             {
             public let actualType: String
             }
 
         /// The server’s response could not be parsed using any known image format.
-        public struct UnparsableImage: ErrorType { }
+        public struct UnparsableImage: Error { }
 
         /// A response transformer received entity content of a type it doesn’t know how to process. This error means
         /// that the upstream transformations may have succeeded, but did not return a value of the type the next
         /// transformer expected.
-        public struct WrongInputTypeInTranformerPipeline: ErrorType
+        public struct WrongInputTypeInTranformerPipeline: Error
             {
             public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
             public let transformer: ResponseTransformer
             }
 
         /// A `ResponseContentTransformer` or a closure passed to `Service.configureTransformer(...)` returned nil.
-        public struct TransformerReturnedNil: ErrorType
+        public struct TransformerReturnedNil: Error
             {
             public let transformer: ResponseTransformer
             }

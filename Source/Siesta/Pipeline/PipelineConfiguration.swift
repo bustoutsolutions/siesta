@@ -21,9 +21,9 @@ import Foundation
   The pipeline is a part of a `Configuration`, so you can thus customize the pipeline per API or per resource.
 
       service.configure {
-        $0.config.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
-        $0.config.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-        $0.config.pipeline[.model].cache = myRealmCache
+        $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
+        $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
+        $0.pipeline[.model].cache = myRealmCache
       }
 
       service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -67,9 +67,9 @@ public struct Pipeline
             let nonEmptyStages = stages
                 .filter { _, stage in !stage.isEmpty }
                 .map { key, _ in key }
-            let missingStages = Set(nonEmptyStages).subtract(newValue)
+            let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
-                { debugLog(.ResponseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
+                { debugLog(.responseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
             }
         }
 
@@ -99,7 +99,7 @@ public struct Pipeline
 
       You can use this to prevent sensitive resources from being cached:
 
-          configure("/secret") { $0.config.pipeline.removeAllCaches() }
+          configure("/secret") { $0.pipeline.removeAllCaches() }
     */
     public mutating func removeAllCaches()
         {
@@ -137,7 +137,7 @@ public struct PipelineStage
     /**
       Appends the given transformer to this stage.
     */
-    public mutating func add(transformer: ResponseTransformer)
+    public mutating func add(_ transformer: ResponseTransformer)
         { transformers.append(transformer) }
 
     /**
@@ -153,7 +153,7 @@ public struct PipelineStage
       The pattern does not match MIME parameters, so "text/plain" matches "text/plain; charset=utf-8".
     */
     public mutating func add(
-            transformer: ResponseTransformer,
+            _ transformer: ResponseTransformer,
             contentTypes: [String])
         {
         add(ContentTypeMatchTransformer(
@@ -165,16 +165,16 @@ public struct PipelineStage
       transformers for specific resources:
 
           configure("/thinger/​*.raw") {
-            $0.config.pipeline[.parsing].removeTransformers()
+            $0.pipeline[.parsing].removeTransformers()
           }
     */
     public mutating func removeTransformers()
         { transformers.removeAll() }
 
-    private var isEmpty: Bool
+    fileprivate var isEmpty: Bool
         { return cacheBox == nil && transformers.isEmpty }
 
-    internal func process(response: Response) -> Response
+    internal func process(_ response: Response) -> Response
         {
         return transformers.reduce(response)
             { $1.process($0) }
@@ -190,9 +190,9 @@ public struct PipelineStage
       the pipeline stages _after_ the one that provided the cache hit.
 
       - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
-              initially see an empty resources and then get a `NewData(Cache)` event — even if you never call `load()`.
+              initially see an empty resources and then get a `newData(Cache)` event — even if you never call `load()`.
     */
-    public mutating func cacheUsing<T: EntityCache>(cache: T)
+    public mutating func cacheUsing<T: EntityCache>(_ cache: T)
         { cacheBox = CacheBox(cache: cache) }
 
     /**
@@ -236,7 +236,7 @@ extension PipelineStage
       ...
 
       service.configure {
-          $0.config.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
+          $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
       }
 */
 public final class PipelineStageKey: _OpenEnum, CustomStringConvertible

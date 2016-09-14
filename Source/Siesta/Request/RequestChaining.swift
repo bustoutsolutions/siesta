@@ -53,7 +53,7 @@ extension Request
 
       - SeeAlso: `Configuration.decorateRequests(...)`
     */
-    public func chained(whenCompleted callback: ResponseInfo -> RequestChainAction) -> Request
+    public func chained(whenCompleted callback: @escaping (ResponseInfo) -> RequestChainAction) -> Request
         { return RequestChain(wrapping: self, whenCompleted: callback) }
     }
 
@@ -65,13 +65,13 @@ extension Request
 public enum RequestChainAction
     {
     /// The chain will wait for the given request, and its response will become the chain’s response.
-    case PassTo(Request)
+    case passTo(Request)
 
     /// The chain will end immediately with the given response.
-    case UseResponse(ResponseInfo)
+    case useResponse(ResponseInfo)
 
     /// The chain will end immediately, passing through the response of the underlying request that just completed.
-    case UseThisResponse
+    case useThisResponse
     }
 
 internal final class RequestChain: RequestWithDefaultCallbacks
@@ -81,20 +81,20 @@ internal final class RequestChain: RequestWithDefaultCallbacks
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var isCancelled = false
 
-    init(wrapping request: Request, whenCompleted determineAction: ActionCallback)
+    init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
         self.wrappedRequest = request
         self.determineAction = determineAction
         request.onCompletion(self.processResponse)
         }
 
-    func addResponseCallback(callback: ResponseCallback) -> Self
+    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
         {
         responseCallbacks.addCallback(callback)
         return self
         }
 
-    func processResponse(responseInfo: ResponseInfo)
+    func processResponse(_ responseInfo: ResponseInfo)
         {
         guard !isCancelled else
             {
@@ -104,20 +104,20 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
         switch determineAction(responseInfo)
             {
-            case .UseThisResponse:
+            case .useThisResponse:
                 responseCallbacks.notifyOfCompletion(responseInfo)
 
-            case .UseResponse(let customResponseInfo):
+            case .useResponse(let customResponseInfo):
                 responseCallbacks.notifyOfCompletion(customResponseInfo)
 
-            case .PassTo(let request):
+            case .passTo(let request):
                 request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
                     { self.responseCallbacks.notifyOfCompletion($0) }
             }
         }
 
-    typealias ActionCallback = ResponseInfo -> RequestChainAction
+    typealias ActionCallback = (ResponseInfo) -> RequestChainAction
 
     func start()
         {
@@ -126,7 +126,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
     var isCompleted: Bool
         {
-        dispatch_assert_main_queue()
+        DispatchQueue.mainThreadPrecondition()
         return responseCallbacks.completedValue != nil
         }
 
@@ -145,6 +145,6 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
     var progress: Double { return 0 }
 
-    func onProgress(callback: Double -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
         { return self }
     }

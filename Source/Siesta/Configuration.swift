@@ -25,7 +25,7 @@ public struct Configuration
       - Note: This property is configured at the resource level, and does not depend on the HTTP method of any request.
         Siesta uses the value configured for GET; if you override this for other HTTP methods, Siesta will ignore it.
     */
-    public var expirationTime: NSTimeInterval = 30
+    public var expirationTime: TimeInterval = 30
 
     /**
       Time `Resource.loadIfNeeded()` will wait before allowing a retry after a failed request.
@@ -35,7 +35,7 @@ public struct Configuration
       - Note: This property is configured at the resource level, and does not depend on the HTTP method of any request.
         Siesta uses the value configured for GET; if you override this for other HTTP methods, Siesta will ignore it.
     */
-    public var retryTime: NSTimeInterval = 1
+    public var retryTime: TimeInterval = 1
 
     // MARK: Request Handling
 
@@ -64,7 +64,7 @@ public struct Configuration
 
       - SeeAlso: `Request.chained(...)`
     */
-    public mutating func decorateRequests(decorator: (Resource, Request) -> Request)
+    public mutating func decorateRequests(with decorator: @escaping (Resource, Request) -> Request)
         { requestDecorators.append(decorator) }
 
     internal var requestDecorators: [(Resource, Request) -> Request] = []
@@ -80,25 +80,5 @@ public struct Configuration
       `Request.onProgress(_:)` and `ResourceObserver.resourceRequestProgress(_:progress:)` are called, and how often the
       `Request.progress` property (which is partially time-based) is updated.
     */
-    public var progressReportingInterval: NSTimeInterval = 0.05
-
-    // MARK: Creating Configurations
-
-    /**
-      Holds a mutable configuration while closures passed to `Service.configure(...)` modify it.
-
-      The reason that method doesn’t just accept a closure with an `inout` param is that doing so requires a messy
-      flavor of closure declaration that makes the API much harder to use:
-
-          configure("/things/​*") { (inout config: Configuration) in config.retryTime = 1 }
-
-      This wrapper class allows usage to instead look like:
-
-          configure("/things/​*") { $0.config.retryTime = 1 }
-    */
-    public final class Builder
-        {
-        /// Mutable for modification while building a resource’s config.
-        public var config: Configuration = Configuration()
-        }
+    public var progressReportingInterval: TimeInterval = 0.05
     }

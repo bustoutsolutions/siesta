@@ -13,7 +13,7 @@ import Nocilla
 
 class ResourceObserversSpec: ResourceSpecBase
     {
-    override func resourceSpec(service: () -> Service, _ resource: () -> Resource)
+    override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
         describe("observer")
             {
@@ -21,21 +21,21 @@ class ResourceObserversSpec: ResourceSpecBase
 
             beforeEach
                 {
-                observer().expect(.ObserverAdded)
+                observer().expect(.observerAdded)
                 resource().addObserver(observer())
                 }
 
             it("receives a notification that it was added")
                 {
                 let observer2 = TestObserverWithExpectations()
-                observer2.expect(.ObserverAdded)  // only for new observer
+                observer2.expect(.observerAdded)  // only for new observer
                 resource().addObserver(observer2)
                 }
 
             it("receives a notification that it was removed")
                 {
                 let observer2 = TestObserverWithExpectations()
-                observer2.expect(.ObserverAdded)  // only for new observer
+                observer2.expect(.observerAdded)  // only for new observer
                 resource().addObserver(observer2)
 
                 resource().removeObservers(ownedBy: observer())
@@ -53,15 +53,15 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 let observer2 = TestObserverWithExpectations(),
                     observer3 = TestObserverWithExpectations()
-                observer2.expect(.ObserverAdded)
-                observer3.expect(.ObserverAdded)
+                observer2.expect(.observerAdded)
+                observer3.expect(.observerAdded)
                 resource().addObserver(observer2).addObserver(observer3)
                 }
 
             it("receives request event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.Requested)
+                _ = stubRequest(resource, "GET").andReturn(200)
+                observer().expect(.requested)
                     {
                     expect(resource().isLoading) == true
                     expect(resource().latestData).to(beNil())
@@ -76,9 +76,9 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives new data event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.Requested)
-                observer().expect(.NewData(.Network))
+                _ = stubRequest(resource, "GET").andReturn(200)
+                observer().expect(.requested)
+                observer().expect(.newData(.network))
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
@@ -89,28 +89,28 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives new data event from local override")
                 {
-                // No .Requested event!
-                observer().expect(.NewData(.LocalOverride))
+                // No .requested event!
+                observer().expect(.newData(.localOverride))
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
                     expect(resource().latestError).to(beNil())
                     }
-                resource().overrideLocalData(
-                    Entity(content: NSData(), contentType: "crazy/test"))
+                resource().overrideLocalData(with:
+                    Entity<Any>(content: Data(), contentType: "crazy/test"))
                 }
 
             it("receives not modified event")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.Requested)
-                observer().expect(.NewData(.Network))
+                _ = stubRequest(resource, "GET").andReturn(200)
+                observer().expect(.requested)
+                observer().expect(.newData(.network))
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
 
-                stubRequest(resource, "GET").andReturn(304)
-                observer().expect(.Requested)
-                observer().expect(.NotModified)
+                _ = stubRequest(resource, "GET").andReturn(304)
+                observer().expect(.requested)
+                observer().expect(.notModified)
                     {
                     expect(resource().isLoading) == false
                     }
@@ -119,33 +119,33 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives error if server sends not modified but no local data")
                 {
-                stubRequest(resource, "GET").andReturn(304)
-                observer().expect(.Requested)
-                observer().expect(.Error)
+                _ = stubRequest(resource, "GET").andReturn(304)
+                observer().expect(.requested)
+                observer().expect(.error)
                 awaitFailure(resource().load())
-                expect(resource().latestError?.cause is Error.Cause.NoLocalDataFor304) == true
+                expect(resource().latestError?.cause is RequestError.Cause.NoLocalDataFor304) == true
                 }
 
             it("receives cancel event")
                 {
                 // delay prevents race condition between cancel() and Nocilla
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
-                observer().expect(.Requested)
-                observer().expect(.RequestCancelled)
+                observer().expect(.requested)
+                observer().expect(.requestCancelled)
                     {
                     expect(resource().isLoading) == false
                     }
                 let req = resource().load()
                 req.cancel()
-                reqStub.go()
+                _ = reqStub.go()
                 awaitFailure(req, alreadyCompleted: true)
                 }
 
             it("receives failure event")
                 {
-                stubRequest(resource, "GET").andReturn(500)
-                observer().expect(.Requested)
-                observer().expect(.Error)
+                _ = stubRequest(resource, "GET").andReturn(500)
+                observer().expect(.requested)
+                observer().expect(.error)
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).to(beNil())
@@ -156,8 +156,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("does not receive notifications for request(), only load()")
                 {
-                stubRequest(resource, "GET").andReturn(200)
-                awaitNewData(resource().request(.GET))
+                _ = stubRequest(resource, "GET").andReturn(200)
+                awaitNewData(resource().request(.get))
                 }
 
             it("can be a closure")
@@ -169,36 +169,36 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(owner: dummy)
                     {
                     resource, event in
-                    events.append(event.description)
+                    events.append(String(describing: event))
                     }
 
-                stubRequest(resource, "GET").andReturn(200)
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
-                expect(events) == ["ObserverAdded", "Requested", "NewData(Network)"]
+                expect(events) == ["observerAdded", "requested", "newData(network)"]
                 }
 
             it("can have multiple closure observers")
                 {
-                observer().expect(.Requested, .NewData(.Network), .Requested, .NewData(.Network))
+                observer().expect(.requested, .newData(.network), .requested, .newData(.network))
 
                 let dummy = NSData()
                 var events0 = [String](),
                     events1 = [String]()
 
                 resource().addObserver(owner: dummy)
-                    { _, event in events0.append(event.description) }
+                    { _, event in events0.append(String(describing: event)) }
 
-                stubRequest(resource, "GET").andReturn(200).delay
+                _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
                 resource().addObserver(owner: dummy)
-                    { _, event in events1.append(event.description) }
+                    { _, event in events1.append(String(describing: event)) }
 
                 awaitNewData(resource().load())
 
-                expect(events0) == ["ObserverAdded", "Requested", "NewData(Network)", "Requested", "NewData(Network)"]
-                expect(events1) == ["ObserverAdded", "Requested", "NewData(Network)"]
+                expect(events0) == ["observerAdded", "requested", "newData(network)", "requested", "newData(network)"]
+                expect(events1) == ["observerAdded", "requested", "newData(network)"]
                 }
 
             it("is not added twice if it is an object")
@@ -206,9 +206,9 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer())
                 resource().addObserver(observer())
 
-                stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.Requested)
-                observer().expect(.NewData(.Network))
+                _ = stubRequest(resource, "GET").andReturn(200)
+                observer().expect(.requested)
+                observer().expect(.newData(.network))
                 awaitNewData(resource().load())
                 }
 
@@ -223,13 +223,13 @@ class ResourceObserversSpec: ResourceSpecBase
                     resource().addObserver(observer(), owner: owner2())
                     }
 
-                func expectStillObserving(stillObserving: Bool)
+                func expectStillObserving(_ stillObserving: Bool)
                     {
-                    stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest(resource, "GET").andReturn(200)
                     if stillObserving
                         {
-                        observer().expect(.Requested)
-                        observer().expect(.NewData(.Network))
+                        observer().expect(.requested)
+                        observer().expect(.newData(.network))
                         }
                     awaitNewData(resource().load())
                     }
@@ -334,10 +334,10 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("observer auto-removal")
             {
             func expectToStopObservation(
-                    @noescape observer: Void -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
-                    @noescape callbackThatShouldCauseRemoval: Void -> Void)
+                    _ observer: (Void) -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
+                    callbackThatShouldCauseRemoval: (Void) -> Void)
                 {
-                observer().expect(.Requested)
+                observer().expect(.requested)
 
                 // Start request; observer should hear about it
 
@@ -348,7 +348,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
-                reqStub.go()
+                _ = reqStub.go()
                 awaitNewData(req)
                 }
 
@@ -357,7 +357,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 var observer: TestObserverWithExpectations? = TestObserverWithExpectations()
                 weak var observerWeak = observer
 
-                observer!.expect(.ObserverAdded)
+                observer!.expect(.observerAdded)
                 resource().addObserver(observer!)
 
                 expectToStopObservation({ observer! })
@@ -369,9 +369,9 @@ class ResourceObserversSpec: ResourceSpecBase
             it("stops observing when owner is deallocated")
                 {
                 let observer = TestObserverWithExpectations()
-                var owner: AnyObject? = "foo"
+                var owner: AnyObject? = "foo" as NSString
 
-                observer.expect(.ObserverAdded)
+                observer.expect(.observerAdded)
                 resource().addObserver(observer, owner: owner!)
 
                 expectToStopObservation({ observer })
@@ -386,18 +386,18 @@ class ResourceObserversSpec: ResourceSpecBase
 
 private class TestObserver: ResourceObserver
     {
-    func resourceChanged(resource: Resource, event: ResourceEvent) { }
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) { }
     }
 
 private class TestObserverWithExpectations: ResourceObserver
     {
     private var expectedEvents = [Expectation]()
-    private var stoppedObservingCalled = false
+    fileprivate var stoppedObservingCalled = false
 
     deinit
         { checkForUnfulfilledExpectations() }
 
-    func expect(events: ResourceEvent..., callback: (Void -> Void) = {})
+    func expect(_ events: ResourceEvent..., callback: @escaping ((Void) -> Void) = {})
         {
         for event in events
             { expectedEvents.append(Expectation(event: event, callback: callback)) }
@@ -409,21 +409,21 @@ private class TestObserverWithExpectations: ResourceObserver
             { XCTFail("Expected observer events, but never received them: \(expectedEvents.map { $0.event })") }
         }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent)
+    func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
         if expectedEvents.isEmpty
             { XCTFail("Received unexpected observer event: \(event)") }
         else
             {
-            let expectation = expectedEvents.removeAtIndex(0)
-            if event.description != expectation.event.description
+            let expectation = expectedEvents.remove(at: 0)
+            if String(describing: event) != String(describing: expectation.event)
                 { XCTFail("Received unexpected observer event: \(event) (was expecting \(expectation.event))") }
             else
                 { expectation.callback() }
             }
         }
 
-    private func stoppedObservingResource(resource: Resource)
+    func stoppedObserving(resource: Resource)
         {
         stoppedObservingCalled = true
         }
@@ -431,7 +431,7 @@ private class TestObserverWithExpectations: ResourceObserver
     private struct Expectation
         {
         let event: ResourceEvent
-        let callback: (Void -> Void)
+        let callback: ((Void) -> Void)
 
         func description() -> String
             { return "\(event)" }

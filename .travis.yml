@@ -4,11 +4,12 @@ branches:
 
 language: objective-c
 os: osx
-osx_image: xcode7.3
+osx_image: xcode8
 env:
   - scheme='Siesta macOS' platform='OS X'
+  - scheme='Siesta iOS' platform='iOS Simulator,OS=10.0,name=iPhone SE'
   - scheme='Siesta iOS' platform='iOS Simulator,OS=9.3,name=iPhone 6'
-  - scheme='Siesta iOS' platform='iOS Simulator,OS=8.1,name=iPhone 4s'
+  - scheme='Siesta iOS' platform='iOS Simulator,OS=9.0,name=iPhone 4s'
 
 script: |
   # ------ Certificates ------
@@ -49,7 +50,7 @@ script: |
 
   # Optional pre-download, because builds are so slow on Travis, and Carthage builds _everything_:
   echo "Downloading prebuilt dependencies"
-  curl https://innig.net/tmp/siesta-deps.tar.bz2 | bzcat | tar xv
+  curl https://innig.net/tmp/siesta-deps-swift3.tar.bz2 | bzcat | tar xv
 
   # Uncomment to build with Carthage instead:
   #echo "Building dependencies"
@@ -66,7 +67,7 @@ script: |
   xcodebuild test \
       -project Siesta.xcodeproj \
       -scheme "$scheme" \
-      -destination "platform=$platform" 2>&1 \
+      -destination "platform=$platform" \
     | /tmp/xcpretty/bin/xcpretty -c
   
   buildresult=${PIPESTATUS[0]}

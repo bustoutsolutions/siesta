@@ -18,24 +18,24 @@ import UIKit
   An overlay can be in exactly one of three states: **loading**, **success**, or **error**. It shows and hides child
   views depending on which state it’s in. The `displayPriority` property governs these states.
 */
-public class ResourceStatusOverlay: UIView, ResourceObserver
+open class ResourceStatusOverlay: UIView, ResourceObserver
     {
     // MARK: Child views
 
     /// A view that is visible in the loading and error states, and hidden in the success state.
-    @IBOutlet public var containerView: UIView?
+    @IBOutlet open var containerView: UIView?
 
     /// A view that is visible in the loading state, and hidden in all other states.
-    @IBOutlet public var loadingIndicator: UIView?
+    @IBOutlet open var loadingIndicator: UIView?
 
     /// A view that is visible in the error state, and hidden in all other states.
-    @IBOutlet public var errorView: UIView?
+    @IBOutlet open var errorView: UIView?
 
     /// Displays a generic message stating that an error occurred. You can change the text of this label to taste.
-    @IBOutlet public var errorHeadline: UILabel?
+    @IBOutlet open var errorHeadline: UILabel?
 
-    /// Displays `Error.userMessage`.
-    @IBOutlet public var errorDetail: UILabel?
+    /// Displays `RequestError.userMessage`.
+    @IBOutlet open var errorDetail: UILabel?
 
     private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
@@ -48,10 +48,10 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
     */
     public required init()
         {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         loadFrom(
             nibName: "ResourceStatusOverlay",
-            bundle: NSBundle(forClass: ResourceStatusOverlay.self))
+            bundle: Bundle(for: ResourceStatusOverlay.self))
         }
 
     /**
@@ -70,9 +70,9 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
       Populates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
       `@IBOutlet`s as it likes.
     */
-    public func loadFrom(
-            nibName nibName: String,
-            bundle: NSBundle = NSBundle.mainBundle())
+    open func loadFrom(
+            nibName: String,
+            bundle: Bundle = Bundle.main)
         {
         bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
 
@@ -80,8 +80,8 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             {
             addSubview(containerView)
             containerView.frame = bounds
-            containerView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth,
-                                              UIViewAutoresizing.FlexibleHeight]
+            containerView.autoresizingMask = [UIViewAutoresizing.flexibleWidth,
+                                              UIViewAutoresizing.flexibleHeight]
             }
 
         showSuccess()
@@ -93,7 +93,8 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
       Place this child inside the given view controller’s view, and position it so that it covers the entire bounds.
       Be sure to call `positionToCoverParent()` from your `viewDidLayoutSubviews()` method.
     */
-    public func embedIn(parentViewController: UIViewController) -> Self
+    @discardableResult
+    public func embedIn(_ parentViewController: UIViewController) -> Self
         {
         parentVC = parentViewController
 
@@ -134,7 +135,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
       Positions this overlay to exactly cover the given view. The two views do not have to be siblings; this method
       works across the view hierarchy.
     */
-    public func positionToCover(view: UIView)
+    public func positionToCover(_ view: UIView)
         {
         positionToCoverRect(view.bounds, inView: view)
         }
@@ -143,16 +144,16 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
       Positions this view within its current superview so that it covers the given rect in the local coordinates of the
       given view. Has no effect if the overlay has no superview.
     */
-    public func positionToCoverRect(rect: CGRect, inView srcView: UIView)
+    public func positionToCoverRect(_ rect: CGRect, inView srcView: UIView)
         {
         if let superview = superview
             {
-            let ul = superview.convertPoint(rect.origin, fromView: srcView),
-                br = superview.convertPoint(
+            let ul = superview.convert(rect.origin, from: srcView),
+                br = superview.convert(
                     CGPoint(x: rect.origin.x + rect.size.width,
                             y: rect.origin.y + rect.size.height),
-                    fromView: srcView)
-            frame = CGRectMake(ul.x, ul.y, br.x - ul.x, br.y - ul.y)  // Doesn’t handle crazy transforms. Too bad so sad!
+                    from: srcView)
+            frame = CGRect(x: ul.x, y: ul.y, width: br.x - ul.x, height: br.y - ul.y)  // Doesn’t handle crazy transforms. Too bad so sad!
             }
         }
 
@@ -204,9 +205,9 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         }
 
     /// :nodoc:
-    public func resourceChanged(resource: Resource, event: ResourceEvent)
+    open func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
-        if case .ObserverAdded = event
+        if case .observerAdded = event
             { observedResources.append(resource) }
 
         updateDisplay()
@@ -219,7 +220,7 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
             switch mode
                 {
                 case .Loading:
-                    if observedResources.any({ $0.isLoading })
+                    if observedResources.any(match: { $0.isLoading })
                         { return showLoading() }
 
                 case .ManualLoading:
@@ -227,11 +228,11 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
                         { return showLoading() }
 
                 case .AnyData:
-                    if observedResources.any({ $0.latestData != nil })
+                    if observedResources.any(match: { $0.latestData != nil })
                         { return showSuccess() }
 
                 case .AllData:
-                    if observedResources.all({ $0.latestData != nil })
+                    if observedResources.all(match: { $0.latestData != nil })
                         { return showSuccess() }
 
                 case .Error:
@@ -244,33 +245,33 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         }
 
     /// :nodoc:
-    public func stoppedObservingResource(resource: Resource)
+    open func stoppedObserving(resource: Resource)
         {
         observedResources = observedResources.filter { $0 !== resource }
         updateDisplay()
         }
 
-    private func showError(error: Error)
+    private func showError(_ error: RequestError)
         {
-        hidden = false
-        errorView?.hidden = false
-        loadingIndicator?.hidden = true
+        isHidden = false
+        errorView?.isHidden = false
+        loadingIndicator?.isHidden = true
         errorDetail?.text = error.userMessage
         }
 
     private func showLoading()
         {
-        hidden = false
-        errorView?.hidden = true
-        loadingIndicator?.hidden = false
+        isHidden = false
+        errorView?.isHidden = true
+        loadingIndicator?.isHidden = false
         loadingIndicator?.alpha = 0
-        UIView.animateWithDuration(0.7) { self.loadingIndicator?.alpha = 1 }
+        UIView.animate(withDuration: 0.7) { self.loadingIndicator?.alpha = 1 }
         }
 
     private func showSuccess()
         {
-        loadingIndicator?.hidden = true
-        hidden = true
+        loadingIndicator?.isHidden = true
+        isHidden = true
         }
 
     // MARK: Retry & reload
@@ -287,13 +288,13 @@ public class ResourceStatusOverlay: UIView, ResourceObserver
         }
 
     /// Variant of `retryFailedRequests()` suitable for use as an IBOutlet. (The `sender` is ignored.)
-    @IBAction public func retryFailedRequests(sender: AnyObject)
+    @IBAction public func retryFailedRequests(_ sender: AnyObject)
         {
         retryFailedRequests()
         }
 
     /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
-    public func trackManualLoad(request: Request)
+    public func trackManualLoad(_ request: Request)
         {
         retryRequestsInProgress += 1
         updateDisplay()

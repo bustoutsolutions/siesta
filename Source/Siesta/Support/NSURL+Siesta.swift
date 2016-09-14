@@ -12,41 +12,39 @@ import Foundation
 public protocol URLConvertible
     {
     /// The URL represented by this value.
-    var url: NSURL? { get }
+    var url: URL? { get }
     }
 
 extension String: URLConvertible
     {
     /// Returns the URL represented by this string, if it is a valid URL.
-    public var url: NSURL?
-        { return NSURL(string: self) }
+    public var url: URL?
+        { return URL(string: self) }
     }
 
-extension NSURL: URLConvertible
+extension URL: URLConvertible
     {
     /// Returns self.
-    public var url: NSURL?
+    public var url: URL?
         { return self }
     }
 
-internal extension NSURL
+internal extension URL
     {
-    @warn_unused_result
-    func alterPath(@noescape pathMutator: String -> String) -> NSURL?
+    func alterPath(_ pathMutator: (String) -> String) -> URL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+        guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else
             { return nil }
 
-        let path = pathMutator(components.path ?? "")
-        components.path = (path == "") ? nil : path
+        // TODO: used to be a nil check here?
+        components.path = pathMutator(components.path)
 
-        return components.URL
+        return components.url
         }
 
-    @warn_unused_result
-    func alterQuery(@noescape queryMutator: [String:String?] -> [String:String?]) -> NSURL?
+    func alterQuery(_ queryMutator: ([String:String?]) -> [String:String?]) -> URL?
         {
-        guard let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: true) else
+        guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else
             { return nil }
 
         let queryItems = components.queryItems ?? []
@@ -55,15 +53,15 @@ internal extension NSURL
             { queryDict[item.name] = item.value }
 
         let newItems = queryMutator(queryDict)
-            .sort { $0.0 < $1.0 }   // canonicalize order to help resource URLs be unique
+            .sorted { $0.0 < $1.0 }   // canonicalize order to help resource URLs be unique
             .filter { $1 != nil }
-            .map { NSURLQueryItem(name: $0.0, value: $0.1?.nilIfEmpty) }
+            .map { URLQueryItem(name: $0.0, value: $0.1?.nilIfEmpty) }
 
         components.queryItems = newItems.isEmpty ? nil : newItems
 
         components.percentEncodedQuery = components.percentEncodedQuery?
-            .stringByReplacingOccurrencesOfString("+", withString: "%2B")
+            .replacingOccurrences(of: "+", with: "%2B")
 
-        return components.URL
+        return components.url
         }
     }

@@ -8,9 +8,10 @@
 
 import Quick
 import Nimble
+import Nocilla
 @testable import Siesta
 
-public func specVar<T>(builder: () -> T) -> () -> T
+public func specVar<T>(_ builder: @escaping () -> T) -> () -> T
     {
     var value: T?
     afterEach { value = nil }
@@ -24,21 +25,17 @@ public func specVar<T>(builder: () -> T) -> () -> T
 
 func simulateMemoryWarning()
     {
-    NSNotificationCenter
-        .defaultCenter()
-        .postNotificationName(
-            Siesta.MemoryWarningNotification,
+    NotificationCenter.default
+        .post(
+            name: Siesta.MemoryWarningNotification,
             object: nil)
     }
 
-func beIdentialObjects<T>(expectedArray: [T]) -> NonNilMatcherFunc<[T]>
+func beIdentialObjects<T>(_ expectedArray: [T]) -> NonNilMatcherFunc<[T]>
     {
-    func makeIdent(x: T) -> ObjectIdentifier
+    func makeIdent(_ x: T) -> ObjectIdentifier
         {
-        if let obj = x as? AnyObject
-            { return ObjectIdentifier(obj) }
-        else
-            { return ObjectIdentifier(NSObject()) }   // ident not equal to anything else, so fails non-objects in Array
+        return ObjectIdentifier(x as AnyObject)
         }
 
     return NonNilMatcherFunc

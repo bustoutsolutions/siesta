@@ -46,11 +46,11 @@ class ServiceSpec: SiestaSpec
 
             it("supports baseURL as NSURL")
                 {
-                let service = Service(baseURL: NSURL(string: "https://frotzle.zing"))
+                let service = Service(baseURL: URL(string: "https://frotzle.zing"))
                 expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
                 }
 
-            func addSpecsForBareServce(description: String, serviceBuidler: Void -> Service)
+            func addSpecsForBareServce(_ description: String, serviceBuidler: @escaping (Void) -> Service)
                 {
                 context(description)
                     {
@@ -74,7 +74,7 @@ class ServiceSpec: SiestaSpec
                     it("allows requests for absolute URLs")
                         {
                         let resource = bareService().resource(absoluteURL: "http://foo.bar")
-                        stubRequest({ resource }, "GET").andReturn(200)
+                        _ = stubRequest({ resource }, "GET").andReturn(200)
                         awaitNewData(resource.load())
                         }
                     }
@@ -138,7 +138,7 @@ class ServiceSpec: SiestaSpec
             {
             it("ignores the service’s baseURL")
                 {
-                expect(service().resource(baseURL: NSURL(string: "http://fraz.bot/"), path: "/bar")
+                expect(service().resource(baseURL: URL(string: "http://fraz.bot/"), path: "/bar")
                                 .url.absoluteString)
                     == "http://fraz.bot/bar"
                 }
@@ -168,7 +168,7 @@ class ServiceSpec: SiestaSpec
 
             it("returns a resource with the given NSURL")
                 {
-                expect(service().resource(absoluteURL: NSURL(string: "http://foo.com/bar")).url.absoluteString)
+                expect(service().resource(absoluteURL: URL(string: "http://foo.com/bar")).url.absoluteString)
                      == "http://foo.com/bar"
                 }
 
@@ -182,7 +182,7 @@ class ServiceSpec: SiestaSpec
                 {
                 expectInvalidResource(service().resource(absoluteURL: "http://[URL syntax error]"))
                 expectInvalidResource(service().resource(absoluteURL: "\0"))
-                expectInvalidResource(service().resource(absoluteURL: nil as NSURL?))
+                expectInvalidResource(service().resource(absoluteURL: nil as URL?))
                 expectInvalidResource(service().resource(absoluteURL: nil as String?))
                 }
             }
@@ -220,7 +220,7 @@ class ServiceSpec: SiestaSpec
             {
             it("applies global config to all resources")
                 {
-                service().configure { $0.config.expirationTime = 17 }
+                service().configure { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 17
                 }
@@ -228,20 +228,20 @@ class ServiceSpec: SiestaSpec
             it("allows config blocks to be named for logging purposes")
                 {
                 service().configure(description: "global config")
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 }
 
             it("passes default configuration through if not overridden")
                 {
-                service().configure { $0.config.retryTime = 17 }
+                service().configure { $0.retryTime = 17 }
                 expect(resource0().configuration.expirationTime) == 30
                 }
 
             it("applies resource-specific config only to that resource")
                 {
                 service().configure(resource0())
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 30
                 }
@@ -249,29 +249,29 @@ class ServiceSpec: SiestaSpec
             it("applies predicate config only to matching resources")
                 {
                 service().configure(whenURLMatches: { $0.absoluteString.hasSuffix("foo") })
-                    { $0.config.expirationTime = 17 }
+                    { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
                 expect(resource1().configuration.expirationTime) == 30
                 }
 
             it("applies request config only to matching request methods")
                 {
-                service().configure(requestMethods: [.POST])
-                    { $0.config.expirationTime = 19 }
+                service().configure(requestMethods: [.post])
+                    { $0.expirationTime = 19 }
                 expect(resource0().configuration.expirationTime) == 30
-                expect(resource0().configuration(forRequestMethod: .PUT).expirationTime) == 30
-                expect(resource0().configuration(forRequestMethod: .POST).expirationTime) == 19
+                expect(resource0().configuration(for: .put).expirationTime) == 30
+                expect(resource0().configuration(for: .post).expirationTime) == 19
                 }
 
             func checkPattern(
-                    pattern: ConfigurationPatternConvertible,
+                    _ pattern: ConfigurationPatternConvertible,
                     matches: Bool,
                     _ pathOrURL: String,
                     absolute: Bool = false,
                     params: [String:String] = [:],
                     service: Service  = Service(baseURL: "https://foo.bar/v1"))
                 {
-                service.configure(pattern) { $0.config.expirationTime = 6 }
+                service.configure(pattern) { $0.expirationTime = 6 }
 
                 var resource = absolute
                     ? service.resource(absoluteURL: pathOrURL)
@@ -361,7 +361,7 @@ class ServiceSpec: SiestaSpec
 
                 it("handles service with no baseURL")
                     {
-                    func checkBareServicePattern(pattern: String, matches: Bool, _ url: String)
+                    func checkBareServicePattern(_ pattern: String, matches: Bool, _ url: String)
                         { checkPattern(pattern, matches: matches, url, absolute: true, service: Service()) }
 
                     checkBareServicePattern("/foo", matches: true,  "/foo")
@@ -376,7 +376,7 @@ class ServiceSpec: SiestaSpec
 
             describe("using regexps")
                 {
-                func regexp(pattern: String, options: NSRegularExpressionOptions = []) -> NSRegularExpression
+                func regexp(_ pattern: String, options: NSRegularExpression.Options = []) -> NSRegularExpression
                     { return try! NSRegularExpression(pattern: pattern, options: options) }
 
                 it("matches substrings")
@@ -395,23 +395,23 @@ class ServiceSpec: SiestaSpec
                 it("respects regexp options")
                     {
                     checkPattern(regexp("/wu+"), matches: false, "/WUUUUUMP")
-                    checkPattern(regexp("/wu+", options: [.CaseInsensitive]), matches: true, "/WUUUUUMP")
+                    checkPattern(regexp("/wu+", options: [.caseInsensitive]), matches: true, "/WUUUUUMP")
                     }
                 }
 
             it("changes when service config added")
                 {
                 expect(resource0().configuration.expirationTime) == 30
-                service().configure { $0.config.expirationTime = 17 }
+                service().configure { $0.expirationTime = 17 }
                 expect(resource0().configuration.expirationTime) == 17
-                service().configure("*oo") { $0.config.expirationTime = 16 }
+                service().configure("*oo") { $0.expirationTime = 16 }
                 expect(resource0().configuration.expirationTime) == 16
                 }
 
             it("changes when invalidateConfiguration() called")
                 {
-                var x: NSTimeInterval = 3
-                service().configure { $0.config.expirationTime = x }
+                var x: TimeInterval = 3
+                service().configure { $0.expirationTime = x }
                 expect(resource0().configuration.expirationTime) == 3
                 x = 4
                 expect(resource0().configuration.expirationTime) == 3
@@ -424,8 +424,8 @@ class ServiceSpec: SiestaSpec
             {
             beforeEach
                 {
-                resource0().overrideLocalData(Entity(content: "foo content", contentType: "text/plain"))
-                resource1().overrideLocalData(Entity(content: "bar content", contentType: "text/plain"))
+                resource0().overrideLocalData(with: Entity<Any>(content: "foo content", contentType: "text/plain"))
+                resource1().overrideLocalData(with: Entity<Any>(content: "bar content", contentType: "text/plain"))
                 }
 
             it("wipes all resources by default")
@@ -437,14 +437,14 @@ class ServiceSpec: SiestaSpec
 
             it("can wipe a specific resource")
                 {
-                service().wipeResources(resource0())
+                service().wipeResources(matching: resource0())
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }
 
             it("wipes only resources matching a pattern")
                 {
-                service().wipeResources("/*o*")
+                service().wipeResources(matching: "/*o*")
                 expect(resource0().latestData).to(beNil())
                 expect(resource1().latestData).notTo(beNil())
                 }
@@ -462,7 +462,7 @@ class ServiceSpec: SiestaSpec
 
 // MARK: - Custom matchers
 
-func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
+func expandToBaseURL(_ expectedURL: String) -> MatcherFunc<String>
     {
     return MatcherFunc
         {
@@ -479,7 +479,7 @@ func expandToBaseURL(expectedURL: String) -> MatcherFunc<String>
         }
     }
 
-func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
+func expandToResourceURL(_ expectedURL: String) -> MatcherFunc<(String,String)>
     {
     return MatcherFunc
         {
@@ -500,7 +500,7 @@ func expandToResourceURL(expectedURL: String) -> MatcherFunc<(String,String)>
 
 /// Checks resourcePath with and without a leading slash.
 ///
-func checkPathExpansion(baseURL: String, path resourcePath: String, expect expectedExpansion: String)
+func checkPathExpansion(_ baseURL: String, path resourcePath: String, expect expectedExpansion: String)
     {
     for resourcePathVariant in [resourcePath, "/" + resourcePath]
         {
@@ -509,7 +509,7 @@ func checkPathExpansion(baseURL: String, path resourcePath: String, expect expec
         }
     }
 
-func expectInvalidResource(resource: Resource)
+func expectInvalidResource(_ resource: Resource)
     {
     awaitFailure(resource.load())
     }
