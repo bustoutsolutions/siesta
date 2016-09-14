@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
                    * **OS:** iOS 8+, OS X / macOS 10.11+
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-                   * **Tool requirements:** Xcode 7, Swift 2.0
+                   * **Tool requirements:** Xcode 8, Swift 3.0
                    * **License:** MIT
                    * **Status:** Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
