@@ -44,7 +44,7 @@ public struct AlamofireProvider: NetworkingProvider
         -> RequestNetworking
         {
         return AlamofireRequestNetworking(
-            manager.request(resource: request)
+            manager.request(request)
                 .response { completion($0.response, $0.data, $0.error) })
         }
     }
@@ -61,7 +61,7 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
 
     var task: URLSessionTask
         {
-        return alamofireRequest.task
+        return alamofireRequest.task!
         }
 
     func cancel()

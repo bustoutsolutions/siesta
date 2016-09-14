@@ -1,10 +1,10 @@
 # Optional integrations
 
-github "Alamofire/Alamofire" "swift3"
-# github "ReactiveCocoa/ReactiveCocoa" ~> 4.0
+github "Alamofire/Alamofire" ~> 4.0
+github "ReactiveCocoa/ReactiveCocoa" "master"
 
 # Testing
 
 github "pcantrell/Quick" "expose-current-spec-swift3"   # fork for Swift 3, use of XCTestExpectation
-github "Quick/Nimble" "swift-3.0"
+github "Quick/Nimble" "master"
 github "pcantrell/Nocilla" "siesta"                     # fork adds delay() / go(), nullability annotations
