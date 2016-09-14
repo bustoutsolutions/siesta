@@ -42,22 +42,22 @@ class _GithubAPI {
 
         service.configureTransformer("/users/*") {
             // Swift 3 TODO: see if bare $0 bug is finally fixed, or consider passing struct that still supports $0.content
-            try User(json: $0.0)  // Input type inferred because User.init takes JSON
+            try User(json: $0.content)  // Input type inferred because User.init takes JSON
         }
 
         service.configureTransformer("/users/*/repos") {
-            try ($0.0 as JSON)   // “as JSON” gives Siesta the expected input type
+            try ($0.content as JSON)   // “as JSON” gives Siesta the expected input type
                 .arrayValue            // SwiftyJSON defaults to []
                 .map(Repository.init)  // Model mapping gives Siesta an implicit output type
         }
 
         service.configureTransformer("/search/repositories") {
-            try ($0.0 as JSON)["items"].arrayValue
+            try ($0.content as JSON)["items"].arrayValue
                 .map(Repository.init)
         }
 
         service.configureTransformer("/repos/*/*") {
-            try Repository(json: $0.0)
+            try Repository(json: $0.content)
         }
 
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
@@ -157,7 +157,7 @@ class _GithubAPI {
 
 private let SwiftyJSONTransformer =
     ResponseContentTransformer
-        { JSON($0.0 as AnyObject) }
+        { JSON($0.content as AnyObject) }
 
 private struct GithubErrorMessageExtractor: ResponseTransformer {
     func process(_ response: Response) -> Response {
