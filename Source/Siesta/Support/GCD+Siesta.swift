@@ -11,10 +11,10 @@ import Foundation
 extension DispatchQueue
     {
     // props to http://stackoverflow.com/a/24318861/239816
-    internal func async(after delay: TimeInterval, closure: @escaping (Void) -> Void)
+    internal func asyncAfter(delay: TimeInterval, closure: @escaping (Void) -> Void)
         {
         asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),
+            deadline: DispatchTime.now() + delay,
             execute: closure)
         }
     }

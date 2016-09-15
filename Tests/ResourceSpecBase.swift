@@ -171,7 +171,7 @@ private func pollUnderlyingCompletion(_ req: NetworkRequest, expectation: XCTest
         { expectation.fulfill() }
     else
         {
-        DispatchQueue.main.async(after: 0.0001)
+        DispatchQueue.main.asyncAfter(delay: 0.0001)
             { pollUnderlyingCompletion(req, expectation: expectation) }
         }
     }
