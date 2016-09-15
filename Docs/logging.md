@@ -3,13 +3,13 @@
 Siesta features extensive logging. It is disabled by default, but you can turn it on with:
 
 ```swift
-    Siesta.enabledLogCategories = LogCategory.common
+Siesta.enabledLogCategories = LogCategory.common
 ```
 
 …or for the full fire hose:
 
 ```swift
-    Siesta.enabledLogCategories = LogCategory.all
+Siesta.enabledLogCategories = LogCategory.all
 ```
 
 Common practice is to add a DEBUG Swift compiler flag to your project (if you haven’t already done so):

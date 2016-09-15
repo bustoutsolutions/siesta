@@ -55,7 +55,7 @@ You can then do:
 
 ## Observers
 
-Objective-C cannot see Swift enums, and `ResourceEvent` and `RequestMethod` are both enums. Objective-C methods that deal with events take strings instead. In the case of `ResourceEvent.NewData`, the string you receive also contains the nested source of the data in parentheses, e.g. `NewData(Network)`. If you just want to check whether new data arrived and don’t care where it came from, look for the `NewData` prefix:
+Objective-C cannot see Swift enums, and `ResourceEvent` and `RequestMethod` are both enums. Objective-C methods that deal with events take strings instead, with the enum cases capitalized. In the case of `ResourceEvent.newData`, the string you receive also contains the nested source of the data in parentheses, e.g. `NewData(Network)`. If you just want to check whether new data arrived and don’t care where it came from, look for the `NewData` prefix:
 
 ```objc
 - (void) resourceChanged: (BOSResource*) resource event: (NSString*) event {
@@ -72,7 +72,7 @@ Some things that would be compile errors in Swift’s more robust static type sy
 Of particular note are the various flavors of `[Resource requestWithMethod:...]`, which take a string instead of an enum for the HTTP method. That means that what is a compile error in Swift:
 
 ```swift
-resource.request(.FLARGLE)
+resource.request(.flargle)
 ```
 
 …comes back as a failed request in Objective-C:
@@ -88,13 +88,13 @@ A similar principle applies for attempting to pass something other than a dictio
 Most of the request callbacks translate naturally into Objective-C blocks, but the `completion` callback, which can receive either data on success or an error on failure:
 
 ```swift
-resource.request(.POST, json: ["color": "green"])
+resource.request(.post, json: ["color": "green"])
   .onCompletion { info in
     switch info.response {
-      case .Success(let data):
+      case .success(let data):
         …
       
-      case .Failure(let error):
+      case .failure(let error):
         …
     }
   }

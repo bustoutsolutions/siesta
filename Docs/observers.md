@@ -45,7 +45,7 @@ For example, if you have an expensive update you want to perform only when `late
 
 ```swift
 func resourceChanged(resource: Resource, event: ResourceEvent) {
-    if case .NewData = event {
+    if case .newData = event {
         // Do expensive update
     }
 }
@@ -68,12 +68,12 @@ Here’s how the various `ResourceEvent` values map to `Resource` state changes:
 
 |                    | `observers`    | `latestData` | `latestError` | `isLoading` | `timestamp` |
 |:-------------------|:--------------:|:------------:|:-------------:|:-----------:|:-----------:|
-| `ObserverAdded`    |  one added     |  –           |  –            |  –          |  –          |
-| `Requested`        |  –             |  –           |  –            | `true`      |  –          |
-| `RequestCancelled` |  –             |  –           |  –            | `false`*    |  –          |
-| `NewData`          |  –             |  updated     | `nil`         | `false`*    |  updated    |
-| `NotModified`      |  –             |  –           | `nil`         | `false`*    |  updated    |
-| `Error`            |  –             |  –           |  updated      | `false`*    |  updated    |
+| `observerAdded`    |  one added     |  –           |  –            |  –          |  –          |
+| `requested`        |  –             |  –           |  –            | `true`      |  –          |
+| `requestCancelled` |  –             |  –           |  –            | `false`*    |  –          |
+| `newData`          |  –             |  updated     | `nil`         | `false`*    |  updated    |
+| `notModified`      |  –             |  –           | `nil`         | `false`*    |  updated    |
+| `error`            |  –             |  –           |  updated      | `false`*    |  updated    |
 
 <small><strong>*</strong> If calls to `load(...)` forced multiple simultaneous load requests, `isLoading` may still be true even after an event that signals the completion of a request.</small>
 

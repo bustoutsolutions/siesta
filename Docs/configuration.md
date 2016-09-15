@@ -136,7 +136,7 @@ configure(
     whenURLMatches: { $0 != authURL },         // For all resources except auth:
     description: "catch auth failures") {
 
-  $0.beforeStartingRequest { _, req in
+  $0.decorateRequests { _, req in
     req.onFailure { error in                   // If a request fails...
       if error.httpStatusCode == 401 {         // ...with a 401...
         showLoginScreen()                      // ...then prompt the user to log in
@@ -162,16 +162,16 @@ service.configure("**", description: "auth token") {
 // Refactor away this pyramid of doom however you see fit
 func refreshTokenOnAuthFailure(request: Request) -> Request {
   request.chained {
-      guard case .Failure(let error) = $0.response   // Did request fail…
+      guard case .failure(let error) = $0.response   // Did request fail…
         where error.httpStatusCode == 401 else {     // …because of expired token?
-          return .UseThisResponse                    // If not, use the response we got.
+          return .useThisResponse                    // If not, use the response we got.
       }
 
-      return .PassTo(createNewAuthToken().chained {  // If so, first request a new token, then:
-        if case .Failure = $0.response {             // If token request failed…
-          return .UseThisResponse                    // …report that error.
+      return .passTo(createNewAuthToken().chained {  // If so, first request a new token, then:
+        if case .failure = $0.response {             // If token request failed…
+          return .useThisResponse                    // …report that error.
         } else {
-          return .PassTo(request.repeated())         // We have a new token! Repeat the original request.
+          return .passTo(request.repeated())         // We have a new token! Repeat the original request.
         }
       })
     }
@@ -179,7 +179,7 @@ func refreshTokenOnAuthFailure(request: Request) -> Request {
 }
 
 func createNewAuthToken() -> Request {
-  return tokenCreationResource.request(.POST, json: userAuthData())
+  return tokenCreationResource.request(.post, json: userAuthData())
     .onSuccess {
       authToken = $0.json["token"]                   // Store the new token, then…
       service.invalidateConfiguration()              // …make future requests use it

@@ -139,13 +139,13 @@ Use this when the conveniences in the sections above are too limited. For exampl
 struct GithubErrorMessageExtractor: ResponseTransformer {
   func process(response: Response) -> Response {
     switch response {
-      case .Success:
+      case .success:
         return response
 
-      case .Failure(var error):
+      case .failure(var error):
         error.userMessage =
           error.jsonDict["message"] as? String ?? error.userMessage
-        return .Failure(error)
+        return .failure(error)
     }
   }
 }

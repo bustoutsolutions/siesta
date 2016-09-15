@@ -160,8 +160,8 @@ public final class Resource: NSObject
       Handle the result of the request by attaching response handlers:
 
           resource.request(.get)
-              .success { ... }
-              .failure { ... }
+              .onSuccess { ... }
+              .onFailure { ... }
 
       See `Request` for a complete list of hooks.
 

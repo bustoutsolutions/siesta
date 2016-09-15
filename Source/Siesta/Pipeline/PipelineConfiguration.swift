@@ -229,8 +229,8 @@ extension PipelineStage
 
       extension PipelineStageKey {
         static let
-            munging   = PipelineStageKey(description: "munging"),
-            twiddling = PipelineStageKey(description: "twiddling")
+          munging   = PipelineStageKey(description: "munging"),
+          twiddling = PipelineStageKey(description: "twiddling")
       }
 
       ...

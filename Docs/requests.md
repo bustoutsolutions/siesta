@@ -23,10 +23,10 @@ MyAPI.profile.invalidate()
 To update a resource with a POST/PUT/PATCH, use `request()`:
 
 ```swift
-MyAPI.profile.request(.POST, json: ["foo": [1,2,3]])
-MyAPI.profile.request(.POST, urlEncoded: ["foo": "bar"])
-MyAPI.profile.request(.POST, text: "Many years later, in front of the terminal...")
-MyAPI.profile.request(.POST, data: nsdata)
+MyAPI.profile.request(.post, json: ["foo": [1,2,3]])
+MyAPI.profile.request(.post, urlEncoded: ["foo": "bar"])
+MyAPI.profile.request(.post, text: "Many years later, in front of the terminal...")
+MyAPI.profile.request(.post, data: nsdata)
 ```
 
 ## Request Hooks
@@ -68,7 +68,7 @@ In this situation, it’s up to you to update the local resource state. There ar
 One way to handle this is to trigger a load on the heels of a successful POST/PUT/PATCH:
 
 ```swift
-resource.request(.PUT, json: newState).onSuccess() {
+resource.request(.put, json: newState).onSuccess() {
     _ in resource.load()
 }
 ```
@@ -76,7 +76,7 @@ resource.request(.PUT, json: newState).onSuccess() {
 …or perhaps a POST request gives you the location of a new resource in a header:
 
 ```swift
-resource.request(.POST, json: newState).onSuccess() {
+resource.request(.post, json: newState).onSuccess() {
     let createdResource = resource.relative($0.header("Location")))
     …
 }
@@ -87,7 +87,7 @@ resource.request(.POST, json: newState).onSuccess() {
 You can also manually update the local state using [`Resource.overrideLocalData(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFVS_6EntityT_) or [`Resource.overrideLocalContent(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource20overrideLocalContentFPs9AnyObject_T_):
 
 ```swift
-resource.request(.PUT, json: newState).onSuccess() {
+resource.request(.put, json: newState).onSuccess() {
     _ in resource.overrideLocalContent(newState)
 }
 ```
@@ -110,8 +110,7 @@ When a POST/PUT/PATCH response returns the entire state of the resource in exact
 
 ```swift
 resource.load(usingRequest:
-    resource.request(.PUT, json: newState)
+    resource.request(.put, json: newState)
         .onSuccess() { … }
 }
 ```
-
