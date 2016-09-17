@@ -1,72 +1,93 @@
 {
   "warnings": [
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 136,
-      "symbol": "Error.Cause.UnencodableText.encodingName",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Entity.swift",
+      "line": 148,
+      "symbol": "Entity.withContentRetyped()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Entity.swift",
+      "line": 185,
+      "symbol": "TypedContentAccessors.ContentType",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 140,
+      "symbol": "RequestError.Cause.UnencodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 137,
-      "symbol": "Error.Cause.UnencodableText.text",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 141,
+      "symbol": "RequestError.Cause.UnencodableText.text",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 146,
-      "symbol": "Error.Cause.NotURLEncodable.offendingString",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 150,
+      "symbol": "RequestError.Cause.NotURLEncodable.offendingString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 154,
-      "symbol": "Error.Cause.RequestCancelled.networkError",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 158,
+      "symbol": "RequestError.Cause.RequestCancelled.networkError",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 167,
-      "symbol": "Error.Cause.InvalidTextEncoding.encodingName",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 171,
+      "symbol": "RequestError.Cause.InvalidTextEncoding.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 173,
-      "symbol": "Error.Cause.UndecodableText.encodingName",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 177,
+      "symbol": "RequestError.Cause.UndecodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 180,
-      "symbol": "Error.Cause.JSONResponseIsNotDictionaryOrArray.actualType",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 184,
+      "symbol": "RequestError.Cause.JSONResponseIsNotDictionaryOrArray.actualType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 191,
-      "symbol": "Error.Cause.WrongInputTypeInTranformerPipeline.expectedType",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 195,
+      "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.expectedType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 192,
-      "symbol": "Error.Cause.WrongInputTypeInTranformerPipeline.transformer",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 196,
+      "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Error.swift",
-      "line": 198,
-      "symbol": "Error.Cause.TransformerReturnedNil.transformer",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 202,
+      "symbol": "RequestError.Cause.TransformerReturnedNil.transformer",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Support/OpenEnum.swift",
+      "line": 20,
+      "symbol": "_OpenEnum.hashValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }

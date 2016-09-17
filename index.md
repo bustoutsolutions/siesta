@@ -10,11 +10,11 @@ layout: default
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+, macOS / OS X 10.11+
+* **OS:** iOS 8+, macOS 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-* **Tool requirements:** Xcode 7, Swift 2.0
+* **Tool requirements:** Xcode 8, Swift 3
 * **License:** MIT
-* **Status:** Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
+* **Status:** Solid code, battle-tested on the App Store. Gathering feedback and vetting after the big Swift 3 migration. Please kick the tires, file issues, and send pull requests. Be bold!
 
 ### Overview
 
@@ -118,19 +118,23 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 2.0, so make sure you have [Xcode 7](https://developer.apple.com/xcode/downloads/).
+Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/).
 
 ### CocoaPods
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-beta.10'
+    pod 'Siesta', '>=1.0-rc.0'
 
 (If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718) fixed only recently, it does not work properly with prerelease version numbers.)
 
+If you want to use the UI helpers:
+
+    pod 'Siesta/UI', '>=1.0-rc.0'
+
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
-    pod 'Siesta/Alamofire'
+    pod 'Siesta/Alamofire', '>=1.0-rc.0'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
 
@@ -138,33 +142,39 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-beta.10"
+    github "bustoutsolutions/siesta" "1.0-rc.0"
 
-Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project.
+Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project. If you want to use the UI helpers, you will also need to add `SiestaUI.framework` to your project as well.
 
-As of this writing, there is one additional step you need to follow for Xcode 7 that isn’t in the Carthage docs:
+As of this writing, there is one additional step you need to follow that isn’t in the Carthage docs:
 
 * Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
 
-(In-depth discussion of Carthage on XC7 is [here](https://github.com/Carthage/Carthage/issues/536).)
+(In-depth discussion of Carthage in recent Xcode versions is [here](https://github.com/Carthage/Carthage/issues/536).)
 
 The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This currently includes only Alamofire support.) You will need to include those source files in your project manually if you want to use them.
 
 ### Git Submodule
 
-Clone Siesta as a submodule into the directory of your choice, in this case Libraries/Siesta:
-```
-git submodule add https://github.com/bustoutsolutions/siesta.git Libraries/Siesta
-git submodule update --init
-```
+1. Clone Siesta as a submodule into the directory of your choice, in this case Libraries/Siesta:
+    ```
+    git submodule add https://github.com/bustoutsolutions/siesta.git Libraries/Siesta
+    git submodule update --init
+    ```
 
-Drag `Siesta.xcodeproj` into your project tree as a subproject.
+2. Drag `Siesta.xcodeproj` into your project tree as a subproject.
 
-Under your project's Build Phases, expand Target Dependencies. Click the + button and add Siesta.
+3. Under your project's Build Phases, expand Target Dependencies. Click the + button and add Siesta.
 
-Expand the Link Binary With Libraries phase. Click the + button and add Siesta.
+4. Expand the Link Binary With Libraries phase. Click the + button and add Siesta.
 
-Click the + button in the top left corner to add a Copy Files build phase. Set the directory to Frameworks. Click the + button and add Siesta.
+5. Click the + button in the top left corner to add a Copy Files build phase. Set the directory to Frameworks. Click the + button and add Siesta.
+
+If you want to use the UI helpers, you will need to repeat steps 3–5 for `SiestaUI`.
+
+### Installation troubles?
+
+Please [let us know about it](#contributing-and-getting-help), even if you eventually figure it out. Knowing where people get stuck will help improve these instructions!
 
 ---
 

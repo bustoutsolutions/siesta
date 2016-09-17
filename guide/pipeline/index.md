@@ -46,7 +46,7 @@ extension PipelineStageKey {
 ```
 ```swift
 service.configure {
-  $0.config.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
+  $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
 }
 ```
 
@@ -63,7 +63,7 @@ You can disable these for a whole service using the `useDefaultTransformers:` ar
 
 ```swift
 service.configure("/funky/**") {
-  $0.config.pipeline[.parsing].removeTransformers()
+  $0.pipeline[.parsing].removeTransformers()
 }
 ```
 
@@ -115,7 +115,7 @@ There are also a few more obscure pipeline options the method does not expose.
 There are many content types that Siesta does not support by default — XML, for example (because there is no standard XML parser on iOS). When you add support for one of these types, you’ll typically want it to be based on the `Content-type` header
 
 In this situation, create a [`ResponseContentTransformer`](http://bustoutsolutions.github.io/siesta/api/Structs/ResponseContentTransformer.html) and configure it using
-[`$0.config.pipeline`](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:vV6Siesta13Configuration8pipelineVS_8Pipeline). For example, the GithubBrowser project wraps all JSON responses in SwiftyJSON for the downstream model transformers:
+[`$0.pipeline`](http://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:vV6Siesta13Configuration8pipelineVS_8Pipeline). For example, the GithubBrowser project wraps all JSON responses in SwiftyJSON for the downstream model transformers:
 
 ```swift
 let SwiftyJSONTransformer =
@@ -124,7 +124,7 @@ let SwiftyJSONTransformer =
 ```
 ```swift
 service.configure {
-  $0.config.pipeline[.parsing].add(
+  $0.pipeline[.parsing].add(
     SwiftyJSONTransformer,
     contentTypes: ["*/json"])
 }
@@ -144,20 +144,20 @@ Use this when the conveniences in the sections above are too limited. For exampl
 struct GithubErrorMessageExtractor: ResponseTransformer {
   func process(response: Response) -> Response {
     switch response {
-      case .Success:
+      case .success:
         return response
 
-      case .Failure(var error):
+      case .failure(var error):
         error.userMessage =
           error.jsonDict["message"] as? String ?? error.userMessage
-        return .Failure(error)
+        return .failure(error)
     }
   }
 }
 ```
 ```swift
 service.configure {
-  $0.config.pipeline[.cleanup].add(
+  $0.pipeline[.cleanup].add(
     GithubErrorMessageExtractor())
 }
 ```

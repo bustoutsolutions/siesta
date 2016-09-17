@@ -7,45 +7,34 @@ layout: default
 
 ## Roadmap
 
-#### Why is it “beta?” Why isn’t it 1.0?
+#### Why is it a “release candidate?” Why isn’t it 1.0 already?
+{:#roadmap-1-0}
 
 Siesta is already in use in apps released on the App Store. In that sense, it’s production-ready software.
 
-However, since this began as one team’s internal tool, the API was thus initially validated against only that one team’s practices. When Siesta went public, we wanted other teams to have a chance to exercise it and see how it fit into _their_ approach to app-writing before we finalized the API. This yielded many valuable insights.
+However, since this began as one team’s internal tool, the API was thus initially validated against only that one team’s practices. When Siesta went public, other teams had the chance to exercise it and see how it fit into _their_ approach to app-writing before we finalized the API. This yielded many valuable insights.
 
-Once we declare a 1.0 release, we will endeavor to follow semantic versioning — and API tweaking will become much harder at that point.
+We also wanted to hold off the official API freeze until Swift 3 — and its many API changes — were out in the wild.
 
-#### If it’s in beta, should I use it in my apps?
+All of that is now done, but still fresh out of the oven. We will go through a period of cooling off and proving in the wild before declaring the official 1.0.
 
-Yes! We believe the code is high quality and ready for real-world use.
+#### What if I’m still on Swift 2?
 
-However, you should be ready for breaking changes to the API until we declare an official 1.0 release. That’s what the “beta” label is warning you about.
+Use the `swift-2.2` or `swift-2.3` branch.
 
-#### What’s the plan for 1.0? How will you manage the big Swift 2 → 3 migration?
-{:#roadmap-1-0}
+CocoaPods:
 
-The tentative plan is this:
+```
+pod 'Siesta', git: 'https://github.com/bustoutsolutions/siesta.git', branch: 'swift-2.2'
+```
 
-- `1.0-beta.8`: new [transformer pipeline API](/siesta/guide/pipeline), the last major pre-1.0 API change
-- `1.0-beta.9`: `EntityCache` improvements
-- `1.0-beta.10`:
-  - Request decorating, chaining, repeating
-  - Any other final API refinements
-  - split UI helpers into separate subproject
-  - reorganize directory structure to anticipate SwiftPM
+Carthage:
 
-After these releases, when we are confident that 1.0 functionality is set, we will cut final Swift 2 releases:
+```
+github "bustoutsolutions/siesta" "swift-2.2"
+```
 
-- `1.0.x-swift.2.2`
-- `1.0.x-swift.2.3` (maaaaybe, if there’s demand for it)
-
-These will be the last releases to support Swift 2, except for any critical bug fixes. If you aren’t ready to move to Swift 3, you can stick with these releases.
-
-The `master` branch will then move to Swift 3. The goal is to do this before Swift 3 goes GM. While this will be a disruptive change, it should not involve any changes in Siesta’s functionality, and the only API changes will be to adhere to the new Swift 3 naming guidelines (e.g. lowercase enums). The final 1.0 API freeze will target Swift 3 only, and with luck will happen immediately on the heels of Swift 3’s official release:
-
-- `1.0.0-rc.*`, `1.0.0`: targeting Swift 3
-
-Post 1.0 development will only support Swift 3.
+(Or substitute `swift-2.3` above.)
 
 #### What’s in the works for post-1.0 releases?
 
