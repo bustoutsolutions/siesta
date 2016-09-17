@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.0-beta.10"
+  s.version      = "1.0-rc.0"
   s.summary      = "Swift REST client library"
 
   s.description  = <<-DESC
@@ -23,7 +23,6 @@ Pod::Spec.new do |s|
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
                    * **Tool requirements:** Xcode 8, Swift 3.0
                    * **License:** MIT
-                   * **Status:** Solid code, already in use on the App Store, but still classified as “beta” so we can gather feedback before locking in the API for the official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
                    ## Features
 
@@ -70,7 +69,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9.0"
   s.osx.deployment_target = "10.11"
 
-  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-beta.10" }
+  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-rc.0" }
 
   s.subspec "Core" do |s|
     s.source_files = "Source/Siesta/**/*"
