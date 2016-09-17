@@ -27,7 +27,10 @@ import Alamofire
                   networking: AlamofireProvider(configuration: configuration))
           }
       }
+
+  Requires iOS 9+, because Alamofire itself does.
 */
+@available(iOS 9, *)
 public struct AlamofireProvider: NetworkingProvider
     {
     public let manager: Alamofire.SessionManager
@@ -49,6 +52,7 @@ public struct AlamofireProvider: NetworkingProvider
         }
     }
 
+@available(iOS 9, *)
 internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     internal var alamofireRequest: Alamofire.Request
@@ -68,6 +72,7 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
         { alamofireRequest.cancel() }
     }
 
+@available(iOS 9, *)
 extension Alamofire.SessionManager: NetworkingProviderConvertible
     {
     /// You can pass an `AlamoFire.Manager` when creating a `Service`.
