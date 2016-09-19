@@ -66,7 +66,7 @@ Pod::Spec.new do |s|
 
   s.documentation_url = "https://bustoutsolutions.github.io/siesta/"
 
-  s.ios.deployment_target = "9.0"
+  s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.11"
 
   s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.0-rc.0" }
