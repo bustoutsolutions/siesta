@@ -37,6 +37,7 @@ public final class Resource: NSObject
 
     internal var observers = [ObserverEntry]()
 
+
     // MARK: Configuration
 
     /// Configuration when there is no request method.
@@ -85,8 +86,18 @@ public final class Resource: NSObject
     */
     public private(set) var latestData: Entity<Any>?
         {
-        didSet { invalidated = false }
+        get {
+            initializeDataFromCache()  // asynchronous; won't immediately change data
+            return _latestData
+            }
+
+        set {
+            _latestData = newValue
+            invalidated = false
+            }
         }
+
+    private var _latestData: Entity<Any>?
 
     /**
       Details if the last attempt to load this resource resulted in an error. Becomes nil as soon
@@ -110,7 +121,7 @@ public final class Resource: NSObject
             latestError?.timestamp ?? 0)
         }
 
-    private var invalidated = false
+    private var invalidated = false  // Overrides timestamp & staleness rules if true
 
 
     // MARK: Request management
@@ -148,8 +159,6 @@ public final class Resource: NSObject
         self.url = url.absoluteURL
 
         super.init()
-
-        initializeDataFromCache()
         }
 
     // MARK: Requests
@@ -564,12 +573,29 @@ public final class Resource: NSObject
 
         notifyObservers(.newData(.wipe))
 
-        initializeDataFromCache()
+        loadDataFromCache()
         }
 
     // MARK: Caching
 
+    internal func observersChanged()
+        {
+        initializeDataFromCache()
+        // Future config callbacks for observed/unobserved may go here
+        }
+
+    private var initialCacheCheckDone = false  // We wait to check for cached data until first observer added
+
     private func initializeDataFromCache()
+        {
+        if !initialCacheCheckDone
+            {
+            initialCacheCheckDone = true
+            loadDataFromCache()
+            }
+        }
+
+    private func loadDataFromCache()
         {
         configuration.pipeline.cachedEntity(for: self)
             {

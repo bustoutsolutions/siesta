@@ -418,6 +418,12 @@ class ServiceSpec: SiestaSpec
                 service().invalidateConfiguration()
                 expect(resource0().configuration.expirationTime) == 4
                 }
+
+            it("is not computed when traversing resources but not using them")
+                {
+                service().configure { _ in fatalError("should not be called") }
+                _ = service().resource("/").child("foo/baz").relative("../bar").withParam("x", "y")
+                }
             }
 
         describe("wipeResources()")
