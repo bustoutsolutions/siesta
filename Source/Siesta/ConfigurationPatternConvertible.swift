@@ -62,7 +62,7 @@ extension String: ConfigurationPatternConvertible
         // Otherwise, interpret pattern as relative to baseURL.
 
         let resolvedPattern: String
-        if let prefix = service.baseURL?.absoluteString , !containsRegex("^[a-z]+:")
+        if !containsRegex("^[a-z]+:"), let prefix = service.baseURL?.absoluteString
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }

@@ -28,7 +28,7 @@ internal func debugStr(
     if consolidateWhitespace
         { s = s.replacingRegex(whitespacePat, " ") }
 
-    if let truncate = truncate , s.characters.count > truncate
+    if let truncate = truncate, s.characters.count > truncate
         { s = s.substring(to: s.index(s.startIndex, offsetBy: truncate)) + "…" }
 
     return s

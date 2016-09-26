@@ -627,7 +627,7 @@ public final class Resource: NSObject
         configuration.pipeline.cachedEntity(for: self)
             {
             [weak self] entity in
-            guard let resource = self , resource.latestData == nil else
+            guard let resource = self, resource.latestData == nil else
                 {
                 debugLog(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
                 return
