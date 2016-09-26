@@ -50,6 +50,11 @@ internal func debugStr(
         .joined(separator: " ")
     }
 
+internal func conciseSourceLocation(file: String, line: Int) -> String
+    {
+    return "\((file as NSString).lastPathComponent):\(line)"
+    }
+
 internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> String
     {
     var result = "\n" + indent + "headers (\(headers.count))"
@@ -86,7 +91,7 @@ extension Pipeline
             if stage.transformers.isEmpty
                 { result += " (no transformers)" }
             for transformer in stage.transformers
-                { result += "\n" + indent + "║⃘   " + debugStr(transformer) }
+                { result += "\n" + indent + "╟   " + debugStr(transformer) }
             if let cacheBox = stage.cacheBox
                 { result += "\n" + indent + "╟─→ " + cacheBox.description }
             }

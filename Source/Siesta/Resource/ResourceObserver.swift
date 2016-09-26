@@ -190,9 +190,18 @@ public extension Resource
               detect duplicates. It is thus the caller’s responsibility to prevent redundant calls to this method.
     */
     @discardableResult
-    public func addObserver(owner: AnyObject, closure: @escaping ResourceObserverClosure) -> Self
+    public func addObserver(
+            owner: AnyObject,
+            file: String = #file,
+            line: Int = #line,
+            closure: @escaping ResourceObserverClosure)
+        -> Self
         {
-        return addObserver(ClosureObserver(closure: closure), owner: owner)
+        return addObserver(
+            ClosureObserver(
+                closure: closure,
+                debugDescription: "ClosureObserver(\(conciseSourceLocation(file: file, line: line)))"),
+            owner: owner)
         }
 
     /**
@@ -330,9 +339,10 @@ internal struct ObserverEntry: CustomStringConvertible
         }
     }
 
-private struct ClosureObserver: ResourceObserver
+private struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
     {
-    fileprivate let closure: ResourceObserverClosure
+    let closure: ResourceObserverClosure
+    let debugDescription: String
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
