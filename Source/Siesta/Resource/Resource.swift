@@ -35,6 +35,8 @@ public final class Resource: NSObject
     /// The canoncial URL of this resource.
     public let url: URL
 
+    private let permanentFailure: RequestError?
+
     internal var observers = [ObserverEntry]()
 
 
@@ -157,8 +159,18 @@ public final class Resource: NSObject
 
         self.service = service
         self.url = url.absoluteURL
+        self.permanentFailure = nil
+        }
 
-        super.init()
+    internal init(service: Service, invalidURLSource: URLConvertible?)
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        self.service = service
+        self.url = URL(string: ":")!
+        self.permanentFailure = RequestError(
+            userMessage: NSLocalizedString("Cannot send request with invalid URL", comment: "userMessage"),
+            cause: RequestError.Cause.InvalidURL(urlSource: invalidURLSource))
         }
 
     // MARK: Requests
@@ -207,6 +219,9 @@ public final class Resource: NSObject
         -> Request
         {
         DispatchQueue.mainThreadPrecondition()
+
+        if let permanentFailure = permanentFailure
+            { return Resource.failedRequest(permanentFailure) }
 
         // Header configuration
 
