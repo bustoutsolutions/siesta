@@ -159,10 +159,10 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         switch response
             {
             case .success(let entity):
-                return logTransformation(processEntity(entity))
+                return processEntity(entity)
 
             case .failure(let error):
-                return logTransformation(processError(error))
+                return processError(error)
             }
         }
 
@@ -179,7 +179,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                     return .success(entity)
 
                 case .error, .skipIfOutputTypeMatches:
-                    return contentTypeMismatchError(entity)
+                    return logTransformation(contentTypeMismatchError(entity))
                 }
             }
 
@@ -188,7 +188,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 { throw RequestError.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
-            return .success(entity)
+            return logTransformation(.success(entity))
             }
         catch
             {
@@ -197,7 +197,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 ?? RequestError(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: error)
-            return .failure(siestaError)
+            return logTransformation(.failure(siestaError))
             }
         }
 
@@ -214,12 +214,13 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     private func processError(_ error: RequestError) -> Response
         {
         var error = error
-        if let errorData = error.entity , transformErrors
+        if transformErrors, let errorData = error.entity
             {
             switch processEntity(errorData)
                 {
                 case .success(let errorDataTransformed):
                     error.entity = errorDataTransformed
+                    return logTransformation(.failure(error))
 
                 case .failure(let error):
                     debugLog(.pipeline, ["Unable to parse error response body; will leave error body unprocessed:", error])
