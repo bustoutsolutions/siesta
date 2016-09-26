@@ -55,8 +55,16 @@ public enum LogCategory: String
 /// The set of categories to log. Can be changed at runtime.
 public var enabledLogCategories = Set<LogCategory>()
 
+private let maxCategoryNameLength = LogCategory.all.map { Int($0.rawValue.characters.count) }.max() ?? 0
+
 /// Inject your custom logger to do something other than print to stdout.
-public var logger: (LogCategory, String) -> Void = { print("[Siesta:\($0.rawValue)] \($1)") }
+public var logger: (LogCategory, String) -> Void =
+    {
+    let paddedCategory = $0.rawValue.padding(toLength: maxCategoryNameLength, withPad: " ", startingAt: 0)
+    let prefix = "Siesta:\(paddedCategory)│ "
+    let indentedMessage = $1.replacingOccurrences(of: "\n", with: "\n" + prefix)
+    print(prefix + indentedMessage)
+    }
 
 internal func debugLog(_ category: LogCategory, _ messageParts: @autoclosure () -> [Any?])
     {
