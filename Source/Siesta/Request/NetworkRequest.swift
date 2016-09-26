@@ -250,7 +250,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     var debugDescription: String
         {
-        return "Siesta.Request:"
+        return "Request:"
             + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
             + "("
             + requestDescription

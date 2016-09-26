@@ -615,8 +615,8 @@ public final class Resource: NSObject
     /// :nodoc:
     public override var description: String
         {
-        return "Siesta.Resource("
-            + debugStr(url)
+        return "Resource("
+            + debugStr(url).replacePrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
             + ")["
             + (isLoading ? "L" : "")
             + (latestData != nil ? "D" : "")
