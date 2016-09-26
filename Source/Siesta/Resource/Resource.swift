@@ -35,6 +35,7 @@ public final class Resource: NSObject
     /// The canoncial URL of this resource.
     public let url: URL
 
+    private let urlDescription: String
     private let permanentFailure: RequestError?
 
     internal var observers = [ObserverEntry]()
@@ -50,6 +51,9 @@ public final class Resource: NSObject
     public func configuration(for method: RequestMethod) -> Configuration
         {
         DispatchQueue.mainThreadPrecondition()
+
+        if permanentFailure != nil   // Resources with invalid URLs aren’t configurable
+            { return Configuration() }
 
         if configVersion != service.configVersion
             {
@@ -159,7 +163,9 @@ public final class Resource: NSObject
 
         self.service = service
         self.url = url.absoluteURL
-        self.permanentFailure = nil
+
+        urlDescription = debugStr(url).replacingPrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
+        permanentFailure = nil
         }
 
     internal init(service: Service, invalidURLSource: URLConvertible?)
@@ -168,9 +174,15 @@ public final class Resource: NSObject
 
         self.service = service
         self.url = URL(string: ":")!
-        self.permanentFailure = RequestError(
+
+        permanentFailure = RequestError(
             userMessage: NSLocalizedString("Cannot send request with invalid URL", comment: "userMessage"),
             cause: RequestError.Cause.InvalidURL(urlSource: invalidURLSource))
+
+        if let invalidURLSource = invalidURLSource
+            { urlDescription = "<invalid URL: \(invalidURLSource)>" }
+        else
+            { urlDescription = "<no URL>" }
         }
 
     // MARK: Requests
@@ -631,7 +643,7 @@ public final class Resource: NSObject
     public override var description: String
         {
         return "Resource("
-            + debugStr(url).replacingPrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
+            + urlDescription
             + ")["
             + (isLoading ? "L" : "")
             + (latestData != nil ? "D" : "")

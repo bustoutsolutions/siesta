@@ -17,7 +17,7 @@ internal func debugStr(
     -> String
     {
     guard let x = x else
-        { return "–" }
+        { return "nil" }
 
     var s: String
     if let debugPrintable = x as? CustomDebugStringConvertible
