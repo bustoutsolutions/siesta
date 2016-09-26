@@ -128,7 +128,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         underlyingNetworkRequestCompleted = true
 
-        debugLog(.network, [underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
         debugLog(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
         debugLog(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
@@ -205,8 +205,6 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
         if shouldIgnoreResponse(newInfo.response)
             { return }
-
-        debugLog(.networkDetails, ["Response after transformer pipeline:", newInfo.isNew ? " (new data)" : " (data unchanged)", newInfo.response.dump()])
 
         progressTracker.complete()
 

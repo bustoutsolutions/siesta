@@ -104,6 +104,15 @@ extension Response
             case .failure(let value): return "\n" + indent + "failure" + value.dump(indent + "  ")
             }
         }
+
+    internal func summary() -> String
+        {
+        switch self
+            {
+            case .success(let entity): return "success(\(type(of: entity.content)))"
+            case .failure(let error):  return "failure(\(type(of: error)))"
+            }
+        }
     }
 
 extension Entity

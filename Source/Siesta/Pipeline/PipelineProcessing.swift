@@ -27,7 +27,15 @@ internal extension Pipeline
         let stagesAndEntries = self.stagesAndEntries(for: resource)
 
         // Return deferred processor to run on background queue
-        return { self.processAndCache(rawResponse, using: stagesAndEntries) }
+        return
+            {
+            let result = self.processAndCache(rawResponse, using: stagesAndEntries)
+
+            debugLog(.pipeline,       ["  └╴Response after pipeline:", result.summary()])
+            debugLog(.networkDetails, ["    Details:", result.dump("      ")])
+
+            return result
+            }
         }
 
     // Runs on a background queue
@@ -46,7 +54,7 @@ internal extension Pipeline
             if case .success(let entity) = output,
                let cacheEntry = cacheEntry
                 {
-                debugLog(.cache, ["Caching entity with", type(of: entity.content), "content in", cacheEntry])
+                debugLog(.cache, ["  ├╴Caching entity with", type(of: entity.content), "content in", cacheEntry])
                 cacheEntry.write(entity)
                 }
 

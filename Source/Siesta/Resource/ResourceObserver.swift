@@ -220,10 +220,10 @@ public extension Resource
         {
         cleanDefunctObservers()
 
-        debugLog(.observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
+        debugLog(.observers, [self, "sending", event, "event to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
             {
-            debugLog(.observers, [self, "sending", event, "to", entry.observer])
+            debugLog(.observers, ["  ↳", event, "→", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
             }
         }

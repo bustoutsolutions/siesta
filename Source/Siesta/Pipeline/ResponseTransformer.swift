@@ -53,7 +53,7 @@ public extension ResponseTransformer
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(_ result: Response) -> Response
         {
-        debugLog(.pipeline, ["Applied transformer:", self, "\n    → ", result])
+        debugLog(.pipeline, ["  ├╴Applied transformer:", self, "\n  │ ↳", result.summary()])
         return result
         }
     }
@@ -92,9 +92,9 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 contentType = error.entity?.contentType
             }
 
-        if let contentType = contentType , contentTypeMatcher.matches(contentType)
+        if let contentType = contentType, contentTypeMatcher.matches(contentType)
             {
-            debugLog(.pipeline, [delegate, "matches content type", debugStr(contentType)])
+            debugLog(.pipeline, ["  ├╴Transformer", self, "matches content type", debugStr(contentType)])
             return delegate.process(response)
             }
         else
