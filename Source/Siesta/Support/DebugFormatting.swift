@@ -112,11 +112,13 @@ extension Response
 
     internal func summary() -> String
         {
+        let kind: String, payload: String
         switch self
             {
-            case .success(let entity): return "success(\(type(of: entity.content)))"
-            case .failure(let error):  return "failure(\(type(of: error)))"
+            case .success(let entity): (kind, payload) = ("success", debugStr(entity.content, consolidateWhitespace: true, truncate: 80))
+            case .failure(let error):  (kind, payload) = ("failure", error.summary())
             }
+        return kind + ": " + payload
         }
     }
 
@@ -156,6 +158,18 @@ extension RequestError
             { result += "\n" + indent + "cause:          \(debugStr(cause, consolidateWhitespace: true))" }
         if let entity = entity
             { result += "\n" + indent + "entity:" + entity.dump(indent + "  ") }
+        return result
+        }
+
+    internal func summary() -> String
+        {
+        var result = debugStr(userMessage, truncate: 24)
+        if let httpStatusCode = httpStatusCode
+            { result += " \(httpStatusCode)" }
+        if let content = entity?.content
+            { result += " content: \(type(of: content))" }
+        if let cause = cause
+            { result += " cause: " + debugStr(cause, truncate: 32)}
         return result
         }
     }
