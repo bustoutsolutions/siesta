@@ -140,9 +140,9 @@ class PipelineSpec: ResourceSpecBase
                     {
                     let emptyCache = TestCache("empty")
                     configureCache(emptyCache, at: .cleanup)
-                    _ = resource()
+                    _ = resource().latestData
                     waitForCacheRead(emptyCache)
-                    expect(resource().text) == ""
+                    expect(resource().latestData).to(beNil())
                     }
 
                 it("ignores cached data if resource populated before cache read completes")

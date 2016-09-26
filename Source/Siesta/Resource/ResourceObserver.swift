@@ -165,6 +165,7 @@ public extension Resource
                 // have to use observers[i] instead of loop var to
                 // make mutator actually change struct in place in array
                 observers[i].addOwner(owner)
+                observersChanged()
                 return self
                 }
             }
@@ -173,6 +174,7 @@ public extension Resource
         newEntry.addOwner(owner)
         observers.append(newEntry)
         observer.resourceChanged(self, event: .observerAdded)
+        observersChanged()
         return self
         }
 
@@ -247,6 +249,9 @@ public extension Resource
             debugLog(.observers, [self, "removing observer whose owners are all gone:", entry])
             entry.observer?.stoppedObserving(resource: self)
             }
+
+        if !removed.isEmpty
+            { observersChanged() }
         }
     }
 
