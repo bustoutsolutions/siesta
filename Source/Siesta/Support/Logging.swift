@@ -22,7 +22,7 @@ public enum LogCategory: String
     case networkDetails
 
     /// Details of how the `ResponseTransformer` parses responses.
-    case responseProcessing
+    case pipeline
 
     /// `ResourceEvent` broadcast by resources.
     case stateChanges
@@ -49,7 +49,7 @@ public enum LogCategory: String
     public static let detailed = Set<LogCategory>(all.filter { $0 != networkDetails})
 
     /// The whole schebang!
-    public static let all: Set<LogCategory> = [network, networkDetails, responseProcessing, stateChanges, observers, staleness, cache, configuration]
+    public static let all: Set<LogCategory> = [network, networkDetails, pipeline, stateChanges, observers, staleness, cache, configuration]
     }
 
 /// The set of categories to log. Can be changed at runtime.

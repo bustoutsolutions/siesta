@@ -616,7 +616,7 @@ public final class Resource: NSObject
     public override var description: String
         {
         return "Resource("
-            + debugStr(url).replacePrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
+            + debugStr(url).replacingPrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
             + ")["
             + (isLoading ? "L" : "")
             + (latestData != nil ? "D" : "")

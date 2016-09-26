@@ -45,7 +45,7 @@ public extension ResponseTransformer
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(_ result: Response) -> Response
         {
-        debugLog(.responseProcessing, ["Applied transformer:", self, "\n    → ", result])
+        debugLog(.pipeline, ["Applied transformer:", self, "\n    → ", result])
         return result
         }
     }
@@ -84,7 +84,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
         if let contentType = contentType , contentTypeMatcher.matches(contentType)
             {
-            debugLog(.responseProcessing, [delegate, "matches content type", debugStr(contentType)])
+            debugLog(.pipeline, [delegate, "matches content type", debugStr(contentType)])
             return delegate.process(response)
             }
         else
@@ -160,7 +160,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 case .skip,
                      .skipIfOutputTypeMatches where entity.content is OutputContentType:
 
-                    debugLog(.responseProcessing, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
+                    debugLog(.pipeline, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
                     return .success(entity)
 
                 case .error, .skipIfOutputTypeMatches:
@@ -207,7 +207,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                     error.entity = errorDataTransformed
 
                 case .failure(let error):
-                    debugLog(.responseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])
+                    debugLog(.pipeline, ["Unable to parse error response body; will leave error body unprocessed:", error])
                 }
             }
         return .failure(error)

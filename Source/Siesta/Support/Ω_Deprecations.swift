@@ -9,6 +9,14 @@
 
 import Foundation
 
+// MARK: Deprecated in 1.0-rc.1
+
+extension LogCategory
+    {
+    @available(*, deprecated: 0.99, renamed: "pipeline")
+    public static let responseProcessing = LogCategory.pipeline
+    }
+
 // MARK: Swift 3 deprecations
 
 extension Configuration
@@ -96,8 +104,8 @@ extension LogCategory
     @available(*, deprecated: 0.99, renamed: "networkDetails")
     public static let NetworkDetails = LogCategory.networkDetails
 
-    @available(*, deprecated: 0.99, renamed: "responseProcessing")
-    public static let ResponseProcessing = LogCategory.responseProcessing
+    @available(*, deprecated: 0.99, renamed: "pipeline")
+    public static let ResponseProcessing = LogCategory.pipeline
 
     @available(*, deprecated: 0.99, renamed: "stateChanges")
     public static let StateChanges = LogCategory.stateChanges
