@@ -39,7 +39,7 @@ import Foundation
 */
 public struct Pipeline
     {
-    internal var stages: [PipelineStageKey:PipelineStage] = [:]
+    private var stages: [PipelineStageKey:PipelineStage] = [:]
 
     /**
       The order in which the pipeline’s stages run. The default order is:
