@@ -59,10 +59,8 @@ open class Service: NSObject
             {
             self.baseURL = baseURL.alterPath
                 {
-                path in
-                !path.hasSuffix("/")
-                    ? path + "/"
-                    : path
+                if !$0.hasSuffix("/")
+                   { $0 += "/" }
                 }
             }
         else

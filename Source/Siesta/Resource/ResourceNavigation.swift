@@ -93,10 +93,6 @@ extension Resource
         {
         return service.resource(absoluteURL:
             url.alterQuery
-                {
-                var params = $0
-                params[name] = value
-                return params
-                })
+                { $0[name] = value })
         }
     }
