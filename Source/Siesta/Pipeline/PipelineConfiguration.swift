@@ -131,7 +131,7 @@ public struct Pipeline
 */
 public struct PipelineStage
     {
-    private var transformers: [ResponseTransformer] = []
+    internal private(set) var transformers: [ResponseTransformer] = []
     internal var cacheBox: CacheBox?
 
     /**

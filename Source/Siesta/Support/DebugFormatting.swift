@@ -52,12 +52,46 @@ internal func debugStr(
 
 internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> String
     {
-    var result = "\n" + indent + "headers: (\(headers.count))"
+    var result = "\n" + indent + "headers (\(headers.count))"
 
     for (k,v) in headers
         { result += "\n" + indent + "  \(k): \(v)" }
 
     return result
+    }
+
+extension Configuration
+    {
+    internal func dump(_ indent: String = "") -> String
+        {
+        return "\n" + indent + "expirationTime:            \(expirationTime) sec"
+             + "\n" + indent + "retryTime:                 \(retryTime) sec"
+             + "\n" + indent + "progressReportingInterval: \(progressReportingInterval) sec"
+             + dumpHeaders(headers, indent: indent)
+             + "\n" + indent + "requestDecorators: \(requestDecorators.count)"
+             + "\n" + indent + "pipeline"
+             + pipeline.dump(indent + "  ")
+        }
+    }
+
+extension Pipeline
+    {
+    internal func dump(_ indent: String = "") -> String
+        {
+        var result = ""
+        for stageKey in order
+            {
+            result += "\n" + indent + "║ " + stageKey.description + " stage"
+            let stage = self[stageKey]
+            if stage.transformers.isEmpty
+                { result += " (no transformers)" }
+            for transformer in stage.transformers
+                { result += "\n" + indent + "║⃘   " + debugStr(transformer) }
+            if let cacheBox = stage.cacheBox
+                { result += "\n" + indent + "╟─→ " + cacheBox.description }
+            }
+        return result
+        }
     }
 
 extension Response
@@ -76,13 +110,11 @@ extension Entity
     {
     internal func dump(_ indent: String = "") -> String
         {
-        var result =
-            "\n" + indent + "contentType: \(contentType)" +
-            "\n" + indent + "charset:     \(debugStr(charset))" +
-            dumpHeaders(headers, indent: indent) +
-            "\n" + indent + "content: (\(type(of: content)))\n"
-        result += formattedContent.replacingRegex("^|\n", "$0  " + indent)
-        return result
+        return "\n" + indent + "contentType: \(contentType)"
+             + "\n" + indent + "charset:     \(debugStr(charset))"
+             + dumpHeaders(headers, indent: indent)
+             + "\n" + indent + "content: (\(type(of: content)))\n"
+             + formattedContent.replacingRegex("^|\n", "$0  " + indent)
         }
 
     private var formattedContent: String

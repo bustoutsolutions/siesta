@@ -17,6 +17,13 @@ internal extension String
             : self
         }
 
+    func replacingPrefix(_ prefix: String, with replacement: String) -> String
+        {
+        return hasPrefix(prefix)
+            ? replacement + stripPrefix(prefix)
+            : self
+        }
+
     var capitalizedFirstCharacter: String
         {
         guard !self.isEmpty else

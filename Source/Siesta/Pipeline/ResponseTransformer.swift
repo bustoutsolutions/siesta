@@ -29,7 +29,7 @@ import Foundation
              transformer touches only its input parameters, and those parameters are value types or otherwise
              exclusively owned.
 */
-public protocol ResponseTransformer
+public protocol ResponseTransformer: CustomDebugStringConvertible
     {
     /**
       Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.
@@ -39,6 +39,14 @@ public protocol ResponseTransformer
     */
     func process(_ response: Response) -> Response
     }
+
+public extension ResponseTransformer
+    {
+    /// Prints the name of the transformer’s Swift type.
+    public var debugDescription: String
+        { return String(describing: type(of: self)) }
+    }
+
 
 public extension ResponseTransformer
     {
@@ -54,12 +62,14 @@ public extension ResponseTransformer
 
 internal struct ContentTypeMatchTransformer: ResponseTransformer
     {
+    let contentTypes: [String]  // for logging
     let contentTypeMatcher: NSRegularExpression
     let delegate: ResponseTransformer
 
     init(_ delegate: ResponseTransformer, contentTypes: [String])
         {
         self.delegate = delegate
+        self.contentTypes = contentTypes
 
         let contentTypeRegexps = contentTypes.map
             {
@@ -89,6 +99,11 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
             }
         else
             { return response }
+        }
+
+    var debugDescription: String
+        {
+        return "⟨\(contentTypes.joined(separator: " "))⟩ \(delegate)"
         }
     }
 
@@ -211,6 +226,21 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 }
             }
         return .failure(error)
+        }
+
+    public var debugDescription: String
+        {
+        var result = "\(InputContentType.self) → \(OutputContentType.self)"
+
+        var options: [String] = []
+        if mismatchAction != .error
+            { options.append("mismatchAction: \(mismatchAction)") }
+        if transformErrors
+            { options.append("transformErrors: \(transformErrors)") }
+        if !options.isEmpty
+            { result += "  [\(options.joined(separator: ", "))]" }
+
+        return result
         }
     }
 

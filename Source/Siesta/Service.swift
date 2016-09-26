@@ -355,15 +355,17 @@ open class Service: NSObject
     internal func configuration(forResource resource: Resource, requestMethod: RequestMethod) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
-        debugLog(.configuration, ["Computing configuration for", requestMethod, resource])
+        debugLog(.configuration, ["Computing configuration for", requestMethod.rawValue.uppercased(), resource])
         var config = Configuration()
         for entry in configurationEntries
             where entry.requestMethods.contains(requestMethod)
                && entry.configurationPattern(resource.url)
             {
-            debugLog(.configuration, ["Applying", entry, "to", resource])
+            debugLog(.configuration, ["  ├╴Applying", entry])
             entry.configurer(&config)
             }
+        debugLog(.configuration, ["  └╴Resulting configuration", config.dump("      ")])
+
         return config
         }
 

@@ -113,11 +113,13 @@ internal extension Pipeline
 internal struct CacheBox
     {
     fileprivate let buildEntry: (Resource) -> (CacheEntryProtocol?)
+    internal let description: String
 
     init?<T: EntityCache>(cache: T?)
         {
         guard let cache = cache else { return nil }
         buildEntry = { CacheEntry(cache: cache, resource: $0) }
+        description = String(describing: type(of: cache))
         }
     }
 
