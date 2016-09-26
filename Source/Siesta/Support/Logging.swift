@@ -61,10 +61,19 @@ private let maxCategoryNameLength = LogCategory.all.map { Int($0.rawValue.charac
 public var logger: (LogCategory, String) -> Void =
     {
     let paddedCategory = $0.rawValue.padding(toLength: maxCategoryNameLength, withPad: " ", startingAt: 0)
-    let threadName = Thread.isMainThread
-        ? "main  "
-        : String(format: "BG-%03x", ObjectIdentifier(Thread.current).hashValue >> 4 & 0xFFF)
-    let prefix = "\(threadName) Siesta:\(paddedCategory) │ "
+    var threadName = ""
+    if !Thread.isMainThread
+        {
+        threadName += "[thread "
+        var threadID = abs(ObjectIdentifier(Thread.current).hashValue &* 524287)
+        for _ in 0..<4
+            {
+            threadName.append(Character(UnicodeScalar(threadID % 0x55 + 0x13a0)!))
+            threadID /= 0x55
+            }
+        threadName += "]"
+        }
+    let prefix = "Siesta:\(paddedCategory) │ \(threadName)"
     let indentedMessage = $1.replacingOccurrences(of: "\n", with: "\n" + prefix)
     print(prefix + indentedMessage)
     }
