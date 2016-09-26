@@ -646,7 +646,7 @@ public final class Resource: NSObject
             + urlDescription
             + ")["
             + (isLoading ? "L" : "")
-            + (latestData != nil ? "D" : "")
+            + (_latestData != nil ? "D" : "")
             + (latestError != nil ? "E" : "")
             + "]"
         }
