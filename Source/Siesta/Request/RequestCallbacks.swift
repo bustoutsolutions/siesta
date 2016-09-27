@@ -36,7 +36,7 @@ extension RequestWithDefaultCallbacks
         {
         return addResponseCallback
             {
-            if case .success(let entity) = $0.response , $0.isNew
+            if $0.isNew, case .success(let entity) = $0.response
                 { callback(entity) }
             }
         }
@@ -45,7 +45,7 @@ extension RequestWithDefaultCallbacks
         {
         return addResponseCallback
             {
-            if case .success = $0.response , !$0.isNew
+            if !$0.isNew, case .success = $0.response
                 { callback() }
             }
         }

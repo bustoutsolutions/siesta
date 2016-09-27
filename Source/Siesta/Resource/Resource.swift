@@ -35,6 +35,9 @@ public final class Resource: NSObject
     /// The canoncial URL of this resource.
     public let url: URL
 
+    private let urlDescription: String
+    private let permanentFailure: RequestError?
+
     internal var observers = [ObserverEntry]()
 
 
@@ -48,6 +51,9 @@ public final class Resource: NSObject
     public func configuration(for method: RequestMethod) -> Configuration
         {
         DispatchQueue.mainThreadPrecondition()
+
+        if permanentFailure != nil   // Resources with invalid URLs aren’t configurable
+            { return Configuration() }
 
         if configVersion != service.configVersion
             {
@@ -158,7 +164,25 @@ public final class Resource: NSObject
         self.service = service
         self.url = url.absoluteURL
 
-        super.init()
+        urlDescription = debugStr(url).replacingPrefix(service.baseURL?.absoluteString ?? "\0", with: "…/")
+        permanentFailure = nil
+        }
+
+    internal init(service: Service, invalidURLSource: URLConvertible?)
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        self.service = service
+        self.url = URL(string: ":")!
+
+        permanentFailure = RequestError(
+            userMessage: NSLocalizedString("Cannot send request with invalid URL", comment: "userMessage"),
+            cause: RequestError.Cause.InvalidURL(urlSource: invalidURLSource))
+
+        if let invalidURLSource = invalidURLSource
+            { urlDescription = "<invalid URL: \(invalidURLSource)>" }
+        else
+            { urlDescription = "<no URL>" }
         }
 
     // MARK: Requests
@@ -207,6 +231,9 @@ public final class Resource: NSObject
         -> Request
         {
         DispatchQueue.mainThreadPrecondition()
+
+        if let permanentFailure = permanentFailure
+            { return Resource.failedRequest(permanentFailure) }
 
         // Header configuration
 
@@ -600,7 +627,7 @@ public final class Resource: NSObject
         configuration.pipeline.cachedEntity(for: self)
             {
             [weak self] entity in
-            guard let resource = self , resource.latestData == nil else
+            guard let resource = self, resource.latestData == nil else
                 {
                 debugLog(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
                 return
@@ -615,11 +642,11 @@ public final class Resource: NSObject
     /// :nodoc:
     public override var description: String
         {
-        return "Siesta.Resource("
-            + debugStr(url)
+        return "Resource("
+            + urlDescription
             + ")["
             + (isLoading ? "L" : "")
-            + (latestData != nil ? "D" : "")
+            + (_latestData != nil ? "D" : "")
             + (latestError != nil ? "E" : "")
             + "]"
         }

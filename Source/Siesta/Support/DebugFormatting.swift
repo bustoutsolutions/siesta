@@ -17,7 +17,7 @@ internal func debugStr(
     -> String
     {
     guard let x = x else
-        { return "–" }
+        { return "nil" }
 
     var s: String
     if let debugPrintable = x as? CustomDebugStringConvertible
@@ -28,7 +28,7 @@ internal func debugStr(
     if consolidateWhitespace
         { s = s.replacingRegex(whitespacePat, " ") }
 
-    if let truncate = truncate , s.characters.count > truncate
+    if let truncate = truncate, s.characters.count > truncate
         { s = s.substring(to: s.index(s.startIndex, offsetBy: truncate)) + "…" }
 
     return s
@@ -50,14 +50,53 @@ internal func debugStr(
         .joined(separator: " ")
     }
 
+internal func conciseSourceLocation(file: String, line: Int) -> String
+    {
+    return "\((file as NSString).lastPathComponent):\(line)"
+    }
+
 internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> String
     {
-    var result = "\n" + indent + "headers: (\(headers.count))"
+    var result = "\n" + indent + "headers (\(headers.count))"
 
     for (k,v) in headers
         { result += "\n" + indent + "  \(k): \(v)" }
 
     return result
+    }
+
+extension Configuration
+    {
+    internal func dump(_ indent: String = "") -> String
+        {
+        return "\n" + indent + "expirationTime:            \(expirationTime) sec"
+             + "\n" + indent + "retryTime:                 \(retryTime) sec"
+             + "\n" + indent + "progressReportingInterval: \(progressReportingInterval) sec"
+             + dumpHeaders(headers, indent: indent)
+             + "\n" + indent + "requestDecorators: \(requestDecorators.count)"
+             + "\n" + indent + "pipeline"
+             + pipeline.dump(indent + "  ")
+        }
+    }
+
+extension Pipeline
+    {
+    internal func dump(_ indent: String = "") -> String
+        {
+        var result = ""
+        for stageKey in order
+            {
+            result += "\n" + indent + "║ " + stageKey.description + " stage"
+            let stage = self[stageKey]
+            if stage.transformers.isEmpty
+                { result += " (no transformers)" }
+            for transformer in stage.transformers
+                { result += "\n" + indent + "╟   " + debugStr(transformer) }
+            if let cacheBox = stage.cacheBox
+                { result += "\n" + indent + "╟─→ " + cacheBox.description }
+            }
+        return result
+        }
     }
 
 extension Response
@@ -70,19 +109,28 @@ extension Response
             case .failure(let value): return "\n" + indent + "failure" + value.dump(indent + "  ")
             }
         }
+
+    internal func summary() -> String
+        {
+        let kind: String, payload: String
+        switch self
+            {
+            case .success(let entity): (kind, payload) = ("success", debugStr(entity.content, consolidateWhitespace: true, truncate: 80))
+            case .failure(let error):  (kind, payload) = ("failure", error.summary())
+            }
+        return kind + ": " + payload
+        }
     }
 
 extension Entity
     {
     internal func dump(_ indent: String = "") -> String
         {
-        var result =
-            "\n" + indent + "contentType: \(contentType)" +
-            "\n" + indent + "charset:     \(debugStr(charset))" +
-            dumpHeaders(headers, indent: indent) +
-            "\n" + indent + "content: (\(type(of: content)))\n"
-        result += formattedContent.replacingRegex("^|\n", "$0  " + indent)
-        return result
+        return "\n" + indent + "contentType: \(contentType)"
+             + "\n" + indent + "charset:     \(debugStr(charset))"
+             + dumpHeaders(headers, indent: indent)
+             + "\n" + indent + "content: (\(type(of: content)))\n"
+             + formattedContent.replacingRegex("^|\n", "$0  " + indent)
         }
 
     private var formattedContent: String
@@ -110,6 +158,18 @@ extension RequestError
             { result += "\n" + indent + "cause:          \(debugStr(cause, consolidateWhitespace: true))" }
         if let entity = entity
             { result += "\n" + indent + "entity:" + entity.dump(indent + "  ") }
+        return result
+        }
+
+    internal func summary() -> String
+        {
+        var result = debugStr(userMessage, truncate: 24)
+        if let httpStatusCode = httpStatusCode
+            { result += " \(httpStatusCode)" }
+        if let content = entity?.content
+            { result += " content: \(type(of: content))" }
+        if let cause = cause
+            { result += " cause: " + debugStr(cause, truncate: 32)}
         return result
         }
     }

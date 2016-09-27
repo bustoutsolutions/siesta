@@ -134,6 +134,12 @@ public extension RequestError
         {
         // MARK: Request Errors
 
+        /// Resource’s URL is nil or syntactically invalid.
+        public struct InvalidURL: Error
+            {
+            public let urlSource: URLConvertible?
+            }
+
         /// Unable to create a text request with the requested character encoding.
         public struct UnencodableText: Error
             {

@@ -39,7 +39,7 @@ import Foundation
 */
 public struct Pipeline
     {
-    internal var stages: [PipelineStageKey:PipelineStage] = [:]
+    private var stages: [PipelineStageKey:PipelineStage] = [:]
 
     /**
       The order in which the pipeline’s stages run. The default order is:
@@ -69,7 +69,7 @@ public struct Pipeline
                 .map { key, _ in key }
             let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
-                { debugLog(.responseProcessing, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
+                { debugLog(.pipeline, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
             }
         }
 
@@ -131,7 +131,7 @@ public struct Pipeline
 */
 public struct PipelineStage
     {
-    private var transformers: [ResponseTransformer] = []
+    internal private(set) var transformers: [ResponseTransformer] = []
     internal var cacheBox: CacheBox?
 
     /**

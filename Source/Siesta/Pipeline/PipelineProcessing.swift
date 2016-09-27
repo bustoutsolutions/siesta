@@ -11,7 +11,7 @@ import Foundation
 internal extension Pipeline
     {
     private var stagesInOrder: [PipelineStage]
-        { return order.flatMap { stages[$0] } }
+        { return order.flatMap { self[$0] } }
 
     private typealias StageAndEntry = (PipelineStage, CacheEntryProtocol?)
 
@@ -27,7 +27,15 @@ internal extension Pipeline
         let stagesAndEntries = self.stagesAndEntries(for: resource)
 
         // Return deferred processor to run on background queue
-        return { self.processAndCache(rawResponse, using: stagesAndEntries) }
+        return
+            {
+            let result = self.processAndCache(rawResponse, using: stagesAndEntries)
+
+            debugLog(.pipeline,       ["  └╴Response after pipeline:", result.summary()])
+            debugLog(.networkDetails, ["    Details:", result.dump("      ")])
+
+            return result
+            }
         }
 
     // Runs on a background queue
@@ -46,7 +54,7 @@ internal extension Pipeline
             if case .success(let entity) = output,
                let cacheEntry = cacheEntry
                 {
-                debugLog(.cache, ["Caching entity with", type(of: entity.content), "content in", cacheEntry])
+                debugLog(.cache, ["  ├╴Caching entity with", type(of: entity.content), "content in", cacheEntry])
                 cacheEntry.write(entity)
                 }
 
@@ -113,11 +121,13 @@ internal extension Pipeline
 internal struct CacheBox
     {
     fileprivate let buildEntry: (Resource) -> (CacheEntryProtocol?)
+    internal let description: String
 
     init?<T: EntityCache>(cache: T?)
         {
         guard let cache = cache else { return nil }
         buildEntry = { CacheEntry(cache: cache, resource: $0) }
+        description = String(describing: type(of: cache))
         }
     }
 

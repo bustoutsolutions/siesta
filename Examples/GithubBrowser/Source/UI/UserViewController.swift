@@ -62,7 +62,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent;
+        return .lightContent
     }
 
     override func viewDidLayoutSubviews() {

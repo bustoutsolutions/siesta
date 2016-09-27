@@ -66,11 +66,6 @@ class ServiceSpec: SiestaSpec
                         expectInvalidResource(bareService().resource("foo"))
                         }
 
-                    it("fails all requests for relative URLs")
-                        {
-                        expectInvalidResource(bareService().resource(absoluteURL: "/foo"))
-                        }
-
                     it("allows requests for absolute URLs")
                         {
                         let resource = bareService().resource(absoluteURL: "http://foo.bar")
@@ -517,5 +512,5 @@ func checkPathExpansion(_ baseURL: String, path resourcePath: String, expect exp
 
 func expectInvalidResource(_ resource: Resource)
     {
-    awaitFailure(resource.load())
+    awaitFailure(resource.load(), alreadyCompleted: true)
     }

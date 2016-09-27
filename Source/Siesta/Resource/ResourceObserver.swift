@@ -190,9 +190,18 @@ public extension Resource
               detect duplicates. It is thus the caller’s responsibility to prevent redundant calls to this method.
     */
     @discardableResult
-    public func addObserver(owner: AnyObject, closure: @escaping ResourceObserverClosure) -> Self
+    public func addObserver(
+            owner: AnyObject,
+            file: String = #file,
+            line: Int = #line,
+            closure: @escaping ResourceObserverClosure)
+        -> Self
         {
-        return addObserver(ClosureObserver(closure: closure), owner: owner)
+        return addObserver(
+            ClosureObserver(
+                closure: closure,
+                debugDescription: "ClosureObserver(\(conciseSourceLocation(file: file, line: line)))"),
+            owner: owner)
         }
 
     /**
@@ -220,10 +229,10 @@ public extension Resource
         {
         cleanDefunctObservers()
 
-        debugLog(.observers, [self, "sending", event, "to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
+        debugLog(.observers, [self, "sending", event, "event to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
             {
-            debugLog(.observers, [self, "sending", event, "to", entry.observer])
+            debugLog(.observers, ["  ↳", event, "→", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
             }
         }
@@ -330,9 +339,10 @@ internal struct ObserverEntry: CustomStringConvertible
         }
     }
 
-private struct ClosureObserver: ResourceObserver
+private struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
     {
-    fileprivate let closure: ResourceObserverClosure
+    let closure: ResourceObserverClosure
+    let debugDescription: String
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {

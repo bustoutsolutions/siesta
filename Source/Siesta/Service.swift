@@ -59,10 +59,8 @@ open class Service: NSObject
             {
             self.baseURL = baseURL.alterPath
                 {
-                path in
-                !path.hasSuffix("/")
-                    ? path + "/"
-                    : path
+                if !$0.hasSuffix("/")
+                   { $0 += "/" }
                 }
             }
         else
@@ -121,8 +119,6 @@ open class Service: NSObject
             customBaseURL?.url?.appendingPathComponent(path.stripPrefix("/")))
         }
 
-    private static let invalidURL = URL(string: "null:")!     // URL we use when given bad URL for a resource
-
     /**
       Returns the unique resource with the given URL, ignoring `baseURL`.
 
@@ -140,8 +136,9 @@ open class Service: NSObject
 
         guard let url = urlConvertible?.url else
             {
-            debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
-            return resource(absoluteURL: Service.invalidURL)
+            if let urlConvertible = urlConvertible
+                { debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"]) }
+            return Resource(service: self, invalidURLSource: urlConvertible)
             }
 
         return resourceCache.get(url.absoluteString)
@@ -355,15 +352,17 @@ open class Service: NSObject
     internal func configuration(forResource resource: Resource, requestMethod: RequestMethod) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
-        debugLog(.configuration, ["Computing configuration for", requestMethod, resource])
+        debugLog(.configuration, ["Computing configuration for", requestMethod.rawValue.uppercased(), resource])
         var config = Configuration()
         for entry in configurationEntries
             where entry.requestMethods.contains(requestMethod)
                && entry.configurationPattern(resource.url)
             {
-            debugLog(.configuration, ["Applying", entry, "to", resource])
+            debugLog(.configuration, ["  ├╴Applying", entry])
             entry.configurer(&config)
             }
+        debugLog(.configuration, ["  └╴Resulting configuration", config.dump("      ")])
+
         return config
         }
 

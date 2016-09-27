@@ -31,18 +31,17 @@ extension URL: URLConvertible
 
 internal extension URL
     {
-    func alterPath(_ pathMutator: (String) -> String) -> URL?
+    func alterPath(_ pathMutator: (inout String) -> Void) -> URL?
         {
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else
             { return nil }
 
-        // TODO: used to be a nil check here?
-        components.path = pathMutator(components.path)
+        pathMutator(&components.path)
 
         return components.url
         }
 
-    func alterQuery(_ queryMutator: ([String:String?]) -> [String:String?]) -> URL?
+    func alterQuery(_ queryMutator: (inout [String:String?]) -> Void) -> URL?
         {
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else
             { return nil }
@@ -52,7 +51,9 @@ internal extension URL
         for item in queryItems
             { queryDict[item.name] = item.value }
 
-        let newItems = queryMutator(queryDict)
+        queryMutator(&queryDict)
+
+        let newItems = queryDict
             .sorted { $0.0 < $1.0 }   // canonicalize order to help resource URLs be unique
             .filter { $1 != nil }
             .map { URLQueryItem(name: $0.0, value: $0.1?.nilIfEmpty) }

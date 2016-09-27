@@ -29,7 +29,7 @@ import Foundation
              transformer touches only its input parameters, and those parameters are value types or otherwise
              exclusively owned.
 */
-public protocol ResponseTransformer
+public protocol ResponseTransformer: CustomDebugStringConvertible
     {
     /**
       Returns the parsed form of this response, or returns it unchanged if this transformer does not apply.
@@ -42,10 +42,18 @@ public protocol ResponseTransformer
 
 public extension ResponseTransformer
     {
+    /// Prints the name of the transformer’s Swift type.
+    public var debugDescription: String
+        { return String(describing: type(of: self)) }
+    }
+
+
+public extension ResponseTransformer
+    {
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(_ result: Response) -> Response
         {
-        debugLog(.responseProcessing, ["Applied transformer:", self, "\n    → ", result])
+        debugLog(.pipeline, ["  ├╴Applied transformer:", self, "\n  │ ↳", result.summary()])
         return result
         }
     }
@@ -54,12 +62,14 @@ public extension ResponseTransformer
 
 internal struct ContentTypeMatchTransformer: ResponseTransformer
     {
+    let contentTypes: [String]  // for logging
     let contentTypeMatcher: NSRegularExpression
     let delegate: ResponseTransformer
 
     init(_ delegate: ResponseTransformer, contentTypes: [String])
         {
         self.delegate = delegate
+        self.contentTypes = contentTypes
 
         let contentTypeRegexps = contentTypes.map
             {
@@ -82,13 +92,18 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 contentType = error.entity?.contentType
             }
 
-        if let contentType = contentType , contentTypeMatcher.matches(contentType)
+        if let contentType = contentType, contentTypeMatcher.matches(contentType)
             {
-            debugLog(.responseProcessing, [delegate, "matches content type", debugStr(contentType)])
+            debugLog(.pipeline, ["  ├╴Transformer", self, "matches content type", debugStr(contentType)])
             return delegate.process(response)
             }
         else
             { return response }
+        }
+
+    var debugDescription: String
+        {
+        return "⟨\(contentTypes.joined(separator: " "))⟩ \(delegate)"
         }
     }
 
@@ -144,10 +159,10 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         switch response
             {
             case .success(let entity):
-                return logTransformation(processEntity(entity))
+                return processEntity(entity)
 
             case .failure(let error):
-                return logTransformation(processError(error))
+                return processError(error)
             }
         }
 
@@ -160,11 +175,11 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 case .skip,
                      .skipIfOutputTypeMatches where entity.content is OutputContentType:
 
-                    debugLog(.responseProcessing, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
+                    debugLog(.pipeline, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
                     return .success(entity)
 
                 case .error, .skipIfOutputTypeMatches:
-                    return contentTypeMismatchError(entity)
+                    return logTransformation(contentTypeMismatchError(entity))
                 }
             }
 
@@ -173,7 +188,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 { throw RequestError.Cause.TransformerReturnedNil(transformer: self) }
             var entity = entity
             entity.content = result
-            return .success(entity)
+            return logTransformation(.success(entity))
             }
         catch
             {
@@ -182,7 +197,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                 ?? RequestError(
                     userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
                     cause: error)
-            return .failure(siestaError)
+            return logTransformation(.failure(siestaError))
             }
         }
 
@@ -199,18 +214,34 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
     private func processError(_ error: RequestError) -> Response
         {
         var error = error
-        if let errorData = error.entity , transformErrors
+        if transformErrors, let errorData = error.entity
             {
             switch processEntity(errorData)
                 {
                 case .success(let errorDataTransformed):
                     error.entity = errorDataTransformed
+                    return logTransformation(.failure(error))
 
                 case .failure(let error):
-                    debugLog(.responseProcessing, ["Unable to parse error response body; will leave error body unprocessed:", error])
+                    debugLog(.pipeline, ["Unable to parse error response body; will leave error body unprocessed:", error])
                 }
             }
         return .failure(error)
+        }
+
+    public var debugDescription: String
+        {
+        var result = "\(InputContentType.self) → \(OutputContentType.self)"
+
+        var options: [String] = []
+        if mismatchAction != .error
+            { options.append("mismatchAction: \(mismatchAction)") }
+        if transformErrors
+            { options.append("transformErrors: \(transformErrors)") }
+        if !options.isEmpty
+            { result += "  [\(options.joined(separator: ", "))]" }
+
+        return result
         }
     }
 
