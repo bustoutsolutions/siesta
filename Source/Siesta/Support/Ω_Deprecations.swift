@@ -17,6 +17,13 @@ extension LogCategory
     public static let responseProcessing = LogCategory.pipeline
     }
 
+@available(*, deprecated: 0.99, renamed: "LogCategory.enabled")
+public var enabledLogCategories: Set<LogCategory>
+    {
+    get { return LogCategory.enabled }
+    set { LogCategory.enabled = newValue }
+    }
+
 // MARK: Swift 3 deprecations
 
 extension Configuration

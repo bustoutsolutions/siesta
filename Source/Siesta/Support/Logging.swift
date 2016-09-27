@@ -50,10 +50,10 @@ public enum LogCategory
 
     /// The whole schebang!
     public static let all: Set<LogCategory> = [network, networkDetails, pipeline, stateChanges, observers, staleness, cache, configuration]
-    }
 
-/// The set of categories to log. Can be changed at runtime.
-public var enabledLogCategories = Set<LogCategory>()
+    /// The set of categories to log. Can be changed at runtime.
+    public static var enabled = Set<LogCategory>()
+    }
 
 private let maxCategoryNameLength = LogCategory.all.map { Int(String(describing: $0).characters.count) }.max() ?? 0
 
@@ -80,6 +80,6 @@ public var logger: (LogCategory, String) -> Void =
 
 internal func debugLog(_ category: LogCategory, _ messageParts: @autoclosure () -> [Any?])
     {
-    if enabledLogCategories.contains(category)
+    if LogCategory.enabled.contains(category)
         { logger(category, debugStr(messageParts())) }
     }
