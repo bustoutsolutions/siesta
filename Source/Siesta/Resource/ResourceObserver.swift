@@ -282,7 +282,8 @@ internal struct ObserverEntry: CustomStringConvertible
         {
         self.observerRef = StrongOrWeakRef<ResourceObserver>(observer)
         self.resource = resource
-        originalObserverDescription = debugStr(observer)  // So we know what was deallocated if it gets logged
+        if LogCategory.enabled.contains(.observers)
+            { originalObserverDescription = debugStr(observer) }  // So we know what was deallocated if it gets logged
         }
 
     mutating func addOwner(_ owner: AnyObject)
@@ -329,7 +330,7 @@ internal struct ObserverEntry: CustomStringConvertible
             || (!observerIsOwner && externalOwners.isEmpty)
         }
 
-    private var originalObserverDescription: String
+    private var originalObserverDescription: String?
     var description: String
         {
         if let observer = observer
