@@ -13,7 +13,7 @@ import Foundation
 
     - SeeAlso: [Logging Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/logging.md)
 */
-public enum LogCategory: String
+public enum LogCategory
     {
     /// Summary of network requests: HTTP method, URL, and result code.
     case network
@@ -55,12 +55,12 @@ public enum LogCategory: String
 /// The set of categories to log. Can be changed at runtime.
 public var enabledLogCategories = Set<LogCategory>()
 
-private let maxCategoryNameLength = LogCategory.all.map { Int($0.rawValue.characters.count) }.max() ?? 0
+private let maxCategoryNameLength = LogCategory.all.map { Int(String(describing: $0).characters.count) }.max() ?? 0
 
 /// Inject your custom logger to do something other than print to stdout.
 public var logger: (LogCategory, String) -> Void =
     {
-    let paddedCategory = $0.rawValue.padding(toLength: maxCategoryNameLength, withPad: " ", startingAt: 0)
+    let paddedCategory = String(describing: $0).padding(toLength: maxCategoryNameLength, withPad: " ", startingAt: 0)
     var threadName = ""
     if !Thread.isMainThread
         {
