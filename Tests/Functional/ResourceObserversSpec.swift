@@ -39,6 +39,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
 
                 resource().removeObservers(ownedBy: observer())
+                forceObserverCleanup(for: resource())
                 expect(observer().stoppedObservingCalled) == true
                 expect(observer2.stoppedObservingCalled ) == false
                 }
@@ -276,12 +277,14 @@ class ResourceObserversSpec: ResourceSpecBase
 
             func expectResourceToBeRetained()
                 {
+                forceObserverCleanup(for: resourceWeak)
                 simulateMemoryWarning()
                 expect(resourceWeak).notTo(beNil())
                 }
 
             func expectResourceNotToBeRetained()
                 {
+                forceObserverCleanup(for: resourceWeak)
                 simulateMemoryWarning()
                 expect(resourceWeak).to(beNil())
                 }

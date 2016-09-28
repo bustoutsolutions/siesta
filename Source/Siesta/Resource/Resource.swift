@@ -39,6 +39,7 @@ public final class Resource: NSObject
     private let permanentFailure: RequestError?
 
     internal var observers = [ObserverEntry]()
+    internal var defunctObserverCheckCounter = 0
 
 
     // MARK: Configuration

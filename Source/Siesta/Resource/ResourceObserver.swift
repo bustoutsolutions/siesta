@@ -157,6 +157,8 @@ public extension Resource
     @discardableResult
     public func addObserver(_ observer: ResourceObserver, owner: AnyObject) -> Self
         {
+        cleanDefunctObservers()
+
         for (i, entry) in observers.enumerated()
             {
             if let existingObserver = entry.observer,
@@ -221,13 +223,13 @@ public extension Resource
 
     internal var beingObserved: Bool
         {
-        cleanDefunctObservers()
+        cleanDefunctObservers(force: true)
         return !observers.isEmpty
         }
 
     internal func notifyObservers(_ event: ResourceEvent)
         {
-        cleanDefunctObservers()
+        cleanDefunctObservers(force: true)
 
         debugLog(.observers, [self, "sending", event, "event to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
         for entry in observers
@@ -245,8 +247,18 @@ public extension Resource
             }
         }
 
-    internal func cleanDefunctObservers()
+    internal func cleanDefunctObservers(force: Bool = false)
         {
+        // There’s a tradeoff between the cost of touching all the weak owner refs of all
+        // the observers and the cost of letting the observer list grow. As a compromise,
+        // for operations that may modify the observer list but don’t need it to be fully
+        // pruned right away, we only sometimes check for defunct observers.
+
+        defunctObserverCheckCounter += 1
+        if !force && defunctObserverCheckCounter < 12
+            { return }
+        defunctObserverCheckCounter = 0
+
         for i in observers.indices
             { observers[i].cleanUp() }
 
