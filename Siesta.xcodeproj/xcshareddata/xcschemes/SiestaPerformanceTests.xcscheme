@@ -17,8 +17,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DA19D04C1D9ADC1800D15F3A"
-               BuildableName = "SiestaPerformanceTests iOS.xctest"
-               BlueprintName = "SiestaPerformanceTests iOS"
+               BuildableName = "SiestaPerformanceTests macOS.xctest"
+               BlueprintName = "SiestaPerformanceTests macOS"
                ReferencedContainer = "container:Siesta.xcodeproj">
             </BuildableReference>
          </TestableReference>
