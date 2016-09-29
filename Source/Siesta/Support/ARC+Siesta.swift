@@ -9,6 +9,16 @@
 import Foundation
 
 /**
+  In Swift 3, “is AnyObject” always returns true due to implicit value wrapping.
+  This tests whether the argument is really a subtype of AnyObject, restoring the
+  behavior of “is AnyObject” in Swift 2.
+*/
+internal func isObject(_ val: Any) -> Bool
+    {
+    return type(of: val) is AnyObject.Type
+    }
+
+/**
   A reference that can switched between behaving as a strong or a weak ref to an object,
   and can also hold a non-object type.
 

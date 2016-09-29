@@ -245,6 +245,13 @@ public protocol _objc_ResourceObserver
 private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringConvertible
     {
     weak var objcObserver: _objc_ResourceObserver?
+    var observerIdentity: AnyHashable
+        {
+        if let wrapped = objcObserver
+            { return ObjectIdentifier(wrapped) }
+        else
+            { return UniqueObserverIdentity() }
+        }
 
     init(objcObserver: _objc_ResourceObserver)
         { self.objcObserver = objcObserver }
@@ -264,14 +271,6 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
             { return debugStr(objcObserver) }
         else
             { return "_objc_ResourceObserverGlue<deallocated delegate>" }
-        }
-
-    func isEquivalentTo(observer other: ResourceObserver) -> Bool
-        {
-        if let otherGlue = (other as? _objc_ResourceObserverGlue)
-            { return self.objcObserver === otherGlue.objcObserver }
-        else
-            { return false }
         }
     }
 

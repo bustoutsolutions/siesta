@@ -37,9 +37,29 @@ public protocol ResourceObserver
 
     /**
       Allows you to prevent redundant observers from being added to the same resource. If an existing observer
-      says it is equivalent to a new observer passed to `Resource.addObserver(...)`, then the call has no effect.
+      has an identity equals to a new observer, then `Resource.addObserver(...)` has no effect.
     */
-    func isEquivalentTo(observer other: ResourceObserver) -> Bool
+    var observerIdentity: AnyHashable { get }
+    }
+
+struct UniqueObserverIdentity: Hashable
+    {
+    private static var idSeq: Int = 0
+    private let id: Int
+
+    init()
+        {
+        id = UniqueObserverIdentity.idSeq
+        UniqueObserverIdentity.idSeq += 1
+        }
+
+    static func ==(lhs: UniqueObserverIdentity, rhs: UniqueObserverIdentity) -> Bool
+        {
+        return lhs.id == rhs.id
+        }
+
+    var hashValue: Int
+        { return id }
     }
 
 public extension ResourceObserver
@@ -51,10 +71,12 @@ public extension ResourceObserver
     func stoppedObserving(resource: Resource) { }
 
     /// True iff self and other are (1) both objects and (2) are the _same_ object.
-    func isEquivalentTo(observer other: ResourceObserver) -> Bool
+    var observerIdentity: AnyHashable
         {
-        // TODO: Possible to check whether self and other are truly class types without expense of wrapper object alloc?
-        return (self as AnyObject) === (other as AnyObject)
+        if isObject(self)
+            { return AnyHashable(ObjectIdentifier(self as AnyObject)) }
+        else
+            { return UniqueObserverIdentity() }
         }
     }
 
@@ -159,10 +181,11 @@ public extension Resource
         {
         cleanDefunctObservers()
 
+        let newIdentity = observer.observerIdentity
         for (i, entry) in observers.enumerated()
             {
             if let existingObserver = entry.observer,
-                existingObserver.isEquivalentTo(observer: observer)
+                existingObserver.observerIdentity == newIdentity
                 {
                 // have to use observers[i] instead of loop var to
                 // make mutator actually change struct in place in array
