@@ -181,23 +181,19 @@ public extension Resource
         {
         cleanDefunctObservers()
 
-        let newIdentity = observer.observerIdentity
-        for (i, entry) in observers.enumerated()
+        let identity = observer.observerIdentity
+        if observers.keys.contains(identity)
             {
-            if let existingObserver = entry.observer,
-                existingObserver.observerIdentity == newIdentity
-                {
-                // have to use observers[i] instead of loop var to
-                // make mutator actually change struct in place in array
-                observers[i].addOwner(owner)
-                observersChanged()
-                return self
-                }
+            // have to use observers[i] instead of loop var to
+            // make mutator actually change struct in place in array
+            observers[identity]?.addOwner(owner)
+            observersChanged()
+            return self
             }
 
         var newEntry = ObserverEntry(observer: observer, resource: self)
         newEntry.addOwner(owner)
-        observers.append(newEntry)
+        observers[identity] = newEntry
         observer.resourceChanged(self, event: .observerAdded)
         observersChanged()
         return self
@@ -238,8 +234,8 @@ public extension Resource
         guard let owner = owner else
             { return }
 
-        for i in observers.indices
-            { observers[i].removeOwner(owner) }
+        for i in observers.keys
+            { observers[i]?.removeOwner(owner) }
 
         cleanDefunctObservers()
         }
@@ -255,7 +251,7 @@ public extension Resource
         cleanDefunctObservers(force: true)
 
         debugLog(.observers, [self, "sending", event, "event to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
-        for entry in observers
+        for entry in observers.values
             {
             debugLog(.observers, ["  ↳", event, "→", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
@@ -264,7 +260,7 @@ public extension Resource
 
     internal func notifyObservers(progress: Double)
         {
-        for entry in observers
+        for entry in observers.values
             {
             entry.observer?.resourceRequestProgress(for: self, progress: progress)
             }
@@ -282,11 +278,10 @@ public extension Resource
             { return }
         defunctObserverCheckCounter = 0
 
-        for i in observers.indices
-            { observers[i].cleanUp() }
+        for i in observers.keys
+            { observers[i]?.cleanUp() }
 
-        let (removed, kept) = observers.bipartition { $0.isDefunct }
-        observers = kept
+        let removed = observers.removeValues { $0.isDefunct }
 
         for entry in removed
             {
