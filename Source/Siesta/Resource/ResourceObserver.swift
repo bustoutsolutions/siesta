@@ -182,16 +182,16 @@ public extension Resource
         cleanDefunctObservers()
 
         let identity = observer.observerIdentity
-        if observers.keys.contains(identity)
+        if let observer = observers[identity]
             {
             // have to use observers[i] instead of loop var to
             // make mutator actually change struct in place in array
-            observers[identity]?.addOwner(owner)
+            observer.addOwner(owner)
             observersChanged()
             return self
             }
 
-        var newEntry = ObserverEntry(observer: observer, resource: self)
+        let newEntry = ObserverEntry(observer: observer, resource: self)
         newEntry.addOwner(owner)
         observers[identity] = newEntry
         observer.resourceChanged(self, event: .observerAdded)
@@ -234,8 +234,8 @@ public extension Resource
         guard let owner = owner else
             { return }
 
-        for i in observers.keys
-            { observers[i]?.removeOwner(owner) }
+        for observer in observers.values
+            { observer.removeOwner(owner) }
 
         cleanDefunctObservers()
         }
@@ -278,8 +278,8 @@ public extension Resource
             { return }
         defunctObserverCheckCounter = 0
 
-        for i in observers.keys
-            { observers[i]?.cleanUp() }
+        for observer in observers.values
+            { observer.cleanUp() }
 
         let removed = observers.removeValues { $0.isDefunct }
 
