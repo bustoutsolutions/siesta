@@ -179,14 +179,19 @@ public extension Resource
     @discardableResult
     public func addObserver(_ observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        cleanDefunctObservers()
-
         let identity = observer.observerIdentity
-        if let observer = observers[identity]
+
+        // An existing observer may be a false positive, already removed but
+        // pending cleanup. If we find one, force cleanup before we decide not
+        // to broadcast observerAdded.
+
+        cleanDefunctObservers(force: observers[identity] != nil)
+
+        if let existingEntry = observers[identity]
             {
             // have to use observers[i] instead of loop var to
             // make mutator actually change struct in place in array
-            observer.addOwner(owner)
+            existingEntry.addOwner(owner)
             observersChanged()
             return self
             }

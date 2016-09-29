@@ -44,6 +44,17 @@ class ResourceObserversSpec: ResourceSpecBase
                 expect(observer2.stoppedObservingCalled ) == false
                 }
 
+            it("receives a notification every time it is removed and re-added")
+                {
+                let observer2 = TestObserverWithExpectations()
+                for _ in 0...3
+                    {
+                    observer2.expect(.observerAdded)
+                    resource().addObserver(observer2)
+                    resource().removeObservers(ownedBy: observer2)
+                    }
+                }
+
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
