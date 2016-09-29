@@ -297,7 +297,7 @@ public extension Resource
 
 // MARK: - Internals
 
-internal struct ObserverEntry: CustomStringConvertible
+internal class ObserverEntry: CustomStringConvertible
     {
     private let resource: Resource  // keeps resource around as long as it has observers
 
@@ -316,7 +316,7 @@ internal struct ObserverEntry: CustomStringConvertible
             { originalObserverDescription = debugStr(observer) }  // So we know what was deallocated if it gets logged
         }
 
-    mutating func addOwner(_ owner: AnyObject)
+    func addOwner(_ owner: AnyObject)
         {
         withOwner(owner,
             ifObserver:
@@ -325,7 +325,7 @@ internal struct ObserverEntry: CustomStringConvertible
                 { externalOwners.insert(WeakRef(owner)) })
         }
 
-    mutating func removeOwner(_ owner: AnyObject)
+    func removeOwner(_ owner: AnyObject)
         {
         withOwner(owner,
             ifObserver:
@@ -334,7 +334,7 @@ internal struct ObserverEntry: CustomStringConvertible
                 { externalOwners.remove(WeakRef(owner)) })
         }
 
-    private mutating func withOwner(
+    private func withOwner(
             _ owner: AnyObject,
             ifObserver selfOwnerAction: (Void) -> Void,
             else externalOwnerAction: (Void) -> Void)
@@ -346,7 +346,7 @@ internal struct ObserverEntry: CustomStringConvertible
         cleanUp()
         }
 
-    mutating func cleanUp()
+    func cleanUp()
         {
         // Look for weak refs which refer to objects that are now gone
         externalOwners.filterInPlace { $0.value != nil }
