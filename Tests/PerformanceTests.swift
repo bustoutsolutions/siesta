@@ -21,9 +21,31 @@ class SiestaPerformanceTests: XCTestCase
         service = Service(baseURL: "http://test.ing", networking: networkStub)
         }
 
-    func testGetExistingResources()
+    func testGetExistingResourcesByURL()
         {
         measure { self.exerciseResourceCache(uniqueResources: 20, iters: 20000) }
+        }
+
+    func testGetExistingResourcesByPath()
+        {
+        let uniqueResources = 20
+        let iters = 20000
+        measure
+            {
+            self.setUp()  // Important to start empty each time
+            let paths = (0 ..< uniqueResources).map { "/items/\($0)" }
+            for n in 0 ..< iters
+                { _ = self.service.resource(paths[n % uniqueResources]) }
+            }
+        }
+
+    func testGetResourceForNilURL()
+        {
+        measure
+            {
+            for _ in 0 ..< 20000
+                { _ = self.service.resource(absoluteURL: nil) }
+            }
         }
 
     func testResourceCacheGrowth()
@@ -40,8 +62,9 @@ class SiestaPerformanceTests: XCTestCase
         {
         setUp()  // Important to start empty each time
         service.cachedResourceCountLimit = countLimit
+        let urls = (0 ..< uniqueResources).map { URL(string: "/items/\($0)") }
         for n in 0 ..< iters
-            { _ = service.resource("/items/\(n % uniqueResources)") }
+            { _ = service.resource(absoluteURL: urls[n % uniqueResources]) }
         }
 
     func testObserverChurn5()
@@ -99,45 +122,99 @@ class SiestaPerformanceTests: XCTestCase
 
     func testRequestHooks()
         {
-        let resource = service.resource("/hooked")
         measure
             {
-            for _ in 0 ..< 100
+            var callbacks = 0
+            self.timeRequests(resourceCount: 1, reps: 200)
                 {
-                let req = resource.load()
-                var callbacks = 0
-                for _ in 0 ..< 100
+                let req = $0.load()
+                for _ in 0 ..< 499  // 500th fulfills expectation
                     { req.onCompletion { _ in callbacks += 1 } }
-                let load = self.expectation(description: "load")
-                req.onCompletion { _ in load.fulfill() }
-                self.waitForExpectations(timeout: 1)
+                return req
                 }
             }
         }
 
-    func testObserverNotifications()
+    func testBareRequest()
         {
-        let resourceCount = 50
+        measure
+            { self.timeRequests(resourceCount: 300, reps: 10) { $0.request(.get) } }
+        }
+
+    func testLoadRequest()
+        {
+        measure
+            { self.timeRequests(resourceCount: 300, reps: 10) { $0.load() } }
+        }
+
+    private func timeRequests(resourceCount: Int, reps: Int, makeRequest: (Resource) -> Request)
+        {
         for n in stride(from: 0, to: resourceCount, by: 2)
-            { networkStub.responses["/zlerp\(n)"] = ResponseStub(data: Data()) }
+            { networkStub.responses["/zlerp\(n)"] = ResponseStub(data: Data(count: 65536)) }
 
         let resources = (0 ..< resourceCount).map
+            { service.resource("/zlerp\($0)") }
+
+        let load = self.expectation(description: "load")
+        var responsesPending = reps * resources.count
+        for _ in 0 ..< reps
             {
-            service
-                .resource("/zlerp\($0)")
-                .addObserver(TestObserver())
+            for resource in resources
+                {
+                makeRequest(resource).onCompletion
+                    {
+                    _ in
+                    responsesPending -= 1
+                    if responsesPending <= 0
+                        { load.fulfill() }
+                    }
+                }
             }
+        self.waitForExpectations(timeout: 1)
+        }
+
+    func testNotifyManyObservers()
+        {
+        networkStub.responses["/zlerp"] = ResponseStub(data: Data(count: 65536))
+
+        let resource = service.resource("/zlerp")
+        for _ in 0 ..< 5000
+            { resource.addObserver(TestObserver(), owner: self) }
 
         measure
             {
-            for _ in 0 ..< 10
+            let load = self.expectation(description: "load")
+            let reps = 10
+            var responsesPending = reps
+            for _ in 0 ..< reps
                 {
-                for resource in resources
+                resource.load().onCompletion
                     {
-                    let load = self.expectation(description: "load")
-                    resource.load().onCompletion { _ in load.fulfill() }
+                    _ in
+                    responsesPending -= 1
+                    if responsesPending <= 0
+                        { load.fulfill() }
                     }
-                self.waitForExpectations(timeout: 1)
+                }
+            self.waitForExpectations(timeout: 1)
+            }
+        }
+
+    func testLoadIfNeeded()
+        {
+        networkStub.responses["/bjempf"] = ResponseStub(data: Data())
+        let resource = service.resource("/bjempf")
+        let load = self.expectation(description: "load")
+        resource.load().onCompletion { _ in load.fulfill() }
+        self.waitForExpectations(timeout: 1)
+
+        measure
+            {
+            for _ in 0 ..< 100000
+                {
+                resource.loadIfNeeded()
+                resource.loadIfNeeded()
+                resource.loadIfNeeded()
                 }
             }
         }
