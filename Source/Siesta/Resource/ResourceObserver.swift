@@ -44,7 +44,7 @@ public protocol ResourceObserver
 
 struct UniqueObserverIdentity: Hashable
     {
-    private static var idSeq: Int = 0
+    private static var idSeq = 0
     private let id: Int
 
     init()

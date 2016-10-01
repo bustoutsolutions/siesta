@@ -9,9 +9,9 @@
 import Foundation
 
 /**
-    Controls which message Siesta will log. See `enabledLogCategories`.
+  Controls which message Siesta will log. See `enabledLogCategories`.
 
-    - SeeAlso: [Logging Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/logging.md)
+  - SeeAlso: [Logging Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/logging.md)
 */
 public enum LogCategory
     {
