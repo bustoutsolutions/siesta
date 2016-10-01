@@ -14,16 +14,13 @@ public protocol _OpenEnum: class, Hashable
     {
     }
 
-/// :nodoc:
 extension _OpenEnum
     {
+    /// :nodoc:
+    public static func ==(lhs: Self, rhs: Self) -> Bool
+        { return lhs === rhs }
+
+    /// :nodoc:
     public var hashValue: Int
         { return ObjectIdentifier(self).hashValue }
     }
-
-/// :nodoc:
-public func ==<T: _OpenEnum>(lhs: T, rhs: T) -> Bool
-    {
-    return lhs === rhs
-    }
-
