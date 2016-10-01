@@ -10,24 +10,6 @@ import Foundation
 
 internal extension Collection
     {
-    func bipartition(
-            with predicate: (Self.Iterator.Element) -> Bool)
-        -> (included: [Self.Iterator.Element], excluded: [Self.Iterator.Element])
-        {
-        var included: [Self.Iterator.Element] = []
-        var excluded: [Self.Iterator.Element] = []
-
-        for elem in self
-            {
-            if predicate(elem)
-                { included.append(elem) }
-            else
-                { excluded.append(elem) }
-            }
-
-        return (included: included, excluded: excluded)
-        }
-
     func any(match predicate: (Iterator.Element) -> Bool) -> Bool
         {
         for elem in self
@@ -100,6 +82,20 @@ internal extension Dictionary
             self[key] = newValue
             return newValue
             }()
+        }
+
+    mutating func removeValues(matching predicate: (Value) -> Bool) -> [Value]
+        {
+        var removed = [Value]()
+        for (key, value) in self
+            {
+            if predicate(value)
+                {
+                removeValue(forKey: key)
+                removed.append(value)
+                }
+            }
+        return removed
         }
     }
 

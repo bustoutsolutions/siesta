@@ -59,6 +59,7 @@
 		DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
+		DA19D0751D9ADDD800D15F3A /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */; };
 		DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
 		DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
@@ -77,6 +78,7 @@
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
 		DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61991B7521B900F6BB9C /* TestService.swift */; };
+		DA507ADA1D9CD05F00B5F5BF /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */; };
 		DA5EC2741B91E39000DC33C8 /* Networking-URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
 		DA6022841D65591500FB5673 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,6 +149,13 @@
 			remoteGlobalIDString = DA336E4E1B2E6DDB006F702A;
 			remoteInfo = Siesta;
 		};
+		DA507ADB1D9CD07D00B5F5BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F2FB51D1C28645E0068DFFA;
+			remoteInfo = "Siesta macOS";
+		};
 		DACD89521D65359E00045E01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
@@ -174,6 +183,15 @@
 				9F0FB0581D04184F00CE1B61 /* Nimble.framework in CopyFiles */,
 				9F0FB0591D04184F00CE1B61 /* Nocilla.framework in CopyFiles */,
 				9F0FB05A1D04184F00CE1B61 /* Quick.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA19D0661D9ADC1800D15F3A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +228,8 @@
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiestaPerformanceTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Siesta.swift"; sourceTree = "<group>"; };
 		DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-Alamofire.swift"; sourceTree = "<group>"; };
 		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
@@ -293,6 +313,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA19D05F1D9ADC1800D15F3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA507ADA1D9CD05F00B5F5BF /* Siesta.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA336E4B1B2E6DDB006F702A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -350,6 +378,25 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		DA19D0711D9ADC5A00D15F3A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DA336E5D1B2E6DDB006F702A /* Functional */,
+				DA19D0721D9ADC7500D15F3A /* Performance */,
+				DA336E601B2E6DDB006F702A /* Info-iOS.plist */,
+				9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		DA19D0721D9ADC7500D15F3A /* Performance */ = {
+			isa = PBXGroup;
+			children = (
+				DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */,
+			);
+			name = Performance;
+			sourceTree = "<group>";
+		};
 		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,7 +419,7 @@
 			children = (
 				DA336E511B2E6DDB006F702A /* Source */,
 				DA2FF1031C0F97F600C98FF1 /* Extensions */,
-				DA336E5D1B2E6DDB006F702A /* Tests */,
+				DA19D0711D9ADC5A00D15F3A /* Tests */,
 				DA336E6F1B2F65D2006F702A /* Frameworks */,
 				DA336E501B2E6DDB006F702A /* Products */,
 			);
@@ -387,6 +434,7 @@
 				9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */,
 				DAC0B3AA1D651CB500D25C44 /* SiestaUI.framework */,
 				DAC0B3D61D651CC700D25C44 /* SiestaUI.framework */,
+				DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -400,7 +448,7 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		DA336E5D1B2E6DDB006F702A /* Tests */ = {
+		DA336E5D1B2E6DDB006F702A /* Functional */ = {
 			isa = PBXGroup;
 			children = (
 				DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */,
@@ -416,7 +464,7 @@
 				DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */,
 				DA99B5C71B38C36A009C6937 /* Support */,
 			);
-			path = Tests;
+			path = Functional;
 			sourceTree = "<group>";
 		};
 		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
@@ -468,8 +516,6 @@
 		DA99B5C71B38C36A009C6937 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				DA336E601B2E6DDB006F702A /* Info-iOS.plist */,
-				9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */,
 				DAFA89271B8172920090D283 /* SiestaSpec.swift */,
 				DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */,
 				DA4D61991B7521B900F6BB9C /* TestService.swift */,
@@ -618,6 +664,25 @@
 			productReference = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA19D06B1D9ADC1800D15F3A /* Build configuration list for PBXNativeTarget "SiestaPerformanceTests macOS" */;
+			buildPhases = (
+				DA19D04F1D9ADC1800D15F3A /* Sources */,
+				DA19D05F1D9ADC1800D15F3A /* Frameworks */,
+				DA19D0651D9ADC1800D15F3A /* Resources */,
+				DA19D0661D9ADC1800D15F3A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA507ADC1D9CD07D00B5F5BF /* PBXTargetDependency */,
+			);
+			name = "SiestaPerformanceTests macOS";
+			productName = SiestaTests;
+			productReference = DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DA336E4E1B2E6DDB006F702A /* Siesta iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA336E631B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "Siesta iOS" */;
@@ -737,6 +802,7 @@
 				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
 				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
+				DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -750,6 +816,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9F2FB51C1C28645E0068DFFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA19D0651D9ADC1800D15F3A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -850,6 +923,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA19D04F1D9ADC1800D15F3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA19D0751D9ADDD800D15F3A /* PerformanceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA336E4A1B2E6DDB006F702A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -943,6 +1024,11 @@
 			target = DA336E4E1B2E6DDB006F702A /* Siesta iOS */;
 			targetProxy = DA336E5B1B2E6DDB006F702A /* PBXContainerItemProxy */;
 		};
+		DA507ADC1D9CD07D00B5F5BF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F2FB51D1C28645E0068DFFA /* Siesta macOS */;
+			targetProxy = DA507ADB1D9CD07D00B5F5BF /* PBXContainerItemProxy */;
+		};
 		DACD89531D65359E00045E01 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA336E4E1B2E6DDB006F702A /* Siesta iOS */;
@@ -1017,6 +1103,34 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DA19D06C1D9ADC1800D15F3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DA19D06D1D9ADC1800D15F3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1266,6 +1380,15 @@
 			buildConfigurations = (
 				9F2FB5231C28645E0068DFFA /* Debug */,
 				9F2FB5241C28645E0068DFFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA19D06B1D9ADC1800D15F3A /* Build configuration list for PBXNativeTarget "SiestaPerformanceTests macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA19D06C1D9ADC1800D15F3A /* Debug */,
+				DA19D06D1D9ADC1800D15F3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

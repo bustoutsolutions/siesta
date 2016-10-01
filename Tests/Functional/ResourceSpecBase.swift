@@ -177,9 +177,17 @@ private func pollUnderlyingCompletion(_ req: NetworkRequest, expectation: XCTest
     }
 
 
-// MARK: - Clock stubbing
+// MARK: - Siesta internals
 
 func setResourceTime(_ time: TimeInterval)
     {
     fakeNow = time
     }
+
+// Checks for removed observers normally get batched up. This forces one now
+// so we can make assertions about who’s left observing and who isn’t.
+func forceObserverCleanup(for resource: Resource?)
+    {
+    resource?.cleanDefunctObservers(force: true)
+    }
+

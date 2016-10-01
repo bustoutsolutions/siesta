@@ -134,10 +134,18 @@ open class Service: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        guard let url = urlConvertible?.url else
+        // The remaineder of this method works just fine without this check, but
+        // special-casing nil URLs gives a ~10x performance boost for this common case
+
+        guard let urlConvertible = urlConvertible else
             {
-            if let urlConvertible = urlConvertible
-                { debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"]) }
+            return resourceCache.get("\0")
+                { Resource(service: self, invalidURLSource: nil) }
+            }
+
+        guard let url = urlConvertible.url else
+            {
+            debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
             return Resource(service: self, invalidURLSource: urlConvertible)
             }
 

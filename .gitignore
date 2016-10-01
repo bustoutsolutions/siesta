@@ -3,3 +3,4 @@ xcuserdata
 *.log
 Carthage/
 .build
+Siesta.xcodeproj/xcshareddata/xcbaselines

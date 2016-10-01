@@ -68,6 +68,18 @@ public struct RequestTransferMetrics
 
     /// Total expected size of HTTP response body. Negative or nil indicates unknown size.
     public var responseBytesTotal: Int64?
+
+    public init(
+            requestBytesSent: Int64,
+            requestBytesTotal: Int64?,
+            responseBytesReceived: Int64,
+            responseBytesTotal: Int64?)
+        {
+        self.requestBytesSent = requestBytesSent
+        self.requestBytesTotal = requestBytesTotal
+        self.responseBytesReceived = responseBytesReceived
+        self.responseBytesTotal = responseBytesTotal
+        }
     }
 
 /// Used by a `NetworkingProvider` implementation to pass the result of a network request back to Siesta.

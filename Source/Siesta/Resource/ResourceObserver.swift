@@ -37,9 +37,29 @@ public protocol ResourceObserver
 
     /**
       Allows you to prevent redundant observers from being added to the same resource. If an existing observer
-      says it is equivalent to a new observer passed to `Resource.addObserver(...)`, then the call has no effect.
+      has an identity equals to a new observer, then `Resource.addObserver(...)` has no effect.
     */
-    func isEquivalentTo(observer other: ResourceObserver) -> Bool
+    var observerIdentity: AnyHashable { get }
+    }
+
+struct UniqueObserverIdentity: Hashable
+    {
+    private static var idSeq: Int = 0
+    private let id: Int
+
+    init()
+        {
+        id = UniqueObserverIdentity.idSeq
+        UniqueObserverIdentity.idSeq += 1
+        }
+
+    static func ==(lhs: UniqueObserverIdentity, rhs: UniqueObserverIdentity) -> Bool
+        {
+        return lhs.id == rhs.id
+        }
+
+    var hashValue: Int
+        { return id }
     }
 
 public extension ResourceObserver
@@ -51,10 +71,12 @@ public extension ResourceObserver
     func stoppedObserving(resource: Resource) { }
 
     /// True iff self and other are (1) both objects and (2) are the _same_ object.
-    func isEquivalentTo(observer other: ResourceObserver) -> Bool
+    var observerIdentity: AnyHashable
         {
-        // TODO: Possible to check whether self and other are truly class types without expense of wrapper object alloc?
-        return (self as AnyObject) === (other as AnyObject)
+        if isObject(self)
+            { return AnyHashable(ObjectIdentifier(self as AnyObject)) }
+        else
+            { return UniqueObserverIdentity() }
         }
     }
 
@@ -157,22 +179,26 @@ public extension Resource
     @discardableResult
     public func addObserver(_ observer: ResourceObserver, owner: AnyObject) -> Self
         {
-        for (i, entry) in observers.enumerated()
+        let identity = observer.observerIdentity
+
+        // An existing observer may be a false positive, already removed but
+        // pending cleanup. If we find one, force cleanup before we decide not
+        // to broadcast observerAdded.
+
+        cleanDefunctObservers(force: observers[identity] != nil)
+
+        if let existingEntry = observers[identity]
             {
-            if let existingObserver = entry.observer,
-                existingObserver.isEquivalentTo(observer: observer)
-                {
-                // have to use observers[i] instead of loop var to
-                // make mutator actually change struct in place in array
-                observers[i].addOwner(owner)
-                observersChanged()
-                return self
-                }
+            // have to use observers[i] instead of loop var to
+            // make mutator actually change struct in place in array
+            existingEntry.addOwner(owner)
+            observersChanged()
+            return self
             }
 
-        var newEntry = ObserverEntry(observer: observer, resource: self)
+        let newEntry = ObserverEntry(observer: observer, resource: self)
         newEntry.addOwner(owner)
-        observers.append(newEntry)
+        observers[identity] = newEntry
         observer.resourceChanged(self, event: .observerAdded)
         observersChanged()
         return self
@@ -213,24 +239,24 @@ public extension Resource
         guard let owner = owner else
             { return }
 
-        for i in observers.indices
-            { observers[i].removeOwner(owner) }
+        for observer in observers.values
+            { observer.removeOwner(owner) }
 
         cleanDefunctObservers()
         }
 
     internal var beingObserved: Bool
         {
-        cleanDefunctObservers()
+        cleanDefunctObservers(force: true)
         return !observers.isEmpty
         }
 
     internal func notifyObservers(_ event: ResourceEvent)
         {
-        cleanDefunctObservers()
+        cleanDefunctObservers(force: true)
 
         debugLog(.observers, [self, "sending", event, "event to", observers.count, "observer" + (observers.count == 1 ? "" : "s")])
-        for entry in observers
+        for entry in observers.values
             {
             debugLog(.observers, ["  ↳", event, "→", entry.observer])
             entry.observer?.resourceChanged(self, event: event)
@@ -239,19 +265,28 @@ public extension Resource
 
     internal func notifyObservers(progress: Double)
         {
-        for entry in observers
+        for entry in observers.values
             {
             entry.observer?.resourceRequestProgress(for: self, progress: progress)
             }
         }
 
-    internal func cleanDefunctObservers()
+    internal func cleanDefunctObservers(force: Bool = false)
         {
-        for i in observers.indices
-            { observers[i].cleanUp() }
+        // There’s a tradeoff between the cost of touching all the weak owner refs of all
+        // the observers and the cost of letting the observer list grow. As a compromise,
+        // for operations that may modify the observer list but don’t need it to be fully
+        // pruned right away, we only sometimes check for defunct observers.
 
-        let (removed, kept) = observers.bipartition { $0.isDefunct }
-        observers = kept
+        defunctObserverCheckCounter += 1
+        if !force && defunctObserverCheckCounter < 12
+            { return }
+        defunctObserverCheckCounter = 0
+
+        for observer in observers.values
+            { observer.cleanUp() }
+
+        let removed = observers.removeValues { $0.isDefunct }
 
         for entry in removed
             {
@@ -267,7 +302,7 @@ public extension Resource
 
 // MARK: - Internals
 
-internal struct ObserverEntry: CustomStringConvertible
+internal class ObserverEntry: CustomStringConvertible
     {
     private let resource: Resource  // keeps resource around as long as it has observers
 
@@ -282,10 +317,11 @@ internal struct ObserverEntry: CustomStringConvertible
         {
         self.observerRef = StrongOrWeakRef<ResourceObserver>(observer)
         self.resource = resource
-        originalObserverDescription = debugStr(observer)  // So we know what was deallocated if it gets logged
+        if LogCategory.enabled.contains(.observers)
+            { originalObserverDescription = debugStr(observer) }  // So we know what was deallocated if it gets logged
         }
 
-    mutating func addOwner(_ owner: AnyObject)
+    func addOwner(_ owner: AnyObject)
         {
         withOwner(owner,
             ifObserver:
@@ -294,7 +330,7 @@ internal struct ObserverEntry: CustomStringConvertible
                 { externalOwners.insert(WeakRef(owner)) })
         }
 
-    mutating func removeOwner(_ owner: AnyObject)
+    func removeOwner(_ owner: AnyObject)
         {
         withOwner(owner,
             ifObserver:
@@ -303,7 +339,7 @@ internal struct ObserverEntry: CustomStringConvertible
                 { externalOwners.remove(WeakRef(owner)) })
         }
 
-    private mutating func withOwner(
+    private func withOwner(
             _ owner: AnyObject,
             ifObserver selfOwnerAction: (Void) -> Void,
             else externalOwnerAction: (Void) -> Void)
@@ -315,7 +351,7 @@ internal struct ObserverEntry: CustomStringConvertible
         cleanUp()
         }
 
-    mutating func cleanUp()
+    func cleanUp()
         {
         // Look for weak refs which refer to objects that are now gone
         externalOwners.filterInPlace { $0.value != nil }
@@ -329,7 +365,7 @@ internal struct ObserverEntry: CustomStringConvertible
             || (!observerIsOwner && externalOwners.isEmpty)
         }
 
-    private var originalObserverDescription: String
+    private var originalObserverDescription: String?
     var description: String
         {
         if let observer = observer

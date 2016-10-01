@@ -14,7 +14,7 @@ class _GithubAPI {
 
     fileprivate init() {
         #if DEBUG
-            Siesta.enabledLogCategories = LogCategory.detailed
+            Siesta.LogCategory.enabled = LogCategory.detailed
         #endif
 
         // Configuration

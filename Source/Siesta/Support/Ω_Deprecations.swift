@@ -24,6 +24,17 @@ public var enabledLogCategories: Set<LogCategory>
     set { LogCategory.enabled = newValue }
     }
 
+extension ResourceObserver
+    {
+    @available(*, unavailable, message: "superseded by observerIdentity")
+    public func isEquivalentTo(observer: ResourceObserver) -> Bool
+        { fatalError("no longer available") }
+
+    @available(*, unavailable, message: "superseded by observerIdentity")
+    public func isEquivalentToObserver(_ other: ResourceObserver) -> Bool
+        { fatalError("no longer available") }
+    }
+
 // MARK: Swift 3 deprecations
 
 extension Configuration
@@ -75,13 +86,6 @@ extension Resource
     @available(*, deprecated: 0.99, renamed: "configurationPattern(for:)")
     public func configurationPattern(_ service: Siesta.Service) -> (URL) -> Bool
         { return configurationPattern(for: service) }
-    }
-
-extension ResourceObserver
-    {
-    @available(*, deprecated: 0.99, renamed: "isEquivalentTo(observer:)")
-    public func isEquivalentToObserver(_ other: ResourceObserver) -> Bool
-        { return isEquivalentTo(observer: other) }
     }
 
 extension String

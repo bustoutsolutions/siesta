@@ -38,7 +38,8 @@ public final class Resource: NSObject
     private let urlDescription: String
     private let permanentFailure: RequestError?
 
-    internal var observers = [ObserverEntry]()
+    internal var observers = [AnyHashable:ObserverEntry]()
+    internal var defunctObserverCheckCounter = 0
 
 
     // MARK: Configuration
