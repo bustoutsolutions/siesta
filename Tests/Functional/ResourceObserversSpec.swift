@@ -58,7 +58,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled ) == false
+                expect(observer().stoppedObservingCalled) == false
                 }
 
             it("is chainable")
@@ -243,6 +243,8 @@ class ResourceObserversSpec: ResourceSpecBase
                         observer().expect(.requested)
                         observer().expect(.newData(.network))
                         }
+                    forceObserverCleanup(for: resource())
+                    expect(observer().stoppedObservingCalled) == !stillObserving
                     awaitNewData(resource().load())
                     }
 
