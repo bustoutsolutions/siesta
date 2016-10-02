@@ -184,10 +184,17 @@ func setResourceTime(_ time: TimeInterval)
     fakeNow = time
     }
 
-// Checks for removed observers normally get batched up. This forces one now
-// so we can make assertions about who’s left observing and who isn’t.
-func forceObserverCleanup(for resource: Resource?)
+// Checks for removed observers normally get batched up and run later after a delay.
+// This call waits for that to finish so we can check who’s left observing and who isn’t.
+//
+// Since there’s no way to directly detect the cleanup, and thus no positive indicator to
+// wait for, we just wait for all tasks currently queued on the main thread to complete.
+
+func awaitObserverCleanup(for resource: Resource?)
     {
-    resource?.cleanDefunctObservers(force: true)
+    let cleanupExpectation = QuickSpec.current().expectation(description: "awaitObserverCleanup")
+    DispatchQueue.main.async
+        { cleanupExpectation.fulfill() }
+    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
     }
 

@@ -39,9 +39,9 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer2)
 
                 resource().removeObservers(ownedBy: observer())
-                forceObserverCleanup(for: resource())
+                awaitObserverCleanup(for: resource())
                 expect(observer().stoppedObservingCalled) == true
-                expect(observer2.stoppedObservingCalled ) == false
+                expect(observer2.stoppedObservingCalled)  == false
                 }
 
             it("receives a notification every time it is removed and re-added")
@@ -58,7 +58,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled ) == false
+                expect(observer().stoppedObservingCalled) == false
                 }
 
             it("is chainable")
@@ -243,6 +243,8 @@ class ResourceObserversSpec: ResourceSpecBase
                         observer().expect(.requested)
                         observer().expect(.newData(.network))
                         }
+                    awaitObserverCleanup(for: resource())
+                    expect(observer().stoppedObservingCalled) == !stillObserving
                     awaitNewData(resource().load())
                     }
 
@@ -288,14 +290,14 @@ class ResourceObserversSpec: ResourceSpecBase
 
             func expectResourceToBeRetained()
                 {
-                forceObserverCleanup(for: resourceWeak)
+                awaitObserverCleanup(for: resourceWeak)
                 simulateMemoryWarning()
                 expect(resourceWeak).notTo(beNil())
                 }
 
             func expectResourceNotToBeRetained()
                 {
-                forceObserverCleanup(for: resourceWeak)
+                awaitObserverCleanup(for: resourceWeak)
                 simulateMemoryWarning()
                 expect(resourceWeak).to(beNil())
                 }

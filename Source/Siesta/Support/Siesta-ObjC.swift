@@ -244,34 +244,33 @@ public protocol _objc_ResourceObserver
 
 private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringConvertible
     {
-    weak var objcObserver: _objc_ResourceObserver?
-    var observerIdentity: AnyHashable
-        {
-        if let wrapped = objcObserver
-            { return ObjectIdentifier(wrapped) }
-        else
-            { return UniqueObserverIdentity() }
-        }
+    var resource: Resource?
+    var objcObserver: _objc_ResourceObserver
 
     init(objcObserver: _objc_ResourceObserver)
         { self.objcObserver = objcObserver }
 
+    deinit
+        {
+        if let resource = resource
+            { objcObserver.stoppedObservingResource?(resource) }
+        }
+
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
-        { objcObserver?.resourceChanged(resource, event: event._objc_stringForm) }
+        {
+        if case .observerAdded = event
+            { self.resource = resource }
+        objcObserver.resourceChanged(resource, event: event._objc_stringForm)
+        }
 
     func resourceRequestProgress(_ resource: Resource, progress: Double)
-        { objcObserver?.resourceRequestProgress?(resource, progress: progress) }
+        { objcObserver.resourceRequestProgress?(resource, progress: progress) }
 
-    func stoppedObservingResource(_ resource: Resource)
-        { objcObserver?.stoppedObservingResource?(resource) }
+    var observerIdentity: AnyHashable
+        { return ObjectIdentifier(objcObserver) }
 
     var debugDescription: String
-        {
-        if objcObserver != nil
-            { return debugStr(objcObserver) }
-        else
-            { return "_objc_ResourceObserverGlue<deallocated delegate>" }
-        }
+        { return debugStr(objcObserver) }
     }
 
 extension ResourceEvent

@@ -195,11 +195,42 @@
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(@(blockObserverCalls)).to(equal(@3));
+
+        [resource removeObserversOwnedBy:observer1];
+        [resource wipe];  // forces observer cleanup
+        expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)", @"NewData(Wipe)"]));
+        expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)", @"stoppedObserving"]));
         });
 
-    // TODO: BOSResourceObserver
+    it(@"honors observer ownership", ^
+        {
+        ObjcObserver __weak *observerWeak = nil;
+        @autoreleasepool {
+            // Keep events array even after observer deallocated
+            NSMutableArray *eventsReceived = [NSMutableArray array];
+            ObjcObserver *observer = [[ObjcObserver alloc] init];
+            observer.eventsReceived = eventsReceived;
 
-    // TODO: BOSResourceStatusOverlay
+            // Let Siesta ownership control observer lifecycle
+            NSObject *owner = [[NSObject alloc] init];
+            [resource addObserver:observer owner:owner];
+            observerWeak = observer;
+            observer = nil;
+
+            // Owner still around: we get events, observer lives on
+            [resource wipe];
+            expect(observerWeak).notTo(beNil());
+            expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)"]));
+
+            // Owner still around: no more events, observer gone
+            owner = nil;
+            [resource wipe];
+            expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)", @"stoppedObserving"]));
+        }
+        expect(observerWeak).to(beNil());
+        });
+
+    // TODO: more BOSResourceObserver
     }
 
 @end
@@ -213,6 +244,11 @@
     if(!self.eventsReceived)
         self.eventsReceived = [NSMutableArray array];
     [self.eventsReceived addObject:event];
+    }
+
+- (void) stoppedObservingResource: (BOSResource * _Nonnull) resource
+    {
+    [self.eventsReceived addObject:@"stoppedObserving"];
     }
 
 @end
