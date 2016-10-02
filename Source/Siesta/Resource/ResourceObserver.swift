@@ -271,15 +271,16 @@ public extension Resource
             }
         }
 
-    internal func cleanDefunctObservers(force: Bool = false)
+    fileprivate func cleanDefunctObservers(force: Bool = false)
         {
         // There’s a tradeoff between the cost of touching all the weak owner refs of all
         // the observers and the cost of letting the observer list grow. As a compromise,
         // for operations that may modify the observer list but don’t need it to be fully
-        // pruned right away, we only sometimes check for defunct observers.
+        // pruned right away, we batch up checks for defunct observers as a delayed main
+        // thread task — unless we’re seeing a _lot_ of churn, in which case we force the
+        // check to keep the list from growing.
 
-        defunctObserverCheckCounter += 1
-        if !force && defunctObserverCheckCounter < 12
+        if !force && delayDefunctObserverCheck()
             { return }
         defunctObserverCheckCounter = 0
 
@@ -288,6 +289,25 @@ public extension Resource
 
         if observers.removeValues(matching: { $0.isDefunct })
             { observersChanged() }
+        }
+
+    private func delayDefunctObserverCheck() -> Bool  // false means now!
+        {
+        guard defunctObserverCheckCounter < 12 else
+            { return false }
+        defunctObserverCheckCounter += 1
+
+        if !defunctObserverCheckScheduled
+            {
+            defunctObserverCheckScheduled = true
+            DispatchQueue.main.async
+                {
+                self.defunctObserverCheckScheduled = false
+                self.cleanDefunctObservers(force: true)
+                }
+            }
+
+        return true
         }
     }
 
@@ -382,4 +402,10 @@ private struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
         {
         closure(resource, event)
         }
+    }
+
+extension Resource: WeakCacheValue
+    {
+    func allowRemovalFromCache()
+        { cleanDefunctObservers() }
     }

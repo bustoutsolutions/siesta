@@ -39,6 +39,7 @@ public final class Resource: NSObject
     private let permanentFailure: RequestError?
 
     internal var observers = [AnyHashable:ObserverEntry]()
+    internal var defunctObserverCheckScheduled = false
     internal var defunctObserverCheckCounter = 0
 
 
@@ -651,12 +652,6 @@ public final class Resource: NSObject
             + (latestError != nil ? "E" : "")
             + "]"
         }
-    }
-
-extension Resource: WeakCacheValue
-    {
-    func allowRemovalFromCache()
-        { cleanDefunctObservers() }
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
