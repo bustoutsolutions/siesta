@@ -1,6 +1,6 @@
 PODS:
-  - Siesta/Core (1.0-rc.0)
-  - Siesta/UI (1.0-rc.0):
+  - Siesta/Core (1.0-rc.1)
+  - Siesta/UI (1.0-rc.1):
     - Siesta/Core
   - SwiftyJSON (2.3.2)
 
@@ -21,7 +21,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/BaiduHiDeviOS/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Siesta: 45a62a30d3866c0c93f633070e88669b29045134
+  Siesta: 2565851ce35b78507a1b26df68e82e576eb71c6c
   SwiftyJSON: 6118fb49d7519c4d31a0c1f3d5af936e9047b556
 
 PODFILE CHECKSUM: 1be9d814355a48187727c0a77f4837db1c72fa65

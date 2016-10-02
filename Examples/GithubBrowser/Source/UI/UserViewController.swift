@@ -6,6 +6,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     // MARK: UI Elements
 
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var userInfoView: UIView!
     @IBOutlet weak var usernameLabel, fullNameLabel: UILabel!
     @IBOutlet weak var avatar: RemoteImageView!
@@ -52,6 +53,8 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
         statusOverlay.embedIn(self)
         showUser(nil)
+
+        searchBar.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -110,8 +113,11 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
                 userResource?
                     .optionalRelative(user.repositoriesURL)?
                     .withParam("sort", "updated")
+        } else if userResource != nil {
+            title = nil
+            repositoriesResource = nil
         } else {
-            title = user?.login
+            title = "Active Repositories"
             repositoriesResource = GithubAPI.activeRepositories
         }
 

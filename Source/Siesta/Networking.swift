@@ -69,6 +69,11 @@ public struct RequestTransferMetrics
     /// Total expected size of HTTP response body. Negative or nil indicates unknown size.
     public var responseBytesTotal: Int64?
 
+    /**
+      Full-width initializer. Useful for custom `NetworkingProvider` implementations.
+
+      - SeeAlso: `SessionTaskContainer.transferMetrics` if your custom provider uses Foundation’s `URLSessionTask`.
+    */
     public init(
             requestBytesSent: Int64,
             requestBytesTotal: Int64?,

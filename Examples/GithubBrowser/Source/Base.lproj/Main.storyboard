@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zwa-6X-Gxe">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zwa-6X-Gxe">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -70,8 +70,8 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="Hsp-fY-QCO"/>
                                         <exclude reference="vip-xz-2oF"/>
+                                        <exclude reference="Hsp-fY-QCO"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -116,6 +116,7 @@
                         <outlet property="avatar" destination="QAt-hl-bGg" id="mNM-xK-oR6"/>
                         <outlet property="fullNameLabel" destination="gc6-zw-Ish" id="vpg-DI-mJl"/>
                         <outlet property="loginButton" destination="mo6-UH-WgS" id="rMm-KW-ma3"/>
+                        <outlet property="searchBar" destination="e1M-2G-J2R" id="X5b-B6-Tvn"/>
                         <outlet property="userInfoView" destination="hJC-L8-r00" id="SiM-EV-pLQ"/>
                         <outlet property="usernameLabel" destination="KS0-Pc-VxH" id="PXy-cK-38m"/>
                         <segue destination="qan-Z8-abq" kind="popoverPresentation" identifier="login" popoverAnchorView="mo6-UH-WgS" id="yMr-A6-Vjb">
@@ -207,12 +208,12 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="aGh-6g-A9O"/>
-                                            <exclude reference="wQ6-XM-XqQ"/>
                                             <exclude reference="7NV-Ty-vgh"/>
                                             <exclude reference="8F5-kd-jJ2"/>
                                             <exclude reference="CWY-GE-X0W"/>
                                             <exclude reference="mFs-0P-Ij7"/>
+                                            <exclude reference="aGh-6g-A9O"/>
+                                            <exclude reference="wQ6-XM-XqQ"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>

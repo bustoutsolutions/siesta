@@ -145,6 +145,7 @@ public struct Entity<ContentType>
     public mutating func touch()
         { timestamp = now() }
 
+    /// Returns an identical `Entity` with `content` cast to `NewType` if the type is convertible, nil otherwise.
     public func withContentRetyped<NewType>() -> Entity<NewType>?
         {
         guard let retypedContent = content as? NewType else
@@ -182,6 +183,7 @@ public struct Entity<ContentType>
 */
 public protocol TypedContentAccessors
     {
+    /// The type of entity content the implementing type provides. Often `Any`.
     associatedtype ContentType
 
     /// The entity to which the convenience accessors will apply.
