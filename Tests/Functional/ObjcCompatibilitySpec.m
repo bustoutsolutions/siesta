@@ -204,27 +204,30 @@
 
     it(@"honors observer ownership", ^
         {
-        // Keep events array even after observer deallocated
-        NSMutableArray *eventsReceived = [NSMutableArray array];
-        ObjcObserver *observer = [[ObjcObserver alloc] init];
-        observer.eventsReceived = eventsReceived;
+        ObjcObserver __weak *observerWeak = nil;
+        @autoreleasepool {
+            // Keep events array even after observer deallocated
+            NSMutableArray *eventsReceived = [NSMutableArray array];
+            ObjcObserver *observer = [[ObjcObserver alloc] init];
+            observer.eventsReceived = eventsReceived;
 
-        // Let Siesta ownership control observer lifecycle
-        NSObject *owner = [[NSObject alloc] init];
-        [resource addObserver:observer owner:owner];
-        ObjcObserver __weak *observerWeak = observer;
-        observer = nil;
+            // Let Siesta ownership control observer lifecycle
+            NSObject *owner = [[NSObject alloc] init];
+            [resource addObserver:observer owner:owner];
+            observerWeak = observer;
+            observer = nil;
 
-        // Owner still around: we get events, observer lives on
-        [resource wipe];
-        expect(observerWeak).notTo(beNil());
-        expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)"]));
+            // Owner still around: we get events, observer lives on
+            [resource wipe];
+            expect(observerWeak).notTo(beNil());
+            expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)"]));
 
-        // Owner still around: no more events, observer gone
-        owner = nil;
-        [resource wipe];
+            // Owner still around: no more events, observer gone
+            owner = nil;
+            [resource wipe];
+            expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)", @"stoppedObserving"]));
+        }
         expect(observerWeak).to(beNil());
-        expect(eventsReceived).to(equal(@[@"ObserverAdded", @"NewData(Wipe)"]));
         });
 
     // TODO: more BOSResourceObserver
