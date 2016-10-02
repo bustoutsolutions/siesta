@@ -195,6 +195,11 @@
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
         expect(@(blockObserverCalls)).to(equal(@3));
+
+        [resource removeObserversOwnedBy:observer1];
+        [resource wipe];  // forces observer cleanup
+        expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)", @"NewData(Wipe)"]));
+        expect(observer1.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)", @"stoppedObserving"]));
         });
 
     it(@"honors observer ownership", ^
@@ -236,6 +241,11 @@
     if(!self.eventsReceived)
         self.eventsReceived = [NSMutableArray array];
     [self.eventsReceived addObject:event];
+    }
+
+- (void) stoppedObservingResource: (BOSResource * _Nonnull) resource
+    {
+    [self.eventsReceived addObject:@"stoppedObserving"];
     }
 
 @end
