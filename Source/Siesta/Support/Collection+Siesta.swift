@@ -84,18 +84,18 @@ internal extension Dictionary
             }()
         }
 
-    mutating func removeValues(matching predicate: (Value) -> Bool) -> [Value]
+    mutating func removeValues(matching predicate: (Value) -> Bool) -> Bool
         {
-        var removed = [Value]()
+        var anyRemoved = false
         for (key, value) in self
             {
             if predicate(value)
                 {
                 removeValue(forKey: key)
-                removed.append(value)
+                anyRemoved = true
                 }
             }
-        return removed
+        return anyRemoved
         }
     }
 

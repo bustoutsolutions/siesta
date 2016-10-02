@@ -286,15 +286,7 @@ public extension Resource
         for observer in observers.values
             { observer.cleanUp() }
 
-        let removed = observers.removeValues { $0.isDefunct }
-
-        for entry in removed
-            {
-            debugLog(.observers, [self, "removing observer whose owners are all gone:", entry])
-            entry.observer?.stoppedObserving(resource: self)
-            }
-
-        if !removed.isEmpty
+        if observers.removeValues(matching: { $0.isDefunct })
             { observersChanged() }
         }
     }
@@ -319,6 +311,12 @@ internal class ObserverEntry: CustomStringConvertible
         self.resource = resource
         if LogCategory.enabled.contains(.observers)
             { originalObserverDescription = debugStr(observer) }  // So we know what was deallocated if it gets logged
+        }
+
+    deinit
+        {
+        debugLog(.observers, [self, "removing observer whose owners are all gone:", self])
+        observer?.stoppedObserving(resource: resource)
         }
 
     func addOwner(_ owner: AnyObject)
