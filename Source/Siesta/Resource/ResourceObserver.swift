@@ -369,7 +369,7 @@ internal class ObserverEntry: CustomStringConvertible
         if let observer = observer
             { return debugStr(observer) }
         else
-            { return "<deallocated: \(originalObserverDescription)>" }
+            { return "<deallocated: \(originalObserverDescription ?? "–")>" }
         }
     }
 
