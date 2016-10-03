@@ -124,17 +124,17 @@ Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-rc.0'
+    pod 'Siesta', '>=1.0-rc.1'
 
 (If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718) fixed only recently, it does not work properly with prerelease version numbers.)
 
 If you want to use the UI helpers:
 
-    pod 'Siesta/UI', '>=1.0-rc.0'
+    pod 'Siesta/UI', '>=1.0-rc.1'
 
 If you want to use Alamofire as your networking provider instead of `NSURLSession`:
 
-    pod 'Siesta/Alamofire', '>=1.0-rc.0'
+    pod 'Siesta/Alamofire', '>=1.0-rc.1'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
 
@@ -142,7 +142,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-rc.0"
+    github "bustoutsolutions/siesta" "1.0-rc.1"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project. If you want to use the UI helpers, you will also need to add `SiestaUI.framework` to your project as well.
 
@@ -365,13 +365,13 @@ With all that in mind, here is a capabilities comparison¹:
 | Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
 | Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
 | Content-type-based parsing  | ✓                  |                |               |           |                 |                |
-| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               | ✓              |
 | Object model mapping        |                    |                | ✓             |           |                 |                |
 | Core data integration       |                    |                | ✓             |           |                 |                |
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2069               | 1943           | 10651         | 639       | 4029            | ?              |
+| Nontrivial lines of code²   | 2431               | 2347           | 13276         | 804       | 4033            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>

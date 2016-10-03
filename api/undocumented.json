@@ -1,93 +1,79 @@
 {
   "warnings": [
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Entity.swift",
-      "line": 148,
-      "symbol": "Entity.withContentRetyped()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Entity.swift",
-      "line": 185,
-      "symbol": "TypedContentAccessors.ContentType",
-      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
+      "line": 140,
+      "symbol": "RequestError.Cause.InvalidURL.urlSource",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 140,
+      "line": 146,
       "symbol": "RequestError.Cause.UnencodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 141,
+      "line": 147,
       "symbol": "RequestError.Cause.UnencodableText.text",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 150,
+      "line": 156,
       "symbol": "RequestError.Cause.NotURLEncodable.offendingString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 158,
+      "line": 164,
       "symbol": "RequestError.Cause.RequestCancelled.networkError",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 171,
+      "line": 177,
       "symbol": "RequestError.Cause.InvalidTextEncoding.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 177,
+      "line": 183,
       "symbol": "RequestError.Cause.UndecodableText.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 184,
+      "line": 190,
       "symbol": "RequestError.Cause.JSONResponseIsNotDictionaryOrArray.actualType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 195,
+      "line": 201,
       "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.expectedType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 196,
+      "line": 202,
       "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 202,
+      "line": 208,
       "symbol": "RequestError.Cause.TransformerReturnedNil.transformer",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Support/OpenEnum.swift",
-      "line": 20,
-      "symbol": "_OpenEnum.hashValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
