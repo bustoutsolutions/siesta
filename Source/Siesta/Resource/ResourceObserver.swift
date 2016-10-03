@@ -30,8 +30,22 @@ public protocol ResourceObserver
     func resourceRequestProgress(for resource: Resource, progress: Double)
 
     /**
-      Called when this observer stops observing a resource. Use for making `removeObservers(ownedBy:)` trigger
-      other cleanup.
+      Called when this observer stops observing a resource, if the observer itself still exists.
+      Use for making `removeObservers(ownedBy:)` trigger other cleanup.
+
+      - Warning: Only observers that are **retained outside of Siesta** will receive this message.
+          This method is **not** called if deallocation of the observer itself is what caused it to stop observing.
+
+          For example:
+
+              var myObserver = MyObserver()
+              resource.addObserver(myObserver)  // myObserver is self-owned, so...
+              myObserver = nil                  // this deallocates it, but...
+              // ...myObserver never receives stoppedObserving(resource:), because
+              // there is no way for Siesta to know that it should stop observing
+              // other than checking whether it is already deallocated.
+
+          In the situation above, `MyObserver` should implement any end-of-lifcycle cleanup using `deinit`.
     */
     func stoppedObserving(resource: Resource)
 

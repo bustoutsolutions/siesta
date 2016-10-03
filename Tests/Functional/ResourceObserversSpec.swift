@@ -25,6 +25,11 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer())
                 }
 
+            afterEach
+                {
+                awaitObserverCleanup(for: resource())
+                }
+
             it("receives a notification that it was added")
                 {
                 let observer2 = TestObserverWithExpectations()
@@ -38,10 +43,9 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer2.expect(.observerAdded)  // only for new observer
                 resource().addObserver(observer2)
 
+                observer().expectStoppedObserving()
                 resource().removeObservers(ownedBy: observer())
                 awaitObserverCleanup(for: resource())
-                expect(observer().stoppedObservingCalled) == true
-                expect(observer2.stoppedObservingCalled)  == false
                 }
 
             it("receives a notification every time it is removed and re-added")
@@ -51,14 +55,16 @@ class ResourceObserversSpec: ResourceSpecBase
                     {
                     observer2.expect(.observerAdded)
                     resource().addObserver(observer2)
+                    observer2.expectStoppedObserving()
                     resource().removeObservers(ownedBy: observer2)
                     }
+                awaitObserverCleanup(for: resource())  // catch that last stoppedObserving before observer2 goes out of scope
                 }
 
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled) == false
+                awaitObserverCleanup(for: resource())
                 }
 
             it("is chainable")
@@ -82,6 +88,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 let req = resource().load()
 
                 // Let Nocilla check off request without any further observing
+                observer().expectStoppedObserving()
                 resource().removeObservers(ownedBy: observer())
                 awaitNewData(req)
                 }
@@ -174,6 +181,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("can be a closure")
                 {
+                observer().expectStoppedObserving()
                 resource().removeObservers(ownedBy: observer())
 
                 let dummy = NSData()
@@ -243,8 +251,9 @@ class ResourceObserversSpec: ResourceSpecBase
                         observer().expect(.requested)
                         observer().expect(.newData(.network))
                         }
+                    if !stillObserving
+                        { observer().expectStoppedObserving() }
                     awaitObserverCleanup(for: resource())
-                    expect(observer().stoppedObservingCalled) == !stillObserving
                     awaitNewData(resource().load())
                     }
 
@@ -377,7 +386,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer!)
 
                 expectToStopObservation({ observer! })
-                    { observer = nil }
+                    {
+                    observer = nil
+                    // Note: observer does _not_ receive stoppedObserving because it’s deallocated before we can send it
+                    }
 
                 expect(observerWeak).to(beNil())  // resource should not have retained it
                 }
@@ -391,7 +403,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer, owner: owner!)
 
                 expectToStopObservation({ observer })
-                    { owner = nil }
+                    {
+                    owner = nil
+                    observer.expectStoppedObserving()
+                    }
                 }
             }
         }
@@ -408,7 +423,6 @@ private class TestObserver: ResourceObserver
 private class TestObserverWithExpectations: ResourceObserver
     {
     private var expectedEvents = [Expectation]()
-    fileprivate var stoppedObservingCalled = false
 
     deinit
         { checkForUnfulfilledExpectations() }
@@ -416,7 +430,12 @@ private class TestObserverWithExpectations: ResourceObserver
     func expect(_ events: ResourceEvent..., callback: @escaping ((Void) -> Void) = {})
         {
         for event in events
-            { expectedEvents.append(Expectation(event: event, callback: callback)) }
+            { expectedEvents.append(Expectation(event: "\(event)", callback: callback)) }
+        }
+
+    func expectStoppedObserving()
+        {
+        expectedEvents.append(Expectation(event: "stoppedObserving") { })
         }
 
     func checkForUnfulfilledExpectations()
@@ -426,6 +445,16 @@ private class TestObserverWithExpectations: ResourceObserver
         }
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
+        {
+        consume(event: "\(event)")
+        }
+
+    func stoppedObserving(resource: Resource)
+        {
+        consume(event: "stoppedObserving")
+        }
+
+    private func consume(event: String)
         {
         if expectedEvents.isEmpty
             { XCTFail("Received unexpected observer event: \(event)") }
@@ -439,17 +468,12 @@ private class TestObserverWithExpectations: ResourceObserver
             }
         }
 
-    func stoppedObserving(resource: Resource)
-        {
-        stoppedObservingCalled = true
-        }
-
     private struct Expectation
         {
-        let event: ResourceEvent
+        let event: String
         let callback: ((Void) -> Void)
 
         func description() -> String
-            { return "\(event)" }
+            { return event }
         }
     }
