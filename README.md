@@ -367,13 +367,13 @@ With all that in mind, here is a capabilities comparison¹:
 | Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
 | Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
 | Content-type-based parsing  | ✓                  |                |               |           |                 |                |
-| File upload/download tasks  |                    | ✓              | ~             |           | ✓               |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               | ✓              |
 | Object model mapping        |                    |                | ✓             |           |                 |                |
 | Core data integration       |                    |                | ✓             |           |                 |                |
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2069               | 1943           | 10651         | 639       | 4029            | ?              |
+| Nontrivial lines of code²   | 2431               | 2347           | 13276         | 804       | 4033            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
