@@ -54,6 +54,32 @@ class ResourceObserversSpec: ResourceSpecBase
                 awaitObserverCleanup(for: resource())
                 }
 
+            it("receives removal notification if not externally retained but not self-owned")
+                {
+                var observer2: TestObserverWithExpectations? = TestObserverWithExpectations()
+                observer2?.expect(.observerAdded)
+                resource().addObserver(observer2!, owner: observer)  // not self-owned
+
+                observer.expectStoppedObserving()
+                observer2!.expectStoppedObserving()
+                observer2 = nil
+                resource().removeObservers(ownedBy: observer)
+                awaitObserverCleanup(for: resource())
+                }
+
+            it("does not receive removal notification if self-owned and not externally retained")
+                {
+                var observer2: TestObserverWithExpectations? = TestObserverWithExpectations()
+                observer2?.expect(.observerAdded)
+                resource().addObserver(observer2!)  // self-owned
+
+                observer.expectStoppedObserving()
+                // No expectStoppedObserving() for observer2!
+                observer2 = nil
+                resource().removeObservers(ownedBy: observer)
+                awaitObserverCleanup(for: resource())
+                }
+
             it("receives a notification every time it is removed and re-added")
                 {
                 let observer2 = TestObserverWithExpectations()

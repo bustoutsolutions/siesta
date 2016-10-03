@@ -33,17 +33,16 @@ public protocol ResourceObserver
       Called when this observer stops observing a resource, if the observer itself still exists.
       Use for making `removeObservers(ownedBy:)` trigger other cleanup.
 
-      - Warning: Only observers that are **retained outside of Siesta** will receive this message.
-          This method is **not** called if deallocation of the observer itself is what caused it to stop observing.
+      - Warning: This method is **not** called for self-owned observers when the observer itself being deallocated is
+          what caused it to stop observing. This is because there is no way for Siesta to know that observer is _about_
+          to be deallocated; it can only check whether the observer is already gone.
 
           For example:
 
               var myObserver = MyObserver()
               resource.addObserver(myObserver)  // myObserver is self-owned, so...
               myObserver = nil                  // this deallocates it, but...
-              // ...myObserver never receives stoppedObserving(resource:), because
-              // there is no way for Siesta to know that it should stop observing
-              // other than checking whether it is already deallocated.
+              // ...myObserver never receives stoppedObserving(resource:).
 
           In the situation above, `MyObserver` should implement any end-of-lifcycle cleanup using `deinit`.
     */
@@ -388,7 +387,7 @@ internal class ObserverEntry: CustomStringConvertible
         // Look for weak refs which refer to objects that are now gone
         externalOwners.filterInPlace { $0.value != nil }
 
-        observerRef.strong = !externalOwners.isEmpty
+        observerRef.strong = !observerIsOwner || !externalOwners.isEmpty
         }
 
     var isDefunct: Bool
