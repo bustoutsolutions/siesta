@@ -348,7 +348,7 @@ internal class ObserverEntry: CustomStringConvertible
 
     deinit
         {
-        debugLog(.observers, [self, "removing observer whose owners are all gone:", self])
+        debugLog(.observers, ["removing observer of", resource, "whose owners are all gone:", self])
         observer?.stoppedObserving(resource: resource)
         }
 
