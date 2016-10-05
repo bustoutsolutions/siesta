@@ -39,9 +39,12 @@ internal struct StrongOrWeakRef<T>
     init(_ value: T)
         {
         strongRef = value
-        weakRef = isObject(value)
-            ? value as AnyObject?
-            : nil
+        weakRef = value as AnyObject
+        // More performant version of previous line, once
+        // https://bugs.swift.org/browse/SR-2867 is fixed:
+//        weakRef = isObject(value)
+//            ? value as AnyObject?
+//            : nil
         }
 
     var strong: Bool
