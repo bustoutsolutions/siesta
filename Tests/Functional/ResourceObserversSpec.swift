@@ -15,14 +15,25 @@ class ResourceObserversSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
+        var observer: TestObserverWithExpectations! = nil
+
+        beforeEach
+            {
+            observer = TestObserverWithExpectations()
+            }
+
+        afterEach
+            {
+            awaitObserverCleanup(for: resource())
+            observer = nil
+            }
+
         describe("observer")
             {
-            let observer = specVar { TestObserverWithExpectations() }
-
             beforeEach
                 {
-                observer().expect(.observerAdded)
-                resource().addObserver(observer())
+                observer.expect(.observerAdded)
+                resource().addObserver(observer)
                 }
 
             it("receives a notification that it was added")
@@ -38,10 +49,35 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer2.expect(.observerAdded)  // only for new observer
                 resource().addObserver(observer2)
 
-                resource().removeObservers(ownedBy: observer())
+                observer.expectStoppedObserving()
+                resource().removeObservers(ownedBy: observer)
                 awaitObserverCleanup(for: resource())
-                expect(observer().stoppedObservingCalled) == true
-                expect(observer2.stoppedObservingCalled)  == false
+                }
+
+            it("receives removal notification if not externally retained but not self-owned")
+                {
+                var observer2: TestObserverWithExpectations? = TestObserverWithExpectations()
+                observer2?.expect(.observerAdded)
+                resource().addObserver(observer2!, owner: observer)  // not self-owned
+
+                observer.expectStoppedObserving()
+                observer2!.expectStoppedObserving()
+                observer2 = nil
+                resource().removeObservers(ownedBy: observer)
+                awaitObserverCleanup(for: resource())
+                }
+
+            it("does not receive removal notification if self-owned and not externally retained")
+                {
+                var observer2: TestObserverWithExpectations? = TestObserverWithExpectations()
+                observer2?.expect(.observerAdded)
+                resource().addObserver(observer2!)  // self-owned
+
+                observer.expectStoppedObserving()
+                // No expectStoppedObserving() for observer2!
+                observer2 = nil
+                resource().removeObservers(ownedBy: observer)
+                awaitObserverCleanup(for: resource())
                 }
 
             it("receives a notification every time it is removed and re-added")
@@ -51,14 +87,15 @@ class ResourceObserversSpec: ResourceSpecBase
                     {
                     observer2.expect(.observerAdded)
                     resource().addObserver(observer2)
+                    observer2.expectStoppedObserving()
                     resource().removeObservers(ownedBy: observer2)
                     }
+                awaitObserverCleanup(for: resource())  // catch that last stoppedObserving before observer2 goes out of scope
                 }
 
             it("is unaffected by removeObservers() with nil owner")
                 {
                 resource().removeObservers(ownedBy: nil)
-                expect(observer().stoppedObservingCalled) == false
                 }
 
             it("is chainable")
@@ -73,7 +110,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives request event")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.requested)
+                observer.expect(.requested)
                     {
                     expect(resource().isLoading) == true
                     expect(resource().latestData).to(beNil())
@@ -82,15 +119,16 @@ class ResourceObserversSpec: ResourceSpecBase
                 let req = resource().load()
 
                 // Let Nocilla check off request without any further observing
-                resource().removeObservers(ownedBy: observer())
+                observer.expectStoppedObserving()
+                resource().removeObservers(ownedBy: observer)
                 awaitNewData(req)
                 }
 
             it("receives new data event")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.requested)
-                observer().expect(.newData(.network))
+                observer.expect(.requested)
+                observer.expect(.newData(.network))
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
@@ -102,7 +140,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives new data event from local override")
                 {
                 // No .requested event!
-                observer().expect(.newData(.localOverride))
+                observer.expect(.newData(.localOverride))
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).notTo(beNil())
@@ -115,14 +153,14 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives not modified event")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.requested)
-                observer().expect(.newData(.network))
+                observer.expect(.requested)
+                observer.expect(.newData(.network))
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
 
                 _ = stubRequest(resource, "GET").andReturn(304)
-                observer().expect(.requested)
-                observer().expect(.notModified)
+                observer.expect(.requested)
+                observer.expect(.notModified)
                     {
                     expect(resource().isLoading) == false
                     }
@@ -132,8 +170,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives error if server sends not modified but no local data")
                 {
                 _ = stubRequest(resource, "GET").andReturn(304)
-                observer().expect(.requested)
-                observer().expect(.error)
+                observer.expect(.requested)
+                observer.expect(.error)
                 awaitFailure(resource().load())
                 expect(resource().latestError?.cause is RequestError.Cause.NoLocalDataFor304) == true
                 }
@@ -142,8 +180,8 @@ class ResourceObserversSpec: ResourceSpecBase
                 {
                 // delay prevents race condition between cancel() and Nocilla
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
-                observer().expect(.requested)
-                observer().expect(.requestCancelled)
+                observer.expect(.requested)
+                observer.expect(.requestCancelled)
                     {
                     expect(resource().isLoading) == false
                     }
@@ -156,8 +194,8 @@ class ResourceObserversSpec: ResourceSpecBase
             it("receives failure event")
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
-                observer().expect(.requested)
-                observer().expect(.error)
+                observer.expect(.requested)
+                observer.expect(.error)
                     {
                     expect(resource().isLoading) == false
                     expect(resource().latestData).to(beNil())
@@ -174,7 +212,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("can be a closure")
                 {
-                resource().removeObservers(ownedBy: observer())
+                observer.expectStoppedObserving()
+                resource().removeObservers(ownedBy: observer)
 
                 let dummy = NSData()
                 var events = [String]()
@@ -192,7 +231,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("can have multiple closure observers")
                 {
-                observer().expect(.requested, .newData(.network), .requested, .newData(.network))
+                observer.expect(.requested, .newData(.network), .requested, .newData(.network))
 
                 let dummy = NSData()
                 var events0 = [String](),
@@ -215,12 +254,12 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("is not added twice if it is an object")
                 {
-                resource().addObserver(observer())
-                resource().addObserver(observer())
+                resource().addObserver(observer)
+                resource().addObserver(observer)
 
                 _ = stubRequest(resource, "GET").andReturn(200)
-                observer().expect(.requested)
-                observer().expect(.newData(.network))
+                observer.expect(.requested)
+                observer.expect(.newData(.network))
                 awaitNewData(resource().load())
                 }
 
@@ -231,8 +270,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 beforeEach
                     {
-                    resource().addObserver(observer(), owner: owner1())
-                    resource().addObserver(observer(), owner: owner2())
+                    resource().addObserver(observer, owner: owner1())
+                    resource().addObserver(observer, owner: owner2())
                     }
 
                 func expectStillObserving(_ stillObserving: Bool)
@@ -240,11 +279,12 @@ class ResourceObserversSpec: ResourceSpecBase
                     _ = stubRequest(resource, "GET").andReturn(200)
                     if stillObserving
                         {
-                        observer().expect(.requested)
-                        observer().expect(.newData(.network))
+                        observer.expect(.requested)
+                        observer.expect(.newData(.network))
                         }
+                    if !stillObserving
+                        { observer.expectStoppedObserving() }
                     awaitObserverCleanup(for: resource())
-                    expect(observer().stoppedObservingCalled) == !stillObserving
                     awaitNewData(resource().load())
                     }
 
@@ -257,14 +297,14 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 it("is not removed if external owner is not removed")
                     {
-                    resource().removeObservers(ownedBy: observer())
+                    resource().removeObservers(ownedBy: observer)
                     resource().removeObservers(ownedBy: owner2())
                     expectStillObserving(true)
                     }
 
                 it("is removed when all owners are removed")
                     {
-                    resource().removeObservers(ownedBy: observer())
+                    resource().removeObservers(ownedBy: observer)
                     resource().removeObservers(ownedBy: owner1())
                     resource().removeObservers(ownedBy: owner2())
                     expectStillObserving(false)
@@ -275,13 +315,13 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("resource memory management")
             {
             weak var resourceWeak: Resource?
-            let observer = specVar { TestObserver() }
 
             beforeEach
                 {
                 var resource: Resource? = service().resource("zargle")
                 resourceWeak = resource
-                resource?.addObserver(observer())
+                observer.expect(.observerAdded)
+                resource?.addObserver(observer)
                 resource = nil
                 }
 
@@ -309,25 +349,29 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("allows resource deallocation when no observers left")
                 {
-                resourceWeak?.removeObservers(ownedBy: observer())
+                observer.expectStoppedObserving()
+                resourceWeak?.removeObservers(ownedBy: observer)
                 expectResourceNotToBeRetained()
                 }
 
             it("allows resource deallocation when observer owners are deallocated")
                 {
                 var otherOwner: AnyObject? = TestObserver()
-                resourceWeak?.addObserver(observer(), owner: otherOwner!)
-                resourceWeak?.removeObservers(ownedBy: observer())
+                resourceWeak?.addObserver(observer, owner: otherOwner!)
+                resourceWeak?.removeObservers(ownedBy: observer)
                 expectResourceToBeRetained()
 
                 otherOwner = nil
+                observer.expectStoppedObserving()
                 expectResourceNotToBeRetained()
                 }
 
             it("re-retains resource when observers added again")
                 {
-                resourceWeak?.removeObservers(ownedBy: observer())
-                resourceWeak?.addObserver(observer())
+                observer.expectStoppedObserving()
+                resourceWeak?.removeObservers(ownedBy: observer)
+                observer.expect(.observerAdded)
+                resourceWeak?.addObserver(observer)
                 expectResourceToBeRetained()
                 }
 
@@ -336,10 +380,11 @@ class ResourceObserversSpec: ResourceSpecBase
                 var observer2: TestObserver? = TestObserver()
                 weak var weakObserver2 = observer2
 
-                resourceWeak?.addObserver(observer2!, owner: observer())  // strong ref to observer2
+                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref to observer2
                 resourceWeak?.addObserver(observer2!)
-                resourceWeak?.removeObservers(ownedBy: observer())        // now only has weak ref to observer2
-                resourceWeak?.addObserver(observer2!, owner: observer())  // strong ref reestablished
+                observer.expectStoppedObserving()
+                resourceWeak?.removeObservers(ownedBy: observer)        // now only has weak ref to observer2
+                resourceWeak?.addObserver(observer2!, owner: observer)  // strong ref reestablished
 
                 observer2 = nil
                 expect(weakObserver2).notTo(beNil())
@@ -377,7 +422,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer!)
 
                 expectToStopObservation({ observer! })
-                    { observer = nil }
+                    {
+                    observer = nil
+                    // Note: observer does _not_ receive stoppedObserving because it’s deallocated before we can send it
+                    }
 
                 expect(observerWeak).to(beNil())  // resource should not have retained it
                 }
@@ -391,7 +439,10 @@ class ResourceObserversSpec: ResourceSpecBase
                 resource().addObserver(observer, owner: owner!)
 
                 expectToStopObservation({ observer })
-                    { owner = nil }
+                    {
+                    owner = nil
+                    observer.expectStoppedObserving()
+                    }
                 }
             }
         }
@@ -408,7 +459,6 @@ private class TestObserver: ResourceObserver
 private class TestObserverWithExpectations: ResourceObserver
     {
     private var expectedEvents = [Expectation]()
-    fileprivate var stoppedObservingCalled = false
 
     deinit
         { checkForUnfulfilledExpectations() }
@@ -416,7 +466,12 @@ private class TestObserverWithExpectations: ResourceObserver
     func expect(_ events: ResourceEvent..., callback: @escaping ((Void) -> Void) = {})
         {
         for event in events
-            { expectedEvents.append(Expectation(event: event, callback: callback)) }
+            { expectedEvents.append(Expectation(event: "\(event)", callback: callback)) }
+        }
+
+    func expectStoppedObserving()
+        {
+        expectedEvents.append(Expectation(event: "stoppedObserving") { })
         }
 
     func checkForUnfulfilledExpectations()
@@ -426,6 +481,16 @@ private class TestObserverWithExpectations: ResourceObserver
         }
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
+        {
+        consume(event: "\(event)")
+        }
+
+    func stoppedObserving(resource: Resource)
+        {
+        consume(event: "stoppedObserving")
+        }
+
+    private func consume(event: String)
         {
         if expectedEvents.isEmpty
             { XCTFail("Received unexpected observer event: \(event)") }
@@ -439,17 +504,12 @@ private class TestObserverWithExpectations: ResourceObserver
             }
         }
 
-    func stoppedObserving(resource: Resource)
-        {
-        stoppedObservingCalled = true
-        }
-
     private struct Expectation
         {
-        let event: ResourceEvent
+        let event: String
         let callback: ((Void) -> Void)
 
         func description() -> String
-            { return "\(event)" }
+            { return event }
         }
     }
