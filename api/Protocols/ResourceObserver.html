@@ -275,7 +275,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/09035269dd53ab8a64cb56a6f2a54d5727210456/Source/Siesta/Resource/ResourceObserver.swift#L24">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Resource/ResourceObserver.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -314,7 +314,7 @@ Will <em>always</em> receive a call with a value of 1 when the request completes
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/09035269dd53ab8a64cb56a6f2a54d5727210456/Source/Siesta/Resource/ResourceObserver.swift#L30">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Resource/ResourceObserver.swift#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -335,8 +335,25 @@ Will <em>always</em> receive a call with a value of 1 when the request completes
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Called when this observer stops observing a resource. Use for making <code>removeObservers(ownedBy:)</code> trigger
-other cleanup.</p>
+                        <p>Called when this observer stops observing a resource, if the observer itself still exists.
+Use for making <code>removeObservers(ownedBy:)</code> trigger other cleanup.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>This method is <strong>not</strong> called for self-owned observers when the observer itself being deallocated is
+what caused it to stop observing. This is because there is no way for Siesta to know that observer is <em>about</em>
+to be deallocated; it can only check whether the observer is already gone.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>var myObserver = MyObserver()
+resource.addObserver(myObserver)  // myObserver is self-owned, so...
+myObserver = nil                  // this deallocates it, but...
+// ...myObserver never receives stoppedObserving(resource:).
+</code></pre>
+
+<p>In the situation above, <code>MyObserver</code> should implement any end-of-lifcycle cleanup using <code>deinit</code>.</p>
+
+</div>
 
                       </div>
                       <h4>Default Implementation</h4>
@@ -353,7 +370,7 @@ other cleanup.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/09035269dd53ab8a64cb56a6f2a54d5727210456/Source/Siesta/Resource/ResourceObserver.swift#L36">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Resource/ResourceObserver.swift#L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -392,7 +409,7 @@ has an identity equals to a new observer, then <code><a href="../Classes/Resourc
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/09035269dd53ab8a64cb56a6f2a54d5727210456/Source/Siesta/Resource/ResourceObserver.swift#L42">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Resource/ResourceObserver.swift#L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
