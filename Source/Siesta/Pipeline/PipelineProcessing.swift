@@ -181,23 +181,9 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
 
     private func dispatchSyncOnWorkQueue<T>(_ action: (Void) -> T) -> T
         {
-        if currentQueueIsWorkQueue
-            { return action() }
-        else
-            {
-            var result: T?
-            cache.workQueue.sync
-                { result = action() }
-            return result!
-            }
-        }
-
-    private var currentQueueIsWorkQueue: Bool
-        {
-        // This assumes that labels are unique. This is not absolutely guaranteed
-        // to be a safe assumption; however, it is unlikely that a user will happen
-        // to give their custom queue exactly the same name as the default work queue.
-
-        return false; // TODO: Figure out how to reproduce in Swift 3: cache.workQueue.label == DISPATCH_CURRENT_QUEUE_LABEL
+        var result: T?
+        cache.workQueue.sync
+            { result = action() }
+        return result!
         }
     }
