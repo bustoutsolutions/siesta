@@ -35,7 +35,7 @@
 		9F2FB5291C2864970068DFFA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBDB01B55BF0E00161A25 /* Logging.swift */; };
 		9F2FB52A1C2864970068DFFA /* DebugFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */; };
 		9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
-		9F2FB52C1C2864970068DFFA /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
+		9F2FB52C1C2864970068DFFA /* URL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* URL+Siesta.swift */; };
 		9F2FB52D1C2864970068DFFA /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		9F2FB52E1C2864970068DFFA /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		9F2FB52F1C2864970068DFFA /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
@@ -60,7 +60,7 @@
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
 		DA19D0751D9ADDD800D15F3A /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */; };
-		DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */; };
+		DA28464A1B59EF9F004BD535 /* URL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* URL+Siesta.swift */; };
 		DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		DA33142B1B4DA04900A7A175 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		DA33142F1B4DBADA00A7A175 /* Regex+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */; };
@@ -230,7 +230,7 @@
 		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiestaPerformanceTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
-		DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+Siesta.swift"; sourceTree = "<group>"; };
+		DA2846491B59EF9F004BD535 /* URL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Siesta.swift"; sourceTree = "<group>"; };
 		DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-Alamofire.swift"; sourceTree = "<group>"; };
 		DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseTransformer.swift; sourceTree = "<group>"; };
 		DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Regex+Siesta.swift"; sourceTree = "<group>"; };
@@ -502,7 +502,7 @@
 				DA3FBDB01B55BF0E00161A25 /* Logging.swift */,
 				DAFA4BB01B8377B300EFF117 /* DebugFormatting.swift */,
 				DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */,
-				DA2846491B59EF9F004BD535 /* NSURL+Siesta.swift */,
+				DA2846491B59EF9F004BD535 /* URL+Siesta.swift */,
 				DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */,
 				DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */,
 				DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */,
@@ -915,7 +915,7 @@
 				9F2FB5291C2864970068DFFA /* Logging.swift in Sources */,
 				DA7D05C51D57C30400431980 /* PipelineProcessing.swift in Sources */,
 				9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */,
-				9F2FB52C1C2864970068DFFA /* NSURL+Siesta.swift in Sources */,
+				9F2FB52C1C2864970068DFFA /* URL+Siesta.swift in Sources */,
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
@@ -955,7 +955,7 @@
 				DACD23431D6105B600848C04 /* RequestChaining.swift in Sources */,
 				DAAB482A1B5D7B770059C047 /* Request.swift in Sources */,
 				DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */,
-				DA28464A1B59EF9F004BD535 /* NSURL+Siesta.swift in Sources */,
+				DA28464A1B59EF9F004BD535 /* URL+Siesta.swift in Sources */,
 				DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */,
 				DAFA42091C20B10F0020AC5E /* RequestCreation.swift in Sources */,
 				DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */,

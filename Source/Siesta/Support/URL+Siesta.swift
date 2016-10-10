@@ -1,5 +1,5 @@
 //
-//  NSURL+Siesta.swift
+//  URL+Siesta.swift
 //  Siesta
 //
 //  Created by Paul on 2015/7/17.

@@ -286,7 +286,7 @@ extension ResourceEvent
 
 extension String
     {
-    var capitalized: String
+    fileprivate var capitalized: String
         {
         guard !isEmpty else
             { return self }
