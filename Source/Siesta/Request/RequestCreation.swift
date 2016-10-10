@@ -15,9 +15,9 @@ public extension Resource
       Convenience method to initiate a request with a body containing arbitrary data.
     */
     public func request(
-            _ method:      RequestMethod,
-            data:        Data,
-            contentType: String,
+            _ method:        RequestMethod,
+            data:            Data,
+            contentType:     String,
             requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
@@ -42,10 +42,10 @@ public extension Resource
       - Parameter encoding: UTF-8 (`NSUTF8StringEncoding`) by default.
     */
     public func request(
-            _ method:      RequestMethod,
-            text:        String,
-            contentType: String = "text/plain",
-            encoding:    String.Encoding = String.Encoding.utf8,
+            _ method:        RequestMethod,
+            text:            String,
+            contentType:     String = "text/plain",
+            encoding:        String.Encoding = String.Encoding.utf8,
             requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
@@ -75,9 +75,9 @@ public extension Resource
       - Parameter contentType: `application/json` by default.
     */
     public func request(
-            _ method:      RequestMethod,
-            json:        NSJSONConvertible,
-            contentType: String = "application/json",
+            _ method:        RequestMethod,
+            json:            NSJSONConvertible,
+            contentType:     String = "application/json",
             requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {

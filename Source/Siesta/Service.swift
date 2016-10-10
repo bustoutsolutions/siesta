@@ -32,7 +32,7 @@ open class Service: NSObject
     public let baseURL: URL?
 
     internal let networkingProvider: NetworkingProvider
-    private var resourceCache = WeakCache<String,Resource>()
+    private var resourceCache = WeakCache<String, Resource>()
 
     /**
       Creates a new service for the given API.
@@ -271,7 +271,7 @@ open class Service: NSObject
       - SeeAlso: `ResponseContentTransformer`
           for more robust transformation options.
     */
-    public final func configureTransformer<I,O>(
+    public final func configureTransformer<I, O>(
             _ pattern: ConfigurationPatternConvertible,
             requestMethods: [RequestMethod]? = nil,
             atStage stage: PipelineStageKey = .model,
@@ -279,7 +279,7 @@ open class Service: NSObject
             onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
             description: String? = nil,
-            contentTransform: @escaping ResponseContentTransformer<I,O>.Processor)
+            contentTransform: @escaping ResponseContentTransformer<I, O>.Processor)
         {
         func defaultDescription() -> String
             {

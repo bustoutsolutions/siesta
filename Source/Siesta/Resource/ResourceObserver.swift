@@ -66,7 +66,7 @@ struct UniqueObserverIdentity: Hashable
         UniqueObserverIdentity.idSeq += 1
         }
 
-    static func ==(lhs: UniqueObserverIdentity, rhs: UniqueObserverIdentity) -> Bool
+    static func == (lhs: UniqueObserverIdentity, rhs: UniqueObserverIdentity) -> Bool
         {
         return lhs.id == rhs.id
         }

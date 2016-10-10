@@ -307,7 +307,7 @@ public extension Resource
         { return addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
 
     @objc(addObserverWithOwner:callback:)
-    public func _objc_addObserver(owner: AnyObject, block: @escaping @convention(block) (Resource,String) -> Void) -> Self
+    public func _objc_addObserver(owner: AnyObject, block: @escaping @convention(block) (Resource, String) -> Void) -> Self
         {
         return addObserver(owner: owner)
             { block($0, $1._objc_stringForm) }
@@ -381,7 +381,7 @@ public extension Resource
 
     @objc(requestWithMethod:data:contentType:requestMutation:)
     public func _objc_request(
-            _ method:          String,
+            _ method:        String,
             data:            Data,
             contentType:     String,
             requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
@@ -396,7 +396,7 @@ public extension Resource
 
      @objc(requestWithMethod:text:)
      public func _objc_request(
-             _ method:          String,
+             _ method:        String,
              text:            String)
          -> _objc_Request
          {
@@ -406,7 +406,7 @@ public extension Resource
 
      @objc(requestWithMethod:text:contentType:encoding:requestMutation:)
      public func _objc_request(
-             _ method:          String,
+             _ method:        String,
              text:            String,
              contentType:     String,
              encoding:        UInt = String.Encoding.utf8.rawValue,
@@ -422,7 +422,7 @@ public extension Resource
 
      @objc(requestWithMethod:json:)
      public func _objc_request(
-             _ method:          String,
+             _ method:        String,
              json:            NSObject?)
          -> _objc_Request
          {
@@ -432,7 +432,7 @@ public extension Resource
 
      @objc(requestWithMethod:json:contentType:requestMutation:)
      public func _objc_request(
-             _ method:          String,
+             _ method:        String,
              json:            NSObject?,
              contentType:     String,
              requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
@@ -447,7 +447,7 @@ public extension Resource
 
      @objc(requestWithMethod:urlEncoded:requestMutation:)
      public func _objc_request(
-             _ method:            String,
+             _ method:          String,
              urlEncoded params: [String:String],
              requestMutation:   (@convention(block) (NSMutableURLRequest) -> ())?)
          -> _objc_Request

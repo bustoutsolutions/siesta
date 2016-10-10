@@ -90,7 +90,7 @@ internal extension Pipeline
                     .success(result),
                     using: stagesAndEntries.suffix(from: index + 1))
 
-                switch(processed)
+                switch processed
                     {
                     case .failure:
                         debugLog(.cache, ["Error processing cached entity; will ignore cached value. Error:", processed])

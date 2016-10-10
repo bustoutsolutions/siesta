@@ -36,8 +36,8 @@ extension Request
           and yield whatever repsonse it produces.
 
       Calling `cancel()` on `chainedRequest` cancels the currently executing request and immediately stops the chain,
-      never executing your `whenCompleted` closure. (Note, however, that calling `cancel()` on `underlyingRequest` does _not_ stop the chain; instead, the
-      cancellation error is passed to your `whenCompleted` just like any other error.)
+      never executing your `whenCompleted` closure. (Note, however, that calling `cancel()` on `underlyingRequest`
+      does _not_ stop the chain; instead, the cancellation error is passed to your `whenCompleted` just like any other error.)
 
       - Warning:
           This cancellation behavior means that your `whenCompleted` closure may never execute.

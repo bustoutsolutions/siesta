@@ -47,7 +47,7 @@ internal extension URL
             { return nil }
 
         let queryItems = components.queryItems ?? []
-        var queryDict = Dictionary<String,String?>(minimumCapacity: queryItems.count)
+        var queryDict = [String:String?](minimumCapacity: queryItems.count)
         for item in queryItems
             { queryDict[item.name] = item.value }
 
