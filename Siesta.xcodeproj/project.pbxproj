@@ -116,6 +116,8 @@
 		DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE681B4A39B0004FBB4B /* ResourcePathsSpec.swift */; };
 		DAC0CE6B1B4A3A9D004FBB4B /* ResourceStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */; };
 		DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */; };
+		DAC4CFCE1DAC10FD00EECEDE /* SiestaUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC0B3D61D651CC700D25C44 /* SiestaUI.framework */; };
+		DAC4CFCF1DAC110500EECEDE /* SiestaUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC0B3AA1D651CB500D25C44 /* SiestaUI.framework */; };
 		DACD23401D60D0FE00848C04 /* RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD233E1D60CE0400848C04 /* RequestSpec.swift */; };
 		DACD23411D60D0FF00848C04 /* RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD233E1D60CE0400848C04 /* RequestSpec.swift */; };
 		DACD23431D6105B600848C04 /* RequestChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23421D6105B600848C04 /* RequestChaining.swift */; };
@@ -155,6 +157,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9F2FB51D1C28645E0068DFFA;
 			remoteInfo = "Siesta macOS";
+		};
+		DAC4CFCA1DAC10EC00EECEDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAC0B37D1D651CB500D25C44;
+			remoteInfo = "SiestaUI iOS";
+		};
+		DAC4CFCC1DAC10F500EECEDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAC0B3AC1D651CC700D25C44;
+			remoteInfo = "SiestaUI macOS";
 		};
 		DACD89521D65359E00045E01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -299,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F0FAFB01D033FF400CE1B61 /* Siesta.framework in Frameworks */,
+				DAC4CFCE1DAC10FD00EECEDE /* SiestaUI.framework in Frameworks */,
 				9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */,
 				9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */,
 				9F0FB05E1D0418AF00CE1B61 /* Nocilla.framework in Frameworks */,
@@ -332,11 +349,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
+				DAC4CFCF1DAC110500EECEDE /* SiestaUI.framework in Frameworks */,
 				DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */,
 				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
 				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
 				DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */,
-				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +658,7 @@
 			);
 			dependencies = (
 				9F0FAFAF1D033FE800CE1B61 /* PBXTargetDependency */,
+				DAC4CFCD1DAC10F500EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests macOS";
 			productName = SiestaTests;
@@ -714,6 +733,7 @@
 			);
 			dependencies = (
 				DA336E5C1B2E6DDB006F702A /* PBXTargetDependency */,
+				DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests iOS";
 			productName = SiestaTests;
@@ -1028,6 +1048,16 @@
 			isa = PBXTargetDependency;
 			target = 9F2FB51D1C28645E0068DFFA /* Siesta macOS */;
 			targetProxy = DA507ADB1D9CD07D00B5F5BF /* PBXContainerItemProxy */;
+		};
+		DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */;
+			targetProxy = DAC4CFCA1DAC10EC00EECEDE /* PBXContainerItemProxy */;
+		};
+		DAC4CFCD1DAC10F500EECEDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */;
+			targetProxy = DAC4CFCC1DAC10F500EECEDE /* PBXContainerItemProxy */;
 		};
 		DACD89531D65359E00045E01 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
