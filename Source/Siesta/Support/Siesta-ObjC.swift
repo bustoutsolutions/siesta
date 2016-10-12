@@ -45,7 +45,7 @@ import Foundation
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
     {
-    public var content: AnyObject?
+    public var content: AnyObject
     public var contentType: String
     public var charset: String?
     public var etag: String?
@@ -64,7 +64,7 @@ public class _objc_Entity: NSObject
 
     internal init(_ entity: Entity<Any>)
         {
-        self.content     = entity.content as AnyObject?
+        self.content     = entity.content as AnyObject
         self.contentType = entity.contentType
         self.charset     = entity.charset
         self.etag        = entity.etag
