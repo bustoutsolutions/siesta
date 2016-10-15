@@ -105,4 +105,4 @@ For example code, see the [OWASP guide](https://www.owasp.org/index.php/Certific
 
 ### Using Alamofire
 
-If you are using Siesta with Alamofire as a [networking provider](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you can use the [Alamofire security utilities](https://github.com/Alamofire/Alamofire#security).
+If you are using Siesta with Alamofire as a [networking provider](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html), you can use the [Alamofire security utilities](https://github.com/Alamofire/Alamofire#security).

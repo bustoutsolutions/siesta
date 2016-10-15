@@ -27,6 +27,6 @@ extension DispatchQueue
             Thread.isMainThread,
             "Illegal attempt to use Siesta method \"\(caller)\" from a background thread. " +
             "Except in specific situations, you must call Siesta APIs from the main thread. " +
-            "See http://bustoutsolutions.github.io/siesta/guide/threading/")
+            "See https://bustoutsolutions.github.io/siesta/guide/threading/")
         }
     }

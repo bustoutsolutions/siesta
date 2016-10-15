@@ -1,6 +1,6 @@
 # Resource State
 
-The [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) class answers three basic questions:
+The [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) class answers three basic questions:
 
 **Q.** What is the latest data for the resource we have locally, if any?<br>
 **A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)

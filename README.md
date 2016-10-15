@@ -81,11 +81,11 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 - …also works great from Objective-C thanks to a compatibility layer.
 - Lightweight. Won’t achieve sentience and attempt to destroy you.
 - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
-- [Documentation](https://bustoutsolutions.github.io/siesta/guide/) and [more documentation](http://bustoutsolutions.github.io/siesta/api/)
+- [Documentation](https://bustoutsolutions.github.io/siesta/guide/) and [more documentation](https://bustoutsolutions.github.io/siesta/api/)
 
 ### What it doesn’t do
 
-- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
+- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
 - It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor you prefer, or work directly with parsed JSON.
 
@@ -136,7 +136,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
     pod 'Siesta/Alamofire', '>=1.0-rc.2'
 
-(You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
+(You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb18networkingProviderPS_18NetworkingProvider__S0_) for more info.)
 
 ### Carthage
 
@@ -336,14 +336,14 @@ The same functionality. Yes, really.
 
 <small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will automatically update an image everywhere it is displayed if it’s refreshed.)</small>
 
-There’s a more featureful version of `RemoteImageView` [already included with Siesta](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
+There’s a more featureful version of `RemoteImageView` [already included with Siesta](https://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
 ## Comparison With Other Frameworks
 
 Popular REST / networking frameworks have different primary goals:
 
 - [NSURLSession](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSURLSession_class/) is Apple’s standard iOS HTTP library (and is all most projects need).
-- [Siesta](http://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
+- [Siesta](https://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
 - [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for NSURLSession.
 - [Moya](https://github.com/Moya/Moya) wraps Alamofire to hide HTTP URLs and parameters.
 - [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ↔ object model ↔ Core Data mapping.

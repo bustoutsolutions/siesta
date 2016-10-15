@@ -87,4 +87,4 @@ Or in Objective-C:
 
 TODO: document
 
-See [API docs](http://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html)
+See [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html)
