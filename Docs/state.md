@@ -3,10 +3,10 @@
 The [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) class answers three basic questions:
 
 **Q.** What is the latest data for the resource we have locally, if any?<br>
-**A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource10latestDataGSqVS_6Entity_) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
+**A.** [`latestData`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/latestData) and its [convenience accessors](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html)
 
 **Q.** Did the last attempt to load it result in an error?<br>
-**A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
+**A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/latestError)
 
 **Q.** Is there a request in progress?<br>
 **A.** [`isLoading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/isLoading) and [`isRequesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/isRequesting)

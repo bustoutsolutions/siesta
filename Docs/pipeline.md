@@ -54,7 +54,7 @@ By default, Siesta preconfigures a `Service` with common transformers at the `pa
 - `UIImage` for `image/*`
 - `NSJSONSerialization` for `*/json`
 
-You can disable these for a whole service using the `useDefaultTransformers:` argument to [`Service.init(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFT7baseURLGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_). You can also remove them for specific resources by clearing the `parsing` stage in your configuration:
+You can disable these for a whole service using the `useDefaultTransformers:` argument to [`Service.init(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)). You can also remove them for specific resources by clearing the `parsing` stage in your configuration:
 
 ```swift
 service.configure("/funky/**") {
@@ -91,7 +91,7 @@ service.configureTransformer("/users/*/repos") {
 
 There are no strict limitations on the type your transformer returns. The one strong recommendation is that you **make your content immutable** — either a struct or an immutable class. This helps with thread safety (transformers [run on a GCD queue](threading.md)), and ensures that you can’t change a resource’s state in place without generating a change notification.
 
-By default, [`configureTransformer(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_16contentTransformFzT7contentx6entityVS_6Entity_GSqq___T_):
+By default, [`configureTransformer(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)):
 
 - operates on the `model` pipeline stage,
 - replaces any existing transformers at that stage, and
@@ -100,7 +100,7 @@ By default, [`configureTransformer(…)`](https://bustoutsolutions.github.io/sie
 There are method options to change all these defaults. It’s a flexible tool. However, `configureTransformer(…)` is just convenience for common cases, and it has limitations:
 
 - It only operates on successful requests, so you can’t use it to transform upstream errors.
-- It only alters the response’s [`Entity.content`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#/s:vV6Siesta6Entity7contentP_). It cannot alter HTTP headers.
+- It only alters the response’s [`Entity.content`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#//apple_ref/swift/Property/content). It cannot alter HTTP headers.
 - It does not let you limit the transformation to a specific `Content-type`.
 
 There are also a few more obscure pipeline options the method does not expose.

@@ -15,7 +15,7 @@ For the full set of configurable options, see the [`Configuration`](https://bust
 
 ## Applying Configuration
 
-Configuration happens via [`Service.configure(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFCVS_13Configuration7BuilderT__T_). It’s common practice to subclass `Service` and apply configuration in the initializer:
+Configuration happens via [`Service.configure(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configure(_:requestMethods:description:configurer:)). It’s common practice to subclass `Service` and apply configuration in the initializer:
 
 ```swift
 class MyAPI: Service {
@@ -125,7 +125,7 @@ Configuration closures run:
 
 ## Decorating Requests via Configuration
 
-Siesta’s configuration mechanism is quite robust, particularly when combining [`Configuration.decorateRequests(…)`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:FV6Siesta13Configuration16decorateRequestsFFTCS_8ResourcePS_7Request__PS2__T_) with request hooks and [`Request.chained(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html#//apple_ref/swift/Method/chained(whenCompleted:)).
+Siesta’s configuration mechanism is quite robust, particularly when combining [`Configuration.decorateRequests(…)`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#//apple_ref/swift/Method/decorateRequests(with:)) with request hooks and [`Request.chained(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html#//apple_ref/swift/Method/chained(whenCompleted:)).
 
 For example, you could globally trigger a login prompt when you receive a response that indicates auth failure:
 
