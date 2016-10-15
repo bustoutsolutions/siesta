@@ -77,12 +77,12 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             }
         }
 
-    var entries: AnySequence<(K,V)>
+    var entries: AnySequence<(K, V)>
         {
         return AnySequence(
             entriesByKey.flatMap
                 {
-                (key, entry) -> (K,V)? in
+                (key, entry) -> (K, V)? in
 
                 if let value = entry.value
                     { return (key, value) }

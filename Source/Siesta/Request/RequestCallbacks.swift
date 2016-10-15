@@ -105,4 +105,3 @@ internal struct CallbackGroup<CallbackArguments>
         callbacks = []  // Fly, little handlers, be free!
         }
     }
-

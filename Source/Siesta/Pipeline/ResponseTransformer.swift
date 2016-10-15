@@ -115,7 +115,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
   If the input entity’s content does not match the `InputContentType`, the response is an error.
 */
-public struct ResponseContentTransformer<InputContentType,OutputContentType>: ResponseTransformer
+public struct ResponseContentTransformer<InputContentType, OutputContentType>: ResponseTransformer
     {
     /**
       A closure that both processes the content and describes the required input and output types.
@@ -170,7 +170,7 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
         {
         guard let typedEntity = entity.withContentRetyped() as Entity<InputContentType>? else
             {
-            switch(mismatchAction)
+            switch mismatchAction
                 {
                 case .skip,
                      .skipIfOutputTypeMatches where entity.content is OutputContentType:
@@ -178,7 +178,9 @@ public struct ResponseContentTransformer<InputContentType,OutputContentType>: Re
                     debugLog(.pipeline, [self, "skipping transformer because its mismatch rule is", mismatchAction, ", and it expected content of type", InputContentType.self, "but got a", type(of: entity.content)])
                     return .success(entity)
 
-                case .error, .skipIfOutputTypeMatches:
+                case .error,
+                     .skipIfOutputTypeMatches:
+
                     return logTransformation(contentTypeMismatchError(entity))
                 }
             }
@@ -269,12 +271,11 @@ public enum InputTypeMismatchAction
 /// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data,String>(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data, String>(transformErrors: transformErrors)
         {
         let charsetName = $0.charset ?? "ISO-8859-1"
         let encoding = CFStringConvertEncodingToNSStringEncoding(
-            CFStringConvertIANACharSetNameToEncoding(
-                charsetName as NSString as CFString))  // TODO: See if double “as” still necessary in Swift 3 GM
+            CFStringConvertIANACharSetNameToEncoding(charsetName as CFString))
 
         guard encoding != UInt(kCFStringEncodingInvalidId) else
             { throw RequestError.Cause.InvalidTextEncoding(encodingName: charsetName) }
@@ -289,7 +290,7 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `NSData` content as JSON, outputting either a dictionary or an array.
 public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data,NSJSONConvertible>(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data, NSJSONConvertible>(transformErrors: transformErrors)
         {
         let rawObj = try JSONSerialization.jsonObject(with: $0.content, options: [.allowFragments])
 
@@ -303,7 +304,7 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `NSData` content as an image, yielding a `UIImage`.
 public func ImageResponseTransformer(_ transformErrors: Bool = false) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data,Image>(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data, Image>(transformErrors: transformErrors)
         {
         guard let image = Image(data: $0.content) else
             { throw RequestError.Cause.UnparsableImage() }
@@ -311,4 +312,3 @@ public func ImageResponseTransformer(_ transformErrors: Bool = false) -> Respons
         return image
         }
     }
-

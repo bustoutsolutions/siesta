@@ -44,29 +44,29 @@ internal extension Array
 
 internal extension Dictionary
     {
-    static func fromArray<K,V>(_ arrayOfTuples: [(K,V)]) -> [K:V]
+    static func fromArray<K, V>(_ arrayOfTuples: [(K, V)]) -> [K:V]
         {
-        var dict = Dictionary<K,V>(minimumCapacity: arrayOfTuples.count)
-        for (k,v) in arrayOfTuples
+        var dict = Dictionary<K, V>(minimumCapacity: arrayOfTuples.count)
+        for (k, v) in arrayOfTuples
             { dict[k] = v }
         return dict
         }
 
-    func mapDict<MappedKey,MappedValue>(transform: (Key,Value) -> (MappedKey,MappedValue))
+    func mapDict<MappedKey, MappedValue>(transform: (Key, Value) -> (MappedKey, MappedValue))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(map(transform))
         }
 
-    func flatMapDict<MappedKey,MappedValue>(transform: (Key,Value) -> (MappedKey?,MappedValue?))
+    func flatMapDict<MappedKey, MappedValue>(transform: (Key, Value) -> (MappedKey?, MappedValue?))
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(
             flatMap
                 {
-                let (k,v) = transform($0, $1)
+                let (k, v) = transform($0, $1)
                 if let k = k, let v = v
-                    { return (k,v) }
+                    { return (k, v) }
                 else
                     { return nil }
                 }

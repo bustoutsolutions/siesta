@@ -243,7 +243,7 @@ public final class Resource: NSObject
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
-            for (header,value) in self.configuration(for: method).headers
+            for (header, value) in self.configuration(for: method).headers
                 { underlyingRequest.setValue(value, forHTTPHeaderField: header) }
 
             requestMutation(&underlyingRequest)

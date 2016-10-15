@@ -59,7 +59,7 @@ internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> St
     {
     var result = "\n" + indent + "headers (\(headers.count))"
 
-    for (k,v) in headers
+    for (k, v) in headers
         { result += "\n" + indent + "  \(k): \(v)" }
 
     return result

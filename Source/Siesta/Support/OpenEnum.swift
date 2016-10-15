@@ -17,7 +17,7 @@ public protocol _OpenEnum: class, Hashable
 extension _OpenEnum
     {
     /// :nodoc:
-    public static func ==(lhs: Self, rhs: Self) -> Bool
+    public static func == (lhs: Self, rhs: Self) -> Bool
         { return lhs === rhs }
 
     /// :nodoc:

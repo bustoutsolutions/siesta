@@ -3,10 +3,8 @@
 **The elegant way to write iOS / macOS REST clients**
 
 [![Build Status](https://api.travis-ci.org/bustoutsolutions/siesta.svg?branch=master)](https://travis-ci.org/bustoutsolutions/siesta)
-[![Platform](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](https://bustoutsolutions.github.io/siesta/guide/)
-[![CocoaPods compatible](https://img.shields.io/badge/CocoaPods-compatible-5b9dd9.svg)](https://cocoapods.org/pods/Siesta/)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-5b9dd9.svg)](https://github.com/bustoutsolutions/siesta/releases)
-[![Version](https://img.shields.io/github/tag/bustoutsolutions/siesta.svg?label=release)](https://github.com/bustoutsolutions/siesta/releases)
+[![Platforms](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](https://bustoutsolutions.github.io/siesta/guide/)
+[![Version](https://img.shields.io/github/tag/bustoutsolutions/siesta.svg?label=version)](https://github.com/bustoutsolutions/siesta/releases)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
 [![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
 
@@ -14,9 +12,9 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 * **OS:** iOS 8+, macOS 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-* **Tool requirements:** Xcode 8, Swift 3
+* **Tool requirements:** Xcode 8, Swift 3  (See `swift-2.x` branches for legacy support)
 * **License:** MIT
-* **Status:** Solid code, battle-tested on the App Store. Gathering feedback and vetting after the big Swift 3 migration. Please kick the tires, file issues, and send pull requests. Be bold!
+* **Status:** Solid code, battle-tested on the App Store. Ramping up for official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
 ### Overview
 
@@ -32,9 +30,9 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 ### Documentation
 
-- [User Guide](https://bustoutsolutions.github.io/siesta/guide/)
-- [API Docs](https://bustoutsolutions.github.io/siesta/api/)
-- [Specs](https://bustoutsolutions.github.io/siesta/specs/)
+- [User Guide](https://bustoutsolutions.github.io/siesta/guide/) — Extensive! Thrilling! Full of examples!
+- [API Docs](https://bustoutsolutions.github.io/siesta/api/) — Lascivious detail! Hidden treasure! More examples!
+- [Specs](https://bustoutsolutions.github.io/siesta/specs/) — OK, doesn’t sound glamorous, but surprisingly informative.
 
 ## What’s It For?
 
