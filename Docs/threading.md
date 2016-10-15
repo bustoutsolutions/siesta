@@ -38,11 +38,11 @@ Because they may involve parsing and transformation of large amounts of data, Si
 
 You thus must ensure that the following are threadsafe:
 
-  - [content transformer closures](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)),
-  - implementations of [`ResponseTransformer`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html) and [`ResponseContentTransformer`](https://bustoutsolutions.github.io/siesta/api/Structs/ResponseContentTransformer.html), and
+  - closures you pass to [configureTransformer](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)) and [`ResponseContentTransformer`](https://bustoutsolutions.github.io/siesta/api/Structs/ResponseContentTransformer.html),
+  - implementations of [`ResponseTransformer`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html), and
   - implementations of [`EntityCache`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html).
 
-These closures and protocols pass only structs as input and output, so you will typically not need to synchronize access to Siesta’s state. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](//apple_ref/swift/Property/content) is a mutable object and not a struct.
+All of these pass only structs as input and output, so you will typically not need to do any synchronization dances with them. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#//apple_ref/swift/Property/content) is a mutable object and not a struct.
 
 ## Networking and Threading
 
