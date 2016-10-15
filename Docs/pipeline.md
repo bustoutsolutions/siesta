@@ -110,7 +110,7 @@ There are also a few more obscure pipeline options the method does not expose.
 There are many content types that Siesta does not support by default — XML, for example (because there is no standard XML parser on iOS). When you add support for one of these types, you’ll typically want it to be based on the `Content-type` header
 
 In this situation, create a [`ResponseContentTransformer`](https://bustoutsolutions.github.io/siesta/api/Structs/ResponseContentTransformer.html) and configure it using
-[`$0.pipeline`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#/s:vV6Siesta13Configuration8pipelineVS_8Pipeline). For example, the GithubBrowser project wraps all JSON responses in SwiftyJSON for the downstream model transformers:
+[`$0.pipeline`](https://bustoutsolutions.github.io/siesta/api/Structs/Configuration.html#//apple_ref/swift/Property/pipeline). For example, the GithubBrowser project wraps all JSON responses in SwiftyJSON for the downstream model transformers:
 
 ```swift
 let SwiftyJSONTransformer =

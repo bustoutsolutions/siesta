@@ -55,7 +55,7 @@ Two approaches, not mutually exclusive:
 
 ## Host Whitelisting
 
-A Siesta service will accept URLs that point at _any_ server. [`Service.baseURL`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_) is a convenience, not a constraint. Calls like [`Service.resource(absoluteURL:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource) and [`Resource.relative(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource8relativeFSSS0_) will let you point a resource at _any_ server on the internet.
+A Siesta service will accept URLs that point at _any_ server. [`Service.baseURL`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqCSo5NSURL_) is a convenience, not a constraint. Calls like [`Service.resource(absoluteURL:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/resource(absoluteURL:)) and [`Resource.relative(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/relative(_:)) will let you point a resource at _any_ server on the internet.
 
 This means it is up to you to ensure that you do not accidentally send sensitive information to untrusted servers. This is of particular concern if your service configuration sets authentication headers. It is a wise precaution to insert sanity checks to make sure it only sends them to specific hosts.
 

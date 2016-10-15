@@ -9,7 +9,7 @@ The [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.
 **A.** [`latestError`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource11latestErrorGSqVS_5Error_)
 
 **Q.** Is there a request in progress?<br>
-**A.** [`isLoading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource9isLoadingSb) and [`isRequesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:vC6Siesta8Resource12isRequestingSb)
+**A.** [`isLoading`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/isLoading) and [`isRequesting`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Property/isRequesting)
 
 ## The State Properties
 

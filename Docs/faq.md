@@ -64,7 +64,7 @@ One big future wish for Siesta is more static type safety when using custom tran
 
 The missing feature is support for generalized existential types. There has been extensive discussion of this on [swift-evolution](https://github.com/apple/swift-evolution) ([here](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17418/focus=18810), for example), but the problem proved [too large to solve in time for Swift 3](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17276). That means we won’t be getting `Resource<T>` until at least Swift 4.
 
-In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT6ifNoneKT_qd___qd__) and friends get the job done.
+In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#//apple_ref/swift/Method/typedContent(ifNone:)) and friends get the job done.
 
 ## Contact
 
