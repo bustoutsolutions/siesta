@@ -9,7 +9,7 @@ Services and resources are the heart of Siesta.
 
 ## Services
 
-A [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html) represents an API, that is, a set of related resources which tend to share common rules about request and response structure, authentication, and other conventions.
+A [`Service`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html) represents an API, that is, a set of related resources which tend to share common rules about request and response structure, authentication, and other conventions.
 
 Create a single `Service` instance for each API your app uses:
 
@@ -42,7 +42,7 @@ Note the use of computed properties instead of read-only (`let`) properties. Thi
 
 ## Getting Resources
 
-A [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is a local cache of a RESTful resource. It holds a representation of the the resource’s data, plus information about the status of network requests related to it.
+A [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html) is a local cache of a RESTful resource. It holds a representation of the the resource’s data, plus information about the status of network requests related to it.
 
 Retrieve resources from a service by providing paths relative to the service’s base URL:
 
@@ -70,7 +70,7 @@ myAPI.resource("/doodads/etc").relative("/items/123/detail")
 
 The `child(_:)` method appends path components, while `relative(_:)` uses full relative URL resolution rules (like `href` in a web page).
 
-For more details, see the API docs for [`child(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource5childFS0_FSSS0_) and [`relative(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource8relativeFS0_FSSS0_), and the [related specs](https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec).
+For more details, see the API docs for [`child(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/child(_:)) and [`relative(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/relative(_:)), and the [related specs](https://bustoutsolutions.github.io/siesta/specs/#ResourcePathsSpec).
 
 ## The Golden Rule of Resources
 
@@ -84,6 +84,6 @@ Note that the rule is “at _most_ one.” If memory is low and no code referenc
 
 ### Uniqueness
 
-Note that “URL” includes the _whole_ URL: protocol, host, path, and query string. It does _not_ include headers, however. Different query strings? Different resources. `http` vs `https`? Different resources. Different `Authentication` headers? _Same_ resource. This means it’s up to you to [wipe resource content](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7Service13wipeResourcesFTFCS_8ResourceSb_T_) when a user logs out.
+Note that “URL” includes the _whole_ URL: protocol, host, path, and query string. It does _not_ include headers, however. Different query strings? Different resources. `http` vs `https`? Different resources. Different `Authentication` headers? _Same_ resource. This means it’s up to you to [wipe resource content](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/wipeResources(matching:)) when a user logs out.
 
 <p class='guide-next'>Next: <strong><a href='../state'>Resource State</a></strong></p>

@@ -40,7 +40,7 @@ github "bustoutsolutions/siesta" "swift-2.2"
 
 To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or tweet to [@siestaframework](https://twitter.com/siestaframework).
 
-One high priority post-1.0 feature is the addition of standard [EntityCache](http://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
+One high priority post-1.0 feature is the addition of standard [EntityCache](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
 
 
 ## Capabilities
@@ -61,7 +61,7 @@ If you aren’t interested in holding a response entirely in memory, there’s l
 
 Configure them in the underlying networking library you are using with Siesta.
 
-From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is were all these options get configured. See the `networking:` parameter of [`Service.init(...)`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html#/s:FC6Siesta7ServicecFMS0_FT4baseGSqSS_22useDefaultTransformersSb10networkingPS_29NetworkingProviderConvertible__S0_).
+From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is were all these options get configured. See the `networking:` parameter of [`Service.init(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)).
 
 #### Why doesn’t Siesta provide a typesafe `Resource<T>`?
 
@@ -69,7 +69,7 @@ One big future wish for Siesta is more static type safety when using custom tran
 
 The missing feature is support for generalized existential types. There has been extensive discussion of this on [swift-evolution](https://github.com/apple/swift-evolution) ([here](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17418/focus=18810), for example), but the problem proved [too large to solve in time for Swift 3](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17276). That means we won’t be getting `Resource<T>` until at least Swift 4.
 
-In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT6ifNoneKT_qd___qd__) and friends get the job done.
+In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#//apple_ref/swift/Method/typedContent(ifNone:)) and friends get the job done.
 
 ## Contact
 

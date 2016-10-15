@@ -11,15 +11,15 @@ Resources start out empty — no data, no error, not loading. To trigger a GET 
 MyAPI.profile.loadIfNeeded()
 ```
 
-Don’t worry about calling [`loadIfNeeded()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource12loadIfNeededFS0_FT_GSqPS_7Request__) too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is [configurable](/siesta/guide/configuration).)
+Don’t worry about calling [`loadIfNeeded()`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/loadIfNeeded()) too often. Call it in your `viewWillAppear()`! Call it in response to touch events! Call it 50 times a second! It automatically suppresses redundant requests. (Data expiration time is [configurable](/siesta/guide/configuration).)
 
-To force a (possibly redundant) network request, use [`load()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFS0_FT_PS_7Request_):
+To force a (possibly redundant) network request, use [`load()`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/load()):
 
 ```swift
 MyAPI.profile.load()
 ```
 
-To mark the resource’s state dirty but defer the load until the next call to `loadIfNeeded()`, use [`invalidate()`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource10invalidateFS0_FT_T_):
+To mark the resource’s state dirty but defer the load until the next call to `loadIfNeeded()`, use [`invalidate()`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/invalidate()):
 
 ```swift
 MyAPI.profile.invalidate()
@@ -56,7 +56,7 @@ Though they are a less headline-grabbing feature of Siesta, these request hooks 
 
 Requests include a variety of useful callbacks, including an `onProgress` that knocks the pants off of the lurchy, freezy progress reporting you get from a network library out of the box.
 
-See [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
+See [`Request`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) for details.
 
 ## Request vs. Load
 
@@ -89,7 +89,7 @@ resource.request(.post, json: newState).onSuccess() {
 
 ### Local Mutation After Update
 
-You can also manually update the local state using [`Resource.overrideLocalData(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFVS_6EntityT_) or [`Resource.overrideLocalContent(_:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource20overrideLocalContentFPs9AnyObject_T_):
+You can also manually update the local state using [`Resource.overrideLocalData(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalData(with:)) or [`Resource.overrideLocalContent(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalContent(with:)):
 
 ```swift
 resource.request(.put, json: newState).onSuccess() {
@@ -111,7 +111,7 @@ This technique avoids an extra network request, but it is dangerous: it puts the
 
 ### Promoting a Request to be a Load
 
-When a POST/PUT/PATCH response returns the entire state of the resource in exactly the same format as GET does, you can tell Siesta to treat it as a load request. Pass your manually created request directly to [`load(usingRequest:)`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/s:FC6Siesta8Resource4loadFT12usingRequestPS_7Request__PS1__):
+When a POST/PUT/PATCH response returns the entire state of the resource in exactly the same format as GET does, you can tell Siesta to treat it as a load request. Pass your manually created request directly to [`load(using:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/load(using:)):
 
 ```swift
 resource.load(usingRequest:

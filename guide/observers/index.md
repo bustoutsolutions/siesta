@@ -82,6 +82,6 @@ Here’s how the various `ResourceEvent` values map to `Resource` state changes:
 
 <small><strong>*</strong> If calls to `load(...)` forced multiple simultaneous load requests, `isLoading` may still be true even after an event that signals the completion of a request.</small>
 
-See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](http://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
+See the API docs for [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#/Observing%20Resources), [`ResourceEvent`](https://bustoutsolutions.github.io/siesta/api/Enums/ResourceEvent.html), and [`Entity`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html) for more information.
 
 <p class='guide-next'>Next: <strong><a href='../requests'>Requests</a></strong></p>

@@ -21,16 +21,16 @@ All operations expected to be **time-intensive**:
 
 The vast majority of Siesta’s API surface falls into that “quick return, main thread only” category. This means that you **must** call all methods of all the following types from the main thread:
 
-  - [`Service`](http://bustoutsolutions.github.io/siesta/api/Classes/Service.html)
-  - [`Resource`](http://bustoutsolutions.github.io/siesta/api/Classes/Resource.html)
-  - [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html)
+  - [`Service`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html)
+  - [`Resource`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html)
+  - [`Request`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html)
 
 In development builds, internal Siesta assertions will flag most violations of this rule.
 
 Because they are likely to update the UI, Siesta calls the following user-provided callbacks on the main thread:
 
-  - [`ResourceObserver`](http://bustoutsolutions.github.io/siesta/api/Protocols/ResourceObserver.html) methods and
-  - [`Request`](http://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) hooks.
+  - [`ResourceObserver`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResourceObserver.html) methods and
+  - [`Request`](https://bustoutsolutions.github.io/siesta/api/Protocols/Request.html) hooks.
 
 It is your responsibility to ensure that your callbacks do not block the main thread for excessive amounts of time.
 
@@ -41,22 +41,22 @@ Because they may involve parsing and transformation of large amounts of data, Si
   - response parsing and
   - entity caching.
 
-You thus must ensure that your implementations of the following protocols are threadsafe:
+You thus must ensure that the following are threadsafe:
 
-  - [`ResponseTransformer`](http://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html)
-  - [`EntityCache`](http://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html)
-  - [`EntityEncoder`](http://bustoutsolutions.github.io/siesta/api/Protocols/EntityEncoder.html)
+  - [content transformers](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)),
+  - implementations of [`ResponseTransformer`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html), and
+  - implementations of [`EntityCache`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html).
 
-These interfaces pass only structs as input and output, so you will typically not need to synchronize access to Siesta’s state. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](http://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#/s:vV6Siesta6Entity7contentP_) is a mutable object and not a struct.
+These closures and protocols pass only structs as input and output, so you will typically not need to synchronize access to Siesta’s state. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](//apple_ref/swift/Property/content) is a mutable object and not a struct.
 
 ## Networking and Threading
 
 This section is only of concern if you are writing a custom networking provider.
 
-Most networking libraries use threads internally (including `NSURLSession`, Siesta’s default). Siesta therefore delegates threading responsibility to the networking provider. If you write a custom [`NetworkingProvider`](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html) implementation, you thus must exercise a little care about threading.
+Most networking libraries use threads internally (including `NSURLSession`, Siesta’s default). Siesta therefore delegates threading responsibility to the networking provider. If you write a custom [`NetworkingProvider`](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html) implementation, you thus must exercise a little care about threading.
 
-Siesta will always call your [`startRequest()`](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html#/s:FP6Siesta18NetworkingProvider12startRequestuRq_S0__Fq_FTCSo12NSURLRequest10completionFT5nsresGSqCSo17NSHTTPURLResponse_4bodyGSqCSo6NSData_5errorGSqPSs9ErrorType___T__PS_17RequestNetworking_) on the main thread, but it _is_ safe to call the `completion` callback from a background thread without any synchronization.
+Siesta will always call your [`startRequest()`](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html#//apple_ref/swift/Method/startRequest(_:completion:)) on the main thread, but it _is_ safe to call the `completion` callback from a background thread without any synchronization.
 
-It is your responsibility to ensure that any code that queries or alters the state of a request in progress does so in a threadsafe manner. This includes the members of [`RequestNetworking`](http://bustoutsolutions.github.io/siesta/api/Protocols/RequestNetworking.html). (Most networking libraries already provide the necessary thread safety, and you won’t need to take any thread safety measures yourself. Just make sure that this is indeed the case!)
+It is your responsibility to ensure that any code that queries or alters the state of a request in progress does so in a threadsafe manner. This includes the members of [`RequestNetworking`](https://bustoutsolutions.github.io/siesta/api/Protocols/RequestNetworking.html). (Most networking libraries already provide the necessary thread safety, and you won’t need to take any thread safety measures yourself. Just make sure that this is indeed the case!)
 
 <p class='guide-next'>Next: <strong><a href='../logging'>Logging</a></strong></p>
