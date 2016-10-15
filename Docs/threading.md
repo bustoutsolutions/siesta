@@ -36,13 +36,13 @@ Because they may involve parsing and transformation of large amounts of data, Si
   - response parsing and
   - entity caching.
 
-You thus must ensure that your implementations of the following protocols are threadsafe:
+You thus must ensure that the following are threadsafe:
 
-  - [`ResponseTransformer`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html)
-  - [`EntityCache`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html)
-  - [`EntityEncoder`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityEncoder.html)
+  - [content transformer closures](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)),
+  - implementations of [`ResponseTransformer`](https://bustoutsolutions.github.io/siesta/api/Protocols/ResponseTransformer.html) and [`ResponseContentTransformer`](https://bustoutsolutions.github.io/siesta/api/Structs/ResponseContentTransformer.html), and
+  - implementations of [`EntityCache`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html).
 
-These interfaces pass only structs as input and output, so you will typically not need to synchronize access to Siesta’s state. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#/s:vV6Siesta6Entity7contentP_) is a mutable object and not a struct.
+These closures and protocols pass only structs as input and output, so you will typically not need to synchronize access to Siesta’s state. However, you will need to be careful about using shared resources, such as a cache’s data store. Also take care if you work with entities whose [`content`](//apple_ref/swift/Property/content) is a mutable object and not a struct.
 
 ## Networking and Threading
 
