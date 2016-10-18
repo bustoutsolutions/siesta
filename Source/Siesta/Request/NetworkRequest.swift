@@ -43,7 +43,10 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         self.resource = resource
         self.requestBuilder = requestBuilder  // for repeated()
         self.underlyingRequest = requestBuilder()
-        self.requestDescription = debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
+        self.requestDescription =
+            LogCategory.enabled.contains(.network) || LogCategory.enabled.contains(.networkDetails)
+                ? "\(underlyingRequest.httpMethod) \(underlyingRequest.url)"
+                : ""
 
         progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")
         }
