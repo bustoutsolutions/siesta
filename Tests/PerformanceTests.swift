@@ -21,6 +21,14 @@ class SiestaPerformanceTests: XCTestCase
         service = Service(baseURL: "http://test.ing", networking: networkStub)
         }
 
+    override func tearDown()
+        {
+        NotificationCenter.default
+            .post(
+                name: NSNotification.Name("Siesta.MemoryWarningNotification"),
+                object: nil)
+        }
+
     func testGetExistingResourcesByURL()
         {
         measure { self.exerciseResourceCache(uniqueResources: 20, iters: 20000) }
