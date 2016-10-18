@@ -29,7 +29,7 @@ internal extension Pipeline
         // Return deferred processor to run on background queue
         return
             {
-            let result = self.processAndCache(rawResponse, using: stagesAndEntries)
+            let result = Pipeline.processAndCache(rawResponse, using: stagesAndEntries)
 
             debugLog(.pipeline,       ["  └╴Response after pipeline:", result.summary()])
             debugLog(.networkDetails, ["    Details:", result.dump("      ")])
@@ -39,7 +39,7 @@ internal extension Pipeline
         }
 
     // Runs on a background queue
-    private func processAndCache<StagesAndEntries: Collection>(
+    private static func processAndCache<StagesAndEntries: Collection>(
             _ rawResponse: Response,
             using stagesAndEntries: StagesAndEntries)
         -> Response
@@ -69,7 +69,7 @@ internal extension Pipeline
 
         defaultEntityCacheWorkQueue.async
             {
-            if let entity = self.cacheLookup(using: stagesAndEntries)
+            if let entity = Pipeline.cacheLookup(using: stagesAndEntries)
                 {
                 DispatchQueue.main.async
                     { onHit(entity) }
@@ -78,7 +78,7 @@ internal extension Pipeline
         }
 
     // Runs on a background queue
-    private func cacheLookup(using stagesAndEntries: [StageAndEntry]) -> Entity<Any>?
+    private static func cacheLookup(using stagesAndEntries: [StageAndEntry]) -> Entity<Any>?
         {
         for (index, (_, cacheEntry)) in stagesAndEntries.enumerated().reversed()
             {
@@ -86,7 +86,7 @@ internal extension Pipeline
                 {
                 debugLog(.cache, ["Cache hit for", cacheEntry])
 
-                let processed = processAndCache(
+                let processed = Pipeline.processAndCache(
                     .success(result),
                     using: stagesAndEntries.suffix(from: index + 1))
 
