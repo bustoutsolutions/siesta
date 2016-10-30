@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00B394491DC5FD67002CD5B7 /* Siesta+NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B394481DC5FD67002CD5B7 /* Siesta+NetworkActivityIndicator.swift */; };
 		9F0FAF901D033FCD00CE1B61 /* ResourceStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0CE6A1B4A3A9D004FBB4B /* ResourceStateSpec.swift */; };
 		9F0FAF911D033FCD00CE1B61 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		9F0FAF921D033FCD00CE1B61 /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
@@ -227,6 +228,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00B394481DC5FD67002CD5B7 /* Siesta+NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta+NetworkActivityIndicator.swift"; sourceTree = "<group>"; };
 		570C77E01D38463200226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		570C77E31D38466900226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		570C77E51D38468A00226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
 				DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */,
 				DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */,
+				00B394481DC5FD67002CD5B7 /* Siesta+NetworkActivityIndicator.swift */,
 			);
 			name = "UI (iOS)";
 			path = SiestaUI;
@@ -1020,6 +1023,7 @@
 				DAC0B3DA1D6529BA00D25C44 /* SiestaUI-ObjC.swift in Sources */,
 				DAC0B3941D651CB500D25C44 /* ResourceStatusOverlay.swift in Sources */,
 				DAC0B3DE1D652AD300D25C44 /* Collection+Siesta.swift in Sources */,
+				00B394491DC5FD67002CD5B7 /* Siesta+NetworkActivityIndicator.swift in Sources */,
 				DAC0B39A1D651CB500D25C44 /* RemoteImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
