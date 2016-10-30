@@ -9,6 +9,7 @@
 import Siesta
 import UIKit
 
+/// Set a variable to count the requests and then we know when to show the network activity indicator.
 private var requestsInProgress = 0 {
     didSet {
         UIApplication.shared.isNetworkActivityIndicatorVisible =
@@ -26,6 +27,9 @@ extension Service {
         requestsInProgress -= 1
     }
 
+    /**
+     On each request we will show the network activity indicator.
+     */
     public func showRequestsWithNetworkActivityIndicator() {
         configure {
             $0.decorateRequests {
