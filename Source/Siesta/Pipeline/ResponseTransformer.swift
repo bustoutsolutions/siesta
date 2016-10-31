@@ -111,7 +111,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
   A simplified `ResponseTransformer` that deals only with the content of the response entity, and does not touch the
   surrounding metadata.
 
-  If `processContent(_:)` throws or returns nil, the output is an error.
+  If `processEntity(_:)` throws or returns nil, the output is an error.
 
   If the input entity’s content does not match the `InputContentType`, the response is an error.
 */

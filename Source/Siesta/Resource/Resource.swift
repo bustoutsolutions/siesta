@@ -379,7 +379,7 @@ public final class Resource: NSObject
       to update `latestData` or `latestError` and notify observers just as `load()` would, but:
 
       - you need to use a request method other than GET,
-      - you need to set headers or other request options, but just for this one request (so that `Service.configure`
+      - you need to set headers or other request options, but just for this one request (so that `Service.configure(...)`
         won’t work), or
       - for some arcane reason, you want a request for a _different_ resource to update the state of this one.
 
@@ -531,7 +531,7 @@ public final class Resource: NSObject
                 updatedContent["name"] = parialEntity["newName"]
 
                 // Make that the resource’s new entity
-                resource.overrideLocalContent(updatedEntity)
+                resource.overrideLocalContent(with: updatedEntity)
             }
 
       Use this technique with caution!
@@ -540,7 +540,7 @@ public final class Resource: NSObject
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
       `updatedContent` is a `Dictionary`, not `Data` containing encoded JSON.
 
-      - SeeAlso: `overrideLocalContent(_:)`
+      - SeeAlso: `overrideLocalContent(with:)`
     */
     public func overrideLocalData(with entity: Entity<Any>)
         { receiveNewData(entity, source: .localOverride) }
@@ -564,8 +564,8 @@ public final class Resource: NSObject
 
       Use this if you know the current content is stale, but don’t want to trigger a network request right away.
 
-      Any update to `latestData` or `latestError` — including a call to `overrideLocalData()` or
-      `overrideLocalContent()` — clears the invalidation.
+      Any update to `latestData` or `latestError` — including a call to `overrideLocalData(...)` or
+      `overrideLocalContent(...)` — clears the invalidation.
 
       - SeeAlso: `wipe()`
     */

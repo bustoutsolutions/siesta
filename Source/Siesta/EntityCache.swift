@@ -36,7 +36,7 @@ import Foundation
   - Warning: Siesta calls `EntityCache` methods on a GCD background queue, so your implementation **must be
              thread-safe**.
 
-  - SeeAlso: `Configuration.persistentCache`
+  - SeeAlso: `PipelineStage.cacheUsing(_:)`
 */
 public protocol EntityCache
     {

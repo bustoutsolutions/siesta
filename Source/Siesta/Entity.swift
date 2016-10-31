@@ -71,7 +71,7 @@ public struct Entity<ContentType>
       All HTTP headers sent with this entity. The keys are in lower case (and will be converted to lowercase if you
       mutate the dictionary).
 
-      - See also: `header(_:)`
+      - See also: `header(forKey:)`
     */
     public var headers: [String:String]
         {
@@ -104,7 +104,7 @@ public struct Entity<ContentType>
     /**
       For creating ad hoc data locally.
 
-      - SeeAlso: `Resource.overrideLocalData(_:)`
+      - SeeAlso: `Resource.overrideLocalData(with:)`
     */
     public init(
             content: ContentType,

@@ -39,8 +39,8 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
 /**
   Network handling for a single request. Created by a `NetworkingProvider`. Implementations have three responsibilities:
 
-  * start the request when `start(_:)` is called,
-  * call the closure passed to `start(_:)` is called when the request is complete, and
+  * start the request on creation,
+  * call the closure passed to `NetworkingProvider.startRequest(...)` when the request is complete, and
   * optionally support cancelling requests in progress.
 */
 public protocol RequestNetworking

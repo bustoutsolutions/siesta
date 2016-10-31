@@ -19,7 +19,7 @@ import Foundation
 
   You can optionally specify a `baseURL`, which allows you to get endpoints by path: `service.resource("/foo")`.
   Specifying a `baseURL` does _not_ limit the service only to subpaths of that URL. Its one and only purpose is to be
-  the starting point for `resource(_:)`
+  the starting point for `resource(_:)`.
 
   Note that `baseURL` is only a convenience, and is optional.
   If you want to group multiple base URLs in a single `Service` instance, use `resource(baseURL:path:)`.
@@ -198,9 +198,9 @@ open class Service: NSObject
           for global config and more fine-grained matching
       - SeeAlso: `invalidateConfiguration()`
       - SeeAlso: For more details about the rules of pattern matching:
-        - `String.configurationPattern(_:)`
-        - `Resource.configurationPattern(_:)`
-        - `NSRegularExpression.configurationPattern(_:)`
+        - `String.configurationPattern(for:)`
+        - `Resource.configurationPattern(for:)`
+        - `NSRegularExpression.configurationPattern(for:)`
     */
     public final func configure(
             _ pattern: ConfigurationPatternConvertible,
@@ -217,7 +217,7 @@ open class Service: NSObject
 
     /**
       Applies configuration to resources whose URL matches an arbitrary predicate.
-      Use this if the wildcards in the `urlPattern` flavor of `configure()` aren’t robust enough.
+      Use this if the wildcards in other flavor of `configure(...)` aren’t robust enough.
 
       If you do not supply a predicate, then the configuration applies globally to all resources in this service.
 
@@ -247,7 +247,7 @@ open class Service: NSObject
 
     /**
       Transforms responses by passing their content through the given closure. This is a shortcut for adding a
-      `ResponseContentTransformer` to the `Configuration.responseTransformers`.
+      `ResponseContentTransformer` to the `Configuration.pipeline`.
 
       Useful for transformers that create model objects. For example:
 

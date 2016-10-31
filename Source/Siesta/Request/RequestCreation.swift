@@ -35,7 +35,7 @@ public extension Resource
     /**
       Convenience method to initiate a request with a text body.
 
-      If the string cannot be encoded using the given encoding, this methods triggers the `onFailure(_:)` request hook
+      If the string cannot be encoded using the given encoding, this methods triggers the `onFailure(...)` request hook
       immediately, without touching the network.
 
       - Parameter contentType: `text/plain` by default.
@@ -70,7 +70,7 @@ public extension Resource
       Convenience method to initiate a request with a JSON body.
 
       If the `json` cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
-      triggers the `onFailure(_:)` request hook immediately, without touching the network.
+      triggers the `onFailure(...)` request hook immediately, without touching the network.
 
       - Parameter contentType: `application/json` by default.
     */
