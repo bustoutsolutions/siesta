@@ -51,3 +51,14 @@ extension Service
             }
         }
     }
+
+extension Configuration
+    {
+    /**
+     On each request we will show the network activity indicator.
+     */
+    public func showRequestsWithNetworkActivityIndicator()
+        {
+            //configure
+        }
+    }

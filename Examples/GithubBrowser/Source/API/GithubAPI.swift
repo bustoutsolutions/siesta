@@ -74,7 +74,9 @@ class _GithubAPI {
         // the expected type becomes an error. For example, "/users/foo" _must_ return a JSON response because that's
         // what the User(json:) expects.
         
-        service.showRequestsWithNetworkActivityIndicator()  // shows the ios network activity indicator on all requests.
+        service.configure("/*") {
+            $0.showRequestsWithNetworkActivityIndicator() // shows the ios network activity indicator on all requests.
+        }
     }
 
     // MARK: Authentication
