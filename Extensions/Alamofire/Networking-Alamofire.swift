@@ -16,7 +16,7 @@ import Alamofire
   You can create instances of this provider with a custom
   [Alamofire.Manager](http://cocoadocs.org/docsets/Alamofire/1.3.0/Classes/Manager.html)
   in order to control caching, certificate validation rules, etc. For example, here is a `Service` that will
-  use an NSURLCache and will not use the cell network:
+  use a URLCache and will not use the cell network:
 
       class MyAPI: Service {
           init() {

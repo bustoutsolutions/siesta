@@ -138,7 +138,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 _ = stubRequest(resource, "GET").andReturn(200)
                 awaitNewData(resource().load())
 
-                // Although Apple's NSURLResponse.contentType defaults to text/plain,
+                // Although Apple's URLResponse.contentType defaults to text/plain,
                 // the correct default content type for HTTP is application/octet-stream.
                 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
 
@@ -761,7 +761,7 @@ private func dataAsString(_ data: Any?) -> String?
     guard let nsdata = data as? Data else
         { return nil }
 
-    return NSString(data: nsdata, encoding: String.Encoding.utf8.rawValue) as? String
+    return String(data: nsdata, encoding: String.Encoding.utf8)
     }
 
 private class DummyObject { }

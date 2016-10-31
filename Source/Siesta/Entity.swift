@@ -17,7 +17,7 @@ import Foundation
 public struct Entity<ContentType>
     {
     /**
-      The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
+      The data itself. When constructed from an HTTP response, it begins its life as `Data`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
 
       When using `content`, because you do not know what the server actually returned, write your code to handle it

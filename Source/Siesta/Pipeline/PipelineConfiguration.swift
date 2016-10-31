@@ -223,7 +223,7 @@ extension PipelineStage
 
   Stage keys are arbitrary, and have no intrinsic meaning. The descriptions of the default stages are for human
   comprehensibility, and Siesta does not enforce them in any way (e.g. it does not prevent you from configuring the
-  `rawData` stage to output something other than `NSData`).
+  `rawData` stage to output something other than `Data`).
 
   Because this is not an enum, you can add custom stages:
 

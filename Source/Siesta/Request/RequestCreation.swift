@@ -76,7 +76,7 @@ public extension Resource
     */
     public func request(
             _ method:        RequestMethod,
-            json:            NSJSONConvertible,
+            json:            JSONConvertible,
             contentType:     String = "application/json",
             requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request

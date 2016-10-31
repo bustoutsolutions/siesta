@@ -39,7 +39,7 @@ configure("/volcanos/*/status") {
 }
 ```
 
-…or a predicate that matches `NSURL`:
+…or a predicate that matches `URL`:
 
 ```swift
 configure(whenURLMatches: { $0.scheme == "https" }) {

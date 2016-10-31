@@ -538,7 +538,7 @@ public final class Resource: NSObject
 
       Note that the data you pass does _not_ go through the standard `ResponseTransformer` chain. You should pass data
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-      `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
+      `updatedContent` is a `Dictionary`, not `Data` containing encoded JSON.
 
       - SeeAlso: `overrideLocalContent(_:)`
     */
@@ -654,8 +654,8 @@ public final class Resource: NSObject
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
-public protocol NSJSONConvertible { }
-extension NSDictionary: NSJSONConvertible { }
-extension NSArray:      NSJSONConvertible { }
-extension Dictionary:   NSJSONConvertible { }
-extension Array:        NSJSONConvertible { }
+public protocol JSONConvertible { }
+extension NSDictionary: JSONConvertible { }
+extension NSArray:      JSONConvertible { }
+extension Dictionary:   JSONConvertible { }
+extension Array:        JSONConvertible { }

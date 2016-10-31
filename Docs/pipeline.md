@@ -51,8 +51,8 @@ service.configure {
 By default, Siesta preconfigures a `Service` with common transformers at the `parsing` stage:
 
 - `String` for `text/*`
-- `UIImage` for `image/*`
-- `NSJSONSerialization` for `*/json`
+- `UIImage` for `image/*` (`NSImage` on macOS)
+- `JSONSerialization` for `*/json`
 
 You can disable these for a whole service using the `useDefaultTransformers:` argument to [`Service.init(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)). You can also remove them for specific resources by clearing the `parsing` stage in your configuration:
 

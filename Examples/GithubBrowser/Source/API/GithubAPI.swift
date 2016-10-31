@@ -24,7 +24,7 @@ class _GithubAPI {
 
             $0.headers["Authorization"] = self.basicAuthHeader
 
-            // By default, Siesta parses JSON using NSJSONSerialization. This transformer wraps that with SwiftyJSON.
+            // By default, Siesta parses JSON using Foundation JSONSerialization. This transformer wraps that with SwiftyJSON.
 
             $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
 

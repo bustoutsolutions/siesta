@@ -22,7 +22,7 @@ import Foundation
 #endif
 
 /**
-  Transforms a response from a less parsed form (e.g. `NSData`) to a more parsed data structure. Responses pass through
+  Transforms a response from a less parsed form (e.g. `Data`) to a more parsed data structure. Responses pass through
   a chain of transformers before being sent to response hooks or observers.
 
   - Warning: Transformers run in a GCD background queue, and **must be thread-safe**. You’re in the clear if your
@@ -268,7 +268,7 @@ public enum InputTypeMismatchAction
 
 // MARK: Transformers for standard types
 
-/// Parses `NSData` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
+/// Parses `Data` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer<Data, String>(transformErrors: transformErrors)
@@ -280,28 +280,28 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
         guard encoding != UInt(kCFStringEncodingInvalidId) else
             { throw RequestError.Cause.InvalidTextEncoding(encodingName: charsetName) }
 
-        guard let string = NSString(data: $0.content, encoding: encoding) as? String else
+        guard let string = String(data: $0.content, encoding: String.Encoding(rawValue: encoding)) else
             { throw RequestError.Cause.UndecodableText(encodingName: charsetName) }
 
         return string
         }
     }
 
-/// Parses `NSData` content as JSON, outputting either a dictionary or an array.
+/// Parses `Data` content as JSON, outputting either a dictionary or an array.
 public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data, NSJSONConvertible>(transformErrors: transformErrors)
+    return ResponseContentTransformer<Data, JSONConvertible>(transformErrors: transformErrors)
         {
         let rawObj = try JSONSerialization.jsonObject(with: $0.content, options: [.allowFragments])
 
-        guard let jsonObj = rawObj as? NSJSONConvertible else
+        guard let jsonObj = rawObj as? JSONConvertible else
             { throw RequestError.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
 
         return jsonObj
         }
     }
 
-/// Parses `NSData` content as an image, yielding a `UIImage`.
+/// Parses `Data` content as an image, yielding a `UIImage`.
 public func ImageResponseTransformer(_ transformErrors: Bool = false) -> ResponseTransformer
     {
     return ResponseContentTransformer<Data, Image>(transformErrors: transformErrors)

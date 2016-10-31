@@ -15,8 +15,8 @@ import Foundation
   - recover from low memory situations with fewer reissued network requests, and
   - work offline.
 
-  Siesta uses any HTTP request caching provided by the networking layer (e.g. `NSURLCache`). Why another type of
-  caching, then? Because `NSURLCache` has a subtle but significant mismatch with the use cases above:
+  Siesta uses any HTTP request caching provided by the networking layer (e.g. `URLCache`). Why another type of
+  caching, then? Because `URLCache` has a subtle but significant mismatch with the use cases above:
 
   * The purpose of HTTP caching is to _prevent_ network requests, but what we need is a way to show old data _while
     issuing new requests_. This is the real deal-killer.
@@ -25,7 +25,7 @@ import Foundation
 
   * HTTP caching is [complex](http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html), and was designed around a set of
     goals relating to static assets and shared proxy caches — goals that look very different from reinflating Siesta
-    resources’ in-memory state. It’s difficult to guarantee that `NSURLCache` interacting with the HTTP spec will
+    resources’ in-memory state. It’s difficult to guarantee that `URLCache` interacting with the HTTP spec will
     exhibit the behavior we want; the logic involved is far more tangled and brittle than implementing a separate cache.
   * Precisely because of the complexity of these rules, APIs frequently disable all caching via headers.
   * HTTP caching does not preserve Siesta’s timestamps, which thwarts the staleness logic.

@@ -85,7 +85,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ### What it doesn’t do
 
-- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
+- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`URLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
 - It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor you prefer, or work directly with parsed JSON.
 
@@ -132,7 +132,7 @@ If you want to use the UI helpers:
 
     pod 'Siesta/UI', '>=1.0-rc.2'
 
-If you want to use Alamofire as your networking provider instead of `NSURLSession`:
+If you want to use Alamofire as your networking provider instead of Foundation’s `URLSession`:
 
     pod 'Siesta/Alamofire', '>=1.0-rc.2'
 
@@ -307,7 +307,7 @@ class RemoteImageView: UIImageView {
   
   var placeholderImage: UIImage?
   
-  var imageURL: NSURL? {
+  var imageURL: URL? {
     get { return imageResource?.url }
     set { imageResource = RemoteImageView.imageCache.resource(url: newValue) }
   }
@@ -342,9 +342,9 @@ There’s a more featureful version of `RemoteImageView` [already included with 
 
 Popular REST / networking frameworks have different primary goals:
 
-- [NSURLSession](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSURLSession_class/) is Apple’s standard iOS HTTP library (and is all most projects need).
+- [URLSession](https://developer.apple.com/reference/foundation/urlsession) is Apple’s standard iOS HTTP library (and is all most projects need).
 - [Siesta](https://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
-- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for NSURLSession.
+- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for URLSession.
 - [Moya](https://github.com/Moya/Moya) wraps Alamofire to hide HTTP URLs and parameters.
 - [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ↔ object model ↔ Core Data mapping.
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) is a modern-feeling Obj-C wrapper for Apple’s network APIs, plus a suite of related utilities.
@@ -355,7 +355,7 @@ Siesta has robust functionality, but does not attempt to solve everything. In pa
 
 With all that in mind, here is a capabilities comparison¹:
 
-|                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
+|                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | URLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
 | HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
 | Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
@@ -372,7 +372,7 @@ With all that in mind, here is a capabilities comparison¹:
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
 | Nontrivial lines of code²   | 2431               | 2347           | 13276         | 804       | 4033            | ?              |
-| Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
+| Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>

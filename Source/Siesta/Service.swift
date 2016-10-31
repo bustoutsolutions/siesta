@@ -41,7 +41,7 @@ open class Service: NSObject
           The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
           only `resource(absoluteURL:)` and `resource(baseURL:path:)` to acquire resources.
       - Parameter useDefaultTransformers:
-          If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
+          If true, include handling for JSON, text, and images. If false, leave all responses as `Data` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networking:
           The handler to use for networking. The default is `URLSession` with ephemeral session configuration. You can
@@ -263,7 +263,7 @@ open class Service: NSObject
       a transformer that passes the content through unmodified, but requires a specific type:
 
           service.configureTransformer("**") {
-            $0.content as NSJSONConvertible
+            $0.content as JSONConvertible
           }
 
       - SeeAlso: `configure(_:requestMethods:description:configurer:)`

@@ -52,7 +52,7 @@ Use a lower-level networking library.
 
 If you aren’t interested in holding a response entirely in memory, there’s little benefit to using Siesta. Siesta’s advantage over lower-level networking is the “parse once, share everywhere” nature of its observer architecture — which implies holding on to entire responses for reuse.
 
-#### How do I control the number of concurrent requests? SSL validation? NSURLCache options?
+#### How do I control the number of concurrent requests? SSL validation? URLCache options?
 
 Configure them in the underlying networking library you are using with Siesta.
 
