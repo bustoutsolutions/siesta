@@ -139,7 +139,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
     func repeated() -> Request
         {
-        return RequestChain(wrapping: wrappedRequest, whenCompleted: determineAction)
+        return wrappedRequest.repeated().chained(whenCompleted: determineAction)
         }
 
     // MARK: Dummy implementaiton of progress (for now)

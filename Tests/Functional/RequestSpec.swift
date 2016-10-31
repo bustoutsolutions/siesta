@@ -586,7 +586,28 @@ class RequestSpec: ResourceSpecBase
 
             describe("repeated()")
                 {
-                it("restarts the chain at the restart point")
+                it("repeats the wrapped request")
+                    {
+                    stubText("yo")
+
+                    let req = resource().request(.get).chained
+                        {
+                        if case .success(var entity) = $0.response
+                            {
+                            entity.content = "¡\(entity.text)!"
+                            return .useResponse(ResponseInfo(response: .success(entity)))
+                            }
+                        else
+                            { return .useThisResponse }
+                        }
+
+                    expectResult("¡yo!", for: req)
+
+                    stubText("oy")
+                    expectResult("¡oy!", for: req.repeated().start())
+                    }
+
+                it("reruns the chain’s logic afresh")
                     {
                     stubText("yo")
                     stubText("oy", method: "PATCH")
@@ -603,7 +624,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     expectResult("oy", for: req)
-                    expectResult("yo", for: req.repeated())
+                    expectResult("yo", for: req.repeated().start())
                     expectResult("oy", for: req, alreadyCompleted: true)
                     }
 
@@ -627,7 +648,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     expectResult("yo", for: req1)
-                    expectResult("yo", for: req0.repeated())
+                    expectResult("yo", for: req0.repeated().start())
                     expect(req0Count) == 2
                     expect(req1Count) == 1
                     }
