@@ -135,7 +135,7 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
     /**
       - Parameter mismatchAction:
           Determines what happens when the actual content coming down the pipeline doesn’t match `InputContentType`.
-          See `InputTypeMismatchAction` for options. The default is `.Error`.
+          See `InputTypeMismatchAction` for options. The default is `.error`.
       - Parameter transformErrors:
           When true, apply the transformation to `RequestError.content` (if present).
           When false, only parse success responses.

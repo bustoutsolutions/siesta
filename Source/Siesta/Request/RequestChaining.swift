@@ -30,9 +30,9 @@ extension Request
       - The chain waits for `underlyingRequest` to complete.
       - The response (no matter whether success or failure) gets passed to `whenCompleted`.
       - The `whenCompleted` closure examines that `response`, and returns a `RequestChainAction`.
-        - If it returns `.UseResponse` or `.UseThisResponse`, the chain is now done, and any hooks attached to
+        - If it returns `.useResponse` or `.useThisResponse`, the chain is now done, and any hooks attached to
           `chainedRequest` see that response.
-        - If it returns `.PassTo(newRequest)`, then the chain will wait for `newRequest` (which may itself be a chain),
+        - If it returns `.passTo(newRequest)`, then the chain will wait for `newRequest` (which may itself be a chain),
           and yield whatever repsonse it produces.
 
       Calling `cancel()` on `chainedRequest` cancels the currently executing request and immediately stops the chain,
