@@ -119,9 +119,10 @@ internal final class RequestChain: RequestWithDefaultCallbacks
 
     typealias ActionCallback = (ResponseInfo) -> RequestChainAction
 
-    func start()
+    func start() -> Self
         {
         wrappedRequest.start()
+        return self
         }
 
     var isCompleted: Bool
