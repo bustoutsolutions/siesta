@@ -94,7 +94,8 @@ public protocol Request: class
       - `Request.repeated()` does not automatically start the request it returns. This is to allow you to implement
         time-delayed retries.
     */
-    func start()
+    @discardableResult
+    func start() -> Self
 
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,

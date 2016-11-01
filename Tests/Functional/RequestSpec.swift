@@ -282,16 +282,14 @@ class RequestSpec: ResourceSpecBase
             it("sends a new network request on start()")
                 {
                 stubRepeatedRequest()
-                repeatedRequest().start()
-                awaitNewData(repeatedRequest())
+                awaitNewData(repeatedRequest().start())
                 }
 
             it("leaves the old request’s result intact")
                 {
                 _ = oldRequest()
                 stubRepeatedRequest("OK, maybe.")
-                repeatedRequest().start()
-                awaitNewData(repeatedRequest())
+                awaitNewData(repeatedRequest().start())
 
                 expectResonseText(oldRequest(), text: "No.")        // still has old result
                 expectResonseText(repeatedRequest(), text: "OK, maybe.") // has new result
@@ -303,8 +301,7 @@ class RequestSpec: ResourceSpecBase
                 oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
 
                 stubRepeatedRequest()
-                repeatedRequest().start()
-                awaitNewData(repeatedRequest())
+                awaitNewData(repeatedRequest().start())
 
                 expect(oldRequestHookCalls) == 1
                 }
@@ -321,8 +318,7 @@ class RequestSpec: ResourceSpecBase
                 service().invalidateConfiguration()
 
                 stubRepeatedRequest(flavorHeader: flavor)
-                repeatedRequest().start()
-                awaitNewData(repeatedRequest())
+                awaitNewData(repeatedRequest().start())
                 }
 
             it("repeats custom response mutation")
@@ -341,9 +337,7 @@ class RequestSpec: ResourceSpecBase
                 awaitNewData(req)
 
                 stubRepeatedRequest(flavorHeader: "mutant flavor 1")
-                let repeated = req.repeated()
-                repeated.start()
-                awaitNewData(repeated)
+                awaitNewData(req.repeated().start())
                 }
 
             it("does not repeat request decorations")
@@ -359,8 +353,7 @@ class RequestSpec: ResourceSpecBase
                     }
 
                 stubRepeatedRequest()
-                repeatedRequest().start()
-                awaitNewData(repeatedRequest())
+                awaitNewData(repeatedRequest().start())
 
                 expect(decorations) == 1
                 }
@@ -593,7 +586,28 @@ class RequestSpec: ResourceSpecBase
 
             describe("repeated()")
                 {
-                it("restarts the chain at the restart point")
+                it("repeats the wrapped request")
+                    {
+                    stubText("yo")
+
+                    let req = resource().request(.get).chained
+                        {
+                        if case .success(var entity) = $0.response
+                            {
+                            entity.content = "¡\(entity.text)!"
+                            return .useResponse(ResponseInfo(response: .success(entity)))
+                            }
+                        else
+                            { return .useThisResponse }
+                        }
+
+                    expectResult("¡yo!", for: req)
+
+                    stubText("oy")
+                    expectResult("¡oy!", for: req.repeated().start())
+                    }
+
+                it("reruns the chain’s logic afresh")
                     {
                     stubText("yo")
                     stubText("oy", method: "PATCH")
@@ -610,7 +624,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     expectResult("oy", for: req)
-                    expectResult("yo", for: req.repeated())
+                    expectResult("yo", for: req.repeated().start())
                     expectResult("oy", for: req, alreadyCompleted: true)
                     }
 
@@ -634,7 +648,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     expectResult("yo", for: req1)
-                    expectResult("yo", for: req0.repeated())
+                    expectResult("yo", for: req0.repeated().start())
                     expect(req0Count) == 2
                     expect(req1Count) == 1
                     }

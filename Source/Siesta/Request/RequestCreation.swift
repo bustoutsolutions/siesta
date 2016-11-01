@@ -204,7 +204,8 @@ private final class FailedRequest: RequestWithDefaultCallbacks
         return self
         }
 
-    func start() { }
+    func start() -> Self
+        { return self }
 
     func cancel()
         { DispatchQueue.mainThreadPrecondition() }

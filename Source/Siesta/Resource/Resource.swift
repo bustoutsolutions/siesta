@@ -262,8 +262,7 @@ public final class Resource: NSObject
         // Track the fully decorated request
 
         trackRequest(req, using: &allRequests)
-        req.start()
-        return req
+        return req.start()
         }
 
     /**
