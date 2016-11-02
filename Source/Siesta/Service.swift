@@ -175,7 +175,9 @@ open class Service: NSObject
           configure("/admin/​**") { $0.headers["Auth-token"] = token }
 
           let user = resource("/user/current")
-          configure(user) { $0.persistentCache = userProfileCache }
+          configure(user) {
+            $0.pipeline[.model].cacheUsing(userProfileCache)
+          }
 
       Configuration closures apply to any resource they match, in the order they were added, whether global or not. That
       means that you will usually want to add your global configuration first, then resource-specific configuration.
@@ -329,13 +331,13 @@ open class Service: NSObject
 
       For example, to make a header track the value of a modifiable property:
 
-          var flavor: String {
+          var flavor: String? {
             didSet { invalidateConfiguration() }
           }
 
           init() {
             super.init(baseURL: "https://api.github.com")
-            configure​ {
+            configure {
               $0.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
           }
@@ -402,8 +404,8 @@ open class Service: NSObject
     /**
       Wipes resources based on a URL pattern. For example:
 
-          service.wipeResources("/secure/​**")
-          service.wipeResources(profileResource)
+          service.wipeResources(matching: "/secure/​**")
+          service.wipeResources(matching: profileResource)
     */
     public final func wipeResources(matching pattern: ConfigurationPatternConvertible)
         {

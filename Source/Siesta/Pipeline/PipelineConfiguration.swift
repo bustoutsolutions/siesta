@@ -23,7 +23,7 @@ import Foundation
       service.configure {
         $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
         $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-        $0.pipeline[.model].cache = myRealmCache
+        $0.pipeline[.model].cacheUsing(myRealmCache)
       }
 
       service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -99,7 +99,9 @@ public struct Pipeline
 
       You can use this to prevent sensitive resources from being cached:
 
-          configure("/secret") { $0.pipeline.removeAllCaches() }
+          service.configure("/secret") {
+            $0.pipeline.removeAllCaches()
+          }
     */
     public mutating func removeAllCaches()
         {
@@ -164,7 +166,7 @@ public struct PipelineStage
       Removes all transformers configured for this pipeline stage. Use this to replace defaults or previously configured
       transformers for specific resources:
 
-          configure("/thinger/​*.raw") {
+          service.configure("/thinger/​*.raw") {
             $0.pipeline[.parsing].removeTransformers()
           }
     */

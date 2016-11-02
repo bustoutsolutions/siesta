@@ -199,7 +199,7 @@ override func viewDidLoad() {
 Use those notifications to populate your UI:
 
 ```swift
-func resourceChanged(resource: Resource, event: ResourceEvent) {
+func resourceChanged(_ resource: Resource, event: ResourceEvent) {
     nameLabel.text = resource.jsonDict["name"] as? String
     colorLabel.text = resource.jsonDict["favoriteColor"] as? String
 
@@ -246,7 +246,7 @@ func showProfile(profile: UserProfile?) {
 Trigger a staleness-aware, redundant-request-suppressing load when the view appears:
 
 ```swift
-override func viewWillAppear(animated: Bool) {
+override func viewWillAppear(_ animated: Bool) {
     MyAPI.resource("/profile").loadIfNeeded()
 }
 ```
@@ -259,7 +259,7 @@ Add a loading indicator:
 MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
-    self?.activityIndicator.hidden = !resource.isLoading
+    self?.activityIndicator.isHidden = !resource.isLoading
 }
 ```
 
@@ -279,12 +279,12 @@ class ProfileViewController: UIViewController, ResourceObserver {
             .addObserver(statusOverlay)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         MyAPI.resource("/profile").loadIfNeeded()
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         nameLabel.text  = resource.jsonDict["name"] as? String
         colorLabel.text = resource.jsonDict["favoriteColor"] as? String
     }
@@ -309,7 +309,7 @@ class RemoteImageView: UIImageView {
   
   var imageURL: URL? {
     get { return imageResource?.url }
-    set { imageResource = RemoteImageView.imageCache.resource(url: newValue) }
+    set { imageResource = RemoteImageView.imageCache.resource(absoluteURL: newValue) }
   }
   
   var imageResource: Resource? {
@@ -321,7 +321,8 @@ class RemoteImageView: UIImageView {
     didSet {
       imageResource?.loadIfNeeded()
       imageResource?.addObserver(owner: self) { [weak self] _ in
-        self?.image = imageResource?.typedContent(ifNone: placeholderImage)
+        self?.image = self?.imageResource?.typedContent(
+            ifNone: self?.placeholderImage)
       }
     }
   }

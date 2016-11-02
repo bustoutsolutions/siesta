@@ -173,7 +173,7 @@ public struct Entity<ContentType>
 
       extension TypedContentAccessors {
         var doorknob: UIDoorknob {
-          return typedContent(ifNone: placeholderKnob))
+          return typedContent(ifNone: placeholderKnob)
         }
       }
 
@@ -196,7 +196,7 @@ public extension TypedContentAccessors
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
       For example, if you expect the content to be a UIImage:
 
-          let image = typedContent(ifNone: UIImage(named: "placeholder.png"))
+          let image = resource.typedContent(ifNone: UIImage(named: "placeholder.png"))
 
       - Returns: The content if it is present _and_ can be downcast to a type matching both the `ifNone` parameter
                  and the inferred return type; otherwise returns `ifNone`.
@@ -219,7 +219,7 @@ public extension TypedContentAccessors
       A variant of `typedContent(ifNone:)` that infers the desired type entirely from context, and returns nil if the
       content is either not present or cannot be cast to that type. For example:
 
-          func showUser(user: User?) {
+          func showUser(_ user: User?) {
             ...
           }
 

@@ -21,7 +21,7 @@ extension Request
 
       In this pseudocode:
 
-          let chainedRequest = underlyingRequest.chain {
+          let chainedRequest = underlyingRequest.chained {
             response in …whenCompleted…
           }
 

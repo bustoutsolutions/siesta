@@ -137,7 +137,7 @@ Use this when the conveniences in the sections above are too limited. For exampl
 
 ```swift
 struct GithubErrorMessageExtractor: ResponseTransformer {
-  func process(response: Response) -> Response {
+  func process(_ response: Response) -> Response {
     switch response {
       case .success:
         return response

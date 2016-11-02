@@ -70,10 +70,10 @@ How then can you handle configuration that changes over time — an authenticati
 
 ```swift
 class MyAPI: Service {
-  var authToken: String {
+  var authToken: String? {
     didSet {
-      configure​ {  // 😱😱😱 WRONG 😱😱😱
-        $0.headers["X-HappyApp-Auth-Token"] = newValue
+      configure {  // 😱😱😱 WRONG 😱😱😱
+        $0.headers["X-HappyApp-Auth-Token"] = self.authToken
       }
     }
   }
@@ -91,15 +91,17 @@ Instead, the correct mechanism for altering configuration over time is:
 ```swift
 class MyAPI: Service {
   init() {
+    super.init()
+    
     // Call configure(…) only once during Service setup
-    configure​ {
+    configure {
       $0.headers["X-HappyApp-Auth-Token"] = self.authToken  // NB: If service isn’t a singleton, use weak self
     }
   }
 
   …
 
-  var authToken: String {
+  var authToken: String? {
     didSet {
       // Rerun existing configuration closure using new value
       invalidateConfiguration()
@@ -150,39 +152,46 @@ configure(
 Alternatively, suppose we persist the user’s password or other long-term auth, but the API uses auth tokens that expire periodically. The code below intercepts token expirations, automatically gets a fresh token, then repeats the newly authorized request — and makes that all appear to observers as if the initial request succeeded:
 
 ```swift
-var authToken: String?
+var authToken: String??
 
-service.configure("**", description: "auth token") {
-  $0.headers["X-Auth-Token"] = authToken      // Set the token header from a var that we can update
-  $0.decorateRequests {
-    refreshTokenOnAuthFailure($1)
+init() {
+  ...
+  configure("**", description: "auth token") {
+    if let authToken = self.authToken {
+      $0.headers["X-Auth-Token"] = authToken         // Set the token header from a var that we can update
+    }
+    $0.decorateRequests {
+      self.refreshTokenOnAuthFailure(request: $1)
+    }
   }
 }
 
 // Refactor away this pyramid of doom however you see fit
 func refreshTokenOnAuthFailure(request: Request) -> Request {
-  request.chained {
-      guard case .failure(let error) = $0.response   // Did request fail…
-        where error.httpStatusCode == 401 else {     // …because of expired token?
-          return .useThisResponse                    // If not, use the response we got.
-      }
-
-      return .passTo(createNewAuthToken().chained {  // If so, first request a new token, then:
-        if case .failure = $0.response {             // If token request failed…
-          return .useThisResponse                    // …report that error.
-        } else {
-          return .passTo(request.repeated())         // We have a new token! Repeat the original request.
-        }
-      })
+  return request.chained {
+    guard case .failure(let error) = $0.response,  // Did request fail…
+      error.httpStatusCode == 401 else {           // …because of expired token?
+        return .useThisResponse                    // If not, use the response we got.
     }
+
+    return .passTo(
+      self.createAuthToken().chained {             // If so, first request a new token, then:
+        if case .failure = $0.response {           // If token request failed…
+          return .useThisResponse                  // …report that error.
+        } else {
+          return .passTo(request.repeated())       // We have a new token! Repeat the original request.
+        }
+      }
+    )
   }
 }
 
-func createNewAuthToken() -> Request {
-  return tokenCreationResource.request(.post, json: userAuthData())
+func createAuthToken() -> Request {
+  return tokenCreationResource
+    .request(.post, json: userAuthData())
     .onSuccess {
-      authToken = $0.json["token"]                   // Store the new token, then…
-      service.invalidateConfiguration()              // …make future requests use it
+      self.authToken = $0.jsonDict["token"] as? String  // Store the new token, then…
+      self.invalidateConfiguration()                    // …make future requests use it
     }
   }
 }

@@ -99,12 +99,12 @@ public typealias RequestNetworkingCompletionCallback = (HTTPURLResponse?, Data?,
       Service(baseURL: "http://foo.bar", networking:
         URLSessionProvider(session:
             URLSession(configuration:
-                URLSessionConfiguration.defaultSessionConfiguration()))
+                URLSessionConfiguration.default)))
 
   …you can do this:
 
       Service(baseURL: "http://foo.bar", networking:
-        URLSessionConfiguration.defaultSessionConfiguration()))
+        URLSessionConfiguration.default)
 
   Siesta supports conversion of the following types into a networking provider:
 

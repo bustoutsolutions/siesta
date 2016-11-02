@@ -207,8 +207,10 @@ public final class Resource: NSObject
       - Parameter requestMutation:
           An optional callback to change details of the request before it is sent. For example:
 
-              request(.post) { underlyingRequest in
-                underlyingRequest.HTTPBody = imageData
+              resource.request(.post) {
+                underlyingRequest in
+
+                underlyingRequest.httpBody = imageData
                 underlyingRequest.addValue(
                   "image/png",
                   forHTTPHeaderField:
@@ -515,20 +517,25 @@ public final class Resource: NSObject
       but which still changes the state of the resource. You could handle this by initiating a refresh immedately
       after success:
 
-          resource.request(method: .post, json: ["name": "Fred"])
-            .success { _ in resource.load() }
+          resource.request(.post, json: ["name": "Fred"])
+            .onSuccess { _ in resource.load() }
 
       However, if you already _know_ the resulting state of the resource given a success response, you can avoid the
       second network call by updating the entity yourself:
 
-          resource.request(method: .post, json: ["name": "Fred"])
-            .success { partialEntity in
+          resource.request(.post, json: ["name": "Fred"])
+            .onSuccess {
+                partialEntity in
 
                 // Make a mutable copy of the current content
-                var updatedContent = resource.jsonDict
+                guard var updatedEntity = resource.latestData else {
+                    return  // No existing entity to update, so wait for next GET
+                }
 
                 // Do the incremental update
-                updatedContent["name"] = parialEntity["newName"]
+                var updatedContent = updatedEntity.jsonDict
+                updatedContent["name"] = partialEntity.jsonDict["newName"]
+                updatedEntity.content = updatedContent
 
                 // Make that the resource’s new entity
                 resource.overrideLocalContent(with: updatedEntity)

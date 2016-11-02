@@ -7,11 +7,11 @@
 Many authentication schemes involve acquiring a token and passing it in a header. Do this via [`Service.configure(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configure(_:requestMethods:description:configurer:)):
 
 ```swift
-class MyApi: Service {
+class MyAPI: Service {
     init() {
         ...
 
-        configure { $0.headers["Authorization"] = authHeader }
+        configure { $0.headers["Authorization"] = self.authHeader }
     }
 
     var authHeader: String? {
@@ -29,13 +29,13 @@ class MyApi: Service {
 When authentication succeeds:
 
 ```swift
-myAPI.authToken = authTokenFromSuccessfulAuthRequest
+myAPI.authHeader = authHeaderFromSuccessfulAuthRequest
 ```
 
 …and for logout:
 
 ```swift
-myAPI.authToken = nil
+myAPI.authHeader = nil
 ```
 
 ### Using OAuth
@@ -73,7 +73,7 @@ A more drastic measure is to forcibly cut off all requests that attempt to reach
 service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
   $0.decorateRequests {
     _ in Resource.failedRequest(
-      Error(
+      RequestError(
         userMessage: "Attempted to connect to unauthorized server",
         cause: UnauthorizedServer()))
   }
@@ -94,7 +94,7 @@ Create a custom `URLSessionDelegate` to handle the authentication challenge, the
 
 ```swift
 let certificatePinningSession = URLSession(
-    configuration: URLSessionConfiguration.ephemeralSessionConfiguration(),
+    configuration: URLSessionConfiguration.ephemeral,
     delegate: MyCustomSessionPinningDelegate(),
     delegateQueue: nil)
 let myService = Service(baseURL: "http://what.ever", networking: certificatePinningSession)

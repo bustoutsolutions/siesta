@@ -107,13 +107,13 @@ public extension RequestError
       (2) you can turn that one specific error into a success by adding a transformer:
 
           configure {
-            $0.responseTransformers.add(GarbledResponseHandler())
+            $0.pipeline[.parsing].add(GarbledResponseHandler())
           }
 
           ...
 
           struct GarbledResponseHandler: ResponseTransformer {
-            func process(response: Response) -> Response {
+            func process(_ response: Response) -> Response {
               switch response {
                 case .success:
                   return response
