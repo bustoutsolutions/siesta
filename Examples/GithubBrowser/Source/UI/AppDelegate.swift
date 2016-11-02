@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // because Apple’s HI guidelines say not to display it for brief requests.)
         
         RemoteImageView.defaultImageService.configure {
-            $0.showRequestsWithNetworkActivityIndicator()
+            $0.useNetworkActivityIndicator()
         }
         
         // Github auto login so that local testing doesn’t hit API rate limits

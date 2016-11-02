@@ -32,20 +32,20 @@ extension Configuration
       entire service:
       
           service.configure {
-            $0.showRequestsWithNetworkActivityIndicator()
+            $0.useNetworkActivityIndicator()
           }
 
       …or only to carefully selected large resources, if you are looking to follow [Apple’s Human Interface guidelines
       for the indicator](https://developer.apple.com/ios/human-interface-guidelines/ui-controls/progress-indicators/#network-activity-indicators):
 
           service.configure("/downloads/​**") {
-            $0.showRequestsWithNetworkActivityIndicator()
+            $0.useNetworkActivityIndicator()
           }
           service.configure("/profile/avatar", requestMethods: [.post, .put]) {
-            $0.showRequestsWithNetworkActivityIndicator()
+            $0.useNetworkActivityIndicator()
           }
     */
-    public mutating func showRequestsWithNetworkActivityIndicator()
+    public mutating func useNetworkActivityIndicator()
         {
         decorateRequests
             {
