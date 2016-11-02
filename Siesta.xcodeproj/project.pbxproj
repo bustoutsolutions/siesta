@@ -589,9 +589,9 @@
 				DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */,
 				DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */,
 				DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */,
+				00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */,
 				DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */,
 				DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */,
-				00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */,
 			);
 			name = "UI (iOS)";
 			path = SiestaUI;

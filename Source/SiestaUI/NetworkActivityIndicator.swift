@@ -19,46 +19,28 @@ private var requestsInProgress = 0
         }
     }
 
-extension Service
-    {
-    
-    private func requestStarted()
-        {
-        requestsInProgress += 1
-        }
-    
-    private func requestCompleted()
-        {
-        requestsInProgress -= 1
-        }
+private func requestStarted()
+    { requestsInProgress += 1 }
 
-    /**
-     On each request we will show the network activity indicator.
-     */
-    public func showRequestsWithNetworkActivityIndicator()
-        {
-        configure
-            {
-            $0.decorateRequests
-                {
-                res, req in
-                
-                self.requestStarted()
-                req.onCompletion { _ in self.requestCompleted() }
-                
-                return req
-                }
-            }
-        }
-    }
+private func requestCompleted()
+    { requestsInProgress -= 1 }
 
 extension Configuration
     {
     /**
      On each request we will show the network activity indicator.
      */
-    public func showRequestsWithNetworkActivityIndicator()
+    public mutating func showRequestsWithNetworkActivityIndicator()
         {
-            //configure
+        decorateRequests
+            {
+            resource, request in
+            
+            requestStarted()
+            request.onCompletion
+                { _ in requestCompleted() }
+            
+            return request
+            }
         }
     }
