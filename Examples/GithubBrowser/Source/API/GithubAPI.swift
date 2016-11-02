@@ -73,10 +73,6 @@ class _GithubAPI {
         // If you do apply a path-based mapping like the ones above, then any request for that path that does not return
         // the expected type becomes an error. For example, "/users/foo" _must_ return a JSON response because that's
         // what the User(json:) expects.
-        
-        service.configure("/*") {
-            $0.showRequestsWithNetworkActivityIndicator() // shows the ios network activity indicator on all requests.
-        }
     }
 
     // MARK: Authentication
