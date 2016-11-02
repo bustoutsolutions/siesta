@@ -9,7 +9,7 @@
 import Siesta
 import UIKit
 
-/// Set a variable to count the requests and then we know when to show the network activity indicator.
+// Tracks the number of requests in progress across all Siesta services
 private var requestsInProgress = 0
     {
     didSet
@@ -28,8 +28,23 @@ private func requestCompleted()
 extension Configuration
     {
     /**
-     On each request we will show the network activity indicator.
-     */
+      Causes requests to automatically show and hide the iOS network activity indicator. You can attach this to an
+      entire service:
+      
+          service.configure {
+            $0.showRequestsWithNetworkActivityIndicator()
+          }
+
+      …or only to carefully selected large resources, if you are looking to follow [Apple’s Human Interface guidelines
+      for the indicator](https://developer.apple.com/ios/human-interface-guidelines/ui-controls/progress-indicators/#network-activity-indicators):
+
+          service.configure("/downloads/​**") {
+            $0.showRequestsWithNetworkActivityIndicator()
+          }
+          service.configure("/profile/avatar", requestMethods: [.post, .put]) {
+            $0.showRequestsWithNetworkActivityIndicator()
+          }
+    */
     public mutating func showRequestsWithNetworkActivityIndicator()
         {
         decorateRequests
