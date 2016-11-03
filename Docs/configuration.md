@@ -106,7 +106,7 @@ class MyAPI: Service {
       // Rerun existing configuration closure using new value
       invalidateConfiguration()
 
-      // Wipe any Siesta’s cached state if auth token changes
+      // Wipe any cached state if auth token changes
       wipeResources()
     }
   }
@@ -145,7 +145,6 @@ configure(
       }
     }
   }
-
 }
 ```
 

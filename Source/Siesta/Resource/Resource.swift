@@ -528,17 +528,17 @@ public final class Resource: NSObject
                 partialEntity in
 
                 // Make a mutable copy of the current content
-                guard var updatedEntity = resource.latestData else {
-                    return  // No existing entity to update, so wait for next GET
+                guard resource.latestData != nil else {
+                    resource.load()  // No existing entity to update, so refresh
+                    return
                 }
 
                 // Do the incremental update
-                var updatedContent = updatedEntity.jsonDict
+                var updatedContent = resource.jsonDict
                 updatedContent["name"] = partialEntity.jsonDict["newName"]
-                updatedEntity.content = updatedContent
 
                 // Make that the resource’s new entity
-                resource.overrideLocalContent(with: updatedEntity)
+                resource.overrideLocalContent(with: updatedContent)
             }
 
       Use this technique with caution!

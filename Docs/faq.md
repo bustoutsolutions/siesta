@@ -70,6 +70,6 @@ In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta
 
 #### How do I ask a question that isn’t here?
 
-Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+Post your question to [Stack Overflow](https://stackoverflow.com/questions/tagged/siesta-swift) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
 
 If your question is short, you can also Tweet it to us at [@siestaframework](https://twitter.com/siestaframework).
