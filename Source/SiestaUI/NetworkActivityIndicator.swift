@@ -30,7 +30,7 @@ extension Configuration
     /**
       Causes requests to automatically show and hide the iOS network activity indicator. You can attach this to an
       entire service:
-      
+
           service.configure {
             $0.useNetworkActivityIndicator()
           }
@@ -50,11 +50,11 @@ extension Configuration
         decorateRequests
             {
             resource, request in
-            
+
             requestStarted()
             request.onCompletion
                 { _ in requestCompleted() }
-            
+
             return request
             }
         }

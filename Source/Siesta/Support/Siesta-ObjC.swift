@@ -336,10 +336,10 @@ public extension Resource
     private func _objc_wrapJSONRequest(
             _ methodString: String,
             _ maybeJson: NSObject?,
-            closure: (RequestMethod, NSJSONConvertible) -> Request)
+            closure: (RequestMethod, JSONConvertible) -> Request)
         -> _objc_Request
         {
-        guard let json = maybeJson as? NSJSONConvertible else
+        guard let json = maybeJson as? JSONConvertible else
             {
             return _objc_Request(
                 Resource.failedRequest(

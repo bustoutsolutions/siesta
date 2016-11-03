@@ -11,7 +11,7 @@ The app does a live search as you type. The user’s repo list comes from a URL 
 This cascade of API requests and responses poses several problems:
 
 - **Race condition:** There’s no guarantee that responses arrive in the order requests were sent. If you type `AB`, the app sends requests for `/users/A`, `/users/A/repos`, `/users/AB`, and `/users/AB/repos`. If the app naively populates the UI with whatever response arrived last, the UI could for example end up showing user AB’s profile but user A’s repositories. Instead, we have to make sure that every received response corresponds to the thing the UI currently wants to show. This is a tricky — or at the very least annoying — problem to solve with standard old response callbacks.
-- **Redundant requests:** We don’t want the app to re-request a username that the user already typed. In theory, `NSURLCache` solves this; in practice, you’ll end up fighting hard with the server response headers and the cache’s settings to get good behavior.
+- **Redundant requests:** We don’t want the app to re-request a username that the user already typed. In theory, `URLCache` solves this; in practice, you’ll end up fighting hard with the server response headers and the cache’s settings to get good behavior.
 - **Unnecessary requests:** As the user types, we don’t want to fill the request pipeline with requests whose results we’ll never use. What want want is to cancel a request after a short delay — but only if the request is no longer needed! A rapid backspace shouldn’t cause a double request.
 - **Wiping cache and UI on logout:** We don’t want bits of sensitive information lingering in some view after the user has logged out.
 

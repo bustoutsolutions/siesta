@@ -17,7 +17,7 @@ import Foundation
 public struct Entity<ContentType>
     {
     /**
-      The data itself. When constructed from an HTTP response, it begins its life as `NSData`, but may become any type
+      The data itself. When constructed from an HTTP response, it begins its life as `Data`, but may become any type
       of object after running though the service’s `ResponseTransformer` chain.
 
       When using `content`, because you do not know what the server actually returned, write your code to handle it
@@ -71,7 +71,7 @@ public struct Entity<ContentType>
       All HTTP headers sent with this entity. The keys are in lower case (and will be converted to lowercase if you
       mutate the dictionary).
 
-      - See also: `header(_:)`
+      - See also: `header(forKey:)`
     */
     public var headers: [String:String]
         {
@@ -104,7 +104,7 @@ public struct Entity<ContentType>
     /**
       For creating ad hoc data locally.
 
-      - SeeAlso: `Resource.overrideLocalData(_:)`
+      - SeeAlso: `Resource.overrideLocalData(with:)`
     */
     public init(
             content: ContentType,
@@ -173,7 +173,7 @@ public struct Entity<ContentType>
 
       extension TypedContentAccessors {
         var doorknob: UIDoorknob {
-          return typedContent(ifNone: placeholderKnob))
+          return typedContent(ifNone: placeholderKnob)
         }
       }
 
@@ -196,7 +196,7 @@ public extension TypedContentAccessors
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
       For example, if you expect the content to be a UIImage:
 
-          let image = typedContent(ifNone: UIImage(named: "placeholder.png"))
+          let image = resource.typedContent(ifNone: UIImage(named: "placeholder.png"))
 
       - Returns: The content if it is present _and_ can be downcast to a type matching both the `ifNone` parameter
                  and the inferred return type; otherwise returns `ifNone`.
@@ -219,7 +219,7 @@ public extension TypedContentAccessors
       A variant of `typedContent(ifNone:)` that infers the desired type entirely from context, and returns nil if the
       content is either not present or cannot be cast to that type. For example:
 
-          func showUser(user: User?) {
+          func showUser(_ user: User?) {
             ...
           }
 

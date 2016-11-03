@@ -60,7 +60,7 @@ extension Resource
 
           let href = resource.jsonDict["owner"] as? String  // href is an optional
           if let ownerResource = resource.optionalRelative(href) {
-            // ...
+            ...
           }
     */
     public func optionalRelative(_ href: String?) -> Resource?

@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
 
                    ## What it doesn’t do
 
-                   - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
+                   - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`URLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
                    - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
                    - It **doesn’t do response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.
 

@@ -55,7 +55,7 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "repo", for: indexPath)
         if let cell = cell as? RepositoryTableViewCell {
-            cell.repository = repositories[(indexPath as NSIndexPath).row]
+            cell.repository = repositories[(indexPath as IndexPath).row]
         }
         return cell
     }

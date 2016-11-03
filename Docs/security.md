@@ -7,11 +7,11 @@
 Many authentication schemes involve acquiring a token and passing it in a header. Do this via [`Service.configure(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/configure(_:requestMethods:description:configurer:)):
 
 ```swift
-class MyApi: Service {
+class MyAPI: Service {
     init() {
         ...
 
-        configure { $0.headers["Authorization"] = authHeader }
+        configure { $0.headers["Authorization"] = self.authHeader }
     }
 
     var authHeader: String? {
@@ -29,13 +29,13 @@ class MyApi: Service {
 When authentication succeeds:
 
 ```swift
-myAPI.authToken = authTokenFromSuccessfulAuthRequest
+myAPI.authHeader = authHeaderFromSuccessfulAuthRequest
 ```
 
 …and for logout:
 
 ```swift
-myAPI.authToken = nil
+myAPI.authHeader = nil
 ```
 
 ### Using OAuth
@@ -73,7 +73,7 @@ A more drastic measure is to forcibly cut off all requests that attempt to reach
 service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
   $0.decorateRequests {
     _ in Resource.failedRequest(
-      Error(
+      RequestError(
         userMessage: "Attempted to connect to unauthorized server",
         cause: UnauthorizedServer()))
   }
@@ -82,26 +82,26 @@ service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
 
 ## TLS Certificate and Public Key Pinning
 
-Siesta relies on the underlying networking provider, which by default is `NSURLSession`, to support [SSL public key pinning](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F). There are several ways to integrate this with Siesta.
+Siesta relies on the underlying networking provider, which by default is `URLSession`, to support [SSL public key pinning](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#What_Is_Pinning.3F). There are several ways to integrate this with Siesta.
 
 ### Using TrustKit
 
-[TrustKit](https://github.com/datatheorem/TrustKit) provides certificate pinning by swizzling new behavior into `NSURLSession`, and thus requires no additional Siesta configuration.
+[TrustKit](https://github.com/datatheorem/TrustKit) provides certificate pinning by swizzling new behavior into `URLSession`, and thus requires no additional Siesta configuration.
 
-### Using NSURLSessionDelegate
+### Using URLSessionDelegate
 
-Create a custom `NSURLSessionDelegate` to handle the authentication challenge, then configure an `NSURLSession` with your custom `NSURLSessionDelegate` — all exactly as you would without Siesta. Then pass this `NSURLSession` as your networking provider when you create the Siesta service:
+Create a custom `URLSessionDelegate` to handle the authentication challenge, then configure an `URLSession` with your custom `URLSessionDelegate` — all exactly as you would without Siesta. Then pass this `URLSession` as your networking provider when you create the Siesta service:
 
 ```swift
-let certificatePinningSession = NSURLSession(
-    configuration: NSURLSessionConfiguration.ephemeralSessionConfiguration(),
+let certificatePinningSession = URLSession(
+    configuration: URLSessionConfiguration.ephemeral,
     delegate: MyCustomSessionPinningDelegate(),
     delegateQueue: nil)
 let myService = Service(baseURL: "http://what.ever", networking: certificatePinningSession)
 ```
 
 For example code, see the [OWASP guide](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning#iOS
-). That example is for the older `NSURLConnection` instead of `NSURLSession`, but the code is very similar.
+). That example is for the older `URLConnection` instead of `URLSession`, but the code is very similar.
 
 ### Using Alamofire
 

@@ -32,12 +32,12 @@ class ProfileViewController: UIViewController, ResourceObserver {
         statusOverlay.positionToCoverParent()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         MyAPI.profile.loadIfNeeded()
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         let json = JSON(resource.jsonDict)
         nameLabel.text = json["name"].string
         favoriteColorLabel.text = json["favoriteColor"].string

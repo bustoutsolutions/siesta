@@ -44,7 +44,7 @@ class ServiceSpec: SiestaSpec
                 expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
                 }
 
-            it("supports baseURL as NSURL")
+            it("supports baseURL as URL")
                 {
                 let service = Service(baseURL: URL(string: "https://frotzle.zing"))
                 expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
@@ -161,7 +161,7 @@ class ServiceSpec: SiestaSpec
                     == "http://foo.com/bar"
                 }
 
-            it("returns a resource with the given NSURL")
+            it("returns a resource with the given URL")
                 {
                 expect(service().resource(absoluteURL: URL(string: "http://foo.com/bar")).url.absoluteString)
                      == "http://foo.com/bar"

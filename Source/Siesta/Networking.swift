@@ -39,8 +39,8 @@ public protocol NetworkingProvider: NetworkingProviderConvertible
 /**
   Network handling for a single request. Created by a `NetworkingProvider`. Implementations have three responsibilities:
 
-  * start the request when `start(_:)` is called,
-  * call the closure passed to `start(_:)` is called when the request is complete, and
+  * start the request on creation,
+  * call the closure passed to `NetworkingProvider.startRequest(...)` when the request is complete, and
   * optionally support cancelling requests in progress.
 */
 public protocol RequestNetworking
@@ -99,12 +99,12 @@ public typealias RequestNetworkingCompletionCallback = (HTTPURLResponse?, Data?,
       Service(baseURL: "http://foo.bar", networking:
         URLSessionProvider(session:
             URLSession(configuration:
-                URLSessionConfiguration.defaultSessionConfiguration()))
+                URLSessionConfiguration.default)))
 
   …you can do this:
 
       Service(baseURL: "http://foo.bar", networking:
-        URLSessionConfiguration.defaultSessionConfiguration()))
+        URLSessionConfiguration.default)
 
   Siesta supports conversion of the following types into a networking provider:
 

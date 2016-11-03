@@ -52,7 +52,7 @@ Use a lower-level networking library.
 
 If you aren’t interested in holding a response entirely in memory, there’s little benefit to using Siesta. Siesta’s advantage over lower-level networking is the “parse once, share everywhere” nature of its observer architecture — which implies holding on to entire responses for reuse.
 
-#### How do I control the number of concurrent requests? SSL validation? NSURLCache options?
+#### How do I control the number of concurrent requests? SSL validation? URLCache options?
 
 Configure them in the underlying networking library you are using with Siesta.
 
@@ -70,6 +70,6 @@ In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta
 
 #### How do I ask a question that isn’t here?
 
-Post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+Post your question to [Stack Overflow](https://stackoverflow.com/questions/tagged/siesta-swift) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
 
 If your question is short, you can also Tweet it to us at [@siestaframework](https://twitter.com/siestaframework).

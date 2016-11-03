@@ -43,7 +43,7 @@ public enum RequestMethod: String
   Note that this represents only a _single request_, whereas `ResourceObserver`s receive notifications about
   _all_ resource load requests, no matter who initiated them. Note also that these hooks are available for _all_
   requests, whereas `ResourceObserver`s only receive notifications about changes triggered by `load()`, `loadIfNeeded()`,
-  and `overrideLocalData(_:)`.
+  and `overrideLocalData(...)`.
 
   `Request` guarantees that it will call any given callback _at most_ one time.
 
@@ -85,11 +85,11 @@ public protocol Request: class
       You rarely need to call this method directly, because most requests are started for you automatically:
 
       - Any request you receive from `Resource.request(...)` or `Resource.load()` is already started.
-      - Requests start automatically when you use `RequestChainAction.PassTo` in a chain.
+      - Requests start automatically when you use `RequestChainAction.passTo` in a chain.
 
       When do you need this method, then? It’s rare. There are two situations:
 
-      - `Configuration.decorateRequests` can defer a request by hanging on to it while returning a different request.
+      - `Configuration.decorateRequests(...)` can defer a request by hanging on to it while returning a different request.
         You can use this method to manually start a request that was deferred this way.
       - `Request.repeated()` does not automatically start the request it returns. This is to allow you to implement
         time-delayed retries.

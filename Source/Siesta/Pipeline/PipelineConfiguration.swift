@@ -23,7 +23,7 @@ import Foundation
       service.configure {
         $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
         $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-        $0.pipeline[.model].cache = myRealmCache
+        $0.pipeline[.model].cacheUsing(myRealmCache)
       }
 
       service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -32,8 +32,8 @@ import Foundation
 
   By default, Siesta pipelines start with parsers for common data types (JSON, text, image) configured at the
   `PipelineStageKey.parsing` stage. You can remove these default transformers for individual configurations using calls
-  such as `clear()` and `removeAllTransformers()`, or you can disable these default parsers entirely by passing
-  `useDefaultTransformers: false` when creating a `Service`.
+  such as `clear()` and `PipelineStage.removeAllTransformers()`, or you can disable these default parsers entirely by
+  passing `useDefaultTransformers: false` when creating a `Service`.
 
   Services do not have any persistent caching by default.
 */
@@ -99,7 +99,9 @@ public struct Pipeline
 
       You can use this to prevent sensitive resources from being cached:
 
-          configure("/secret") { $0.pipeline.removeAllCaches() }
+          service.configure("/secret") {
+            $0.pipeline.removeAllCaches()
+          }
     */
     public mutating func removeAllCaches()
         {
@@ -164,7 +166,7 @@ public struct PipelineStage
       Removes all transformers configured for this pipeline stage. Use this to replace defaults or previously configured
       transformers for specific resources:
 
-          configure("/thinger/​*.raw") {
+          service.configure("/thinger/​*.raw") {
             $0.pipeline[.parsing].removeTransformers()
           }
     */
@@ -223,7 +225,7 @@ extension PipelineStage
 
   Stage keys are arbitrary, and have no intrinsic meaning. The descriptions of the default stages are for human
   comprehensibility, and Siesta does not enforce them in any way (e.g. it does not prevent you from configuring the
-  `rawData` stage to output something other than `NSData`).
+  `rawData` stage to output something other than `Data`).
 
   Because this is not an enum, you can add custom stages:
 

@@ -207,8 +207,10 @@ public final class Resource: NSObject
       - Parameter requestMutation:
           An optional callback to change details of the request before it is sent. For example:
 
-              request(.post) { underlyingRequest in
-                underlyingRequest.HTTPBody = imageData
+              resource.request(.post) {
+                underlyingRequest in
+
+                underlyingRequest.httpBody = imageData
                 underlyingRequest.addValue(
                   "image/png",
                   forHTTPHeaderField:
@@ -379,7 +381,7 @@ public final class Resource: NSObject
       to update `latestData` or `latestError` and notify observers just as `load()` would, but:
 
       - you need to use a request method other than GET,
-      - you need to set headers or other request options, but just for this one request (so that `Service.configure`
+      - you need to set headers or other request options, but just for this one request (so that `Service.configure(...)`
         won’t work), or
       - for some arcane reason, you want a request for a _different_ resource to update the state of this one.
 
@@ -515,32 +517,37 @@ public final class Resource: NSObject
       but which still changes the state of the resource. You could handle this by initiating a refresh immedately
       after success:
 
-          resource.request(method: .post, json: ["name": "Fred"])
-            .success { _ in resource.load() }
+          resource.request(.post, json: ["name": "Fred"])
+            .onSuccess { _ in resource.load() }
 
       However, if you already _know_ the resulting state of the resource given a success response, you can avoid the
       second network call by updating the entity yourself:
 
-          resource.request(method: .post, json: ["name": "Fred"])
-            .success { partialEntity in
+          resource.request(.post, json: ["name": "Fred"])
+            .onSuccess {
+                partialEntity in
 
                 // Make a mutable copy of the current content
-                var updatedContent = resource.jsonDict
+                guard resource.latestData != nil else {
+                    resource.load()  // No existing entity to update, so refresh
+                    return
+                }
 
                 // Do the incremental update
-                updatedContent["name"] = parialEntity["newName"]
+                var updatedContent = resource.jsonDict
+                updatedContent["name"] = partialEntity.jsonDict["newName"]
 
                 // Make that the resource’s new entity
-                resource.overrideLocalContent(updatedEntity)
+                resource.overrideLocalContent(with: updatedContent)
             }
 
       Use this technique with caution!
 
       Note that the data you pass does _not_ go through the standard `ResponseTransformer` chain. You should pass data
       as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-      `updatedContent` is a `Dictionary`, not `NSData` containing encoded JSON.
+      `updatedContent` is a `Dictionary`, not `Data` containing encoded JSON.
 
-      - SeeAlso: `overrideLocalContent(_:)`
+      - SeeAlso: `overrideLocalContent(with:)`
     */
     public func overrideLocalData(with entity: Entity<Any>)
         { receiveNewData(entity, source: .localOverride) }
@@ -564,8 +571,8 @@ public final class Resource: NSObject
 
       Use this if you know the current content is stale, but don’t want to trigger a network request right away.
 
-      Any update to `latestData` or `latestError` — including a call to `overrideLocalData()` or
-      `overrideLocalContent()` — clears the invalidation.
+      Any update to `latestData` or `latestError` — including a call to `overrideLocalData(...)` or
+      `overrideLocalContent(...)` — clears the invalidation.
 
       - SeeAlso: `wipe()`
     */
@@ -654,8 +661,8 @@ public final class Resource: NSObject
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
-public protocol NSJSONConvertible { }
-extension NSDictionary: NSJSONConvertible { }
-extension NSArray:      NSJSONConvertible { }
-extension Dictionary:   NSJSONConvertible { }
-extension Array:        NSJSONConvertible { }
+public protocol JSONConvertible { }
+extension NSDictionary: JSONConvertible { }
+extension NSArray:      JSONConvertible { }
+extension Dictionary:   JSONConvertible { }
+extension Array:        JSONConvertible { }

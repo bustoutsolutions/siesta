@@ -19,7 +19,7 @@ import Foundation
 
   You can optionally specify a `baseURL`, which allows you to get endpoints by path: `service.resource("/foo")`.
   Specifying a `baseURL` does _not_ limit the service only to subpaths of that URL. Its one and only purpose is to be
-  the starting point for `resource(_:)`
+  the starting point for `resource(_:)`.
 
   Note that `baseURL` is only a convenience, and is optional.
   If you want to group multiple base URLs in a single `Service` instance, use `resource(baseURL:path:)`.
@@ -41,7 +41,7 @@ open class Service: NSObject
           The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
           only `resource(absoluteURL:)` and `resource(baseURL:path:)` to acquire resources.
       - Parameter useDefaultTransformers:
-          If true, include handling for JSON, text, and images. If false, leave all responses as `NSData` (unless you
+          If true, include handling for JSON, text, and images. If false, leave all responses as `Data` (unless you
           add your own `ResponseTransformer` using `configure(...)`).
       - Parameter networking:
           The handler to use for networking. The default is `URLSession` with ephemeral session configuration. You can
@@ -175,7 +175,9 @@ open class Service: NSObject
           configure("/admin/​**") { $0.headers["Auth-token"] = token }
 
           let user = resource("/user/current")
-          configure(user) { $0.persistentCache = userProfileCache }
+          configure(user) {
+            $0.pipeline[.model].cacheUsing(userProfileCache)
+          }
 
       Configuration closures apply to any resource they match, in the order they were added, whether global or not. That
       means that you will usually want to add your global configuration first, then resource-specific configuration.
@@ -198,9 +200,9 @@ open class Service: NSObject
           for global config and more fine-grained matching
       - SeeAlso: `invalidateConfiguration()`
       - SeeAlso: For more details about the rules of pattern matching:
-        - `String.configurationPattern(_:)`
-        - `Resource.configurationPattern(_:)`
-        - `NSRegularExpression.configurationPattern(_:)`
+        - `String.configurationPattern(for:)`
+        - `Resource.configurationPattern(for:)`
+        - `NSRegularExpression.configurationPattern(for:)`
     */
     public final func configure(
             _ pattern: ConfigurationPatternConvertible,
@@ -217,7 +219,7 @@ open class Service: NSObject
 
     /**
       Applies configuration to resources whose URL matches an arbitrary predicate.
-      Use this if the wildcards in the `urlPattern` flavor of `configure()` aren’t robust enough.
+      Use this if the wildcards in other flavor of `configure(...)` aren’t robust enough.
 
       If you do not supply a predicate, then the configuration applies globally to all resources in this service.
 
@@ -247,7 +249,7 @@ open class Service: NSObject
 
     /**
       Transforms responses by passing their content through the given closure. This is a shortcut for adding a
-      `ResponseContentTransformer` to the `Configuration.responseTransformers`.
+      `ResponseContentTransformer` to the `Configuration.pipeline`.
 
       Useful for transformers that create model objects. For example:
 
@@ -263,7 +265,7 @@ open class Service: NSObject
       a transformer that passes the content through unmodified, but requires a specific type:
 
           service.configureTransformer("**") {
-            $0.content as NSJSONConvertible
+            $0.content as JSONConvertible
           }
 
       - SeeAlso: `configure(_:requestMethods:description:configurer:)`
@@ -329,13 +331,13 @@ open class Service: NSObject
 
       For example, to make a header track the value of a modifiable property:
 
-          var flavor: String {
+          var flavor: String? {
             didSet { invalidateConfiguration() }
           }
 
           init() {
             super.init(baseURL: "https://api.github.com")
-            configure​ {
+            configure {
               $0.headers["Flavor-of-the-month"] = self.flavor  // NB: use weak self if service isn’t a singleton
             }
           }
@@ -402,8 +404,8 @@ open class Service: NSObject
     /**
       Wipes resources based on a URL pattern. For example:
 
-          service.wipeResources("/secure/​**")
-          service.wipeResources(profileResource)
+          service.wipeResources(matching: "/secure/​**")
+          service.wipeResources(matching: profileResource)
     */
     public final func wipeResources(matching pattern: ConfigurationPatternConvertible)
         {

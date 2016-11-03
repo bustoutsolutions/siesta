@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Allows interchangeable use of `String` and `NSURL` in calls that need a URL.
+/// Allows interchangeable use of `String` and `URL` in calls that need a URL.
 public protocol URLConvertible
     {
     /// The URL represented by this value.

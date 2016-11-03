@@ -16,8 +16,8 @@ import Foundation
   one specific resource).
 
   - SeeAlso: `Service.configure(...)`
-  - SeeAlso: `String.configurationPattern(_:)`
-  - SeeAlso: `Resource.configurationPattern(_:)`
+  - SeeAlso: `String.configurationPattern(for:)`
+  - SeeAlso: `Resource.configurationPattern(for:)`
 */
 public protocol ConfigurationPatternConvertible
     {
@@ -93,7 +93,7 @@ extension NSRegularExpression: ConfigurationPatternConvertible
     /**
       Matches URLs if this regular expression matches any substring of the URL’s full, absolute form.
 
-      Note that, unlike the simpler wildcard form of `String.configurationPattern(_:)`, the regular expression is _not_
+      Note that, unlike the simpler wildcard form of `String.configurationPattern(for:)`, the regular expression is _not_
       matched relative to the Service’s base URL. The match is performed against the full URL: scheme, host, path,
       query string and all.
 

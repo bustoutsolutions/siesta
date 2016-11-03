@@ -31,7 +31,7 @@ public protocol ResourceObserver
 
     /**
       Called when this observer stops observing a resource, if the observer itself still exists.
-      Use for making `removeObservers(ownedBy:)` trigger other cleanup.
+      Use for making `Resource.removeObservers(ownedBy:)` trigger other cleanup.
 
       - Warning: This method is **not** called for self-owned observers when the observer itself being deallocated is
           what caused it to stop observing. This is because there is no way for Siesta to know that observer is _about_
@@ -39,9 +39,9 @@ public protocol ResourceObserver
 
           For example:
 
-              var myObserver = MyObserver()
-              resource.addObserver(myObserver)  // myObserver is self-owned, so...
-              myObserver = nil                  // this deallocates it, but...
+              var myObserver: MyObserver? = MyObserver()
+              resource.addObserver(myObserver!)  // myObserver is self-owned, so...
+              myObserver = nil                   // this deallocates it, but...
               // ...myObserver never receives stoppedObserving(resource:).
 
           In the situation above, `MyObserver` should implement any end-of-lifcycle cleanup using `deinit`.
@@ -96,7 +96,7 @@ public extension ResourceObserver
 /**
   A closure alternative to `ResourceObserver`.
 
-  See `Resource.addObserver(owner:closure:)`.
+  See `Resource.addObserver(owner:file:line:closure:)`.
 */
 public typealias ResourceObserverClosure = (Resource, ResourceEvent) -> ()
 
@@ -139,10 +139,10 @@ public enum ResourceEvent
         /// The new value of `latestData` comes from a successful network request.
         case network
 
-        /// The new value of `latestData` comes from this resource’s `Configuration.persistentCache`.
+        /// The new value of `latestData` comes from an `EntityCache`.
         case cache
 
-        /// The new value of `latestData` came from a call to `Resource.overrideLocalData(_:)`
+        /// The new value of `latestData` came from a call to `Resource.overrideLocalData(...)`.
         case localOverride
 
         /// The resource was wiped, and `latestData` is now nil.
@@ -185,9 +185,9 @@ public extension Resource
 
       - Note: By default, this method prevents duplicates **only if the observer is an object**. If you pass a struct
               twice, you will receive two calls for every event. This is because only objects have a notion of identity
-              in Swift. You can implement `ResourceObserver.isEquivalentTo(observer:)` to make a struct prevent
-              duplicates; however, it’s usually easier to ensure that you don’t make redundant calls to this method if
-              you’re passing a struct.
+              in Swift. You can implement `ResourceObserver.observerIdentity` to make a struct prevent duplicates;
+              however, it’s usually easier to ensure that you don’t make redundant calls to this method if you’re
+              passing a struct.
     */
     @discardableResult
     public func addObserver(_ observer: ResourceObserver, owner: AnyObject) -> Self

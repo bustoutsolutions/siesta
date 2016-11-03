@@ -22,7 +22,7 @@ import Foundation
   `RequestError` presents all these errors in a uniform structure. Several properties preserve diagnostic information,
   which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
   even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
-  because network implementations may sometimes provide _both_ an underlying NSError _and_ an HTTP diagnostic.
+  because network implementations may sometimes provide _both_ an underlying `Error` _and_ an HTTP diagnostic.
 
   The one ironclad guarantee that `RequestError` makes is the presence of a `userMessage`.
 */
@@ -107,13 +107,13 @@ public extension RequestError
       (2) you can turn that one specific error into a success by adding a transformer:
 
           configure {
-            $0.responseTransformers.add(GarbledResponseHandler())
+            $0.pipeline[.parsing].add(GarbledResponseHandler())
           }
 
           ...
 
           struct GarbledResponseHandler: ResponseTransformer {
-            func process(response: Response) -> Response {
+            func process(_ response: Response) -> Response {
               switch response {
                 case .success:
                   return response

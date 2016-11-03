@@ -51,8 +51,8 @@ service.configure {
 By default, Siesta preconfigures a `Service` with common transformers at the `parsing` stage:
 
 - `String` for `text/*`
-- `UIImage` for `image/*`
-- `NSJSONSerialization` for `*/json`
+- `UIImage` for `image/*` (`NSImage` on macOS)
+- `JSONSerialization` for `*/json`
 
 You can disable these for a whole service using the `useDefaultTransformers:` argument to [`Service.init(…)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)). You can also remove them for specific resources by clearing the `parsing` stage in your configuration:
 
@@ -137,7 +137,7 @@ Use this when the conveniences in the sections above are too limited. For exampl
 
 ```swift
 struct GithubErrorMessageExtractor: ResponseTransformer {
-  func process(response: Response) -> Response {
+  func process(_ response: Response) -> Response {
     switch response {
       case .success:
         return response
@@ -178,7 +178,7 @@ Now you can break that apart into nice little helpers, some of which will be gen
 
 Ah, but there’s a fly in this ointment: the code above **parses the JSON four times**, once for each call to `responseJSON(…)`. In practice, `request()` and `responseJSON(…)` are tightly coupled in Alamofire, because you want to be sure to call `responseJSON(…)` only once. Drat.
 
-Siesta does not have this problem. This code **parses the response exactly once**, even though it registers two observers plus two request hooks: 
+Siesta does not have this problem. The following code **parses the response exactly once**, even though it registers two observers plus two request hooks: 
 
 ```swift
 let resource = service.resource("/status")
