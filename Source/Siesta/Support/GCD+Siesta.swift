@@ -10,17 +10,6 @@ import Foundation
 
 extension DispatchQueue
     {
-    // props to http://stackoverflow.com/a/24318861/239816
-    internal func asyncAfter(delay: TimeInterval, closure: @escaping (Void) -> Void)
-        {
-        asyncAfter(
-            deadline: DispatchTime.now() + delay,
-            execute: closure)
-        }
-    }
-
-extension DispatchQueue
-    {
     internal static func mainThreadPrecondition(caller: String = #function)
         {
         precondition(

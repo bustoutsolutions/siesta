@@ -455,7 +455,7 @@ public final class Resource: NSObject
     */
     public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping (Void) -> Void = {})
         {
-        DispatchQueue.main.asyncAfter(delay: 0.05)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.05)
             {
             self.cancelLoadIfUnobserved()
             callback()
