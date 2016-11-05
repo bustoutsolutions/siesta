@@ -88,9 +88,9 @@ class ResourceSpecBase: SiestaSpec
         // don’t arrive until a following spec has already started.
 
         return "https://" + QuickSpec.current().description
-            .replacingRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
-            .replacingRegex("[^A-Za-z0-9_]+", ".")
-            .replacingRegex("^\\.+|\\.+$", "")
+            .replacing(regex: "_[A-Za-z]+Specswift_\\d+\\]$", with: "")
+            .replacing(regex: "[^A-Za-z0-9_]+", with: ".")
+            .replacing(regex: "^\\.+|\\.+$", with: "")
         }
     }
 

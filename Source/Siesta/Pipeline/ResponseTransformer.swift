@@ -77,7 +77,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 .replacingOccurrences(of: "\\*", with:"[^/+]+")
             }
         let pattern = "^" + contentTypeRegexps.joined(separator: "|") + "($|;)"
-        self.contentTypeMatcher = NSRegularExpression.compile(pattern)
+        self.contentTypeMatcher = try! NSRegularExpression(pattern: pattern)
         }
 
     func process(_ response: Response) -> Response
