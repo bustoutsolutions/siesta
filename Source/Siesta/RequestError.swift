@@ -143,7 +143,7 @@ public extension RequestError
         /// Unable to create a text request with the requested character encoding.
         public struct UnencodableText: Error
             {
-            public let encodingName: String
+            public let encoding: String.Encoding
             public let text: String
             }
 
@@ -180,7 +180,7 @@ public extension RequestError
         /// The server’s response could not be decoded using the text encoding it specified.
         public struct UndecodableText: Error
             {
-            public let encodingName: String
+            public let encoding: String.Encoding
             }
 
         /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server

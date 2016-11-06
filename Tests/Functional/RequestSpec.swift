@@ -391,7 +391,7 @@ class RequestSpec: ResourceSpecBase
                 req.onFailure
                     {
                     let cause = $0.cause as? RequestError.Cause.UnencodableText
-                    expect(cause?.encodingName) == "us-ascii"
+                    expect(cause?.encoding) == String.Encoding.ascii
                     expect(cause?.text) == "Hélas!"
                     }
                 }
