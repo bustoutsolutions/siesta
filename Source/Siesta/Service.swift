@@ -158,7 +158,7 @@ open class Service: NSObject
 
     // MARK: Resource Configuration
 
-    internal var configVersion: UInt64 = 0
+    internal private(set) var configVersion: UInt64 = 0
     private var configurationEntries: [ConfigurationEntry] = []
         {
         didSet { invalidateConfiguration() }
