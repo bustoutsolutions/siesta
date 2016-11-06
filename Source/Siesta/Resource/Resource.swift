@@ -676,10 +676,3 @@ public final class Resource: NSObject
             + "]"
         }
     }
-
-/// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
-public protocol JSONConvertible { }
-extension NSDictionary: JSONConvertible { }
-extension NSArray:      JSONConvertible { }
-extension Dictionary:   JSONConvertible { }
-extension Array:        JSONConvertible { }
