@@ -285,18 +285,6 @@ extension ResourceEvent
         }
     }
 
-extension String
-    {
-    fileprivate var capitalized: String
-        {
-        guard !isEmpty else
-            { return self }
-        let secondChar = index(after: startIndex)
-        return substring(to: secondChar).uppercased()
-             + substring(from: secondChar)
-        }
-    }
-
 public extension Resource
     {
     @objc(addObserver:)
