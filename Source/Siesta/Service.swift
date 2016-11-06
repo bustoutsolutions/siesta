@@ -55,16 +55,12 @@ open class Service: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        if let baseURL = baseURL?.url
+        self.baseURL = baseURL?.url?.alterPath
             {
-            self.baseURL = baseURL.alterPath
-                {
-                if !$0.hasSuffix("/")
-                   { $0 += "/" }
-                }
+            if !$0.hasSuffix("/")
+               { $0 += "/" }
             }
-        else
-            { self.baseURL = nil }
+
         self.networkingProvider = networking.siestaNetworkingProvider
 
         super.init()
@@ -313,8 +309,8 @@ open class Service: NSObject
     private var configID = 0
     private var nextConfigID: Int
         {
-        configID += 1
-        return configID - 1
+        defer { configID += 1 }
+        return configID
         }
 
     /**

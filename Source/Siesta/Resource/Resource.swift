@@ -438,16 +438,14 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        if beingObserved
-            { debugLog(.networkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
-        else
-            {
-            if !loadRequests.isEmpty
-                { debugLog(.network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+        guard !beingObserved else
+            { return debugLog(.networkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
 
-            for req in loadRequests
-                { req.cancel() }
-            }
+        if !loadRequests.isEmpty
+            { debugLog(.network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+
+        for req in loadRequests
+            { req.cancel() }
         }
 
     /**
