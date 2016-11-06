@@ -272,15 +272,16 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
+        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+
         // Optionally decorate the request
 
-        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
         let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
 
         // Track the fully decorated request
 
-        trackRequest(req, using: &allRequests)
+        trackRequest(req, in: &allRequests)
         return req.start()
         }
 
@@ -417,7 +418,7 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        trackRequest(req, using: &loadRequests)
+        trackRequest(req, in: &loadRequests)
 
         req.onProgress(notifyObservers)
 
@@ -465,9 +466,9 @@ public final class Resource: NSObject
             }
         }
 
-    private func trackRequest(_ req: Request, using array: inout [Request])
+    private func trackRequest(_ req: Request, in requests: inout [Request])
         {
-        array.append(req)
+        requests.append(req)
         req.onCompletion
             {
             [weak self] _ in

@@ -161,10 +161,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         if isError(httpStatusCode: underlyingResponse?.statusCode) || error != nil
             {
             return ResponseInfo(
-                response: .failure(RequestError(
-                    response: underlyingResponse,
-                    content: body,
-                    cause: error)))
+                response: .failure(RequestError(response: underlyingResponse, content: body, cause: error)))
             }
         else if underlyingResponse?.statusCode == 304
             {

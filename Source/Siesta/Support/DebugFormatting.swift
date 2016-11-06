@@ -135,13 +135,10 @@ extension Entity
 
     private var formattedContent: String
         {
-        if let jsonContent = content as? JSONConvertible,
-            JSONSerialization.isValidJSONObject(jsonContent)
-            {
-            if let jsonData = try? JSONSerialization.data(withJSONObject: jsonContent, options: [.prettyPrinted]),
-               let json = String(data: jsonData, encoding: String.Encoding.utf8)
-                { return json as String }
-            }
+        if JSONSerialization.isValidJSONObject(content),
+           let jsonData = try? JSONSerialization.data(withJSONObject: content, options: [.prettyPrinted]),
+           let json = String(data: jsonData, encoding: String.Encoding.utf8)
+            { return json }
 
         return debugStr(content, truncate: Int.max)
         }

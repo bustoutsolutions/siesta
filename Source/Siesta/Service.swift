@@ -116,7 +116,8 @@ open class Service: NSObject
     public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
         {
         return resource(absoluteURL:
-            customBaseURL?.url?.appendingPathComponent(path.stripPrefix("/")))
+            customBaseURL?.url?.appendingPathComponent(
+              path.stripPrefix("/")))
         }
 
     /**

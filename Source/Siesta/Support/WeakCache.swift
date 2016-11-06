@@ -89,7 +89,8 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
                     { return (key, value) }
                 else
                     { return nil }
-                })
+                }
+            )
         }
 
     var keys: AnySequence<K>

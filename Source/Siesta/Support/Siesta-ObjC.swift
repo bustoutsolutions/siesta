@@ -172,6 +172,7 @@ public class _objc_Request: NSObject
                 {
                 case .success(let entity):
                     objcCallback(_objc_Entity(entity), nil)
+
                 case .failure(let error):
                     objcCallback(nil, _objc_Error(error))
                 }

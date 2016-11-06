@@ -47,7 +47,8 @@ internal extension Pipeline
         {
         return stagesAndEntries.reduce(rawResponse)
             {
-            let input = $0, (stage, cacheEntry) = $1
+            let input = $0,
+                (stage, cacheEntry) = $1
 
             let output = stage.process(input)
 
