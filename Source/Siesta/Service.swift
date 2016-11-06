@@ -139,14 +139,14 @@ open class Service: NSObject
 
         guard let urlConvertible = urlConvertible else
             {
-            return resourceCache.get("\0")
+            return resourceCache.get("\0")  // single shared instance for nil URL
                 { Resource(service: self, invalidURLSource: nil) }
             }
 
         guard let url = urlConvertible.url else
             {
             debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
-            return Resource(service: self, invalidURLSource: urlConvertible)
+            return Resource(service: self, invalidURLSource: urlConvertible)  // one-off instance for invalid URL
             }
 
         return resourceCache.get(url.absoluteString)
@@ -395,7 +395,7 @@ open class Service: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        resourceCache.flushUnused()
+        resourceCache.flushUnused()  // Little point in keeping Resource instance if we’re discarding its content
         for resource in resourceCache.values
             where predicate(resource)
                 { resource.wipe() }

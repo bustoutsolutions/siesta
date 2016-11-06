@@ -118,7 +118,7 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/).
+Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/). (Use the `swift-2.x` branches if you haven’t made the big migration yet.)
 
 ### CocoaPods
 

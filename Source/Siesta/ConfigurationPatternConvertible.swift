@@ -58,7 +58,7 @@ extension String: ConfigurationPatternConvertible
     public func configurationPattern(for service: Service) -> (URL) -> Bool
         {
         // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
-        // If the service has no baseURL, interpret the pattern as absolure.
+        // If the service has no baseURL, interpret the pattern as absolute.
         // Otherwise, interpret pattern as relative to baseURL.
 
         let resolvedPattern: String

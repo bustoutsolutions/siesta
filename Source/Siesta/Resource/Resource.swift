@@ -192,10 +192,10 @@ public final class Resource: NSObject
     /**
       Allows callers to arbitrarily alter the HTTP details of a request before it is sent. For example:
 
-        resource.request(.post) {
-          $0.httpBody = imageData
-          $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
-        }
+          resource.request(.post) {
+            $0.httpBody = imageData
+            $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
+          }
 
       Siesta provides helpers that make this custom `RequestMutation` unnecessary in many common cases.
       [Configuration](http://bustoutsolutions.github.io/siesta/guide/configuration/) lets you set request headers, and
@@ -256,7 +256,7 @@ public final class Resource: NSObject
         if let permanentFailure = permanentFailure
             { return Resource.failedRequest(permanentFailure) }
 
-        // Header configuration
+        // Build the request
 
         let requestBuilder: (Void) -> URLRequest =
             {
@@ -365,7 +365,10 @@ public final class Resource: NSObject
         }
 
     /**
-      Initiates a GET request to update the state of this resource.
+      Initiates a GET request to update the state of this resource. This method forces a new request even if there is
+      already one in progress. (See `loadIfNeeded()` for comparison.) This is the method to call if you want to force
+      a check for new data — in response to a manual refresh, for example, or because you know that the data changed
+      on the server.
 
       Sequence of events:
 

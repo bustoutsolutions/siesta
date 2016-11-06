@@ -48,7 +48,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
                 ? "\(underlyingRequest.httpMethod) \(underlyingRequest.url)"
                 : ""
 
-        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")
+        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
         }
 
     func start() -> Self
