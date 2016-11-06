@@ -187,7 +187,7 @@ public extension RequestError
         /// sent a response containing a bare JSON primitive.
         public struct JSONResponseIsNotDictionaryOrArray: Error
             {
-            public let actualType: String
+            public let actualType: Any.Type
             }
 
         /// The server’s response could not be parsed using any known image format.
@@ -198,7 +198,7 @@ public extension RequestError
         /// transformer expected.
         public struct WrongInputTypeInTranformerPipeline: Error
             {
-            public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+            public let expectedType, actualType: Any.Type
             public let transformer: ResponseTransformer
             }
 

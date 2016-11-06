@@ -88,6 +88,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     { $0.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
                 expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
+                if let wrongTypeError = resource().latestError?.cause as? RequestError.Cause.WrongInputTypeInTranformerPipeline
+                    {
+                    print(wrongTypeError.expectedType == Data.self)
+                    print(wrongTypeError.actualType == String.self)
+                    }
                 }
 
             it("transforms error responses")
