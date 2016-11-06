@@ -18,7 +18,7 @@ public extension Resource
             _ method:        RequestMethod,
             data:            Data,
             contentType:     String,
-            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
+            requestMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
         return request(method)
@@ -46,7 +46,7 @@ public extension Resource
             text:            String,
             contentType:     String = "text/plain",
             encoding:        String.Encoding = String.Encoding.utf8,
-            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
+            requestMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
         guard let rawBody = text.data(using: encoding),
@@ -77,7 +77,7 @@ public extension Resource
             _ method:        RequestMethod,
             json:            JSONConvertible,
             contentType:     String = "application/json",
-            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
+            requestMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
         guard JSONSerialization.isValidJSONObject(json) else
@@ -116,7 +116,7 @@ public extension Resource
     public func request(
             _ method:          RequestMethod,
             urlEncoded params: [String:String],
-            requestMutation:   @escaping (inout URLRequest) -> () = { _ in })
+            requestMutation:   @escaping RequestMutation = { _ in })
         -> Request
         {
         func urlEscape(_ string: String) throws -> String
