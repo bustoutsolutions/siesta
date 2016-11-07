@@ -45,11 +45,7 @@ public extension ResponseTransformer
     /// Prints the name of the transformer’s Swift type.
     public var debugDescription: String
         { return String(describing: type(of: self)) }
-    }
 
-
-public extension ResponseTransformer
-    {
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(_ result: Response) -> Response
         {
@@ -77,7 +73,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 .replacingOccurrences(of: "\\*", with:"[^/+]+")
             }
         let pattern = "^" + contentTypeRegexps.joined(separator: "|") + "($|;)"
-        self.contentTypeMatcher = NSRegularExpression.compile(pattern)
+        self.contentTypeMatcher = try! NSRegularExpression(pattern: pattern)
         }
 
     func process(_ response: Response) -> Response
@@ -92,7 +88,8 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
                 contentType = error.entity?.contentType
             }
 
-        if let contentType = contentType, contentTypeMatcher.matches(contentType)
+        if let contentType = contentType,
+           contentTypeMatcher.matches(contentType)
             {
             debugLog(.pipeline, ["  ├╴Transformer", self, "matches content type", debugStr(contentType)])
             return delegate.process(response)
@@ -215,12 +212,12 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 
     private func processError(_ error: RequestError) -> Response
         {
-        var error = error
         if transformErrors, let errorData = error.entity
             {
             switch processEntity(errorData)
                 {
                 case .success(let errorDataTransformed):
+                    var error = error
                     error.entity = errorDataTransformed
                     return logTransformation(.failure(error))
 

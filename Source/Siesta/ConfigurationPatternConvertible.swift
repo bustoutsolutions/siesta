@@ -58,22 +58,22 @@ extension String: ConfigurationPatternConvertible
     public func configurationPattern(for service: Service) -> (URL) -> Bool
         {
         // If the pattern has a URL protocol (e.g. "http:"), interpret it as absolute.
-        // If the service has no baseURL, interpret the pattern as absolure.
+        // If the service has no baseURL, interpret the pattern as absolute.
         // Otherwise, interpret pattern as relative to baseURL.
 
         let resolvedPattern: String
-        if !containsRegex("^[a-z]+:"), let prefix = service.baseURL?.absoluteString
+        if !contains(regex: "^[a-z]+:"), let prefix = service.baseURL?.absoluteString
             { resolvedPattern = prefix + stripPrefix("/") }
         else
             { resolvedPattern = self }
 
-        let pattern = NSRegularExpression.compile(
+        let pattern = try! NSRegularExpression(pattern:
             "^"
             + NSRegularExpression.escapedPattern(for: resolvedPattern)
-                .replacingString("\\*\\*\\/", "([^:?]*/|)")
-                .replacingString("\\*\\*",    "[^:?]*")
-                .replacingString("\\*",       "[^/:?]*")
-                .replacingString("\\?",       "[^/:?]")
+                .replacingOccurrences(of: "\\*\\*\\/", with: "([^:?]*/|)")
+                .replacingOccurrences(of: "\\*\\*",    with: "[^:?]*")
+                .replacingOccurrences(of: "\\*",       with: "[^/:?]*")
+                .replacingOccurrences(of: "\\?",       with: "[^/:?]")
             + "($|\\?)")
         debugLog(.configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 

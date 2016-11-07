@@ -24,16 +24,14 @@ internal extension String
             : self
         }
 
-    var capitalizedFirstCharacter: String
+    var capitalized: String
         {
-        guard !self.isEmpty else
+        guard !isEmpty else
             { return self }
-
-        var result = self
-        result.replaceSubrange(startIndex...startIndex, with: String(self[startIndex]).uppercased())
-        return result
+        let secondCharIndex = index(after: startIndex)
+        return substring(to: secondCharIndex).uppercased()
+             + substring(from: secondCharIndex)
         }
-
     var nilIfEmpty: String?
         {
         return isEmpty ? nil : self

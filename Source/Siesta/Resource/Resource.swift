@@ -192,10 +192,10 @@ public final class Resource: NSObject
     /**
       Allows callers to arbitrarily alter the HTTP details of a request before it is sent. For example:
 
-        resource.request(.post) {
-          $0.httpBody = imageData
-          $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
-        }
+          resource.request(.post) {
+            $0.httpBody = imageData
+            $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
+          }
 
       Siesta provides helpers that make this custom `RequestMutation` unnecessary in many common cases.
       [Configuration](http://bustoutsolutions.github.io/siesta/guide/configuration/) lets you set request headers, and
@@ -256,7 +256,7 @@ public final class Resource: NSObject
         if let permanentFailure = permanentFailure
             { return Resource.failedRequest(permanentFailure) }
 
-        // Header configuration
+        // Build the request
 
         let requestBuilder: (Void) -> URLRequest =
             {
@@ -272,15 +272,16 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
+        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+
         // Optionally decorate the request
 
-        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
         let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
 
         // Track the fully decorated request
 
-        trackRequest(req, using: &allRequests)
+        trackRequest(req, in: &allRequests)
         return req.start()
         }
 
@@ -365,7 +366,10 @@ public final class Resource: NSObject
         }
 
     /**
-      Initiates a GET request to update the state of this resource.
+      Initiates a GET request to update the state of this resource. This method forces a new request even if there is
+      already one in progress. (See `loadIfNeeded()` for comparison.) This is the method to call if you want to force
+      a check for new data — in response to a manual refresh, for example, or because you know that the data changed
+      on the server.
 
       Sequence of events:
 
@@ -414,7 +418,7 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        trackRequest(req, using: &loadRequests)
+        trackRequest(req, in: &loadRequests)
 
         req.onProgress(notifyObservers)
 
@@ -434,16 +438,14 @@ public final class Resource: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        if beingObserved
-            { debugLog(.networkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
-        else
-            {
-            if !loadRequests.isEmpty
-                { debugLog(.network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+        guard !beingObserved else
+            { return debugLog(.networkDetails, [self, "still has", observers.count, "observer(s), so cancelLoadIfUnobserved() does nothing"]) }
 
-            for req in loadRequests
-                { req.cancel() }
-            }
+        if !loadRequests.isEmpty
+            { debugLog(.network, ["Canceling", loadRequests.count, "load request(s) for unobserved", self]) }
+
+        for req in loadRequests
+            { req.cancel() }
         }
 
     /**
@@ -455,16 +457,16 @@ public final class Resource: NSObject
     */
     public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping (Void) -> Void = {})
         {
-        DispatchQueue.main.asyncAfter(delay: 0.05)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.05)
             {
             self.cancelLoadIfUnobserved()
             callback()
             }
         }
 
-    private func trackRequest(_ req: Request, using array: inout [Request])
+    private func trackRequest(_ req: Request, in requests: inout [Request])
         {
-        array.append(req)
+        requests.append(req)
         req.onCompletion
             {
             [weak self] _ in
@@ -676,10 +678,3 @@ public final class Resource: NSObject
             + "]"
         }
     }
-
-/// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
-public protocol JSONConvertible { }
-extension NSDictionary: JSONConvertible { }
-extension NSArray:      JSONConvertible { }
-extension Dictionary:   JSONConvertible { }
-extension Array:        JSONConvertible { }

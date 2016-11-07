@@ -472,7 +472,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     configureModelTransformer()
                     service().configureTransformer("**", action: .appendToExisting)
                         {
-                        (entity: Entity<TestModel>) -> TestModel in  // TODO: Why can’t Swift infer from $0.content here?
+                        (entity: Entity<TestModel>) -> TestModel in  // TODO: Why can’t Swift infer from $0.content here? Swift bug?
                         var model: TestModel = entity.content
                         model.name += " peas"
                         return model

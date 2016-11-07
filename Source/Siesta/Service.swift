@@ -55,16 +55,12 @@ open class Service: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        if let baseURL = baseURL?.url
+        self.baseURL = baseURL?.url?.alterPath
             {
-            self.baseURL = baseURL.alterPath
-                {
-                if !$0.hasSuffix("/")
-                   { $0 += "/" }
-                }
+            if !$0.hasSuffix("/")
+               { $0 += "/" }
             }
-        else
-            { self.baseURL = nil }
+
         self.networkingProvider = networking.siestaNetworkingProvider
 
         super.init()
@@ -116,7 +112,8 @@ open class Service: NSObject
     public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
         {
         return resource(absoluteURL:
-            customBaseURL?.url?.appendingPathComponent(path.stripPrefix("/")))
+            customBaseURL?.url?.appendingPathComponent(
+              path.stripPrefix("/")))
         }
 
     /**
@@ -139,14 +136,14 @@ open class Service: NSObject
 
         guard let urlConvertible = urlConvertible else
             {
-            return resourceCache.get("\0")
+            return resourceCache.get("\0")  // single shared instance for nil URL
                 { Resource(service: self, invalidURLSource: nil) }
             }
 
         guard let url = urlConvertible.url else
             {
             debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
-            return Resource(service: self, invalidURLSource: urlConvertible)
+            return Resource(service: self, invalidURLSource: urlConvertible)  // one-off instance for invalid URL
             }
 
         return resourceCache.get(url.absoluteString)
@@ -157,7 +154,7 @@ open class Service: NSObject
 
     // MARK: Resource Configuration
 
-    internal var configVersion: UInt64 = 0
+    internal private(set) var configVersion: UInt64 = 0
     private var configurationEntries: [ConfigurationEntry] = []
         {
         didSet { invalidateConfiguration() }
@@ -312,8 +309,8 @@ open class Service: NSObject
     private var configID = 0
     private var nextConfigID: Int
         {
-        configID += 1
-        return configID - 1
+        defer { configID += 1 }
+        return configID
         }
 
     /**
@@ -395,7 +392,7 @@ open class Service: NSObject
         {
         DispatchQueue.mainThreadPrecondition()
 
-        resourceCache.flushUnused()
+        resourceCache.flushUnused()  // Little point in keeping Resource instance if we’re discarding its content
         for resource in resourceCache.values
             where predicate(resource)
                 { resource.wipe() }

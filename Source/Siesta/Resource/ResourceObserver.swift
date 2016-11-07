@@ -202,8 +202,6 @@ public extension Resource
 
         if let existingEntry = observers[identity]
             {
-            // have to use observers[i] instead of loop var to
-            // make mutator actually change struct in place in array
             existingEntry.addOwner(owner)
             observersChanged()
             return self
@@ -304,7 +302,7 @@ public extension Resource
             { observersChanged() }
         }
 
-    private func delayDefunctObserverCheck() -> Bool  // false means now!
+    private func delayDefunctObserverCheck() -> Bool  // false means do it now!
         {
         guard defunctObserverCheckCounter < 12 else
             { return false }
@@ -375,6 +373,7 @@ internal class ObserverEntry: CustomStringConvertible
             ifObserver selfOwnerAction: (Void) -> Void,
             else externalOwnerAction: (Void) -> Void)
         {
+        // TODO: see if isObject() check improves perf here once https://bugs.swift.org/browse/SR-2867 is fixed
         if owner === (observer as AnyObject?)
             { selfOwnerAction() }
         else

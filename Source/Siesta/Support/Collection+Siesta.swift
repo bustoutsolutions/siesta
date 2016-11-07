@@ -26,6 +26,7 @@ internal extension Collection
 
 internal extension Array
     {
+    // Wat? There’s really no in-place counterpart for filter()?
     mutating func remove(matching predicate: (Iterator.Element) -> Bool)
         {
         var dst = startIndex

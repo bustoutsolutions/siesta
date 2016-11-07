@@ -48,7 +48,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
                 ? "\(underlyingRequest.httpMethod) \(underlyingRequest.url)"
                 : ""
 
-        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")
+        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
         }
 
     func start() -> Self
@@ -161,10 +161,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         if isError(httpStatusCode: underlyingResponse?.statusCode) || error != nil
             {
             return ResponseInfo(
-                response: .failure(RequestError(
-                    response: underlyingResponse,
-                    content: body,
-                    cause: error)))
+                response: .failure(RequestError(response: underlyingResponse, content: body, cause: error)))
             }
         else if underlyingResponse?.statusCode == 304
             {

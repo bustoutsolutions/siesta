@@ -50,7 +50,7 @@ Or in Objective-C:
 ```objc
 @interface ProfileViewController: UIViewController <BOSResourceObserver>
 @property (weak,nonatomic) IBOutlet UILabel *nameLabel, *favoriteColorLabel;
-@property (strong,nonatomic) BOSResourceStatusOverlay *statusOverlay;
+@property (strong,nonatomic) ResourceStatusOverlay *statusOverlay;
 @end
 
 @implementation ProfileViewController
@@ -58,7 +58,7 @@ Or in Objective-C:
 - (void) viewDidLoad {
     super.viewDidLoad()
 
-    self.statusOverlay = [[[BOSResourceStatusOverlay alloc] init] embedIn:self];
+    self.statusOverlay = [[[ResourceStatusOverlay alloc] init] embedIn:self];
 
     [[MyAPI.instance.profile
         addObserver:self]

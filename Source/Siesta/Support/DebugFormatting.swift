@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let whitespacePat = NSRegularExpression.compile("\\s+")
+private let whitespacePat = try! NSRegularExpression(pattern: "\\s+")
 
 internal func debugStr(
         _ x: Any?,
@@ -26,7 +26,7 @@ internal func debugStr(
         { s = "\(x)" }
 
     if consolidateWhitespace
-        { s = s.replacingRegex(whitespacePat, " ") }
+        { s = s.replacing(regex: whitespacePat, with: " ") }
 
     if let truncate = truncate, s.characters.count > truncate
         { s = s.substring(to: s.index(s.startIndex, offsetBy: truncate)) + "…" }
@@ -130,18 +130,15 @@ extension Entity
              + "\n" + indent + "charset:     \(debugStr(charset))"
              + dumpHeaders(headers, indent: indent)
              + "\n" + indent + "content: (\(type(of: content)))\n"
-             + formattedContent.replacingRegex("^|\n", "$0  " + indent)
+             + formattedContent.replacing(regex: "^|\n", with: "$0  " + indent)
         }
 
     private var formattedContent: String
         {
-        if let jsonContent = content as? JSONConvertible,
-            JSONSerialization.isValidJSONObject(jsonContent)
-            {
-            if let jsonData = try? JSONSerialization.data(withJSONObject: jsonContent, options: [.prettyPrinted]),
-               let json = String(data: jsonData, encoding: String.Encoding.utf8)
-                { return json as String }
-            }
+        if JSONSerialization.isValidJSONObject(content),
+           let jsonData = try? JSONSerialization.data(withJSONObject: content, options: [.prettyPrinted]),
+           let json = String(data: jsonData, encoding: String.Encoding.utf8)
+            { return json }
 
         return debugStr(content, truncate: Int.max)
         }

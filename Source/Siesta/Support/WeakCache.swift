@@ -71,7 +71,8 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             entry.allowRemoval()
             if entry.value == nil
                 {
-                // TODO: double lookup is inefficient; does Swift have a mutating iterator?
+                // TODO: prevent double lookup if something like this proposal ever gets implemented:
+                // https://gist.github.com/natecook1000/473720ba072fa5a0cd5e6c913de75fe1
                 entriesByKey.removeValue(forKey: key)
                 }
             }
@@ -88,7 +89,8 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
                     { return (key, value) }
                 else
                     { return nil }
-                })
+                }
+            )
         }
 
     var keys: AnySequence<K>
@@ -113,7 +115,7 @@ private final class WeakCacheEntry<V: AnyObject>
 
     var value: V?
         {
-        ref.strong = true
+        ref.strong = true  // Any access promotes to strong ref until next memory event
         return ref.value
         }
 

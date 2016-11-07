@@ -74,7 +74,7 @@ public struct RequestError: Error
         else if let message = cause?.localizedDescription
             { self.userMessage = message }
         else if let code = self.httpStatusCode
-            { self.userMessage = HTTPURLResponse.localizedString(forStatusCode: code).capitalizedFirstCharacter }
+            { self.userMessage = HTTPURLResponse.localizedString(forStatusCode: code).capitalized }
         else
             { self.userMessage = NSLocalizedString("Request failed", comment: "userMessage") }   // Is this reachable?
         }

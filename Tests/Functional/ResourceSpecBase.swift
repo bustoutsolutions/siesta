@@ -88,9 +88,9 @@ class ResourceSpecBase: SiestaSpec
         // don’t arrive until a following spec has already started.
 
         return "https://" + QuickSpec.current().description
-            .replacingRegex("_[A-Za-z]+Specswift_\\d+\\]$", "")
-            .replacingRegex("[^A-Za-z0-9_]+", ".")
-            .replacingRegex("^\\.+|\\.+$", "")
+            .replacing(regex: "_[A-Za-z]+Specswift_\\d+\\]$", with: "")
+            .replacing(regex: "[^A-Za-z0-9_]+", with: ".")
+            .replacing(regex: "^\\.+|\\.+$", with: "")
         }
     }
 
@@ -171,7 +171,7 @@ private func pollUnderlyingCompletion(_ req: NetworkRequest, expectation: XCTest
         { expectation.fulfill() }
     else
         {
-        DispatchQueue.main.asyncAfter(delay: 0.0001)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.0001)
             { pollUnderlyingCompletion(req, expectation: expectation) }
         }
     }

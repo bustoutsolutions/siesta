@@ -34,7 +34,7 @@ public struct URLSessionProvider: NetworkingProvider
         }
     }
 
-internal struct URLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
+private struct URLSessionRequestNetworking: RequestNetworking, SessionTaskContainer
     {
     var task: URLSessionTask
 

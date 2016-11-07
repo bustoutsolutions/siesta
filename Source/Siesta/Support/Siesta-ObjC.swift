@@ -172,6 +172,7 @@ public class _objc_Request: NSObject
                 {
                 case .success(let entity):
                     objcCallback(_objc_Entity(entity), nil)
+
                 case .failure(let error):
                     objcCallback(nil, _objc_Error(error))
                 }
@@ -281,18 +282,6 @@ extension ResourceEvent
             { return "NewData(\(source.description.capitalized))" }
         else
             { return String(describing: self).capitalized }
-        }
-    }
-
-extension String
-    {
-    fileprivate var capitalized: String
-        {
-        guard !isEmpty else
-            { return self }
-        let secondChar = index(after: startIndex)
-        return substring(to: secondChar).uppercased()
-             + substring(from: secondChar)
         }
     }
 

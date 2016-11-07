@@ -328,8 +328,7 @@ private class TestCache: EntityCache
 
     func readEntity(forKey key: TestCacheKey) -> Entity<Any>?
         {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC))
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.05)
             { self.receivedCacheRead = true }
 
         return entries[key]
