@@ -1,6 +1,6 @@
 PODS:
-  - Siesta/Core (1.0-rc.2)
-  - Siesta/UI (1.0-rc.2):
+  - Siesta/Core (1.0-rc.3)
+  - Siesta/UI (1.0-rc.3):
     - Siesta/Core
   - SwiftyJSON (3.1.1)
 
@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  Siesta: 26a5675f331887f49455d485a030f2d22e97fbb1
+  Siesta: 958929f3ac15c58919ba90e06995c4e313f69340
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
 PODFILE CHECKSUM: 185541f66e3c53d1269ded59a72f9c99e6a2d105
