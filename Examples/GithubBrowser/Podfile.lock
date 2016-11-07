@@ -2,28 +2,20 @@ PODS:
   - Siesta/Core (1.0-rc.2)
   - Siesta/UI (1.0-rc.2):
     - Siesta/Core
-  - SwiftyJSON (2.3.2)
+  - SwiftyJSON (3.1.1)
 
 DEPENDENCIES:
   - Siesta/UI (from `../..`)
-  - SwiftyJSON (from `https://github.com/BaiduHiDeviOS/SwiftyJSON.git`, branch `swift3`)
+  - SwiftyJSON
 
 EXTERNAL SOURCES:
   Siesta:
     :path: "../.."
-  SwiftyJSON:
-    :branch: swift3
-    :git: https://github.com/BaiduHiDeviOS/SwiftyJSON.git
-
-CHECKOUT OPTIONS:
-  SwiftyJSON:
-    :commit: de5dc3b1b421805769590d331178551bbb0e5733
-    :git: https://github.com/BaiduHiDeviOS/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Siesta: 2aec41285f1cb1e875389846ba2fc298c2e5d761
-  SwiftyJSON: 6118fb49d7519c4d31a0c1f3d5af936e9047b556
+  Siesta: 26a5675f331887f49455d485a030f2d22e97fbb1
+  SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: 1be9d814355a48187727c0a77f4837db1c72fa65
+PODFILE CHECKSUM: 185541f66e3c53d1269ded59a72f9c99e6a2d105
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.1
