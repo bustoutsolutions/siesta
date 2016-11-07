@@ -190,6 +190,34 @@ public final class Resource: NSObject
     // MARK: Requests
 
     /**
+      Allows callers to arbitrarily alter the HTTP details of a request before it is sent. For example:
+
+        resource.request(.post) {
+          $0.httpBody = imageData
+          $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
+        }
+
+      Siesta provides helpers that make this custom `RequestMutation` unnecessary in many common cases.
+      [Configuration](http://bustoutsolutions.github.io/siesta/guide/configuration/) lets you set request headers, and
+      helpers such as `Resource.request(_:json:contentType:requestMutation:)` will encode common request body types for
+      you. Custom mutation is the “full control” option for cases when:
+
+      1. you need to alter the request in ways Siesta doesn’t provide helpers for, or
+      2. you want to alter _one_ individual request instead of configuring _all_ requests for a resource.
+
+      The `RequestMutation` receives a `URLRequest` _after_ Siesta has already applied all of its normal configuration.
+      The `URLRequest` is mutable, and any changes it makes are the last stop before the request is sent to the network.
+      What you return is what Siesta sends.
+
+      - Note: Why is `RequestMutation` marked `@escaping` everywhere it’s used? Because `Request.repeated()` does
+          not repeat the original request verbatim; instead, it recomputes the request headers using the latest
+          configuration, then reapplies your `RequestMutation`.
+
+      - SeeAlso: `Resource.request(...)`
+    */
+    public typealias RequestMutation = (inout URLRequest) -> ()
+
+    /**
       Initiates a network request for the given resource.
 
       Handle the result of the request by attaching response handlers:
@@ -205,18 +233,7 @@ public final class Resource: NSObject
 
       - Parameter method: The HTTP verb to use for the request
       - Parameter requestMutation:
-          An optional callback to change details of the request before it is sent. For example:
-
-              resource.request(.post) {
-                underlyingRequest in
-
-                underlyingRequest.httpBody = imageData
-                underlyingRequest.addValue(
-                  "image/png",
-                  forHTTPHeaderField:
-                    "Content-Type")
-              }
-
+          An optional callback to change details of the request before it is sent.
           Does nothing by default.
 
       - SeeAlso:
@@ -231,7 +248,7 @@ public final class Resource: NSObject
     */
     public func request(
             _ method: RequestMethod,
-            requestMutation: @escaping (inout URLRequest) -> () = { _ in })
+            requestMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
         DispatchQueue.mainThreadPrecondition()
