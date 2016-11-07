@@ -49,18 +49,17 @@ public extension Resource
             requestMutation: @escaping (inout URLRequest) -> () = { _ in })
         -> Request
         {
-        let encodingName =
-            CFStringConvertEncodingToIANACharSetName(
-                CFStringConvertNSStringEncodingToEncoding(
-                    encoding.rawValue))
-            as String
-
-        guard let rawBody = text.data(using: encoding) else
+        guard let rawBody = text.data(using: encoding),
+              let encodingName =
+                  CFStringConvertEncodingToIANACharSetName(
+                      CFStringConvertNSStringEncodingToEncoding(
+                          encoding.rawValue))
+        else
             {
             return Resource.failedRequest(
                 RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
-                    cause: RequestError.Cause.UnencodableText(encodingName: encodingName, text: text)))
+                    cause: RequestError.Cause.UnencodableText(encoding: encoding, text: text)))
             }
 
         return request(method, data: rawBody, contentType: "\(contentType); charset=\(encodingName)", requestMutation: requestMutation)

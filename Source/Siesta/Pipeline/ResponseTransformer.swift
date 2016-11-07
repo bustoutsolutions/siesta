@@ -208,8 +208,8 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
         return .failure(RequestError(
             userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
             cause: RequestError.Cause.WrongInputTypeInTranformerPipeline(
-                expectedType: debugStr(InputContentType.self),
-                actualType: debugStr(type(of: entityFromUpstream.content)),
+                expectedType: InputContentType.self,
+                actualType: type(of: entityFromUpstream.content),
                 transformer: self)))
         }
 
@@ -274,14 +274,15 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
     return ResponseContentTransformer<Data, String>(transformErrors: transformErrors)
         {
         let charsetName = $0.charset ?? "ISO-8859-1"
-        let encoding = CFStringConvertEncodingToNSStringEncoding(
+        let encodingID = CFStringConvertEncodingToNSStringEncoding(
             CFStringConvertIANACharSetNameToEncoding(charsetName as CFString))
 
-        guard encoding != UInt(kCFStringEncodingInvalidId) else
+        guard encodingID != UInt(kCFStringEncodingInvalidId) else
             { throw RequestError.Cause.InvalidTextEncoding(encodingName: charsetName) }
 
-        guard let string = String(data: $0.content, encoding: String.Encoding(rawValue: encoding)) else
-            { throw RequestError.Cause.UndecodableText(encodingName: charsetName) }
+        let encoding = String.Encoding(rawValue: encodingID)
+        guard let string = String(data: $0.content, encoding: encoding) else
+            { throw RequestError.Cause.UndecodableText(encoding: encoding) }
 
         return string
         }
@@ -295,7 +296,7 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
         let rawObj = try JSONSerialization.jsonObject(with: $0.content, options: [.allowFragments])
 
         guard let jsonObj = rawObj as? JSONConvertible else
-            { throw RequestError.Cause.JSONResponseIsNotDictionaryOrArray(actualType: debugStr(type(of: rawObj))) }
+            { throw RequestError.Cause.JSONResponseIsNotDictionaryOrArray(actualType: type(of: rawObj)) }
 
         return jsonObj
         }

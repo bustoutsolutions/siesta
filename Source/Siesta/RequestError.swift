@@ -143,7 +143,7 @@ public extension RequestError
         /// Unable to create a text request with the requested character encoding.
         public struct UnencodableText: Error
             {
-            public let encodingName: String
+            public let encoding: String.Encoding
             public let text: String
             }
 
@@ -180,14 +180,14 @@ public extension RequestError
         /// The server’s response could not be decoded using the text encoding it specified.
         public struct UndecodableText: Error
             {
-            public let encodingName: String
+            public let encoding: String.Encoding
             }
 
         /// Siesta’s default JSON parser accepts only dictionaries and arrays, but the server
         /// sent a response containing a bare JSON primitive.
         public struct JSONResponseIsNotDictionaryOrArray: Error
             {
-            public let actualType: String
+            public let actualType: Any.Type
             }
 
         /// The server’s response could not be parsed using any known image format.
@@ -198,7 +198,7 @@ public extension RequestError
         /// transformer expected.
         public struct WrongInputTypeInTranformerPipeline: Error
             {
-            public let expectedType, actualType: String  // TODO: Does Swift allow something more inspectable than String? Any.Type & similar don't seem to work.
+            public let expectedType, actualType: Any.Type
             public let transformer: ResponseTransformer
             }
 

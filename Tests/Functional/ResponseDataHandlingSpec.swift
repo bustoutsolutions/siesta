@@ -79,7 +79,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 awaitFailure(resource().load())
 
                 let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
-                expect(cause?.encodingName) == "utf-8"
+                expect(cause?.encoding) == String.Encoding.utf8
                 }
 
             it("reports an error if another transformer already made it a string")
@@ -88,6 +88,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     { $0.pipeline[.decoding].add(TestTransformer()) }
                 stubText("blah blah", contentType: "text/plain", expectSuccess: false)
                 expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
+                if let wrongTypeError = resource().latestError?.cause as? RequestError.Cause.WrongInputTypeInTranformerPipeline
+                    {
+                    print(wrongTypeError.expectedType == Data.self)
+                    print(wrongTypeError.actualType == String.self)
+                    }
                 }
 
             it("transforms error responses")
