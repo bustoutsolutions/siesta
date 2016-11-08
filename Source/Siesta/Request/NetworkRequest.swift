@@ -45,7 +45,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         self.underlyingRequest = requestBuilder()
         self.requestDescription =
             LogCategory.enabled.contains(.network) || LogCategory.enabled.contains(.networkDetails)
-                ? "\(underlyingRequest.httpMethod) \(underlyingRequest.url)"
+                ? debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
                 : ""
 
         progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
