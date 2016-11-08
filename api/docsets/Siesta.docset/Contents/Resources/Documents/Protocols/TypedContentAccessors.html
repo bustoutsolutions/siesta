@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -254,7 +254,7 @@ resource.latestError?.jsonDict["error.detail"]
 
 <pre class="highlight plaintext"><code>extension TypedContentAccessors {
   var doorknob: UIDoorknob {
-    return typedContent(ifNone: placeholderKnob))
+    return typedContent(ifNone: placeholderKnob)
   }
 }
 </code></pre>
@@ -295,7 +295,7 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -325,7 +325,7 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -353,7 +353,7 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
 For example, if you expect the content to be a UIImage:</p>
 
-<pre class="highlight plaintext"><code>let image = typedContent(ifNone: UIImage(named: "placeholder.png"))
+<pre class="highlight plaintext"><code>let image = resource.typedContent(ifNone: UIImage(named: "placeholder.png"))
 </code></pre>
 
 <div class="aside aside-returns">
@@ -390,7 +390,7 @@ For example, if you expect the content to be a UIImage:</p>
 
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -423,7 +423,7 @@ For example, if you expect the content to be a UIImage:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -447,7 +447,7 @@ For example, if you expect the content to be a UIImage:</p>
                         <p>A variant of <code><a href="../Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT6ifNoneKT_qd___qd__">typedContent(ifNone:)</a></code> that infers the desired type entirely from context, and returns nil if the
 content is either not present or cannot be cast to that type. For example:</p>
 
-<pre class="highlight plaintext"><code>func showUser(user: User?) {
+<pre class="highlight plaintext"><code>func showUser(_ user: User?) {
   ...
 }
 
@@ -464,7 +464,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -497,7 +497,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -530,7 +530,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -563,7 +563,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -577,7 +577,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

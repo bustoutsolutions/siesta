@@ -207,7 +207,7 @@
             <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
@@ -259,7 +259,7 @@ all the observers of an API share a single instance.</p>
 
 <p>You can optionally specify a <code>baseURL</code>, which allows you to get endpoints by path: <code>service.resource(&quot;/foo&quot;)</code>.
 Specifying a <code>baseURL</code> does <em>not</em> limit the service only to subpaths of that URL. Its one and only purpose is to be
-the starting point for <code>resource(_:)</code></p>
+the starting point for <code>resource(_:)</code>.</p>
 
 <p>Note that <code>baseURL</code> is only a convenience, and is optional.
 If you want to group multiple base URLs in a single <code>Service</code> instance, use <code>resource(baseURL:path:)</code>.
@@ -276,7 +276,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Service.swift#L29-L435">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Service.swift#L29-L434">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -322,7 +322,7 @@ questions changes.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Resource/Resource.swift#L28-L655">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Resource/Resource.swift#L28-L680">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -344,7 +344,7 @@ questions changes.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html">HTTP entity</a>. Consists of data content plus metadata about
+                        <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#">HTTP entity</a>. Consists of data content plus metadata about
 the content’s type and freshness.</p>
 
 <p>Typically extracted from an HTTP message body.</p>
@@ -360,7 +360,7 @@ the content’s type and freshness.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L17-L156">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L17-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -396,7 +396,7 @@ resource.latestError?.jsonDict["error.detail"]
 
 <pre class="highlight plaintext"><code>extension TypedContentAccessors {
   var doorknob: UIDoorknob {
-    return typedContent(ifNone: placeholderKnob))
+    return typedContent(ifNone: placeholderKnob)
   }
 }
 </code></pre>
@@ -416,7 +416,7 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L184-L191">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L184-L191">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -457,7 +457,7 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L16-L84">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L16-L84">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -492,13 +492,13 @@ one specific resource).</p>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>String.configurationPattern(_:)</code>
+    <code><a href="Extensions/String.html#/s:FE6SiestaSS20configurationPatternFT3forCS_7Service_FV10Foundation3URLSb">String.configurationPattern(for:)</a></code>
 
 </div>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>Resource.configurationPattern(_:)</code>
+    <code><a href="Classes/Resource.html#/s:FC6Siesta8Resource20configurationPatternFT3forCS_7Service_FV10Foundation3URLSb">Resource.configurationPattern(for:)</a></code>
 
 </div>
 
@@ -513,7 +513,7 @@ one specific resource).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -527,7 +527,7 @@ one specific resource).</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

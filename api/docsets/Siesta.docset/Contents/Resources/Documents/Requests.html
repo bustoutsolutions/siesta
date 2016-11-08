@@ -207,7 +207,7 @@
             <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
@@ -255,7 +255,7 @@
 <p>Note that this represents only a <em>single request</em>, whereas <code><a href="Protocols/ResourceObserver.html">ResourceObserver</a></code>s receive notifications about
 <em>all</em> resource load requests, no matter who initiated them. Note also that these hooks are available for <em>all</em>
 requests, whereas <code><a href="Protocols/ResourceObserver.html">ResourceObserver</a></code>s only receive notifications about changes triggered by <code>load()</code>, <code>loadIfNeeded()</code>,
-and <code>overrideLocalData(_:)</code>.</p>
+and <code>overrideLocalData(...)</code>.</p>
 
 <p><code>Request</code> guarantees that it will call any given callback <em>at most</em> one time.</p>
 
@@ -281,7 +281,7 @@ will see the same behavior regardless of whether the request has not started yet
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Request/Request.swift#L58-L176">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Request/Request.swift#L58-L177">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -314,7 +314,7 @@ will see the same behavior regardless of whether the request has not started yet
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Request/Request.swift#L16-L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Request/Request.swift#L16-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -346,7 +346,7 @@ failure (with an error).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Request/Request.swift#L182-L208">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Request/Request.swift#L183-L209">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -377,7 +377,7 @@ failure (with an error).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Request/Request.swift#L211-L232">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Request/Request.swift#L212-L233">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -414,7 +414,7 @@ failure (with an error).</p>
 <p><code>RequestError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
 even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
-because network implementations may sometimes provide <em>both</em> an underlying NSError <em>and</em> an HTTP diagnostic.</p>
+because network implementations may sometimes provide <em>both</em> an underlying <code>Error</code> <em>and</em> an HTTP diagnostic.</p>
 
 <p>The one ironclad guarantee that <code>RequestError</code> makes is the presence of a <code>userMessage</code>.</p>
 
@@ -429,7 +429,7 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L29-L94">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L29-L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -470,7 +470,7 @@ because network implementations may sometimes provide <em>both</em> an underlyin
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Request/RequestChaining.swift#L65-L75">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Request/RequestChaining.swift#L65-L75">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -484,7 +484,7 @@ because network implementations may sometimes provide <em>both</em> an underlyin
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

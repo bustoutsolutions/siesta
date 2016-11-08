@@ -27,7 +27,7 @@ Observers receive a notification whenever a resource’s state changes: when it 
 The simplest way to implement your observer is to ignore what kind of event triggered the notification, and take an idempotent “update everything” approach:
 
 ```swift
-func resourceChanged(resource: Resource, event: ResourceEvent) {
+func resourceChanged(_ resource: Resource, event: ResourceEvent) {
     // The convenience .jsonDict accessor returns empty dict if no
     // data, so the same code can both populate and clear fields.
     let json = resource.jsonDict
@@ -49,7 +49,7 @@ If updating the whole UI is an expensive operation (but it rarely is; benchmark 
 For example, if you have an expensive update you want to perform only when `latestData` changes:
 
 ```swift
-func resourceChanged(resource: Resource, event: ResourceEvent) {
+func resourceChanged(_ resource: Resource, event: ResourceEvent) {
     if case .newData = event {
         // Do expensive update
     }
@@ -59,7 +59,7 @@ func resourceChanged(resource: Resource, event: ResourceEvent) {
 If your API supports the `ETag` header, you could also use the `Entity.etag` property:
 
 ```swift
-func resourceChanged(resource: Resource, event: ResourceEvent) {
+func resourceChanged(_ resource: Resource, event: ResourceEvent) {
     if displayedEtag != resource.latestData?.etag {
         displayedEtag = resource.latestData?.etag
         // Do expensive update

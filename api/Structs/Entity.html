@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -236,7 +236,7 @@
 
                 </div>
               </div>
-            <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html">HTTP entity</a>. Consists of data content plus metadata about
+            <p>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#">HTTP entity</a>. Consists of data content plus metadata about
 the content’s type and freshness.</p>
 
 <p>Typically extracted from an HTTP message body.</p>
@@ -261,7 +261,7 @@ the content’s type and freshness.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The data itself. When constructed from an HTTP response, it begins its life as <code>NSData</code>, but may become any type
+                        <p>The data itself. When constructed from an HTTP response, it begins its life as <code>Data</code>, but may become any type
 of object after running though the service’s <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain.</p>
 
 <p>When using <code>content</code>, because you do not know what the server actually returned, write your code to handle it
@@ -292,7 +292,7 @@ saying, we’re cautiously optimistic that Swift 4 will be able to support this.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L34">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -329,7 +329,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L46-L47">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L46-L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -359,7 +359,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L52">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -389,7 +389,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L57-L58">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L57-L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -447,7 +447,7 @@ for example, you might see “<code>text/plain</code>”, “<code>text/plain; c
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L67-L68">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L67-L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -470,7 +470,7 @@ mutate the dictionary).</p>
 
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    See also: <code>header(_:)</code>
+    See also: <code><a href="../Structs/Entity.html#/s:FV6Siesta6Entity6headerFT6forKeySS_GSqSS_">header(forKey:)</a></code>
 
 </div>
 
@@ -484,7 +484,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L76-L83">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L76-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -514,7 +514,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L88">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -544,7 +544,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L93-L102">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L93-L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -566,7 +566,7 @@ mutate the dictionary).</p>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>Resource.overrideLocalData(_:)</code>
+    <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource17overrideLocalDataFT4withGVS_6EntityP___T_">Resource.overrideLocalData(with:)</a></code>
 
 </div>
 
@@ -584,7 +584,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L109-L119">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L109-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -618,7 +618,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L124-L142">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L124-L142">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -648,7 +648,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L145-L146">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L145-L146">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -678,7 +678,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L149-L155">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L149-L155">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -712,7 +712,7 @@ mutate the dictionary).</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L246">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -726,7 +726,7 @@ mutate the dictionary).</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

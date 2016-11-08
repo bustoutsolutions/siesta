@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -292,7 +292,7 @@ Siesta uses the value configured for GET; if you override this for other HTTP me
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L28">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -331,7 +331,7 @@ Siesta uses the value configured for GET; if you override this for other HTTP me
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -381,7 +381,7 @@ will depend on the <em>post-mutation</em> request method.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -405,7 +405,7 @@ requests, or wrap them in special behavior that is transparent to outside observ
 <p>You can add any number of decorators. Decorators are called in the order they were added, and each receives the
 request returned by the previous one.
 If the closure returns a different request than the one passed to it, then that request replaces the original one.
-In other words, a caller of <code>Service.request(...)</code> or <code>Service.load(...)</code> sees <em>only</em> the request returned by the
+In other words, a caller of <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource7requestFTOS_13RequestMethod15requestMutationFRV10Foundation10URLRequestT__PS_7Request_">Resource.request(...)</a></code> or <code><a href="../Classes/Resource.html#/s:FC6Siesta8Resource4loadFT_PS_7Request_">Resource.load(...)</a></code> sees <em>only</em> the request returned by the
 last decorator, not the originally created one.</p>
 
 <div class="aside aside-note">
@@ -431,7 +431,7 @@ decorator may choose to defer requests, or prevent them from ever reaching the n
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L67-L68">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L67-L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -462,7 +462,7 @@ provide fast app startup &amp; offline access.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L76">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -481,7 +481,7 @@ provide fast app startup &amp; offline access.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Interval at which request hooks &amp; observers receive progress updates. This affects how frequently
-<code><a href="../Protocols/Request.html#/s:FP6Siesta7Request10onProgressFFSdT_x">Request.onProgress(_:)</a></code> and <code>ResourceObserver.resourceRequestProgress(_:progress:)</code> are called, and how often the
+<code><a href="../Protocols/Request.html#/s:FP6Siesta7Request10onProgressFFSdT_x">Request.onProgress(_:)</a></code> and <code><a href="../Protocols/ResourceObserver.html#/s:FP6Siesta16ResourceObserver23resourceRequestProgressFT3forCS_8Resource8progressSd_T_">ResourceObserver.resourceRequestProgress(...)</a></code> are called, and how often the
 <code><a href="../Protocols/Request.html#/s:vP6Siesta7Request8progressSd">Request.progress</a></code> property (which is partially time-based) is updated.</p>
 
                       </div>
@@ -494,7 +494,7 @@ provide fast app startup &amp; offline access.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Configuration.swift#L83">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Configuration.swift#L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -508,7 +508,7 @@ provide fast app startup &amp; offline access.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -251,7 +251,7 @@
 <p><code>RequestError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
 even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
-because network implementations may sometimes provide <em>both</em> an underlying NSError <em>and</em> an HTTP diagnostic.</p>
+because network implementations may sometimes provide <em>both</em> an underlying <code>Error</code> <em>and</em> an HTTP diagnostic.</p>
 
 <p>The one ironclad guarantee that <code>RequestError</code> makes is the presence of a <code>userMessage</code>.</p>
 
@@ -296,7 +296,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -326,7 +326,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L42">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -356,7 +356,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L45">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -387,7 +387,7 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L49">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -417,7 +417,7 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L52">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -454,7 +454,7 @@ a user message. That failing, it gives a generic failure message.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L60-L80">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L60-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -487,7 +487,7 @@ a user message. That failing, it gives a generic failure message.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L85-L93">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L85-L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -520,13 +520,13 @@ and you want to show users a placeholder message instead of an error, then (1) g
 (2) you can turn that one specific error into a success by adding a transformer:</p>
 
 <pre class="highlight plaintext"><code>configure {
-  $0.responseTransformers.add(GarbledResponseHandler())
+  $0.pipeline[.parsing].add(GarbledResponseHandler())
 }
 
 ...
 
 struct GarbledResponseHandler: ResponseTransformer {
-  func process(response: Response) -&gt; Response {
+  func process(_ response: Response) -&gt; Response {
     switch response {
       case .success:
         return response
@@ -555,7 +555,7 @@ struct GarbledResponseHandler: ResponseTransformer {
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/RequestError.swift#L133-L210">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/RequestError.swift#L133-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -589,7 +589,7 @@ struct GarbledResponseHandler: ResponseTransformer {
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Entity.swift#L258">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Entity.swift#L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -603,7 +603,7 @@ struct GarbledResponseHandler: ResponseTransformer {
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

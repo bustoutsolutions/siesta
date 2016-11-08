@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -249,7 +249,7 @@ custom stages, and customize their order. Each stage has zero or more <code><a h
 <pre class="highlight plaintext"><code>service.configure {
   $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
   $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-  $0.pipeline[.model].cache = myRealmCache
+  $0.pipeline[.model].cacheUsing(myRealmCache)
 }
 
 service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -259,8 +259,8 @@ service.configureTransformer("/item/​*") {  // Replaces .model stage by defaul
 
 <p>By default, Siesta pipelines start with parsers for common data types (JSON, text, image) configured at the
 <code><a href="../Classes/PipelineStageKey.html#/s:ZvC6Siesta16PipelineStageKey7parsingS0_">PipelineStageKey.parsing</a></code> stage. You can remove these default transformers for individual configurations using calls
-such as <code>clear()</code> and <code>removeAllTransformers()</code>, or you can disable these default parsers entirely by passing
-<code>useDefaultTransformers: false</code> when creating a <code><a href="../Classes/Service.html">Service</a></code>.</p>
+such as <code>clear()</code> and <code>PipelineStage.removeAllTransformers()</code>, or you can disable these default parsers entirely by
+passing <code>useDefaultTransformers: false</code> when creating a <code><a href="../Classes/Service.html">Service</a></code>.</p>
 
 <p>Services do not have any persistent caching by default.</p>
 
@@ -296,7 +296,7 @@ such as <code>clear()</code> and <code>removeAllTransformers()</code>, or you ca
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L79">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -349,7 +349,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L59-L74">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L59-L74">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -379,7 +379,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L91-L95">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L91-L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -401,7 +401,9 @@ add or reorder stages if you have complex response processing needs.</p>
 
 <p>You can use this to prevent sensitive resources from being cached:</p>
 
-<pre class="highlight plaintext"><code>configure("/secret") { $0.pipeline.removeAllCaches() }
+<pre class="highlight plaintext"><code>service.configure("/secret") {
+  $0.pipeline.removeAllCaches()
+}
 </code></pre>
 
                       </div>
@@ -414,7 +416,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L104-L108">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L106-L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -444,7 +446,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L113-L117">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L115-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -458,7 +460,7 @@ add or reorder stages if you have complex response processing needs.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

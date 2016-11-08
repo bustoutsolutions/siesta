@@ -208,7 +208,7 @@
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
@@ -232,14 +232,14 @@
             <h1>ResponseContentTransformer</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span><span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span> <span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                 </div>
               </div>
             <p>A simplified <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
 surrounding metadata.</p>
 
-<p>If <code>processContent(_:)</code> throws or returns nil, the output is an error.</p>
+<p>If <code>processEntity(_:)</code> throws or returns nil, the output is an error.</p>
 
 <p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.</p>
 
@@ -281,7 +281,7 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L129">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L126">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -303,7 +303,7 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
     <p class="aside-title">Parameter</p>
     Parameter mismatchAction:
 Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>.
-See <code><a href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a></code> for options. The default is <code>.Error</code>.
+See <code><a href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a></code> for options. The default is <code>.error</code>.
 
 </div>
 
@@ -347,7 +347,7 @@ The transformation logic.
                               </td>
                               <td>
                                 <div>
-                                  <p>Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>. See <code>InputTypeMismatchAction</code> for options. The default is <code>.Error</code>.</p>
+                                  <p>Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>. See <code>InputTypeMismatchAction</code> for options. The default is <code>.error</code>.</p>
 
                                 </div>
                               </td>
@@ -382,7 +382,7 @@ The transformation logic.
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L146-L154">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L143-L151">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -396,7 +396,7 @@ The transformation logic.
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

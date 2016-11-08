@@ -85,7 +85,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 ### What it doesn’t do
 
-- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`NSURLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
+- It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`URLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
 - It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor you prefer, or work directly with parsed JSON.
 
@@ -118,23 +118,23 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/).
+Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/). (Use the `swift-2.x` branches if you haven’t made the big migration yet.)
 
 ### CocoaPods
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-rc.2'
+    pod 'Siesta', '>=1.0-rc.3'
 
 (If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718) fixed only recently, it does not work properly with prerelease version numbers.)
 
 If you want to use the UI helpers:
 
-    pod 'Siesta/UI', '>=1.0-rc.2'
+    pod 'Siesta/UI', '>=1.0-rc.3'
 
-If you want to use Alamofire as your networking provider instead of `NSURLSession`:
+If you want to use Alamofire as your networking provider instead of Foundation’s `URLSession`:
 
-    pod 'Siesta/Alamofire', '>=1.0-rc.2'
+    pod 'Siesta/Alamofire', '>=1.0-rc.3'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)) for more info.)
 
@@ -142,7 +142,7 @@ If you want to use Alamofire as your networking provider instead of `NSURLSessio
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-rc.2"
+    github "bustoutsolutions/siesta" "1.0-rc.3"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project. If you want to use the UI helpers, you will also need to add `SiestaUI.framework` to your project as well.
 
@@ -199,7 +199,7 @@ override func viewDidLoad() {
 Use those notifications to populate your UI:
 
 ```swift
-func resourceChanged(resource: Resource, event: ResourceEvent) {
+func resourceChanged(_ resource: Resource, event: ResourceEvent) {
     nameLabel.text = resource.jsonDict["name"] as? String
     colorLabel.text = resource.jsonDict["favoriteColor"] as? String
 
@@ -246,7 +246,7 @@ func showProfile(profile: UserProfile?) {
 Trigger a staleness-aware, redundant-request-suppressing load when the view appears:
 
 ```swift
-override func viewWillAppear(animated: Bool) {
+override func viewWillAppear(_ animated: Bool) {
     MyAPI.resource("/profile").loadIfNeeded()
 }
 ```
@@ -259,7 +259,7 @@ Add a loading indicator:
 MyAPI.resource("/profile").addObserver(owner: self) {
     [weak self] resource, event in
 
-    self?.activityIndicator.hidden = !resource.isLoading
+    self?.activityIndicator.isHidden = !resource.isLoading
 }
 ```
 
@@ -279,12 +279,12 @@ class ProfileViewController: UIViewController, ResourceObserver {
             .addObserver(statusOverlay)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         MyAPI.resource("/profile").loadIfNeeded()
     }
 
-    func resourceChanged(resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         nameLabel.text  = resource.jsonDict["name"] as? String
         colorLabel.text = resource.jsonDict["favoriteColor"] as? String
     }
@@ -307,9 +307,9 @@ class RemoteImageView: UIImageView {
   
   var placeholderImage: UIImage?
   
-  var imageURL: NSURL? {
+  var imageURL: URL? {
     get { return imageResource?.url }
-    set { imageResource = RemoteImageView.imageCache.resource(url: newValue) }
+    set { imageResource = RemoteImageView.imageCache.resource(absoluteURL: newValue) }
   }
   
   var imageResource: Resource? {
@@ -321,7 +321,8 @@ class RemoteImageView: UIImageView {
     didSet {
       imageResource?.loadIfNeeded()
       imageResource?.addObserver(owner: self) { [weak self] _ in
-        self?.image = imageResource?.typedContent(ifNone: placeholderImage)
+        self?.image = self?.imageResource?.typedContent(
+            ifNone: self?.placeholderImage)
       }
     }
   }
@@ -342,9 +343,9 @@ There’s a more featureful version of `RemoteImageView` [already included with 
 
 Popular REST / networking frameworks have different primary goals:
 
-- [NSURLSession](https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSURLSession_class/) is Apple’s standard iOS HTTP library (and is all most projects need).
+- [URLSession](https://developer.apple.com/reference/foundation/urlsession) is Apple’s standard iOS HTTP library (and is all most projects need).
 - [Siesta](https://bustoutsolutions.github.io/siesta/) untangles state problems with an observable resource cache.
-- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for NSURLSession.
+- [Alamofire](https://github.com/Alamofire/Alamofire) provides a Swifty, modern-feeling wrapper for URLSession.
 - [Moya](https://github.com/Moya/Moya) wraps Alamofire to hide HTTP URLs and parameters.
 - [RestKit](https://github.com/RestKit/RestKit) couples HTTP with JSON ↔ object model ↔ Core Data mapping.
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) is a modern-feeling Obj-C wrapper for Apple’s network APIs, plus a suite of related utilities.
@@ -355,7 +356,7 @@ Siesta has robust functionality, but does not attempt to solve everything. In pa
 
 With all that in mind, here is a capabilities comparison¹:
 
-|                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | NSURLSession   |
+|                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | URLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
 | HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
 | Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
@@ -371,8 +372,8 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2431               | 2347           | 13276         | 804       | 4033            | ?              |
-| Built on top of | <small>any (injectable)</small>| <small>NSURLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
+| Nontrivial lines of code²   | 2424               | 2349           | 13276         | 822       | 4025            | ?              |
+| Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>

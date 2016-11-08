@@ -207,7 +207,7 @@
             <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta17NSJSONConvertible">NSJSONConvertible</a>
+                <a class="nav-group-task-link" href="Other Protocols.html#/s:P6Siesta15JSONConvertible">JSONConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/URLConvertible.html">URLConvertible</a>
@@ -263,7 +263,7 @@ custom stages, and customize their order. Each stage has zero or more <code><a h
 <pre class="highlight plaintext"><code>service.configure {
   $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
   $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-  $0.pipeline[.model].cache = myRealmCache
+  $0.pipeline[.model].cacheUsing(myRealmCache)
 }
 
 service.configureTransformer("/item/​*") {  // Replaces .model stage by default
@@ -273,8 +273,8 @@ service.configureTransformer("/item/​*") {  // Replaces .model stage by defaul
 
 <p>By default, Siesta pipelines start with parsers for common data types (JSON, text, image) configured at the
 <code><a href="Classes/PipelineStageKey.html#/s:ZvC6Siesta16PipelineStageKey7parsingS0_">PipelineStageKey.parsing</a></code> stage. You can remove these default transformers for individual configurations using calls
-such as <code>clear()</code> and <code>removeAllTransformers()</code>, or you can disable these default parsers entirely by passing
-<code>useDefaultTransformers: false</code> when creating a <code><a href="Classes/Service.html">Service</a></code>.</p>
+such as <code>clear()</code> and <code>PipelineStage.removeAllTransformers()</code>, or you can disable these default parsers entirely by
+passing <code>useDefaultTransformers: false</code> when creating a <code><a href="Classes/Service.html">Service</a></code>.</p>
 
 <p>Services do not have any persistent caching by default.</p>
 
@@ -289,7 +289,7 @@ such as <code>clear()</code> and <code>removeAllTransformers()</code>, or you ca
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L118">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -332,7 +332,7 @@ transform without disabling JSON parsing.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L132-L203">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L134-L205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -355,7 +355,7 @@ identity or equality, so these keys are the only way to alter transformers after
 
 <p>Stage keys are arbitrary, and have no intrinsic meaning. The descriptions of the default stages are for human
 comprehensibility, and Siesta does not enforce them in any way (e.g. it does not prevent you from configuring the
-<code>rawData</code> stage to output something other than <code>NSData</code>).</p>
+<code>rawData</code> stage to output something other than <code>Data</code>).</p>
 
 <p>Because this is not an enum, you can add custom stages:</p>
 
@@ -383,7 +383,7 @@ service.configure {
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/PipelineConfiguration.swift#L242-L250">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/PipelineConfiguration.swift#L244-L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -405,7 +405,7 @@ service.configure {
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Transforms a response from a less parsed form (e.g. <code>NSData</code>) to a more parsed data structure. Responses pass through
+                        <p>Transforms a response from a less parsed form (e.g. <code>Data</code>) to a more parsed data structure. Responses pass through
 a chain of transformers before being sent to response hooks or observers.</p>
 
 <div class="aside aside-warning">
@@ -427,7 +427,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -459,7 +459,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         <p>A simplified <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></code> that deals only with the content of the response entity, and does not touch the
 surrounding metadata.</p>
 
-<p>If <code>processContent(_:)</code> throws or returns nil, the output is an error.</p>
+<p>If <code>processEntity(_:)</code> throws or returns nil, the output is an error.</p>
 
 <p>If the input entity’s content does not match the <code>InputContentType</code>, the response is an error.</p>
 
@@ -469,12 +469,12 @@ surrounding metadata.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span><span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span> <span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L118-L246">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L115-L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -517,7 +517,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L254-L264">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L253-L263">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -546,7 +546,7 @@ surrounding metadata.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>NSData</code> content as JSON, outputting either a dictionary or an array.</p>
+                        <p>Parses <code>Data</code> content as JSON, outputting either a dictionary or an array.</p>
 
                       </div>
                       <div class="declaration">
@@ -558,7 +558,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L290-L301">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L289-L300">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -576,7 +576,7 @@ surrounding metadata.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>NSData</code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
+                        <p>Parses <code>Data</code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
 
                       </div>
                       <div class="declaration">
@@ -588,7 +588,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L270-L287">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L269-L286">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -606,7 +606,7 @@ surrounding metadata.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>NSData</code> content as an image, yielding a <code>UIImage</code>.</p>
+                        <p>Parses <code>Data</code> content as an image, yielding a <code>UIImage</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -618,7 +618,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.2/Source/Siesta/Pipeline/ResponseTransformer.swift#L304-L313">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0-rc.3/Source/Siesta/Pipeline/ResponseTransformer.swift#L303-L312">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -632,7 +632,7 @@ surrounding metadata.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

@@ -31,7 +31,7 @@ To update a resource with a POST/PUT/PATCH, use `request()`:
 MyAPI.profile.request(.post, json: ["foo": [1,2,3]])
 MyAPI.profile.request(.post, urlEncoded: ["foo": "bar"])
 MyAPI.profile.request(.post, text: "Many years later, in front of the terminal...")
-MyAPI.profile.request(.post, data: nsdata)
+MyAPI.profile.request(.post, data: rawData, contentType: "text/limerick")
 ```
 
 ## Request Hooks
@@ -82,28 +82,29 @@ resource.request(.put, json: newState).onSuccess() {
 
 ```swift
 resource.request(.post, json: newState).onSuccess() {
-    let createdResource = resource.relative($0.header("Location")))
+    let createdResource = resource.optionalRelative(
+        $0.header(forKey: "Location"))
     …
 }
 ```
 
 ### Local Mutation After Update
 
-You can also manually update the local state using [`Resource.overrideLocalData(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalData(with:)) or [`Resource.overrideLocalContent(_:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalContent(with:)):
+You can also manually update the local state using [`Resource.overrideLocalData(with:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalData(with:)) or [`Resource.overrideLocalContent(with:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/overrideLocalContent(with:)):
 
 ```swift
 resource.request(.put, json: newState).onSuccess() {
-    _ in resource.overrideLocalContent(newState)
+    _ in resource.overrideLocalContent(with: newState)
 }
 ```
 
 …or perhaps you are making a partial update:
 
 ```swift
-resource.request(.PATCH, json: ["foo": "bar"]).onSuccess() { _ in
+resource.request(.patch, json: ["foo": "bar"]).onSuccess() { _ in
     var updatedState = resource.jsonDict
     updatedState["foo"] = "bar"
-    resource.overrideLocalContent(updatedState)
+    resource.overrideLocalContent(with: updatedState)
 }
 ```
 
@@ -114,10 +115,9 @@ This technique avoids an extra network request, but it is dangerous: it puts the
 When a POST/PUT/PATCH response returns the entire state of the resource in exactly the same format as GET does, you can tell Siesta to treat it as a load request. Pass your manually created request directly to [`load(using:)`](https://bustoutsolutions.github.io/siesta/api/Classes/Resource.html#//apple_ref/swift/Method/load(using:)):
 
 ```swift
-resource.load(usingRequest:
+resource.load(using:
     resource.request(.put, json: newState)
-        .onSuccess() { … }
-}
+        .onSuccess() { … })
 ```
 
 <p class='guide-next'>Next: <strong><a href='../configuration'>Configuration</a></strong></p>
