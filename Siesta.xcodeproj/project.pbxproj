@@ -135,6 +135,7 @@
 		DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */; };
 		DAFB3C4F1B3DEFE8009CF96C /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */; };
+		DAFFA2221DDBA86F00F0EE2A /* Ω_UI_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFFA2201DDBA7FF00F0EE2A /* Ω_UI_Deprecations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -309,6 +310,7 @@
 		DAFA89271B8172920090D283 /* SiestaSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaSpec.swift; sourceTree = "<group>"; };
 		DAFB3C4C1B3DEFC2009CF96C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		DAFB3C4E1B3DEFE8009CF96C /* RequestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
+		DAFFA2201DDBA7FF00F0EE2A /* Ω_UI_Deprecations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ω_UI_Deprecations.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -592,6 +594,7 @@
 				00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */,
 				DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */,
 				DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */,
+				DAFFA2201DDBA7FF00F0EE2A /* Ω_UI_Deprecations.swift */,
 			);
 			name = "UI (iOS)";
 			path = SiestaUI;
@@ -1020,6 +1023,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAFFA2221DDBA86F00F0EE2A /* Ω_UI_Deprecations.swift in Sources */,
 				DAC0B3DA1D6529BA00D25C44 /* SiestaUI-ObjC.swift in Sources */,
 				DAC0B3941D651CB500D25C44 /* ResourceStatusOverlay.swift in Sources */,
 				DAC0B3DE1D652AD300D25C44 /* Collection+Siesta.swift in Sources */,
