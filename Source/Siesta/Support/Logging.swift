@@ -27,8 +27,7 @@ public enum LogCategory
     /// `ResourceEvent` broadcast by resources.
     case stateChanges
 
-    /// Detailed information about which events are sent to which observers, when they are added, and when they are
-    /// removed.
+    /// Detailed information about when observers are added, when they are removed, and which events they receive.
     case observers
 
     /// Information about how `Resource.loadIfNeeded()` decides whether to initiate a request.

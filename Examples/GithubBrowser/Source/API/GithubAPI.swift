@@ -14,17 +14,22 @@ class _GithubAPI {
 
     fileprivate init() {
         #if DEBUG
-            LogCategory.enabled = [.network, .staleness]
+            // Bare-bones logging of which network calls Siesta makes:
+            LogCategory.enabled = [.network]
+
+            // For more info about how Siesta decides whether to make a network call,
+            // and when it broadcasts state updates to the app:
+            //LogCategory.enabled = LogCategory.common
+
+            // For the gory details of what Siesta’s up to:
+            //LogCategory.enabled = LogCategory.detailed
         #endif
 
-        // Configuration
+        // Global configuration
 
-        service.configure("**") {
-            // The basicAuthHeader property’s didSet causes this config to be reapplied whenever auth changes.
-
-            $0.headers["Authorization"] = self.basicAuthHeader
-
-            // By default, Siesta parses JSON using Foundation JSONSerialization. This transformer wraps that with SwiftyJSON.
+        service.configure {
+            // By default, Siesta parses JSON using Foundation JSONSerialization.
+            // This transformer wraps that with SwiftyJSON.
 
             $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*/json"])
 
@@ -34,14 +39,27 @@ class _GithubAPI {
             $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
         }
 
+        // Resource-specific configuration
+
         service.configure("/search/**") {
             $0.expirationTime = 10  // Refresh search results after 10 seconds (Siesta default is 30)
+        }
+
+        // Auth configuration
+
+        // Note the "**" pattern, which makes this config apply only to subpaths of baseURL.
+        // This prevents accidental credential leakage to untrusted servers.
+
+        service.configure("**") {
+            // This header configuration gets reapplied whenever the user logs in or out.
+            // How? See the basicAuthHeader property’s didSet.
+
+            $0.headers["Authorization"] = self.basicAuthHeader
         }
 
         // Mapping from specific paths to models
 
         service.configureTransformer("/users/*") {
-            // Swift 3 TODO: see if bare $0 bug is finally fixed, or consider passing struct that still supports $0.content
             try User(json: $0.content)  // Input type inferred because User.init takes JSON
         }
 
@@ -52,7 +70,8 @@ class _GithubAPI {
         }
 
         service.configureTransformer("/search/repositories") {
-            try ($0.content as JSON)["items"].arrayValue
+            try ($0.content as JSON)["items"]
+                .arrayValue
                 .map(Repository.init)
         }
 
@@ -61,7 +80,7 @@ class _GithubAPI {
         }
 
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
-            $0.pipeline[.model].add(        // This custom transformer turns that curious convention into
+            $0.pipeline[.model].add(               // This custom transformer turns that curious convention into
                 TrueIfResourceFoundTransformer())  // a resource whose content is a simple boolean.
         }
 
@@ -99,8 +118,8 @@ class _GithubAPI {
             service.wipeResources()            // Scrub all unauthenticated data
 
             // Note that wipeResources() broadcasts a “no data” event to all observers of all resources.
-            // Therefore, if your UI diligently observes all the resources it uses, this call prevents sensitive data
-            // from lingering in the UI after logout.
+            // Therefore, if your UI diligently observes all the resources it displays, this call prevents sensitive
+            // data from lingering in the UI after logout.
         }
     }
 
@@ -134,7 +153,9 @@ class _GithubAPI {
     }
 
     func repository(_ repositoryModel: Repository) -> Resource {
-        return repository(ownedBy: repositoryModel.owner.login, named: repositoryModel.name)
+        return repository(
+            ownedBy: repositoryModel.owner.login,
+            named: repositoryModel.name)
     }
 
     func currentUserStarred(_ repositoryModel: Repository) -> Resource {
@@ -149,16 +170,26 @@ class _GithubAPI {
         return starredResource
             .request(isStarred ? .put : .delete)
             .onSuccess { _ in
+                // Update succeeded. Directly update the locally cached “starred / not starred” state.
+
                 starredResource.overrideLocalContent(with: isStarred)
-                self.repository(repositoryModel).load()  // To update star count
+
+                // Ask server for an updated star count. Note that we only need to trigger the load here, not handle
+                // the response! Any UI that is displaying the star count will be observing this resource, and thus
+                // will pick up the change. The code that knows _when_ to trigger the load is decoupled from the code
+                // that knows _what_ to do with the updated data. This is the magic of Siesta.
+
+                self.repository(repositoryModel).load()
             }
     }
 }
 
+/// Wraps all response entity content with SwiftyJSON
 private let SwiftyJSONTransformer =
-    ResponseContentTransformer
+    ResponseContentTransformer(transformErrors: true)
         { JSON($0.content as AnyObject) }
 
+/// If the response is JSON and has a "message" value, use it as the user-visible error message.
 private struct GithubErrorMessageExtractor: ResponseTransformer {
     func process(_ response: Response) -> Response {
         switch response {
@@ -166,12 +197,14 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
                 return response
 
             case .failure(var error):
-                error.userMessage = error.jsonDict["message"] as? String ?? error.userMessage
+                let json = error.typedContent(ifNone: JSON.null)
+                error.userMessage = json["message"].string ?? error.userMessage
                 return .failure(error)
         }
     }
 }
 
+/// Special handling for detecting whether repo is starred; see "/user/starred/*/*" config above
 private struct TrueIfResourceFoundTransformer: ResponseTransformer {
     func process(_ response: Response) -> Response {
         switch response {

@@ -17,7 +17,7 @@
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
 		DAAC4E461D3AAD1B00FB3CE2 /* RepositoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAC4E451D3AAD1B00FB3CE2 /* RepositoryViewController.swift */; };
 		DAE27A801D3F1EF400D757F9 /* Optional+GithubBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE27A7F1D3F1EF400D757F9 /* Optional+GithubBrowser.swift */; };
-		DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */; };
+		DAE2F84A1B94F10500D2AD96 /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8441B94F10500D2AD96 /* GitHubAPI.swift */; };
 		DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */; };
 		DAE2F84D1B94F10500D2AD96 /* RepositoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */; };
 		DAE2F84E1B94F10500D2AD96 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2F8491B94F10500D2AD96 /* UserViewController.swift */; };
@@ -38,7 +38,7 @@
 		DA7462481B4C768B00406D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAAC4E451D3AAD1B00FB3CE2 /* RepositoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryViewController.swift; sourceTree = "<group>"; };
 		DAE27A7F1D3F1EF400D757F9 /* Optional+GithubBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+GithubBrowser.swift"; sourceTree = "<group>"; };
-		DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
+		DAE2F8441B94F10500D2AD96 /* GitHubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPI.swift; sourceTree = "<group>"; };
 		DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAE2F8481B94F10500D2AD96 /* RepositoryListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryListViewController.swift; sourceTree = "<group>"; };
 		DAE2F8491B94F10500D2AD96 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		DAE2F8431B94F10500D2AD96 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				DAE2F8441B94F10500D2AD96 /* GithubAPI.swift */,
+				DAE2F8441B94F10500D2AD96 /* GitHubAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -282,7 +282,7 @@
 				DA2B556A1C7EDE7B00EB4D67 /* LoginViewController.swift in Sources */,
 				DA2B55621C7D6F8700EB4D67 /* User.swift in Sources */,
 				DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */,
-				DAE2F84A1B94F10500D2AD96 /* GithubAPI.swift in Sources */,
+				DAE2F84A1B94F10500D2AD96 /* GitHubAPI.swift in Sources */,
 				DAE27A801D3F1EF400D757F9 /* Optional+GithubBrowser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +350,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -389,6 +390,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -402,7 +404,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Source/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.GithubBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
