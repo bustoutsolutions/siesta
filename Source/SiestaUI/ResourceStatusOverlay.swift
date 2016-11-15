@@ -39,7 +39,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
 
     private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
-    private var retryRequestsInProgress = 0
+    private var manualLoadsInProgress = 0
 
     // MARK: Creating an overlay
 
@@ -224,7 +224,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
                         { return showLoading() }
 
                 case .manualLoading:
-                    if retryRequestsInProgress > 0
+                    if manualLoadsInProgress > 0
                         { return showLoading() }
 
                 case .anyData:
@@ -296,7 +296,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     /// Enable `StateRule.manualLoading` for the lifespan of the given request.
     public func trackManualLoad(_ request: Request)
         {
-        retryRequestsInProgress += 1
+        manualLoadsInProgress += 1
         updateDisplay()
 
         request.onCompletion
@@ -305,7 +305,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             guard let overlay = self else
                 { return }
 
-            overlay.retryRequestsInProgress -= 1
+            overlay.manualLoadsInProgress -= 1
             overlay.updateDisplay()
             }
         }
