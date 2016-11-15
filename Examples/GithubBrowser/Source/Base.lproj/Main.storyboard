@@ -79,8 +79,8 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="vip-xz-2oF"/>
                                         <exclude reference="Hsp-fY-QCO"/>
+                                        <exclude reference="vip-xz-2oF"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -225,12 +225,12 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="aGh-6g-A9O"/>
+                                            <exclude reference="wQ6-XM-XqQ"/>
                                             <exclude reference="7NV-Ty-vgh"/>
                                             <exclude reference="8F5-kd-jJ2"/>
                                             <exclude reference="CWY-GE-X0W"/>
                                             <exclude reference="mFs-0P-Ij7"/>
-                                            <exclude reference="aGh-6g-A9O"/>
-                                            <exclude reference="wQ6-XM-XqQ"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -324,13 +324,13 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" text="LANGUAGES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8a-w4-rrp">
                                         <rect key="frame" x="8" y="95.5" width="304" height="13"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                         <color key="textColor" red="0.69411764710000001" green="0.69411764710000001" blue="0.69411764710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" text="CONTRIBUTORS" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ou-BL-KLR">
                                         <rect key="frame" x="8" y="150" width="304" height="13"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                         <color key="textColor" red="0.69411764710000001" green="0.69411764710000001" blue="0.69411764710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
