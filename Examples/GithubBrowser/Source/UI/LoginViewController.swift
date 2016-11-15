@@ -10,7 +10,7 @@ class LoginViewController: UIViewController {
         usernameField.becomeFirstResponder()
     }
 
-    @IBAction func cancel(_ sender: AnyObject) {
+    @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true) { }
     }
 

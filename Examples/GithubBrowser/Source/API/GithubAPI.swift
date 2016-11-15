@@ -79,6 +79,12 @@ class _GitHubAPI {
             try Repository(json: $0.content)
         }
 
+        service.configureTransformer("/repos/*/*/contributors") {
+            try ($0.content as JSON)
+                .arrayValue
+                .map(User.init)
+        }
+
         service.configure("/user/starred/*/*") {   // Github gives 202 for “starred” and 404 for “not starred.”
             $0.pipeline[.model].add(               // This custom transformer turns that curious convention into
                 TrueIfResourceFoundTransformer())  // a resource whose content is a simple boolean.
