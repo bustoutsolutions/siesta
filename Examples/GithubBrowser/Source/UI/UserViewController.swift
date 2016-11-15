@@ -35,7 +35,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         // typedContent() infers that we want a User from context: showUser() expects one. Our content tranformer
-        // configuation in GithubAPI makes it so that the userResource actually holds a User. It is up to a Siesta
+        // configuation in GitHubAPI makes it so that the userResource actually holds a User. It is up to a Siesta
         // client to ensure that the transformer output and the expected content type line up like this.
         //
         // If there were a type mismatch, typedContent() would return nil. (We could also provide a default value with
@@ -86,7 +86,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             // Setting userResource triggers a load and display of the new user data. Note that Siesta’s redunant
             // request elimination and model caching make it reasonable to do this on every keystroke.
 
-            userResource = GithubAPI.user(searchText)
+            userResource = GitHubAPI.user(searchText)
         } else {
             userResource = nil
             showUser(nil)
@@ -118,7 +118,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
             repositoriesResource = nil
         } else {
             title = "Active Repositories"
-            repositoriesResource = GithubAPI.activeRepositories
+            repositoriesResource = GitHubAPI.activeRepositories
         }
 
         // Setting the repositoriesResource property of the embedded VC triggers load & display of the user’s repos.
@@ -130,8 +130,8 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     // MARK: Log in / out
 
     @IBAction func logInOrOut() {
-        if(GithubAPI.isAuthenticated) {
-            GithubAPI.logOut()
+        if(GitHubAPI.isAuthenticated) {
+            GitHubAPI.logOut()
             updateLoginButton()
         } else {
             performSegue(withIdentifier: "login", sender: loginButton)
@@ -139,7 +139,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     }
 
     private func updateLoginButton() {
-        loginButton.setTitle(GithubAPI.isAuthenticated ? "Log Out" : "Log In", for: UIControlState())
+        loginButton.setTitle(GitHubAPI.isAuthenticated ? "Log Out" : "Log In", for: UIControlState())
         userResource?.loadIfNeeded()
     }
 }

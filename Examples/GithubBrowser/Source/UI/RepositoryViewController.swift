@@ -81,7 +81,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
 
     func showStarred() {
         if let repository = repository {
-            starredResource = GithubAPI.currentUserStarred(repository)
+            starredResource = GitHubAPI.currentUserStarred(repository)
         } else {
             starredResource = nil
         }
@@ -114,7 +114,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         //    parses responses only once, no matter how many callback there are, the performance cost is negligible.
 
         startStarRequestAnimation()
-        GithubAPI.setStarred(!isStarred, repository: repository)
+        GitHubAPI.setStarred(!isStarred, repository: repository)
             .onCompletion { _ in self.stopStarRequestAnimation() }
     }
 

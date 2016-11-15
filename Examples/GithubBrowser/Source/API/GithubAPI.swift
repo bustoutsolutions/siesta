@@ -4,9 +4,9 @@ import SwiftyJSON
 // Depending on your taste, a Service can be a global var, a static var singleton, or a piece of more carefully
 // controlled shared state passed between pieces of the app.
 
-let GithubAPI = _GithubAPI()
+let GitHubAPI = _GitHubAPI()
 
-class _GithubAPI {
+class _GitHubAPI {
 
     // MARK: Configuration
 

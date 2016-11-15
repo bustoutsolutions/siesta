@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
             return
         }
 
-        GithubAPI.logIn(username: username, password: password)
+        GitHubAPI.logIn(username: username, password: password)
         dismiss(animated: true) { }
     }
 }
