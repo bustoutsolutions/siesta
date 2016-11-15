@@ -164,20 +164,20 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
 
       The default priority is:
 
-          [.Loading, .Error, .AnyData]
+          [.loading, .error, .anyData]
 
       If you instead prefer to _always_ show existing data, even if it is stale:
 
-          [.AnyData, .Loading, .Error]  // What I think you want?
+          [.anyData, .loading, .error]  // What I think you want?
 
       If you have a timer refreshing a resource periodically in the background and don’t want that to trigger a loading
       indicator, but you _do_ want a manual refresh to show the indicator, then use:
 
-          [.ManualLoading, .AnyData, .Error, .Loading]
+          [.manualLoading, .anyData, .error, .loading]
 
       …and call `trackManualLoad(_:)` with your user-initiated request.
     */
-    public var displayPriority: [StateRule] = [.Loading, .Error, .AnyData]
+    public var displayPriority: [StateRule] = [.loading, .error, .anyData]
 
     /**
       Arbitrarily prioritizable rules for governing the behavior of `ResourceStatusOverlay`.
@@ -187,21 +187,21 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     public enum StateRule: String
         {
         /// If `Resource.isLoading` is true for any observed resources, enter the **loading** state.
-        case Loading
+        case loading
 
         /// If any request passed to `ResourceStatusOverlay.trackManualLoad(_:)` is still in progress,
         /// enter the **loading** state.
-        case ManualLoading
+        case manualLoading
 
         /// If `Resource.latestData` is non-nil for _any_ observed resources, enter the **success** state.
-        case AnyData
+        case anyData
 
         /// If `Resource.latestData` is non-nil for _all_ observed resources, enter the **success** state.
-        case AllData
+        case allData
 
         /// If `Resource.latestError` is non-nil for any observed resources, enter the **error** state.
         /// If multiple observed resources have errors, pick one arbitrarily to show its error message.
-        case Error
+        case error
         }
 
     /// :nodoc:
@@ -219,23 +219,23 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             {
             switch mode
                 {
-                case .Loading:
+                case .loading:
                     if observedResources.any(match: { $0.isLoading })
                         { return showLoading() }
 
-                case .ManualLoading:
+                case .manualLoading:
                     if retryRequestsInProgress > 0
                         { return showLoading() }
 
-                case .AnyData:
+                case .anyData:
                     if observedResources.any(match: { $0.latestData != nil })
                         { return showSuccess() }
 
-                case .AllData:
+                case .allData:
                     if observedResources.all(match: { $0.latestData != nil })
                         { return showSuccess() }
 
-                case .Error:
+                case .error:
                     if let error = observedResources.flatMap({ $0.latestError }).first
                         { return showError(error) }
                 }
@@ -293,7 +293,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
         retryFailedRequests()
         }
 
-    /// Enable `StateRule.ManualLoading` for the lifespan of the given request.
+    /// Enable `StateRule.manualLoading` for the lifespan of the given request.
     public func trackManualLoad(_ request: Request)
         {
         retryRequestsInProgress += 1

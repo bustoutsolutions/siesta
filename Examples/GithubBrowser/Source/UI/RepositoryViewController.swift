@@ -60,7 +60,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
 
         view.backgroundColor = SiestaTheme.darkColor
         statusOverlay.embedIn(self)
-        statusOverlay.displayPriority = [.AnyData, .Loading, .Error]  // Prioritize partial data over loading indicator
+        statusOverlay.displayPriority = [.anyData, .loading, .error]  // Prioritize partial data over loading indicator
 
         showRepository()
     }
