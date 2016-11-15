@@ -49,8 +49,8 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     public required init()
         {
         super.init(frame: CGRect.zero)
-        loadFrom(
-            nibName: "ResourceStatusOverlay",
+        load(
+            fromNib: "ResourceStatusOverlay",
             bundle: Bundle(for: ResourceStatusOverlay.self))
         }
 
@@ -70,8 +70,8 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
       Populates a status overlay with your custom nib of choice. Your nib may bind as many or as few of the public
       `@IBOutlet`s as it likes.
     */
-    open func loadFrom(
-            nibName: String,
+    open func load(
+            fromNib nibName: String,
             bundle: Bundle = Bundle.main)
         {
         bundle.loadNibNamed(nibName, owner: self as NSObject, options: [:])
@@ -94,7 +94,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
       Be sure to call `positionToCoverParent()` from your `viewDidLayoutSubviews()` method.
     */
     @discardableResult
-    public func embedIn(_ parentViewController: UIViewController) -> Self
+    public func embed(in parentViewController: UIViewController) -> Self
         {
         parentVC = parentViewController
 
@@ -144,7 +144,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
       Positions this view within its current superview so that it covers the given rect in the local coordinates of the
       given view. Has no effect if the overlay has no superview.
     */
-    public func positionToCoverRect(_ rect: CGRect, inView srcView: UIView)
+    public func positionToCover(_ rect: CGRect, inView srcView: UIView)
         {
         if let superview = superview
             {

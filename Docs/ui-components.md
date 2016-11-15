@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController, ResourceObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        statusOverlay.embedIn(self)
+        statusOverlay.embed(in: self)
 
         MyAPI.profile
             .addObserver(self)

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-
 import Foundation
 
 // MARK: Deprecated in 1.0-rc.1
