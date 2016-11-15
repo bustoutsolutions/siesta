@@ -17,6 +17,10 @@ class RepositoryViewController: UIViewController, ResourceObserver {
     @IBOutlet weak var starButton: UIButton?
     @IBOutlet weak var starCountLabel: UILabel?
     @IBOutlet weak var descriptionLabel: UILabel?
+    @IBOutlet weak var homepageButton: UIButton?
+    @IBOutlet weak var languagesLabel: UILabel?
+    @IBOutlet weak var contributorsLabel: UILabel?
+
     var statusOverlay = ResourceStatusOverlay()
 
     // MARK: Resources
@@ -30,6 +34,18 @@ class RepositoryViewController: UIViewController, ResourceObserver {
     var starredResource: Resource? {
         didSet {
             updateObservation(from: oldValue, to: starredResource)
+        }
+    }
+
+    var languagesResource: Resource? {
+        didSet {
+            updateObservation(from: oldValue, to: languagesResource)
+        }
+    }
+
+    var contributorsResource: Resource? {
+        didSet {
+            updateObservation(from: oldValue, to: contributorsResource)
         }
     }
 
@@ -77,14 +93,38 @@ class RepositoryViewController: UIViewController, ResourceObserver {
     func showBasicInfo() {
         navigationItem.title = repository?.name
         descriptionLabel?.text = repository?.description
+        homepageButton?.setTitle(repository?.homepage, for: .normal)
+
+        if let contributors: [User] = contributorsResource?.typedContent() {
+            contributorsLabel?.text = contributors
+                .map { $0.login }
+                .joined(separator: "\n")
+        } else {
+            contributorsLabel?.text = "–"
+        }
+
+        // We don't bother to give the languages their own model, since the response JSON
+        // is so simple already. This is thus an example of how to use raw SwiftyJSON content.
+        // Note that the .json property here is defined in Siesta+SwiftyJSON.
+
+        if let languages = languagesResource?.json.dictionaryValue.keys {
+            languagesLabel?.text = languages.joined(separator: " • ")
+        } else {
+            languagesLabel?.text = "–"
+        }
     }
 
     func showStarred() {
         if let repository = repository {
-            starredResource = GithubAPI.currentUserStarred(repository)
+            starredResource = GitHubAPI.currentUserStarred(repository)
         } else {
             starredResource = nil
         }
+
+        contributorsResource = repositoryResource?.optionalRelative(
+            repository?.contributorsURL)
+        languagesResource = repositoryResource?.optionalRelative(
+            repository?.languagesURL)
 
         starCountLabel?.text = repository?.starCount?.description
         starIcon?.text = isStarred ? "★" : "☆"
@@ -94,7 +134,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
 
     // MARK: Actions
 
-    @IBAction func toggleStar(_ sender: AnyObject) {
+    @IBAction func toggleStar(_ sender: Any) {
         guard let repository = repository else { return }
 
         // Two things of note here:
@@ -114,7 +154,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         //    parses responses only once, no matter how many callback there are, the performance cost is negligible.
 
         startStarRequestAnimation()
-        GithubAPI.setStarred(!isStarred, repository: repository)
+        GitHubAPI.setStarred(!isStarred, repository: repository)
             .onCompletion { _ in self.stopStarRequestAnimation() }
     }
 
@@ -135,5 +175,12 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         stopRotation.damping = 6
         stopRotation.duration = stopRotation.settlingDuration
         starIcon?.layer.add(stopRotation, forKey: "loadingIndicator")
+    }
+
+    @IBAction func openHomepage(_ sender: Any) {
+        if let homepage = repository?.homepage,
+           let homepageURL = URL(string: homepage) {
+            UIApplication.shared.openURL(homepageURL)
+        }
     }
 }

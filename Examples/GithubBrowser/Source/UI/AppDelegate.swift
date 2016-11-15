@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let env = ProcessInfo.processInfo.environment
         if let username = env["GITHUB_USER"],
            let password = env["GITHUB_PASS"] {
-            GithubAPI.logIn(username: username, password: password)
+            GitHubAPI.logIn(username: username, password: password)
         }
 
         return true

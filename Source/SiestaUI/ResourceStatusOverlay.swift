@@ -288,7 +288,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
         }
 
     /// Variant of `retryFailedRequests()` suitable for use as an IBOutlet. (The `sender` is ignored.)
-    @IBAction public func retryFailedRequests(_ sender: AnyObject)
+    @IBAction public func retryFailedRequests(_ sender: Any)
         {
         retryFailedRequests()
         }

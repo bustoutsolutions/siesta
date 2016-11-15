@@ -10,7 +10,7 @@ class LoginViewController: UIViewController {
         usernameField.becomeFirstResponder()
     }
 
-    @IBAction func cancel(_ sender: AnyObject) {
+    @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true) { }
     }
 
@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
             return
         }
 
-        GithubAPI.logIn(username: username, password: password)
+        GitHubAPI.logIn(username: username, password: password)
         dismiss(animated: true) { }
     }
 }
