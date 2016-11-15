@@ -184,11 +184,6 @@ class _GitHubAPI {
     }
 }
 
-/// Wraps all response entity content with SwiftyJSON
-private let SwiftyJSONTransformer =
-    ResponseContentTransformer(transformErrors: true)
-        { JSON($0.content as AnyObject) }
-
 /// If the response is JSON and has a "message" value, use it as the user-visible error message.
 private struct GithubErrorMessageExtractor: ResponseTransformer {
     func process(_ response: Response) -> Response {
@@ -197,8 +192,8 @@ private struct GithubErrorMessageExtractor: ResponseTransformer {
                 return response
 
             case .failure(var error):
-                let json = error.typedContent(ifNone: JSON.null)
-                error.userMessage = json["message"].string ?? error.userMessage
+                // Note: the .json property here is defined in Siesta+SwiftyJSON.swift
+                error.userMessage = error.json["message"].string ?? error.userMessage
                 return .failure(error)
         }
     }
