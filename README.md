@@ -14,7 +14,6 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 8, Swift 3  (See `swift-2.x` branches for legacy support)
 * **License:** MIT
-* **Status:** Solid code, battle-tested on the App Store. Ramping up for official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
 ### Overview
 
@@ -125,8 +124,6 @@ Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple
 In your `Podfile`:
 
     pod 'Siesta', '>=1.0-rc.3'
-
-(If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718) fixed only recently, it does not work properly with prerelease version numbers.)
 
 If you want to use the UI helpers:
 
