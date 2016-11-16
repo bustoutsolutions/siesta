@@ -127,7 +127,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
                 bounds.origin.y += top
                 bounds.size.height -= top + bot
             #endif
-            positionToCoverRect(bounds, inView: parentVC.view)
+            positionToCover(bounds, inView: parentVC.view)
             }
         }
 
@@ -137,7 +137,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     */
     public func positionToCover(_ view: UIView)
         {
-        positionToCoverRect(view.bounds, inView: view)
+        positionToCover(view.bounds, inView: view)
         }
 
     /**
