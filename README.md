@@ -3,8 +3,9 @@
 **The elegant way to write iOS / macOS REST clients**
 
 [![Build Status](https://api.travis-ci.org/bustoutsolutions/siesta.svg?branch=master)](https://travis-ci.org/bustoutsolutions/siesta)
-[![Platforms](https://img.shields.io/cocoapods/p/Siesta.svg?style=flat)](https://bustoutsolutions.github.io/siesta/guide/)
 [![Version](https://img.shields.io/github/tag/bustoutsolutions/siesta.svg?label=version)](https://github.com/bustoutsolutions/siesta/releases)
+[![Platforms](https://img.shields.io/badge/Platforms-iOS%20|%20macOS-f6b854.svg)](https://github.com/bustoutsolutions/siesta#installation)
+[![Docs](https://img.shields.io/badge/Docs-awesome-12a49f.svg)](https://bustoutsolutions.github.io/siesta/guide/)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
 [![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
 
