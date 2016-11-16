@@ -200,6 +200,6 @@ That’s not to say that views should always be resource observers; rather, the 
 
 ## Entity Cache
 
-The transformer pipeline also supports a persistent cache to allow fast app launch and offline access. However, Siesta currently only provides the protocol and configuration points for caching; there is no built-in implementation yet. That is a post-1.0 feature; see the [release roadmap](faq.md#roadmap-1-0) for details.
+The transformer pipeline also supports a persistent cache to allow fast app launch and offline access. However, Siesta currently only provides the protocol and configuration points for caching; there is no built-in implementation yet. That is a post-1.0 feature; see the [release roadmap](faq.md#roadmap) for details.
 
 For more info on writing your own cache implementation, see the [`EntityCache`](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) API docs.
