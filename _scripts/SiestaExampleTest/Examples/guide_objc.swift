@@ -1,19 +1,19 @@
 import Siesta
 
-func guide_objc(service: Service, resource: Resource) {                                                                                                        
+func guide_objc(service: Service, resource: Resource) {                                                                                                                        
     //══════ guide_objc:0 ══════
     class MyAPI: Service {
         public static let instance = MyAPI(baseURL: "https://api.example.com")
     }
     //════════════════════════════════════
     
-    /**                                                                                                            
+    /**                                                                                                                            
     //══════ guide_objc:1 ══════
     resource.request(.flargle)
     //════════════════════════════════════
     
     */
-                                                                                                                    
+                                                                                                                                    
     //══════ guide_objc:2 ══════
     // … → return
     resource.request(.post, json: ["color": "green"])

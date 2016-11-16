@@ -3,7 +3,7 @@ import Siesta
 func guide_requests(service: Service, resource: Resource) {
     let newState = ["foo": "bar"]
     let rawData = Data()
-                                                                                                        
+                                                                                                                        
     //══════ guide_requests:0 ══════
     MyAPI.profile.loadIfNeeded()
     //════════════════════════════════════
@@ -59,7 +59,7 @@ func guide_requests(service: Service, resource: Resource) {
     }
     //════════════════════════════════════
     
-    _ =                                                                                            
+    _ =                                                                                                            
     //══════ guide_requests:9 ══════
     // … → _ in
     resource.load(using:

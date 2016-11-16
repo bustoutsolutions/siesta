@@ -3,7 +3,7 @@ import SiestaUI
 import UIKit
 
 class index_md_0: UIViewController, ResourceObserver {
-                                                            
+                                                                            
     //══════ index_md:0 ══════
     let MyAPI = Service(baseURL: "https://api.example.com")
     //════════════════════════════════════
@@ -30,7 +30,7 @@ class index_md_0: UIViewController, ResourceObserver {
     var errorLabel: UILabel!
     var activityIndicator: UIActivityIndicatorView!
 
-    func stuff() {                                                                                                                
+    func stuff() {                                                                                                                                                
         //══════ index_md:3 ══════
         MyAPI.resource("/profile").addObserver(owner: self) {
             [weak self] resource, _ in
@@ -71,7 +71,7 @@ class index_md_0: UIViewController, ResourceObserver {
     }
 
     func showProfile(_ profile: UserProfile?) { }
-                                                            
+                                                                            
     //══════ index_md:6 ══════
     override func viewWillAppear(_ animated: Bool) {
         MyAPI.resource("/profile").loadIfNeeded()
@@ -109,7 +109,7 @@ class index_md_0: UIViewController, ResourceObserver {
 }
 
 enum index_md_1 {
-    static let MyAPI = Service(baseURL: "https://api.example.com")                                    
+    static let MyAPI = Service(baseURL: "https://api.example.com")                                                    
     //══════ index_md:8 ══════
     class ProfileViewController: UIViewController, ResourceObserver {
         @IBOutlet weak var nameLabel, colorLabel: UILabel!

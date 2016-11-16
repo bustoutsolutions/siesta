@@ -10,7 +10,7 @@ extension PipelineStageKey {
 //════════════════════════════════════
 
 func guide_pipeline(service: Service, resource: Resource) {
-                                                                                                                                                                                                        
+                                                                                                                                                                                                                        
     //══════ guide_pipeline:1 ══════
     service.configure {
       $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
@@ -73,7 +73,7 @@ func guide_pipeline(service: Service, resource: Resource) {
     }
     //════════════════════════════════════
     
-    /*                                                                                                                                                                                            
+    /*                                                                                                                                                                                                            
     //══════ guide_pipeline:9 ══════
     // ☠☠☠ WRONG ☠☠☠
     Alamofire.request(.GET, "https://myapi.example/status")
@@ -86,7 +86,7 @@ func guide_pipeline(service: Service, resource: Resource) {
     */
 
     let `self` = DummyObject()
-                                                                                                                                                                                                
+                                                                                                                                                                                                                
     //══════ guide_pipeline:10 ══════
     // /* start/stop activity indicator */  →  _ in
     // /* update UI */                      →  _ in

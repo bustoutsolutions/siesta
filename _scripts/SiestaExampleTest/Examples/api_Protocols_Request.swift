@@ -7,7 +7,7 @@ struct ThingThatNeedsCleanup {
 func api_Protocols_Request(request: Request) {
 
     let underlyingRequest = request
-                                                                                                    
+                                                                                                                    
     //══════ api_Protocols_Request:0 ══════
     // …whenCompleted… → return .useThisResponse
     let chainedRequest = underlyingRequest.chained {
@@ -16,7 +16,7 @@ func api_Protocols_Request(request: Request) {
     //════════════════════════════════════
     
     print(chainedRequest)
-                                                                                                            
+                                                                                                                            
     //══════ api_Protocols_Request:1 ══════
     // …some logic… → _ in return .useThisResponse
     let foo = ThingThatNeedsCleanup()

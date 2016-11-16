@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../work/bustout/siesta/Siesta.xcodeproj">
+      location = "group:../../../siesta/Siesta.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SiestaExampleTest.xcodeproj">

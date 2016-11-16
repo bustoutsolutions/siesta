@@ -1,7 +1,7 @@
 import Siesta
 
 func api_Classes_Service(service: Service, resource: Resource) {
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                    
     //══════ api_Classes_Service:0 ══════
     // service. → _ = service.
     _ = service.resource("users")   // same
@@ -15,7 +15,7 @@ func api_Classes_Service(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     let profileResource = resource
-                                                                                                                                                                                                        
+                                                                                                                                                                                                                        
     //══════ api_Classes_Service:5 ══════
     service.wipeResources(matching: "/secure/​**")
     service.wipeResources(matching: profileResource)
@@ -28,7 +28,7 @@ class Foo: Service {
     struct FooModel {
         init(json: JSON) { }
     }
-                                                                                                                                                                                            
+                                                                                                                                                                                                            
     //══════ api_Classes_Service:4 ══════
     var flavor: String? {
       didSet { invalidateConfiguration() }
@@ -45,7 +45,7 @@ class Foo: Service {
     func configurationExamples<T: EntityCache>(userProfileCache: T) {
     
         let token = "token"
-                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                
         //══════ api_Classes_Service:1 ══════
         configure { $0.expirationTime = 10 }  // global default
         

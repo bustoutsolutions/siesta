@@ -1,7 +1,7 @@
 import Siesta
 
 func guide_services_resources_0(service: Service, resource: Resource) {
-                                                                                                        
+                                                                                                                        
     //══════ guide_services_resources:0 ══════
     let myAPI = Service(baseURL: "https://api.example.com")  // global var
     //════════════════════════════════════
@@ -10,7 +10,7 @@ func guide_services_resources_0(service: Service, resource: Resource) {
 }
 
 func guide_services_resources_1(service: Service, resource: Resource) {
-                                                                                                    
+                                                                                                                    
     //══════ guide_services_resources:1 ══════
     class MyAPI: Service {
       init() {
