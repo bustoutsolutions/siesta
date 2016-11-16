@@ -369,14 +369,14 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2424               | 2349           | 13276         | 822       | 4025            | ?              |
+| Nontrivial lines of code²   | 2424               | 2455           | 13276         | 831       | 4025            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>
 <small>2. “Trivial” means lines containing only whitespace, comments, parens, semicolons, and braces.</small>
 
-Despite this capabilities list, Siesta is a relatively small codebase — about the same size as Alamofire, and 5.5x smaller than RestKit.
+Despite this capabilities list, Siesta is a relatively lean codebase — about the same weight as Alamofire, and 5.5x lighter than RestKit.
 
 ### What sets Siesta apart?
 
