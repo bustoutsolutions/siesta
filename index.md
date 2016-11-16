@@ -14,7 +14,6 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
 * **Tool requirements:** Xcode 8, Swift 3  (See `swift-2.x` branches for legacy support)
 * **License:** MIT
-* **Status:** Solid code, battle-tested on the App Store. Ramping up for official 1.0 release. Please kick the tires, file issues, and send pull requests. Be bold!
 
 ### Overview
 
@@ -124,17 +123,15 @@ Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0-rc.3'
-
-(If you use `>=`, make sure CocoaPods downloads the right version. Due to a [bug in CocoaPods](https://github.com/CocoaPods/CocoaPods/issues/5718) fixed only recently, it does not work properly with prerelease version numbers.)
+    pod 'Siesta', '>=1.0.0'
 
 If you want to use the UI helpers:
 
-    pod 'Siesta/UI', '>=1.0-rc.3'
+    pod 'Siesta/UI', '>=1.0.0'
 
 If you want to use Alamofire as your networking provider instead of Foundation’s `URLSession`:
 
-    pod 'Siesta/Alamofire', '>=1.0-rc.3'
+    pod 'Siesta/Alamofire', '>=1.0.0'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)) for more info.)
 
@@ -142,7 +139,7 @@ If you want to use Alamofire as your networking provider instead of Foundation�
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0-rc.3"
+    github "bustoutsolutions/siesta" "1.0.0"
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project. If you want to use the UI helpers, you will also need to add `SiestaUI.framework` to your project as well.
 
@@ -372,14 +369,14 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2424               | 2349           | 13276         | 822       | 4025            | ?              |
+| Nontrivial lines of code²   | 2424               | 2455           | 13276         | 831       | 4025            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>
 <small>2. “Trivial” means lines containing only whitespace, comments, parens, semicolons, and braces.</small>
 
-Despite this capabilities list, Siesta is a relatively small codebase — about the same size as Alamofire, and 5.5x smaller than RestKit.
+Despite this capabilities list, Siesta is a relatively lean codebase — about the same weight as Alamofire, and 5.5x lighter than RestKit.
 
 ### What sets Siesta apart?
 

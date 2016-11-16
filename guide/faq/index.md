@@ -7,16 +7,12 @@ layout: default
 
 ## Roadmap
 
-#### Why is it a “release candidate?” Why isn’t it 1.0 already?
-{:#roadmap-1-0}
+#### What’s in the works for future releases?
+{:#roadmap}
 
-Siesta is already in use in apps released on the App Store. In that sense, it’s production-ready software.
+To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or tweet to [@siestaframework](https://twitter.com/siestaframework).
 
-However, since this began as one team’s internal tool, the API was thus initially validated against only that one team’s practices. When Siesta went public, other teams had the chance to exercise it and see how it fit into _their_ approach to app-writing before we finalized the API. This yielded many valuable insights.
-
-We also wanted to hold off the official API freeze until Swift 3 — and its many API changes — were out in the wild.
-
-All of that is now done, but still fresh out of the oven. We will go through a period of cooling off and proving in the wild before declaring the official 1.0.
+One high priority feature is the addition of standard [EntityCache](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
 
 #### What if I’m still on Swift 2?
 
@@ -35,12 +31,6 @@ github "bustoutsolutions/siesta" "swift-2.2"
 ```
 
 (Or substitute `swift-2.3` above.)
-
-#### What’s in the works for post-1.0 releases?
-
-To a large extent, this is driven by user questions & requests. Please file issues on Github, ask questions on Stack Overflow, or tweet to [@siestaframework](https://twitter.com/siestaframework).
-
-One high priority post-1.0 feature is the addition of standard [EntityCache](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
 
 
 ## Capabilities
