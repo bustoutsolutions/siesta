@@ -7,9 +7,14 @@ os: osx
 osx_image: xcode8.1
 env:
   - scheme='Siesta macOS' platform='OS X'
-  - scheme='Siesta iOS' platform='iOS Simulator,OS=10.0,name=iPhone SE'
-  - scheme='Siesta iOS' platform='iOS Simulator,OS=9.3,name=iPhone 6'
-  - scheme='Siesta iOS' platform='iOS Simulator,OS=9.0,name=iPhone 4s'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.1' ios_device='iPhone SE'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'  ios_device='iPhone 6'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.0'  ios_device='iPhone 4s'
+
+before_install: |
+  ios_simulator_udid=$(instruments -s devices | grep "$ios_device ($ios_version)" | sed -E 's/.*\[([0-9A-F-]+)\].*/\1/g')
+  echo "Prelaunching iOS simulator with UDID $ios_simulator_udid"
+  open -a "simulator" --args -CurrentDeviceUDID $ios_simulator_udid
 
 script: |
   # ------ Certificates ------
@@ -58,13 +63,17 @@ script: |
 
   # ------ Project build (at last!) ------
 
+  if [[ "$platform" == "iOS Simulator" ]]; then
+    platform="$platform,OS=$ios_version,name=$ios_device"
+  fi
+
   echo
   echo —————— Running tests for $platform ...
   echo
 
   Siesta_DelayAfterEachSpec=1 \
   Siesta_TestMultipleNetworkProviders=1 \
-  xcodebuild test \
+  travis_retry xcodebuild test \
       -project Siesta.xcodeproj \
       -scheme "$scheme" \
       -destination "platform=$platform" \
