@@ -9,7 +9,7 @@ env:
   - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.1' ios_device='iPhone SE'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'  ios_device='iPhone 6'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.0'  ios_device='iPhone 4s'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'  ios_device='iPhone 4s'
 
 before_install: |
   ios_simulator_udid=$(instruments -s devices | grep "$ios_device ($ios_version)" | sed -E 's/.*\[([0-9A-F-]+)\].*/\1/g')

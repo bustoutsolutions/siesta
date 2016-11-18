@@ -87,7 +87,6 @@ Pod::Spec.new do |s|
     s.source_files = "Extensions/Alamofire/**/*"
     s.dependency "Siesta/Core"
     s.dependency "Alamofire", "> 4"
-    s.ios.deployment_target = "9.0"
   end
 
   s.default_subspecs = 'Core'
