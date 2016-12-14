@@ -36,6 +36,9 @@ open class RemoteImageView: UIImageView
         get { return imageResource?.url.absoluteString }
         set { imageResource = imageService.resource(absoluteURL: newValue) }
         }
+    
+    /// Optional image transform applyed to placeholderImage and downloaded image
+    public var imageTransform: (UIImage?) -> UIImage? = { $0 }
 
     /**
       A remote resource whose content is the image to display in this view.
@@ -64,7 +67,7 @@ open class RemoteImageView: UIImageView
 
     private func updateViews()
         {
-        image = imageResource?.typedContent(ifNone: placeholderImage)
+        image = imageTransform(imageResource?.typedContent(ifNone: placeholderImage))
 
         let isLoading = imageResource?.isLoading ?? false
         loadingView?.isHidden = !isLoading
