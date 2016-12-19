@@ -37,6 +37,9 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
     /// Displays `RequestError.userMessage`.
     @IBOutlet open var errorDetail: UILabel?
 
+    /// Allow user to retry a failed request.
+    @IBOutlet open var retryButton: UIButton!
+    
     private weak var parentVC: UIViewController?
     private var observedResources = [Resource]()
     private var manualLoadsInProgress = 0
