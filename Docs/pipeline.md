@@ -30,7 +30,7 @@ The default stages are:
 
 These are only human-friendly unique identifiers; there is no special meaning or behavior attached to any of the stages.
 
-You app can create custom stages on a per-service or per-resource basis:
+Your app can create custom stages on a per-service or per-resource basis:
 
 ```swift
 extension PipelineStageKey {
@@ -97,7 +97,28 @@ By default, [`configureTransformer(…)`](https://bustoutsolutions.github.io/sie
 - replaces any existing transformers at that stage, and
 - applies to all HTTP request methods (GET, POST, PUT, etc.).
 
-There are method options to change all these defaults. It’s a flexible tool. However, `configureTransformer(…)` is just convenience for common cases, and it has limitations:
+Note that this method _replaces_ the transformer(s) at the stage you specify. (Use the `action:` parameter to append instead.) You can use this behavior to override previously configured transformers for specific resources:
+
+```swift
+service.configureTransformer("/funkyStuff", atStage: .parsing) {
+  return funkyParse($0.content)  // This replaces default .parsing transformers
+}
+```
+
+…or even override them for specific request methods:
+
+```swift
+// Array of items
+service.configureTransformer("/items") {  // adds transformer at .model stage by default
+  ($0.content as JSON).arrayValue.map { Item(json: $0) }
+}
+
+// POST returns a single item
+service.configureTransformer("/items", requestMethods: [.post]) {  // replaces .model transformer
+  Item(json: $0.content)
+}
+```
+Although `configureTransformer(…)` is a flexible tool, it is just convenience for common cases, and has limitations:
 
 - It only operates on successful requests, so you can’t use it to transform upstream errors.
 - It only alters the response’s [`Entity.content`](https://bustoutsolutions.github.io/siesta/api/Structs/Entity.html#//apple_ref/swift/Property/content). It cannot alter HTTP headers.

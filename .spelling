@@ -96,6 +96,9 @@ ReactiveCocoa
 expirations
 untrusted
 non-whitelisted
+URLCache
+URLSessionDelegate
+URLSession
  - Docs/security.md
 p2
 dongri
@@ -133,3 +136,5 @@ AFNetworking
 5.5x
 RPC
 cmd-U
+ - ./Docs/threading.md
+configureTransformer
