@@ -10,7 +10,7 @@ extension PipelineStageKey {
 //════════════════════════════════════
 
 func guide_pipeline(service: Service, resource: Resource) {
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                
     //══════ guide_pipeline:1 ══════
     service.configure {
       $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
@@ -35,14 +35,36 @@ func guide_pipeline(service: Service, resource: Resource) {
         .map(Repository.init)          // Swift can infer that the output type is [Repository]
     }
     //════════════════════════════════════
-        
+    
+    func funkyParse(_ value: String) -> String {
+        fatalError("unimplemented")
+    }
+                            
     //══════ guide_pipeline:5 ══════
+    service.configureTransformer("/funkyStuff", atStage: .parsing) {
+      return funkyParse($0.content)  // This replaces default .parsing transformers
+    }
+    //════════════════════════════════════
+        
+    //══════ guide_pipeline:6 ══════
+    // Array of items
+    service.configureTransformer("/items") {  // adds transformer at .model stage by default
+      ($0.content as JSON).arrayValue.map { Item(json: $0) }
+    }
+    
+    // POST returns a single item
+    service.configureTransformer("/items", requestMethods: [.post]) {  // replaces .model transformer
+      Item(json: $0.content)
+    }
+    //════════════════════════════════════
+        
+    //══════ guide_pipeline:7 ══════
     let SwiftyJSONTransformer =
       ResponseContentTransformer
         { JSON($0.content as AnyObject) }
     //════════════════════════════════════
         
-    //══════ guide_pipeline:6 ══════
+    //══════ guide_pipeline:8 ══════
     service.configure {
       $0.pipeline[.parsing].add(
         SwiftyJSONTransformer,
@@ -50,7 +72,7 @@ func guide_pipeline(service: Service, resource: Resource) {
     }
     //════════════════════════════════════
         
-    //══════ guide_pipeline:7 ══════
+    //══════ guide_pipeline:9 ══════
     struct GithubErrorMessageExtractor: ResponseTransformer {
       func process(_ response: Response) -> Response {
         switch response {
@@ -66,15 +88,15 @@ func guide_pipeline(service: Service, resource: Resource) {
     }
     //════════════════════════════════════
         
-    //══════ guide_pipeline:8 ══════
+    //══════ guide_pipeline:10 ══════
     service.configure {
       $0.pipeline[.cleanup].add(
         GithubErrorMessageExtractor())
     }
     //════════════════════════════════════
     
-    /*                                                                                                                                                                                                            
-    //══════ guide_pipeline:9 ══════
+    /*                                                                                                                                                                                                                                    
+    //══════ guide_pipeline:11 ══════
     // ☠☠☠ WRONG ☠☠☠
     Alamofire.request(.GET, "https://myapi.example/status")
       .responseJSON { /* stop activity indicator */ }
@@ -84,10 +106,10 @@ func guide_pipeline(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     */
-
+    
     let `self` = DummyObject()
-                                                                                                                                                                                                                
-    //══════ guide_pipeline:10 ══════
+                                                                                                                                                                                                                                        
+    //══════ guide_pipeline:12 ══════
     // /* start/stop activity indicator */  →  _ in
     // /* update UI */                      →  _ in
     // /* play happy sound */               →  _ in

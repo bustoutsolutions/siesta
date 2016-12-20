@@ -6,7 +6,7 @@ class guide_observers_0: ResourceObserver {
     func resourceChanged(_ resource: Resource, event: ResourceEvent) { }
     
     func stuff(resource: Resource) {
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                        
         //══════ guide_observers:0 ══════
         resource.addObserver(self)
         //════════════════════════════════════
@@ -22,7 +22,7 @@ class guide_observers_0: ResourceObserver {
         var nameLabel: UILabel!
         var favoriteColorLabel: UILabel!
         var errorLabel: UILabel!
-                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                            
         //══════ guide_observers:2 ══════
         func resourceChanged(_ resource: Resource, event: ResourceEvent) {
             // The convenience .jsonDict accessor returns empty dict if no
@@ -38,7 +38,7 @@ class guide_observers_0: ResourceObserver {
     }
 }
 
-class guide_observers_1: ResourceObserver {                                                                                                                        
+class guide_observers_1: ResourceObserver {                                                                                                                                                
     //══════ guide_observers:3 ══════
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if case .newData = event {
@@ -51,7 +51,7 @@ class guide_observers_1: ResourceObserver {
 
 class guide_observers_2: ResourceObserver {
     var displayedEtag: String?
-                                                                                                                        
+                                                                                                                                                
     //══════ guide_observers:4 ══════
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         if displayedEtag != resource.latestData?.etag {

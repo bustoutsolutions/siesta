@@ -1,7 +1,7 @@
 import Siesta
 
 enum guide_configuration_0 {
-                                                                                                                                            
+                                                                                                                                                                    
     //══════ guide_configuration:0 ══════
     class MyAPI: Service {
       init() {
@@ -18,7 +18,7 @@ enum guide_configuration_0 {
     
 }
 
-enum guide_configuration_1 {                                                                                                                                        
+enum guide_configuration_1 {                                                                                                                                                                
     //══════ guide_configuration:4 ══════
     class MyAPI: Service {
       var authToken: String? {
@@ -33,7 +33,7 @@ enum guide_configuration_1 {
     
 }
 
-enum guide_configuration_2 {                                                                                                                                        
+enum guide_configuration_2 {                                                                                                                                                                
     //══════ guide_configuration:5 ══════
     // … →
     class MyAPI: Service {
@@ -71,7 +71,7 @@ enum guide_configuration_3 {
         func userAuthData() -> [String:String] {
             return [:]
         }
-                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                        
         //══════ guide_configuration:7 ══════
         // ... → super.init()
         var authToken: String??
@@ -123,7 +123,7 @@ enum guide_configuration_3 {
 
 class guide_configuration_snippets: Service {
     func go() {
-                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                    
         //══════ guide_configuration:1 ══════
         configure("/volcanos/*/status") {
           $0.expirationTime = 0.5  // default is 30 seconds
@@ -149,7 +149,7 @@ class guide_configuration_snippets: Service {
         
         let authenticationResource = resource("/auth")
         func showLoginScreen() { }
-                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                        
         //══════ guide_configuration:6 ══════
         let authURL = authenticationResource.url
         

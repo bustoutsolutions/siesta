@@ -1,7 +1,7 @@
 import Siesta
 
 class api_Structs_RequestError_Cause: Service {
-    func go() {                                                                                                                                            
+    func go() {                                                                                                                                                                    
     //══════ api_Structs_RequestError_Cause:0 ══════
     // ... → }}; private
     configure {

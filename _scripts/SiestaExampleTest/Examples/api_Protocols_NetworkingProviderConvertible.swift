@@ -2,7 +2,7 @@ import Siesta
 
 func api_Protocols_NetworkingProviderConvertible(service: Service, resource: Resource) {
 
-    _ =                                                                                                            
+    _ =                                                                                                                                    
     //══════ api_Protocols_NetworkingProviderConvertible:0 ══════
     Service(baseURL: "http://foo.bar", networking:
       URLSessionProvider(session:
@@ -10,7 +10,7 @@ func api_Protocols_NetworkingProviderConvertible(service: Service, resource: Res
               URLSessionConfiguration.default)))
     //════════════════════════════════════
     
-    _ =                                                                                                            
+    _ =                                                                                                                                    
     //══════ api_Protocols_NetworkingProviderConvertible:1 ══════
     Service(baseURL: "http://foo.bar", networking:
       URLSessionConfiguration.default)

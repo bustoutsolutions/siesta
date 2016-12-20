@@ -2,7 +2,7 @@ import Siesta
 
 func guide_state(service: Service, resource: Resource) {
 
-                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                        
     //══════ guide_state:0 ══════
     // resource. → _ = resource.
     // _ = resource.typedContent → let _: String? = resource.typedContent

@@ -2,7 +2,7 @@ import Siesta
 import AVFoundation
 
 func guide_logging(service: Service, resource: Resource) {
-                                                                                                                                        
+                                                                                                                                                                
     //══════ guide_logging:0 ══════
     Siesta.LogCategory.enabled = LogCategory.common
     //════════════════════════════════════
