@@ -86,7 +86,7 @@ Pod::Spec.new do |s|
   s.subspec "Alamofire" do |s|
     s.source_files = "Extensions/Alamofire/**/*"
     s.dependency "Siesta/Core"
-    s.dependency "Alamofire", "> 4"
+    s.dependency "Alamofire", "> 4.1"
   end
 
   s.default_subspecs = 'Core'
