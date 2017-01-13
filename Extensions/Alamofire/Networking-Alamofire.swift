@@ -56,9 +56,10 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
     init(_ alamofireRequest: Alamofire.Request)
         {
         self.alamofireRequest = alamofireRequest
-        if case .suspended = self.alamofireRequest.task?.state ?? .suspended {
+        if case .suspended = alamofireRequest.task?.state ?? .suspended
+            {
             alamofireRequest.resume()   // in case manager.startRequestsImmediately is false
-        }
+            }
         }
 
     var task: URLSessionTask
