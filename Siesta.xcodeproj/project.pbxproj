@@ -230,6 +230,7 @@
 
 /* Begin PBXFileReference section */
 		00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicator.swift; sourceTree = "<group>"; };
+		09371F141E2EE3BD000E6B0A /* Siesta+RxCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Siesta+RxCocoa.swift"; path = "RxCocoa/Siesta+RxCocoa.swift"; sourceTree = "<group>"; };
 		570C77E01D38463200226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		570C77E31D38466900226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		570C77E51D38468A00226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
@@ -379,6 +380,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09371F161E2EE3C0000E6B0A /* RxCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				09371F141E2EE3BD000E6B0A /* Siesta+RxCocoa.swift */,
+			);
+			name = RxCocoa;
+			sourceTree = "<group>";
+		};
 		574156961D393AF8009A2EC8 /* ReactiveCocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,6 +431,7 @@
 		DA2FF1031C0F97F600C98FF1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				09371F161E2EE3C0000E6B0A /* RxCocoa */,
 				574156961D393AF8009A2EC8 /* ReactiveCocoa */,
 				DA2FF1041C0F97F600C98FF1 /* Alamofire */,
 			);
