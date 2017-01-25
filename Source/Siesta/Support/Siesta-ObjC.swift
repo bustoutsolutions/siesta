@@ -276,7 +276,7 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
 
 extension ResourceEvent
     {
-    fileprivate var _objc_stringForm: String
+    public var _objc_stringForm: String
         {
         if case .newData(let source) = self
             { return "NewData(\(source.description.capitalized))" }

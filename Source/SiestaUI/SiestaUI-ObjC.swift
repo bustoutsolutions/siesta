@@ -18,7 +18,7 @@ extension ResourceEvent
 
     internal static func fromDescription(_ description: String) -> ResourceEvent?
         {
-        let matching = ResourceEvent.all.filter { String(describing: $0) == description }
+        let matching = ResourceEvent.all.filter { $0._objc_stringForm == description }
         return (matching.count == 1) ? matching[0] : nil
         }
     }
@@ -29,6 +29,8 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
         {
         if let event = ResourceEvent.fromDescription(eventString)
             { resourceChanged(resource, event: event) }
+        else
+            { print("WARNING: Siesta ignoring unknown event: \(eventString)") }
         }
     }
 
@@ -46,7 +48,7 @@ extension ResourceStatusOverlay
                 {
                 let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
                 if condition == nil
-                    { Swift.print("WARNING: ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
+                    { print("WARNING: Siesta ignoring unknown ResourceStatusOverlay.StateRule \"\($0)\"") }
                 return condition
                 }
             }
