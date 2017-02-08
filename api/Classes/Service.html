@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           Siesta Docs
         </a>
          (96% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -283,7 +292,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L32">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -302,31 +311,6 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates a new service for the given API.</p>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter baseURL:
-The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-only <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT11absoluteURLGSqPS_14URLConvertible___CS_8Resource">resource(absoluteURL:)</a></code> and <code><a href="../Classes/Service.html#/s:FC6Siesta7Service8resourceFT7baseURLGSqPS_14URLConvertible__4pathSS_CS_8Resource">resource(baseURL:path:)</a></code> to acquire resources.
-
-</div>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter useDefaultTransformers:
-If true, include handling for JSON, text, and images. If false, leave all responses as <code>Data</code> (unless you
-add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(...)</a></code>).
-
-</div>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter networking:
-The handler to use for networking. The default is <code>URLSession</code> with ephemeral session configuration. You can
-pass an <code>URLSession</code>, <code>URLSessionConfiguration</code>, or <code>Alamofire.Manager</code> to use an existing provider with
-custom configuration. You can also use your own networking library of choice by implementing <code><a href="../Protocols/NetworkingProvider.html">NetworkingProvider</a></code>.
-
-</div>
 
                       </div>
                       <div class="declaration">
@@ -387,7 +371,7 @@ custom configuration. You can also use your own networking library of choice by 
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L51-L77">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L51-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -435,7 +419,7 @@ resource’s path, with escaping if necessary.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L97-L100">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L97-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -474,7 +458,7 @@ query string or a relative URL.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L112-L117">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L112-L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -516,7 +500,7 @@ occurs, at which point they are summarily evicted.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L130-L153">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L130-L153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -566,31 +550,6 @@ means that you will usually want to add your global configuration first, then re
 
 <p>If you want to provide global configuration, or if you need more fine-grained URL matching, use the other flavor
 of this method that takes a predicate as its first argument.</p>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter pattern:
-Selects the subset of resources to which this configuration applies. You can pass a <code>String</code>, <code><a href="../Classes/Resource.html">Resource</a></code>, or
-<code>NSRegularExpression</code> for the <code>pattern</code> argument — or write your own custom implementation of
-<code><a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a></code>.
-
-</div>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter description:
-An optional description of this piece of configuration, for logging and debugging purposes.
-
-</div>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    <p>Parameter configurer:
-A closure that receives a mutable <code><a href="../Structs/Configuration.html">Configuration</a></code>, referenced as <code>$0</code>, which it may modify as it
-sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should
-not rely on it being called at any particular time, and should avoid making it cause side effects.</p>
-
-</div>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
@@ -677,7 +636,7 @@ for global config and more fine-grained matching</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L204-L215">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L204-L215">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -699,13 +658,6 @@ for global config and more fine-grained matching</p>
 Use this if the wildcards in other flavor of <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(...)</a></code> aren’t robust enough.</p>
 
 <p>If you do not supply a predicate, then the configuration applies globally to all resources in this service.</p>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    <p>Parameter whenURLMatches:
-A predicate that matches absolute URLs of resources. The default is a predicate that matches anything.</p>
-
-</div>
 
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
@@ -754,7 +706,7 @@ for pattern-based matching, and for details about the parameters.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L230-L245">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L230-L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -826,7 +778,7 @@ for more robust transformation options.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L273-L307">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L273-L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -884,7 +836,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L346-L355">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L346-L355">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -927,7 +879,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L391-L399">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L391-L399">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -961,7 +913,7 @@ service.wipeResources(matching: profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L407-L410">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L407-L410">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -993,7 +945,7 @@ service.wipeResources(matching: profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L417-L420">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L417-L420">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1036,7 +988,7 @@ in the cache, no matter how many there are.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.0.0/Source/Siesta/Service.swift#L429-L433">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L429-L433">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1050,7 +1002,7 @@ in the cache, no matter how many there are.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
