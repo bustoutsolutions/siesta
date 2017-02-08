@@ -124,15 +124,15 @@ Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple
 
 In your `Podfile`:
 
-    pod 'Siesta', '>=1.0.1'
+    pod 'Siesta', '~> 1.0'
 
 If you want to use the UI helpers:
 
-    pod 'Siesta/UI', '>=1.0.1'
+    pod 'Siesta/UI', '~> 1.0'
 
 If you want to use Alamofire as your networking provider instead of Foundation’s `URLSession`:
 
-    pod 'Siesta/Alamofire', '>=1.0.1'
+    pod 'Siesta/Alamofire', '~> 1.0'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)) for more info.)
 
@@ -140,7 +140,7 @@ If you want to use Alamofire as your networking provider instead of Foundation�
 
 In your `Cartfile`:
 
-    github "bustoutsolutions/siesta" "1.0.1"
+    github "bustoutsolutions/siesta" ~> 1.0
 
 Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add `Siesta.framework` to your project. If you want to use the UI helpers, you will also need to add `SiestaUI.framework` to your project as well.
 
