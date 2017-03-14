@@ -98,7 +98,7 @@ public class _objc_Error: NSObject
     internal init(_ error: RequestError)
         {
         self.httpStatusCode = error.httpStatusCode ?? -1
-        self.cause          = error.cause as? NSError
+        self.cause          = error.cause as NSError?
         self.userMessage    = error.userMessage
         self.timestamp      = error.timestamp
         if let errorData = error.entity
