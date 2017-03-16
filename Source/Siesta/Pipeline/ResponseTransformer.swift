@@ -19,6 +19,14 @@ import Foundation
     import UIKit
 
     public typealias Image = UIImage
+#elseif os(tvOS)
+    import UIKit
+
+    public typealias Image = UIImage
+#elseif os(watchOS)
+    import UIKit
+
+    public typealias Image = UIImage
 #endif
 
 /**
