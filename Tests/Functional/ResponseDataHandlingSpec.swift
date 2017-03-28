@@ -15,7 +15,6 @@ class ResponseDataHandlingSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        @discardableResult
         func stubText(
                 _ string: String? = "zwobble",
                 method: String = "GET",
@@ -138,7 +137,6 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             let jsonStr = "{\"foo\":[\"bar\",42]}"
             let jsonVal = ["foo": ["bar", 42]]
 
-            @discardableResult
             func stubJson(contentType: String = "application/json", expectSuccess: Bool = true)
                 {
                 stubText(jsonStr, contentType: contentType, expectSuccess: expectSuccess)
@@ -167,7 +165,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
                 expect(resource().latestError?.userMessage) == "Cannot parse server response"
-                let nsError = resource().latestError?.cause as? NSError
+                let nsError = resource().latestError?.cause as NSError?
                 expect(nsError).notTo(beNil())
                 expect(nsError?.domain) == "NSCocoaErrorDomain"
                 expect(nsError?.code) == 3840

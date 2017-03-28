@@ -355,7 +355,7 @@ private struct TestCacheKey
     // associates a cache with the keys it generated.
 
     init(prefix: String, path: String?)
-        { string = "\(prefix)•\(path)" }
+        { string = "\(prefix)•\(path ?? "")" }
     }
 
 extension TestCacheKey: Hashable
