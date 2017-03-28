@@ -15,15 +15,7 @@ import Foundation
     /// `UIImage` on iOS; `NSImage` on macOS.
     public typealias Image = NSImage
 
-#elseif os(iOS)
-    import UIKit
-
-    public typealias Image = UIImage
-#elseif os(tvOS)
-    import UIKit
-
-    public typealias Image = UIImage
-#elseif os(watchOS)
+#elseif os(iOS) || os(tvOS) || os(watchOS)
     import UIKit
 
     public typealias Image = UIImage
