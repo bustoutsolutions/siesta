@@ -162,7 +162,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         starButton?.isEnabled = false
         let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotation.fromValue = 0
-        rotation.toValue = 2 * M_PI
+        rotation.toValue = 2 * Double.pi
         rotation.duration = 1.6
         rotation.repeatCount = Float.infinity
         starIcon?.layer.add(rotation, forKey: "loadingIndicator")
@@ -171,7 +171,7 @@ class RepositoryViewController: UIViewController, ResourceObserver {
     @objc private func stopStarRequestAnimation() {
         starButton?.isEnabled = true
         let stopRotation = CASpringAnimation(keyPath: "transform.rotation.z")
-        stopRotation.toValue = -M_PI * 2 / 5
+        stopRotation.toValue = -Double.pi * 2 / 5
         stopRotation.damping = 6
         stopRotation.duration = stopRotation.settlingDuration
         starIcon?.layer.add(stopRotation, forKey: "loadingIndicator")
