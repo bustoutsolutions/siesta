@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(OSX)
+#if os(OSX) || os(watchOS)
     internal let MemoryWarningNotification = NSNotification.Name("Siesta.MemoryWarningNotification")
 #elseif os(iOS) || os(tvOS)
     import UIKit
@@ -30,9 +30,6 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     init()
         {
-#if os(watchOS)
-                return
-#else
         lowMemoryObserver =
             NotificationCenter.default.addObserver(
                 forName: MemoryWarningNotification,
@@ -42,7 +39,6 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             [weak self] _ in
             self?.flushUnused()
             }
-#endif
         }
 
     deinit
