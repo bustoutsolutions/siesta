@@ -240,7 +240,6 @@ class RequestSpec: ResourceSpecBase
 
         describe("repeated()")
             {
-            @discardableResult
             func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
                 LSNocilla.sharedInstance().clearStubs()

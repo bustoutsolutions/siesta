@@ -29,6 +29,8 @@
     __block BOSService *service;
     __block BOSResource *resource;
 
+    __block id _;  // Fake Swift’s `_ = foo()` idiom for @discardableResult functions
+
     beforeEach(^
         {
         service = [[TestService alloc] init];
@@ -47,9 +49,9 @@
 
     it(@"handles resource paths", ^
         {
-        [resource child:@"bar"];
-        [resource relative:@"../bar"];
-        [resource withParam:@"foo" value:@"bar"];
+        _ = [resource child:@"bar"];
+        _ = [resource relative:@"../bar"];
+        _ = [resource withParam:@"foo" value:@"bar"];
         });
 
     it(@"handles requests", ^
@@ -58,16 +60,16 @@
         stubRequest(@"POST", @"http://example.api/foo").andReturn(200);
 
         expect([resource loadIfNeeded]).notTo(beNil());
-        [resource load];
-        [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
+        _ = [resource load];
+        _ = [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
                 { req.HTTPMethod = @"POST"; }];
-        [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}];
-        [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} contentType:@"foo/bar" requestMutation:nil];
-        [resource requestWithMethod:@"POST" text:@"Ahoy"];
-        [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
-        [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
-        [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
+        _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}];
+        _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} contentType:@"foo/bar" requestMutation:nil];
+        _ = [resource requestWithMethod:@"POST" text:@"Ahoy"];
+        _ = [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
+        _ = [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
+        _ = [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         BOSRequest *req = [[[[[[resource load]
@@ -88,7 +90,7 @@
             {
             XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"failed request"];
             __block BOOL immediatelyFailed = false;
-            [request onFailure: ^(BOSError *error)
+            _ = [request onFailure: ^(BOSError *error)
                 {
                 [expectation fulfill];
                 immediatelyFailed = true;
@@ -118,7 +120,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
+        _ = [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         expect(resource.jsonDict).to(equal(@{ @"foo": @"bar" }));
@@ -144,7 +146,7 @@
         stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] onFailure:^(BOSError *error) { [expectation fulfill]; }];
+        _ = [[resource load] onFailure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         BOSError *error = resource.latestError;
@@ -160,7 +162,7 @@
             [resource requestWithMethod:@"POST" json:@{@"Foo": [[NSData alloc] init]}]];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [req onFailure:^(BOSError *error) { [expectation fulfill]; }];
+        _ = [req onFailure:^(BOSError *error) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         BOSError *error = resource.latestError;
@@ -173,13 +175,13 @@
         ObjcObserver *observer0 = [[ObjcObserver alloc] init],
                      *observer1 = [[ObjcObserver alloc] init];
         NSString *owner = [@"I am a big important owner string!" mutableCopy];  // copy b/c string literal never released!
-        [resource addObserver:observer0];
-        [resource addObserver:observer0];
-        [resource addObserver:observer1];
-        [resource addObserver:observer0 owner:owner];
+        _ = [resource addObserver:observer0];
+        _ = [resource addObserver:observer0];
+        _ = [resource addObserver:observer1];
+        _ = [resource addObserver:observer0 owner:owner];
 
         __block int blockObserverCalls = 0;
-        [resource addObserverWithOwner:owner callback:^(BOSResource *resource, NSString *event) {
+        _ = [resource addObserverWithOwner:owner callback:^(BOSResource *resource, NSString *event) {
             blockObserverCalls++;
         }];
 
@@ -189,7 +191,7 @@
             .withBody(@"{\"foo\": \"bar\"}");
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
-        [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
+        _ = [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
 
         expect(observer0.eventsReceived).to(equal(@[@"ObserverAdded", @"Requested", @"NewData(Network)"]));
@@ -213,7 +215,7 @@
 
             // Let Siesta ownership control observer lifecycle
             NSObject *owner = [[NSObject alloc] init];
-            [resource addObserver:observer owner:owner];
+            _ = [resource addObserver:observer owner:owner];
             observerWeak = observer;
             observer = nil;
 
