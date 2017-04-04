@@ -1033,8 +1033,8 @@
 				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
 				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
-				DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */,
 				CDCCAF791E6A31DA00860D18 /* Siesta tvOSTests */,
+				DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */,
 			);
 		};
 /* End PBXProject section */
