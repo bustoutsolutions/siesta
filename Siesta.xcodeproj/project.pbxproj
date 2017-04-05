@@ -334,7 +334,7 @@
 		CDCCAF681E6A313800860D18 /* Info-watchOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-watchOS.plist"; path = "../../Info-watchOS.plist"; sourceTree = "<group>"; };
 		CDCCAF721E6A31D900860D18 /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDCCAF751E6A31D900860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-tvOS.plist"; path = "../../Info-tvOS.plist"; sourceTree = "<group>"; };
-		CDCCAF7A1E6A31DA00860D18 /* Siesta tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Siesta tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiestaTests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDCCAF811E6A31DA00860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
@@ -575,7 +575,7 @@
 				DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */,
 				CDCCAF651E6A313800860D18 /* Siesta.framework */,
 				CDCCAF721E6A31D900860D18 /* Siesta.framework */,
-				CDCCAF7A1E6A31DA00860D18 /* Siesta tvOSTests.xctest */,
+				CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -862,9 +862,9 @@
 			productReference = CDCCAF721E6A31D900860D18 /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CDCCAF791E6A31DA00860D18 /* Siesta tvOSTests */ = {
+		CDCCAF791E6A31DA00860D18 /* SiestaTests tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CDCCAF861E6A31DA00860D18 /* Build configuration list for PBXNativeTarget "Siesta tvOSTests" */;
+			buildConfigurationList = CDCCAF861E6A31DA00860D18 /* Build configuration list for PBXNativeTarget "SiestaTests tvOS" */;
 			buildPhases = (
 				CDCCAF761E6A31DA00860D18 /* Sources */,
 				CDCCAF771E6A31DA00860D18 /* Frameworks */,
@@ -875,9 +875,9 @@
 			dependencies = (
 				CDCCAF7D1E6A31DA00860D18 /* PBXTargetDependency */,
 			);
-			name = "Siesta tvOSTests";
+			name = "SiestaTests tvOS";
 			productName = "Siesta TvOSTests";
-			productReference = CDCCAF7A1E6A31DA00860D18 /* Siesta tvOSTests.xctest */;
+			productReference = CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */ = {
@@ -1033,7 +1033,7 @@
 				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
 				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
-				CDCCAF791E6A31DA00860D18 /* Siesta tvOSTests */,
+				CDCCAF791E6A31DA00860D18 /* SiestaTests tvOS */,
 				DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */,
 			);
 		};
@@ -1899,7 +1899,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CDCCAF861E6A31DA00860D18 /* Build configuration list for PBXNativeTarget "Siesta tvOSTests" */ = {
+		CDCCAF861E6A31DA00860D18 /* Build configuration list for PBXNativeTarget "SiestaTests tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CDCCAF871E6A31DA00860D18 /* Debug */,
