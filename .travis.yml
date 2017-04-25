@@ -1,20 +1,27 @@
 branches:
   only:
   - master
+  - travis
 
 language: objective-c
 os: osx
 osx_image: xcode8.3
 env:
   - scheme='Siesta macOS' platform='OS X'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.1' ios_device='iPhone SE'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.3' ios_device='iPhone SE'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'  ios_device='iPhone 6'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'  ios_device='iPhone 4s'
 
 before_install: |
-  ios_simulator_udid=$(instruments -s devices | grep "$ios_device ($ios_version)" | sed -E 's/.*\[([0-9A-F-]+)\].*/\1/g')
-  echo "Prelaunching iOS simulator with UDID $ios_simulator_udid"
-  open -a "simulator" --args -CurrentDeviceUDID $ios_simulator_udid
+  if [[ "$platform" == "iOS Simulator" ]]; then
+    ios_simulator_udid=$(
+      xcrun simctl create "Siesta testing device" \
+          "com.apple.CoreSimulator.SimDeviceType.${ios_device// /-}" \
+          "com.apple.CoreSimulator.SimRuntime.iOS-${ios_version//./-}"
+    )
+    echo "Prelaunching iOS simulator with UDID $ios_simulator_udid"
+    open -a "simulator" --args -CurrentDeviceUDID $ios_simulator_udid
+  fi
 
 script: |
   # ------ Certificates ------
