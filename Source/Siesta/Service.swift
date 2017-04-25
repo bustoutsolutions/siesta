@@ -419,7 +419,7 @@ open class Service: NSObject
         wipeResources { predicate($0.url) }
         }
 
-    // MARK: General Configuration
+    // MARK: In-memory cache management
 
     /**
       Soft limit on the number of resources cached in memory. If the internal cache size exceeds this limit, Siesta
@@ -430,5 +430,23 @@ open class Service: NSObject
         {
         get { return resourceCache.countLimit }
         set { resourceCache.countLimit = newValue }
+        }
+
+    /**
+      Switches to weak references for all `Resource` instances cached by this service. This immediately releases any
+      resources not currently in use.
+
+      Siesta automatically flushes unused resources whenever:
+
+      - the number of cached resources exceeds `cachedResourceCountLimit` or
+      - there is a low memory event (iOS and tvOS only).
+
+      It is unusual for apps to call this method directly. You might need it if you want to first fiddle with Siesta
+      resources yourself during a low memory, then tell Siesta to release them when you are done. You might also call it
+      preemptively before a memory-intensive operation, to prevent memory churn.
+     */
+    public final func flushUnusedResources()
+        {
+        resourceCache.flushUnused()
         }
     }
