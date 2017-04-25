@@ -286,7 +286,7 @@ class ProgressSpec: ResourceSpecBase
                         }
                     }
                 setup(req)
-                QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+                QuickSpec.current().waitForExpectations(timeout: 1)
 
                 _ = reqStub.go()
                 awaitNewData(req)

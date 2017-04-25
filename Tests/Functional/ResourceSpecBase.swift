@@ -114,7 +114,7 @@ func awaitNewData(_ req: Siesta.Request, alreadyCompleted: Bool = false)
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in newDataExpectation.fulfill() }
        .onNotModified { _ in fail("notModified callback should not be called") }
-    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
     }
 
@@ -129,7 +129,7 @@ func awaitNotModified(_ req: Siesta.Request)
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in fail("newData callback should not be called") }
        .onNotModified { _ in notModifiedExpectation.fulfill() }
-    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
     }
 
@@ -144,7 +144,7 @@ func awaitFailure(_ req: Siesta.Request, alreadyCompleted: Bool = false)
        .onNewData     { _ in fail("newData callback should not be called") }
        .onNotModified { _ in fail("notModified callback should not be called") }
 
-    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
 
     // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
@@ -161,7 +161,7 @@ func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
         {
         let networkExpectation = QuickSpec.current().expectation(description: "awaiting underlying network response: \(req)")
         pollUnderlyingCompletion(netReq, expectation: networkExpectation)
-        QuickSpec.current().waitForExpectations(timeout: 1.0, handler: nil)
+        QuickSpec.current().waitForExpectations(timeout: 1.0)
         }
     }
 
@@ -195,6 +195,6 @@ func awaitObserverCleanup(for resource: Resource?)
     let cleanupExpectation = QuickSpec.current().expectation(description: "awaitObserverCleanup")
     DispatchQueue.main.async
         { cleanupExpectation.fulfill() }
-    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+    QuickSpec.current().waitForExpectations(timeout: 1)
     }
 

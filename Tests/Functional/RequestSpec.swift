@@ -259,7 +259,7 @@ class RequestSpec: ResourceSpecBase
                     expectation.fulfill()
                     expect($0.typedContent()) == text
                     }
-                QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+                QuickSpec.current().waitForExpectations(timeout: 1)
                 }
 
             let oldRequest = specVar

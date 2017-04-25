@@ -492,7 +492,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
                     owner = nil
-                    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+                    QuickSpec.current().waitForExpectations(timeout: 1)
 
                     _ = reqStub().go()
                     awaitFailure(req(), alreadyCompleted: true)
@@ -504,7 +504,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
                     resource().addObserver(owner: owner!) { _ in }
-                    QuickSpec.current().waitForExpectations(timeout: 1, handler: nil)
+                    QuickSpec.current().waitForExpectations(timeout: 1)
 
                     _ = reqStub().go()
                     awaitNewData(req())
