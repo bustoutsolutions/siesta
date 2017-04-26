@@ -196,18 +196,36 @@ class ServiceSpec: SiestaSpec
                      === service().resource("/foo/bar")
                 }
 
-            it("releases unused resources when cache limit exceeded")
+            func checkUnusedResourcesFlushed(by operationThatCausesFlush: () -> Void)
                 {
-                service().cachedResourceCountLimit = 10
                 let retainedResource = service().resource("/retained")
                 weak var unretainedResource = service().resource("/unretained")
                 expect(unretainedResource).notTo(beNil())
 
-                for i in 0 ..< 9
-                    { _ = service().resource("/\(i)") }
+                operationThatCausesFlush()
 
                 expect(service().resource("/retained")) === retainedResource
                 expect(unretainedResource).to(beNil())
+                }
+
+            it("releases unused resources on low memory events")
+                {
+                checkUnusedResourcesFlushed(by: simulateMemoryWarning)
+                }
+
+            it("releases unused resources on call to flushUnusedResource()")
+                {
+                checkUnusedResourcesFlushed(by: service().flushUnusedResources)
+                }
+
+            it("releases unused resources when cache limit exceeded")
+                {
+                service().cachedResourceCountLimit = 10
+                checkUnusedResourcesFlushed
+                    {
+                    for i in 0 ..< 9
+                        { _ = service().resource("/\(i)") }
+                    }
                 }
             }
 
