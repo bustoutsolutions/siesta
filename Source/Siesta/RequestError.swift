@@ -38,8 +38,15 @@ public struct RequestError: Error
     */
     public var userMessage: String
 
+    /// The HTTP response if this error came from an HTTP response.
+    public var httpResponse: HTTPURLResponse?
+    
     /// The HTTP status code (e.g. 404) if this error came from an HTTP response.
-    public var httpStatusCode: Int?
+    public var httpStatusCode: Int? {
+        get {
+            return httpResponse?.statusCode
+        }
+    }
 
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
     public var entity: Entity<Any>?
@@ -63,7 +70,7 @@ public struct RequestError: Error
             cause: Error?,
             userMessage: String? = nil)
         {
-        self.httpStatusCode = response?.statusCode
+        self.httpResponse = response
         self.cause = cause
 
         if let content = content
@@ -73,7 +80,7 @@ public struct RequestError: Error
             { self.userMessage = message }
         else if let message = cause?.localizedDescription
             { self.userMessage = message }
-        else if let code = self.httpStatusCode
+        else if let code = self.httpResponse?.statusCode
             { self.userMessage = HTTPURLResponse.localizedString(forStatusCode: code).capitalized }
         else
             { self.userMessage = NSLocalizedString("Request failed", comment: "userMessage") }   // Is this reachable?
