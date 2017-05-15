@@ -74,7 +74,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody(Data(bytes: UnsafePointer<UInt8>([0xD8] as [UInt8]), count: 1) as NSData)
+                    .withBody(Data(bytes: [0xD8], count: 1) as NSData)
                 awaitFailure(resource().load())
 
                 let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
@@ -98,7 +98,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
-                    .withBody(Data(bytes: UnsafePointer<UInt8>([0xD8, 0x3D, 0xDC, 0xA3] as [UInt8]), count: 4) as NSData)
+                    .withBody(Data(bytes: [0xD8, 0x3D, 0xDC, 0xA3] as [UInt8], count: 4) as NSData)
                 awaitFailure(resource().load())
                 expect(resource().latestError?.text) == "💣"
                 }

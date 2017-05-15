@@ -363,7 +363,7 @@ class RequestSpec: ResourceSpecBase
             it("handles raw data")
                 {
                 let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
-                let nsdata = Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count)
+                let nsdata = Data(bytes: bytes, count: bytes.count)
 
                 _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
@@ -438,7 +438,7 @@ class RequestSpec: ResourceSpecBase
                 it("gives request failure for unencodable strings")
                     {
                     let bogus = String(
-                        bytes: [0xD8, 0x00] as [UInt8],  // Unpaired surrogate char in UTF-16
+                        bytes: [0xD8, 0x00],  // Unpaired surrogate char in UTF-16
                         encoding: String.Encoding.utf16BigEndian)!
 
                     for badParams in [[bogus: "foo"], ["foo": bogus]]
