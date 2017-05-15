@@ -40,6 +40,9 @@ public struct RequestError: Error
 
     /// The HTTP status code (e.g. 404) if this error came from an HTTP response.
     public var httpStatusCode: Int?
+    
+    /// The URL for the request that this error represents.
+    public var url: URL?
 
     /// The response body if this error came from an HTTP response. Its meaning is API-specific.
     public var entity: Entity<Any>?
@@ -64,6 +67,7 @@ public struct RequestError: Error
             userMessage: String? = nil)
         {
         self.httpStatusCode = response?.statusCode
+        self.url = response?.url
         self.cause = cause
 
         if let content = content
