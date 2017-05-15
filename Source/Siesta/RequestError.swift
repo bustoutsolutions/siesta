@@ -39,7 +39,7 @@ public struct RequestError: Error
     public var userMessage: String
 
     /// The HTTP response if this error came from an HTTP response.
-    public let httpResponse: HTTPURLResponse?
+    public var httpResponse: HTTPURLResponse?
     
     /// The HTTP status code (e.g. 404) if this error came from an HTTP response.
     public var httpStatusCode: Int? {
@@ -94,7 +94,6 @@ public struct RequestError: Error
             cause: Error,
             entity: Entity<Any>? = nil)
         {
-        self.httpResponse = nil
         self.userMessage = userMessage
         self.cause = cause
         self.entity = entity
