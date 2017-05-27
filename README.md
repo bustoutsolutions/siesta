@@ -8,6 +8,7 @@
 [![Docs](https://img.shields.io/badge/Docs-awesome-12a49f.svg)](https://bustoutsolutions.github.io/siesta/guide/)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE)
 [![Twitter: @siestaframework](https://img.shields.io/badge/Twitter-@siestaframework-f26430.svg)](https://twitter.com/siestaframework)
+[![codebeat badge](https://codebeat.co/badges/f3bd884a-493d-4dbb-9895-1cce90936e29)](https://codebeat.co/projects/github-com-bustoutsolutions-siesta)
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
