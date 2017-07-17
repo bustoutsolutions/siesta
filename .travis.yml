@@ -8,9 +8,9 @@ os: osx
 osx_image: xcode8.3
 env:
   - scheme='Siesta macOS' platform='OS X'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.3' ios_device='iPhone SE'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'  ios_device='iPhone 6'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'  ios_device='iPhone 4s'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.3.1' ios_device='iPhone SE'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'    ios_device='iPhone 6'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'    ios_device='iPhone 4s'
 
 before_install: |
   if [[ "$platform" == "iOS Simulator" ]]; then
