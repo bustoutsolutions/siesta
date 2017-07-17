@@ -29,6 +29,17 @@ class RequestSpec: ResourceSpecBase
                 awaitNewData(resource().request(.patch))
                 }
 
+            for (method, httpCode) in [(RequestMethod.head, 200), (RequestMethod.post, 204)]
+                {
+                it("represents response without body as zero-length Data for \(method) → \(httpCode)")
+                    {
+                    _ = stubRequest(resource, "HEAD").andReturn(200)
+                    let req = resource().request(.head)
+                    awaitNewData(req)
+                    req.onSuccess { expect($0.typedContent()) == Data() }
+                    }
+                }
+
             it("sends headers from configuration")
                 {
                 service().configure { $0.headers["Zoogle"] = "frotz" }
