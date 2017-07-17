@@ -38,6 +38,84 @@ class RequestSpec: ResourceSpecBase
                 awaitNewData(resource().request(.get))
                 }
 
+            describe("mutators")
+                {
+                it("can alter headers")
+                    {
+                    var malkoviches = ""
+                    service().configure
+                        {
+                        $0.mutateRequests
+                            {
+                            malkoviches += "malkovich"
+                            $0.setValue(malkoviches, forHTTPHeaderField: "X-Malkoviches")
+                            }
+                        }
+
+                    for counter in ["malkovich", "malkovichmalkovich", "malkovichmalkovichmalkovich"]
+                        {
+                        LSNocilla.sharedInstance().clearStubs()
+                        _ = stubRequest(resource, "GET").withHeader("X-Malkoviches", counter).andReturn(200)
+                        awaitNewData(resource().request(.get))
+                        }
+                    }
+
+                it("can read and alter the body")
+                    {
+                    service().configure
+                        {
+                        $0.mutateRequests
+                            {
+                            req in
+                            if var body = req.httpBody
+                                {
+                                body += [42]
+                                req.httpBody = body
+                                req.setValue(String(body.count), forHTTPHeaderField: "Content-Length")
+                                }
+                            }
+                        }
+
+                    _ = stubRequest(resource, "POST")
+                        .withHeader("Content-Length", "4")
+                        .withBody(Data([0, 1, 2, 42]) as NSData)
+                        .andReturn(200)
+                    awaitNewData(resource().request(.post, data: Data([0, 1, 2]), contentType: "foo/bar"))
+                    }
+
+                it("can alter the HTTP method, but this does not change mutators used")
+                    {
+                    service().configure(requestMethods: [.get])
+                        {
+                        $0.mutateRequests
+                            { $0.setValue($0.httpMethod, forHTTPHeaderField: "Original-Method") }
+                        $0.mutateRequests
+                            { $0.httpMethod = "POST" }
+                        $0.mutateRequests
+                            { $0.setValue($0.httpMethod, forHTTPHeaderField: "Mutated-Method") }
+                        }
+
+                    var decorated = 0
+                    service().configure(requestMethods: [.post])
+                        {
+                        $0.mutateRequests
+                            { _ in fail("mutation should use original HTTP method only") }
+                        $0.decorateRequests
+                            {
+                            decorated += 1
+                            return $1
+                            }
+                        }
+
+                    _ = stubRequest(resource, "POST")
+                        .withHeader("Original-Method", "GET")
+                        .withHeader("Mutated-Method", "POST")
+                        .andReturn(200)
+                    awaitNewData(resource().request(.get))
+                    expect(decorated) == 1
+                    }
+                }
+
             describe("decorators")
                 {
                 it("are called for every request")

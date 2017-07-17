@@ -50,6 +50,24 @@ public struct Configuration
     public var headers: [String:String] = [:]
 
     /**
+      Adds a closure that can modify HTTP headers, body, etc. before a `Request` is created. Use this to configure
+      generic HTTP behavior not configurable via the `headers` property, such as a header that contains a nonce or a
+      cryptographic digest of the request body.
+
+      - Note: These mutations are applied _after_ any ad hoc mutation provided via the `requestMutation:` parameter of
+          `Resource.request(...)`. This is because Siesta requests get their body from `requestMutation:`, and
+          configured mutations often want to inspect (or even alter) that body.
+
+      - Note: Configuration depends on HTTP request method, but configured mutations can also _alter_ the request method.
+          Siesta will use the HTTP method of the pre-mutation request to determine what configuration to use for _all_
+          mutations, and then use the post-mutation HTTP method for any further configuration.
+    */
+    public mutating func mutateRequests(with mutation: @escaping Resource.RequestMutation)
+        { requestMutations.append(mutation) }
+
+    internal var requestMutations: [Resource.RequestMutation] = []
+
+    /**
       Adds a closure to be called after a `Request` is created, but before it is started. Use this to globally observe
       requests, or wrap them in special behavior that is transparent to outside observers.
 
