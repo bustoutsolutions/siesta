@@ -15,8 +15,14 @@ import Foundation
 */
 public enum RequestMethod: String
     {
+    /// OPTIONS
+    case options
+
     /// GET
     case get
+
+    /// HEAD. The HTTP method, not the body part.
+    case head
 
     /// POST. Just POST. Doc comment is the same as the enum.
     case post
