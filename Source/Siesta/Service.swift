@@ -282,7 +282,7 @@ open class Service: NSObject
       a transformer that passes the content through unmodified, but requires a specific type:
 
           service.configureTransformer("**") {
-            $0.content as JSONConvertible
+            $0.content as JSONConvertible  // error if content from upstream in pipeline is not JSONConvertible
           }
 
       - SeeAlso: `configure(_:requestMethods:description:configurer:)`
