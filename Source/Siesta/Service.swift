@@ -186,6 +186,9 @@ open class Service: NSObject
           Selects the subset of resources to which this configuration applies. You can pass a `String`, `Resource`, or
           `NSRegularExpression` for the `pattern` argument — or write your own custom implementation of
           `ConfigurationPatternConvertible`.
+      - Parameter requestMethods:
+          If specified, only applies this configuration to requests with the given HTTP methods.
+          Defaults to *all* methods.
       - Parameter description:
           An optional description of this piece of configuration, for logging and debugging purposes.
       - Parameter configurer:
@@ -254,6 +257,23 @@ open class Service: NSObject
             FooModel(json: $0.content)
           }
 
+      By default, the transfromer applies to GET, POST, PUT, PATCH, and DELETE requests — the HTTP methods that commonly
+      return a description of the resulting resource in the response body. If your API does not return a full model for
+      all these HTTP methods, you may need to configure different transformers for different request methods.
+
+      For example, here is configuration for a hypothetical API that wraps responses to mutating requests in an envelope
+      which the app models with an `UpdateResult` struct:
+
+          configureTransformer("/foo/​*", requestMethods: [.get]) {
+            FooModel(json: $0.content)
+          }
+
+          configureTransformer("/foo/​*", requestMethods: [.post, .put, .patch]) {
+            UpdateResult<FooModel>(json: $0.content)
+          }
+
+      Note that `configureTransformer(...)` does _not_ apply to HEAD and OPTIONS by default, but `configure(...)` does.
+
       Siesta checks that the incoming `Entity.content` matches the type of the closure’s `content` parameter. In the
       example code above, if the `json` parameter of `FooModel.init` takes a `Dictionary`, but the transformer pipeline
       at that point has produced a `String`, then the transformer outputs a failure response.
@@ -293,7 +313,10 @@ open class Service: NSObject
                  + " : \(I.self) → \(O.self)"
             }
 
-        configure(pattern, requestMethods: requestMethods, description: description ?? defaultDescription())
+        configure(
+                pattern,
+                requestMethods: requestMethods ?? [.get, .put, .post, .patch, .delete],
+                description: description ?? defaultDescription())
             {
             if action == .replaceExisting
                 { $0.pipeline[stage].removeTransformers() }

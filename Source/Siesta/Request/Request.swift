@@ -40,7 +40,7 @@ public enum RequestMethod: String
     /// I’m here all week! Thank you for reading the documentation!
     case delete
 
-    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete]
+    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete, .head, .options]
     }
 
 /**
