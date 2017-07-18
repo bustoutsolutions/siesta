@@ -47,7 +47,7 @@ internal struct RequestProgressComputation: Progress
                 { return nil }
             }
 
-        overallProgress.holdConstant
+        overallProgress = overallProgress.heldConstant
             {
             uploadProgress.actualTotal   = optionalTotal(metrics.requestBytesTotal)
             downloadProgress.actualTotal = optionalTotal(metrics.responseBytesTotal)
@@ -65,7 +65,7 @@ internal struct RequestProgressComputation: Progress
 
         if requestStarted || responseStarted
             {
-            overallProgress.holdConstant
+            overallProgress = overallProgress.heldConstant
                 { connectLatency.complete() }
             }
         else
@@ -73,7 +73,7 @@ internal struct RequestProgressComputation: Progress
 
         if responseStarted
             {
-            overallProgress.holdConstant
+            overallProgress = overallProgress.heldConstant
                 { responseLatency.complete() }
             }
         else if requestSent
@@ -186,13 +186,16 @@ private struct MonotonicProgress: Progress
     var rawFractionDone: Double
         { return (child.fractionDone - 1) * adjustment + 1 }
 
-    mutating func holdConstant(closure: () -> Void)
+    func heldConstant(withRespectTo changes: () -> Void) -> MonotonicProgress
         {
         let before = fractionDone
-        closure()
+        changes()
         let afterRaw = child.fractionDone
+
+        var result = self
         if afterRaw != 1
-            { adjustment = (before - 1) / (afterRaw - 1) }
+            { result.adjustment = (before - 1) / (afterRaw - 1) }
+        return result
         }
     }
 
