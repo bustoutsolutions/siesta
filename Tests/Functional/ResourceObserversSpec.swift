@@ -395,8 +395,8 @@ class ResourceObserversSpec: ResourceSpecBase
         describe("observer auto-removal")
             {
             func expectToStopObservation(
-                    _ observer: (Void) -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
-                    callbackThatShouldCauseRemoval: (Void) -> Void)
+                    _ observer: () -> TestObserverWithExpectations,  // closure b/c we don't want to retain it as param
+                    callbackThatShouldCauseRemoval: () -> Void)
                 {
                 observer().expect(.requested)
 
@@ -463,7 +463,7 @@ private class TestObserverWithExpectations: ResourceObserver
     deinit
         { checkForUnfulfilledExpectations() }
 
-    func expect(_ events: ResourceEvent..., callback: @escaping ((Void) -> Void) = {})
+    func expect(_ events: ResourceEvent..., callback: @escaping (() -> Void) = {})
         {
         for event in events
             { expectedEvents.append(Expectation(event: "\(event)", callback: callback)) }
@@ -507,7 +507,7 @@ private class TestObserverWithExpectations: ResourceObserver
     private struct Expectation
         {
         let event: String
-        let callback: ((Void) -> Void)
+        let callback: (() -> Void)
 
         func description() -> String
             { return event }

@@ -79,7 +79,7 @@ class ProgressSpec: ResourceSpecBase
                 setResourceTime(100)
                 }
 
-            func progressComparison(_ closure: (Void) -> Void) -> (before: Double, after: Double)
+            func progressComparison(_ closure: () -> Void) -> (before: Double, after: Double)
                 {
                 progress = progress ?? RequestProgressComputation(isGet: getRequest)
 
@@ -94,19 +94,19 @@ class ProgressSpec: ResourceSpecBase
                 return (before, after)
                 }
 
-            func expectProgressToIncrease(_ closure: (Void) -> Void)
+            func expectProgressToIncrease(_ closure: () -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after) > result.before
                 }
 
-            func expectProgressToRemainUnchanged(_ closure: (Void) -> Void)
+            func expectProgressToRemainUnchanged(_ closure: () -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after) == result.before
                 }
 
-            func expectProgressToRemainAlmostUnchanged(_ closure: (Void) -> Void)
+            func expectProgressToRemainAlmostUnchanged(_ closure: () -> Void)
                 {
                 let result = progressComparison(closure)
                 expect(result.after) ≈ result.before ± 0.01

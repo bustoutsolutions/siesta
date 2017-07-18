@@ -186,7 +186,7 @@ private struct MonotonicProgress: Progress
     var rawFractionDone: Double
         { return (child.fractionDone - 1) * adjustment + 1 }
 
-    mutating func holdConstant(closure: (Void) -> Void)
+    mutating func holdConstant(closure: () -> Void)
         {
         let before = fractionDone
         closure()

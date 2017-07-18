@@ -50,7 +50,7 @@ class ServiceSpec: SiestaSpec
                 expect(service.baseURL?.absoluteString) == "https://frotzle.zing/"
                 }
 
-            func addSpecsForBareServce(_ description: String, serviceBuidler: @escaping (Void) -> Service)
+            func addSpecsForBareServce(_ description: String, serviceBuidler: @escaping () -> Service)
                 {
                 context(description)
                     {

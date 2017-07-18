@@ -74,7 +74,7 @@ class ResourceSpecBase: SiestaSpec
             { Service(baseURL: self.baseURL) }
         }
 
-    private func runSpecsWithService(_ serviceBuilder: @escaping (Void) -> Service)
+    private func runSpecsWithService(_ serviceBuilder: @escaping () -> Service)
         {
         let service  = specVar(serviceBuilder),
             resource = specVar { service().resource("/a/b") }

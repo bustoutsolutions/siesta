@@ -260,7 +260,7 @@ public final class Resource: NSObject
 
         // Build the request
 
-        let requestBuilder: (Void) -> URLRequest =
+        let requestBuilder: () -> URLRequest =
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
@@ -461,7 +461,7 @@ public final class Resource: NSObject
 
       The `callback` is called aftrer the given delay, regardless of whether the request was cancelled.
     */
-    public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping (Void) -> Void = {})
+    public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping () -> Void = {})
         {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.05)
             {
