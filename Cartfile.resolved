@@ -1,4 +1,4 @@
-github "Alamofire/Alamofire" "4.4.0"
-github "Quick/Nimble" "v6.1.0"
+github "Alamofire/Alamofire" "4.5.0"
+github "Quick/Nimble" "v7.0.1"
 github "pcantrell/Nocilla" "bd7ec7caa0576f08c00bbbf993a9204f93be16e3"
-github "pcantrell/Quick" "1c2c4056049e52d25fc48171ab62ab9d33821b47"
+github "pcantrell/Quick" "bd0b7983f8a8b6c59526ad35a74c2f387703e16b"
