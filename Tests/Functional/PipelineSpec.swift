@@ -373,7 +373,7 @@ private extension String
     {
     func prefix(_ n: Int) -> String
         {
-        return self[startIndex ..< characters.index(startIndex, offsetBy: n)]
+        return String(self[startIndex ..< characters.index(startIndex, offsetBy: n)])
         }
     }
 

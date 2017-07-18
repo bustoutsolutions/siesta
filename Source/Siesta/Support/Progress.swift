@@ -101,7 +101,7 @@ internal protocol Progress
 
 extension Progress
     {
-    final var fractionDone: Double
+    var fractionDone: Double
         {
         let raw = rawFractionDone
         return raw.isNaN ? raw : max(0, min(1, raw))

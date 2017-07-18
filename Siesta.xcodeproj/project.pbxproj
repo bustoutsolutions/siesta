@@ -985,8 +985,12 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Bust Out Solutions";
 				TargetAttributes = {
+					9F0FAF8C1D033FCD00CE1B61 = {
+						LastSwiftMigration = 0900;
+					};
 					9F2FB51D1C28645E0068DFFA = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0900;
 					};
 					CDCCAF641E6A313800860D18 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1000,6 +1004,9 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
+					DA19D04C1D9ADC1800D15F3A = {
+						LastSwiftMigration = 0900;
+					};
 					DA336E4E1B2E6DDB006F702A = {
 						CreatedOnToolsVersion = 7.0;
 						LastSwiftMigration = 0800;
@@ -1010,6 +1017,9 @@
 					};
 					DAC0B37D1D651CB500D25C44 = {
 						LastSwiftMigration = 0800;
+					};
+					DAC0B3AC1D651CC700D25C44 = {
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -1421,6 +1431,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1435,6 +1447,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1454,6 +1468,8 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1473,6 +1489,8 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1615,6 +1633,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1628,6 +1647,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1839,6 +1859,8 @@
 				PRODUCT_NAME = SiestaUI;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1857,6 +1879,8 @@
 				PRODUCT_NAME = SiestaUI;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

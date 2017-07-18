@@ -58,7 +58,7 @@ open class RemoteImageView: UIImageView
             {
             imageResource?.loadIfNeeded()
             imageResource?.addObserver(owner: self)
-                { [weak self] _ in self?.updateViews() }
+                { [weak self] _,_ in self?.updateViews() }
 
             if imageResource == nil  // (and thus closure above was not called on observerAdded)
                 { updateViews() }

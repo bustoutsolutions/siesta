@@ -229,7 +229,7 @@ class RequestSpec: ResourceSpecBase
                         service().configure
                             {
                             $0.decorateRequests
-                                { _ in dummyReq0() }
+                                { _,_  in dummyReq0() }
                             }
                         awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
                         }

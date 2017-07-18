@@ -113,7 +113,7 @@ func awaitNewData(_ req: Siesta.Request, alreadyCompleted: Bool = false)
        .onSuccess     { _ in successExpectation.fulfill() }
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in newDataExpectation.fulfill() }
-       .onNotModified { _ in fail("notModified callback should not be called") }
+       .onNotModified { fail("notModified callback should not be called") }
     QuickSpec.current.waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
     }
@@ -128,7 +128,7 @@ func awaitNotModified(_ req: Siesta.Request)
        .onSuccess     { _ in successExpectation.fulfill() }
        .onFailure     { _ in fail("error callback should not be called") }
        .onNewData     { _ in fail("newData callback should not be called") }
-       .onNotModified { _ in notModifiedExpectation.fulfill() }
+       .onNotModified { notModifiedExpectation.fulfill() }
     QuickSpec.current.waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
     }
@@ -142,7 +142,7 @@ func awaitFailure(_ req: Siesta.Request, alreadyCompleted: Bool = false)
        .onFailure     { _ in errorExpectation.fulfill() }
        .onSuccess     { _ in fail("success callback should not be called") }
        .onNewData     { _ in fail("newData callback should not be called") }
-       .onNotModified { _ in fail("notModified callback should not be called") }
+       .onNotModified { fail("notModified callback should not be called") }
 
     QuickSpec.current.waitForExpectations(timeout: 1)
     expect(req.isCompleted) == true
