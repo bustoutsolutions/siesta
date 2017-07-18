@@ -16,6 +16,8 @@ Drastically simplifies app code by providing a client-side cache of observable m
 * **Tool requirements:** Xcode 8, Swift 3  (See `swift-2.x` branches for legacy support)
 * **License:** MIT
 
+## Table of Contents
+
 ### Overview
 
 - [What’s It For?](#whats-it-for)
