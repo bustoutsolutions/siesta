@@ -101,7 +101,15 @@ internal struct CallbackGroup<CallbackArguments>
         // Remember outcome in case more handlers are added after request is already completed
         completedValue = arguments
 
-        notify(arguments)
-        callbacks = []  // Fly, little handlers, be free!
+        // We need to let this mutating method finish before calling the callbacks. Some of them inspect
+        // completeValue (via isCompleted), which causes a simultaneous access error at runtime.
+        // See https://github.com/apple/swift-evolution/blob/master/proposals/0176-enforce-exclusive-access-to-memory.md
+
+        let snapshot = self
+        DispatchQueue.main.async
+            { snapshot.notify(arguments) }
+
+        // Fly, little handlers, be free! Now that we have a result, future onFoo() calls will invoke the callback.
+        callbacks = []
         }
     }
