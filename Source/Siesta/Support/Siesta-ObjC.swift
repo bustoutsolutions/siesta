@@ -45,21 +45,21 @@ import Foundation
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
     {
-    public var content: AnyObject
-    public var contentType: String
-    public var charset: String?
-    public var etag: String?
+    @objc public var content: AnyObject
+    @objc public var contentType: String
+    @objc public var charset: String?
+    @objc public var etag: String?
     fileprivate var headers: [String:String]
-    public private(set) var timestamp: TimeInterval = 0
+    @objc public private(set) var timestamp: TimeInterval = 0
 
-    public init(content: AnyObject, contentType: String, headers: [String:String])
+    @objc public init(content: AnyObject, contentType: String, headers: [String:String])
         {
         self.content = content
         self.contentType = contentType
         self.headers = headers
         }
 
-    public convenience init(content: AnyObject, contentType: String)
+    @objc public convenience init(content: AnyObject, contentType: String)
         { self.init(content: content, contentType: contentType, headers: [:]) }
 
     internal init(_ entity: Entity<Any>)
@@ -71,10 +71,10 @@ public class _objc_Entity: NSObject
         self.headers     = entity.headers
         }
 
-    public func header(_ key: String) -> String?
+    @objc public func header(_ key: String) -> String?
         { return headers[key.lowercased()] }
 
-    public override var description: String
+    @objc public override var description: String
         { return debugStr(Entity<Any>.convertedFromObjc(self)) }
     }
 
@@ -89,11 +89,11 @@ internal extension Entity
 @objc(BOSError)
 public class _objc_Error: NSObject
     {
-    public var httpStatusCode: Int
-    public var cause: NSError?
-    public var userMessage: String
-    public var entity: _objc_Entity?
-    public let timestamp: TimeInterval
+    @objc public var httpStatusCode: Int
+    @objc public var cause: NSError?
+    @objc public var userMessage: String
+    @objc public var entity: _objc_Entity?
+    @objc public let timestamp: TimeInterval
 
     internal init(_ error: RequestError)
         {
@@ -164,7 +164,7 @@ public class _objc_Request: NSObject
     fileprivate init(_ request: Request)
         { self.request = request }
 
-    public func onCompletion(_ objcCallback: @escaping @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
+    @objc public func onCompletion(_ objcCallback: @escaping @convention(block) (_objc_Entity?, _objc_Error?) -> Void) -> _objc_Request
         {
         request.onCompletion
             {
@@ -180,40 +180,40 @@ public class _objc_Request: NSObject
         return self
         }
 
-    public func onSuccess(_ objcCallback: @escaping @convention(block) (_objc_Entity) -> Void) -> _objc_Request
+    @objc public func onSuccess(_ objcCallback: @escaping @convention(block) (_objc_Entity) -> Void) -> _objc_Request
         {
         request.onSuccess { entity in objcCallback(_objc_Entity(entity)) }
         return self
         }
 
-    public func onNewData(_ objcCallback: @escaping @convention(block) (_objc_Entity) -> Void) -> _objc_Request
+    @objc public func onNewData(_ objcCallback: @escaping @convention(block) (_objc_Entity) -> Void) -> _objc_Request
         {
         request.onNewData { entity in objcCallback(_objc_Entity(entity)) }
         return self
         }
 
-    public func onNotModified(_ objcCallback: @escaping @convention(block) () -> Void) -> _objc_Request
+    @objc public func onNotModified(_ objcCallback: @escaping @convention(block) () -> Void) -> _objc_Request
         {
         request.onNotModified(objcCallback)
         return self
         }
 
-    public func onFailure(_ objcCallback: @escaping @convention(block) (_objc_Error) -> Void) -> _objc_Request
+    @objc public func onFailure(_ objcCallback: @escaping @convention(block) (_objc_Error) -> Void) -> _objc_Request
         {
         request.onFailure { error in objcCallback(_objc_Error(error)) }
         return self
         }
 
-    public func onProgress(_ objcCallback: @escaping @convention(block) (Float) -> Void) -> _objc_Request
+    @objc public func onProgress(_ objcCallback: @escaping @convention(block) (Float) -> Void) -> _objc_Request
         {
         request.onProgress { p in objcCallback(Float(p)) }
         return self
         }
 
-    public func cancel()
+    @objc public func cancel()
         { request.cancel() }
 
-    public override var description: String
+    @objc public override var description: String
         { return debugStr(request) }
     }
 

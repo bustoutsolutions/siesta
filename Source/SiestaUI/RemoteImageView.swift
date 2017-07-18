@@ -25,12 +25,15 @@ open class RemoteImageView: UIImageView
     @IBOutlet public var placeholderImage: UIImage?
 
     /// The default service to cache `RemoteImageView` images.
+    @objc
     open static var defaultImageService: Service = Service()
 
     /// The service this view should use to request & cache its images.
+    @objc
     public var imageService: Service = RemoteImageView.defaultImageService
 
     /// A URL whose content is the image to display in this view.
+    @objc
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
@@ -38,6 +41,7 @@ open class RemoteImageView: UIImageView
         }
 
     /// Optional image transform applyed to placeholderImage and downloaded image
+    @objc
     public var imageTransform: (UIImage?) -> UIImage? = { $0 }
 
     /**
@@ -46,6 +50,7 @@ open class RemoteImageView: UIImageView
       If this image is already in memory, it is displayed synchronously (no flicker!). If the image is missing or
       potentially stale, setting this property triggers a load.
     */
+    @objc
     public var imageResource: Resource?
         {
         willSet

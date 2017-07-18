@@ -30,9 +30,11 @@ public final class Resource: NSObject
     // MARK: Essentials
 
     /// The API to which this resource belongs. Provides configuration defaults and instance uniqueness.
+    @objc
     public let service: Service
 
     /// The canoncial URL of this resource.
+    @objc
     public let url: URL
 
     private let urlDescription: String
@@ -120,6 +122,7 @@ public final class Resource: NSObject
         }
 
     /// The time of the most recent update to either `latestData` or `latestError`.
+    @objc
     public var timestamp: TimeInterval
         {
         DispatchQueue.mainThreadPrecondition()
@@ -136,6 +139,7 @@ public final class Resource: NSObject
 
     /// True if any load requests (i.e. from calls to `load(...)` and `loadIfNeeded()`)
     /// for this resource are in progress.
+    @objc
     public var isLoading: Bool
         {
         DispatchQueue.mainThreadPrecondition()
@@ -144,6 +148,7 @@ public final class Resource: NSObject
         }
 
     /// True if any requests for this resource are in progress.
+    @objc
     public var isRequesting: Bool
         {
         DispatchQueue.mainThreadPrecondition()
@@ -305,6 +310,7 @@ public final class Resource: NSObject
         - the last request failed (i.e. `latestError` is not nil), and
         - the timestamp on `latestError` is more recent than `retryTime` seconds ago.
     */
+    @objc
     public var isUpToDate: Bool
         {
         let maxAge = (latestError == nil)
@@ -440,6 +446,7 @@ public final class Resource: NSObject
     /**
       If this resource has no observers, cancels all `loadRequests`.
     */
+    @objc
     public func cancelLoadIfUnobserved()
         {
         DispatchQueue.mainThreadPrecondition()
@@ -461,6 +468,7 @@ public final class Resource: NSObject
 
       The `callback` is called aftrer the given delay, regardless of whether the request was cancelled.
     */
+    @objc
     public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping () -> Void = {})
         {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.05)
@@ -582,6 +590,7 @@ public final class Resource: NSObject
 
       If this resource has no content, this method sets the content type to `application/binary`.
     */
+    @objc
     public func overrideLocalContent(with content: Any)
         {
         var updatedEntity = latestData ?? Entity<Any>(content: content, contentType: "application/binary")
@@ -601,6 +610,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `wipe()`
     */
+    @objc
     public func invalidate()
         {
         DispatchQueue.mainThreadPrecondition()
@@ -619,6 +629,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `invalidate()`
     */
+    @objc
     public func wipe()
         {
         DispatchQueue.mainThreadPrecondition()

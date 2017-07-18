@@ -29,6 +29,7 @@ import Foundation
 open class Service: NSObject
     {
     /// The root URL of the API. If nil, then `resource(_:)` will only accept absolute URLs.
+    @objc
     public let baseURL: URL?
 
     internal let networkingProvider: NetworkingProvider
@@ -366,6 +367,7 @@ open class Service: NSObject
       Configurations are computed lazily, and the (still relatively low) performance impact of recomputation is spread
       over subsequent resource interactions.
     */
+    @objc
     public final func invalidateConfiguration()
         {
         DispatchQueue.mainThreadPrecondition()
@@ -411,6 +413,7 @@ open class Service: NSObject
 
       Applies to resources matching the predicate, or all resources by default.
     */
+    @objc
     public final func wipeResources(matching predicate: (Resource) -> Bool =  { _ in true })
         {
         DispatchQueue.mainThreadPrecondition()
@@ -437,6 +440,7 @@ open class Service: NSObject
 
       Useful for making shared predicates that you can pass to both `configure(...)` and this method.
     */
+    @objc
     public final func wipeResources(withURLsMatching predicate: (URL) -> Bool)
         {
         wipeResources { predicate($0.url) }
@@ -449,6 +453,7 @@ open class Service: NSObject
       flushes all unused resources. Note that any resources still in use — i.e. retained outside of Siesta — will remain
       in the cache, no matter how many there are.
     */
+    @objc
     public var cachedResourceCountLimit: Int
         {
         get { return resourceCache.countLimit }
@@ -468,6 +473,7 @@ open class Service: NSObject
       resources yourself during a low memory, then tell Siesta to release them when you are done. You might also call it
       preemptively before a memory-intensive operation, to prevent memory churn.
      */
+    @objc
     public final func flushUnusedResources()
         {
         resourceCache.flushUnused()
