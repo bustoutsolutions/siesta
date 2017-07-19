@@ -31,22 +31,20 @@ func simulateMemoryWarning()
             object: nil)
     }
 
-func beIdentialObjects<T>(_ expectedArray: [T]) -> NonNilMatcherFunc<[T]>
+func beIdentialObjects<T>(_ expectedArray: [T]) -> Predicate<[T]>
     {
     func makeIdent(_ x: T) -> ObjectIdentifier
         {
         return ObjectIdentifier(x as AnyObject)
         }
 
-    return NonNilMatcherFunc
-        { inputs, failureMessage in
-
-        let actualArray = try! inputs.evaluate()!
-        failureMessage.stringValue =
-            "expected \(expectedArray)"
-            + " but got \(actualArray)"
-
-        return expectedArray.map(makeIdent)
-            ==   actualArray.map(makeIdent)
+    return Predicate
+        {
+        inputs in
+        let actualArray = try inputs.evaluate()!
+        return PredicateResult(
+            bool: expectedArray.map(makeIdent) == actualArray.map(makeIdent),
+            message: ExpectationMessage.fail(
+                "expected specific objects \(stringify(expectedArray)) but got \(stringify(actualArray))"))
         }
     }

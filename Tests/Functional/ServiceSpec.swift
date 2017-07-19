@@ -481,39 +481,41 @@ class ServiceSpec: SiestaSpec
 
 // MARK: - Custom matchers
 
-func expandToBaseURL(_ expectedURL: String) -> MatcherFunc<String>
+func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
     {
-    return MatcherFunc
+    return Predicate
         {
-        actual, failureMessage in
+        actual in
 
         let baseURL = try! actual.evaluate() ?? "",
             service = Service(baseURL: baseURL),
             actualURL = service.baseURL?.absoluteString
-        failureMessage.stringValue =
-            "expected baseURL \(baseURL.debugDescription)"
-            + " to expand to \(expectedURL.debugDescription),"
-            + " but got \(actualURL.debugDescription)"
-        return actualURL == expectedURL
+        return PredicateResult(
+            bool: actualURL == expectedURL,
+            message: ExpectationMessage.fail(
+                "expected baseURL \(stringify(baseURL))"
+                + " to expand to \(stringify(expectedURL)),"
+                + " but got \(stringify(actualURL))"))
         }
     }
 
-func expandToResourceURL(_ expectedURL: String) -> MatcherFunc<(String,String)>
+func expandToResourceURL(_ expectedURL: String) -> Predicate<(String,String)>
     {
-    return MatcherFunc
+    return Predicate
         {
-        inputs, failureMessage in
+        actual in
 
-        let (baseURL, resourcePath) = try! inputs.evaluate()!,
+        let (baseURL, resourcePath) = try! actual.evaluate()!,
             service = Service(baseURL: baseURL),
             resource = service.resource(resourcePath),
             actualURL = resource.url.absoluteString
-        failureMessage.stringValue =
-            "expected baseURL \(baseURL.debugDescription)"
-            + " and resource path \(resourcePath.debugDescription)"
-            + " to expand to \(expectedURL.debugDescription),"
-            + " but got \(actualURL.debugDescription)"
-        return actualURL == expectedURL
+        return PredicateResult(
+            bool: actualURL == expectedURL,
+            message: ExpectationMessage.fail(
+                "expected baseURL \(stringify(baseURL))"
+                + " and resource path \(stringify(resourcePath))"
+                + " to expand to \(stringify(expectedURL)),"
+                + " but got \(stringify(actualURL))"))
         }
     }
 

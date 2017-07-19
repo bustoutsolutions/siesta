@@ -196,29 +196,31 @@ private func resourceExpansionMatcher(
              _ expectedURL: String,
         relationshipName: String,
             relationship: @escaping (Resource,String) -> Resource)
-    -> MatcherFunc<(Resource,String)>
+    -> Predicate<(Resource,String)>
     {
-    return MatcherFunc
-        { inputs, failureMessage in
+    return Predicate
+        {
+        inputs in
 
         let (resource, path) = try! inputs.evaluate()!,
             actualURL = relationship(resource, path).url.absoluteString
-        failureMessage.stringValue =
-            "expected \(relationshipName) \(path.debugDescription)"
-            + " of resource \(resource.url)"
-            + " to expand to \(expectedURL.debugDescription),"
-            + " but got \(actualURL.debugDescription)"
-        return actualURL == expectedURL
+        return PredicateResult(
+            bool: actualURL == expectedURL,
+            message: ExpectationMessage.fail(
+                "expected \(relationshipName) \(stringify(path))"
+                + " of resource \(resource.url)"
+                + " to expand to \(stringify(expectedURL)),"
+                + " but got \(stringify(actualURL))"))
         }
     }
 
-private func expandToChildURL(_ expectedURL: String) -> MatcherFunc<(Resource,String)>
+private func expandToChildURL(_ expectedURL: String) -> Predicate<(Resource,String)>
     {
     return resourceExpansionMatcher(expectedURL, relationshipName: "child")
         { resource, path in resource.child(path) }
     }
 
-private func expandToRelativeURL(_ expectedURL: String) -> MatcherFunc<(Resource,String)>
+private func expandToRelativeURL(_ expectedURL: String) -> Predicate<(Resource,String)>
     {
     return resourceExpansionMatcher(expectedURL, relationshipName: "relative")
         { resource, path in resource.relative(path) }
