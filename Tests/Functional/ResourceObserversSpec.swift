@@ -433,7 +433,7 @@ class ResourceObserversSpec: ResourceSpecBase
             it("stops observing when owner is deallocated")
                 {
                 let observer = TestObserverWithExpectations()
-                var owner: AnyObject? = "foo" as NSString
+                var owner: AnyObject? = NSObject()
 
                 observer.expect(.observerAdded)
                 resource().addObserver(observer, owner: owner!)
