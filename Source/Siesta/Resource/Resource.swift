@@ -234,7 +234,9 @@ public final class Resource: NSObject
       - Parameter method: The HTTP verb to use for the request
       - Parameter requestMutation:
           An optional callback to change details of the request before it is sent.
-          Does nothing by default.
+          Does nothing by default. Note that this is applied _before_ any mutations configured with
+          `Configuration.mutateRequests(...)`. This allows configured mutations to inspect and alter the request after
+          it is fully populated.
 
       - SeeAlso:
         - `load()`
@@ -248,7 +250,7 @@ public final class Resource: NSObject
     */
     public func request(
             _ method: RequestMethod,
-            requestMutation: @escaping RequestMutation = { _ in })
+            requestMutation adHocMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
         DispatchQueue.mainThreadPrecondition()
@@ -262,10 +264,14 @@ public final class Resource: NSObject
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
-            for (header, value) in self.configuration(for: method).headers
+            let config = self.configuration(for: method)
+
+            for (header, value) in config.headers
                 { underlyingRequest.setValue(value, forHTTPHeaderField: header) }
 
-            requestMutation(&underlyingRequest)
+            adHocMutation(&underlyingRequest)
+            for configuredMutation in config.requestMutations
+                { configuredMutation(&underlyingRequest) }
 
             debugLog(.networkDetails, ["Request:", dumpHeaders(underlyingRequest.allHTTPHeaderFields ?? [:], indent: "    ")])
 
