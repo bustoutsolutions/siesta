@@ -7,17 +7,17 @@
 //
 
 /**
-  A preconfigured combination of a particular `ResponseTransformer`, content type pattern, and `PipelineStageKey`.
-  Used to configure Siesta’s built-in response transformers.
+  A preconfigured combination of a transformer, content type, and pipeline stage.
+  Use this to individually opt in to Siesta’s built-in response transformers.
 
-  - SeeAlso: `Service.init(...)`, the `standardTransformers:` parameter
+  - SeeAlso: `Service.init(...)`’s `standardTransformers:` parameter
 */
 public struct StandardTransformer
     {
     // Hello, reader of source code! Do you find yourself wanting these properties to be public, so that you can create
     // your own standard transformer + content type + pipeline stage groupings for easy reuse? I am hesitant to expose
     // all of this as public API, but if you have a problem it would solve, please open a GitHub issue and talk me
-    // through it. –PPC
+    // through your use case. –PPC
 
     internal let name: String
     internal let transformer: ResponseTransformer
@@ -28,8 +28,10 @@ public struct StandardTransformer
 extension StandardTransformer
     {
     /**
-      Uses Foundation’s `JSONSerialization` to transform responses with content type of `*​/json` or `*​/​*+json` to a
-      dictionary or array at the parsing stage.
+      Uses Foundation’s `JSONSerialization` to transform responses
+      - with content type of `*​/json` or `*​/​*+json`
+      - to a dictionary or array
+      - at the parsing stage.
 
       Disable this if you want to use a different parser, such as Swift 4’s `JSONDecoder`:
 
@@ -37,6 +39,7 @@ extension StandardTransformer
             baseURL: "https://example.com",
             standardTransformers: [.image, .text])  // no .json
 
+          let jsonDecoder = JSONDecoder()
           service.configureTransformer("/foo") {
             try jsonDecoder.decode(Foo.self, from: $0.content)
           }

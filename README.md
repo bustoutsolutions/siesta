@@ -320,7 +320,7 @@ class RemoteImageView: UIImageView {
     
     didSet {
       imageResource?.loadIfNeeded()
-      imageResource?.addObserver(owner: self) { [weak self] _ in
+      imageResource?.addObserver(owner: self) { [weak self] _,_ in
         self?.image = self?.imageResource?.typedContent(
             ifNone: self?.placeholderImage)
       }
