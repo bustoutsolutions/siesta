@@ -103,12 +103,8 @@ class RepositoryViewController: UIViewController, ResourceObserver {
             contributorsLabel?.text = "–"
         }
 
-        // We don't bother to give the languages their own model, since the response JSON
-        // is so simple already. This is thus an example of how to use raw SwiftyJSON content.
-        // Note that the .json property here is defined in Siesta+SwiftyJSON.
-
-        if let languages = languagesResource?.json.dictionaryValue.keys {
-            languagesLabel?.text = languages.joined(separator: " • ")
+        if let languages: [String:Int] = languagesResource?.typedContent() {
+            languagesLabel?.text = languages.keys.joined(separator: " • ")
         } else {
             languagesLabel?.text = "–"
         }
