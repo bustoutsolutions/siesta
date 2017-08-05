@@ -207,6 +207,10 @@
 		DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
+		DAF19BC71F355606000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
@@ -395,6 +399,7 @@
 		DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceStatusOverlay.xib; sourceTree = "<group>"; };
 		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GCD+Siesta.swift"; sourceTree = "<group>"; };
+		DAF19BC61F355606000B9734 /* StandardTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTransformers.swift; sourceTree = "<group>"; };
 		DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCallbacks.swift; sourceTree = "<group>"; };
 		DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTracker.swift; sourceTree = "<group>"; };
 		DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
@@ -682,6 +687,7 @@
 				DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */,
 				DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */,
 				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
+				DAF19BC61F355606000B9734 /* StandardTransformers.swift */,
 			);
 			path = Pipeline;
 			sourceTree = "<group>";
@@ -1180,6 +1186,7 @@
 				9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */,
 				9F2FB52C1C2864970068DFFA /* URL+Siesta.swift in Sources */,
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
+				DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
 				DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
@@ -1220,6 +1227,7 @@
 				CDCCAF8D1E6A383600860D18 /* Service.swift in Sources */,
 				CDCCAFAD1E6A387200860D18 /* WeakCache.swift in Sources */,
 				CDCCAF981E6A384E00860D18 /* Networking.swift in Sources */,
+				DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCB1E6A389700860D18 /* PipelineConfiguration.swift in Sources */,
 				CDCCAFC31E6A389200860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFCD1E6A389700860D18 /* ResponseTransformer.swift in Sources */,
@@ -1260,6 +1268,7 @@
 				CDCCAF8E1E6A383700860D18 /* Service.swift in Sources */,
 				CDCCAFA11E6A387100860D18 /* WeakCache.swift in Sources */,
 				CDCCAF9B1E6A384F00860D18 /* Networking.swift in Sources */,
+				DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCE1E6A389800860D18 /* PipelineConfiguration.swift in Sources */,
 				CDCCAFC91E6A389300860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFD01E6A389800860D18 /* ResponseTransformer.swift in Sources */,
@@ -1326,6 +1335,7 @@
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
+				DAF19BC71F355606000B9734 /* StandardTransformers.swift in Sources */,
 				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
 				DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */,
 				DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
