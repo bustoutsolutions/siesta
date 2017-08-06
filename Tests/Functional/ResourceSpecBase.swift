@@ -100,7 +100,13 @@ class ResourceSpecBase: SiestaSpec
 @discardableResult
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    return stubRequest(method, resource().url.absoluteString as NSString)
+    return stubRequest(resource(), method)
+    }
+
+@discardableResult
+func stubRequest(_ resource: Resource, _ method: String) -> LSStubRequestDSL
+    {
+    return stubRequest(method, resource.url.absoluteString as NSString)
     }
 
 func awaitNewData(_ req: Siesta.Request, alreadyCompleted: Bool = false)
