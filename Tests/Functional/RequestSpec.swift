@@ -451,8 +451,7 @@ class RequestSpec: ResourceSpecBase
             {
             it("handles raw data")
                 {
-                let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
-                let nsdata = Data(bytes: bytes, count: bytes.count)
+                let nsdata = Data(bytes: [0x00, 0xFF, 0x17, 0xCA])
 
                 _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
