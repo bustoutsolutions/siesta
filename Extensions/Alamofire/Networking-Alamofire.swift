@@ -7,7 +7,9 @@
 //
 
 import Foundation
-import Siesta
+#if !COCOAPODS
+    import Siesta
+#endif
 import Alamofire
 
 /**
