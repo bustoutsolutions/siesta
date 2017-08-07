@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+#if !COCOAPODS
+    import Siesta
+#endif
 import UIKit
 import Foundation

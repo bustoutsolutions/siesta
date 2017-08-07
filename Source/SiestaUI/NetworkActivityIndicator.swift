@@ -6,7 +6,9 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+#if !COCOAPODS
+    import Siesta
+#endif
 import UIKit
 
 // Tracks the number of requests in progress across all Siesta services
