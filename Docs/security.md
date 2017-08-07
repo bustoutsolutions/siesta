@@ -72,7 +72,7 @@ A more drastic measure is to forcibly cut off all requests that attempt to reach
 ```swift
 service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
   $0.decorateRequests {
-    _ in Resource.failedRequest(
+    _,_ in Resource.failedRequest(
       RequestError(
         userMessage: "Attempted to connect to unauthorized server",
         cause: UnauthorizedServer()))

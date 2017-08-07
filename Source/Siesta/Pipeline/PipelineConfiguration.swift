@@ -33,7 +33,7 @@ import Foundation
   By default, Siesta pipelines start with parsers for common data types (JSON, text, image) configured at the
   `PipelineStageKey.parsing` stage. You can remove these default transformers for individual configurations using calls
   such as `clear()` and `PipelineStage.removeAllTransformers()`, or you can disable these default parsers entirely by
-  passing `useDefaultTransformers: false` when creating a `Service`.
+  passing `standardTransformers: []` when creating a `Service`.
 
   Services do not have any persistent caching by default.
 */

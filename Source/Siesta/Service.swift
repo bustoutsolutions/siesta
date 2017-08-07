@@ -41,9 +41,13 @@ open class Service: NSObject
       - Parameter baseURL:
           The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
           only `resource(absoluteURL:)` and `resource(baseURL:path:)` to acquire resources.
-      - Parameter useDefaultTransformers:
-          If true, include handling for JSON, text, and images. If false, leave all responses as `Data` (unless you
-          add your own `ResponseTransformer` using `configure(...)`).
+      - Parameter standardTransformers:
+          By default, includes:
+             - JSON → `Dictionary`/`Array`
+             - text → `String`
+             - image → `UIImage`/`NSImage`.
+          If empty, leaves all responses as `Data` (unless you add your own `ResponseTransformer` using `configure(...)`).
+          For more details on the various standard parsing options, see `StandardTransformer`.
       - Parameter networking:
           The handler to use for networking. The default is `URLSession` with ephemeral session configuration. You can
           pass an `URLSession`, `URLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
@@ -51,7 +55,7 @@ open class Service: NSObject
     */
     public init(
             baseURL: URLConvertible? = nil,
-            useDefaultTransformers: Bool = true,
+            standardTransformers: [StandardTransformer] = [.json, .text, .image],
             networking: NetworkingProviderConvertible = URLSessionConfiguration.ephemeral)
         {
         DispatchQueue.mainThreadPrecondition()
@@ -66,14 +70,10 @@ open class Service: NSObject
 
         super.init()
 
-        if useDefaultTransformers
+        for transformer in standardTransformers
             {
-            configure(description: "Siesta default response parsers")
-                {
-                $0.pipeline[.parsing].add(JSONResponseTransformer(),  contentTypes: ["*/json", "*/*+json"])
-                $0.pipeline[.parsing].add(TextResponseTransformer(),  contentTypes: ["text/*"])
-                $0.pipeline[.parsing].add(ImageResponseTransformer(), contentTypes: ["image/*"])
-                }
+            configure(description: "Siesta standard \(transformer.name) parsing")
+                { $0.pipeline.add(transformer) }
             }
         }
 

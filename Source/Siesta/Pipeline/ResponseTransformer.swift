@@ -286,7 +286,7 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
         }
     }
 
-/// Parses `Data` content as JSON, outputting either a dictionary or an array.
+/// Parses `Data` content as JSON using JSONSerialization, outputting either a dictionary or an array.
 public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
     return ResponseContentTransformer<Data, JSONConvertible>(transformErrors: transformErrors)
