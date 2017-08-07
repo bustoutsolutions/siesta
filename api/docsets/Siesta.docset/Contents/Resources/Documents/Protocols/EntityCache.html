@@ -274,14 +274,12 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
 </ul>
 
 <p>Siesta currently does not include any implementations of <code>EntityCache</code>, but a future version will.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>Siesta calls <code>EntityCache</code> methods on a GCD background queue, so your implementation <strong>must be
        thread-safe</strong>.</p>
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Structs/PipelineStage.html#/s:FV6Siesta13PipelineStage10cacheUsinguRxS_11EntityCacherFxT_">PipelineStage.cacheUsing(_:)</a></code></p>
@@ -295,50 +293,6 @@ exhibit the behavior we want; the logic involved is far more tangled and brittle
           <div class="section-content">
             <div class="task-group">
               <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FP6Siesta11EntityCache3keyFT3forCS_8Resource_GSqwx3Key_"></a>
-                    <a name="//apple_ref/swift/Method/key(for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FP6Siesta11EntityCache3keyFT3forCS_8Resource_GSqwx3Key_">key(for:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Provides the key appropriate to this cache for the given resource.</p>
-
-<p>A cache may opt out of handling the given resource by returning nil.</p>
-
-<p>This method is called for both cache writes <em>and</em> for cache reads. The <code>resource</code> therefore may not have
-any content. Implementations will almost always examine <code>resource.url</code>. (Cache keys should be <em>at least</em> as unique
-as URLs except in very unusual circumstances.) Implementations may also want to examine <code>resource.configuration</code>,
-for example to take authentication into account.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    This method is always called on the <strong>main thread</strong>. However, the key it returns will be passed repeatedly
-    across threads. Siesta therefore strongly recommends making <code><a href="../Protocols/EntityCache.html#/s:P6Siesta11EntityCache3Key">Key</a></code> a value type, i.e. a struct.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">key</span><span class="p">(</span><span class="k">for</span> <span class="nv">resource</span><span class="p">:</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/EntityCache.html#/s:P6Siesta11EntityCache3Key">Key</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L62">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -365,7 +319,50 @@ opaque to Siesta.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L47">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L47">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP6Siesta11EntityCache3keyFT3forCS_8Resource_GSqwx3Key_"></a>
+                    <a name="//apple_ref/swift/Method/key(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP6Siesta11EntityCache3keyFT3forCS_8Resource_GSqwx3Key_">key(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Provides the key appropriate to this cache for the given resource.</p>
+
+<p>A cache may opt out of handling the given resource by returning nil.</p>
+
+<p>This method is called for both cache writes <em>and</em> for cache reads. The <code>resource</code> therefore may not have
+any content. Implementations will almost always examine <code>resource.url</code>. (Cache keys should be <em>at least</em> as unique
+as URLs except in very unusual circumstances.) Implementations may also want to examine <code>resource.configuration</code>,
+for example to take authentication into account.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This method is always called on the <strong>main thread</strong>. However, the key it returns will be passed repeatedly
+    across threads. Siesta therefore strongly recommends making <code><a href="../Protocols/EntityCache.html#/s:P6Siesta11EntityCache3Key">Key</a></code> a value type, i.e. a struct.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">key</span><span class="p">(</span><span class="k">for</span> <span class="nv">resource</span><span class="p">:</span> <span class="kt"><a href="../Classes/Resource.html">Resource</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/EntityCache.html#/s:P6Siesta11EntityCache3Key">Key</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -388,7 +385,6 @@ opaque to Siesta.</p>
 <p>If this method returns an entity, it does <em>not</em> pass through the transformer pipeline. Implementations should
 return the entity as if already fully parsed and transformed — with the same type of <code>entity.content</code> that was
 originally sent to <code><a href="../Protocols/EntityCache.html#/s:FP6Siesta11EntityCache11writeEntityFTGVS_6EntityP__6forKeywx3Key_T_">writeEntity(...)</a></code>.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This method may be called on a background thread. Make sure your implementation is threadsafe.
@@ -405,7 +401,7 @@ originally sent to <code><a href="../Protocols/EntityCache.html#/s:FP6Siesta11En
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L73">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -435,7 +431,6 @@ type of the entity’s <code>content</code> and/or its header values, and ignore
 
 <p>Note that this method does not receive a URL as input; if you need to limit caching to specific resources, use
 Siesta’s configuration mechanism to control which resources are cacheable.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     The method may be called on a background thread. Make sure your implementation is threadsafe.
@@ -452,7 +447,7 @@ Siesta’s configuration mechanism to control which resources are cacheable.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L91">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -493,7 +488,7 @@ it for performance reasons.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L96">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L96">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -524,7 +519,7 @@ it for performance reasons.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L102">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -562,7 +557,7 @@ it for performance reasons.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/EntityCache.swift#L107">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/EntityCache.swift#L107">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -576,7 +571,7 @@ it for performance reasons.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

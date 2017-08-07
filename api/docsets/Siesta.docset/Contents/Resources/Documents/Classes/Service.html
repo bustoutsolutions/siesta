@@ -292,7 +292,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L32">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -336,8 +336,8 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                               </td>
                               <td>
                                 <div>
-                                  <p>The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use only <code>resource(absoluteURL:)</code> and <code>resource(baseURL:path:)</code> to acquire resources.</p>
-
+                                  <p>The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
+only <code>resource(absoluteURL:)</code> and <code>resource(baseURL:path:)</code> to acquire resources.</p>
                                 </div>
                               </td>
                             </tr>
@@ -349,8 +349,8 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                               </td>
                               <td>
                                 <div>
-                                  <p>If true, include handling for JSON, text, and images. If false, leave all responses as <code>Data</code> (unless you add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</p>
-
+                                  <p>If true, include handling for JSON, text, and images. If false, leave all responses as <code>Data</code> (unless you
+add your own <code>ResponseTransformer</code> using <code>configure(...)</code>).</p>
                                 </div>
                               </td>
                             </tr>
@@ -362,8 +362,9 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                               </td>
                               <td>
                                 <div>
-                                  <p>The handler to use for networking. The default is <code>URLSession</code> with ephemeral session configuration. You can pass an <code>URLSession</code>, <code>URLSessionConfiguration</code>, or <code>Alamofire.Manager</code> to use an existing provider with custom configuration. You can also use your own networking library of choice by implementing <code>NetworkingProvider</code>.</p>
-
+                                  <p>The handler to use for networking. The default is <code>URLSession</code> with ephemeral session configuration. You can
+pass an <code>URLSession</code>, <code>URLSessionConfiguration</code>, or <code>Alamofire.Manager</code> to use an existing provider with
+custom configuration. You can also use your own networking library of choice by implementing <code>NetworkingProvider</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -371,7 +372,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L51-L77">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L51-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -392,11 +393,9 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         <p>Returns the unique resource with the given path appended to the path component of <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqV10Foundation3URL_">baseURL</a></code>.</p>
 
 <p>A leading slash is optional, and has no effect:</p>
-
 <pre class="highlight plaintext"><code>service.resource("users")   // same
 service.resource("/users")  // thing
 </code></pre>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>The <code>path</code> parameter is simply appended to <code><a href="../Classes/Service.html#/s:vC6Siesta7Service7baseURLGSqV10Foundation3URL_">baseURL</a></code>’s path, and is <em>never</em> interpreted as a URL. Strings
@@ -419,7 +418,7 @@ resource’s path, with escaping if necessary.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L97-L100">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L97-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -458,7 +457,7 @@ query string or a relative URL.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L112-L117">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L112-L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -482,7 +481,6 @@ query string or a relative URL.</li>
 the context of a <code>Service</code> as long as anyone retains a reference to that resource.
 Unreferenced resources remain in memory (with their cached data) until a low memory event
 occurs, at which point they are summarily evicted.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     This method always returns a <code><a href="../Classes/Resource.html">Resource</a></code>, and does not throw errors. If <code>url</code> is nil (likely because it
@@ -500,7 +498,7 @@ occurs, at which point they are summarily evicted.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L130-L153">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L130-L153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -532,7 +530,6 @@ occurs, at which point they are summarily evicted.</p>
                         <p>Applies configuration to resources whose URLs match a given pattern.</p>
 
 <p>Examples:</p>
-
 <pre class="highlight plaintext"><code>configure { $0.expirationTime = 10 }  // global default
 
 configure("/items")    { $0.expirationTime = 5 }
@@ -550,20 +547,17 @@ means that you will usually want to add your global configuration first, then re
 
 <p>If you want to provide global configuration, or if you need more fine-grained URL matching, use the other flavor
 of this method that takes a predicate as its first argument.</p>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFT14whenURLMatchesFV10Foundation3URLSb14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(whenURLMatches:requestMethods:description:configurer:)</a></code>
 for global config and more fine-grained matching</p>
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFT_T_">invalidateConfiguration()</a></code></p>
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p>For more details about the rules of pattern matching:</p>
@@ -601,8 +595,22 @@ for global config and more fine-grained matching</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Selects the subset of resources to which this configuration applies. You can pass a <code>String</code>, <code>Resource</code>, or <code>NSRegularExpression</code> for the <code>pattern</code> argument — or write your own custom implementation of <code>ConfigurationPatternConvertible</code>.</p>
-
+                                  <p>Selects the subset of resources to which this configuration applies. You can pass a <code>String</code>, <code>Resource</code>, or
+<code>NSRegularExpression</code> for the <code>pattern</code> argument — or write your own custom implementation of
+<code>ConfigurationPatternConvertible</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestMethods</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If specified, only applies this configuration to requests with the given HTTP methods.
+Defaults to <em>all</em> methods.</p>
                                 </div>
                               </td>
                             </tr>
@@ -615,7 +623,6 @@ for global config and more fine-grained matching</p>
                               <td>
                                 <div>
                                   <p>An optional description of this piece of configuration, for logging and debugging purposes.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -627,8 +634,9 @@ for global config and more fine-grained matching</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A closure that receives a mutable <code>Configuration</code>, referenced as <code>$0</code>, which it may modify as it sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should not rely on it being called at any particular time, and should avoid making it cause side effects.</p>
-
+                                  <p>A closure that receives a mutable <code>Configuration</code>, referenced as <code>$0</code>, which it may modify as it
+sees fit. This closure will be called whenever Siesta needs to generate or refresh configuration. You should
+not rely on it being called at any particular time, and should avoid making it cause side effects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -636,7 +644,7 @@ for global config and more fine-grained matching</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L204-L215">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L207-L218">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -658,14 +666,12 @@ for global config and more fine-grained matching</p>
 Use this if the wildcards in other flavor of <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(...)</a></code> aren’t robust enough.</p>
 
 <p>If you do not supply a predicate, then the configuration applies globally to all resources in this service.</p>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(_:requestMethods:description:configurer:)</a></code>
 for pattern-based matching, and for details about the parameters.</p>
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Classes/Service.html#/s:FC6Siesta7Service23invalidateConfigurationFT_T_">invalidateConfiguration()</a></code></p>
@@ -698,7 +704,6 @@ for pattern-based matching, and for details about the parameters.</p>
                               <td>
                                 <div>
                                   <p>A predicate that matches absolute URLs of resources. The default is a predicate that matches anything.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -706,7 +711,7 @@ for pattern-based matching, and for details about the parameters.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L230-L245">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L233-L248">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -728,11 +733,27 @@ for pattern-based matching, and for details about the parameters.</p>
 <code><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></code> to the <code><a href="../Structs/Configuration.html#/s:vV6Siesta13Configuration8pipelineVS_8Pipeline">Configuration.pipeline</a></code>.</p>
 
 <p>Useful for transformers that create model objects. For example:</p>
-
 <pre class="highlight plaintext"><code>configureTransformer("/foo/​*") {
   FooModel(json: $0.content)
 }
 </code></pre>
+
+<p>By default, the transfromer applies to GET, POST, PUT, PATCH, and DELETE requests — the HTTP methods that commonly
+return a description of the resulting resource in the response body. If your API does not return a full model for
+all these HTTP methods, you may need to configure different transformers for different request methods.</p>
+
+<p>For example, here is configuration for a hypothetical API that wraps responses to mutating requests in an envelope
+which the app models with an <code>UpdateResult</code> struct:</p>
+<pre class="highlight plaintext"><code>configureTransformer("/foo/​*", requestMethods: [.get]) {
+  FooModel(json: $0.content)
+}
+
+configureTransformer("/foo/​*", requestMethods: [.post, .put, .patch]) {
+  UpdateResult&lt;FooModel&gt;(json: $0.content)
+}
+</code></pre>
+
+<p>Note that <code>configureTransformer(...)</code> does <em>not</em> apply to HEAD and OPTIONS by default, but <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(...)</a></code> does.</p>
 
 <p>Siesta checks that the incoming <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentx">Entity.content</a></code> matches the type of the closure’s <code>content</code> parameter. In the
 example code above, if the <code>json</code> parameter of <code>FooModel.init</code> takes a <code>Dictionary</code>, but the transformer pipeline
@@ -740,19 +761,16 @@ at that point has produced a <code>String</code>, then the transformer outputs a
 
 <p>You can use this behavior to configure a service to refuse all server responses not of a specific type by passing
 a transformer that passes the content through unmodified, but requires a specific type:</p>
-
 <pre class="highlight plaintext"><code>service.configureTransformer("**") {
-  $0.content as JSONConvertible
+  $0.content as JSONConvertible  // error if content from upstream in pipeline is not JSONConvertible
 }
 </code></pre>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <code><a href="../Classes/Service.html#/s:FC6Siesta7Service9configureFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__11descriptionGSqSS_10configurerFRVS_13ConfigurationT__T_">configure(_:requestMethods:description:configurer:)</a></code>
 for more into about the parameters and configuration pattern matching.
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <code><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></code>
@@ -778,7 +796,7 @@ for more robust transformation options.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L273-L307">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L293-L330">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -809,7 +827,6 @@ if you do anything that would change the result of a configuration closure, you 
 You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
-
 <pre class="highlight plaintext"><code>var flavor: String? {
   didSet { invalidateConfiguration() }
 }
@@ -836,7 +853,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L346-L355">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L369-L378">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -879,7 +896,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L391-L399">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L414-L422">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -898,7 +915,6 @@ over subsequent resource interactions.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Wipes resources based on a URL pattern. For example:</p>
-
 <pre class="highlight plaintext"><code>service.wipeResources(matching: "/secure/​**")
 service.wipeResources(matching: profileResource)
 </code></pre>
@@ -913,7 +929,7 @@ service.wipeResources(matching: profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L407-L410">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L430-L433">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -945,7 +961,7 @@ service.wipeResources(matching: profileResource)
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L417-L420">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L440-L443">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -954,10 +970,10 @@ service.wipeResources(matching: profileResource)
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/General%20Configuration"></a>
-                <a name="//apple_ref/swift/Section/General Configuration" class="dashAnchor"></a>
-                <a href="#/General%20Configuration">
-                  <h3 class="section-name">General Configuration</h3>
+                <a name="/In-memory%20cache%20management"></a>
+                <a name="//apple_ref/swift/Section/In-memory cache management" class="dashAnchor"></a>
+                <a href="#/In-memory%20cache%20management">
+                  <h3 class="section-name">In-memory cache management</h3>
                 </a>
               </div>
               <ul class="item-container">
@@ -988,7 +1004,49 @@ in the cache, no matter how many there are.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Service.swift#L429-L433">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L452-L456">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Siesta7Service20flushUnusedResourcesFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/flushUnusedResources()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Siesta7Service20flushUnusedResourcesFT_T_">flushUnusedResources()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Switches to weak references for all <code><a href="../Classes/Resource.html">Resource</a></code> instances cached by this service. This immediately releases any
+resources not currently in use.</p>
+
+<p>Siesta automatically flushes unused resources whenever:</p>
+
+<ul>
+<li>the number of cached resources exceeds <code><a href="../Classes/Service.html#/s:vC6Siesta7Service24cachedResourceCountLimitSi">cachedResourceCountLimit</a></code> or</li>
+<li>there is a low memory event (iOS and tvOS only).</li>
+</ul>
+
+<p>It is unusual for apps to call this method directly. You might need it if you want to first fiddle with Siesta
+resources yourself during a low memory, then tell Siesta to release them when you are done. You might also call it
+preemptively before a memory-intensive operation, to prevent memory churn.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">flushUnusedResources</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Service.swift#L471-L474">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1002,7 +1060,7 @@ in the cache, no matter how many there are.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

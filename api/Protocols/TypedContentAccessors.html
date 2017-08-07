@@ -248,19 +248,16 @@
             <p>Mixin that provides convenience accessors for the content of an optional contained entity.</p>
 
 <p>Allows you to replace the following:</p>
-
 <pre class="highlight plaintext"><code>resource.latestData?.content as? String
 (resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
 </code></pre>
 
 <p>…with:</p>
-
 <pre class="highlight plaintext"><code>resource.text
 resource.latestError?.jsonDict["error.detail"]
 </code></pre>
 
 <p>You can extend this protocol to provide your own convenience accessors. For example:</p>
-
 <pre class="highlight plaintext"><code>extension TypedContentAccessors {
   var doorknob: UIDoorknob {
     return typedContent(ifNone: placeholderKnob)
@@ -279,36 +276,6 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
           <div class="section-content">
             <div class="task-group">
               <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqGVS_6Entitywx11ContentType__"></a>
-                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqGVS_6Entitywx11ContentType__">entityForTypedContentAccessors</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The entity to which the convenience accessors will apply.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/TypedContentAccessors.html#/s:P6Siesta21TypedContentAccessors11ContentType">ContentType</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -334,7 +301,37 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqGVS_6Entitywx11ContentType__"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP6Siesta21TypedContentAccessors30entityForTypedContentAccessorsGSqGVS_6Entitywx11ContentType__">entityForTypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The entity to which the convenience accessors will apply.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/TypedContentAccessors.html#/s:P6Siesta21TypedContentAccessors11ContentType">ContentType</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -361,16 +358,13 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                       <div class="abstract">
                         <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
 For example, if you expect the content to be a UIImage:</p>
-
 <pre class="highlight plaintext"><code>let image = resource.typedContent(ifNone: UIImage(named: "placeholder.png"))
 </code></pre>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT_GSqqd___">typedContent()</a></code></p>
 
 </div>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <p><code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code></p>
@@ -388,11 +382,11 @@ For example, if you expect the content to be a UIImage:</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The content if it is present  can be downcast to a type matching both the <code>ifNone</code> parameter and the inferred return type; otherwise returns <code>ifNone</code>.</p>
-
+                        <p>The content if it is present <em>and</em> can be downcast to a type matching both the <code>ifNone</code> parameter
+       and the inferred return type; otherwise returns <code>ifNone</code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -425,7 +419,7 @@ For example, if you expect the content to be a UIImage:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -448,7 +442,6 @@ For example, if you expect the content to be a UIImage:</p>
                       <div class="abstract">
                         <p>A variant of <code><a href="../Protocols/TypedContentAccessors.html#/s:FE6SiestaPS_21TypedContentAccessors12typedContenturFT6ifNoneKT_qd___qd__">typedContent(ifNone:)</a></code> that infers the desired type entirely from context, and returns nil if the
 content is either not present or cannot be cast to that type. For example:</p>
-
 <pre class="highlight plaintext"><code>func showUser(_ user: User?) {
   ...
 }
@@ -466,7 +459,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -499,7 +492,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -532,7 +525,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -565,7 +558,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -579,7 +572,7 @@ showUser(resource.typedContent())  // Infers that desired type is User
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

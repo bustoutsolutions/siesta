@@ -274,8 +274,9 @@ surrounding metadata.</p>
                       <div class="abstract">
                         <p>A closure that both processes the content and describes the required input and output types.</p>
 
-<p>The first argument will be the <code><a href="../Structs/Entity.html#/s:vV6Siesta6Entity7contentx">Entity.content</a></code> property of the second argument, safely cast
-to the type expected by the closure.</p>
+<p>The input will be an <code><a href="../Structs/Entity.html">Entity</a></code> whose <code>content</code> is safely cast to the type expected by the closure.
+If the response content is not castable to <code>InputContentType</code>, then the pipeline skips the closure
+and replaces the resopnse with a <code><a href="../Structs/RequestError.html">RequestError</a></code> describing the type mismatch.</p>
 
 <p>The closure can throw an error to indicate that parsing failed. If it throws a <code><a href="../Structs/RequestError.html">RequestError</a></code>, that
 error is passed on to the resource as is. Other failures are wrapped in a <code><a href="../Structs/RequestError.html">RequestError</a></code>.</p>
@@ -290,7 +291,7 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L126">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -333,8 +334,8 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>. See <code>InputTypeMismatchAction</code> for options. The default is <code>.error</code>.</p>
-
+                                  <p>Determines what happens when the actual content coming down the pipeline doesn’t match <code>InputContentType</code>.
+See <code>InputTypeMismatchAction</code> for options. The default is <code>.error</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -346,8 +347,9 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                               </td>
                               <td>
                                 <div>
-                                  <p>When true, apply the transformation to <code>RequestError.content</code> (if present). When false, only parse success responses. Default is false.</p>
-
+                                  <p>When true, apply the transformation to <code>RequestError.content</code> (if present).
+When false, only parse success responses.
+Default is false.</p>
                                 </div>
                               </td>
                             </tr>
@@ -360,7 +362,6 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                               <td>
                                 <div>
                                   <p>The transformation logic.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -368,7 +369,36 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L143-L151">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L144-L152">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vPs28CustomDebugStringConvertible16debugDescriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/debugDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vPs28CustomDebugStringConvertible16debugDescriptionSS">debugDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L232-L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -382,7 +412,7 @@ error is passed on to the resource as is. Other failures are wrapped in a <code>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

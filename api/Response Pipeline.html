@@ -268,7 +268,6 @@ custom stages, and customize their order. Each stage has zero or more <code><a h
 <code><a href="Protocols/EntityCache.html">EntityCache</a></code>.</p>
 
 <p>The pipeline is a part of a <code><a href="Structs/Configuration.html">Configuration</a></code>, so you can thus customize the pipeline per API or per resource.</p>
-
 <pre class="highlight plaintext"><code>service.configure {
   $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
   $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
@@ -298,7 +297,7 @@ passing <code>useDefaultTransformers: false</code> when creating a <code><a href
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L120">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -319,16 +318,15 @@ passing <code>useDefaultTransformers: false</code> when creating a <code><a href
                         <p>A logical grouping of transformers and a cache.</p>
 
 <p>Why create separate stages?</p>
-
-<p><li>To be able to append, replace, or remove some transformations independently of others, e.g. override the model
+<li>To be able to append, replace, or remove some transformations independently of others, e.g. override the model
 transform without disabling JSON parsing.</li>
 <li>To cache entities at any intermediate stage of processing.</li>
 <li><p>To maintain multiple caches.</p></li>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    <p><code><a href="Structs/Pipeline.html">Pipeline</a></code></p></p>
+    <p><code><a href="Structs/Pipeline.html">Pipeline</a></code></p>
 
-<p></div></p>
+</div>
 
                         <a href="Structs/PipelineStage.html" class="slightly-smaller">See more</a>
                       </div>
@@ -341,7 +339,7 @@ transform without disabling JSON parsing.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L134-L205">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L134-L205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -367,7 +365,6 @@ comprehensibility, and Siesta does not enforce them in any way (e.g. it does not
 <code>rawData</code> stage to output something other than <code>Data</code>).</p>
 
 <p>Because this is not an enum, you can add custom stages:</p>
-
 <pre class="highlight plaintext"><code>extension PipelineStageKey {
   static let
     munging   = PipelineStageKey(description: "munging"),
@@ -392,7 +389,7 @@ service.configure {
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L244-L252">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L244-L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -416,7 +413,6 @@ service.configure {
                       <div class="abstract">
                         <p>Transforms a response from a less parsed form (e.g. <code>Data</code>) to a more parsed data structure. Responses pass through
 a chain of transformers before being sent to response hooks or observers.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Transformers run in a GCD background queue, and <strong>must be thread-safe</strong>. You’re in the clear if your
@@ -436,7 +432,7 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -483,7 +479,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L115-L245">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L115-L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -502,13 +498,11 @@ surrounding metadata.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Action to take when actual input type at runtime does not match expected input type declared in code.</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     <code><a href="Structs/ResponseContentTransformer.html#/s:FV6Siesta26ResponseContentTransformercFT19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb9processorFzGVS_6Entityx_GSqq___GS0_xq__">ResponseContentTransformer.init(...)</a></code>
 
 </div>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     <code><a href="Classes/Service.html#/s:FC6Siesta7Service20configureTransformeru0_rFTPS_31ConfigurationPatternConvertible_14requestMethodsGSqGSaOS_13RequestMethod__7atStageCS_16PipelineStageKey6actionOVS_13PipelineStage14MutationAction19onInputTypeMismatchOS_23InputTypeMismatchAction15transformErrorsSb11descriptionGSqSS_16contentTransformFzGVS_6Entityx_GSqq___T_">Service.configureTransformer(...)</a></code>
@@ -526,7 +520,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L253-L263">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L254-L264">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -567,7 +561,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L289-L300">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L290-L301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -597,7 +591,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L269-L286">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L270-L287">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -627,7 +621,7 @@ surrounding metadata.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L303-L312">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L304-L313">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -641,7 +635,7 @@ surrounding metadata.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

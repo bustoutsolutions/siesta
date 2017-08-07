@@ -254,7 +254,6 @@ custom stages, and customize their order. Each stage has zero or more <code><a h
 <code><a href="../Protocols/EntityCache.html">EntityCache</a></code>.</p>
 
 <p>The pipeline is a part of a <code><a href="../Structs/Configuration.html">Configuration</a></code>, so you can thus customize the pipeline per API or per resource.</p>
-
 <pre class="highlight plaintext"><code>service.configure {
   $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
   $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
@@ -283,36 +282,6 @@ passing <code>useDefaultTransformers: false</code> when creating a <code><a href
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:iV6Siesta8Pipeline9subscriptFCS_16PipelineStageKeyVS_13PipelineStage"></a>
-                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:iV6Siesta8Pipeline9subscriptFCS_16PipelineStageKeyVS_13PipelineStage">subscript(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Retrieves the stage for the given key, or an empty one if none yet exists.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt"><a href="../Classes/PipelineStageKey.html">PipelineStageKey</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/PipelineStage.html">PipelineStage</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L79">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:vV6Siesta8Pipeline5orderGSaCS_16PipelineStageKey_"></a>
                     <a name="//apple_ref/swift/Property/order" class="dashAnchor"></a>
                     <a class="token" href="#/s:vV6Siesta8Pipeline5orderGSaCS_16PipelineStageKey_">order</a>
@@ -335,13 +304,11 @@ passing <code>useDefaultTransformers: false</code> when creating a <code><a href
 
 <p>Stage keys do not have semantic significance — they are just arbitrary identifiers — so you are free arbitrarily
 add or reorder stages if you have complex response processing needs.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Stages <strong>must</strong> be unique. Adding a duplicate stage key will cause a precondition failure.
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Any stage not present in the order will not run, even if it has transformers and/or cache configured.
@@ -358,7 +325,37 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L59-L74">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L59-L74">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:iV6Siesta8Pipeline9subscriptFCS_16PipelineStageKeyVS_13PipelineStage"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:iV6Siesta8Pipeline9subscriptFCS_16PipelineStageKeyVS_13PipelineStage">subscript(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Retrieves the stage for the given key, or an empty one if none yet exists.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt"><a href="../Classes/PipelineStageKey.html">PipelineStageKey</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/PipelineStage.html">PipelineStage</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -388,7 +385,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L91-L95">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L91-L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -409,7 +406,6 @@ add or reorder stages if you have complex response processing needs.</p>
                         <p>Removes all caches from all stages in the pipeline. Leaves transformers intact.</p>
 
 <p>You can use this to prevent sensitive resources from being cached:</p>
-
 <pre class="highlight plaintext"><code>service.configure("/secret") {
   $0.pipeline.removeAllCaches()
 }
@@ -425,7 +421,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L106-L110">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L106-L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -455,7 +451,7 @@ add or reorder stages if you have complex response processing needs.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.1.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L115-L119">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.2.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L115-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -469,7 +465,7 @@ add or reorder stages if you have complex response processing needs.</p>
     </div>
     <section class="footer">
       <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
