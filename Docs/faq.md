@@ -46,7 +46,7 @@ If you aren’t interested in holding a response entirely in memory, there’s l
 
 Configure them in the underlying networking library you are using with Siesta.
 
-From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is were all these options get configured. See the `networking:` parameter of [`Service.init(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)).
+From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is where all these options get configured. See the `networking:` parameter of [`Service.init(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)).
 
 #### Why doesn’t Siesta provide a typesafe `Resource<T>`?
 
