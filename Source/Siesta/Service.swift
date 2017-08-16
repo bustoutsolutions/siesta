@@ -114,7 +114,7 @@ open class Service: NSObject
         {
         return resource(absoluteURL:
             customBaseURL?.url?.appendingPathComponent(
-              path.stripPrefix("/")))
+              path.strippingPrefix("/")))
         }
 
     /**

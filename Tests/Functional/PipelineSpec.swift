@@ -44,7 +44,7 @@ class PipelineSpec: ResourceSpecBase
                 for stage in [.decoding, .parsing, .model, .cleanup] as [PipelineStageKey]
                     {
                     $0.pipeline[stage].add(
-                        appender(stage.description.prefix(3)))
+                        appender(String(stage.description.prefix(3))))
                     }
                 }
             }
@@ -367,14 +367,6 @@ extension TestCacheKey: Hashable
 private func ==(lhs: TestCacheKey, rhs: TestCacheKey) -> Bool
     {
     return lhs.string == rhs.string
-    }
-
-private extension String
-    {
-    func prefix(_ n: Int) -> String
-        {
-        return String(self[startIndex ..< characters.index(startIndex, offsetBy: n)])
-        }
     }
 
 private class MainThreadCache: EntityCache
