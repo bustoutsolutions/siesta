@@ -493,9 +493,12 @@ func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
         return PredicateResult(
             bool: actualURL == expectedURL,
             message: ExpectationMessage.fail(
-                "expected baseURL \(stringify(baseURL))"
-                + " to expand to \(stringify(expectedURL)),"
-                + " but got \(stringify(actualURL))"))
+                """
+                Incorrect baseURL normalization:
+                  Expected baseURL \(stringify(baseURL))
+                      to expand to \(stringify(expectedURL))
+                           but got \(stringify(actualURL))
+                """))
         }
     }
 
@@ -512,10 +515,13 @@ func expandToResourceURL(_ expectedURL: String) -> Predicate<(String,String)>
         return PredicateResult(
             bool: actualURL == expectedURL,
             message: ExpectationMessage.fail(
-                "expected baseURL \(stringify(baseURL))"
-                + " and resource path \(stringify(resourcePath))"
-                + " to expand to \(stringify(expectedURL)),"
-                + " but got \(stringify(actualURL))"))
+                """
+                Incorrect URL resolution for resource(_:):
+                  Expected baseURL \(stringify(baseURL))
+                   + resource path \(stringify(resourcePath))
+                      to expand to \(stringify(expectedURL))
+                           but got \(stringify(actualURL))
+                """))
         }
     }
 

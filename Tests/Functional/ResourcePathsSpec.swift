@@ -207,10 +207,13 @@ private func resourceExpansionMatcher(
         return PredicateResult(
             bool: actualURL == expectedURL,
             message: ExpectationMessage.fail(
-                "expected \(relationshipName) \(stringify(path))"
-                + " of resource \(resource.url)"
-                + " to expand to \(stringify(expectedURL)),"
-                + " but got \(stringify(actualURL))"))
+                """
+                Incorrect resource URL resolution:
+                      Expected \(relationshipName) \(stringify(path))
+                   of resource \(resource.url)
+                  to expand to \(stringify(expectedURL))
+                       but got \(stringify(actualURL))
+                """))
         }
     }
 
