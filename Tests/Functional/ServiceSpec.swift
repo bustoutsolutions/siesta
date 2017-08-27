@@ -300,6 +300,8 @@ class ServiceSpec: SiestaSpec
 
             describe("using wilcards")
                 {
+                let funnyChars = [":", "!", "@", "$"]
+
                 it("matches against the base URL")
                     {
                     checkPattern("fez",  matches: true,  "/fez")
@@ -311,8 +313,17 @@ class ServiceSpec: SiestaSpec
 
                 it("matches full URLs")
                     {
-                    checkPattern("https://foo.com/*/fez", matches: false, "/fez")
-                    checkPattern("https://foo.com/*/fez", matches: true,  "https://foo.com/v1/fez", absolute: true)
+                    checkPattern("https://foo.com/*/fez",   matches: false, "/fez")
+                    checkPattern("https://foo.com/*/fez",   matches: true,  "https://foo.com/v1/fez", absolute: true)
+                    }
+
+                it("can match host and port separately")
+                    {
+                    checkPattern("https://foo.com:*/**", matches: true,  "https://foo.com:8080/v1/fez", absolute: true)
+                    checkPattern("https://bar.com:*/**", matches: false, "https://foo.com:8080/v1/fez", absolute: true)
+                    checkPattern("https://*:8080/**",    matches: true,  "https://foo.com:8080/v1/fez", absolute: true)
+                    checkPattern("https://*:7070/**",    matches: false, "https://foo.com:8080/v1/fez", absolute: true)
+                    checkPattern("https://foo.com:*/**", matches: false, "https://foo.com/v1/fez", absolute: true)
                     }
 
                 it("ignores a leading slash")
@@ -336,6 +347,8 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/*x*/c", matches: true,  "/x/c")
                     checkPattern("/*x*/c", matches: true,  "/foxy/c")
                     checkPattern("/*x*/c", matches: false, "/fozzy/c")
+                    for funnyChar in funnyChars
+                        { checkPattern("/*/d", matches: true, "/\(funnyChar)/d") }
                     }
 
                 it("matches across segments with **")
@@ -351,6 +364,11 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/**x**",  matches: false, "/just/a/health/handful")
                     checkPattern("/**/*",   matches: true,  "/a/b")
                     checkPattern("/**/*",   matches: true,  "/ab")
+                    for funnyChar in funnyChars
+                        {
+                        checkPattern("/**/d", matches: true, "/a/b/\(funnyChar)/c/d")
+                        checkPattern("/**",   matches: true, "/a/b/\(funnyChar)/c/d")
+                        }
                     }
 
                 it("matches single non-separator chars with ?")
@@ -364,6 +382,8 @@ class ServiceSpec: SiestaSpec
                     checkPattern("/x/?*",   matches: false, "/x/")
                     checkPattern("/x/?*",   matches: true,  "/x/o")
                     checkPattern("/x/?*",   matches: true,  "/x/oye")
+                    for funnyChar in funnyChars
+                        { checkPattern("/x?y", matches: true, "/x\(funnyChar)y") }
                     }
 
                 it("ignores query strings in the matched URL")
