@@ -669,6 +669,10 @@ class RequestSpec: ResourceSpecBase
                     _ = reqStub.go()
                     awaitFailure(originalReq, alreadyCompleted: true)
                     expectResult("custom", for: chainedReq, alreadyCompleted: true)
+
+                    // For whatever reason, this spec is especially prone to hitting Nocilla’s
+                    // quirk of making cancelled requests go through anyway
+                    Thread.sleep(forTimeInterval: 0.02)
                     }
                 }
 
