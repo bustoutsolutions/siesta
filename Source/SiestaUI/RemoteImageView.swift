@@ -24,7 +24,7 @@ open class RemoteImageView: UIImageView
     @IBOutlet public weak var alternateView: UIView?
 
     /// Optional image to show if image is either unavailable or loading. Suppresses alternateView if non-nil.
-    @IBOutlet public var placeholderImage: UIImage?
+    @IBInspectable public var placeholderImage: UIImage?
 
     /// The default service to cache `RemoteImageView` images.
     open static var defaultImageService: Service = Service()
