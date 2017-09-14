@@ -70,10 +70,10 @@ extension String: ConfigurationPatternConvertible
         let pattern = try! NSRegularExpression(pattern:
             "^"
             + NSRegularExpression.escapedPattern(for: resolvedPattern)
-                .replacingOccurrences(of: "\\*\\*\\/", with: "([^:?]*/|)")
-                .replacingOccurrences(of: "\\*\\*",    with: "[^:?]*")
-                .replacingOccurrences(of: "\\*",       with: "[^/:?]*")
-                .replacingOccurrences(of: "\\?",       with: "[^/:?]")
+                .replacingOccurrences(of: "\\*\\*\\/", with: "([^?]*/|)")
+                .replacingOccurrences(of: "\\*\\*",    with: "[^?]*")
+                .replacingOccurrences(of: "\\*",       with: "[^/?]*")
+                .replacingOccurrences(of: "\\?",       with: "[^/?]")
             + "($|\\?)")
         debugLog(.configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 

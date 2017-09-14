@@ -172,6 +172,8 @@ class ResourcePathsSpec: ResourceSpecBase
                 {
                 expect(resourceWithParams().withParam("foo", "").url.absoluteString)
                      == "https://zingle.frotz/v1/a/b?foo&zoogle=oogle"
+                expect(resourceWithParams().withParam("foo", "").withParam("zoogle", "").url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?foo&zoogle"
                 }
 
             it("treats nil value as removal")

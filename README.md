@@ -28,7 +28,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 - [Basic Usage](#basic-usage)
 - [Comparison With Other Frameworks](#comparison-with-other-frameworks)
 - [Examples](#examples)
-- [Contributing and Getting Help](#contributing-and-getting-help)
+- [Support](#support)
 
 ### Documentation
 
@@ -372,7 +372,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2449               | 3003           | 13291         | 937       | 4025            | ?              |
+| Nontrivial lines of code²   | 2449               | 3020           | 13291         | 965       | 4025            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
@@ -406,23 +406,25 @@ This repo includes a [simple example project](https://github.com/bustoutsolution
 1. Install CocoaPods ≥ 1.0 if you haven’t already.
 2. `pod try Siesta` (Note that there’s no need to download/clone Siesta locally first; this command does that for you.)
 
-## Contributing and Getting Help
+## Support
 
-To report a bug, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+To **ask for help**, please post a question on [Stack Overflow](https://stackoverflow.com/questions/ask?tags=siesta-swift,swift) and tag it with `siesta-swift`. (Be sure to include that tag. It triggers a notification to the Siesta core team.) This is preferable to filing an issue because other people may have the same question as you, and Stack Overflow answers are more discoverable than closed issues.
 
-To point out anything incorrect or confusing in the documentation, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+Things that belong on Stack Overflow:
+- “How do I…?”
+- “Is there a way to…?”
+- “Is Siesta appropriate for…?”
+- “I got this error…”
 
-To submit a feature request / cool idea, [file an issue](https://github.com/bustoutsolutions/siesta/issues/new).
+For a **bug, feature request, or cool idea**, please [file a Github issue](https://github.com/bustoutsolutions/siesta/issues/new). Things that belong in Github issues:
+- “When I do _x_, I expect _y_ but get _z_”
+- “There should be a way to…”
+- “Documentation for _x_ is missing / confusing”
 
-To get help, post your question to [Stack Overflow](https://stackoverflow.com) and tag it with **siesta-swift**. (Be sure to include the tag. It triggers a notification.)
+Unsure which to choose? If you’re _proposing a change_ to Siesta, use Github issues. If you’re _asking a question_ that doesn’t change the project, and thus will remain valid even after you get an answer, then use Stack Overflow.
 
-### Pull Requests
+### Two big little things
 
-Want to _do_ something instead of just talking about it? Fantastic! Be bold.
+Keep in mind that Siesta is maintained by volunteers. Please be patient if you don’t immediately get an answer to your question; we all have jobs, families, obligations, and lives beyond this project.
 
-  - If you are proposing a design change or nontrivial new functionality, please float your idea as an issue first so you don’t end up doing wasted work.
-  - Please follow the formatting conventions of the existing code. Yes, including Paul’s idiosyncratic taste in brace placement. (Matching braces always go in either the same row or the same column, and always align with the code they enclose.)
-  - Please make sure the tests pass locally (cmd-U in Xcode).
-  - Expect a little back and forth on your PR before it’s accepted. Don’t be discouraged. Nit-picking is not a sign of bad work; it’s a sign of interest!
-  - If you have trouble building or testing the project, please submit an issue or PR about it — even if you resolve the problem. This will help improve the docs.
-  - If you want to update the user guide, note that the guide is generated from the `Docs` directory in `master`, so that’s where you should make your change. Do not submit pull requests against `gh-pages`.
+Please be excellent to one another and follow our [code of conduct](https://github.com/bustoutsolutions/siesta/blob/master/CODE_OF_CONDUCT.md).
