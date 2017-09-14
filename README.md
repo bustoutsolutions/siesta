@@ -13,7 +13,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 * **OS:** iOS 8+, macOS 10.11+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-* **Tool requirements:** Xcode 8, Swift 3  (See `swift-2.x` branches for legacy support)
+* **Tool requirements:** Xcode 9, Swift 4 (See `swift-2.x` and `swift-3` branches for legacy support)
 * **License:** MIT
 
 ## Table of Contents
@@ -120,7 +120,7 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 3, so make sure you have [Xcode 8](https://developer.apple.com/xcode/downloads/). (Use the `swift-2.x` branches if you haven’t made the big migration yet.)
+Siesta requires Swift 4, so make sure you have [Xcode 9](https://developer.apple.com/xcode/downloads/). (Use the `swift-2.x` branches if you haven’t made the big migration yet.)
 
 ### CocoaPods
 
@@ -372,7 +372,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2449               | 3020           | 13291         | 965       | 4025            | ?              |
+| Nontrivial lines of code²   | 2500               | 3020           | 13291         | 965       | 4025            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>

@@ -2,13 +2,13 @@ branches:
   only:
   - master
   - travis
-  - swift-4
 
 language: objective-c
 os: osx
 osx_image: xcode9
 env:
   - scheme='Siesta macOS' platform='OS X'
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='11.0'   ios_device='iPhone X'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.3.1' ios_device='iPhone SE'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'    ios_device='iPhone 6'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'    ios_device='iPhone 4s'
