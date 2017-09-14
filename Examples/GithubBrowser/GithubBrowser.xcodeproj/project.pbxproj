@@ -13,6 +13,7 @@
 		DA2B55681C7ED14800EB4D67 /* SiestaTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */; };
 		DA2B556A1C7EDE7B00EB4D67 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */; };
 		DA4F17251F200E870038D78B /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4F17241F200E870038D78B /* SearchResults.swift */; };
+		DA6752571F6B8FCE009BE918 /* CommentaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6752561F6B8FCE009BE918 /* CommentaryViewController.swift */; };
 		DA7462421B4C768B00406D67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462401B4C768B00406D67 /* Main.storyboard */; };
 		DA7462441B4C768B00406D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA7462431B4C768B00406D67 /* Assets.xcassets */; };
 		DA7462471B4C768B00406D67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA7462451B4C768B00406D67 /* LaunchScreen.storyboard */; };
@@ -33,6 +34,7 @@
 		DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiestaTheme.swift; sourceTree = "<group>"; };
 		DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DA4F17241F200E870038D78B /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
+		DA6752561F6B8FCE009BE918 /* CommentaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentaryViewController.swift; sourceTree = "<group>"; };
 		DA7462391B4C768B00406D67 /* GithubBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA7462411B4C768B00406D67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA7462431B4C768B00406D67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				DA2B55691C7EDE7B00EB4D67 /* LoginViewController.swift */,
 				DAE2F8471B94F10500D2AD96 /* AppDelegate.swift */,
 				DA2B55671C7ED14700EB4D67 /* SiestaTheme.swift */,
+				DA6752561F6B8FCE009BE918 /* CommentaryViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				DAE2F84C1B94F10500D2AD96 /* AppDelegate.swift in Sources */,
 				DAE2F84A1B94F10500D2AD96 /* GitHubAPI.swift in Sources */,
 				DAE27A801D3F1EF400D757F9 /* Optional+GithubBrowser.swift in Sources */,
+				DA6752571F6B8FCE009BE918 /* CommentaryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
