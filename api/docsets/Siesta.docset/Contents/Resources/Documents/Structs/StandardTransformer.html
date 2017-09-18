@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RequestMethod Enum Reference</title>
+    <title>StandardTransformer Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/RequestMethod" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/StandardTransformer" class="dashAnchor"></a>
 
-    <a title="RequestMethod Enum Reference"></a>
+    <a title="StandardTransformer Struct Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Siesta Reference</a>
       <img class="carat" src="../img/carat.png" />
-      RequestMethod Enum Reference
+      StandardTransformer Struct Reference
     </p>
 
     <div class="content-wrapper">
@@ -241,16 +241,20 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>RequestMethod</h1>
+            <h1>StandardTransformer</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">RequestMethod</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StandardTransformer</span></code></pre>
 
                 </div>
               </div>
-            <p>HTTP request methods.</p>
+            <p>A preconfigured combination of a transformer, content type, and pipeline stage.
+Use this to individually opt in to Siesta’s built-in response transformers.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Service.html#/s:6Siesta7ServiceCAcA14URLConvertible_pSg7baseURL_SayAA19StandardTransformerVG20standardTransformersAA29NetworkingProviderConvertible_p10networkingtcfc">Service.init(...)</a></code>’s <code>standardTransformers:</code> parameter
 
-<p>See the various <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_y10Foundation10URLRequestVzc0C8MutationtF">Resource.request(...)</a></code> methods.</p>
+</div>
 
           </div>
         </section>
@@ -262,9 +266,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta13RequestMethodO7optionsA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/options" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO7optionsA2CmF">options</a>
+                    <a name="/s:6Siesta19StandardTransformerV4jsonACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/json" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV4jsonACvZ">json</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -272,33 +276,52 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>OPTIONS</p>
+                        <p>Uses Foundation’s <code>JSONSerialization</code> to transform responses</p>
+
+<ul>
+<li>with content type of <code>*​/json</code> or <code>*​/​*+json</code></li>
+<li>to a dictionary or array</li>
+<li>at the parsing stage.</li>
+</ul>
+
+<p>Disable this if you want to use a different parser, such as Swift 4’s <code>JSONDecoder</code>:</p>
+<pre class="highlight plaintext"><code>let service = Service(
+  baseURL: "https://example.com",
+  standardTransformers: [.image, .text])  // no .json
+
+let jsonDecoder = JSONDecoder()
+service.configureTransformer("/foo") {
+  try jsonDecoder.decode(Foo.self, from: $0.content)
+}
+</code></pre>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>JSONResponseTransformer</code> to configure a JSON parser with different options, at a different stage,
+or for different content types.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">options</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">json</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L19">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta13RequestMethodO3getA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/get" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO3getA2CmF">get</a>
+                    <a name="/s:6Siesta19StandardTransformerV4textACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/text" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV4textACvZ">text</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -306,33 +329,34 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>GET</p>
+                        <p>Parses responses with content type <code>text/​*</code> as a swift String.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>TextResponseTransformer</code> for details
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="k">get</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">text</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L22">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L59">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta13RequestMethodO4headA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/head" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO4headA2CmF">head</a>
+                    <a name="/s:6Siesta19StandardTransformerV5imageACvZ"></a>
+                    <a name="//apple_ref/swift/Variable/image" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV5imageACvZ">image</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -340,159 +364,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>HEAD. The HTTP method, not the body part.</p>
+                        <p>Parses responses with content type <code>image/​*</code> as a UIKit / Appkit image.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code>ImageResponseTransformer</code> for details
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">head</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L25">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta13RequestMethodO4postA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/post" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO4postA2CmF">post</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>POST. Just POST. Doc comment is the same as the enum.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">post</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L28">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta13RequestMethodO3putA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/put" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO3putA2CmF">put</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>So you’re really reading the docs for all these, huh?</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">put</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L31">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta13RequestMethodO5patchA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/patch" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO5patchA2CmF">patch</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>OK then, I’ll reward your diligence. Or punish it, depending on your level of refinement.</p>
-
-<p>What’s the difference between a poorly maintained Greyhound terminal and a lobster with breast implants?</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">patch</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L36">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta13RequestMethodO6deleteA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/delete" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta13RequestMethodO6deleteA2CmF">delete</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>One’s a crusty bus station, and the other’s a busty crustacean.</p>
-
-<p>I’m here all week! Thank you for reading the documentation!</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">delete</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/Request.swift#L41">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
