@@ -370,8 +370,8 @@ internal class ObserverEntry: CustomStringConvertible
 
     private func withOwner(
             _ owner: AnyObject,
-            ifObserver selfOwnerAction: (Void) -> Void,
-            else externalOwnerAction: (Void) -> Void)
+            ifObserver selfOwnerAction: () -> Void,
+            else externalOwnerAction: () -> Void)
         {
         // TODO: see if isObject() check improves perf here once https://bugs.swift.org/browse/SR-2867 is fixed
         if owner === (observer as AnyObject?)

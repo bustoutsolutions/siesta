@@ -4,5 +4,4 @@ target 'GithubBrowser' do
   use_frameworks!
 
   pod 'Siesta/UI', path: '../..'
-  pod 'SwiftyJSON'
 end

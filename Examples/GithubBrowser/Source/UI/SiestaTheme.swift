@@ -25,7 +25,6 @@ enum SiestaTheme {
         UITableViewCell.appearance().backgroundColor = darkerColor
         UITableViewCell.appearance().selectedBackgroundView = emptyView(withBackground: selectedColor)
 
-        UIButton.appearance().backgroundColor = darkColor
         UIButton.appearance().tintColor = linkColor
 
         UISearchBar.appearance().backgroundColor = darkColor

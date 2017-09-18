@@ -10,18 +10,12 @@ import Foundation
 
 internal extension Collection
     {
+    // Just for readability
     func any(match predicate: (Iterator.Element) -> Bool) -> Bool
-        {
-        for elem in self
-            where predicate(elem)
-                { return true }
-        return false
-        }
+        { return contains(where: predicate) }
 
     func all(match predicate: (Iterator.Element) -> Bool) -> Bool
-        {
-        return !any { !predicate($0) }
-        }
+        { return !contains(where: { !predicate($0) }) }
     }
 
 internal extension Array

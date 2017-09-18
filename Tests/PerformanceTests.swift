@@ -98,7 +98,7 @@ class SiestaPerformanceTests: XCTestCase
             var x = 0
             resource.addObserver(observers[n % observerCount])
             resource.addObserver(owner: observers[(n * 7) % observerCount])
-                { _ in x += 1 }
+                { _,_  in x += 1 }
             resource.removeObservers(ownedBy: observers[(n * 3) % observerCount])
             }
         }
@@ -123,7 +123,7 @@ class SiestaPerformanceTests: XCTestCase
             var x = 0
             resource.addObserver(observers[n % observerCount])
             resource.addObserver(owner: observers[(n * 7) % observerCount])
-                { _ in x += 1 }
+                { _,_  in x += 1 }
             observers[(n * 3) % observerCount] = TestObserver()
             }
         }

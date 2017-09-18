@@ -229,7 +229,7 @@ class RequestSpec: ResourceSpecBase
                         service().configure
                             {
                             $0.decorateRequests
-                                { _ in dummyReq0() }
+                                { _,_  in dummyReq0() }
                             }
                         awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
                         }
@@ -342,13 +342,13 @@ class RequestSpec: ResourceSpecBase
 
             func expectResonseText(_ request: Request, text: String)
                 {
-                let expectation = QuickSpec.current().expectation(description: "response text")
+                let expectation = QuickSpec.current.expectation(description: "response text")
                 request.onSuccess
                     {
                     expectation.fulfill()
                     expect($0.typedContent()) == text
                     }
-                QuickSpec.current().waitForExpectations(timeout: 1)
+                QuickSpec.current.waitForExpectations(timeout: 1)
                 }
 
             let oldRequest = specVar
@@ -451,8 +451,7 @@ class RequestSpec: ResourceSpecBase
             {
             it("handles raw data")
                 {
-                let bytes: [UInt8] = [0x00, 0xFF, 0x17, 0xCA]
-                let nsdata = Data(bytes: bytes, count: bytes.count)
+                let nsdata = Data(bytes: [0x00, 0xFF, 0x17, 0xCA])
 
                 _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
@@ -651,7 +650,7 @@ class RequestSpec: ResourceSpecBase
 
                     req.cancel()
                     _ = reqStub.go()
-                    awaitFailure(req, alreadyCompleted: true)
+                    awaitFailure(req)
                     }
 
                 it("does not stop the chain if the underlying request is cancelled")
@@ -669,6 +668,10 @@ class RequestSpec: ResourceSpecBase
                     _ = reqStub.go()
                     awaitFailure(originalReq, alreadyCompleted: true)
                     expectResult("custom", for: chainedReq, alreadyCompleted: true)
+
+                    // For whatever reason, this spec is especially prone to hitting Nocilla’s
+                    // quirk of making cancelled requests go through anyway
+                    Thread.sleep(forTimeInterval: 0.02)
                     }
                 }
 

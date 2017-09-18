@@ -207,6 +207,10 @@
 		DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACD23451D618CE300848C04 /* Ω_Deprecations.swift */; };
 		DAD191021D03950100304193 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */; };
+		DAF19BC71F355606000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
@@ -395,6 +399,7 @@
 		DAE4909A1B4E51C1004D97D6 /* ResourceStatusOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceStatusOverlay.xib; sourceTree = "<group>"; };
 		DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImageView.swift; sourceTree = "<group>"; };
 		DAE96F7B1B8ED11400506AE7 /* GCD+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GCD+Siesta.swift"; sourceTree = "<group>"; };
+		DAF19BC61F355606000B9734 /* StandardTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTransformers.swift; sourceTree = "<group>"; };
 		DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCallbacks.swift; sourceTree = "<group>"; };
 		DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTracker.swift; sourceTree = "<group>"; };
 		DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
@@ -682,6 +687,7 @@
 				DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */,
 				DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */,
 				DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */,
+				DAF19BC61F355606000B9734 /* StandardTransformers.swift */,
 			);
 			path = Pipeline;
 			sourceTree = "<group>";
@@ -982,11 +988,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Bust Out Solutions";
 				TargetAttributes = {
+					9F0FAF8C1D033FCD00CE1B61 = {
+						LastSwiftMigration = 0900;
+					};
 					9F2FB51D1C28645E0068DFFA = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0900;
 					};
 					CDCCAF641E6A313800860D18 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1000,6 +1010,9 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
+					DA19D04C1D9ADC1800D15F3A = {
+						LastSwiftMigration = 0900;
+					};
 					DA336E4E1B2E6DDB006F702A = {
 						CreatedOnToolsVersion = 7.0;
 						LastSwiftMigration = 0800;
@@ -1010,6 +1023,9 @@
 					};
 					DAC0B37D1D651CB500D25C44 = {
 						LastSwiftMigration = 0800;
+					};
+					DAC0B3AC1D651CC700D25C44 = {
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -1170,6 +1186,7 @@
 				9F2FB5371C2864C50068DFFA /* RequestCallbacks.swift in Sources */,
 				9F2FB52C1C2864970068DFFA /* URL+Siesta.swift in Sources */,
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
+				DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
 				DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
@@ -1210,6 +1227,7 @@
 				CDCCAF8D1E6A383600860D18 /* Service.swift in Sources */,
 				CDCCAFAD1E6A387200860D18 /* WeakCache.swift in Sources */,
 				CDCCAF981E6A384E00860D18 /* Networking.swift in Sources */,
+				DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCB1E6A389700860D18 /* PipelineConfiguration.swift in Sources */,
 				CDCCAFC31E6A389200860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFCD1E6A389700860D18 /* ResponseTransformer.swift in Sources */,
@@ -1250,6 +1268,7 @@
 				CDCCAF8E1E6A383700860D18 /* Service.swift in Sources */,
 				CDCCAFA11E6A387100860D18 /* WeakCache.swift in Sources */,
 				CDCCAF9B1E6A384F00860D18 /* Networking.swift in Sources */,
+				DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCE1E6A389800860D18 /* PipelineConfiguration.swift in Sources */,
 				CDCCAFC91E6A389300860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFD01E6A389800860D18 /* ResponseTransformer.swift in Sources */,
@@ -1316,6 +1335,7 @@
 				DAFB3C4D1B3DEFC2009CF96C /* Entity.swift in Sources */,
 				DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */,
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
+				DAF19BC71F355606000B9734 /* StandardTransformers.swift in Sources */,
 				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
 				DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */,
 				DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
@@ -1495,7 +1515,6 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.1;
 			};
@@ -1519,7 +1538,6 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.1;
 			};
@@ -1543,7 +1561,6 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
@@ -1566,7 +1583,6 @@
 				PRODUCT_NAME = Siesta;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
@@ -1584,7 +1600,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -1600,7 +1615,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-TvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1639,14 +1653,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1679,7 +1699,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1694,14 +1715,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1727,7 +1754,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

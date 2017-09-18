@@ -31,6 +31,7 @@ extension Resource
 
       - SeeAlso: `relative(_:)`
     */
+    @objc
     public func child(_ subpath: String) -> Resource
         {
         return service.resource(absoluteURL: url.appendingPathComponent(subpath))
@@ -48,6 +49,7 @@ extension Resource
         - `optionalRelative(_:)`
         - `child(_:)`
     */
+    @objc
     public func relative(_ href: String) -> Resource
         {
         return service.resource(absoluteURL: URL(string: href, relativeTo: url))
@@ -63,6 +65,7 @@ extension Resource
             ...
           }
     */
+    @objc
     public func optionalRelative(_ href: String?) -> Resource?
         {
         if let href = href

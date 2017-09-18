@@ -10,17 +10,17 @@ import Foundation
 
 internal extension String
     {
-    func stripPrefix(_ prefix: String) -> String
+    func strippingPrefix(_ prefix: String) -> String
         {
         return hasPrefix(prefix)
-            ? self[characters.index(startIndex, offsetBy: prefix.characters.count) ..< endIndex]
+            ? String(suffix(from: index(startIndex, offsetBy: prefix.count)))
             : self
         }
 
     func replacingPrefix(_ prefix: String, with replacement: String) -> String
         {
         return hasPrefix(prefix)
-            ? replacement + stripPrefix(prefix)
+            ? replacement + strippingPrefix(prefix)
             : self
         }
 
@@ -29,9 +29,10 @@ internal extension String
         guard !isEmpty else
             { return self }
         let secondCharIndex = index(after: startIndex)
-        return substring(to: secondCharIndex).uppercased()
-             + substring(from: secondCharIndex)
+        return self[..<secondCharIndex].uppercased()
+             + self[secondCharIndex...]
         }
+
     var nilIfEmpty: String?
         {
         return isEmpty ? nil : self

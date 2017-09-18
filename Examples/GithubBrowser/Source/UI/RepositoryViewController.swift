@@ -81,6 +81,28 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         showRepository()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        CommentaryViewController.publishCommentary(
+            """
+            Go back and then go forward to this screen again. Note how everything reappears <i>instantly</i> for a
+            previously viewed repository, even though the data spans multiple API requests. This behavior <b>emerges
+            naturally</b> from Siesta’s approach.
+
+            The app says “load if needed” for all the data on this screen every time you visit it, but this is not
+            expensive. Why not? Siesta (1) has a <b>configurable notion of staleness</b> to prevent excessive network
+            requests, and (2) it <b>transparently handles ETags</b> with no additional code or configuration.
+
+            Siesta fights the dreaded Massive View Controller by <b>allowing separation of concerns</b> without
+            requiring excessive layers of abstraction. For example, on this screen…
+
+            …when you star/unstar the repository, the spin-while-requesting animation is <b>completely decoupled</b>
+            from the logic that asks for an updated star count. Though tightly grouped in the UI, they live in entirely
+            different sections of code. Study that code, and you’ll understand the power of Siesta.
+            """)
+    }
+
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         showRepository()
     }
@@ -103,12 +125,8 @@ class RepositoryViewController: UIViewController, ResourceObserver {
             contributorsLabel?.text = "–"
         }
 
-        // We don't bother to give the languages their own model, since the response JSON
-        // is so simple already. This is thus an example of how to use raw SwiftyJSON content.
-        // Note that the .json property here is defined in Siesta+SwiftyJSON.
-
-        if let languages = languagesResource?.json.dictionaryValue.keys {
-            languagesLabel?.text = languages.joined(separator: " • ")
+        if let languages: [String:Int] = languagesResource?.typedContent() {
+            languagesLabel?.text = languages.keys.joined(separator: " • ")
         } else {
             languagesLabel?.text = "–"
         }

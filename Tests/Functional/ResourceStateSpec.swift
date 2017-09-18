@@ -426,7 +426,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 var observerNotified = false
                 resource().addObserver(owner: request())
-                    { _ in observerNotified = true }
+                    { _,_  in observerNotified = true }
 
                 resource().load(using: request())
 
@@ -446,7 +446,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 _ = reqStub()
                 _ = req()
                 owner = DummyObject()
-                resource().addObserver(owner: owner!) { _ in }
+                resource().addObserver(owner: owner!) { _,_ in }
                 owner = DummyObject() // replaces old one
                 // Resource now has outstanding load request & no observers
                 }
@@ -464,7 +464,7 @@ class ResourceRequestsSpec: ResourceSpecBase
 
             it("does not cancel if resource has an observer")
                 {
-                resource().addObserver(owner: owner!) { _ in }
+                resource().addObserver(owner: owner!) { _,_ in }
                 resource().cancelLoadIfUnobserved()
 
                 _ = reqStub().go()
@@ -487,12 +487,12 @@ class ResourceRequestsSpec: ResourceSpecBase
                 {
                 it("cancels load if resource has loses observers during delay")
                     {
-                    let expectation = QuickSpec.current().expectation(description: "cancelLoadIfUnobserved(afterDelay:")
-                    resource().addObserver(owner: owner!) { _ in }
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    resource().addObserver(owner: owner!) { _,_ in }
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
                     owner = nil
-                    QuickSpec.current().waitForExpectations(timeout: 1)
+                    QuickSpec.current.waitForExpectations(timeout: 1)
 
                     _ = reqStub().go()
                     awaitFailure(req(), alreadyCompleted: true)
@@ -500,11 +500,11 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 it("does not cancel load if resource gains an observer during delay")
                     {
-                    let expectation = QuickSpec.current().expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().cancelLoadIfUnobserved(afterDelay: 0.001)
                         { expectation.fulfill() }
-                    resource().addObserver(owner: owner!) { _ in }
-                    QuickSpec.current().waitForExpectations(timeout: 1)
+                    resource().addObserver(owner: owner!) { _,_ in }
+                    QuickSpec.current.waitForExpectations(timeout: 1)
 
                     _ = reqStub().go()
                     awaitNewData(req())
