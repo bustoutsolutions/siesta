@@ -200,7 +200,13 @@ class _GitHubAPI {
                 // will pick up the change. The code that knows _when_ to trigger the load is decoupled from the code
                 // that knows _what_ to do with the updated data. This is the magic of Siesta.
 
-                self.repository(repositoryModel).load()
+                for delay in [0.1, 1.0, 2.0] {  // Github propagates the updated star count slowly
+                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                        // This ham-handed repeated loading is not as expensive as it first appears, thanks to the fact
+                        // that Siesta magically takes care of ETag / If-modified-since / HTTP 304 for us.
+                        self.repository(repositoryModel).load()
+                    }
+                }
             }
     }
 }

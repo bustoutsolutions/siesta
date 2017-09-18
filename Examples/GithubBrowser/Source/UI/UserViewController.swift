@@ -62,6 +62,27 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
         setNeedsStatusBarAppearanceUpdate()
         updateLoginButton()
+
+        CommentaryViewController.publishCommentary(
+            """
+            Stress the live search above by rapidly deleting and retyping the same characters.
+            Note how fast previously fetched data reappears. <b>Why so fast?</b>
+
+            Unlike other networking libraries, Siesta can cache responses in their final, fully parsed, <b>app-specific
+            form</b>. And it lets the app use stale cached data while <b>simultaneously</b> requesting an update.
+
+            This example app has no special logic for caching, throttling, or preventing redundant network requests.
+            That’s <b>all handled by Siesta</b>.
+
+            On this screen, the user profile, avatars, and repo list come from separate cascading API calls.
+            With traditional callback-based networking, this would be a <b>state nightmare</b>. Why? Well…
+
+            How do you prevent all these views from <b>getting out of sync</b> as the user types?
+            Even if responses for different repos come back late? Out of order?
+
+            Siesta’s architecture provides an <b>elegant solution</b> to this problem.
+            Its abstractions produce app code that is <b>simpler and less brittle</b>.
+            """)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
