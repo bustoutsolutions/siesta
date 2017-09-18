@@ -10,7 +10,7 @@ extension PipelineStageKey {
 //════════════════════════════════════
 
 func guide_pipeline(service: Service, resource: Resource) {
-                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                        
     //══════ guide_pipeline:1 ══════
     service.configure {
       $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
@@ -39,7 +39,7 @@ func guide_pipeline(service: Service, resource: Resource) {
     func funkyParse(_ value: String) -> String {
         fatalError("unimplemented")
     }
-                            
+                                                                    
     //══════ guide_pipeline:5 ══════
     service.configureTransformer("/funkyStuff", atStage: .parsing) {
       return funkyParse($0.content)  // This replaces default .parsing transformers
@@ -95,7 +95,7 @@ func guide_pipeline(service: Service, resource: Resource) {
     }
     //════════════════════════════════════
     
-    /*                                                                                                                                                                                                                                    
+    /*                                                                                                                                                                                                                                                                            
     //══════ guide_pipeline:11 ══════
     // ☠☠☠ WRONG ☠☠☠
     Alamofire.request(.GET, "https://myapi.example/status")
@@ -108,17 +108,17 @@ func guide_pipeline(service: Service, resource: Resource) {
     */
     
     let `self` = DummyObject()
-                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                
     //══════ guide_pipeline:12 ══════
-    // /* start/stop activity indicator */  →  _ in
-    // /* update UI */                      →  _ in
+    // /* start/stop activity indicator */  →  _,_ in
+    // /* update UI */                      →  _,_ in
     // /* play happy sound */               →  _ in
     // /* show error message */             →  _ in
     let resource = service.resource("/status")
     
     resource
-      .addObserver(owner: self) { _ in }
-      .addObserver(owner: self) { _ in }
+      .addObserver(owner: self) { _,_ in }
+      .addObserver(owner: self) { _,_ in }
     
     resource.load()
       .onSuccess { _ in }

@@ -12,7 +12,7 @@ extension TypedContentAccessors {
 }
 //════════════════════════════════════
 
-func api_Protocols_TypedContentAccessors(service: Service, resource: Resource) {                                                                                                                                                                                    
+func api_Protocols_TypedContentAccessors(service: Service, resource: Resource) {                                                                                                                                                                                                                            
     //══════ api_Protocols_TypedContentAccessors:0 ══════
     // resource. → _ = resource.
     // (_ = resource. → _ = (resource.

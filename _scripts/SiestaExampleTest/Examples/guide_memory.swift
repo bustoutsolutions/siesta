@@ -4,7 +4,7 @@ import UIKit
 private let someResource = Service().resource("")
 
 class guide_memory: ResourceObserver {
-                                                                                                                                                    
+                                                                                                                                                                                            
     //══════ guide_memory:0 ══════
     // override → func resourceChanged(_ resource: Resource, event: ResourceEvent) { }; override
     // … →
@@ -20,7 +20,7 @@ class guide_memory: ResourceObserver {
     let someViewController = ProfileViewController()
     
     func resourceChanged(_ resource: Resource, event: ResourceEvent) { }
-                                                                                                                                                        
+                                                                                                                                                                                                
     //══════ guide_memory:3 ══════
     // … →
     var displayedResource: Resource? {
@@ -41,7 +41,7 @@ class guide_memory: ResourceObserver {
         func resourceChanged(_ resource: Resource, event: ResourceEvent) { }
     }
 
-    func things() {                                                                                                                                                                                                                                                                                                        
+    func things() {                                                                                                                                                                                                                                                                                                                                                                                        
         //══════ guide_memory:1 ══════
         someResource.addObserver(MyLittleGlueObject(), owner: self)
         //════════════════════════════════════

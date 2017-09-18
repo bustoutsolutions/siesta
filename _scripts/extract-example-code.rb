@@ -8,8 +8,9 @@ class MatchData
   end
 end
 
-docs_dir = File.dirname(File.dirname(__FILE__))
-output_dir = ARGV[0]
+script_dir = File.dirname(File.expand_path(__FILE__))
+docs_dir = File.dirname(script_dir)
+output_dir = ARGV[0] || File.join(script_dir, "SiestaExampleTest", "Examples")
 
 unless output_dir
   STDERR.puts "No output directory specified"
@@ -34,7 +35,6 @@ code_pat = %r{
 }mux
 
 Dir["#{docs_dir}/api/*/**/*.html", "#{docs_dir}/**/*.md"].reject { |f| f =~ /docsets/ }.each do |file|
-
   file_ident = file
     .sub(/^#{docs_dir}\/?/, "")
     .sub(/(\/index.md|.html)$/, "")
@@ -97,5 +97,6 @@ Dir["#{docs_dir}/api/*/**/*.html", "#{docs_dir}/**/*.md"].reject { |f| f =~ /doc
     examples[replace_range] = snippet.gsub(/^/, indent)
   end
 
+  puts "Writing #{outfile}"
   File.write(outfile, examples, encoding: "utf-8")
 end

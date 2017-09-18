@@ -2,7 +2,7 @@ import Siesta
 
 func api_Classes_Resource(service: Service, resource: Resource) {
 
-                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                            
     //══════ api_Classes_Resource:1 ══════
     // ... → _ in
     resource.request(.get)
@@ -11,7 +11,7 @@ func api_Classes_Resource(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     let imageData = Data()
-    _ =                                                                                                                                
+    _ =                                                                                                                                                                        
     //══════ api_Classes_Resource:0 ══════
     resource.request(.post) {
       $0.httpBody = imageData
@@ -25,7 +25,7 @@ func api_Classes_Resource(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     let user = "user"
-    let pass = "foo"                                                                                                                                                                                            
+    let pass = "foo"                                                                                                                                                                                                                                    
     //══════ api_Classes_Resource:2 ══════
     let auth = MyAPI.authentication
     auth.load(using:

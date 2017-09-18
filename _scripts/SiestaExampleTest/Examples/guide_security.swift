@@ -1,7 +1,7 @@
 import Siesta
 
 func guide_security(service: Service, resource: Resource) {
-                                                                                                                                            
+                                                                                                                                                                                    
     //══════ guide_security:0 ══════
     // ... → super.init()
     class MyAPI: Service {
@@ -25,7 +25,7 @@ func guide_security(service: Service, resource: Resource) {
     
     let myAPI = MyAPI()
     
-    let authHeaderFromSuccessfulAuthRequest = "foo"                                                                                                                                    
+    let authHeaderFromSuccessfulAuthRequest = "foo"                                                                                                                                                                            
     //══════ guide_security:1 ══════
     myAPI.authHeader = authHeaderFromSuccessfulAuthRequest
     //════════════════════════════════════
@@ -34,7 +34,7 @@ func guide_security(service: Service, resource: Resource) {
     myAPI.authHeader = nil
     //════════════════════════════════════
     
-    let authToken = "foo"                                                                                                                                        
+    let authToken = "foo"                                                                                                                                                                                
     //══════ guide_security:3 ══════
     service.configure("**", description: "auth token") {
       $0.headers["X-Auth-Token"] = authToken
@@ -42,11 +42,11 @@ func guide_security(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     struct UnauthorizedServer: Error { }
-                                                                                                                                                
+                                                                                                                                                                                        
     //══════ guide_security:4 ══════
     service.configure(whenURLMatches: { $0.host != "api.example.com" }) {
       $0.decorateRequests {
-        _ in Resource.failedRequest(
+        _,_ in Resource.failedRequest(
           RequestError(
             userMessage: "Attempted to connect to unauthorized server",
             cause: UnauthorizedServer()))
@@ -55,7 +55,7 @@ func guide_security(service: Service, resource: Resource) {
     //════════════════════════════════════
     
     class MyCustomSessionPinningDelegate: NSObject, URLSessionDelegate { }
-                                                                                                                                                
+                                                                                                                                                                                        
     //══════ guide_security:5 ══════
     let certificatePinningSession = URLSession(
         configuration: URLSessionConfiguration.ephemeral,

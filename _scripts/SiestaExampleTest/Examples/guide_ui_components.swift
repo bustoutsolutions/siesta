@@ -4,7 +4,7 @@ import UIKit
 
 func guide_ui_components(service: Service, resource: Resource) {
 
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                
     //══════ guide_ui_components:0 ══════
     class ProfileViewController: UIViewController, ResourceObserver {
         @IBOutlet weak var nameLabel, favoriteColorLabel: UILabel!
