@@ -41,7 +41,7 @@ extension RequestWithDefaultCallbacks
             }
         }
 
-    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Self
         {
         return addResponseCallback
             {

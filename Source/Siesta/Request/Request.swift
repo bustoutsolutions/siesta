@@ -79,7 +79,7 @@ public protocol Request: class
 
     /// Call the closure once if the request succeeds with a 304.
     @discardableResult
-    func onNotModified(_ callback: @escaping (Void) -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Self
 
     /// Call the closure once if the request fails for any reason.
     @discardableResult

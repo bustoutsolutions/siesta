@@ -17,7 +17,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
         { return resource.configuration(for: underlyingRequest) }
 
     // Networking
-    private let requestBuilder: (Void) -> URLRequest
+    private let requestBuilder: () -> URLRequest
     private let underlyingRequest: URLRequest
     internal var networking: RequestNetworking?  // present only after start()
     internal var underlyingNetworkRequestCompleted = false  // so tests can wait for it to finish
@@ -38,7 +38,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Managing request
 
-    init(resource: Resource, requestBuilder: @escaping (Void) -> URLRequest)
+    init(resource: Resource, requestBuilder: @escaping () -> URLRequest)
         {
         self.resource = resource
         self.requestBuilder = requestBuilder  // for repeated()
