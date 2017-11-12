@@ -196,7 +196,7 @@ class SiestaPerformanceTests: XCTestCase
             var responsesPending = reps
             for _ in 0 ..< reps
                 {
-                resource.load().onCompletion
+                resource.load().onSuccess
                     {
                     _ in
                     responsesPending -= 1
@@ -228,7 +228,7 @@ class SiestaPerformanceTests: XCTestCase
         }
     }
 
-struct NetworkStub: NetworkingProvider
+class NetworkStub: NetworkingProvider
     {
     var responses: [String:ResponseStub] = [:]
     let dummyHeaders =
