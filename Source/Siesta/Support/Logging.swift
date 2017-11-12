@@ -54,7 +54,7 @@ public enum LogCategory
     public static var enabled = Set<LogCategory>()
     }
 
-private let maxCategoryNameLength = LogCategory.all.map { Int(String(describing: $0).characters.count) }.max() ?? 0
+private let maxCategoryNameLength = LogCategory.all.map { Int(String(describing: $0).count) }.max() ?? 0
 
 /// Inject your custom logger to do something other than print to stdout.
 public var logger: (LogCategory, String) -> Void =

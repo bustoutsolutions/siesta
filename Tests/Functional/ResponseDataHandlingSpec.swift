@@ -632,7 +632,7 @@ private class TestTransformer: ResponseTransformer
             case .success(var entity):
                 entity.content = (entity.content as? String ?? "<non-string>") + " processed"
                 if let header = entity.headers["x-custom-header"]
-                    { entity.headers["x-custom-header"] = String(header.characters.reversed()) }
+                    { entity.headers["x-custom-header"] = String(header.reversed()) }
                 return .success(entity)
 
             case .failure(var error):
