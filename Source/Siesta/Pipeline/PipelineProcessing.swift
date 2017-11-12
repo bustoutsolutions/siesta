@@ -21,7 +21,7 @@ internal extension Pipeline
             { stage in (stage, stage.cacheBox?.buildEntry(resource)) }
         }
 
-    internal func makeProcessor(_ rawResponse: Response, resource: Resource) -> (Void) -> Response
+    internal func makeProcessor(_ rawResponse: Response, resource: Resource) -> () -> Response
         {
         // Generate cache keys on main thread (because this touches Resource)
         let stagesAndEntries = self.stagesAndEntries(for: resource)
@@ -180,7 +180,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
             { self.cache.removeEntity(forKey: self.key) }
         }
 
-    private func dispatchSyncOnWorkQueue<T>(_ action: (Void) -> T) -> T
+    private func dispatchSyncOnWorkQueue<T>(_ action: () -> T) -> T
         {
         var result: T?
         cache.workQueue.sync

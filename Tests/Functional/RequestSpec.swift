@@ -651,7 +651,7 @@ class RequestSpec: ResourceSpecBase
 
                     req.cancel()
                     _ = reqStub.go()
-                    awaitFailure(req, alreadyCompleted: true)
+                    awaitFailure(req)
                     }
 
                 it("does not stop the chain if the underlying request is cancelled")

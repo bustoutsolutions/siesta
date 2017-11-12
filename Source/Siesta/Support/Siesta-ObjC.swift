@@ -192,7 +192,7 @@ public class _objc_Request: NSObject
         return self
         }
 
-    public func onNotModified(_ objcCallback: @escaping @convention(block) (Void) -> Void) -> _objc_Request
+    public func onNotModified(_ objcCallback: @escaping @convention(block) () -> Void) -> _objc_Request
         {
         request.onNotModified(objcCallback)
         return self
