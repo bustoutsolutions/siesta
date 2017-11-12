@@ -98,8 +98,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
         {
         guard !isCancelled else
             {
-            return responseCallbacks.notifyOfCompletion(
-                ResponseInfo.cancellation)
+            return responseCallbacks.notifyOfCompletion(.cancellation)
             }
 
         switch determineAction(responseInfo)

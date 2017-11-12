@@ -203,14 +203,15 @@ public extension Resource
         if let existingEntry = observers[identity]
             {
             existingEntry.addOwner(owner)
-            observersChanged()
-            return self
+            }
+        else
+            {
+            let newEntry = ObserverEntry(observer: observer, resource: self)
+            newEntry.addOwner(owner)
+            observers[identity] = newEntry
+            observer.resourceChanged(self, event: .observerAdded)
             }
 
-        let newEntry = ObserverEntry(observer: observer, resource: self)
-        newEntry.addOwner(owner)
-        observers[identity] = newEntry
-        observer.resourceChanged(self, event: .observerAdded)
         observersChanged()
         return self
         }
