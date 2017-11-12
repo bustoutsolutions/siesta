@@ -260,7 +260,7 @@ public final class Resource: NSObject
 
         // Build the request
 
-            let requestBuilder: () -> URLRequest =
+        let requestBuilder: () -> URLRequest =
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
