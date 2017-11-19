@@ -65,7 +65,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
         CommentaryViewController.publishCommentary(
             """
-            Stress the live search above by rapidly deleting and retyping the same characters.
+            Stress test the live search above by rapidly deleting and retyping the same characters.
             Note how fast previously fetched data reappears. <b>Why so fast?</b>
 
             Unlike other networking libraries, Siesta can cache responses in their final, fully parsed, <b>app-specific
