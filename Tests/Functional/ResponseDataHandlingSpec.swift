@@ -27,6 +27,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 .withBody(string as NSString?)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), false)
+            if(!expectSuccess)
+                { expect(resource().latestError?.url) == resource().url }
             }
 
         describe("plain text handling")

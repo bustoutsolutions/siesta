@@ -232,6 +232,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
                 expect(resource().latestError?.cause as NSError?) == sampleError
+                expect(resource().latestError?.url) == resource().url
                 }
 
             // Testing all these HTTP codes individually because Apple likes
@@ -247,6 +248,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError).notTo(beNil())
                     expect(resource().latestError?.httpStatusCode) == statusCode
+                    expect(resource().latestError?.url) == resource().url
                     }
                 }
 
