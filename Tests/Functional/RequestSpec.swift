@@ -342,13 +342,13 @@ class RequestSpec: ResourceSpecBase
 
             func expectResonseText(_ request: Request, text: String)
                 {
-                let expectation = QuickSpec.current().expectation(description: "response text")
+                let expectation = QuickSpec.current.expectation(description: "response text")
                 request.onSuccess
                     {
                     expectation.fulfill()
                     expect($0.typedContent()) == text
                     }
-                QuickSpec.current().waitForExpectations(timeout: 1)
+                QuickSpec.current.waitForExpectations(timeout: 1)
                 }
 
             let oldRequest = specVar
@@ -669,6 +669,10 @@ class RequestSpec: ResourceSpecBase
                     _ = reqStub.go()
                     awaitFailure(originalReq, alreadyCompleted: true)
                     expectResult("custom", for: chainedReq, alreadyCompleted: true)
+
+                    // For whatever reason, this spec is especially prone to hitting Nocilla’s
+                    // quirk of making cancelled requests go through anyway
+                    Thread.sleep(forTimeInterval: 0.02)
                     }
                 }
 

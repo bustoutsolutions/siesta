@@ -272,7 +272,7 @@ class ProgressSpec: ResourceSpecBase
                 {
                 var progressReports: [Double] = []
 
-                let expectation = QuickSpec.current().expectation(description: "recordProgressUntil")
+                let expectation = QuickSpec.current.expectation(description: "recordProgressUntil")
                 var fulfilled = false
 
                 let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
@@ -286,7 +286,7 @@ class ProgressSpec: ResourceSpecBase
                         }
                     }
                 setup(req)
-                QuickSpec.current().waitForExpectations(timeout: 1)
+                QuickSpec.current.waitForExpectations(timeout: 1)
 
                 _ = reqStub.go()
                 awaitNewData(req)
