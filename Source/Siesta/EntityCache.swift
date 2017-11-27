@@ -15,8 +15,10 @@ import Foundation
   - recover from low memory situations with fewer reissued network requests, and
   - work offline.
 
-  Siesta uses any HTTP request caching provided by the networking layer (e.g. `URLCache`). Why another type of
-  caching, then? Because `URLCache` has a subtle but significant mismatch with the use cases above:
+  Siesta can aldo use whatever HTTP request the networking layer provides (e.g. `URLCache`). Why another type of
+  caching, then? Because `URLCache` has a several subtle but significant mismatches with the use cases above.
+
+  The big one:
 
   * The purpose of HTTP caching is to _prevent_ network requests, but what we need is a way to show old data _while
     issuing new requests_. This is the real deal-killer.
@@ -29,7 +31,7 @@ import Foundation
     exhibit the behavior we want; the logic involved is far more tangled and brittle than implementing a separate cache.
   * Precisely because of the complexity of these rules, APIs frequently disable all caching via headers.
   * HTTP caching does not preserve Siesta’s timestamps, which thwarts the staleness logic.
-  * HTTP caching stores raw responses; storing parsed responses offers the opportunity for faster app launch.
+  * HTTP caching stores raw responses. Apps may wish instead to cache responses in an app-specific parsed form.
 
   Siesta currently does not include any implementations of `EntityCache`, but a future version will.
 
@@ -59,8 +61,11 @@ public protocol EntityCache
 
       This method is called for both cache writes _and_ for cache reads. The `resource` therefore may not have
       any content. Implementations will almost always examine `resource.url`. (Cache keys should be _at least_ as unique
-      as URLs except in very unusual circumstances.) Implementations may also want to examine `resource.configuration`,
-      for example to take authentication into account.
+      as URLs except in very unusual circumstances.)
+
+      - Warning: When working with an authenticated API, caches must take care not to accidentally mix cached responses
+                 for different users. The usual solution to this is to make `Key` vary with some sort of user ID as
+                 well as the URL.
 
       - Note: This method is always called on the **main thread**. However, the key it returns will be passed repeatedly
               across threads. Siesta therefore strongly recommends making `Key` a value type, i.e. a struct.
@@ -70,24 +75,21 @@ public protocol EntityCache
     /**
       Return the entity associated with the given key, or nil if it is not in the cache.
 
-      If this method returns an entity, it does _not_ pass through the transformer pipeline. Implementations should
-      return the entity as if already fully parsed and transformed — with the same type of `entity.content` that was
-      originally sent to `writeEntity(...)`.
+      If this method returns an entity, it passes through the portion of the transformer pipeline _after_ this cache.
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
     func readEntity(forKey key: Key) -> Entity<ContentType>?
 
     /**
-      Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
-      to Siesta. (OK, it’s just the resource’s URL, but you should pretend you don’t know that in your implementation.
-      Cache implementations should treat the `forKey` parameter as an opaque value.)
+      Store the given entity in the cache, associated with the given key.
 
-      This method receives entities _after_ they have been through the transformer pipeline. The `entity.content` will
-      be a parsed object, not raw data.
+      This method receives entities _after_ they have been through the stage of the transformer pipeline for which this
+      cache is configured.
 
       Implementations are under no obligation to actually perform the write. This method can — and should — examine the
-      type of the entity’s `content` and/or its header values, and ignore it if it is not encodable.
+      type of the entity’s `content` and/or its header values, and ignore it if it is unencodable or otherwise
+      unsuitable for caching.
 
       Note that this method does not receive a URL as input; if you need to limit caching to specific resources, use
       Siesta’s configuration mechanism to control which resources are cacheable.
