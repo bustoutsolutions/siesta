@@ -158,7 +158,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
 
     func read() -> Entity<Any>?
         {
-        return dispatchSyncOnWorkQueue
+        return cache.workQueue.sync
             { self.cache.readEntity(forKey: self.key) }
         }
 
@@ -178,13 +178,5 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
         {
         cache.workQueue.async
             { self.cache.removeEntity(forKey: self.key) }
-        }
-
-    private func dispatchSyncOnWorkQueue<T>(_ action: () -> T) -> T
-        {
-        var result: T?
-        cache.workQueue.sync
-            { result = action() }
-        return result!
         }
     }
