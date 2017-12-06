@@ -74,24 +74,21 @@ public enum RequestChainAction
     case useThisResponse
     }
 
-internal final class RequestChain: Request
+internal final class RequestChain: RequestWithCallbackGroup
     {
+    typealias ActionCallback = (ResponseInfo) -> RequestChainAction
+
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
-    private var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var isCancelled = false
+
+    var responseCallbacks = CallbackGroup<ResponseInfo>()
 
     init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
         self.wrappedRequest = request
         self.determineAction = determineAction
         request.onCompletion(self.processResponse)
-        }
-
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
-        {
-        responseCallbacks.addCallback(callback)
-        return self
         }
 
     func processResponse(_ responseInfo: ResponseInfo)
@@ -116,18 +113,10 @@ internal final class RequestChain: Request
             }
         }
 
-    typealias ActionCallback = (ResponseInfo) -> RequestChainAction
-
     func start() -> Self
         {
         wrappedRequest.start()
         return self
-        }
-
-    var isCompleted: Bool
-        {
-        DispatchQueue.mainThreadPrecondition()
-        return responseCallbacks.completedValue != nil
         }
 
     func cancel()
@@ -140,11 +129,4 @@ internal final class RequestChain: Request
         {
         return wrappedRequest.repeated().chained(whenCompleted: determineAction)
         }
-
-    // MARK: Dummy implementaiton of progress (for now)
-
-    var progress: Double { return 0 }
-
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
-        { return self }
     }

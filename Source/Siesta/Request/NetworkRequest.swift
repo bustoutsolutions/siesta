@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal final class NetworkRequest: Request, CustomDebugStringConvertible
+internal final class NetworkRequest: RequestWithCallbackGroup, CustomDebugStringConvertible
     {
     // Basic metadata
     private let resource: Resource
@@ -28,13 +28,8 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         { return progressTracker.progress }
 
     // Result
-    private var responseCallbacks = CallbackGroup<ResponseInfo>()
+    internal var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var wasCancelled: Bool = false
-    var isCompleted: Bool
-        {
-        DispatchQueue.mainThreadPrecondition()
-        return responseCallbacks.completedValue != nil
-        }
 
     // MARK: Managing request
 
@@ -111,12 +106,6 @@ internal final class NetworkRequest: Request, CustomDebugStringConvertible
         }
 
     // MARK: Callbacks
-
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
-        {
-        responseCallbacks.addCallback(callback)
-        return self
-        }
 
     func onProgress(_ callback: @escaping (Double) -> Void) -> Self
         {

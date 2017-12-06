@@ -48,6 +48,34 @@ extension Request
         }
     }
 
+internal protocol RequestWithCallbackGroup: Request
+    {
+    var responseCallbacks: CallbackGroup<ResponseInfo> { get set }
+    }
+
+extension RequestWithCallbackGroup
+    {
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+        {
+        responseCallbacks.addCallback(callback)
+        return self
+        }
+
+    var isCompleted: Bool
+        {
+        DispatchQueue.mainThreadPrecondition()
+        return responseCallbacks.completedValue != nil
+        }
+
+    // Dummy implementaiton of progress; implementing types may override
+
+    var progress: Double
+        { return isCompleted ? 1 : 0 }
+
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+        { return self }
+    }
+
 /// Unified handling for both `ResponseCallback` and `progress()` callbacks.
 internal struct CallbackGroup<CallbackArguments>
     {
