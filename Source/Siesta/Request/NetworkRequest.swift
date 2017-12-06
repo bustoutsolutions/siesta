@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStringConvertible
+internal final class NetworkRequest: Request, CustomDebugStringConvertible
     {
     // Basic metadata
     private let resource: Resource
@@ -112,7 +112,7 @@ internal final class NetworkRequest: RequestWithDefaultCallbacks, CustomDebugStr
 
     // MARK: Callbacks
 
-    internal func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
         {
         responseCallbacks.addCallback(callback)
         return self

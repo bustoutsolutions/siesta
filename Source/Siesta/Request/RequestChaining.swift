@@ -74,7 +74,7 @@ public enum RequestChainAction
     case useThisResponse
     }
 
-internal final class RequestChain: RequestWithDefaultCallbacks
+internal final class RequestChain: Request
     {
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
@@ -88,7 +88,7 @@ internal final class RequestChain: RequestWithDefaultCallbacks
         request.onCompletion(self.processResponse)
         }
 
-    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
         {
         responseCallbacks.addCallback(callback)
         return self

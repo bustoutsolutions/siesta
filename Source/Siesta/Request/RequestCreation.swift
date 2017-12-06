@@ -168,7 +168,7 @@ public extension Resource
 
 
 /// For requests that failed before they even made it to the network layer
-private final class FailedRequest: RequestWithDefaultCallbacks
+private final class FailedRequest: Request
     {
     private let error: RequestError
 
@@ -178,7 +178,7 @@ private final class FailedRequest: RequestWithDefaultCallbacks
     init(error: RequestError)
         { self.error = error }
 
-    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.
