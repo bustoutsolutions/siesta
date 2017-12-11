@@ -275,7 +275,7 @@ public extension Resource
             }
         }
 
-    internal func notifyObservers(progress: Double)
+    internal func notifyObservers(ofProgress progress: Double)
         {
         for entry in observers.values
             {
