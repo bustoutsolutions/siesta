@@ -16,8 +16,10 @@ private var requestsInProgress = 0
     {
     didSet
         {
-        UIApplication.shared.isNetworkActivityIndicatorVisible =
-            requestsInProgress > 0
+        #if UIApplication
+            UIApplication.shared.isNetworkActivityIndicatorVisible =
+                requestsInProgress > 0
+        #endif
         }
     }
 
