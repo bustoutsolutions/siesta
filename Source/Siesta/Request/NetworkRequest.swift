@@ -62,9 +62,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
         networking?.cancel()
         }
 
-    func repeatedRequest() -> Request
+    func repeated() -> RequestDelegate
         {
-        return Resource.request(using: NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder))
+        return NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder)
         }
 
     // MARK: Progress

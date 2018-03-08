@@ -20,7 +20,7 @@ public protocol RequestDelegate
 
     func cancelUnderlyingOperation()
 
-    func repeatedRequest() -> Request
+    func repeated() -> RequestDelegate
 
     func computeProgress() -> Double
 
@@ -175,7 +175,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
     func repeated() -> Request
         {
-        return delegate.repeatedRequest()
+        return Resource.request(using: delegate.repeated())
         }
 
     // MARK: Debug

@@ -131,8 +131,8 @@ internal struct RequestChainDelgate: RequestDelegate
 
     // TODO: progress reporting
 
-    func repeatedRequest() -> Request
+    func repeated() -> RequestDelegate
         {
-        return wrappedRequest.repeated().chained(whenCompleted: determineAction)
+        return RequestChainDelgate(wrapping: wrappedRequest.repeated(), whenCompleted: determineAction)
         }
     }
