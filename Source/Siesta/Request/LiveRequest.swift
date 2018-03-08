@@ -6,7 +6,15 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
-protocol RequestDelegate
+extension Resource
+    {
+    public static func request(using delegate: RequestDelegate) -> Request
+        {
+        return LiveRequest(delegate: delegate)
+        }
+    }
+
+public protocol RequestDelegate
     {
     func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
 
@@ -21,19 +29,28 @@ protocol RequestDelegate
     var requestDescription: String { get }
     }
 
-protocol RequestCompletionHandler
+extension RequestDelegate
+    {
+    func computeProgress() -> Double
+        { return 0 }
+
+    var progressReportingInterval: Double
+        { return 0.05 }
+    }
+
+public protocol RequestCompletionHandler
     {
     func shouldIgnoreResponse(_ newResponse: Response) -> Bool
 
     func broadcastResponse(_ newInfo: ResponseInfo)
     }
 
-internal final class LiveRequest: Request, RequestCompletionHandler, CustomDebugStringConvertible
+private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugStringConvertible
     {
     private let delegate: RequestDelegate
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var progressTracker = ProgressTracker()
-    internal private(set) var isStarted = false, isCancelled = false
+    private(set) var isStarted = false, isCancelled = false
 
     init(delegate: RequestDelegate)
         {

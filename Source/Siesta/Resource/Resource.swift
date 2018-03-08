@@ -265,7 +265,7 @@ public final class Resource: NSObject
 
         // Build the request
 
-        let requestBuilder: () -> URLRequest =
+        let delegate = NetworkRequestDelegate(resource: self)
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
@@ -283,12 +283,11 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
-        let delegate = NetworkRequestDelegate(resource: self, requestBuilder: requestBuilder)
-        let rawReq = LiveRequest(delegate: delegate)
+        let bareReq = Resource.request(using: delegate)
 
         // Optionally decorate the request
 
-        let req = delegate.config.requestDecorators.reduce(rawReq as Request)
+        let req = delegate.config.requestDecorators.reduce(bareReq)
             { req, decorate in decorate(self, req) }
 
         // Track the fully decorated request

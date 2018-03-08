@@ -55,8 +55,7 @@ extension Request
     */
     public func chained(whenCompleted callback: @escaping (ResponseInfo) -> RequestChainAction) -> Request
         {
-        let chain = LiveRequest(delegate:
-            RequestChainDelgate(wrapping: self, whenCompleted: callback))
+        let chain = Resource.request(using: RequestChainDelgate(wrapping: self, whenCompleted: callback))
         if isStarted
             { chain.start() }
         return chain
@@ -130,11 +129,7 @@ internal struct RequestChainDelgate: RequestDelegate
             }
         }
 
-    func computeProgress() -> Double
-        { return 0 }  // TODO: progress reporting
-
-    var progressReportingInterval: Double
-        { return 1 }  // TODO: progress reporting
+    // TODO: progress reporting
 
     func repeatedRequest() -> Request
         {

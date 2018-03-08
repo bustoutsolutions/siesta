@@ -64,8 +64,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
 
     func repeatedRequest() -> Request
         {
-        return LiveRequest(delegate:
-            NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder))
+        return Resource.request(using: NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder))
         }
 
     // MARK: Progress
