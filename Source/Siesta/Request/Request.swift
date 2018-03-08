@@ -103,6 +103,8 @@ public protocol Request: class
     @discardableResult
     func start() -> Request
 
+    var isStarted: Bool { get }
+
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
       or been cancelled.

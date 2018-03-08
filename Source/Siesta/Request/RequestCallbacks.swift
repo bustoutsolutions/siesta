@@ -48,39 +48,45 @@ extension Request
         }
     }
 
-internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStringConvertible
+internal final class ConcreteRequest: Request, RequestCompletionHandler, CustomDebugStringConvertible
     {
-    private let requestDescription: String
+    private let delegate: RequestDelegate
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
+    private var progressTracker = ProgressTracker()
     internal private(set) var isStarted = false, isCancelled = false
 
-    init(requestDescription: String)
+    init(delegate: RequestDelegate)
         {
-        self.requestDescription = requestDescription
+        self.delegate = delegate
         }
 
     // Standard behavior
 
+    @discardableResult
     final func start() -> Request
         {
         DispatchQueue.mainThreadPrecondition()
 
         guard !isStarted else
             {
-            debugLog(.networkDetails, [requestDescription, "already started"])
+            debugLog(.networkDetails, [delegate.requestDescription, "already started"])
             return self
             }
 
         guard !isCancelled else
             {
-            debugLog(.network, [requestDescription, "will not start because it was already cancelled"])
+            debugLog(.network, [delegate.requestDescription, "will not start because it was already cancelled"])
             return self
             }
 
         isStarted = true
-        debugLog(.network, [requestDescription])
+        debugLog(.network, [delegate.requestDescription])
 
-        startUnderlyingOperation()
+        delegate.startUnderlyingOperation(completionHandler: self)
+
+        progressTracker.start(
+            progressProvider: { [delegate] in delegate.progress },
+            reportingInterval: delegate.progressReportingInterval)
 
         return self
         }
@@ -91,13 +97,13 @@ internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStr
 
         guard !isCompleted else
             {
-            debugLog(.network, ["cancel() called but request already completed:", requestDescription])
+            debugLog(.network, ["cancel() called but request already completed:", delegate.requestDescription])
             return
             }
 
-        debugLog(.network, ["Cancelled", requestDescription])
+        debugLog(.network, ["Cancelled", delegate.requestDescription])
 
-        cancelUnderlyingOperation()
+        delegate.cancelUnderlyingOperation()
 
         // Prevent start() from have having any effect if it hasn't been called yet
         isCancelled = true
@@ -105,11 +111,25 @@ internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStr
         broadcastResponse(.cancellation)
         }
 
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
+        {
+        progressTracker.callbacks.addCallback(callback)
+        return self;
+        }
+
+    func repeated() -> Request
+        {
+        return delegate.repeatedRequest()
+        }
+
     final func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
         {
         responseCallbacks.addCallback(callback)
         return self
         }
+
+    var progress: Double
+        { return progressTracker.progress }
 
     final var isCompleted: Bool
         {
@@ -129,7 +149,7 @@ internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStr
             {
             debugLog(.network,
                 [
-                "WARNING: Received response for request that was already completed:", requestDescription,
+                "WARNING: Received response for request that was already completed:", delegate.requestDescription,
                 "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
                 "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
                 "\n    Previously received:", existingResponse,
@@ -143,7 +163,7 @@ internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStr
 
             debugLog(.networkDetails,
                 [
-                "Received response, but request was already cancelled:", requestDescription,
+                "Received response, but request was already cancelled:", delegate.requestDescription,
                 "\n    New response:", newResponse
                 ])
             }
@@ -158,54 +178,45 @@ internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStr
         if shouldIgnoreResponse(newInfo.response)
             { return }
 
-        willNotifyCompletionCallbacks()
+        progressTracker.complete()
 
         responseCallbacks.notifyOfCompletion(newInfo)
         }
 
-    // Subtype-specific behavior
-
-    func startUnderlyingOperation()
-        {
-        fatalError("subclasses must implement")
-        }
-
-    func cancelUnderlyingOperation()
-        {
-        fatalError("subclasses must implement")
-        }
-
-    func willNotifyCompletionCallbacks()
-        { }
-
-    func repeated() -> Request
-        {
-        fatalError("subclasses must implement")
-        }
-
-    // Dummy implementaiton of progress; subclasses can override if they have useful progress info
-
-    var progress: Double
-        { return isCompleted ? 1 : 0 }
-
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
-        { return self }
-
     // MARK: Debug
-
-    final var description: String
-        {
-        return requestDescription
-        }
 
     final var debugDescription: String
         {
         return "Request:"
             + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
             + "("
-            + requestDescription
+            + delegate.requestDescription
             + ")"
         }
+    }
+
+protocol RequestDelegate
+    {
+    func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
+
+    func cancelUnderlyingOperation()
+
+    func repeatedRequest() -> Request
+
+    var progress: Double { get }
+
+    var progressReportingInterval: Double { get }
+
+    var requestDescription: String { get }
+    }
+
+protocol RequestCompletionHandler
+    {
+    func shouldIgnoreResponse(_ newResponse: Response) -> Bool
+
+    func broadcastResponse(_ newInfo: ResponseInfo)
+
+    var isCancelled: Bool { get }
     }
 
 /// Unified handling for both `ResponseCallback` and `progress()` callbacks.

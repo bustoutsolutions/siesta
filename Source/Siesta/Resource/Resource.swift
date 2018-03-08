@@ -283,11 +283,12 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
-        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+        let delegate = NetworkRequestDelegate(resource: self, requestBuilder: requestBuilder)
+        let rawReq = ConcreteRequest(delegate: delegate)
 
         // Optionally decorate the request
 
-        let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
+        let req = delegate.config.requestDecorators.reduce(rawReq as Request)
             { req, decorate in decorate(self, req) }
 
         // Track the fully decorated request

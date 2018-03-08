@@ -172,8 +172,9 @@ private final class FailedRequest: Request
     {
     private let error: RequestError
 
-    var isCompleted: Bool { return true }
-    var progress: Double { return 1 }
+    let isStarted = true
+    let isCompleted = true
+    let progress: Double = 1
 
     init(error: RequestError)
         { self.error = error }

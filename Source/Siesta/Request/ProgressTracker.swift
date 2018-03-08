@@ -10,26 +10,22 @@ import Foundation
 
 internal class ProgressTracker
     {
-    var progress: Double
-        { return progressComputation.fractionDone }
     var callbacks = CallbackGroup<Double>()
 
-    private var networking: RequestNetworking?
-
+    private var progressProvider: () -> Double
     private var lastProgressBroadcast: Double?
-    private var progressComputation: RequestProgressComputation
     private var progressUpdateTimer: Timer?
 
-    init(isGet: Bool)
+    init()
         {
-        progressComputation = RequestProgressComputation(isGet: isGet)
+        progressProvider = { 0 }
         }
 
-    func start(_ networking: RequestNetworking, reportingInterval: TimeInterval)
+    func start(progressProvider: @escaping () -> Double, reportingInterval: TimeInterval)
         {
-        precondition(self.networking == nil, "already started")
+        precondition(progressUpdateTimer == nil, "already started")
 
-        self.networking = networking
+        self.progressProvider = progressProvider
 
         progressUpdateTimer =
             CFRunLoopTimerCreateWithHandler(
@@ -47,12 +43,8 @@ internal class ProgressTracker
 
     private func updateProgress()
         {
-        guard let networking = networking else
-            { return }
+        let progress = progressProvider()
 
-        progressComputation.update(from: networking.transferMetrics)
-
-        let progress = self.progress
         if lastProgressBroadcast != progress
             {
             lastProgressBroadcast = progress
@@ -60,10 +52,13 @@ internal class ProgressTracker
             }
         }
 
+    var progress: Double
+        { return lastProgressBroadcast ?? 0 }
+
     func complete()
         {
         progressUpdateTimer?.invalidate()
-        progressComputation.complete()
+        lastProgressBroadcast = 1
         callbacks.notifyOfCompletion(1)
         }
     }

@@ -8,21 +8,21 @@
 
 import Foundation
 
-internal final class NetworkRequest: AbstractRequest
+internal final class NetworkRequestDelegate: RequestDelegate
     {
     // Basic metadata
     private let resource: Resource
     internal var config: Configuration
         { return resource.configuration(for: underlyingRequest) }
+    internal let requestDescription: String
 
     // Networking
     private let requestBuilder: () -> URLRequest      // so repeated() can re-read config
     private let underlyingRequest: URLRequest
-    internal var underlyingRequestInProgress = false  // so tests can wait for it to finish
     internal var networking: RequestNetworking?       // present only after start()
 
     // Progress
-    private var progressTracker: ProgressTracker
+    private var progressComputation: RequestProgressComputation
 
     // MARK: Managing request
 
@@ -31,77 +31,78 @@ internal final class NetworkRequest: AbstractRequest
         self.resource = resource
         self.requestBuilder = requestBuilder
         underlyingRequest = requestBuilder()
-        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
 
-        super.init(requestDescription:
+        requestDescription =
             LogCategory.enabled.contains(.network) || LogCategory.enabled.contains(.networkDetails)
                 ? debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
-                : "")
+                : "NetworkRequest"
+
+        progressComputation = RequestProgressComputation(isGet: underlyingRequest.httpMethod == "GET")
         }
 
-    override func startUnderlyingOperation()
+    func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
         {
-        underlyingRequestInProgress = true
-
         let networking = resource.service.networkingProvider.startRequest(underlyingRequest)
             {
             res, data, err in
             DispatchQueue.main.async
                 {
-                self.underlyingRequestInProgress = false
-                self.responseReceived(underlyingResponse: res, body: data, error: err)
+                self.responseReceived(
+                    underlyingResponse: res,
+                    body: data,
+                    error: err,
+                    completionHandler: completionHandler)
                 }
             }
         self.networking = networking
-
-        progressTracker.start(
-            networking,
-            reportingInterval: config.progressReportingInterval)
         }
 
-    override func cancelUnderlyingOperation()
+    func cancelUnderlyingOperation()
         {
         networking?.cancel()
         }
 
-    override func willNotifyCompletionCallbacks()
+    func repeatedRequest() -> Request
         {
-        progressTracker.complete()
-        }
-
-    override func repeated() -> Request
-        {
-        return NetworkRequest(resource: resource, requestBuilder: requestBuilder)
+        return ConcreteRequest(delegate:
+            NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder))
         }
 
     // MARK: Progress
 
-    override var progress: Double
-        { return progressTracker.progress }
-
-    override func onProgress(_ callback: @escaping (Double) -> Void) -> Request
+    var progress: Double
         {
-        progressTracker.callbacks.addCallback(callback)
-        return self
+        if let networking = networking
+            { progressComputation.update(from: networking.transferMetrics) }
+        return progressComputation.fractionDone
         }
+
+    var progressReportingInterval: Double
+        { return config.progressReportingInterval }
 
     // MARK: Response handling
 
     // Entry point for response handling. Triggered by RequestNetworking completion callback.
-    private func responseReceived(underlyingResponse: HTTPURLResponse?, body: Data?, error: Error?)
+    private func responseReceived(
+            underlyingResponse: HTTPURLResponse?,
+            body: Data?,
+            error: Error?,
+            completionHandler: RequestCompletionHandler)
         {
         DispatchQueue.mainThreadPrecondition()
 
-        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", description])
+        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
         debugLog(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
         debugLog(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
         let responseInfo = interpretResponse(underlyingResponse, body, error)
 
-        if shouldIgnoreResponse(responseInfo.response)
+        if completionHandler.shouldIgnoreResponse(responseInfo.response)
             { return }
 
-        transformResponse(responseInfo, then: broadcastResponse)
+        progressComputation.complete()
+
+        transformResponse(responseInfo, then: completionHandler.broadcastResponse)
         }
 
     private func isError(httpStatusCode: Int?) -> Bool
