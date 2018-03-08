@@ -163,17 +163,14 @@ func awaitFailure(_ req: Siesta.Request, alreadyCompleted: Bool = false)
 
 func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
     {
-    if let req = req as? LiveRequest
-        {
-        let networkExpectation = QuickSpec.current.expectation(description: "awaiting underlying network response: \(req)")
-        pollUnderlyingCompletion(req, expectation: networkExpectation)
-        QuickSpec.current.waitForExpectations(timeout: 1.0)
-        }
+    let networkExpectation = QuickSpec.current.expectation(description: "awaiting underlying network response: \(req)")
+    pollUnderlyingCompletion(req, expectation: networkExpectation)
+    QuickSpec.current.waitForExpectations(timeout: 1.0)
     }
 
-private func pollUnderlyingCompletion(_ req: LiveRequest, expectation: XCTestExpectation)
+private func pollUnderlyingCompletion(_ req: Siesta.Request, expectation: XCTestExpectation)
     {
-    if !req.isStarted || req.isCompleted
+    if req.isCompleted
         { expectation.fulfill() }
     else
         {
