@@ -284,7 +284,7 @@ public final class Resource: NSObject
             }
 
         let delegate = NetworkRequestDelegate(resource: self, requestBuilder: requestBuilder)
-        let rawReq = ConcreteRequest(delegate: delegate)
+        let rawReq = LiveRequest(delegate: delegate)
 
         // Optionally decorate the request
 

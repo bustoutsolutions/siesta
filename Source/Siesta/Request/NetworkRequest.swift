@@ -64,13 +64,13 @@ internal final class NetworkRequestDelegate: RequestDelegate
 
     func repeatedRequest() -> Request
         {
-        return ConcreteRequest(delegate:
+        return LiveRequest(delegate:
             NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder))
         }
 
     // MARK: Progress
 
-    var progress: Double
+    func computeProgress() -> Double
         {
         if let networking = networking
             { progressComputation.update(from: networking.transferMetrics) }

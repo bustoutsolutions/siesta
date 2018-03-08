@@ -55,7 +55,7 @@ extension Request
     */
     public func chained(whenCompleted callback: @escaping (ResponseInfo) -> RequestChainAction) -> Request
         {
-        let chain = ConcreteRequest(delegate:
+        let chain = LiveRequest(delegate:
             RequestChainDelgate(wrapping: self, whenCompleted: callback))
         if isStarted
             { chain.start() }
@@ -112,10 +112,8 @@ internal struct RequestChainDelgate: RequestDelegate
 
     func processResponse(_ responseInfo: ResponseInfo, completionHandler: RequestCompletionHandler)
         {
-        guard !completionHandler.isCancelled else
-            {
-            return completionHandler.broadcastResponse(.cancellation)
-            }
+        guard !completionHandler.shouldIgnoreResponse(responseInfo.response) else
+            { return }
 
         switch determineAction(responseInfo)
             {
@@ -132,7 +130,7 @@ internal struct RequestChainDelgate: RequestDelegate
             }
         }
 
-    var progress: Double
+    func computeProgress() -> Double
         { return 0 }  // TODO: progress reporting
 
     var progressReportingInterval: Double

@@ -185,6 +185,14 @@
 		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */; };
 		DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
 		DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */; };
+		DAA573622050FA1A002D7B8B /* LiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573612050FA1A002D7B8B /* LiveRequest.swift */; };
+		DAA573632050FA1A002D7B8B /* LiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573612050FA1A002D7B8B /* LiveRequest.swift */; };
+		DAA573642050FA1A002D7B8B /* LiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573612050FA1A002D7B8B /* LiveRequest.swift */; };
+		DAA573652050FA1A002D7B8B /* LiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573612050FA1A002D7B8B /* LiveRequest.swift */; };
+		DAA573672050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
+		DAA573682050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
+		DAA573692050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
+		DAA5736A2050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
 		DAAB482A1B5D7B770059C047 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		DAC0B3731D63880600D25C44 /* ResourceNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */; };
@@ -379,6 +387,8 @@
 		DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCacheSpec.swift; sourceTree = "<group>"; };
 		DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserver.swift; sourceTree = "<group>"; };
 		DA9F7B1E1B8BC3B000A604C3 /* EntityCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCache.swift; sourceTree = "<group>"; };
+		DAA573612050FA1A002D7B8B /* LiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRequest.swift; sourceTree = "<group>"; };
+		DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardWiredRequest.swift; sourceTree = "<group>"; };
 		DAAB48291B5D7B770059C047 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceNavigation.swift; sourceTree = "<group>"; };
@@ -733,6 +743,8 @@
 				DAAB48291B5D7B770059C047 /* Request.swift */,
 				DAFA42081C20B10F0020AC5E /* RequestCreation.swift */,
 				DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */,
+				DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */,
+				DAA573612050FA1A002D7B8B /* LiveRequest.swift */,
 				DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */,
 				DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */,
 				DACD23421D6105B600848C04 /* RequestChaining.swift */,
@@ -1167,10 +1179,12 @@
 				9F2FB52D1C2864970068DFFA /* Collection+Siesta.swift in Sources */,
 				9F2FB5351C2864BD0068DFFA /* EntityCache.swift in Sources */,
 				9F2FB53D1C2864CB0068DFFA /* Configuration.swift in Sources */,
+				DAA573632050FA1A002D7B8B /* LiveRequest.swift in Sources */,
 				9F2FB5341C2864BD0068DFFA /* Networking-URLSession.swift in Sources */,
 				9F2FB5381C2864C50068DFFA /* ProgressTracker.swift in Sources */,
 				9F2FB53C1C2864CB0068DFFA /* Resource.swift in Sources */,
 				9F2FB5361C2864C50068DFFA /* Request.swift in Sources */,
+				DAA573682050FBEC002D7B8B /* HardWiredRequest.swift in Sources */,
 				DA7285E61D0DF2D900132CD9 /* OpenEnum.swift in Sources */,
 				9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */,
 				DA3FD66C1D0DF5DE00C75742 /* PipelineConfiguration.swift in Sources */,
@@ -1208,10 +1222,12 @@
 				CDCCAFB71E6A387200860D18 /* OpenEnum.swift in Sources */,
 				CDCCAF971E6A384E00860D18 /* EntityCache.swift in Sources */,
 				CDCCAF991E6A384E00860D18 /* Networking-URLSession.swift in Sources */,
+				DAA573642050FA1A002D7B8B /* LiveRequest.swift in Sources */,
 				CDCCAF921E6A384900860D18 /* RequestError.swift in Sources */,
 				CDCCAFB41E6A387200860D18 /* ARC+Siesta.swift in Sources */,
 				CDCCAFC41E6A389200860D18 /* RequestChaining.swift in Sources */,
 				CDCCAFB51E6A387200860D18 /* GCD+Siesta.swift in Sources */,
+				DAA573692050FBEC002D7B8B /* HardWiredRequest.swift in Sources */,
 				CDCCAFBF1E6A389200860D18 /* Request.swift in Sources */,
 				CDCCAF901E6A384900860D18 /* ConfigurationPatternConvertible.swift in Sources */,
 				CDCCAF9F1E6A386700860D18 /* Siesta-ObjC.swift in Sources */,
@@ -1249,10 +1265,12 @@
 				CDCCAFAB1E6A387100860D18 /* OpenEnum.swift in Sources */,
 				CDCCAF9A1E6A384F00860D18 /* EntityCache.swift in Sources */,
 				CDCCAF9C1E6A384F00860D18 /* Networking-URLSession.swift in Sources */,
+				DAA573652050FA1A002D7B8B /* LiveRequest.swift in Sources */,
 				CDCCAF961E6A384A00860D18 /* RequestError.swift in Sources */,
 				CDCCAFA81E6A387100860D18 /* ARC+Siesta.swift in Sources */,
 				CDCCAFCA1E6A389300860D18 /* RequestChaining.swift in Sources */,
 				CDCCAFA91E6A387100860D18 /* GCD+Siesta.swift in Sources */,
+				DAA5736A2050FBEC002D7B8B /* HardWiredRequest.swift in Sources */,
 				CDCCAFC51E6A389300860D18 /* Request.swift in Sources */,
 				CDCCAF941E6A384A00860D18 /* ConfigurationPatternConvertible.swift in Sources */,
 				CDCCAFA01E6A386900860D18 /* Siesta-ObjC.swift in Sources */,
@@ -1316,10 +1334,12 @@
 				DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */,
 				DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */,
 				DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */,
+				DAA573622050FA1A002D7B8B /* LiveRequest.swift in Sources */,
 				DAE96F7C1B8ED11400506AE7 /* GCD+Siesta.swift in Sources */,
 				DA33142F1B4DBADA00A7A175 /* Regex+Siesta.swift in Sources */,
 				DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */,
 				DA7D05C41D57C2B500431980 /* PipelineProcessing.swift in Sources */,
+				DAA573672050FBEC002D7B8B /* HardWiredRequest.swift in Sources */,
 				DA336E711B2F6659006F702A /* Service.swift in Sources */,
 				DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */,
 				DACD23431D6105B600848C04 /* RequestChaining.swift in Sources */,
