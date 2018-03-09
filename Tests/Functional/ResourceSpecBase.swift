@@ -173,7 +173,7 @@ func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
 
 private func pollUnderlyingCompletion(_ req: NetworkRequest, expectation: XCTestExpectation)
     {
-    if req.underlyingNetworkRequestCompleted
+    if !req.underlyingRequestInProgress
         { expectation.fulfill() }
     else
         {

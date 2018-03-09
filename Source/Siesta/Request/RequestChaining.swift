@@ -74,20 +74,20 @@ public enum RequestChainAction
     case useThisResponse
     }
 
-internal final class RequestChain: RequestWithCallbackGroup
+internal final class RequestChain: AbstractRequest
     {
     typealias ActionCallback = (ResponseInfo) -> RequestChainAction
 
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
-    private var isCancelled = false
-
-    var responseCallbacks = CallbackGroup<ResponseInfo>()
 
     init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
         self.wrappedRequest = request
         self.determineAction = determineAction
+
+        super.init(requestDescription: "Chain[\(wrappedRequest)]")
+
         request.onCompletion(self.processResponse)
         }
 
@@ -95,37 +95,35 @@ internal final class RequestChain: RequestWithCallbackGroup
         {
         guard !isCancelled else
             {
-            return responseCallbacks.notifyOfCompletion(.cancellation)
+            return broadcastResponse(.cancellation)
             }
 
         switch determineAction(responseInfo)
             {
             case .useThisResponse:
-                responseCallbacks.notifyOfCompletion(responseInfo)
+                broadcastResponse(responseInfo)
 
             case .useResponse(let customResponseInfo):
-                responseCallbacks.notifyOfCompletion(customResponseInfo)
+                broadcastResponse(customResponseInfo)
 
             case .passTo(let request):
                 request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
-                    { self.responseCallbacks.notifyOfCompletion($0) }
+                    { self.broadcastResponse($0) }
             }
         }
 
-    func start() -> Self
+    override func startUnderlyingOperation()
         {
         wrappedRequest.start()
-        return self
         }
 
-    func cancel()
+    override func cancelUnderlyingOperation()
         {
-        isCancelled = true
         wrappedRequest.cancel()
         }
 
-    func repeated() -> Request
+    override func repeated() -> Request
         {
         return wrappedRequest.repeated().chained(whenCompleted: determineAction)
         }

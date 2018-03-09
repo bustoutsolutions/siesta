@@ -67,23 +67,23 @@ public protocol Request: class
       Call the closure once when the request finishes for any reason.
     */
     @discardableResult
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
 
     /// Call the closure once if the request succeeds.
     @discardableResult
-    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Request
 
     /// Call the closure once if the request succeeds and the data changed.
     @discardableResult
-    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Request
 
     /// Call the closure once if the request succeeds with a 304.
     @discardableResult
-    func onNotModified(_ callback: @escaping () -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Request
 
     /// Call the closure once if the request fails for any reason.
     @discardableResult
-    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Request
 
     /**
       Immediately start this request if it was deferred. Does nothing if the request is already started.
@@ -101,7 +101,7 @@ public protocol Request: class
         time-delayed retries.
     */
     @discardableResult
-    func start() -> Self
+    func start() -> Request
 
     /**
       True if the request has received and handled a server response, encountered a pre-request client-side side error,
@@ -124,7 +124,7 @@ public protocol Request: class
       Will _always_ receive a call with a value of 1 when the request completes.
     */
     @discardableResult
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
 
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.

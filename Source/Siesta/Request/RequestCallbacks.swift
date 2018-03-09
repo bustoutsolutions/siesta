@@ -11,7 +11,7 @@ import Foundation
 /// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `onCompletion(_:)`.
 extension Request
     {
-    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
         return onCompletion
             {
@@ -20,7 +20,7 @@ extension Request
             }
         }
 
-    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
         return onCompletion
             {
@@ -29,7 +29,7 @@ extension Request
             }
         }
 
-    func onNotModified(_ callback: @escaping () -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Request
         {
         return onCompletion
             {
@@ -38,7 +38,7 @@ extension Request
             }
         }
 
-    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Request
         {
         return onCompletion
             {
@@ -48,32 +48,164 @@ extension Request
         }
     }
 
-internal protocol RequestWithCallbackGroup: Request
+internal class AbstractRequest: Request, CustomStringConvertible, CustomDebugStringConvertible
     {
-    var responseCallbacks: CallbackGroup<ResponseInfo> { get set }
-    }
+    private let requestDescription: String
+    private var responseCallbacks = CallbackGroup<ResponseInfo>()
+    internal private(set) var isStarted = false, isCancelled = false
 
-extension RequestWithCallbackGroup
-    {
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+    init(requestDescription: String)
+        {
+        self.requestDescription = requestDescription
+        }
+
+    // Standard behavior
+
+    final func start() -> Request
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        guard !isStarted else
+            {
+            debugLog(.networkDetails, [requestDescription, "already started"])
+            return self
+            }
+
+        guard !isCancelled else
+            {
+            debugLog(.network, [requestDescription, "will not start because it was already cancelled"])
+            return self
+            }
+
+        isStarted = true
+        debugLog(.network, [requestDescription])
+
+        startUnderlyingOperation()
+
+        return self
+        }
+
+    final func cancel()
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        guard !isCompleted else
+            {
+            debugLog(.network, ["cancel() called but request already completed:", requestDescription])
+            return
+            }
+
+        debugLog(.network, ["Cancelled", requestDescription])
+
+        cancelUnderlyingOperation()
+
+        // Prevent start() from have having any effect if it hasn't been called yet
+        isCancelled = true
+
+        broadcastResponse(.cancellation)
+        }
+
+    final func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
         {
         responseCallbacks.addCallback(callback)
         return self
         }
 
-    var isCompleted: Bool
+    final var isCompleted: Bool
         {
         DispatchQueue.mainThreadPrecondition()
+
         return responseCallbacks.completedValue != nil
         }
 
-    // Dummy implementaiton of progress; implementing types may override
+    final func shouldIgnoreResponse(_ newResponse: Response) -> Bool
+        {
+        guard let existingResponse = responseCallbacks.completedValue?.response else
+            { return false }
+
+        // We already received a response; don't broadcast another one.
+
+        if !existingResponse.isCancellation
+            {
+            debugLog(.network,
+                [
+                "WARNING: Received response for request that was already completed:", requestDescription,
+                "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
+                "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
+                "\n    Previously received:", existingResponse,
+                "\n    New response:", newResponse
+                ])
+            }
+        else if !newResponse.isCancellation
+            {
+            // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
+            // we were cancelled. If we received any other response after cancellation, log that we ignored it.
+
+            debugLog(.networkDetails,
+                [
+                "Received response, but request was already cancelled:", requestDescription,
+                "\n    New response:", newResponse
+                ])
+            }
+
+        return true
+        }
+
+    final func broadcastResponse(_ newInfo: ResponseInfo)
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        if shouldIgnoreResponse(newInfo.response)
+            { return }
+
+        willNotifyCompletionCallbacks()
+
+        responseCallbacks.notifyOfCompletion(newInfo)
+        }
+
+    // Subtype-specific behavior
+
+    func startUnderlyingOperation()
+        {
+        fatalError("subclasses must implement")
+        }
+
+    func cancelUnderlyingOperation()
+        {
+        fatalError("subclasses must implement")
+        }
+
+    func willNotifyCompletionCallbacks()
+        { }
+
+    func repeated() -> Request
+        {
+        fatalError("subclasses must implement")
+        }
+
+    // Dummy implementaiton of progress; subclasses can override if they have useful progress info
 
     var progress: Double
         { return isCompleted ? 1 : 0 }
 
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
         { return self }
+
+    // MARK: Debug
+
+    final var description: String
+        {
+        return requestDescription
+        }
+
+    final var debugDescription: String
+        {
+        return "Request:"
+            + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
+            + "("
+            + requestDescription
+            + ")"
+        }
     }
 
 /// Unified handling for both `ResponseCallback` and `progress()` callbacks.

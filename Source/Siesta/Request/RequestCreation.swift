@@ -178,7 +178,7 @@ private final class FailedRequest: Request
     init(error: RequestError)
         { self.error = error }
 
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
         {
         // FailedRequest is immutable and thus threadsafe. However, this call would not be safe if this were a
         // NetworkRequest, and callers can’t assume they’re getting a FailedRequest, so we validate main thread anyway.
@@ -193,7 +193,7 @@ private final class FailedRequest: Request
         return self
         }
 
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
         {
         DispatchQueue.mainThreadPrecondition()
 
@@ -203,7 +203,7 @@ private final class FailedRequest: Request
         return self
         }
 
-    func start() -> Self
+    func start() -> Request
         { return self }
 
     func cancel()

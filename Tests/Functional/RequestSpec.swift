@@ -641,16 +641,18 @@ class RequestSpec: ResourceSpecBase
                     {
                     let reqStub = stubText("yo").delay()
 
-                    let req = resource().request(.get).chained
+                    let originalReq = resource().request(.get)
+                    let chainedReq = originalReq.chained
                         {
                         _ in
                         fail("should not be called")
                         return .useThisResponse
                         }
 
-                    req.cancel()
+                    chainedReq.cancel()
+                    awaitFailure(chainedReq, alreadyCompleted: true)
                     _ = reqStub.go()
-                    awaitFailure(req)
+                    awaitFailure(originalReq, alreadyCompleted: true)
                     }
 
                 it("does not stop the chain if the underlying request is cancelled")
@@ -671,7 +673,7 @@ class RequestSpec: ResourceSpecBase
 
                     // For whatever reason, this spec is especially prone to hitting Nocilla’s
                     // quirk of making cancelled requests go through anyway
-                    Thread.sleep(forTimeInterval: 0.02)
+                    Thread.sleep(forTimeInterval: 0.05)
                     }
                 }
 

@@ -8,106 +8,78 @@
 
 import Foundation
 
-internal final class NetworkRequest: RequestWithCallbackGroup, CustomDebugStringConvertible
+internal final class NetworkRequest: AbstractRequest
     {
     // Basic metadata
     private let resource: Resource
-    private let requestDescription: String
     internal var config: Configuration
         { return resource.configuration(for: underlyingRequest) }
 
     // Networking
-    private let requestBuilder: () -> URLRequest
+    private let requestBuilder: () -> URLRequest      // so repeated() can re-read config
     private let underlyingRequest: URLRequest
-    internal var networking: RequestNetworking?  // present only after start()
-    internal var underlyingNetworkRequestCompleted = false  // so tests can wait for it to finish
+    internal var underlyingRequestInProgress = false  // so tests can wait for it to finish
+    internal var networking: RequestNetworking?       // present only after start()
 
     // Progress
     private var progressTracker: ProgressTracker
-    var progress: Double
-        { return progressTracker.progress }
-
-    // Result
-    internal var responseCallbacks = CallbackGroup<ResponseInfo>()
-    private var wasCancelled: Bool = false
 
     // MARK: Managing request
 
     init(resource: Resource, requestBuilder: @escaping () -> URLRequest)
         {
         self.resource = resource
-        self.requestBuilder = requestBuilder  // for repeated()
-        self.underlyingRequest = requestBuilder()
-        self.requestDescription =
+        self.requestBuilder = requestBuilder
+        underlyingRequest = requestBuilder()
+        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
+
+        super.init(requestDescription:
             LogCategory.enabled.contains(.network) || LogCategory.enabled.contains(.networkDetails)
                 ? debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
-                : ""
-
-        progressTracker = ProgressTracker(isGet: underlyingRequest.httpMethod == "GET")  // URLRequest automatically uppercases method
+                : "")
         }
 
-    func start() -> Self
+    override func startUnderlyingOperation()
         {
-        DispatchQueue.mainThreadPrecondition()
-
-        guard self.networking == nil else
-            {
-            debugLog(.networkDetails, [requestDescription, "already started"])
-            return self
-            }
-
-        guard !wasCancelled else
-            {
-            debugLog(.network, [requestDescription, "will not start because it was already cancelled"])
-            underlyingNetworkRequestCompleted = true
-            return self
-            }
-
-        debugLog(.network, [requestDescription])
+        underlyingRequestInProgress = true
 
         let networking = resource.service.networkingProvider.startRequest(underlyingRequest)
             {
             res, data, err in
             DispatchQueue.main.async
-                { self.responseReceived(underlyingResponse: res, body: data, error: err) }
+                {
+                self.underlyingRequestInProgress = false
+                self.responseReceived(underlyingResponse: res, body: data, error: err)
+                }
             }
         self.networking = networking
 
         progressTracker.start(
             networking,
             reportingInterval: config.progressReportingInterval)
-
-        return self
         }
 
-    func cancel()
+    override func cancelUnderlyingOperation()
         {
-        DispatchQueue.mainThreadPrecondition()
-
-        guard !isCompleted else
-            {
-            debugLog(.network, ["cancel() called but request already completed:", requestDescription])
-            return
-            }
-
-        debugLog(.network, ["Cancelled", requestDescription])
-
         networking?.cancel()
-
-        // Prevent start() from have having any effect if it hasn't been called yet
-        wasCancelled = true
-
-        broadcastResponse(ResponseInfo.cancellation)
         }
 
-    func repeated() -> Request
+    override func willNotifyCompletionCallbacks()
+        {
+        progressTracker.complete()
+        }
+
+    override func repeated() -> Request
         {
         return NetworkRequest(resource: resource, requestBuilder: requestBuilder)
         }
 
-    // MARK: Callbacks
+    // MARK: Progress
 
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+    override var progress: Double
+        { return progressTracker.progress }
+
+    override func onProgress(_ callback: @escaping (Double) -> Void) -> Request
         {
         progressTracker.callbacks.addCallback(callback)
         return self
@@ -120,9 +92,7 @@ internal final class NetworkRequest: RequestWithCallbackGroup, CustomDebugString
         {
         DispatchQueue.mainThreadPrecondition()
 
-        underlyingNetworkRequestCompleted = true
-
-        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", description])
         debugLog(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
         debugLog(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
@@ -188,61 +158,5 @@ internal final class NetworkRequest: RequestWithCallbackGroup, CustomDebugString
             DispatchQueue.main.async
                 { afterTransformation(processedInfo) }
             }
-        }
-
-    private func broadcastResponse(_ newInfo: ResponseInfo)
-        {
-        DispatchQueue.mainThreadPrecondition()
-
-        if shouldIgnoreResponse(newInfo.response)
-            { return }
-
-        progressTracker.complete()
-
-        responseCallbacks.notifyOfCompletion(newInfo)
-        }
-
-    private func shouldIgnoreResponse(_ newResponse: Response) -> Bool
-        {
-        guard let existingResponse = responseCallbacks.completedValue?.response else
-            { return false }
-
-        // We already received a response; don't broadcast another one.
-
-        if !existingResponse.isCancellation
-            {
-            debugLog(.network,
-                [
-                "WARNING: Received response for request that was already completed:", requestDescription,
-                "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
-                "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
-                "\n    Previously received:", existingResponse,
-                "\n    New response:", newResponse
-                ])
-            }
-        else if !newResponse.isCancellation
-            {
-            // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
-            // we were cancelled. If we received any other response after cancellation, log that we ignored it.
-
-            debugLog(.networkDetails,
-                [
-                "Received response, but request was already cancelled:", requestDescription,
-                "\n    New response:", newResponse
-                ])
-            }
-
-        return true
-        }
-
-    // MARK: Debug
-
-    var debugDescription: String
-        {
-        return "Request:"
-            + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
-            + "("
-            + requestDescription
-            + ")"
         }
     }
