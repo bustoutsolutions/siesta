@@ -199,13 +199,19 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
     func read() -> Entity<Any>?
         {
         return cache.workQueue.sync
-            { self.cache.readEntity(forKey: self.key) }
+            { self.cache.readEntity(forKey: self.key)?.withContentRetyped() }
         }
 
     func write(_ entity: Entity<Any>)
         {
+        guard let cacheableEntity = entity.withContentRetyped() as Entity<Cache.ContentType>? else
+            {
+            log(.cache, ["WARNING: Unable to cache entity:", Cache.self, "expects", Cache.ContentType.self, "but content at this stage of the pipeline is", type(of: entity.content)])
+            return
+            }
+
         cache.workQueue.async
-            { self.cache.writeEntity(entity, forKey: self.key) }
+            { self.cache.writeEntity(cacheableEntity, forKey: self.key) }
         }
 
     func updateTimestamp(_ timestamp: TimeInterval)

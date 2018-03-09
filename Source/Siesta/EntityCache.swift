@@ -47,6 +47,12 @@ public protocol EntityCache
     associatedtype Key
 
     /**
+      The type of payload this cache knows how to store and retrieve. If the response data configured at a particular
+      point in the cache does not match this content type, Siesta will log a warning and bypass the cache.
+    */
+    associatedtype ContentType
+
+    /**
       Provides the key appropriate to this cache for the given resource.
 
       A cache may opt out of handling the given resource by returning nil.
@@ -70,7 +76,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: Key) -> Entity<Any>?
+    func readEntity(forKey key: Key) -> Entity<ContentType>?
 
     /**
       Store the given entity in the cache, associated with the given key. The key’s format is arbitrary, and internal
@@ -88,7 +94,7 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(_ entity: Entity<Any>, forKey key: Key)
+    func writeEntity(_ entity: Entity<ContentType>, forKey key: Key)
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
