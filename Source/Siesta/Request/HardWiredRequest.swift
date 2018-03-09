@@ -9,8 +9,10 @@
 extension Resource
     {
     /**
-      Returns a request that immedately fails, without ever touching the network.
-      Useful for creating your own custom requests that perform pre-request validation.
+      Returns a request that immedately fails, without ever touching the network or applying the transformer pipeline.
+
+      This is useful for performing pre-request validation: if you know a request is valid before you even send it, you
+      can return an immediate error response that looks just like any other Siesta error.
      */
     public static func failedRequest(_ error: RequestError) -> Request
         {
@@ -27,7 +29,6 @@ extension Resource
         }
     }
 
-/// For requests that failed before they even made it to the network layer
 private final class HardWiredRequest: Request
     {
     private let hardWiredResponse: ResponseInfo
