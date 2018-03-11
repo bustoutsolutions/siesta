@@ -97,7 +97,7 @@ private func stringAppendingTransformer(_ word: String) -> ResponseContentTransf
     {
     return ResponseContentTransformer
         {
-        let stringContent = $0.content as? String ?? ""
+        let stringContent = $0.text
         guard !stringContent.contains("error on \(word)") else
             { return nil }
         return stringContent + word

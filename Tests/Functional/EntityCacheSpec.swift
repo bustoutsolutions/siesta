@@ -15,9 +15,6 @@ class EntityCacheSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        func resourceCacheKey(_ prefix: String) -> TestCacheKey
-            { return TestCacheKey(prefix: prefix, path: "/a/b") }
-
         func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
             {
             service().configure
@@ -37,16 +34,17 @@ class EntityCacheSpec: ResourceSpecBase
 
         describe("read")
             {
-            let cache0 = specVar { TestCache(returning: "cache0", for: resourceCacheKey("cache0")) },
-                cache1 = specVar { TestCache(returning: "cache1", for: resourceCacheKey("cache1")) }
+            let cache0 = specVar { TestCache(returningForTestResource: "cache0") },
+                cache1 = specVar { TestCache(returningForTestResource: "cache1") }
 
-            it("reinflates resource with cached content")
+            it("returns an empty resource, then populates cached content")
                 {
                 configureCache(cache0(), at: .cleanup)
+                expect(resource().latestData).to(beNil())
                 expect(resource().text).toEventually(equal("cache0"))
                 }
 
-            it("inflates empty resource if no cached data")
+            it("leaves resource empty if no cached data")
                 {
                 let emptyCache = TestCache("empty")
                 configureCache(emptyCache, at: .cleanup)
@@ -58,9 +56,10 @@ class EntityCacheSpec: ResourceSpecBase
             it("ignores cached data if resource populated before cache read completes")
                 {
                 configureCache(cache0(), at: .cleanup)
-                resource().overrideLocalContent(with: "no race conditions here...except in the specs")
+                expect(resource().latestData).to(beNil())  // trigger cache read
+                resource().overrideLocalContent(with: "no race conditions here")
                 waitForCacheRead(cache0())
-                expect(resource().text) == "no race conditions here...except in the specs"
+                expect(resource().text) == "no race conditions here"
                 }
 
             it("prevents loadIfNeeded() network access if cached data is fresh")
@@ -73,9 +72,7 @@ class EntityCacheSpec: ResourceSpecBase
             it("allows loadIfNeeded() network access if cached data is stale")
                 {
                 setResourceTime(1000)
-                configureCache(
-                    TestCache(returning: "foo", for: resourceCacheKey("foo")),
-                    at: .cleanup)
+                configureCache(cache0(), at: .cleanup)
 
                 setResourceTime(2000)
                 expect(resource().latestData).toEventuallyNot(beNil())
@@ -90,7 +87,7 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(resource().text).toEventually(equal("cache1"))
                 }
 
-            it("processes cached content with the following stages’ transformers")
+            it("processes cached content with the subsequent stages’ transformers")
                 {
                 configureCache(cache0(), at: .rawData)
                 expect(resource().text).toEventually(equal("cache0decparmodcle"))
@@ -99,10 +96,10 @@ class EntityCacheSpec: ResourceSpecBase
             it("skips cached content that fails subsequent transformation")
                 {
                 configureCache(cache0(), at: .decoding)
-                configureCache(TestCache(
-                    returning: "error on cleanup",
-                    for: resourceCacheKey("error on cleanup")),
-                    at: .parsing)  // see appender() above
+                configureCache(
+                    TestCache(returningForTestResource:
+                        "error on cleanup"),  // "error on" triggers error; see stringAppendingTransformer()
+                    at: .parsing)
                 expect(resource().text).toEventually(equal("cache0parmodcle"))
                 }
             }
@@ -112,7 +109,7 @@ class EntityCacheSpec: ResourceSpecBase
             func expectCacheWrite(to cache: TestCache, content: String)
                 {
                 waitForCacheWrite(cache)
-                expect(Array(cache.entries.keys)) == [resourceCacheKey(cache.name)]
+                expect(Array(cache.entries.keys)) == [TestCacheKey(forTestResourceIn: cache)]
                 expect(cache.entries.values.first?.typedContent()) == content
                 }
 
@@ -156,7 +153,7 @@ class EntityCacheSpec: ResourceSpecBase
                 setResourceTime(2000)
                 _ = stubRequest(resource, "GET").andReturn(304)
                 awaitNotModified(resource().load())
-                expect(testCache.entries[resourceCacheKey("updated data")]?.timestamp)
+                expect(testCache.entries[TestCacheKey(forTestResourceIn: testCache)]?.timestamp)
                     .toEventually(equal(2000))
                 }
 
@@ -164,7 +161,7 @@ class EntityCacheSpec: ResourceSpecBase
                 {
                 let testCache = TestCache("local override")
                 configureCache(testCache, at: .cleanup)
-                testCache.entries[resourceCacheKey("local override")] =
+                testCache.entries[TestCacheKey(forTestResourceIn: testCache)] =
                     Entity<Any>(content: "should go away", contentType: "text/string")
 
                 resource().overrideLocalData(
@@ -211,14 +208,15 @@ private class TestCache: EntityCache
     init(_ name: String)
         { self.name = name }
 
-    init(returning content: String, for key: TestCacheKey)
+    init(returningForTestResource content: String)
         {
-        name = content
-        entries[key] = Entity<Any>(content: content, contentType: "text/string")
+        name = "cache that returns \(content)"
+        entries[TestCacheKey(forTestResourceIn: self)] =
+            Entity<Any>(content: content, contentType: "text/string")
         }
 
     func key(for resource: Resource) -> TestCacheKey?
-        { return TestCacheKey(prefix: name, path: resource.url.path) }
+        { return TestCacheKey(cache: self, path: resource.url.path) }
 
     func readEntity(forKey key: TestCacheKey) -> Entity<Any>?
         {
@@ -246,10 +244,13 @@ private struct TestCacheKey
     let string: String
 
     // Including a cache-specific prefix in the key ensure that pipeline correctly
-    // associates a cache with the keys it generated.
+    // associates a cache with its own keys (as opposed to some other cache’s).
 
-    init(prefix: String, path: String?)
-        { string = "\(prefix)•\(path ?? "")" }
+    init(forTestResourceIn cache: TestCache)
+        { self.init(cache: cache, path: "/a/b") }  // standard resource() passed to specs has path /a/b
+
+    init(cache: TestCache, path: String)
+        { string = "\(cache.name)•\(path)" }
     }
 
 extension TestCacheKey: Hashable
