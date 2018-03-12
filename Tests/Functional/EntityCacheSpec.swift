@@ -62,7 +62,13 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(resource().text) == "no race conditions here"
                 }
 
-            describe("in loadIfNeeded()")
+            describe("loadIfNeeded() called once")
+                { addLoadIfNeededCacheSpecs(callCount: 1) }
+
+            describe("loadIfNeeded() called multiple times")
+                { addLoadIfNeededCacheSpecs(callCount: 3) }
+
+            func addLoadIfNeededCacheSpecs(callCount: Int)
                 {
                 let eventRecorder = specVar { ObserverEventRecorder() }
 
@@ -70,9 +76,17 @@ class EntityCacheSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "GET").andReturn(200).withBody("net" as NSString)
                     resource().addObserver(eventRecorder())
-                    let request = resource().loadIfNeeded()!
-                    request.onSuccess { expect($0.text) == content }
-                    awaitNewData(request)
+                    let requests = (1...callCount).map
+                        {
+                        _ in resource().loadIfNeeded()?
+                            .onSuccess { expect($0.text) == content }
+                        }
+                    for request in requests
+                        { expect(request).notTo(beNil()) }
+                    if let firstRequest = requests.first!
+                        { awaitNewData(firstRequest) }
+                    expect(resource().isLoading).toEventually(beFalse())
+                    awaitObserverCleanup(for: resource())
                     }
 
                 it("waits for cache hit before proceeding to network")

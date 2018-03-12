@@ -376,20 +376,27 @@ public final class Resource: NSObject
 
         if case .inProgress(let cacheRequest) = cacheCheckStatus
             {
-            trackRequest(cacheRequest, in: &loadRequests)
-            return cacheRequest.chained
+            var trackedRequest: Request?
+            let cacheThenNetwork = cacheRequest.chained
                 {
-                _ in                             // We don’t need the actual result of the cache request because...
-                if self.isUpToDate               // ...performCacheCheck() has already updated resource state
+                _ in // We don’t need the result of the cache request here; resource state is already updated
+
+                // Ensure isLoading is false for last event observers receive
+                self.loadRequests.remove { $0 === trackedRequest }
+
+                if self.isUpToDate                 // If cached data is up to date...
                     {
-                    self.receiveDataNotModified()  // If cached data is up to date, tell observers isLoading is false...
-                    return .useThisResponse        // ...and no need to go to network
+                    self.receiveDataNotModified()  // ...tell observers isLoading is false...
+                    return .useThisResponse        // ...and no need to make a network call!
                     }
                 else
                     {
-                    return .passTo(self.load())
+                    return .passTo(self.load())    // Cache was a bust, so make the real request
                     }
                 }
+            loadRequests.append(cacheThenNetwork)
+            trackedRequest = cacheThenNetwork
+            return cacheThenNetwork
             }
 
         return load()
