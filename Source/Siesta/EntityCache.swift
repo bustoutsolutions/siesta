@@ -79,7 +79,7 @@ public protocol EntityCache
 
       - Warning: This method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func readEntity(forKey key: Key) -> Entity<ContentType>?
+    func readEntity(forKey key: Key) throws -> Entity<ContentType>?
 
     /**
       Store the given entity in the cache, associated with the given key.
@@ -96,18 +96,18 @@ public protocol EntityCache
 
       - Warning: The method may be called on a background thread. Make sure your implementation is threadsafe.
     */
-    func writeEntity(_ entity: Entity<ContentType>, forKey key: Key)
+    func writeEntity(_ entity: Entity<ContentType>, forKey key: Key) throws
 
     /**
       Update the timestamp of the entity for the given key. If there is no such cache entry, do nothing.
     */
-    func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key)
+    func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key) throws
 
     /**
       Remove any entities cached for the given key. After a call to `removeEntity(forKey:)`, subsequent calls to
       `readEntity(forKey:)` for the same key **must** return nil until the next call to `writeEntity(_:forKey:)`.
     */
-    func removeEntity(forKey key: Key)
+    func removeEntity(forKey key: Key) throws
 
     /**
       Returns the GCD queue on which this cache implementation will do its work.
@@ -133,11 +133,11 @@ extension EntityCache
       While this default implementation always gives the correct behavior, cache implementations may choose to override
       it for performance reasons.
     */
-    public func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key)
+    public func updateEntityTimestamp(_ timestamp: TimeInterval, forKey key: Key) throws
         {
-        guard var entity = readEntity(forKey: key) else
+        guard var entity = try readEntity(forKey: key) else
             { return }
         entity.timestamp = timestamp
-        writeEntity(entity, forKey: key)
+        try writeEntity(entity, forKey: key)
         }
     }

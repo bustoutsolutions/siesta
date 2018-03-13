@@ -199,7 +199,10 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
     func read() -> Entity<Any>?
         {
         return cache.workQueue.sync
-            { self.cache.readEntity(forKey: self.key)?.withContentRetyped() }
+            {
+            catchAndLogErrors(attemptingTo: "read cached entity")
+                { try self.cache.readEntity(forKey: self.key)?.withContentRetyped() }
+            }
         }
 
     func write(_ entity: Entity<Any>)
@@ -211,18 +214,38 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
             }
 
         cache.workQueue.async
-            { self.cache.writeEntity(cacheableEntity, forKey: self.key) }
+            {
+            self.catchAndLogErrors(attemptingTo: "write cached entity")
+                { try self.cache.writeEntity(cacheableEntity, forKey: self.key) }
+            }
         }
 
     func updateTimestamp(_ timestamp: TimeInterval)
         {
         cache.workQueue.async
-            { self.cache.updateEntityTimestamp(timestamp, forKey: self.key) }
+            {
+            self.catchAndLogErrors(attemptingTo: "update entity timestamp")
+                { try self.cache.updateEntityTimestamp(timestamp, forKey: self.key) }
+            }
         }
 
     func remove()
         {
         cache.workQueue.async
-            { self.cache.removeEntity(forKey: self.key) }
+            {
+            self.catchAndLogErrors(attemptingTo: "remove entity from cache")
+                { try self.cache.removeEntity(forKey: self.key) }
+            }
+        }
+
+    private func catchAndLogErrors<T>(attemptingTo actionName: String, action: () throws -> T?) -> T?
+        {
+        do
+            { return try action() }
+        catch
+            {
+            SiestaLog.log(.cache, ["WARNING:", cache, "unable to", actionName, "for", key, ":", error])
+            return nil
+            }
         }
     }
