@@ -296,7 +296,7 @@ open class Service: NSObject
             requestMethods: [RequestMethod]? = nil,
             atStage stage: PipelineStageKey = .model,
             action: PipelineStage.MutationAction = .replaceExisting,
-            onInputTypeMismatch mismatchAction: InputTypeMismatchAction = .error,
+            onInputTypeMismatch mismatchAction: ResponseContentTransformer<I,O>.InputTypeMismatchAction = .error,
             transformErrors: Bool = false,
             description: String? = nil,
             contentTransform: @escaping ResponseContentTransformer<I, O>.Processor)

@@ -22,3 +22,6 @@ extension Service
             { self.init(baseURL: baseURL, standardTransformers: [], networking: networking) }
         }
     }
+
+@available(*, deprecated: 1.4, renamed: "ResponseContentTransformer.InputTypeMismatchAction")
+public typealias InputTypeMismatchAction = ResponseContentTransformer<Any,Any>.InputTypeMismatchAction

@@ -115,6 +115,24 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 public struct ResponseContentTransformer<InputContentType, OutputContentType>: ResponseTransformer
     {
     /**
+      Action to take when actual input type at runtime does not match expected input type declared in code.
+
+      - See: `ResponseContentTransformer.init(...)`
+      - See: `Service.configureTransformer(...)`
+    */
+    public enum InputTypeMismatchAction
+        {
+        /// Output `RequestError.Cause.WrongInputTypeInTranformerPipeline`.
+        case error
+
+        /// Pass the input response through unmodified.
+        case skip
+
+        /// Pass the input response through unmodified if it matches the output type; otherwise output an error.
+        case skipIfOutputTypeMatches
+        }
+
+    /**
       A closure that both processes the content and describes the required input and output types.
 
       The input will be an `Entity` whose `content` is safely cast to the type expected by the closure.
@@ -243,24 +261,6 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 
         return result
         }
-    }
-
-/**
-  Action to take when actual input type at runtime does not match expected input type declared in code.
-
-  - See: `ResponseContentTransformer.init(...)`
-  - See: `Service.configureTransformer(...)`
-*/
-public enum InputTypeMismatchAction
-    {
-    /// Output `RequestError.Cause.WrongInputTypeInTranformerPipeline`.
-    case error
-
-    /// Pass the input response through unmodified.
-    case skip
-
-    /// Pass the input response through unmodified if it matches the output type; otherwise output an error.
-    case skipIfOutputTypeMatches
     }
 
 
