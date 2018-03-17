@@ -15,47 +15,52 @@ private typealias File = URL
 
 private let fileCacheFormatVersion: [UInt8] = [0]
 
+private let decoder = PropertyListDecoder()
+private let encoder: PropertyListEncoder =
+    {
+    let encoder = PropertyListEncoder()
+    encoder.outputFormat = .binary
+    return encoder
+    }()
+
 public struct FileCache<ContentType>: EntityCache
     where ContentType: Codable
     {
-    private let keyPrefix: Data
+    private let isolationStrategy: DataIsolationStrategy
     private let cacheDir: File
 
-    private let encoder = PropertyListEncoder()
-    private let decoder = PropertyListDecoder()
-
-    public init<T>(poolName: String = "Default", userIdentity: T?) throws
-        where T: Encodable
+    public init(poolName: String = "Default", dataIsolation isolationStrategy: DataIsolationStrategy) throws
         {
-        encoder.outputFormat = .binary
-
-        self.keyPrefix = try
-            fileCacheFormatVersion           // prevents us from parsing old cache entries using some new future format
-             + encoder.encode(userIdentity)  // prevents one user from seeing another’s cached requests
-             + [0]                           // separator for URL
-
-        cacheDir = try
-            FileManager.default.url(
-                for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            .appendingPathComponent(Bundle.main.bundleIdentifier ?? "")
+        let cacheDir = try FileManager.default
+            .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(Bundle.main.bundleIdentifier ?? "")  // no bundle → directly inside cache dir
             .appendingPathComponent("Siesta")
             .appendingPathComponent(poolName)
         try FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+
+        self.init(inDirectory: cacheDir, dataIsolation: isolationStrategy)
+        }
+
+    public init(inDirectory cacheDir: URL, dataIsolation isolationStrategy: DataIsolationStrategy)
+        {
+        self.cacheDir = cacheDir
+        self.isolationStrategy = isolationStrategy
         }
 
     // MARK: - Keys and filenames
 
     public func key(for resource: Resource) -> Key?
-        { return Key(resource: resource, prefix: keyPrefix) }
+        { return Key(resource: resource, isolatedUsing: isolationStrategy) }
 
     public struct Key: CustomStringConvertible
         {
-        fileprivate var url, hash: String
+        fileprivate var hash: String
+        private var url: URL
 
-        fileprivate init(resource: Resource, prefix: Data)
+        fileprivate init(resource: Resource, isolatedUsing isolationStrategy: DataIsolationStrategy)
             {
-            url = resource.url.absoluteString
-            hash = Data(prefix + url.utf8)
+            url = resource.url
+            hash = isolationStrategy.keyData(for: url)
                 .sha256
                 .urlSafeBase64EncodedString
             }
@@ -65,7 +70,7 @@ public struct FileCache<ContentType>: EntityCache
         }
 
     private func file(for key: Key) -> File
-        { return cacheDir.appendingPathComponent(key.hash + ".plist") }
+        { return cacheDir.appendingPathComponent(key.hash + ".cache") }
 
     // MARK: - Reading and writing
 
@@ -73,7 +78,8 @@ public struct FileCache<ContentType>: EntityCache
         {
         do  {
             return try
-                decoder.decode(EncodableEntity<ContentType>.self,
+                decoder.decode(
+                    EncodableEntity<ContentType>.self,
                     from: Data(contentsOf: file(for: key)))
                 .entity
             }
@@ -91,6 +97,37 @@ public struct FileCache<ContentType>: EntityCache
     public func removeEntity(forKey key: Key) throws
         {
         try FileManager.default.removeItem(at: file(for: key))
+        }
+    }
+
+extension FileCache
+    {
+    public struct DataIsolationStrategy
+        {
+        private let keyPrefix: Data
+
+        private init(keyIsolator: Data)
+            {
+            keyPrefix =
+                fileCacheFormatVersion  // prevents us from parsing old cache entries using some new future format
+                 + keyIsolator          // prevents one user from seeing another’s cached requests
+                 + [0]                  // separator for URL
+            }
+
+        fileprivate func keyData(for url: URL) -> Data
+            {
+            return Data(keyPrefix + url.absoluteString.utf8)
+            }
+
+        public static var sharedByAllUsers: DataIsolationStrategy
+            { return DataIsolationStrategy(keyIsolator: Data()) }
+
+        public static func perUser<T>(identifiedBy partitionID: T) throws -> DataIsolationStrategy
+            where T: Codable
+            {
+            return DataIsolationStrategy(
+                keyIsolator: try encoder.encode([partitionID]))
+            }
         }
     }
 
@@ -121,6 +158,8 @@ private struct EncodableEntity<ContentType>: Codable
         { return Entity(content: content, charset: charset, headers: headers, timestamp: timestamp) }
     }
 
+// MARK: - Encryption helpers
+
 private extension Data
     {
     var sha256: Data
@@ -129,6 +168,11 @@ private extension Data
         _ = withUnsafeBytes
             { CC_SHA256($0, CC_LONG(count), &hash) }
         return Data(hash)
+        }
+
+    var shortenWithSHA256: Data
+        {
+        return count > 32 ? sha256 : self
         }
 
     var urlSafeBase64EncodedString: String
