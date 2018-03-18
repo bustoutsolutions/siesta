@@ -115,9 +115,11 @@ extension FileCache
         private init(keyIsolator: Data)
             {
             keyPrefix =
-                fileCacheFormatVersion  // prevents us from parsing old cache entries using some new future format
-                 + keyIsolator          // prevents one user from seeing another’s cached requests
-                 + [0]                  // separator for URL
+                fileCacheFormatVersion         // prevents us from parsing old cache entries using some new future format
+                 + "\(ContentType.self)".utf8  // prevent data collision when caching at multiple pipeline stages
+                 + [0]                         // null-terminate ContentType to prevent bleed into username
+                 + keyIsolator                 // prevents one user from seeing another’s cached requests
+                 + [0]                         // separator for URL
             }
 
         fileprivate func keyData(for url: URL) -> Data
