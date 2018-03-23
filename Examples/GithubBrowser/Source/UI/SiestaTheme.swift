@@ -3,25 +3,25 @@ import Siesta
 
 enum SiestaTheme {
     static let
-        darkColor     = UIColor(red: 0.180, green: 0.235, blue: 0.266, alpha: 1),
-        darkerColor   = UIColor(red: 0.161, green: 0.208, blue: 0.235, alpha: 1),
-        lightColor    = UIColor(red: 0.964, green: 0.721, blue: 0.329, alpha: 1),
-        linkColor     = UIColor(red: 0.321, green: 0.901, blue: 0.882, alpha: 1),
-        selectedColor = UIColor(red: 0.937, green: 0.400, blue: 0.227, alpha: 1),
-        textColor     = UIColor(red: 0.623, green: 0.647, blue: 0.663, alpha: 1),
-        boldColor     = UIColor(red: 0.906, green: 0.902, blue: 0.894, alpha: 1)
+        darkColor     = #colorLiteral(red: 0.180, green: 0.235, blue: 0.266, alpha: 1),
+        darkerColor   = #colorLiteral(red: 0.161, green: 0.208, blue: 0.235, alpha: 1),
+        lightColor    = #colorLiteral(red: 0.964, green: 0.721, blue: 0.329, alpha: 1),
+        linkColor     = #colorLiteral(red: 0.321, green: 0.901, blue: 0.882, alpha: 1),
+        selectedColor = #colorLiteral(red: 0.937, green: 0.400, blue: 0.227, alpha: 1),
+        textColor     = #colorLiteral(red: 0.623, green: 0.647, blue: 0.663, alpha: 1),
+        boldColor     = #colorLiteral(red: 0.906, green: 0.902, blue: 0.894, alpha: 1)
 
     static func applyAppearanceDefaults() {
         UITextField.appearance().keyboardAppearance = .dark
-        UITextField.appearance().textColor = UIColor.black
+        UITextField.appearance().textColor = .black
         UITextField.appearance().backgroundColor = textColor
 
-        UINavigationBar.appearance().barStyle = UIBarStyle.black
+        UINavigationBar.appearance().barStyle = .black
         UINavigationBar.appearance().barTintColor = darkColor
         UINavigationBar.appearance().tintColor = linkColor
 
         UITableView.appearance().backgroundColor = darkerColor
-        UITableView.appearance().separatorColor = UIColor.black
+        UITableView.appearance().separatorColor = .black
         UITableViewCell.appearance().backgroundColor = darkerColor
         UITableViewCell.appearance().selectedBackgroundView = emptyView(withBackground: selectedColor)
 
