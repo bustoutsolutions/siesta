@@ -71,10 +71,13 @@ private class ResultsAggregator
         if !resultsDirty
             { return }
 
-        let json = ["results": results.toJson["children"]!]
-        let jsonData = try! JSONSerialization.data(withJSONObject: json, options: [])
-        if !((try? jsonData.write(to: URL(fileURLWithPath: "/tmp/siesta-spec-results.json"), options: [.atomic])) != nil)
-            { print("unable to write spec results json") }
+        do  {
+            let json = ["results": results.toJson["children"]!]
+            let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+            try jsonData.write(to: URL(fileURLWithPath: "/tmp/siesta-spec-results.json"), options: [.atomic])
+            }
+        catch
+            { print("WARNING: unable to write spec results json: \(error)") }
 
         resultsDirty = false
         }
