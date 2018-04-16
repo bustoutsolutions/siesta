@@ -94,6 +94,22 @@ class RequestSpec: ResourceSpecBase
                     awaitNewData(resource().request(.post, data: Data([0, 1, 2]), contentType: "foo/bar"))
                     }
 
+                it("don't add duplicated content type value in the request's headers")
+                    {
+                        service().configure
+                            { config in
+                                config.headers["Content-Type"] = "application/json"
+
+                                config.mutateRequests(with: { req in
+                                    let contentTypeHeader = req
+                                        .value(forHTTPHeaderField: "Content-Type")
+                                    expect(contentTypeHeader).to(equal("application/json"))
+                                })
+                            }
+                        _ = stubRequest(resource, "POST")
+                        awaitNewData(resource().request(.post, json: ["foo": "bar"]))
+                    }
+
                 it("can alter the HTTP method, but this does not change mutators used")
                     {
                     service().configure(requestMethods: [.get])

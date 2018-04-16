@@ -13,6 +13,12 @@ public extension Resource
 
     /**
       Convenience method to initiate a request with a body containing arbitrary data.
+      - Parameter method: The HTTP method of the request.
+      - Parameter data: The body of the request.
+      - Parameter contentType: The requests's header field.
+      - Parameter requestMutation: A closure that can be used to to make any last change
+      to the `URLRequest`.
+      - Note: the `contentType` parameter will replace any preexisting value.
     */
     public func request(
             _ method:        RequestMethod,
@@ -25,9 +31,8 @@ public extension Resource
             {
             underlyingRequest in
 
-            underlyingRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
+            underlyingRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
             underlyingRequest.httpBody = data
-
             requestMutation(&underlyingRequest)
             }
         }
