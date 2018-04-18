@@ -5,7 +5,7 @@ branches:
 
 language: objective-c
 os: osx
-osx_image: xcode9.1
+osx_image: xcode9.3
 env:
   - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='11.1'   ios_device='iPhone X'
