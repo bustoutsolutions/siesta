@@ -46,7 +46,7 @@ extension ResourceStatusOverlay
             }
 
         set {
-            displayPriority = newValue.flatMap
+            displayPriority = newValue.compactMap
                 {
                 let condition = ResourceStatusOverlay.StateRule(rawValue: $0)
                 if condition == nil
