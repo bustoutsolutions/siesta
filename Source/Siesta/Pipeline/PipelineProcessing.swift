@@ -11,7 +11,7 @@ import Foundation
 internal extension Pipeline
     {
     private var stagesInOrder: [PipelineStage]
-        { return order.flatMap { self[$0] } }
+        { return order.compactMap { self[$0] } }
 
     private typealias StageAndEntry = (PipelineStage, CacheEntryProtocol?)
 

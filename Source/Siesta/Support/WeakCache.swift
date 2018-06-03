@@ -81,7 +81,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
     var entries: AnySequence<(K, V)>
         {
         return AnySequence(
-            entriesByKey.flatMap
+            entriesByKey.compactMap
                 {
                 (key, entry) -> (K, V)? in
 

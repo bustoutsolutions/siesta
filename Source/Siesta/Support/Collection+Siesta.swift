@@ -57,7 +57,7 @@ internal extension Dictionary
         -> [MappedKey:MappedValue]
         {
         return Dictionary.fromArray(
-            flatMap
+            compactMap
                 {
                 let (k, v) = transform($0, $1)
                 if let k = k, let v = v

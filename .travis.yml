@@ -5,13 +5,17 @@ branches:
 
 language: objective-c
 os: osx
-osx_image: xcode9.1
+osx_image: xcode9.3
 env:
   - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='11.1'   ios_device='iPhone X'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='10.3.1' ios_device='iPhone SE'
   - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'    ios_device='iPhone 6'
-  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'    ios_device='iPhone 4s'
+  # As of XC 9.4, any framework tests (not just Siesta) fail on iOS 8.1 simulator with
+  # "Timed out trying to establish connection to IDE" (radar 40756466). Reenable this if Apple fixes:
+  #- scheme='Siesta iOS'   platform='iOS Simulator' ios_version='8.1'    ios_device='iPhone 4s'
+  # For now, using 9.3 on 4s instead (which is important bc some bugs are 32-bit-specific):
+  - scheme='Siesta iOS'   platform='iOS Simulator' ios_version='9.3'    ios_device='iPhone 4s'
 
 before_install: |
   if [[ "$platform" == "iOS Simulator" ]]; then
