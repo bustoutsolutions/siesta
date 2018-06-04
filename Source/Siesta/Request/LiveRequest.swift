@@ -24,7 +24,7 @@ public protocol RequestDelegate
 
     func computeProgress() -> Double
 
-    var progressReportingInterval: Double { get }
+    var progressReportingInterval: TimeInterval { get }
 
     var requestDescription: String { get }
     }
@@ -34,7 +34,7 @@ extension RequestDelegate
     func computeProgress() -> Double
         { return 0 }
 
-    var progressReportingInterval: Double
+    var progressReportingInterval: TimeInterval
         { return 0.05 }
     }
 

@@ -76,7 +76,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         return progressComputation.fractionDone
         }
 
-    var progressReportingInterval: Double
+    var progressReportingInterval: TimeInterval
         { return config.progressReportingInterval }
 
     // MARK: Response handling
