@@ -150,7 +150,7 @@ public protocol Request: class
     /**
       Send the same request again, returning a new `Request` instance for the new attempt.
 
-      The return request is not already started. You must call `start()` when you are ready for it to begin.
+      The returned request is **not** already started. You must call `start()` when you are ready for it to begin.
 
       - Warning:
           Use with caution! Repeating a failed request for any HTTP method other than GET is potentially unsafe,
