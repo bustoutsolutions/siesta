@@ -111,7 +111,7 @@ internal struct RequestChainDelgate: RequestDelegate
 
     func processResponse(_ responseInfo: ResponseInfo, completionHandler: RequestCompletionHandler)
         {
-        guard !completionHandler.shouldIgnoreResponse(responseInfo.response) else
+        guard !completionHandler.willIgnore(responseInfo) else
             { return }
 
         switch determineAction(responseInfo)

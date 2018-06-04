@@ -96,7 +96,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
 
         let responseInfo = interpretResponse(underlyingResponse, body, error)
 
-        if completionHandler.shouldIgnoreResponse(responseInfo.response)
+        if completionHandler.willIgnore(responseInfo)
             { return }
 
         progressComputation.complete()

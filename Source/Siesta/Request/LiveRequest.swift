@@ -40,9 +40,8 @@ extension RequestDelegate
 
 public protocol RequestCompletionHandler
     {
-    func shouldIgnoreResponse(_ newResponse: Response) -> Bool
-
     func broadcastResponse(_ newInfo: ResponseInfo)
+    func willIgnore(_ responseInfo: ResponseInfo) -> Bool
     }
 
 private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugStringConvertible
@@ -124,8 +123,10 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
             { return .notStarted }
         }
 
-    final func shouldIgnoreResponse(_ newResponse: Response) -> Bool
+    final func willIgnore(_ responseInfo: ResponseInfo) -> Bool
         {
+        let newResponse = responseInfo.response
+
         guard let existingResponse = responseCallbacks.completedValue?.response else
             { return false }
 
@@ -136,8 +137,8 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
             debugLog(.network,
                 [
                 "WARNING: Received response for request that was already completed:", delegate.requestDescription,
-                "This may indicate a bug in the NetworkingProvider you are using, or in Siesta.",
-                "Please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
+                "This may indicate a bug in your NetworkingProvider, your custom RequestDelegate, or Siesta itself.",
+                "If it is the latter, please file a bug report: https://github.com/bustoutsolutions/siesta/issues/new",
                 "\n    Previously received:", existingResponse,
                 "\n    New response:", newResponse
                 ])
@@ -161,7 +162,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         {
         DispatchQueue.mainThreadPrecondition()
 
-        if shouldIgnoreResponse(newInfo.response)
+        if willIgnore(newInfo)
             { return }
 
         progressTracker.complete()
