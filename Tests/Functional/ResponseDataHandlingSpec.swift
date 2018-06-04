@@ -26,7 +26,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 .withHeader("X-Custom-Header", "Sprotzle")
                 .withBody(string as NSString?)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
-            awaitRequest(resource().load(), false)
+            awaitRequest(resource().load(), .inProgress)
             }
 
         describe("plain text handling")
@@ -293,7 +293,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withHeader("Content-Type", contentType)
                         .withBody(Data(bytes: [0xD8]) as NSData)
                     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
-                    awaitRequest(resource.load(), false)
+                    awaitRequest(resource.load(), .inProgress)
                     expect(resource.latestData?.content is Data) == expectSuccess
                     }
 

@@ -33,8 +33,7 @@ private final class HardWiredRequest: Request
     {
     private let hardWiredResponse: ResponseInfo
 
-    let isStarted = true
-    let isCompleted = true
+    let state = RequestState.completed
     let progress: Double = 1
 
     init(returning response: Response)

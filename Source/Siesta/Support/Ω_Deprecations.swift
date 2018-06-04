@@ -23,5 +23,12 @@ extension Service
         }
     }
 
+extension Request
+    {
+    @available(*, deprecated: 1.4, message: "Replaced by `state` property; check `request.state == .completed`")
+    var isCompleted: Bool
+        { return state == .completed }
+    }
+
 @available(*, deprecated: 1.4, renamed: "ResponseContentTransformer.InputTypeMismatchAction")
 public typealias InputTypeMismatchAction = ResponseContentTransformer<Any,Any>.InputTypeMismatchAction

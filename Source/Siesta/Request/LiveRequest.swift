@@ -50,7 +50,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
     private let delegate: RequestDelegate
     private var responseCallbacks = CallbackGroup<ResponseInfo>()
     private var progressTracker = ProgressTracker()
-    private(set) var isStarted = false, isCancelled = false
+    private var underlyingOperationStarted = false
 
     init(delegate: RequestDelegate)
         {
@@ -62,21 +62,15 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         {
         DispatchQueue.mainThreadPrecondition()
 
-        guard !isStarted else
+        guard state == .notStarted else
             {
             debugLog(.networkDetails, [delegate.requestDescription, "already started"])
             return self
             }
 
-        guard !isCancelled else
-            {
-            debugLog(.network, [delegate.requestDescription, "will not start because it was already cancelled"])
-            return self
-            }
-
-        isStarted = true
         debugLog(.network, [delegate.requestDescription])
 
+        underlyingOperationStarted = true
         delegate.startUnderlyingOperation(completionHandler: self)
 
         progressTracker.start(
@@ -90,7 +84,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         {
         DispatchQueue.mainThreadPrecondition()
 
-        guard !isCompleted else
+        guard state != .completed else
             {
             debugLog(.network, ["cancel() called but request already completed:", delegate.requestDescription])
             return
@@ -99,9 +93,6 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         debugLog(.network, ["Cancelled", delegate.requestDescription])
 
         delegate.cancelUnderlyingOperation()
-
-        // Prevent start() from have having any effect if it hasn't been called yet
-        isCancelled = true
 
         broadcastResponse(.cancellation)
         }
@@ -121,11 +112,16 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         return self
         }
 
-    final var isCompleted: Bool
+    final var state: RequestState
         {
         DispatchQueue.mainThreadPrecondition()
 
-        return responseCallbacks.completedValue != nil
+        if responseCallbacks.completedValue != nil
+            { return .completed }
+        else if underlyingOperationStarted
+            { return .inProgress }
+        else
+            { return .notStarted }
         }
 
     final func shouldIgnoreResponse(_ newResponse: Response) -> Bool

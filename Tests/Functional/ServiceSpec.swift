@@ -558,5 +558,5 @@ func checkPathExpansion(_ baseURL: String, path resourcePath: String, expect exp
 
 func expectInvalidResource(_ resource: Resource)
     {
-    awaitFailure(resource.load(), alreadyCompleted: true)
+    awaitFailure(resource.load(), initialState: .completed)
     }

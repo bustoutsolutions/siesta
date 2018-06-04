@@ -103,13 +103,16 @@ public protocol Request: class
     @discardableResult
     func start() -> Request
 
-    var isStarted: Bool { get }
-
     /**
-      True if the request has received and handled a server response, encountered a pre-request client-side side error,
-      or been cancelled.
+      Indicates whether this request is waiting to be started, in progress, or completed and has a response already.
+
+      - Note:
+          It is _always_ valid to call any of `Request`’s methods, including hooks (`onCompletion(...)` and friends),
+          no matter what state the request is in. You do not need to defensively check this property before working with
+          a request; in fact, if you find yourself wanting it at all, you are probably doing something awkward and
+          unnecessarily complicated.
     */
-    var isCompleted: Bool { get }
+    var state: RequestState { get }
 
     /**
       An estimate of the progress of the request, taking into account request transfer, response transfer, and latency.
@@ -182,6 +185,31 @@ public protocol Request: class
           resource’s state to be updated again with the result.
     */
     func repeated() -> Request
+    }
+
+/**
+  Indicates whether a `Request` has been started, and whether it has completed.
+
+  - SeeAlso: `Request.state`
+*/
+public enum RequestState
+    {
+    /**
+      The request is frozen, waiting for a call to `Request.start()`. You can still attach completion hooks to this
+      request, but they will not be called until the request stars.
+    */
+    case notStarted
+
+    /**
+      The request has started, and is waiting for a response. Its state will eventually transition to `completed`.
+    */
+    case inProgress
+
+    /**
+      The request has a response, and its state will note change any further. A request may be in this state because it
+      received and handled a server response, encountered a pre-request client-side side error, or was cancelled.
+    */
+    case completed
     }
 
 /**

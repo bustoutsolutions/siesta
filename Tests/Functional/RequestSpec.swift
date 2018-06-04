@@ -177,7 +177,7 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                    awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
                     }
 
                 context("substituting a request")
@@ -199,7 +199,7 @@ class RequestSpec: ResourceSpecBase
 
                         let req = resource().load()
                         expect(req) === dummyReq0()
-                        awaitFailure(req, alreadyCompleted: true)
+                        awaitFailure(req, initialState: .completed)
                         }
 
                     it("causes downstream decorators to see the replacement")
@@ -221,7 +221,7 @@ class RequestSpec: ResourceSpecBase
 
                         let req = resource().load()
                         expect(req) === dummyReq1()
-                        awaitFailure(req, alreadyCompleted: true)
+                        awaitFailure(req, initialState: .completed)
                         }
 
                     it("does not start the original request if it was discarded")
@@ -231,7 +231,7 @@ class RequestSpec: ResourceSpecBase
                             $0.decorateRequests
                                 { _,_  in dummyReq0() }
                             }
-                        awaitFailure(resource().load(), alreadyCompleted: true)  // Nocilla will flag if network call goes through
+                        awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
                         }
 
                     it("starts the original request if it is the first in a chain")
@@ -304,7 +304,7 @@ class RequestSpec: ResourceSpecBase
                 { expect($0.response.isCancellation) == true }
             req.cancel()
             _ = reqStub.go()
-            awaitFailure(req, alreadyCompleted: true)
+            awaitFailure(req, initialState: .completed)
             }
 
         it(".cancel() has no effect if it already succeeded")
@@ -315,7 +315,7 @@ class RequestSpec: ResourceSpecBase
                 { expect($0.response.isCancellation) == false }
             awaitNewData(req)
             req.cancel()
-            awaitNewData(req, alreadyCompleted: true)
+            awaitNewData(req, initialState: .completed)
             }
 
         it(".cancel() has no effect if it never started")
@@ -323,7 +323,7 @@ class RequestSpec: ResourceSpecBase
             let req = resource().request(.post, json: ["unencodable": Data()])
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
-            awaitFailure(req, alreadyCompleted: true)
+            awaitFailure(req, initialState: .completed)
             req.cancel()
             }
 
@@ -474,7 +474,7 @@ class RequestSpec: ResourceSpecBase
             it("handles string encoding errors")
                 {
                 let req = resource().request(.post, text: "Hélas!", encoding: String.Encoding.ascii)
-                awaitFailure(req, alreadyCompleted: true)
+                awaitFailure(req, initialState: .completed)
                 req.onFailure
                     {
                     let cause = $0.cause as? RequestError.Cause.UnencodableText
@@ -496,7 +496,7 @@ class RequestSpec: ResourceSpecBase
             it("handles JSON encoding errors")
                 {
                 let req = resource().request(.post, json: ["question": [2, Data()]])
-                awaitFailure(req, alreadyCompleted: true)
+                awaitFailure(req, initialState: .completed)
                 req.onFailure
                     { expect($0.cause is RequestError.Cause.InvalidJSONObject) == true }
                 }
@@ -532,7 +532,7 @@ class RequestSpec: ResourceSpecBase
                     for badParams in [[bogus: "foo"], ["foo": bogus]]
                         {
                         let req = resource().request(.patch, urlEncoded: badParams)
-                        awaitFailure(req, alreadyCompleted: true)
+                        awaitFailure(req, initialState: .completed)
                         req.onFailure
                             {
                             let cause = $0.cause as? RequestError.Cause.NotURLEncodable
@@ -553,11 +553,11 @@ class RequestSpec: ResourceSpecBase
                     .withBody(body as NSString)
                 }
 
-            func expectResult(_ expectedResult: String, for req: Request, alreadyCompleted: Bool = false)
+            func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
                 {
                 var actualResult: String? = nil
                 req.onSuccess { actualResult = $0.text }
-                awaitNewData(req, alreadyCompleted: alreadyCompleted)
+                awaitNewData(req, initialState: initialState)
 
                 expect(actualResult) == expectedResult
                 }
@@ -612,9 +612,9 @@ class RequestSpec: ResourceSpecBase
                 let reqStub = stubText("yo").delay()
                 let req = resource().request(.get).chained
                     { _ in .useThisResponse }
-                expect(req.isCompleted).to(beFalse())
+                expect(req.state) == .inProgress
                 _ = reqStub.go()
-                expect(req.isCompleted).toEventually(beTrue())
+                expect(req.state).toEventually(equal(.completed))
                 }
 
             describe("cancel()")
@@ -634,7 +634,7 @@ class RequestSpec: ResourceSpecBase
 
                     chainedReq.cancel()
                     _ = reqStub.go()
-                    awaitFailure(originalReq, alreadyCompleted: true)
+                    awaitFailure(originalReq, initialState: .completed)
                     }
 
                 it("stops the chain from proceeding")
@@ -650,9 +650,9 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     chainedReq.cancel()
-                    awaitFailure(chainedReq, alreadyCompleted: true)
+                    awaitFailure(chainedReq, initialState: .completed)
                     _ = reqStub.go()
-                    awaitFailure(originalReq, alreadyCompleted: true)
+                    awaitFailure(originalReq, initialState: .completed)
                     }
 
                 it("does not stop the chain if the underlying request is cancelled")
@@ -668,8 +668,8 @@ class RequestSpec: ResourceSpecBase
 
                     originalReq.cancel()
                     _ = reqStub.go()
-                    awaitFailure(originalReq, alreadyCompleted: true)
-                    expectResult("custom", for: chainedReq, alreadyCompleted: true)
+                    awaitFailure(originalReq, initialState: .completed)
+                    expectResult("custom", for: chainedReq, initialState: .completed)
 
                     // For whatever reason, this spec is especially prone to hitting Nocilla’s
                     // quirk of making cancelled requests go through anyway
@@ -718,7 +718,7 @@ class RequestSpec: ResourceSpecBase
 
                     expectResult("oy", for: req)
                     expectResult("yo", for: req.repeated().start())
-                    expectResult("oy", for: req, alreadyCompleted: true)
+                    expectResult("oy", for: req, initialState: .completed)
                     }
 
                 it("does not rerun chained requests wrapped outside of the restart")

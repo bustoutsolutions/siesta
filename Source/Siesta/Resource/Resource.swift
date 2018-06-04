@@ -484,8 +484,8 @@ public final class Resource: NSObject
         req.onCompletion
             {
             [weak self] _ in
-            self?.allRequests.remove { $0.isCompleted }
-            self?.loadRequests.remove { $0.isCompleted }
+            self?.allRequests.remove { $0.state == .completed }
+            self?.loadRequests.remove { $0.state == .completed }
             }
         }
 
