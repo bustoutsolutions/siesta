@@ -18,9 +18,10 @@ extension Resource
       normal Siesta request.
 
       - SeeAlso: `RequestDelegate`
+      - SeeAlso: `Request.start()`
       - SeeAlso: `Resource.hardWiredRequest(returning:)`
     */
-    public static func request(using delegate: RequestDelegate) -> Request
+    public static func prepareRequest(using delegate: RequestDelegate) -> Request
         {
         return LiveRequest(delegate: delegate)
         }
@@ -29,7 +30,7 @@ extension Resource
 /**
   Allows you to create `Request`s with custom logic. This is useful for taking things that are not standard network
   requests, and wrapping them so they look to Siesta as if they are. To create a custom request, pass your delegate to
-  `Resource.request(using:)`.
+  `Resource.prepareRequest(using:)`.
 
   You can also implement Siesta’s `Request` protocol yourself, but this is a daunting task full of pitfalls and
   redundant effort. This protocol provides customization points for only the things custom requests typically need to
@@ -44,14 +45,14 @@ extension Resource
   Siesta itself uses this protocol to implement its own requests. Look at `NetworkRequestDelegate` and
   `RequestChainDelgate` in Siesta’s source code for examples of implementing this protocol.
 
-  - SeeAlso: `Resource.request(using:)`
+  - SeeAlso: `Resource.prepareRequest(using:)`
 */
 public protocol RequestDelegate
     {
     /**
       The delegate should commence the operation (e.g. network call) that will eventually produce a response.
 
-      Siesta will call this method at most once per call to `Resource.request(using:)`.
+      Siesta will call this method at most once per call to `Resource.prepareRequest(using:)`.
 
       Implementations of this method MUST eventually call `completionHandler.broadcastResponse(...)`. They will
       typically want to hold on to the `completionHandler` for the duration of a long-running operation in order to
@@ -267,7 +268,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
     func repeated() -> Request
         {
-        return Resource.request(using: delegate.repeated())
+        return Resource.prepareRequest(using: delegate.repeated())
         }
 
     // MARK: Debug

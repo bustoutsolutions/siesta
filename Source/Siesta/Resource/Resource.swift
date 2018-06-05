@@ -283,7 +283,7 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
-        let bareReq = Resource.request(using: delegate)
+        let bareReq = Resource.prepareRequest(using: delegate)
 
         // Optionally decorate the request
 
