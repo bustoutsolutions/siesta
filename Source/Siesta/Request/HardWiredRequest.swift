@@ -8,6 +8,8 @@
 
 extension Resource
     {
+    // MARK: Requests with Hard-Wired Responses
+
     /**
       Returns a request that immedately fails, without ever touching the network or applying the transformer pipeline.
 

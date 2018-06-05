@@ -8,14 +8,17 @@
 
 extension Resource
     {
+    // MARK: Requests with Custom Logic
     /**
-      Creates (but does **not** start) a new request for this resource using custom request logic.
+      Creates (but does **not** start) a new request using custom request logic.
 
-      This method allows you to make custom / external logic that does not use the service’s normal network provider.
-      For example, you might wrap an OAUth library in Siesta requests, then use `Request.chained(...)` to wait for
-      OAuth to complete before making the normal Siesta request.
+      This method allows you to make a request using custom / external logic that does not use the service’s normal
+      network provider. For example, you could use this to wrap a third-party OAUth library as a Siesta request, then
+      use `Configuration.decorateRequests(...)` and `Request.chained(...)` to wait for OAuth before proceeding with the
+      normal Siesta request.
 
       - SeeAlso: `RequestDelegate`
+      - SeeAlso: `Resource.hardWiredRequest(returning:)`
     */
     public static func request(using delegate: RequestDelegate) -> Request
         {
@@ -24,13 +27,13 @@ extension Resource
     }
 
 /**
-  Provides a simple way to provide Siesta requests with custom logic. This is useful for making wrapping things that are
-  not standard network requests so they look to Siesta as if they are. To create a custom request, pass your delegate to
+  Allows you to create `Request`s with custom logic. This is useful for taking things that are not standard network
+  requests, and wrapping them so they look to Siesta as if they are. To create a custom request, pass your delegate to
   `Resource.request(using:)`.
 
-  You can implement Siesta’s `Request` protocol yourself, but this is a daunting task, full of pitfalls and duplicated
-  effort. This protocol provides customization points for the things custom requests typically need, and provides
-  standard behavior and sanity checks. In particular, using `RequestDelegate`:
+  You can also implement Siesta’s `Request` protocol yourself, but this is a daunting task full of pitfalls and
+  redundant effort. This protocol provides customization points for only the things custom requests typically need to
+  customize, and provides standard behavior and sanity checks. In particular, using `RequestDelegate`:
 
   - provides standard implementations for all the request hooks,
   - ensures those hooks are called _exactly_ once, even if your delegate misbehaves and reports multiple responses,
@@ -73,6 +76,8 @@ public protocol RequestDelegate
     /**
       Asks your delegate to report progress ranging from 0 to 1. Implementations may be as accurate or as inaccurate
       as they wish. Values returned by this method SHOULD increase monotonically.
+
+      Siesta will ensure that a `Request` reports progress of 1 when completed, regardless of what this method returns.
     */
     func computeProgress() -> Double
 
@@ -92,13 +97,13 @@ extension RequestDelegate
     /**
       Returns a constant 0.
     */
-    func computeProgress() -> Double
+    public func computeProgress() -> Double
         { return 0 }
 
     /**
       1/20th of a second.
     */
-    var progressReportingInterval: TimeInterval
+    public var progressReportingInterval: TimeInterval
         { return 0.05 }
     }
 

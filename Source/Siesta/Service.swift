@@ -50,7 +50,7 @@ open class Service: NSObject
           For more details on the various standard parsing options, see `StandardTransformer`.
       - Parameter networking:
           The handler to use for networking. The default is `URLSession` with ephemeral session configuration. You can
-          pass an `URLSession`, `URLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
+          pass a `URLSession`, `URLSessionConfiguration`, or `Alamofire.Manager` to use an existing provider with
           custom configuration. You can also use your own networking library of choice by implementing `NetworkingProvider`.
     */
     public init(

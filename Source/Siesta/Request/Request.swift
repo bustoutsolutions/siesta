@@ -148,7 +148,8 @@ public protocol Request: class
     func cancel()
 
     /**
-      Send the same request again, returning a new `Request` instance for the new attempt.
+      Send the same request again, returning a new `Request` instance for the new attempt. You can combine this with
+      `Request.chained(...)` to retry failed requests with updated headers.
 
       The returned request is **not** already started. You must call `start()` when you are ready for it to begin.
 
