@@ -160,6 +160,9 @@
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
 		DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61991B7521B900F6BB9C /* TestService.swift */; };
 		DA507ADA1D9CD05F00B5F5BF /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */; };
+		DA5A90302054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
+		DA5A90312054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
+		DA5A90322054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
 		DA5EC2741B91E39000DC33C8 /* Networking-URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
 		DA6022841D65591500FB5673 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -373,6 +376,7 @@
 		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
 		DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcCompatibilitySpec.m; sourceTree = "<group>"; };
 		DA4D61991B7521B900F6BB9C /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
+		DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCacheSpec.swift; sourceTree = "<group>"; };
 		DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-URLSession.swift"; sourceTree = "<group>"; };
 		DA5FE9F31BB9E3EF00B6688A /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA6022801D65590800FB5673 /* SiestaUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SiestaUI.h; sourceTree = "<group>"; };
@@ -614,6 +618,7 @@
 				DAC0CE6C1B4A3ADA004FBB4B /* ResourceObserversSpec.swift */,
 				DACD233E1D60CE0400848C04 /* RequestSpec.swift */,
 				DAD191001D0394E300304193 /* PipelineSpec.swift */,
+				DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */,
 				DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */,
 				DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */,
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
@@ -1158,6 +1163,7 @@
 				DA788A8F1D6AC1590085C820 /* ObjcCompatibilitySpec.m in Sources */,
 				9F0FAF991D033FCD00CE1B61 /* TestService.swift in Sources */,
 				9F0FAF9A1D033FCD00CE1B61 /* SiestaSpec.swift in Sources */,
+				DA5A90312054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				9F0FAF9B1D033FCD00CE1B61 /* ResourcePathsSpec.swift in Sources */,
 				DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */,
 				9F0FAF9C1D033FCD00CE1B61 /* ResourceSpecBase.swift in Sources */,
@@ -1305,6 +1311,7 @@
 				CD5651F11E6F306B009F224A /* ResourceSpecBase.swift in Sources */,
 				CD5651F41E6F306B009F224A /* ResourceObserversSpec.swift in Sources */,
 				CD5651F91E6F306B009F224A /* WeakCacheSpec.swift in Sources */,
+				DA5A90322054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				CD5651FA1E6F306D009F224A /* ObjcCompatibilitySpec.m in Sources */,
 				CD5651F61E6F306B009F224A /* PipelineSpec.swift in Sources */,
 				CD5651F31E6F306B009F224A /* ResourceStateSpec.swift in Sources */,
@@ -1378,6 +1385,7 @@
 				DA788A8E1D6AC1580085C820 /* ObjcCompatibilitySpec.m in Sources */,
 				DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */,
 				DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */,
+				DA5A90302054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
 				DAD191021D03950100304193 /* PipelineSpec.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */,
