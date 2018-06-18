@@ -261,11 +261,11 @@ public final class Resource: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         if let permanentFailure = permanentFailure
-            { return Resource.failedRequest(permanentFailure) }
+            { return Resource.failedRequest(returning: permanentFailure) }
 
         // Build the request
 
-        let requestBuilder: () -> URLRequest =
+        let delegate = NetworkRequestDelegate(resource: self)
             {
             var underlyingRequest = URLRequest(url: self.url)
             underlyingRequest.httpMethod = method.rawValue.uppercased()
@@ -283,11 +283,11 @@ public final class Resource: NSObject
             return underlyingRequest
             }
 
-        let rawReq = NetworkRequest(resource: self, requestBuilder: requestBuilder)
+        let bareReq = Resource.prepareRequest(using: delegate)
 
         // Optionally decorate the request
 
-        let req = rawReq.config.requestDecorators.reduce(rawReq as Request)
+        let req = delegate.config.requestDecorators.reduce(bareReq)
             { req, decorate in decorate(self, req) }
 
         // Track the fully decorated request
@@ -484,8 +484,8 @@ public final class Resource: NSObject
         req.onCompletion
             {
             [weak self] _ in
-            self?.allRequests.remove { $0.isCompleted }
-            self?.loadRequests.remove { $0.isCompleted }
+            self?.allRequests.remove { $0.state == .completed }
+            self?.loadRequests.remove { $0.state == .completed }
             }
         }
 

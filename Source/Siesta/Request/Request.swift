@@ -67,23 +67,23 @@ public protocol Request: class
       Call the closure once when the request finishes for any reason.
     */
     @discardableResult
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
 
     /// Call the closure once if the request succeeds.
     @discardableResult
-    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Request
 
     /// Call the closure once if the request succeeds and the data changed.
     @discardableResult
-    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Request
 
     /// Call the closure once if the request succeeds with a 304.
     @discardableResult
-    func onNotModified(_ callback: @escaping () -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Request
 
     /// Call the closure once if the request fails for any reason.
     @discardableResult
-    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Request
 
     /**
       Immediately start this request if it was deferred. Does nothing if the request is already started.
@@ -101,13 +101,18 @@ public protocol Request: class
         time-delayed retries.
     */
     @discardableResult
-    func start() -> Self
+    func start() -> Request
 
     /**
-      True if the request has received and handled a server response, encountered a pre-request client-side side error,
-      or been cancelled.
+      Indicates whether this request is waiting to be started, in progress, or completed and has a response already.
+
+      - Note:
+          It is _always_ valid to call any of `Request`’s methods, including hooks (`onCompletion(...)` and friends),
+          no matter what state the request is in. You do not need to defensively check this property before working with
+          a request; in fact, if you find yourself wanting it at all, you are probably doing something awkward and
+          unnecessarily complicated.
     */
-    var isCompleted: Bool { get }
+    var state: RequestState { get }
 
     /**
       An estimate of the progress of the request, taking into account request transfer, response transfer, and latency.
@@ -124,7 +129,7 @@ public protocol Request: class
       Will _always_ receive a call with a value of 1 when the request completes.
     */
     @discardableResult
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
+    func onProgress(_ callback: @escaping (Double) -> Void) -> Request
 
     /**
       Cancel the request if it is still in progress. Has no effect if a response has already been received.
@@ -143,9 +148,10 @@ public protocol Request: class
     func cancel()
 
     /**
-      Send the same request again, returning a new `Request` instance for the new attempt.
+      Send the same request again, returning a new `Request` instance for the new attempt. You can combine this with
+      `Request.chained(...)` to retry failed requests with updated headers.
 
-      The return request is not already started. You must call `start()` when you are ready for it to begin.
+      The returned request is **not** already started. You must call `start()` when you are ready for it to begin.
 
       - Warning:
           Use with caution! Repeating a failed request for any HTTP method other than GET is potentially unsafe,
@@ -174,12 +180,37 @@ public protocol Request: class
 
           After calling `repeated()`, you will need to attach new callbacks to the new request. Otherwise nobody will
           hear about the response when it arrives. (Q: If a request completes and nobody’s around to hear it, does it
-          make a response? A: Yes, because it still uses bandwidth.)
+          make a response? A: Yes, because it still uses bandwidth, and potentially changes state on the server.)
 
           By the same principle, repeating a `load()` request will trigger a second network call, but will not cause the
           resource’s state to be updated again with the result.
     */
     func repeated() -> Request
+    }
+
+/**
+  Indicates whether a `Request` has been started, and whether it has completed.
+
+  - SeeAlso: `Request.state`
+*/
+public enum RequestState
+    {
+    /**
+      The request is frozen, waiting for a call to `Request.start()`. You can still attach completion hooks to this
+      request, but they will not be called until the request stars.
+    */
+    case notStarted
+
+    /**
+      The request has started, and is waiting for a response. Its state will eventually transition to `completed`.
+    */
+    case inProgress
+
+    /**
+      The request has a response, and its state will note change any further. A request may be in this state because it
+      received and handled a server response, encountered a pre-request client-side side error, or was cancelled.
+    */
+    case completed
     }
 
 /**
@@ -220,7 +251,7 @@ public struct ResponseInfo
     /// The result of a `Request`.
     public var response: Response
 
-    /// Indicates whether `response` is newly received data, or a previous response reused.
+    /// Indicates whether `response` is newly received data, or the resource’s existing data reused.
     /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 

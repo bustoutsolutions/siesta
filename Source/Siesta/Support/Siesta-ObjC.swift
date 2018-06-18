@@ -314,7 +314,7 @@ public extension Resource
             {
             return _objc_Request(
                 Resource.failedRequest(
-                    RequestError(
+                    returning: RequestError(
                         userMessage: NSLocalizedString("Cannot create request", comment: "userMessage"),
                         cause: _objc_Error.Cause.InvalidRequestMethod(method: methodString))))
             }
@@ -332,7 +332,7 @@ public extension Resource
             {
             return _objc_Request(
                 Resource.failedRequest(
-                    RequestError(
+                    returning: RequestError(
                         userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                         cause: RequestError.Cause.InvalidJSONObject())))
             }

@@ -8,51 +8,39 @@
 
 import Foundation
 
-internal typealias ResponseCallback = (ResponseInfo) -> Void
-
-internal protocol RequestWithDefaultCallbacks: Request
+/// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `onCompletion(_:)`.
+extension Request
     {
-    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
-    }
-
-/// Wraps all the `Request` hooks as `ResponseCallback`s and funnels them through `addResponseCallback(_:)`.
-extension RequestWithDefaultCallbacks
-    {
-    func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Self
+    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
-        return addResponseCallback(callback)
-        }
-
-    func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Self
-        {
-        return addResponseCallback
+        return onCompletion
             {
             if case .success(let entity) = $0.response
                 { callback(entity) }
             }
         }
 
-    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Self
+    func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
-        return addResponseCallback
+        return onCompletion
             {
             if $0.isNew, case .success(let entity) = $0.response
                 { callback(entity) }
             }
         }
 
-    func onNotModified(_ callback: @escaping () -> Void) -> Self
+    func onNotModified(_ callback: @escaping () -> Void) -> Request
         {
-        return addResponseCallback
+        return onCompletion
             {
             if !$0.isNew, case .success = $0.response
                 { callback() }
             }
         }
 
-    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Self
+    func onFailure(_ callback: @escaping (RequestError) -> Void) -> Request
         {
-        return addResponseCallback
+        return onCompletion
             {
             if case .failure(let error) = $0.response
                 { callback(error) }

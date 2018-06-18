@@ -54,7 +54,12 @@ extension Request
       - SeeAlso: `Configuration.decorateRequests(...)`
     */
     public func chained(whenCompleted callback: @escaping (ResponseInfo) -> RequestChainAction) -> Request
-        { return RequestChain(wrapping: self, whenCompleted: callback) }
+        {
+        let chain = Resource.prepareRequest(using: RequestChainDelgate(wrapping: self, whenCompleted: callback))
+        if state != .notStarted
+            { chain.start() }
+        return chain
+        }
     }
 
 /**
@@ -74,77 +79,60 @@ public enum RequestChainAction
     case useThisResponse
     }
 
-internal final class RequestChain: RequestWithDefaultCallbacks
+internal struct RequestChainDelgate: RequestDelegate
     {
+    typealias ActionCallback = (ResponseInfo) -> RequestChainAction
+
+    let requestDescription: String
+
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
-    private var responseCallbacks = CallbackGroup<ResponseInfo>()
-    private var isCancelled = false
 
     init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
         self.wrappedRequest = request
         self.determineAction = determineAction
-        request.onCompletion(self.processResponse)
+
+        requestDescription = "Chain[\(wrappedRequest)]"
         }
 
-    func addResponseCallback(_ callback: @escaping ResponseCallback) -> Self
+    func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
         {
-        responseCallbacks.addCallback(callback)
-        return self
+        wrappedRequest.onCompletion
+            { self.processResponse($0, completionHandler: completionHandler) }
+
+        wrappedRequest.start()
         }
 
-    func processResponse(_ responseInfo: ResponseInfo)
+    func cancelUnderlyingOperation()
         {
-        guard !isCancelled else
-            {
-            return responseCallbacks.notifyOfCompletion(.cancellation)
-            }
+        wrappedRequest.cancel()
+        }
+
+    func processResponse(_ responseInfo: ResponseInfo, completionHandler: RequestCompletionHandler)
+        {
+        guard !completionHandler.willIgnore(responseInfo) else
+            { return }
 
         switch determineAction(responseInfo)
             {
             case .useThisResponse:
-                responseCallbacks.notifyOfCompletion(responseInfo)
+                completionHandler.broadcastResponse(responseInfo)
 
             case .useResponse(let customResponseInfo):
-                responseCallbacks.notifyOfCompletion(customResponseInfo)
+                completionHandler.broadcastResponse(customResponseInfo)
 
             case .passTo(let request):
                 request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
-                    { self.responseCallbacks.notifyOfCompletion($0) }
+                    { completionHandler.broadcastResponse($0) }
             }
         }
 
-    typealias ActionCallback = (ResponseInfo) -> RequestChainAction
+    // TODO: progress reporting
 
-    func start() -> Self
+    func repeated() -> RequestDelegate
         {
-        wrappedRequest.start()
-        return self
+        return RequestChainDelgate(wrapping: wrappedRequest.repeated(), whenCompleted: determineAction)
         }
-
-    var isCompleted: Bool
-        {
-        DispatchQueue.mainThreadPrecondition()
-        return responseCallbacks.completedValue != nil
-        }
-
-    func cancel()
-        {
-        isCancelled = true
-        wrappedRequest.cancel()
-        }
-
-    func repeated() -> Request
-        {
-        return wrappedRequest.repeated().chained(whenCompleted: determineAction)
-        }
-
-    // MARK: Dummy implementaiton of progress (for now)
-
-    var progress: Double { return 0 }
-
-    func onProgress(_ callback: @escaping (Double) -> Void) -> Self
-        { return self }
     }

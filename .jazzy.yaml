@@ -11,7 +11,7 @@ exclude:
 
 copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
-swift_version: 4.0
+swift_version: 4.1.2
 
 theme: fullwidth
 
@@ -35,10 +35,13 @@ custom_categories:
     children:
     - Request
     - RequestMethod
+    - RequestState
     - RequestError
     - Response
     - ResponseInfo
     - RequestChainAction
+    - RequestDelegate
+    - RequestCompletionHandler
 
   - name: Response Pipeline
     children:
@@ -47,7 +50,6 @@ custom_categories:
     - PipelineStageKey
     - ResponseTransformer
     - ResponseContentTransformer
-    - InputTypeMismatchAction
     - StandardTransformer
     - JSONResponseTransformer(_:)
     - TextResponseTransformer(_:)
@@ -69,12 +71,11 @@ custom_categories:
     - RequestNetworking
     - RequestNetworkingCompletionCallback
     - RequestTransferMetrics
-    - NSURLSessionProvider
+    - URLSessionProvider
     - SessionTaskContainer
     - AlamofireProvider
 
   - name: Logging
     children:
-    - enabledLogCategories
     - LogCategory
     - logger

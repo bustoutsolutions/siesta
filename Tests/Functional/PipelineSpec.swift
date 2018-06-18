@@ -30,7 +30,7 @@ class PipelineSpec: ResourceSpecBase
             {
             _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
-            awaitRequest(resource().load(), false)
+            awaitRequest(resource().load(), .inProgress)
             }
 
         func resourceCacheKey(_ prefix: String) -> TestCacheKey

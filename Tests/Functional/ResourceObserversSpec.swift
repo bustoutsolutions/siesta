@@ -188,7 +188,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 _ = reqStub.go()
-                awaitFailure(req, alreadyCompleted: true)
+                awaitFailure(req, initialState: .completed)
                 }
 
             it("receives failure event")

@@ -268,7 +268,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 _ = reqStub.go()
-                awaitFailure(req, alreadyCompleted: true)
+                awaitFailure(req, initialState: .completed)
 
                 expectDataToBeUnchanged()
                 expect(resource().latestError).to(beNil())
@@ -459,7 +459,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().cancelLoadIfUnobserved()
 
                 _ = reqStub().go()
-                awaitFailure(req(), alreadyCompleted: true)
+                awaitFailure(req(), initialState: .completed)
                 }
 
             it("does not cancel if resource has an observer")
@@ -479,8 +479,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().cancelLoadIfUnobserved()
 
                 _ = reqStub().go()
-                awaitFailure(req0, alreadyCompleted: true)
-                awaitFailure(req1, alreadyCompleted: true)
+                awaitFailure(req0, initialState: .completed)
+                awaitFailure(req1, initialState: .completed)
                 }
 
             describe("(afterDelay:)")
@@ -495,7 +495,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                     QuickSpec.current.waitForExpectations(timeout: 1)
 
                     _ = reqStub().go()
-                    awaitFailure(req(), alreadyCompleted: true)
+                    awaitFailure(req(), initialState: .completed)
                     }
 
                 it("does not cancel load if resource gains an observer during delay")
@@ -660,7 +660,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 _ = reqStub.go()
-                awaitFailure(req, alreadyCompleted: true)
+                awaitFailure(req, initialState: .completed)
 
                 awaitNewData(resource().loadIfNeeded()!)
                 }
@@ -729,7 +729,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 for reqStub in reqStubs
                     { _ = reqStub.go() }
                 for req in reqs
-                    { awaitFailure(req, alreadyCompleted: true) }
+                    { awaitFailure(req, initialState: .completed) }
 
                 expect(resource().isLoading) == false
                 expect(resource().latestData).to(beNil())
@@ -746,7 +746,7 @@ class ResourceRequestsSpec: ResourceSpecBase
                 resource().wipe()
 
                 _ = stub.go()
-                awaitFailure(otherResourceReq, alreadyCompleted: true)
+                awaitFailure(otherResourceReq, initialState: .completed)
                 expect(resource().loadRequests.count) == 0
                 }
             }

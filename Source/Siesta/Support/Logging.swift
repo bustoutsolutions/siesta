@@ -39,6 +39,11 @@ public enum LogCategory
     /// Details of which configuration matches which resources, and when it is computed.
     case configuration
 
+    // MARK: Configuring logging
+
+    /// The set of categories to log. Can be changed at runtime.
+    public static var enabled = Set<LogCategory>()
+
     // MARK: Predefined subsets
 
     /// A reasonable subset of log categories for normal debugging.
@@ -49,9 +54,6 @@ public enum LogCategory
 
     /// The whole schebang!
     public static let all: Set<LogCategory> = [network, networkDetails, pipeline, stateChanges, observers, staleness, cache, configuration]
-
-    /// The set of categories to log. Can be changed at runtime.
-    public static var enabled = Set<LogCategory>()
     }
 
 private let maxCategoryNameLength = LogCategory.all.map { Int(String(describing: $0).count) }.max() ?? 0
