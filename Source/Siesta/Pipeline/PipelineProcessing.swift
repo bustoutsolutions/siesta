@@ -55,7 +55,7 @@ extension Pipeline
             if case .success(let entity) = output,
                let cacheEntry = cacheEntry
                 {
-                SiestaLog.log(.cache, ["  ├╴Caching entity with", type(of: entity.content), "content in", cacheEntry])
+                SiestaLog.log(.cache, ["  ├╴Caching entity with", type(of: entity.content), "content for", cacheEntry])
                 cacheEntry.write(entity)
                 }
 
@@ -180,7 +180,7 @@ private protocol CacheEntryProtocol
     func remove()
     }
 
-private struct CacheEntry<Cache, Key>: CacheEntryProtocol
+private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertible
     where Cache: EntityCache, Cache.Key == Key
     {
     let cache: Cache
@@ -248,4 +248,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
             return nil
             }
         }
+
+    var description: String
+        { return "\(key) in \(cache)" }
     }
