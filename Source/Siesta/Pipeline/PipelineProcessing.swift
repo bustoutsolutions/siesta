@@ -206,7 +206,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
         {
         guard let cacheableEntity = entity.withContentRetyped() as Entity<Cache.ContentType>? else
             {
-            log(.cache, ["WARNING: Unable to cache entity:", Cache.self, "expects", Cache.ContentType.self, "but content at this stage of the pipeline is", type(of: entity.content)])
+            SiestaLog.log(.cache, ["WARNING: Unable to cache entity:", Cache.self, "expects", Cache.ContentType.self, "but content at this stage of the pipeline is", type(of: entity.content)])
             return
             }
 

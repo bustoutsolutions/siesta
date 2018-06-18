@@ -69,7 +69,7 @@ public struct Pipeline
                 .map { key, _ in key }
             let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
-                { SiestaLog.log(.pipeline, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
+                { SiestaLog.log(.pipeline, ["WARNING: Stages", missingStages, "are configured but not present in custom pipeline order", newValue, "and will be ignored"]) }
             }
         }
 
