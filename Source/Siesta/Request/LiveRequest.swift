@@ -159,11 +159,11 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
         guard state == .notStarted else
             {
-            debugLog(.networkDetails, [delegate.requestDescription, "already started"])
+            SiestaLog.log(.networkDetails, [delegate.requestDescription, "already started"])
             return self
             }
 
-        debugLog(.network, [delegate.requestDescription])
+        SiestaLog.log(.network, [delegate.requestDescription])
 
         underlyingOperationStarted = true
         delegate.startUnderlyingOperation(passingResponseTo: self)
@@ -181,11 +181,11 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
         guard state != .completed else
             {
-            debugLog(.network, ["cancel() called but request already completed:", delegate.requestDescription])
+            SiestaLog.log(.network, ["cancel() called but request already completed:", delegate.requestDescription])
             return
             }
 
-        debugLog(.network, ["Cancelled", delegate.requestDescription])
+        SiestaLog.log(.network, ["Cancelled", delegate.requestDescription])
 
         delegate.cancelUnderlyingOperation()
 
@@ -230,7 +230,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
         if !existingResponse.isCancellation
             {
-            debugLog(.network,
+            SiestaLog.log(.network,
                 [
                 "WARNING: Received response for request that was already completed:", delegate.requestDescription,
                 "This may indicate a bug in your NetworkingProvider, your custom RequestDelegate, or Siesta itself.",
@@ -244,7 +244,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
             // Sometimes the network layer sends a cancellation error. That’s not of interest if we already knew
             // we were cancelled. If we received any other response after cancellation, log that we ignored it.
 
-            debugLog(.networkDetails,
+            SiestaLog.log(.networkDetails,
                 [
                 "Received response, but request was already cancelled:", delegate.requestDescription,
                 "\n    New response:", newResponse

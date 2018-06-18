@@ -75,7 +75,7 @@ extension String: ConfigurationPatternConvertible
                 .replacingOccurrences(of: "\\*",       with: "[^/?]*")
                 .replacingOccurrences(of: "\\?",       with: "[^/?]")
             + "($|\\?)")
-        debugLog(.configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
+        SiestaLog.log(.configuration, ["URL pattern", self, "compiles to regex", pattern.pattern])
 
         return pattern.configurationPattern(for: service)
         }

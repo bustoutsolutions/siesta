@@ -33,7 +33,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         underlyingRequest = requestBuilder()
 
         requestDescription =
-            LogCategory.enabled.contains(.network) || LogCategory.enabled.contains(.networkDetails)
+            SiestaLog.Category.enabled.contains(.network) || SiestaLog.Category.enabled.contains(.networkDetails)
                 ? debugStr([underlyingRequest.httpMethod, underlyingRequest.url])
                 : "NetworkRequest"
 
@@ -90,9 +90,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
         {
         DispatchQueue.mainThreadPrecondition()
 
-        debugLog(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
-        debugLog(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
-        debugLog(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
+        SiestaLog.log(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        SiestaLog.log(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
+        SiestaLog.log(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
         let responseInfo = interpretResponse(underlyingResponse, body, error)
 
