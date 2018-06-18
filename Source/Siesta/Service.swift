@@ -143,7 +143,7 @@ open class Service: NSObject
 
         guard let url = urlConvertible.url else
             {
-            debugLog(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
+            SiestaLog.log(.network, ["WARNING: Invalid URL:", urlConvertible, "(all requests for this resource will fail)"])
             return Resource(service: self, invalidURLSource: urlConvertible)  // one-off instance for invalid URL
             }
 
@@ -245,7 +245,7 @@ open class Service: NSObject
             configurationPattern: configurationPattern,
             configurer: configurer)
         configurationEntries.append(entry)
-        debugLog(.configuration, ["Added", entry])
+        SiestaLog.log(.configuration, ["Added", entry])
         }
 
     /**
@@ -373,7 +373,7 @@ open class Service: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         if anyConfigSinceLastInvalidation
-            { debugLog(.configuration, ["Configurations need to be recomputed"]) }
+            { SiestaLog.log(.configuration, ["Configurations need to be recomputed"]) }
         anyConfigSinceLastInvalidation = false
 
         configVersion += 1
@@ -384,16 +384,16 @@ open class Service: NSObject
     internal func configuration(forResource resource: Resource, requestMethod: RequestMethod) -> Configuration
         {
         anyConfigSinceLastInvalidation = true
-        debugLog(.configuration, ["Computing configuration for", requestMethod.rawValue.uppercased(), resource])
+        SiestaLog.log(.configuration, ["Computing configuration for", requestMethod.rawValue.uppercased(), resource])
         var config = Configuration()
         for entry in configurationEntries
             where entry.requestMethods.contains(requestMethod)
                && entry.configurationPattern(resource.url)
             {
-            debugLog(.configuration, ["  ├╴Applying", entry])
+            SiestaLog.log(.configuration, ["  ├╴Applying", entry])
             entry.configurer(&config)
             }
-        debugLog(.configuration, ["  └╴Resulting configuration", config.dump("      ")])
+        SiestaLog.log(.configuration, ["  └╴Resulting configuration", config.dump("      ")])
 
         return config
         }
