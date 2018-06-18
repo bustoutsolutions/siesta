@@ -57,7 +57,7 @@ public extension Resource
         else
             {
             return Resource.failedRequest(
-                RequestError(
+                returning: RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: RequestError.Cause.UnencodableText(encoding: encoding, text: text)))
             }
@@ -83,7 +83,7 @@ public extension Resource
         guard JSONSerialization.isValidJSONObject(json) else
             {
             return Resource.failedRequest(
-                RequestError(
+                returning: RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: RequestError.Cause.InvalidJSONObject()))
             }
@@ -100,7 +100,7 @@ public extension Resource
             // but we catch the exception anyway instead of using try! and crashing.
 
             return Resource.failedRequest(
-                RequestError(
+                returning: RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
             }
@@ -141,7 +141,7 @@ public extension Resource
         catch
             {
             return Resource.failedRequest(
-                RequestError(
+                returning: RequestError(
                     userMessage: NSLocalizedString("Cannot send request", comment: "userMessage"),
                     cause: error))
             }

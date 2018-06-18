@@ -16,7 +16,7 @@ extension Resource
       This is useful for performing pre-request validation: if you know a request is valid before you even send it, you
       can return an immediate error response that looks just like any other Siesta error.
      */
-    public static func failedRequest(_ error: RequestError) -> Request
+    public static func failedRequest(returning error: RequestError) -> Request
         {
         return hardWiredRequest(returning: .failure(error))
         }

@@ -261,7 +261,7 @@ public final class Resource: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         if let permanentFailure = permanentFailure
-            { return Resource.failedRequest(permanentFailure) }
+            { return Resource.failedRequest(returning: permanentFailure) }
 
         // Build the request
 

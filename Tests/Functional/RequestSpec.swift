@@ -182,7 +182,7 @@ class RequestSpec: ResourceSpecBase
 
                 context("substituting a request")
                     {
-                    let dummyRequest = { Resource.failedRequest(RequestError(userMessage: "dummy", cause: DummyError())) }
+                    let dummyRequest = { Resource.failedRequest(returning: RequestError(userMessage: "dummy", cause: DummyError())) }
                     let dummyReq0 = specVar { dummyRequest() },
                         dummyReq1 = specVar { dummyRequest() }
 
@@ -266,7 +266,7 @@ class RequestSpec: ResourceSpecBase
                             $0.decorateRequests
                                 {
                                 _, req in
-                                Resource.failedRequest(RequestError(userMessage: "dummy", cause: DummyError()))
+                                Resource.failedRequest(returning: RequestError(userMessage: "dummy", cause: DummyError()))
                                     .chained
                                         {
                                         _ in if passToOriginalRequest
