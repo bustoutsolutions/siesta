@@ -40,7 +40,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         progressComputation = RequestProgressComputation(isGet: underlyingRequest.httpMethod == "GET")
         }
 
-    func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
+    func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
         {
         let networking = resource.service.networkingProvider.startRequest(underlyingRequest)
             {

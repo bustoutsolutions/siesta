@@ -58,7 +58,7 @@ public protocol RequestDelegate
       typically want to hold on to the `completionHandler` for the duration of a long-running operation in order to
       broadcast the response at the end.
     */
-    func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
+    func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
 
     /**
       Indicates that the `Request` using this delegate has been cancelled, and the delegate MAY cancel its underlying
@@ -166,7 +166,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         debugLog(.network, [delegate.requestDescription])
 
         underlyingOperationStarted = true
-        delegate.startUnderlyingOperation(completionHandler: self)
+        delegate.startUnderlyingOperation(passingResponseTo: self)
 
         progressTracker.start(
             progressProvider: delegate.computeProgress,

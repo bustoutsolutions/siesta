@@ -96,7 +96,7 @@ internal struct RequestChainDelgate: RequestDelegate
         requestDescription = "Chain[\(wrappedRequest)]"
         }
 
-    func startUnderlyingOperation(completionHandler: RequestCompletionHandler)
+    func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
         {
         wrappedRequest.onCompletion
             { self.processResponse($0, completionHandler: completionHandler) }
