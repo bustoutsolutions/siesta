@@ -64,7 +64,7 @@ class EntityCacheSpec: ResourceSpecBase
 
             describe("in loadIfNeeded()")
                 {
-                let eventRecorder = specVar { NewDataEventRecorder() }
+                let eventRecorder = specVar { ObserverEventRecorder() }
 
                 func loadIfNeededAndRecordEvents(expectingContent content: String)
                     {
@@ -79,7 +79,11 @@ class EntityCacheSpec: ResourceSpecBase
                     {
                     configureCache(cache0(), at: .cleanup)
                     loadIfNeededAndRecordEvents(expectingContent: "cache0")
-                    expect(eventRecorder().newDataEvents) == ["from cache: cache0"]
+                    expect(eventRecorder().events) ==
+                        [
+                        "newData(cache) latestData=cache0 isLoading=true",
+                        "notModified latestData=cache0 isLoading=false"
+                        ]
                     }
 
                 it("after populated from cache, does not use network if data is fresh")
@@ -93,7 +97,11 @@ class EntityCacheSpec: ResourceSpecBase
                     {
                     configureCache(TestCache("empty"), at: .cleanup)
                     loadIfNeededAndRecordEvents(expectingContent: "decparmodcle")
-                    expect(eventRecorder().newDataEvents) == ["from network: decparmodcle"]
+                    expect(eventRecorder().events) ==
+                        [
+                        "requested latestData= isLoading=true",
+                        "newData(network) latestData=decparmodcle isLoading=false"
+                        ]
                     }
 
                 it("proceeds to network if cached data is stale")
@@ -107,10 +115,11 @@ class EntityCacheSpec: ResourceSpecBase
                     loadIfNeededAndRecordEvents(expectingContent: "decparmodcle")
 
                     // Observers see cache hit, then network result
-                    expect(eventRecorder().newDataEvents) ==
+                    expect(eventRecorder().events) ==
                         [
-                        "from cache: cache0",
-                        "from network: decparmodcle"
+                        "newData(cache) latestData=cache0 isLoading=true",
+                        "requested latestData=cache0 isLoading=true",
+                        "newData(network) latestData=decparmodcle isLoading=false"
                         ]
                     }
                 }
@@ -362,13 +371,14 @@ private struct UnwritableCache: EntityCache
         { fatalError("cache should never be written to") }
     }
 
-private class NewDataEventRecorder: ResourceObserver
+private class ObserverEventRecorder: ResourceObserver
     {
-    var newDataEvents = [String]()
+    var events = [String]()
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
         {
-        if case .newData(let source) = event
-            { newDataEvents.append("from \(source): \(resource.text)") }
+        if case .observerAdded = event
+            { return }
+        events.append("\(event) latestData=\(resource.text) isLoading=\(resource.isLoading)")
         }
     }

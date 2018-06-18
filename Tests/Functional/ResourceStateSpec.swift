@@ -303,7 +303,7 @@ class ResourceRequestsSpec: ResourceSpecBase
             func expectToLoad(_ reqClosure: @autoclosure () -> Request?, returning loadReq: Request? = nil)
                 {
                 _ = stubRequest(resource, "GET").andReturn(200) // Stub first...
-                let reqReturned = reqClosure()             // ...then allow loading
+                let reqReturned = reqClosure()                  // ...then allow loading
                 expect(resource().isLoading) == true
                 expect(reqReturned).notTo(beNil())
                 if loadReq != nil

@@ -379,11 +379,16 @@ public final class Resource: NSObject
             trackRequest(cacheRequest, in: &loadRequests)
             return cacheRequest.chained
                 {
-                _ in                             // We don’t need the actual cache request result because...
+                _ in                             // We don’t need the actual result of the cache request because...
                 if self.isUpToDate               // ...performCacheCheck() has already updated resource state
-                    { return .useThisResponse }  // If cached data was up to date, no need to go to network
+                    {
+                    self.receiveDataNotModified()  // If cached data is up to date, tell observers isLoading is false...
+                    return .useThisResponse        // ...and no need to go to network
+                    }
                 else
-                    { return .passTo(self.load()) }
+                    {
+                    return .passTo(self.load())
+                    }
                 }
             }
 
@@ -526,7 +531,7 @@ public final class Resource: NSObject
 
     private func receiveDataNotModified()
         {
-        debugLog(.stateChanges, [self, "existing data is still valid"])
+        debugLog(.stateChanges, [self, "existing data is up to date"])
 
         latestError = nil
         latestData?.touch()
