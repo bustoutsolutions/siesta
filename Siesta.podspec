@@ -77,14 +77,14 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UI" do |s|
-    s.ios.source_files = "Source/SiestaUI/**/*"
+    s.ios.source_files = "Source/SiestaUI/**/*.{swift,m,h}"
     s.dependency "Siesta/Core"
     s.exclude_files = "**/Info*.plist"
     s.ios.resources = "Source/**/*.xib"
   end
 
   s.subspec "Alamofire" do |s|
-    s.source_files = "Extensions/Alamofire/**/*"
+    s.source_files = "Extensions/Alamofire/**/*.{swift,m,h}"
     s.dependency "Siesta/Core"
     s.dependency "Alamofire", "> 4.1"
   end
