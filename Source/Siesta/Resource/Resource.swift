@@ -97,7 +97,7 @@ public final class Resource: NSObject
     public private(set) var latestData: Entity<Any>?
         {
         get {
-            initializeDataFromCache()  // asynchronous; won't immediately change data
+            performCacheCheck()  // asynchronous; won't immediately change data
             return _latestData
             }
 
@@ -374,6 +374,31 @@ public final class Resource: NSObject
         if isUpToDate
             { return nil }
 
+        if case .inProgress(let cacheRequest) = cacheCheckStatus
+            {
+            var trackedRequest: Request?
+            let cacheThenNetwork = cacheRequest.chained
+                {
+                _ in // We don’t need the result of the cache request here; resource state is already updated
+
+                // Ensure isLoading is false for last event observers receive
+                self.loadRequests.remove { $0 === trackedRequest }
+
+                if self.isUpToDate                 // If cached data is up to date...
+                    {
+                    self.receiveDataNotModified()  // ...tell observers isLoading is false...
+                    return .useThisResponse        // ...and no need to make a network call!
+                    }
+                else
+                    {
+                    return .passTo(self.load())    // Cache was a bust, so make the real request
+                    }
+                }
+            loadRequests.append(cacheThenNetwork)
+            trackedRequest = cacheThenNetwork
+            return cacheThenNetwork
+            }
+
         return load()
         }
 
@@ -513,7 +538,7 @@ public final class Resource: NSObject
 
     private func receiveDataNotModified()
         {
-        debugLog(.stateChanges, [self, "existing data is still valid"])
+        debugLog(.stateChanges, [self, "existing data is up to date"])
 
         latestError = nil
         latestData?.touch()
@@ -645,40 +670,48 @@ public final class Resource: NSObject
 
         notifyObservers(.newData(.wipe))
 
-        loadDataFromCache()
+        cacheCheckStatus = .notStarted
+        performCacheCheck()
         }
 
     // MARK: Caching
 
     internal func observersChanged()
         {
-        initializeDataFromCache()
+        performCacheCheck()
         // Future config callbacks for observed/unobserved may go here
         }
 
-    private var initialCacheCheckDone = false  // We wait to check for cached data until first observer added
-
-    private func initializeDataFromCache()
+    private enum CacheCheckStatus
         {
-        if !initialCacheCheckDone
-            {
-            initialCacheCheckDone = true
-            loadDataFromCache()
-            }
+        case notStarted
+        case inProgress(Request)
+        case completed
         }
 
-    private func loadDataFromCache()
-        {
-        configuration.pipeline.cachedEntity(for: self)
-            {
-            [weak self] entity in
-            guard let resource = self, resource.latestData == nil else
-                {
-                debugLog(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
-                return
-                }
+    private var cacheCheckStatus = CacheCheckStatus.notStarted  // Wait to check for cached data until first observer added
 
-            resource.receiveNewData(entity, source: .cache)
+    private func performCacheCheck()
+        {
+        if case .notStarted = cacheCheckStatus
+            {
+            cacheCheckStatus = .inProgress(
+                configuration.pipeline.checkCache(for: self)
+                    .onCompletion
+                        {
+                        [weak self] result in
+                        guard let resource = self, resource.latestData == nil else
+                            {
+                            debugLog(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
+                            return
+                            }
+
+                        resource.cacheCheckStatus = .completed
+
+                        if case .success(let entity) = result.response
+                            { resource.receiveNewData(entity, source: .cache) }
+                        }
+                )
             }
         }
 

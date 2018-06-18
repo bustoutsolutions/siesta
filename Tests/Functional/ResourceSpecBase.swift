@@ -179,6 +179,13 @@ private func pollUnderlyingCompletion(_ req: Siesta.Request, expectation: XCTest
         }
     }
 
+func stubAndAwaitRequest(for resource: Resource, expectSuccess: Bool = true)
+    {
+    _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
+    let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
+    awaitRequest(resource.load(), .inProgress)
+    }
+
 
 // MARK: - Siesta internals
 

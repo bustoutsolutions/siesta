@@ -171,6 +171,10 @@ public extension RequestError
         /// Server sent 304 (“not changed”), but we have no local data for the resource.
         public struct NoLocalDataFor304: Error { }
 
+        /// Internal cache request found no data. Not public because Siesta always chains
+        /// cache request failures to a network request, so clients never see this error.
+        internal struct CacheMiss: Error { }
+
         /// The server sent a text encoding name that the OS does not recognize.
         public struct InvalidTextEncoding: Error
             {
