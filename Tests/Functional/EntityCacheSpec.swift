@@ -53,7 +53,7 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(resource().latestData).to(beNil())
                 }
 
-            it("ignores cached data if resource populated before cache read completes")
+            it("ignores cached data if latestData populated before cache read completes")
                 {
                 configureCache(cache0(), at: .cleanup)
                 expect(resource().latestData).to(beNil())  // trigger cache read
@@ -62,22 +62,57 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(resource().text) == "no race conditions here"
                 }
 
-            it("prevents loadIfNeeded() network access if cached data is fresh")
+            describe("in loadIfNeeded()")
                 {
-                configureCache(cache0(), at: .cleanup)
-                expect(resource().latestData).toEventuallyNot(beNil())
-                expect(resource().loadIfNeeded()).to(beNil())
-                }
+                let eventRecorder = specVar { NewDataEventRecorder() }
 
-            it("allows loadIfNeeded() network access if cached data is stale")
-                {
-                setResourceTime(1000)
-                configureCache(cache0(), at: .cleanup)
+                func loadIfNeededAndRecordEvents(expectingContent content: String)
+                    {
+                    _ = stubRequest(resource, "GET").andReturn(200).withBody("net" as NSString)
+                    resource().addObserver(eventRecorder())
+                    let request = resource().loadIfNeeded()!
+                    request.onSuccess { expect($0.text) == content }
+                    awaitNewData(request)
+                    }
 
-                setResourceTime(2000)
-                expect(resource().latestData).toEventuallyNot(beNil())
-                _ = stubRequest(resource, "GET").andReturn(200)
-                awaitNewData(resource().loadIfNeeded()!)
+                it("waits for cache hit before proceeding to network")
+                    {
+                    configureCache(cache0(), at: .cleanup)
+                    loadIfNeededAndRecordEvents(expectingContent: "cache0")
+                    expect(eventRecorder().newDataEvents) == ["from cache: cache0"]
+                    }
+
+                it("after populated from cache, does not use network if data is fresh")
+                    {
+                    configureCache(cache0(), at: .cleanup)
+                    expect(resource().latestData).toEventuallyNot(beNil())
+                    expect(resource().loadIfNeeded()).to(beNil())
+                    }
+
+                it("proceeds to network on cache miss")
+                    {
+                    configureCache(TestCache("empty"), at: .cleanup)
+                    loadIfNeededAndRecordEvents(expectingContent: "decparmodcle")
+                    expect(eventRecorder().newDataEvents) == ["from network: decparmodcle"]
+                    }
+
+                it("proceeds to network if cached data is stale")
+                    {
+                    setResourceTime(1000)
+                    configureCache(cache0(), at: .cleanup)
+
+                    setResourceTime(2000)
+
+                    // Request only yields final result from network
+                    loadIfNeededAndRecordEvents(expectingContent: "decparmodcle")
+
+                    // Observers see cache hit, then network result
+                    expect(eventRecorder().newDataEvents) ==
+                        [
+                        "from cache: cache0",
+                        "from network: decparmodcle"
+                        ]
+                    }
                 }
 
             it("prefers cache hits from later stages")
@@ -325,4 +360,15 @@ private struct UnwritableCache: EntityCache
 
     func removeEntity(forKey key: URL)
         { fatalError("cache should never be written to") }
+    }
+
+private class NewDataEventRecorder: ResourceObserver
+    {
+    var newDataEvents = [String]()
+
+    func resourceChanged(_ resource: Resource, event: ResourceEvent)
+        {
+        if case .newData(let source) = event
+            { newDataEvents.append("from \(source): \(resource.text)") }
+        }
     }
