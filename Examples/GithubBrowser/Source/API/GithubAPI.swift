@@ -16,21 +16,21 @@ class _GitHubAPI {
     fileprivate init() {
         #if DEBUG
             // Bare-bones logging of which network calls Siesta makes:
-            LogCategory.enabled = [.network]
+            SiestaLog.Category.enabled = [.network]
 
             // For more info about how Siesta decides whether to make a network call,
             // and which state updates it broadcasts to the app:
 
-            //LogCategory.enabled = LogCategory.common
+            //SiestaLog.Category.enabled = .common
 
             // For the gory details of what Siesta’s up to:
 
-            //LogCategory.enabled = LogCategory.all
+            //SiestaLog.Category.enabled = .detailed
 
             // To dump all requests and responses:
             // (Warning: may cause Xcode console overheating)
 
-            //LogCategory.enabled = LogCategory.all
+            //SiestaLog.Category.enabled = .all
         #endif
 
         // –––––– Global configuration ––––––

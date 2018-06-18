@@ -18,7 +18,7 @@ class SiestaSpec: QuickSpec
         {
         beforeSuite
             {
-            SiestaLog.Category.enabled = SiestaLog.Category.all
+            SiestaLog.Category.enabled = .all
             SiestaLog.messageHandler = { currentLogMessages.append($1) }
             }
 

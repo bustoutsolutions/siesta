@@ -53,7 +53,7 @@ public enum SiestaLog
         public static let common: Set<Category> = [network, stateChanges, staleness]
 
         /// Everything except full request/response data.
-        public static let detailed = Set<Category>(all.filter { $0 != networkDetails})
+        public static let detailed = all.subtracting([networkDetails])
 
         /// The whole schebang!
         public static let all: Set<Category> = [network, networkDetails, pipeline, stateChanges, observers, staleness, cache, configuration]
@@ -88,4 +88,17 @@ public enum SiestaLog
         if Category.enabled.contains(category)
             { messageHandler(category, debugStr(messageParts())) }
         }
+    }
+
+// These allow `SiestaLog.Category.enabled = .common` instead of `SiestaLog.Category.enabled = SiestaLog.Category.common`.
+extension Set where Element == SiestaLog.Category
+    {
+    /// A reasonable subset of log categories for normal debugging.
+    public static let common = SiestaLog.Category.common
+
+    /// Everything except full request/response data.
+    public static let detailed = SiestaLog.Category.detailed
+
+    /// The whole kit and caboodle!
+    public static let all = SiestaLog.Category.all
     }
