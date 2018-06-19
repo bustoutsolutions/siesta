@@ -232,14 +232,16 @@ extension Dictionary:   JSONConvertible { }
 extension Array:        JSONConvertible { }
 
 /// Helper struct for specifying a file to upload for `Resource.request(_:multipart:files:order:requestMutation:)`.
-public struct FilePart {
+public struct FilePart
+    {
     let filename: String
     let type: String
     let data: Data
 
-    init(filename: String, type: String, data: Data) {
+    init(filename: String, type: String, data: Data)
+        {
         self.filename = filename
         self.type = type
         self.data = data
+        }
     }
-}
