@@ -175,9 +175,11 @@ public extension Resource
             multipart values: [String:String],
             files: [String:FilePart]?,
             order: [String]?,
-            requestMutation: @escaping RequestMutation = { _ in }) -> Request {
-
-        func getNames() -> [String] {
+            requestMutation: @escaping RequestMutation = { _ in })
+        -> Request
+        {
+        func getNames() -> [String]
+            {
             if let givenOrder = order {
                 return givenOrder
             }
@@ -188,34 +190,38 @@ public extension Resource
             }
 
             return names
-        }
+            }
 
-        func append(_ body: NSMutableData, _ line: String) {
+        func append(_ body: NSMutableData, _ line: String)
+            {
             body.append(line.data(using: .utf8)!)
-        }
+            }
 
         // Derived from https://github.com/bustoutsolutions/siesta/issues/190#issuecomment-294267686
         let boundary = "Boundary-\(NSUUID().uuidString)"
         let contentType = "multipart/form-data; boundary=\(boundary)"
         let body = NSMutableData()
         let names = getNames()
-        names.forEach { name in
+        names.forEach
+            { name in
             append(body, "--\(boundary)\r\n")
-            if values.keys.contains(name), let value = values[name] {
+            if values.keys.contains(name), let value = values[name]
+                {
                 append(body, "Content-Disposition:form-data; name=\"\(name)\"\r\n\r\n")
                 append(body, "\(value)\r\n")
-            } else if let givenFiles = files, givenFiles.keys.contains(name), let filePart = givenFiles[name] {
+                }
+            else if let givenFiles = files, givenFiles.keys.contains(name), let filePart = givenFiles[name]
+                {
                 append(body, "Content-Disposition:form-data; name=\"\(name)\"; filename=\"\(filePart.filename)\"\r\n")
                 append(body, "Content-Type: \(filePart.type)\r\n\r\n")
                 body.append(filePart.data)
                 append(body, "\r\n")
+                }
             }
-        }
 
         append(body, "--\(boundary)--\r\n")
         return request(method, data: body as Data, contentType: contentType, requestMutation: requestMutation)
-    }
-
+        }
     }
 
 /// Dictionaries and arrays can both be passed to `Resource.request(_:json:contentType:requestMutation:)`.
