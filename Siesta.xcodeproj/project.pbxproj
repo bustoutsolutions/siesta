@@ -184,6 +184,7 @@
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
 		DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
+		DA9E515420DD7A45000923BA /* RemoteImageViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */; };
 		DA9F4BDC1B3DFE3700E8966F /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
 		DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */; };
 		DA9F4BE01B41C9CC00E8966F /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */; };
@@ -387,6 +388,7 @@
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
 		DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationPatternConvertible.swift; sourceTree = "<group>"; };
+		DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageViewSpec.swift; sourceTree = "<group>"; };
 		DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCache.swift; sourceTree = "<group>"; };
 		DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakCacheSpec.swift; sourceTree = "<group>"; };
 		DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceObserver.swift; sourceTree = "<group>"; };
@@ -621,6 +623,7 @@
 				DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */,
 				DA3314301B4DC11900A7A175 /* ResponseDataHandlingSpec.swift */,
 				DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */,
+				DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */,
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
 				DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */,
 				DA99B5C71B38C36A009C6937 /* Support */,
@@ -1381,6 +1384,7 @@
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */,
 				DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */,
+				DA9E515420DD7A45000923BA /* RemoteImageViewSpec.swift in Sources */,
 				DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */,
 				DA788A8E1D6AC1580085C820 /* ObjcCompatibilitySpec.m in Sources */,
 				DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */,

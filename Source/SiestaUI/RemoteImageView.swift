@@ -39,7 +39,11 @@ open class RemoteImageView: UIImageView
     public var imageURL: String?
         {
         get { return imageResource?.url.absoluteString }
-        set { imageResource = imageService.resource(absoluteURL: newValue) }
+        set {
+            imageResource = (newValue == nil)
+                ? nil
+                : imageService.resource(absoluteURL: newValue)
+            }
         }
 
     /// Optional image transform applyed to placeholderImage and downloaded image
