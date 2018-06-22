@@ -13,6 +13,15 @@ public extension Resource
 
     /**
       Convenience method to initiate a request with a body containing arbitrary data.
+      - Parameter method: The HTTP method of the request.
+      - Parameter data: The body of the request.
+      - Parameter contentType: The value for the request’s `Content-Type` header. The priority order is as follows:
+          - any content-type set in `Configuration.mutateRequests(...)` overrides
+          - any content-type set in `requestMutation`, which overrides
+          - this parameter, which overrides
+          - any content-type set with `Configuration.headers`.
+      - Parameter requestMutation: Allows you to override details fo the HTTP request before it is sent.
+          See `request(_:requestMutation:)`.
     */
     public func request(
             _ method:        RequestMethod,
@@ -25,9 +34,8 @@ public extension Resource
             {
             underlyingRequest in
 
-            underlyingRequest.addValue(contentType, forHTTPHeaderField: "Content-Type")
+            underlyingRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
             underlyingRequest.httpBody = data
-
             requestMutation(&underlyingRequest)
             }
         }

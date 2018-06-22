@@ -541,6 +541,37 @@ class RequestSpec: ResourceSpecBase
                         }
                     }
                 }
+
+            it("overrides any Content-Type set in configuration headers")
+                {
+                service().configure { $0.headers["Content-Type"] = "frotzle/ooglatz" }
+                _ = stubRequest(resource, "POST")
+                    .withHeader("Content-Type", "application/json")
+                awaitNewData(resource().request(.post, json: ["foo": "bar"]))
+                }
+
+            it("lets ad hoc request mutation override the Content-Type")
+                {
+                _ = stubRequest(resource, "POST")
+                    .withHeader("Content-Type", "person/json")
+                let req = resource().request(.post, json: ["foo": "bar"])
+                    { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }
+                awaitNewData(req)
+                }
+
+            it("lets configured mutators override the Content-Type")
+                {
+                service().configure
+                    {
+                    $0.mutateRequests
+                        { $0.setValue("argonaut/json", forHTTPHeaderField: "Content-Type") }  // This one wins, even though...
+                    }
+
+                _ = stubRequest(resource, "POST").withHeader("Content-Type", "argonaut/json")
+                let req = resource().request(.post, json: ["foo": "bar"])                     // ...request(json:) sets it to "application/json"...
+                    { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }        // ...and ad hoc mutation overrides that.
+                awaitNewData(req)
+                }
             }
 
         describe("chained()")
