@@ -170,7 +170,6 @@
 				DA7462361B4C768B00406D67 /* Frameworks */,
 				DA7462371B4C768B00406D67 /* Resources */,
 				ABBC5F5CF6B83AF37EB2D67F /* [CP] Embed Pods Frameworks */,
-				DD66E6435D504CAF585B7E20 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -262,21 +261,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubBrowser/Pods-GithubBrowser-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DD66E6435D504CAF585B7E20 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubBrowser/Pods-GithubBrowser-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
