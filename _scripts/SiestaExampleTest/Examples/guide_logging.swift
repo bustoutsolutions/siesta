@@ -2,28 +2,28 @@ import Siesta
 import AVFoundation
 
 func guide_logging(service: Service, resource: Resource) {
-                                                                                                                                                                                                        
+
     //══════ guide_logging:0 ══════
-    Siesta.LogCategory.enabled = LogCategory.common
+    SiestaLog.Category.enabled = .common
     //════════════════════════════════════
-        
+
     //══════ guide_logging:1 ══════
-    Siesta.LogCategory.enabled = LogCategory.all
+    SiestaLog.Category.enabled = .all
     //════════════════════════════════════
-        
+
     //══════ guide_logging:2 ══════
     #if DEBUG
-        Siesta.LogCategory.enabled = LogCategory.common
+        SiestaLog.Category.enabled = .common
     #endif
     //════════════════════════════════════
-        
+
     //══════ guide_logging:3 ══════
     let speechSynth = AVSpeechSynthesizer()
-    let originalLogger = Siesta.logger
-    Siesta.logger = { category, message in
+    let originalLogger = SiestaLog.messageHandler
+    SiestaLog.messageHandler = { category, message in
         originalLogger(category, message)
         speechSynth.speak(AVSpeechUtterance(string: message))
     }
     //════════════════════════════════════
-    
+
 }
