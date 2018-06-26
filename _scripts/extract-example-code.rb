@@ -23,7 +23,9 @@ unless File.directory?(output_dir)
 end
 
 code_pat = %r{
-  <pre\s+class="highlight\s+plaintext">\s*
+  (?:<div\s+class="declaration">.*?<pre.*?<\/pre>)  # skip declarations
+  |
+  <pre\s+class="highlight\s+(?:plaintext|swift)">\s*
   <code>
   (.*?)
   </code>\s*
@@ -41,8 +43,10 @@ Dir["#{docs_dir}/api/*/**/*.html", "#{docs_dir}/**/*.md"].reject { |f| f =~ /doc
     .gsub(/[^[:word:]]/, '_')
 
   snippets = File.read(file, encoding: 'utf-8').scan(code_pat).map do |*matches|
-    matches.compact.join.strip
-  end
+    matches.compact.join
+      .gsub(/<\/?span[^>]*>/, '')
+      .strip
+  end.reject(&:empty?)
 
   next unless snippets.any?
 
@@ -96,6 +100,8 @@ Dir["#{docs_dir}/api/*/**/*.html", "#{docs_dir}/**/*.md"].reject { |f| f =~ /doc
     replace_range = existing&.range || (examples.rindex("}") ... examples.rindex("}"))
     examples[replace_range] = snippet.gsub(/^/, indent)
   end
+
+  examples.gsub!(/ +$/, '')
 
   puts "Writing #{outfile}"
   File.write(outfile, examples, encoding: "utf-8")

@@ -77,7 +77,7 @@ end
 
 mab = Markaby::Builder.new(indent: 2)
 mab.html do
-  enable_html5!
+  self.tagset = Markaby::HTML5
 
   head do
     title "Siesta Specs"
