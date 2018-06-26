@@ -80,7 +80,7 @@ class _GitHubAPI {
 
         service.configureTransformer("/search/repositories") {
             try jsonDecoder.decode(SearchResults<Repository>.self, from: $0.content)
-                .items
+                .items  // Transformers can do arbitrary post-processing
         }
 
         service.configureTransformer("/repos/*/*") {
@@ -92,7 +92,7 @@ class _GitHubAPI {
         }
 
         service.configureTransformer("/repos/*/*/languages") {
-            // For the request, GitHub gives a response of the form {"Swift": 421956, "Objective-C": 11000, ...}.
+            // For this request, GitHub gives a response of the form {"Swift": 421956, "Objective-C": 11000, ...}.
             // Instead of using a custom model class for this one, we just model it as a raw dictionary.
             try jsonDecoder.decode([String:Int].self, from: $0.content)
         }

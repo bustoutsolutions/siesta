@@ -9,7 +9,7 @@ exclude:
   - "Source/SiestaUI/SiestaUI-ObjC.swift"         # ditto
   - "Source/Siesta/Support/Ω_Deprecations.swift"  # ditto
 
-copyright: '© 2016 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
+copyright: '© 2018 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
 swift_version: 4.1.2
 
@@ -39,6 +39,9 @@ custom_categories:
     - RequestError
     - Response
     - ResponseInfo
+
+  - name: Request Customization
+    children:
     - RequestChainAction
     - RequestDelegate
     - RequestCompletionHandler
@@ -54,6 +57,10 @@ custom_categories:
     - JSONResponseTransformer(_:)
     - TextResponseTransformer(_:)
     - ImageResponseTransformer(_:)
+
+  - name: Logging
+    children:
+    - SiestaLog
 
   - name: Caching
     children:
@@ -74,8 +81,3 @@ custom_categories:
     - URLSessionProvider
     - SessionTaskContainer
     - AlamofireProvider
-
-  - name: Logging
-    children:
-    - LogCategory
-    - logger
