@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RequestDelegate Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Protocol/RequestDelegate" class="dashAnchor"></a>
+
+    <a title="RequestDelegate Protocol Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          Siesta Docs
+        </a>
+         (96% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/bustoutsolutions/siesta">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">Siesta Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      RequestDelegate Protocol Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Resources.html">Resources</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Service.html">Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Resource.html">Resource</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Entity.html">Entity</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/TypedContentAccessors.html">TypedContentAccessors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Observing Resources.html">Observing Resources</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ResourceObserver.html">ResourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Observing Resources.html#/s:6Siesta23ResourceObserverClosurea">ResourceObserverClosure</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ResourceEvent.html">ResourceEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ResourceEvent/NewDataSource.html">– NewDataSource</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Requests.html">Requests</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Request.html">Request</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestMethod.html">RequestMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestError.html">RequestError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestError/Cause.html">– Cause</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Response.html">Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Response Pipeline.html">Response Pipeline</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Pipeline.html">Pipeline</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PipelineStage.html">PipelineStage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PipelineStage/MutationAction.html">– MutationAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PipelineStageKey.html">PipelineStageKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ResponseTransformer.html">ResponseTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog/Category.html">– Category</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Caching.html">Caching</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EntityCache.html">EntityCache</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Network Layer.html">Network Layer</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/NetworkingProvider.html">NetworkingProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestNetworking.html">RequestNetworking</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Network Layer.html#/s:6Siesta35RequestNetworkingCompletionCallbacka">RequestNetworkingCompletionCallback</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Set.html">Set</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/URL.html">URL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/URLSession.html">URLSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/URLSessionConfiguration.html">URLSessionConfiguration</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Protocols.html#/s:6Siesta15JSONConvertibleP">JSONConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/URLConvertible.html">URLConvertible</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Typealiases.html">Other Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>RequestDelegate</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestDelegate</span></code></pre>
+
+                </div>
+              </div>
+            <p>Allows you to create <code><a href="../Protocols/Request.html">Request</a></code>s with custom logic. This is useful for taking things that are not standard network
+requests, and wrapping them so they look to Siesta as if they are. To create a custom request, pass your delegate to
+<code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
+
+<p>You can also implement Siesta’s <code><a href="../Protocols/Request.html">Request</a></code> protocol yourself, but this is a daunting task full of pitfalls and
+redundant effort. This protocol provides customization points for only the things custom requests typically need to
+customize, and provides standard behavior and sanity checks. In particular, using <code>RequestDelegate</code>:</p>
+
+<ul>
+<li>provides standard implementations for all the request hooks,</li>
+<li>ensures those hooks are called <em>exactly</em> once, even if your delegate misbehaves and reports multiple responses,</li>
+<li>tracks request state and ensures valid state transitions,</li>
+<li>polls request progress, and</li>
+<li>handles cancellation cleanly, preventing “response after cancel” race conditions.</li>
+</ul>
+
+<p>Siesta itself uses this protocol to implement its own requests. Look at <code>NetworkRequestDelegate</code> and
+<code>RequestChainDelgate</code> in Siesta’s source code for examples of implementing this protocol.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>
+
+</div>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP24startUnderlyingOperationyAA0B17CompletionHandler_p17passingResponseTo_tF"></a>
+                    <a name="//apple_ref/swift/Method/startUnderlyingOperation(passingResponseTo:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP24startUnderlyingOperationyAA0B17CompletionHandler_p17passingResponseTo_tF">startUnderlyingOperation(passingResponseTo:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The delegate should commence the operation (e.g. network call) that will eventually produce a response.</p>
+
+<p>Siesta will call this method at most once per call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
+
+<p>Implementations of this method MUST eventually call <code>completionHandler.broadcastResponse(...)</code>. They will
+typically want to hold on to the <code>completionHandler</code> for the duration of a long-running operation in order to
+broadcast the response at the end.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startUnderlyingOperation</span><span class="p">(</span><span class="n">passingResponseTo</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP25cancelUnderlyingOperationyyF"></a>
+                    <a name="//apple_ref/swift/Method/cancelUnderlyingOperation()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP25cancelUnderlyingOperationyyF">cancelUnderlyingOperation()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates that the <code><a href="../Protocols/Request.html">Request</a></code> using this delegate has been cancelled, and the delegate MAY cancel its underlying
+operation as well.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cancelUnderlyingOperation</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L67">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP8repeatedAaB_pyF"></a>
+                    <a name="//apple_ref/swift/Method/repeated()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP8repeatedAaB_pyF">repeated()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns another delegate which would perform the same underlying operation as this one. What consitutes the “same
+operation” is delegate-specific; for example, the new delegate may re-read relevant resource configuration.</p>
+
+<p>If you never use <code><a href="../Protocols/Request.html#/s:6Siesta7RequestP8repeatedAaB_pyF">Request.repeated()</a></code>, you can decline to implement this by calling <code>fatalError()</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">repeated</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">RequestDelegate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L75">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP15computeProgressSdyF"></a>
+                    <a name="//apple_ref/swift/Method/computeProgress()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP15computeProgressSdyF">computeProgress()</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asks your delegate to report progress ranging from 0 to 1. Implementations may be as accurate or as inaccurate
+as they wish. Values returned by this method SHOULD increase monotonically.</p>
+
+<p>Siesta will ensure that a <code><a href="../Protocols/Request.html">Request</a></code> reports progress of 1 when completed, regardless of what this method returns.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Returns a constant 0.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">computeProgress</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/double/">Double</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L83">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP25progressReportingIntervalSdvp"></a>
+                    <a name="//apple_ref/swift/Property/progressReportingInterval" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP25progressReportingIntervalSdvp">progressReportingInterval</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The time interval at which you would like your <code><a href="../Protocols/RequestDelegate.html#/s:6Siesta15RequestDelegateP15computeProgressSdyF">computeProgress()</a></code> method to be called.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>1/20th of a second.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">progressReportingInterval</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L88">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta15RequestDelegateP18requestDescriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/requestDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP18requestDescriptionSSvp">requestDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A description of the underlying operation suitable for logging and debugging.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">requestDescription</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L93">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

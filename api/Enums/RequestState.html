@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>InputTypeMismatchAction Enum Reference</title>
+    <title>RequestState Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/InputTypeMismatchAction" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/RequestState" class="dashAnchor"></a>
 
-    <a title="InputTypeMismatchAction Enum Reference"></a>
+    <a title="RequestState Enumeration Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Siesta Reference</a>
       <img class="carat" src="../img/carat.png" />
-      InputTypeMismatchAction Enum Reference
+      RequestState Enumeration Reference
     </p>
 
     <div class="content-wrapper">
@@ -100,6 +100,9 @@
                 <a class="nav-group-task-link" href="../Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -111,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -138,7 +152,7 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
@@ -151,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -181,18 +206,10 @@
                 <a class="nav-group-task-link" href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -201,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
@@ -228,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -241,22 +264,17 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>InputTypeMismatchAction</h1>
+            <h1>RequestState</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">InputTypeMismatchAction</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">RequestState</span></code></pre>
 
                 </div>
               </div>
-            <p>Action to take when actual input type at runtime does not match expected input type declared in code.</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    <code><a href="../Structs/ResponseContentTransformer.html#/s:6Siesta26ResponseContentTransformerVACyxq_GAA23InputTypeMismatchActionO02onefG0_Sb15transformErrorsq_SgAA6EntityVyxGKc9processortcfc">ResponseContentTransformer.init(...)</a></code>
-
-</div>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC20configureTransformeryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsAA16PipelineStageKeyC02atM0AA0lM0V14MutationActionO6actionAA017InputTypeMismatchQ0O02onstU0Sb15transformErrorsSSSg11descriptionq_SgAA6EntityVyxGKc16contentTransformtr0_lF">Service.configureTransformer(...)</a></code>
+            <p>Indicates whether a <code><a href="../Protocols/Request.html">Request</a></code> has been started, and whether it has completed.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Request.html#/s:6Siesta7RequestP5stateAA0B5StateOvp">Request.state</a></code>
 
 </div>
 
@@ -270,9 +288,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta23InputTypeMismatchActionO5errorA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/error" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta23InputTypeMismatchActionO5errorA2CmF">error</a>
+                    <a name="/s:6Siesta12RequestStateO10notStartedA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/notStarted" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta12RequestStateO10notStartedA2CmF">notStarted</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -280,33 +298,30 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Output <code><a href="../Structs/RequestError/Cause/WrongInputTypeInTranformerPipeline.html">RequestError.Cause.WrongInputTypeInTranformerPipeline</a></code>.</p>
+                        <p>The request is frozen, waiting for a call to <code><a href="../Protocols/Request.html#/s:6Siesta7RequestP5startAaB_pyF">Request.start()</a></code>. You can still attach completion hooks to this
+request, but they will not be called until the request stars.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">error</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">notStarted</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L257">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/Request.swift#L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta23InputTypeMismatchActionO4skipA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/skip" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta23InputTypeMismatchActionO4skipA2CmF">skip</a>
+                    <a name="/s:6Siesta12RequestStateO10inProgressA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/inProgress" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta12RequestStateO10inProgressA2CmF">inProgress</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -314,33 +329,29 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Pass the input response through unmodified.</p>
+                        <p>The request has started, and is waiting for a response. Its state will eventually transition to <code><a href="../Enums/RequestState.html#/s:6Siesta12RequestStateO9completedA2CmF">completed</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">skip</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">inProgress</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L260">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/Request.swift#L207">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta23InputTypeMismatchActionO012skipIfOutputC7MatchesA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/skipIfOutputTypeMatches" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta23InputTypeMismatchActionO012skipIfOutputC7MatchesA2CmF">skipIfOutputTypeMatches</a>
+                    <a name="/s:6Siesta12RequestStateO9completedA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/completed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta12RequestStateO9completedA2CmF">completed</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -348,19 +359,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Pass the input response through unmodified if it matches the output type; otherwise output an error.</p>
+                        <p>The request has a response, and its state will note change any further. A request may be in this state because it
+received and handled a server response, encountered a pre-request client-side side error, or was cancelled.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">skipIfOutputTypeMatches</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">completed</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L263">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/Request.swift#L213">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -373,8 +385,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

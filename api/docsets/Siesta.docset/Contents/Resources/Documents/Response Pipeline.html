@@ -14,6 +14,7 @@
   </head>
   <body>
 
+    <a name="//apple_ref/swift/Section/Response Pipeline" class="dashAnchor"></a>
 
     <a title="Response Pipeline  Reference"></a>
 
@@ -99,6 +100,9 @@
                 <a class="nav-group-task-link" href="Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -110,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -137,7 +152,7 @@
                 <a class="nav-group-task-link" href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/StandardTransformer.html">StandardTransformer</a>
@@ -150,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -180,18 +206,10 @@
                 <a class="nav-group-task-link" href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -200,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/String.html">String</a>
@@ -227,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -271,19 +295,19 @@ custom stages, and customize their order. Each stage has zero or more <code><a h
 <code><a href="Protocols/EntityCache.html">EntityCache</a></code>.</p>
 
 <p>The pipeline is a part of a <code><a href="Structs/Configuration.html">Configuration</a></code>, so you can thus customize the pipeline per API or per resource.</p>
-<pre class="highlight plaintext"><code>service.configure {
-  $0.pipeline[.parsing].add(SwiftyJSONTransformer, contentTypes: ["*​/json"])
-  $0.pipeline[.cleanup].add(GithubErrorMessageExtractor())
-  $0.pipeline[.model].cacheUsing(myRealmCache)
-}
+<pre class="highlight swift"><code><span class="n">service</span><span class="o">.</span><span class="n">configure</span> <span class="p">{</span>
+  <span class="nv">$0</span><span class="o">.</span><span class="n">pipeline</span><span class="p">[</span><span class="o">.</span><span class="n">parsing</span><span class="p">]</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="kt">SwiftyJSONTransformer</span><span class="p">,</span> <span class="nv">contentTypes</span><span class="p">:</span> <span class="p">[</span><span class="s">"*​/json"</span><span class="p">])</span>
+  <span class="nv">$0</span><span class="o">.</span><span class="n">pipeline</span><span class="p">[</span><span class="o">.</span><span class="n">cleanup</span><span class="p">]</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="kt">GithubErrorMessageExtractor</span><span class="p">())</span>
+  <span class="nv">$0</span><span class="o">.</span><span class="n">pipeline</span><span class="p">[</span><span class="o">.</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="nf">cacheUsing</span><span class="p">(</span><span class="n">myRealmCache</span><span class="p">)</span>
+<span class="p">}</span>
 
-service.configureTransformer("/item/​*") {  // Replaces .model stage by default
-  Item(json: $0.content)
-}
+<span class="n">service</span><span class="o">.</span><span class="nf">configureTransformer</span><span class="p">(</span><span class="s">"/item/​*"</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// Replaces .model stage by default</span>
+  <span class="kt">Item</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="nv">$0</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre>
 
 <p>By default, Siesta pipelines start with parsers for common data types (JSON, text, image) configured at the
-<code><a href="Classes/PipelineStageKey.html#/s:6Siesta16PipelineStageKeyC7parsingACvZ">PipelineStageKey.parsing</a></code> stage. You can remove these default transformers for individual configurations using calls
+<code><a href="Classes/PipelineStageKey.html#/s:6Siesta16PipelineStageKeyC7parsingACvpZ">PipelineStageKey.parsing</a></code> stage. You can remove these default transformers for individual configurations using calls
 such as <code>clear()</code> and <code>PipelineStage.removeAllTransformers()</code>, or you can disable these default parsers entirely by
 passing <code>standardTransformers: []</code> when creating a <code><a href="Classes/Service.html">Service</a></code>.</p>
 
@@ -295,12 +319,12 @@ passing <code>standardTransformers: []</code> when creating a <code><a href="Cla
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Pipeline</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Pipeline</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L120">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L40-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -337,12 +361,12 @@ transform without disabling JSON parsing.</li>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">PipelineStage</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">PipelineStage</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L134-L205">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L134-L205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -365,20 +389,20 @@ identity or equality, so these keys are the only way to alter transformers after
 
 <p>Stage keys are arbitrary, and have no intrinsic meaning. The descriptions of the default stages are for human
 comprehensibility, and Siesta does not enforce them in any way (e.g. it does not prevent you from configuring the
-<code>rawData</code> stage to output something other than <code>Data</code>).</p>
+<code>rawData</code> stage to output something other than <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code>).</p>
 
 <p>Because this is not an enum, you can add custom stages:</p>
-<pre class="highlight plaintext"><code>extension PipelineStageKey {
-  static let
-    munging   = PipelineStageKey(description: "munging"),
-    twiddling = PipelineStageKey(description: "twiddling")
-}
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">PipelineStageKey</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="k">let</span>
+    <span class="nv">munging</span>   <span class="o">=</span> <span class="kt">PipelineStageKey</span><span class="p">(</span><span class="nv">description</span><span class="p">:</span> <span class="s">"munging"</span><span class="p">),</span>
+    <span class="n">twiddling</span> <span class="o">=</span> <span class="kt">PipelineStageKey</span><span class="p">(</span><span class="nv">description</span><span class="p">:</span> <span class="s">"twiddling"</span><span class="p">)</span>
+<span class="p">}</span>
 
-...
+<span class="o">...</span>
 
-service.configure {
-    $0.pipeline.order = [.rawData, .munging, .twiddling, .cleanup]
-}
+<span class="n">service</span><span class="o">.</span><span class="n">configure</span> <span class="p">{</span>
+    <span class="nv">$0</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">rawData</span><span class="p">,</span> <span class="o">.</span><span class="n">munging</span><span class="p">,</span> <span class="o">.</span><span class="n">twiddling</span><span class="p">,</span> <span class="o">.</span><span class="n">cleanup</span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre>
 
                         <a href="Classes/PipelineStageKey.html" class="slightly-smaller">See more</a>
@@ -387,12 +411,12 @@ service.configure {
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">PipelineStageKey</span><span class="p">:</span> <span class="n">_OpenEnum</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">PipelineStageKey</span> <span class="p">:</span> <span class="n">_OpenEnum</span><span class="p">,</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/customstringconvertible/">CustomStringConvertible</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L244-L252">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/PipelineConfiguration.swift#L244-L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -414,7 +438,7 @@ service.configure {
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Transforms a response from a less parsed form (e.g. <code>Data</code>) to a more parsed data structure. Responses pass through
+                        <p>Transforms a response from a less parsed form (e.g. <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code>) to a more parsed data structure. Responses pass through
 a chain of transformers before being sent to response hooks or observers.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -430,12 +454,12 @@ a chain of transformers before being sent to response hooks or observers.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseTransformer</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ResponseTransformer</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/customdebugstringconvertible/">CustomDebugStringConvertible</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L32-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -477,53 +501,12 @@ surrounding metadata.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span> <span class="kt">OutputContentType</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ResponseContentTransformer</span><span class="o">&lt;</span><span class="kt">InputContentType</span><span class="p">,</span> <span class="kt">OutputContentType</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L115-L246">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta23InputTypeMismatchActionO"></a>
-                    <a name="//apple_ref/swift/Enum/InputTypeMismatchAction" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta23InputTypeMismatchActionO">InputTypeMismatchAction</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Action to take when actual input type at runtime does not match expected input type declared in code.</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    <code><a href="Structs/ResponseContentTransformer.html#/s:6Siesta26ResponseContentTransformerVACyxq_GAA23InputTypeMismatchActionO02onefG0_Sb15transformErrorsq_SgAA6EntityVyxGKc9processortcfc">ResponseContentTransformer.init(...)</a></code>
-
-</div>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    <code><a href="Classes/Service.html#/s:6Siesta7ServiceC20configureTransformeryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsAA16PipelineStageKeyC02atM0AA0lM0V14MutationActionO6actionAA017InputTypeMismatchQ0O02onstU0Sb15transformErrorsSSSg11descriptionq_SgAA6EntityVyxGKc16contentTransformtr0_lF">Service.configureTransformer(...)</a></code>
-
-</div>
-
-                        <a href="Enums/InputTypeMismatchAction.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">InputTypeMismatchAction</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L254-L264">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L115-L264">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -559,12 +542,12 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StandardTransformer</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StandardTransformer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L15-L26">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/StandardTransformers.swift#L15-L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -593,19 +576,19 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>Data</code> content as JSON using JSONSerialization, outputting either a dictionary or an array.</p>
+                        <p>Parses <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> content as JSON using JSONSerialization, outputting either a dictionary or an array.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">JSONResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">JSONResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L290-L301">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L290-L301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -623,19 +606,19 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>Data</code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
+                        <p>Parses <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> content as text, using the encoding specified in the content type, or ISO-8859-1 by default.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">TextResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">TextResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L270-L287">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L270-L287">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -653,19 +636,19 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses <code>Data</code> content as an image, yielding a <code>UIImage</code>.</p>
+                        <p>Parses <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> content as an image, yielding a <code><a href="https://developer.apple.com/documentation/uikit/uiimage/">UIImage</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">ImageResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">ImageResponseTransformer</span><span class="p">(</span><span class="n">_</span> <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Protocols/ResponseTransformer.html">ResponseTransformer</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L304-L313">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/ResponseTransformer.swift#L304-L313">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -678,8 +661,8 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

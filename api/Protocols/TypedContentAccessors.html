@@ -100,6 +100,9 @@
                 <a class="nav-group-task-link" href="../Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -111,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -138,7 +152,7 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
@@ -151,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -181,18 +206,10 @@
                 <a class="nav-group-task-link" href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -201,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
@@ -228,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -244,28 +267,28 @@
             <h1>TypedContentAccessors</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
 
                 </div>
               </div>
             <p>Mixin that provides convenience accessors for the content of an optional contained entity.</p>
 
 <p>Allows you to replace the following:</p>
-<pre class="highlight plaintext"><code>resource.latestData?.content as? String
-(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="n">latestData</span><span class="p">?</span><span class="o">.</span><span class="n">content</span> <span class="k">as?</span> <span class="kt">String</span>
+<span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">latestError</span><span class="p">?</span><span class="o">.</span><span class="n">entity</span><span class="p">?</span><span class="o">.</span><span class="n">content</span> <span class="k">as?</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">])?[</span><span class="s">"error.detail"</span><span class="p">]</span>
 </code></pre>
 
 <p>…with:</p>
-<pre class="highlight plaintext"><code>resource.text
-resource.latestError?.jsonDict["error.detail"]
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="n">text</span>
+<span class="n">resource</span><span class="o">.</span><span class="n">latestError</span><span class="p">?</span><span class="o">.</span><span class="n">jsonDict</span><span class="p">[</span><span class="s">"error.detail"</span><span class="p">]</span>
 </code></pre>
 
 <p>You can extend this protocol to provide your own convenience accessors. For example:</p>
-<pre class="highlight plaintext"><code>extension TypedContentAccessors {
-  var doorknob: UIDoorknob {
-    return typedContent(ifNone: placeholderKnob)
-  }
-}
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypedContentAccessors</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">doorknob</span><span class="p">:</span> <span class="kt">UIDoorknob</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">typedContent</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="n">placeholderKnob</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 
 <p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
@@ -299,12 +322,12 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">associatedtype</span> <span class="kt">ContentType</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">ContentType</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -312,9 +335,9 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta21TypedContentAccessorsP09entityForbcD0AA6EntityVy0C4TypeQzGSgv"></a>
+                    <a name="/s:6Siesta21TypedContentAccessorsP09entityForbcD0AA6EntityVy0C4TypeQzGSgvp"></a>
                     <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsP09entityForbcD0AA6EntityVy0C4TypeQzGSgv">entityForTypedContentAccessors</a>
+                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsP09entityForbcD0AA6EntityVy0C4TypeQzGSgvp">entityForTypedContentAccessors</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -329,12 +352,12 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/TypedContentAccessors.html#/s:6Siesta21TypedContentAccessorsP0C4Type">ContentType</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/TypedContentAccessors.html#/s:6Siesta21TypedContentAccessorsP0C4Type">ContentType</a></span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -361,7 +384,7 @@ a custom <code><a href="../Protocols/ResponseTransformer.html">ResponseTransform
                       <div class="abstract">
                         <p>A convenience for retrieving the content in this container when you expect it to be of a specific type.
 For example, if you expect the content to be a UIImage:</p>
-<pre class="highlight plaintext"><code>let image = resource.typedContent(ifNone: UIImage(named: "placeholder.png"))
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="nf">typedContent</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"placeholder.png"</span><span class="p">))</span>
 </code></pre>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
@@ -379,7 +402,7 @@ For example, if you expect the content to be a UIImage:</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
                       </div>
@@ -389,7 +412,7 @@ For example, if you expect the content to be a UIImage:</p>
        and the inferred return type; otherwise returns <code>ifNone</code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L207-L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -417,12 +440,12 @@ For example, if you expect the content to be a UIImage:</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ifNone</span> <span class="n">defaultContent</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L213-L216">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -445,11 +468,11 @@ For example, if you expect the content to be a UIImage:</p>
                       <div class="abstract">
                         <p>A variant of <code><a href="../Protocols/TypedContentAccessors.html#/s:6Siesta21TypedContentAccessorsPAAE05typedC0qd__qd__yXK6ifNone_tlF">typedContent(ifNone:)</a></code> that infers the desired type entirely from context, and returns nil if the
 content is either not present or cannot be cast to that type. For example:</p>
-<pre class="highlight plaintext"><code>func showUser(_ user: User?) {
-  ...
-}
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">showUser</span><span class="p">(</span><span class="n">_</span> <span class="nv">user</span><span class="p">:</span> <span class="kt">User</span><span class="p">?)</span> <span class="p">{</span>
+  <span class="o">...</span>
+<span class="p">}</span>
 
-showUser(resource.typedContent())  // Infers that desired type is User
+<span class="nf">showUser</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="nf">typedContent</span><span class="p">())</span>  <span class="c1">// Infers that desired type is User</span>
 </code></pre>
 
                       </div>
@@ -457,12 +480,12 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">typedContent</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L228-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -470,9 +493,9 @@ showUser(resource.typedContent())  // Infers that desired type is User
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta21TypedContentAccessorsPAAE8jsonDicts10DictionaryVySSypGv"></a>
+                    <a name="/s:6Siesta21TypedContentAccessorsPAAE8jsonDicts10DictionaryVySSypGvp"></a>
                     <a name="//apple_ref/swift/Property/jsonDict" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE8jsonDicts10DictionaryVySSypGv">jsonDict</a>
+                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE8jsonDicts10DictionaryVySSypGvp">jsonDict</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -490,12 +513,12 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonDict</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonDict</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L234">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -503,9 +526,9 @@ showUser(resource.typedContent())  // Infers that desired type is User
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta21TypedContentAccessorsPAAE9jsonArraySayypGv"></a>
+                    <a name="/s:6Siesta21TypedContentAccessorsPAAE9jsonArraySayypGvp"></a>
                     <a name="//apple_ref/swift/Property/jsonArray" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE9jsonArraySayypGv">jsonArray</a>
+                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE9jsonArraySayypGvp">jsonArray</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -523,12 +546,12 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L237">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -536,9 +559,9 @@ showUser(resource.typedContent())  // Infers that desired type is User
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta21TypedContentAccessorsPAAE4textSSv"></a>
+                    <a name="/s:6Siesta21TypedContentAccessorsPAAE4textSSvp"></a>
                     <a name="//apple_ref/swift/Property/text" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE4textSSv">text</a>
+                    <a class="token" href="#/s:6Siesta21TypedContentAccessorsPAAE4textSSvp">text</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -556,12 +579,12 @@ showUser(resource.typedContent())  // Infers that desired type is User
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L240">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -574,8 +597,8 @@ showUser(resource.typedContent())  // Infers that desired type is User
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

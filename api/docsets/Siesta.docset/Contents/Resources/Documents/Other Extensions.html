@@ -14,6 +14,7 @@
   </head>
   <body>
 
+    <a name="//apple_ref/swift/Section/Other Extensions" class="dashAnchor"></a>
 
     <a title="Other Extensions  Reference"></a>
 
@@ -99,6 +100,9 @@
                 <a class="nav-group-task-link" href="Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -110,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -137,7 +152,7 @@
                 <a class="nav-group-task-link" href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/StandardTransformer.html">StandardTransformer</a>
@@ -150,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -180,18 +206,10 @@
                 <a class="nav-group-task-link" href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -200,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/String.html">String</a>
@@ -227,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -253,6 +277,66 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:SS"></a>
+                    <a name="//apple_ref/swift/Extension/String" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SS">String</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Support for passing URL patterns with wildcards to <code><a href="Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">Service.configure(...)</a></code>.</p>
+
+                        <a href="Extensions/String.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSRegularExpression"></a>
+                    <a name="//apple_ref/swift/Extension/NSRegularExpression" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSRegularExpression">NSRegularExpression</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Support for passing regular expressions to <code><a href="Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">Service.configure(...)</a></code>.</p>
+
+                        <a href="Extensions/NSRegularExpression.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/nsregularexpression/">NSRegularExpression</a></span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span><span class="p">,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/nscopying/">NSCopying</a></span><span class="p">,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/nssecurecoding/">NSSecureCoding</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)NSURLSession"></a>
                     <a name="//apple_ref/swift/Extension/URLSession" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)NSURLSession">URLSession</a>
@@ -265,6 +349,14 @@
                       <div class="abstract">
                         
                         <a href="Extensions/URLSession.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/urlsession/">URLSession</a></span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -285,6 +377,14 @@
                         
                         <a href="Extensions/URLSessionConfiguration.html" class="slightly-smaller">See more</a>
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/urlsessionconfiguration/">URLSessionConfiguration</a></span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span><span class="p">,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/nscopying/">NSCopying</a></span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -295,9 +395,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:SS"></a>
-                    <a name="//apple_ref/swift/Extension/String" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SS">String</a>
+                    <a name="/s:s3SetV"></a>
+                    <a name="//apple_ref/swift/Extension/Set" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s3SetV">Set</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -306,19 +406,23 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         
-                        <a href="Extensions/String.html" class="slightly-smaller">See more</a>
+                        <a href="Extensions/Set.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/set/">Set</a></span><span class="o">&lt;</span><span class="kt">Element</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">Element</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/hashable/">Hashable</a></span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -339,33 +443,9 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">URL</span> <span class="p">:</span> <span class="kt">ReferenceConvertible</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/url/">URL</a></span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/referenceconvertible/">ReferenceConvertible</a></span><span class="p">,</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/equatable/">Equatable</a></span></code></pre>
 
                         </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)NSRegularExpression"></a>
-                    <a name="//apple_ref/swift/Extension/NSRegularExpression" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)NSRegularExpression">NSRegularExpression</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Support for passing regular expressions to <code><a href="Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">Service.configure(...)</a></code>.</p>
-
-                        <a href="Extensions/NSRegularExpression.html" class="slightly-smaller">See more</a>
                       </div>
                     </section>
                   </div>
@@ -378,8 +458,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

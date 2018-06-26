@@ -8,11 +8,17 @@ if (navigator.userAgent.match(/xcode/i)) {
   window.jazzy.docset = true
 }
 
+var slideContent = function(link) {
+  link
+    .parent().parent().next()
+    .slideToggle(300);
+}
+
 // On doc load, toggle the URL hash discussion if present
 $(document).ready(function() {
-  if (!window.jazzy.docset) {
-    var linkToHash = $('a[href="' + window.location.hash +'"]');
-    linkToHash.trigger("click");
+  if (!window.jazzy.docset && window.location.hash) {
+    slideContent(
+      $('a[name="' + window.location.hash.substring(1) +'"]'));
   }
 });
 
@@ -21,10 +27,8 @@ $(".token").click(function(event) {
   if (window.jazzy.docset) {
     return;
   }
-  var link = $(this);
-  var animationDuration = 300;
-  $content = link.parent().parent().next();
-  $content.slideToggle(animationDuration);
+  
+  slideContent($(this));
 
   // Keeps the document from jumping to the hash.
   var href = $(this).attr('href');

@@ -100,6 +100,9 @@
                 <a class="nav-group-task-link" href="../Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -111,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -138,7 +152,7 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
@@ -151,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -181,18 +206,10 @@
                 <a class="nav-group-task-link" href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -201,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
@@ -228,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -244,7 +267,8 @@
             <h1>Resource</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc(BOSResource)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
 
                 </div>
               </div>
@@ -295,12 +319,13 @@ questions changes.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L34">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L34">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -325,12 +350,13 @@ questions changes.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">url</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/url/">URL</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -349,9 +375,9 @@ questions changes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta8ResourceC13configurationAA13ConfigurationVv"></a>
+                    <a name="/s:6Siesta8ResourceC13configurationAA13ConfigurationVvp"></a>
                     <a name="//apple_ref/swift/Property/configuration" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC13configurationAA13ConfigurationVv">configuration</a>
+                    <a class="token" href="#/s:6Siesta8ResourceC13configurationAA13ConfigurationVvp">configuration</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -366,12 +392,12 @@ questions changes.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Structs/Configuration.html">Configuration</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Structs/Configuration.html">Configuration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L51-L52">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L51-L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -396,12 +422,12 @@ questions changes.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configuration</span><span class="p">(</span><span class="k">for</span> <span class="nv">method</span><span class="p">:</span> <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Configuration.html">Configuration</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configuration</span><span class="p">(</span><span class="k">for</span> <span class="nv">method</span><span class="p">:</span> <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Configuration.html">Configuration</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L55-L70">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L55-L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -420,9 +446,9 @@ questions changes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv"></a>
+                    <a name="/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp"></a>
                     <a name="//apple_ref/swift/Property/latestData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a>
+                    <a class="token" href="#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -449,12 +475,12 @@ was created or wiped. If an error occurs, <code>latestData</code> will still hol
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestData</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L97-L108">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L97-L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -462,9 +488,9 @@ was created or wiped. If an error occurs, <code>latestData</code> will still hol
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv"></a>
+                    <a name="/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp"></a>
                     <a name="//apple_ref/swift/Property/latestError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a>
+                    <a class="token" href="#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -483,12 +509,12 @@ flavors of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC7requestA
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">latestError</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L119-L122">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L119-L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -506,19 +532,20 @@ flavors of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC7requestA
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The time of the most recent update to either <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code>.</p>
+                        <p>The time of the most recent update to either <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">TimeInterval</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L126-L133">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L126-L133">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -555,12 +582,13 @@ for this resource are in progress.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isLoading</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">isLoading</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L143-L148">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L143-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -585,12 +613,13 @@ for this resource are in progress.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isRequesting</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">isRequesting</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L152-L157">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L152-L157">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -598,9 +627,9 @@ for this resource are in progress.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGv"></a>
+                    <a name="/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGvp"></a>
                     <a name="//apple_ref/swift/Property/loadRequests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGv">loadRequests</a>
+                    <a class="token" href="#/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGvp">loadRequests</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -615,12 +644,12 @@ for this resource are in progress.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">loadRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">]()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">loadRequests</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L160">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L160">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -628,9 +657,9 @@ for this resource are in progress.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta8ResourceC11allRequestsSayAA7Request_pGv"></a>
+                    <a name="/s:6Siesta8ResourceC11allRequestsSayAA7Request_pGvp"></a>
                     <a name="//apple_ref/swift/Property/allRequests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC11allRequestsSayAA7Request_pGv">allRequests</a>
+                    <a class="token" href="#/s:6Siesta8ResourceC11allRequestsSayAA7Request_pGvp">allRequests</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -645,12 +674,12 @@ for this resource are in progress.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">allRequests</span> <span class="o">=</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">]()</span>  <span class="c1">// TOOD: Any special handling for concurrent POST &amp; GET?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">allRequests</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L163">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -680,10 +709,10 @@ for this resource are in progress.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Allows callers to arbitrarily alter the HTTP details of a request before it is sent. For example:</p>
-<pre class="highlight plaintext"><code>resource.request(.post) {
-  $0.httpBody = imageData
-  $0.addValue("image/png", forHTTPHeaderField: "Content-Type")
-}
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="o">.</span><span class="n">post</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$0</span><span class="o">.</span><span class="n">httpBody</span> <span class="o">=</span> <span class="n">imageData</span>
+  <span class="nv">$0</span><span class="o">.</span><span class="nf">addValue</span><span class="p">(</span><span class="s">"image/png"</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"Content-Type"</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre>
 
 <p>Siesta provides helpers that make this custom <code>RequestMutation</code> unnecessary in many common cases.
@@ -696,8 +725,8 @@ you. Custom mutation is the “full control” option for cases when:</p>
 <li>you want to alter <em>one</em> individual request instead of configuring <em>all</em> requests for a resource.</li>
 </ol>
 
-<p>The <code>RequestMutation</code> receives a <code>URLRequest</code> <em>after</em> Siesta has already applied all of its normal configuration.
-The <code>URLRequest</code> is mutable, and any changes it makes are the last stop before the request is sent to the network.
+<p>The <code>RequestMutation</code> receives a <code><a href="https://developer.apple.com/documentation/foundation/urlrequest/">URLRequest</a></code> <em>after</em> Siesta has already applied all of its normal configuration.
+The <code><a href="https://developer.apple.com/documentation/foundation/urlrequest/">URLRequest</a></code> is mutable, and any changes it makes are the last stop before the request is sent to the network.
 What you return is what Siesta sends.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -717,12 +746,12 @@ configuration, then reapplies your <code>RequestMutation</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestMutation</span> <span class="o">=</span> <span class="p">(</span><span class="k">inout</span> <span class="kt">URLRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestMutation</span> <span class="o">=</span> <span class="p">(</span><span class="k">inout</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/urlrequest/">URLRequest</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L223">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -743,9 +772,9 @@ configuration, then reapplies your <code>RequestMutation</code>.</p>
                         <p>Initiates a network request for the given resource.</p>
 
 <p>Handle the result of the request by attaching response handlers:</p>
-<pre class="highlight plaintext"><code>resource.request(.get)
-    .onSuccess { ... }
-    .onFailure { ... }
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="o">.</span><span class="k">get</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">onSuccess</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">onFailure</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
 </code></pre>
 
 <p>See <code><a href="../Protocols/Request.html">Request</a></code> for a complete list of hooks.</p>
@@ -780,10 +809,10 @@ and does not notify resource observers about the result.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">method</span><span class="p">:</span> <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
-            <span class="n">requestMutation</span> <span class="nv">adHocMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
-        <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
+        <span class="n">_</span> <span class="nv">method</span><span class="p">:</span> <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
+        <span class="n">requestMutation</span> <span class="nv">adHocMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
+    <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
 
                         </div>
                       </div>
@@ -813,7 +842,7 @@ and does not notify resource observers about the result.</p>
                                 <div>
                                   <p>An optional callback to change details of the request before it is sent.
 Does nothing by default. Note that this is applied <em>before</em> any mutations configured with
-<code>Configuration.mutateRequests(...)</code>. This allows configured mutations to inspect and alter the request after
+<code><a href="../Structs/Configuration.html#/s:6Siesta13ConfigurationV14mutateRequestsyy10Foundation10URLRequestVzc4with_tF">Configuration.mutateRequests(...)</a></code>. This allows configured mutations to inspect and alter the request after
 it is fully populated.</p>
                                 </div>
                               </td>
@@ -822,7 +851,7 @@ it is fully populated.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L256-L297">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L256-L297">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -845,16 +874,16 @@ it is fully populated.</p>
 <p>“Up to date” means that either:</p>
 
 <ul>
-<li>the resource has data (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> is not nil),</li>
-<li>the last request succeeded (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> <em>is</em> nil), and</li>
-<li>the timestamp on <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> is more recent than <code>expirationTime</code> seconds ago,</li>
+<li>the resource has data (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> is not nil),</li>
+<li>the last request succeeded (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> <em>is</em> nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> is more recent than <code>expirationTime</code> seconds ago,</li>
 </ul>
 
 <p>…or:</p>
 
 <ul>
-<li>the last request failed (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> is not nil), and</li>
-<li>the timestamp on <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> is more recent than <code>retryTime</code> seconds ago.</li>
+<li>the last request failed (i.e. <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> is not nil), and</li>
+<li>the timestamp on <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> is more recent than <code>retryTime</code> seconds ago.</li>
 </ul>
 
                       </div>
@@ -862,12 +891,13 @@ it is fully populated.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isUpToDate</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">isUpToDate</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L314-L325">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L314-L325">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -902,12 +932,13 @@ it is fully populated.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">loadIfNeeded</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">loadIfNeeded</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L364-L378">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L364-L403">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -936,12 +967,12 @@ on the server.</p>
 <li>This resource’s <code><a href="../Classes/Resource.html#/c:@M@Siesta@objc(cs)BOSResource(py)isLoading">isLoading</a></code> property becomes true, and remains true until the request either succeeds or fails.
 Observers immedately receive <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO9requestedA2CmF">ResourceEvent.requested</a></code>.</li>
 <li>If the request is cancelled before completion, observers receive <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO16requestCancelledA2CmF">ResourceEvent.requestCancelled</a></code>.</li>
-<li>If the server returns a success response, that goes in <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code>, and <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> becomes nil.
+<li>If the server returns a success response, that goes in <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code>, and <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> becomes nil.
 Observers receive <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO7newDataA2C03NewE6SourceOcACmF">ResourceEvent.newData</a></code>.</li>
-<li>If the server returns a 304, <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code>’s timestamp is updated but the entity is otherwise untouched.
-<code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO11notModifiedA2CmF">ResourceEvent.notModified</a></code>.</li>
+<li>If the server returns a 304, <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code>’s timestamp is updated but the entity is otherwise untouched.
+<code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> becomes nil. Observers receive <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO11notModifiedA2CmF">ResourceEvent.notModified</a></code>.</li>
 <li>If the request fails for any reason, whether client-, server-, or network-related, observers receive
-<code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO5errorA2CmF">ResourceEvent.error</a></code>. Note that <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> does <em>not</em> become nil; the last valid response always sticks
+<code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO5errorA2CmF">ResourceEvent.error</a></code>. Note that <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> does <em>not</em> become nil; the last valid response always sticks
 around until another valid response arrives.</li>
 </ol>
 
@@ -950,12 +981,13 @@ around until another valid response arrives.</li>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L400-L410">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L425-L435">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -974,7 +1006,7 @@ around until another valid response arrives.</li>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Updates the state of this resource using the result of the given request. Use this method when you want a request
-to update <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> and notify observers just as <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC4loadAA7Request_pyF">load()</a></code> would, but:</p>
+to update <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> and notify observers just as <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC4loadAA7Request_pyF">load()</a></code> would, but:</p>
 
 <ul>
 <li>you need to use a request method other than GET,</li>
@@ -984,10 +1016,10 @@ won’t work), or</li>
 </ul>
 
 <p>For example, an authentication resource might return its state only in response to a POST:</p>
-<pre class="highlight plaintext"><code>let auth = MyAPI.authentication
-auth.load(using:
-  auth.request(
-      .post, json: ["user": user, "password": pass]))
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">auth</span> <span class="o">=</span> <span class="kt">MyAPI</span><span class="o">.</span><span class="n">authentication</span>
+<span class="n">auth</span><span class="o">.</span><span class="nf">load</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span>
+  <span class="n">auth</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span>
+      <span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="s">"user"</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="n">pass</span><span class="p">]))</span>
 </code></pre>
 
                       </div>
@@ -995,12 +1027,13 @@ auth.load(using:
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="n">using</span> <span class="nv">req</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="n">using</span> <span class="nv">req</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L429-L444">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L454-L469">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1018,19 +1051,20 @@ auth.load(using:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If this resource has no observers, cancels all <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGv">loadRequests</a></code>.</p>
+                        <p>If this resource has no observers, cancels all <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC12loadRequestsSayAA7Request_pGvp">loadRequests</a></code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L450-L462">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L475-L487">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1059,12 +1093,13 @@ views a chance to express interest in it before canceling any requests.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">(</span><span class="n">afterDelay</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">then</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{})</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelLoadIfUnobserved</span><span class="p">(</span><span class="n">afterDelay</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">then</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{})</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L472-L479">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L497-L504">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1093,7 +1128,7 @@ views a chance to express interest in it before canceling any requests.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Directly updates <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> without touching the network. Clears <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> and broadcasts
+                        <p>Directly updates <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> without touching the network. Clears <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> and broadcasts
 <code><a href="../Enums/ResourceEvent.html#/s:6Siesta13ResourceEventO7newDataA2C03NewE6SourceOcACmF">ResourceEvent.newData</a></code> to observers.</p>
 
 <p>This method is useful for incremental and optimistic updates.</p>
@@ -1101,36 +1136,36 @@ views a chance to express interest in it before canceling any requests.</p>
 <p>You may send a request which does <em>not</em> return the complete state of the resource in the response body,
 but which still changes the state of the resource. You could handle this by initiating a refresh immedately
 after success:</p>
-<pre class="highlight plaintext"><code>resource.request(.post, json: ["name": "Fred"])
-  .onSuccess { _ in resource.load() }
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Fred"</span><span class="p">])</span>
+  <span class="o">.</span><span class="n">onSuccess</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="n">resource</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span> <span class="p">}</span>
 </code></pre>
 
 <p>However, if you already <em>know</em> the resulting state of the resource given a success response, you can avoid the
 second network call by updating the entity yourself:</p>
-<pre class="highlight plaintext"><code>resource.request(.post, json: ["name": "Fred"])
-  .onSuccess {
-      partialEntity in
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="nv">json</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"Fred"</span><span class="p">])</span>
+  <span class="o">.</span><span class="n">onSuccess</span> <span class="p">{</span>
+      <span class="n">partialEntity</span> <span class="k">in</span>
 
-      // Make a mutable copy of the current content
-      guard resource.latestData != nil else {
-          resource.load()  // No existing entity to update, so refresh
-          return
-      }
+      <span class="c1">// Make a mutable copy of the current content</span>
+      <span class="k">guard</span> <span class="n">resource</span><span class="o">.</span><span class="n">latestData</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="n">resource</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>  <span class="c1">// No existing entity to update, so refresh</span>
+          <span class="k">return</span>
+      <span class="p">}</span>
 
-      // Do the incremental update
-      var updatedContent = resource.jsonDict
-      updatedContent["name"] = partialEntity.jsonDict["newName"]
+      <span class="c1">// Do the incremental update</span>
+      <span class="k">var</span> <span class="nv">updatedContent</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">jsonDict</span>
+      <span class="n">updatedContent</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">partialEntity</span><span class="o">.</span><span class="n">jsonDict</span><span class="p">[</span><span class="s">"newName"</span><span class="p">]</span>
 
-      // Make that the resource’s new entity
-      resource.overrideLocalContent(with: updatedContent)
-  }
+      <span class="c1">// Make that the resource’s new entity</span>
+      <span class="n">resource</span><span class="o">.</span><span class="nf">overrideLocalContent</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">updatedContent</span><span class="p">)</span>
+  <span class="p">}</span>
 </code></pre>
 
 <p>Use this technique with caution!</p>
 
 <p>Note that the data you pass does <em>not</em> go through the standard <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> chain. You should pass data
 as if it was already parsed, not in its raw form as the server would return it. For example, in the code above,
-<code>updatedContent</code> is a <code>Dictionary</code>, not <code>Data</code> containing encoded JSON.</p>
+<code>updatedContent</code> is a <code><a href="https://developer.apple.com/documentation/swift/dictionary/">Dictionary</a></code>, not <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> containing encoded JSON.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <code><a href="../Classes/Resource.html#/c:@M@Siesta@objc(cs)BOSResource(im)overrideLocalContentWith:">overrideLocalContent(with:)</a></code>
@@ -1142,12 +1177,12 @@ as if it was already parsed, not in its raw form as the server would return it. 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">overrideLocalData</span><span class="p">(</span><span class="n">with</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">overrideLocalData</span><span class="p">(</span><span class="n">with</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L585-L586">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L610-L611">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1165,7 +1200,7 @@ as if it was already parsed, not in its raw form as the server would return it. 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience method to replace the <code>content</code> of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> without altering the content type or other headers.</p>
+                        <p>Convenience method to replace the <code>content</code> of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> without altering the content type or other headers.</p>
 
 <p>If this resource has no content, this method sets the content type to <code>application/binary</code>.</p>
 
@@ -1174,12 +1209,13 @@ as if it was already parsed, not in its raw form as the server would return it. 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">overrideLocalContent</span><span class="p">(</span><span class="n">with</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">overrideLocalContent</span><span class="p">(</span><span class="n">with</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L594-L600">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L619-L625">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1198,11 +1234,11 @@ as if it was already parsed, not in its raw form as the server would return it. 
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Forces the next call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC12loadIfNeededAA7Request_pSgyF">loadIfNeeded()</a></code> to trigger a request, even if the current content is fresh.
-Leaves the current values of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> and <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> intact (including their timestamps).</p>
+Leaves the current values of <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> and <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> intact (including their timestamps).</p>
 
 <p>Use this if you know the current content is stale, but don’t want to trigger a network request right away.</p>
 
-<p>Any update to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> — including a call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC17overrideLocalDatayAA6EntityVyypG4with_tF">overrideLocalData(...)</a></code> or
+<p>Any update to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> or <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> — including a call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC17overrideLocalDatayAA6EntityVyypG4with_tF">overrideLocalData(...)</a></code> or
 <code><a href="../Classes/Resource.html#/c:@M@Siesta@objc(cs)BOSResource(im)overrideLocalContentWith:">overrideLocalContent(...)</a></code> — clears the invalidation.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
@@ -1215,12 +1251,13 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:6Siesta8
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">invalidate</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">invalidate</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L614-L619">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L639-L644">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1241,12 +1278,13 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:6Siesta8
                         <p>Resets this resource to its pristine state, as if newly created.</p>
 
 <ul>
-<li>Sets <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgv">latestData</a></code> to nil.</li>
-<li>Sets <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgv">latestError</a></code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC10latestDataAA6EntityVyypGSgvp">latestData</a></code> to nil.</li>
+<li>Sets <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC11latestErrorAA07RequestD0VSgvp">latestError</a></code> to nil.</li>
 <li>Cancels all resource requests in progress.</li>
+<li>Triggers a cache fetch if there is a persistent cache configured for this resource.</li>
 </ul>
 
-<p>Observers receive a <code>newData</code> event. Requests in progress call completion hooks with a cancellation error.</p>
+<p>Observers receive a <code>newData(.wipe)</code> event. Requests in progress call completion hooks with a cancellation error.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <code><a href="../Classes/Resource.html#/c:@M@Siesta@objc(cs)BOSResource(im)invalidate">invalidate()</a></code>
@@ -1258,12 +1296,491 @@ Leaves the current values of <code><a href="../Classes/Resource.html#/s:6Siesta8
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">wipe</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">wipe</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L633-L648">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L659-L675">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/configurationPattern(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF">configurationPattern(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">Service.configure(...)</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="k">for</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt"><a href="https://developer.apple.com/documentation/foundation/url/">URL</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/ConfigurationPatternConvertible.swift#L121-L125">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC30entityForTypedContentAccessorsAA6EntityVyypGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC30entityForTypedContentAccessorsAA6EntityVyypGSgvp">entityForTypedContentAccessors</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Typed content accessors such as <code>.text</code> and <code>.jsonDict</code> apply to <code>latestData?.content</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L252">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Requests%20with%20Hard-Wired%20Responses"></a>
+                <a name="//apple_ref/swift/Section/Requests with Hard-Wired Responses" class="dashAnchor"></a>
+                <a href="#/Requests%20with%20Hard-Wired%20Responses">
+                  <h3 class="section-name">Requests with Hard-Wired Responses</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC13failedRequestAA0D0_pAA0D5ErrorV9returning_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/failedRequest(returning:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC13failedRequestAA0D0_pAA0D5ErrorV9returning_tFZ">failedRequest(returning:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a request that immedately fails, without ever touching the network or applying the transformer pipeline.</p>
+
+<p>This is useful for performing pre-request validation: if you know a request is valid before you even send it, you
+can return an immediate error response that looks just like any other Siesta error.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">failedRequest</span><span class="p">(</span><span class="n">returning</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/HardWiredRequest.swift#L19-L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC16hardWiredRequestAA0E0_pAA8ResponseO9returning_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/hardWiredRequest(returning:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC16hardWiredRequestAA0E0_pAA8ResponseO9returning_tFZ">hardWiredRequest(returning:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a request that immediately and always returns the given response, without ever touching the network
+or applying the transformer pipeline.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">hardWiredRequest</span><span class="p">(</span><span class="n">returning</span> <span class="nv">response</span><span class="p">:</span> <span class="kt"><a href="../Enums/Response.html">Response</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/HardWiredRequest.swift#L28-L31">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Requests%20with%20Custom%20Logic"></a>
+                <a name="//apple_ref/swift/Section/Requests with Custom Logic" class="dashAnchor"></a>
+                <a href="#/Requests%20with%20Custom%20Logic">
+                  <h3 class="section-name">Requests with Custom Logic</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/prepareRequest(using:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">prepareRequest(using:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates (but does <strong>not</strong> start) a new request using custom request logic.</p>
+
+<p>This method allows you to make a request using custom / external logic that does not use the service’s normal
+network provider. For example, you could use this to wrap a third-party OAUth library as a Siesta request, then
+use <code><a href="../Structs/Configuration.html#/s:6Siesta13ConfigurationV16decorateRequestsyAA7Request_pAA8ResourceC_AaE_ptc4with_tF">Configuration.decorateRequests(...)</a></code> and <code><a href="../Protocols/Request.html#/s:6Siesta7RequestPAAE7chainedAaB_pAA0B11ChainActionOAA12ResponseInfoVc13whenCompleted_tF">Request.chained(...)</a></code> to wait for OAuth before proceeding with the
+normal Siesta request.</p>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/RequestDelegate.html">RequestDelegate</a></code>
+
+</div>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Protocols/Request.html#/s:6Siesta7RequestP5startAaB_pyF">Request.start()</a></code>
+
+</div>
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC16hardWiredRequestAA0E0_pAA8ResponseO9returning_tFZ">Resource.hardWiredRequest(returning:)</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">prepareRequest</span><span class="p">(</span><span class="n">using</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/RequestDelegate.html">RequestDelegate</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L24-L27">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Request%20Creation%20Conveniences"></a>
+                <a name="//apple_ref/swift/Section/Request Creation Conveniences" class="dashAnchor"></a>
+                <a href="#/Request%20Creation%20Conveniences">
+                  <h3 class="section-name">Request Creation Conveniences</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_10Foundation4DataV4dataSS11contentTypeyAH10URLRequestVzc0C8MutationtF"></a>
+                    <a name="//apple_ref/swift/Method/request(_:data:contentType:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_10Foundation4DataV4dataSS11contentTypeyAH10URLRequestVzc0C8MutationtF">request(_:data:contentType:requestMutation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience method to initiate a request with a body containing arbitrary data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
+        <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
+        <span class="nv">data</span><span class="p">:</span>            <span class="kt"><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></span><span class="p">,</span>
+        <span class="nv">contentType</span><span class="p">:</span>     <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">,</span>
+        <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
+    <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>method</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The HTTP method of the request.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The body of the request.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contentType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value for the request’s <code>Content-Type</code> header. The priority order is as follows:
+
+<ul>
+<li>any content-type set in <code><a href="../Structs/Configuration.html#/s:6Siesta13ConfigurationV14mutateRequestsyy10Foundation10URLRequestVzc4with_tF">Configuration.mutateRequests(...)</a></code> overrides</li>
+<li>any content-type set in <code>requestMutation</code>, which overrides</li>
+<li>this parameter, which overrides</li>
+<li>any content-type set with <code><a href="../Structs/Configuration.html#/s:6Siesta13ConfigurationV7headerss10DictionaryVyS2SGvp">Configuration.headers</a></code>.</li>
+</ul></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestMutation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Allows you to override details fo the HTTP request before it is sent.
+See <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_y10Foundation10URLRequestVzc0C8MutationtF">request(_:requestMutation:)</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/RequestCreation.swift#L26-L41">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_SS4textSS11contentTypeSS10FoundationE8EncodingV8encodingyAJ10URLRequestVzc0C8MutationtF"></a>
+                    <a name="//apple_ref/swift/Method/request(_:text:contentType:encoding:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_SS4textSS11contentTypeSS10FoundationE8EncodingV8encodingyAJ10URLRequestVzc0C8MutationtF">request(_:text:contentType:encoding:requestMutation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience method to initiate a request with a text body.</p>
+
+<p>If the string cannot be encoded using the given encoding, this methods triggers the <code>onFailure(...)</code> request hook
+immediately, without touching the network.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
+        <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
+        <span class="nv">text</span><span class="p">:</span>            <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">,</span>
+        <span class="nv">contentType</span><span class="p">:</span>     <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="p">,</span>
+        <span class="nv">encoding</span><span class="p">:</span>        <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="o">.</span><span class="kt">Encoding</span> <span class="o">=</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="o">.</span><span class="kt">Encoding</span><span class="o">.</span><span class="n">utf8</span><span class="p">,</span>
+        <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
+    <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contentType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>text/plain</code> by default.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>encoding</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>UTF-8 (<code>NSUTF8StringEncoding</code>) by default.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/RequestCreation.swift#L52-L74">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_AA15JSONConvertible_p4jsonSS11contentTypey10Foundation10URLRequestVzc0C8MutationtF"></a>
+                    <a name="//apple_ref/swift/Method/request(_:json:contentType:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_AA15JSONConvertible_p4jsonSS11contentTypey10Foundation10URLRequestVzc0C8MutationtF">request(_:json:contentType:requestMutation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience method to initiate a request with a JSON body.</p>
+
+<p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
+triggers the <code>onFailure(...)</code> request hook immediately, without touching the network.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
+        <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
+        <span class="nv">json</span><span class="p">:</span>            <span class="kt"><a href="../Other Protocols.html#/s:6Siesta15JSONConvertibleP">JSONConvertible</a></span><span class="p">,</span>
+        <span class="nv">contentType</span><span class="p">:</span>     <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="o">=</span> <span class="s">"application/json"</span><span class="p">,</span>
+        <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
+    <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contentType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>application/json</code> by default.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/RequestCreation.swift#L84-L115">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_s10DictionaryVyS2SG10urlEncodedy10Foundation10URLRequestVzc0C8MutationtF"></a>
+                    <a name="//apple_ref/swift/Method/request(_:urlEncoded:requestMutation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_s10DictionaryVyS2SG10urlEncodedy10Foundation10URLRequestVzc0C8MutationtF">request(_:urlEncoded:requestMutation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience method to initiate a request with URL-encoded parameters in the meesage body.</p>
+
+<p>This method performs all necessary escaping, and has full Unicode support in both keys and values.</p>
+
+<p>The content type is <code>application/x-www-form-urlencoded</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
+        <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>          <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
+        <span class="n">urlEncoded</span> <span class="nv">params</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">:</span><span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">],</span>
+        <span class="nv">requestMutation</span><span class="p">:</span>   <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
+    <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/RequestCreation.swift#L124-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1297,9 +1814,9 @@ inserted if necessary.</p>
 
 <p>Use this method for hierarchical resource navigation. The typical use case is constructing a resource URL from
 path components and IDs:</p>
-<pre class="highlight plaintext"><code>let resource = service.resource("/widgets")
-resource.child("123").child("details")
-  //→ /widgets/123/details
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">resource</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="nf">resource</span><span class="p">(</span><span class="s">"/widgets"</span><span class="p">)</span>
+<span class="n">resource</span><span class="o">.</span><span class="nf">child</span><span class="p">(</span><span class="s">"123"</span><span class="p">)</span><span class="o">.</span><span class="nf">child</span><span class="p">(</span><span class="s">"details"</span><span class="p">)</span>
+  <span class="c1">//→ /widgets/123/details</span>
 </code></pre>
 
 <p>This method <em>always</em> returns a subpath of the receiving resource. It does not apply any special
@@ -1318,12 +1835,13 @@ for details.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">child</span><span class="p">(</span><span class="n">_</span> <span class="nv">subpath</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">child</span><span class="p">(</span><span class="n">_</span> <span class="nv">subpath</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceNavigation.swift#L35-L38">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceNavigation.swift#L35-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1361,12 +1879,13 @@ for details.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">relative</span><span class="p">(</span><span class="n">_</span> <span class="nv">href</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">relative</span><span class="p">(</span><span class="n">_</span> <span class="nv">href</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceNavigation.swift#L53-L56">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceNavigation.swift#L53-L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1387,10 +1906,10 @@ for details.</p>
                         <p>Returns <code>relative(href)</code> if <code>href</code> is present, and nil if <code>href</code> is nil.</p>
 
 <p>This convenience method is useful for resolving URLs returned as part of a JSON response body:</p>
-<pre class="highlight plaintext"><code>let href = resource.jsonDict["owner"] as? String  // href is an optional
-if let ownerResource = resource.optionalRelative(href) {
-  ...
-}
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">href</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">jsonDict</span><span class="p">[</span><span class="s">"owner"</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span>  <span class="c1">// href is an optional</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">ownerResource</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="nf">optionalRelative</span><span class="p">(</span><span class="n">href</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">...</span>
+<span class="p">}</span>
 </code></pre>
 
                       </div>
@@ -1398,12 +1917,13 @@ if let ownerResource = resource.optionalRelative(href) {
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">optionalRelative</span><span class="p">(</span><span class="n">_</span> <span class="nv">href</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">optionalRelative</span><span class="p">(</span><span class="n">_</span> <span class="nv">href</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceNavigation.swift#L69-L75">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceNavigation.swift#L69-L75">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1442,12 +1962,13 @@ up to you to canonicalize your parameter order.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">withParam</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc(withParam:value:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">withParam</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Resource</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceNavigation.swift#L95-L100">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceNavigation.swift#L95-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1481,7 +2002,7 @@ up to you to canonicalize your parameter order.</p>
 <p>The resource holds a weak reference to the observer. If there are no strong references to the observer, it is
 automatically removed.</p>
 
-<p>Use this method for objects such as <code>UIViewController</code>s which already have a lifecycle of their own, are retained
+<p>Use this method for objects such as <code><a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/">UIViewController</a></code>s which already have a lifecycle of their own, are retained
 elsewhere, and also happen to act as observers.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -1495,12 +2016,13 @@ elsewhere, and also happen to act as observers.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observerAndOwner</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></span> <span class="o">&amp;</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observerAndOwner</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></span> <span class="o">&amp;</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceObserver.swift#L173-L176">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceObserver.swift#L173-L176">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1528,7 +2050,7 @@ not normally be retained by anything else.</p>
     <p class="aside-title">Note</p>
     By default, this method prevents duplicates <strong>only if the observer is an object</strong>. If you pass a struct
     twice, you will receive two calls for every event. This is because only objects have a notion of identity
-    in Swift. You can implement <code><a href="../Protocols/ResourceObserver.html#/s:6Siesta16ResourceObserverP16observerIdentitys11AnyHashableVv">ResourceObserver.observerIdentity</a></code> to make a struct prevent duplicates;
+    in Swift. You can implement <code><a href="../Protocols/ResourceObserver.html#/s:6Siesta16ResourceObserverP16observerIdentitys11AnyHashableVvp">ResourceObserver.observerIdentity</a></code> to make a struct prevent duplicates;
     however, it’s usually easier to ensure that you don’t make redundant calls to this method if you’re
     passing a struct.
 
@@ -1539,12 +2061,13 @@ not normally be retained by anything else.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></span><span class="p">,</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">_</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ResourceObserver.html">ResourceObserver</a></span><span class="p">,</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceObserver.swift#L193-L216">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceObserver.swift#L193-L217">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1580,17 +2103,18 @@ still exists.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span>
-            <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span>
-            <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="err">#</span><span class="n">file</span><span class="p">,</span>
-            <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="err">#</span><span class="n">line</span><span class="p">,</span>
-            <span class="nv">closure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Observing Resources.html#/s:6Siesta23ResourceObserverClosurea">ResourceObserverClosure</a></span><span class="p">)</span>
-        <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span>
+        <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span>
+        <span class="nv">file</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span> <span class="o">=</span> <span class="kd">#file</span><span class="p">,</span>
+        <span class="nv">line</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/int/">Int</a></span> <span class="o">=</span> <span class="kd">#line</span><span class="p">,</span>
+        <span class="nv">closure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Observing Resources.html#/s:6Siesta23ResourceObserverClosurea">ResourceObserverClosure</a></span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceObserver.swift#L230-L242">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceObserver.swift#L231-L243">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1615,322 +2139,13 @@ still exists.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeObservers</span><span class="p">(</span><span class="n">ownedBy</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc(removeObserversOwnedBy:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeObservers</span><span class="p">(</span><span class="n">ownedBy</span> <span class="nv">owner</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/ResourceObserver.swift#L248-L257">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Request%20Creation%20Conveniences"></a>
-                <a name="//apple_ref/swift/Section/Request Creation Conveniences" class="dashAnchor"></a>
-                <a href="#/Request%20Creation%20Conveniences">
-                  <h3 class="section-name">Request Creation Conveniences</h3>
-                </a>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_10Foundation4DataV4dataSS11contentTypeyAH10URLRequestVzc0C8MutationtF"></a>
-                    <a name="//apple_ref/swift/Method/request(_:data:contentType:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_10Foundation4DataV4dataSS11contentTypeyAH10URLRequestVzc0C8MutationtF">request(_:data:contentType:requestMutation:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Convenience method to initiate a request with a body containing arbitrary data.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
-            <span class="nv">data</span><span class="p">:</span>            <span class="kt">Data</span><span class="p">,</span>
-            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
-        <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/RequestCreation.swift#L17-L33">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_SS4textSS11contentTypeSS10FoundationE8EncodingV8encodingyAJ10URLRequestVzc0C8MutationtF"></a>
-                    <a name="//apple_ref/swift/Method/request(_:text:contentType:encoding:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_SS4textSS11contentTypeSS10FoundationE8EncodingV8encodingyAJ10URLRequestVzc0C8MutationtF">request(_:text:contentType:encoding:requestMutation:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Convenience method to initiate a request with a text body.</p>
-
-<p>If the string cannot be encoded using the given encoding, this methods triggers the <code>onFailure(...)</code> request hook
-immediately, without touching the network.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
-            <span class="nv">text</span><span class="p">:</span>            <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="p">,</span>
-            <span class="nv">encoding</span><span class="p">:</span>        <span class="kt">String</span><span class="o">.</span><span class="kt">Encoding</span> <span class="o">=</span> <span class="kt">String</span><span class="o">.</span><span class="kt">Encoding</span><span class="o">.</span><span class="n">utf8</span><span class="p">,</span>
-            <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
-        <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>contentType</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p><code>text/plain</code> by default.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>encoding</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>UTF-8 (<code>NSUTF8StringEncoding</code>) by default.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/RequestCreation.swift#L44-L66">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_AA15JSONConvertible_p4jsonSS11contentTypey10Foundation10URLRequestVzc0C8MutationtF"></a>
-                    <a name="//apple_ref/swift/Method/request(_:json:contentType:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_AA15JSONConvertible_p4jsonSS11contentTypey10Foundation10URLRequestVzc0C8MutationtF">request(_:json:contentType:requestMutation:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Convenience method to initiate a request with a JSON body.</p>
-
-<p>If the <code>json</code> cannot be encoded as JSON, e.g. if it is a dictionary with non-JSON-convertible data, this methods
-triggers the <code>onFailure(...)</code> request hook immediately, without touching the network.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>        <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
-            <span class="nv">json</span><span class="p">:</span>            <span class="kt"><a href="../Other Protocols.html#/s:6Siesta15JSONConvertibleP">JSONConvertible</a></span><span class="p">,</span>
-            <span class="nv">contentType</span><span class="p">:</span>     <span class="kt">String</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="p">,</span>
-            <span class="nv">requestMutation</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
-        <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>contentType</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p><code>application/json</code> by default.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/RequestCreation.swift#L76-L107">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_s10DictionaryVyS2SG10urlEncodedy10Foundation10URLRequestVzc0C8MutationtF"></a>
-                    <a name="//apple_ref/swift/Method/request(_:urlEncoded:requestMutation:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC7requestAA7Request_pAA0D6MethodO_s10DictionaryVyS2SG10urlEncodedy10Foundation10URLRequestVzc0C8MutationtF">request(_:urlEncoded:requestMutation:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Convenience method to initiate a request with URL-encoded parameters in the meesage body.</p>
-
-<p>This method performs all necessary escaping, and has full Unicode support in both keys and values.</p>
-
-<p>The content type is <code>application/x-www-form-urlencoded</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">request</span><span class="p">(</span>
-            <span class="n">_</span> <span class="nv">method</span><span class="p">:</span>          <span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">,</span>
-            <span class="n">urlEncoded</span> <span class="nv">params</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">],</span>
-            <span class="nv">requestMutation</span><span class="p">:</span>   <span class="kd">@escaping</span> <span class="kt"><a href="../Classes/Resource.html#/s:6Siesta8ResourceC15RequestMutationa">RequestMutation</a></span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span>
-        <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/RequestCreation.swift#L116-L148">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC13failedRequestAA0D0_pAA0D5ErrorVFZ"></a>
-                    <a name="//apple_ref/swift/Method/failedRequest(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC13failedRequestAA0D0_pAA0D5ErrorVFZ">failedRequest(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns a request for this resource that immedately fails, without ever touching the network. Useful for creating
-your own custom requests that perform pre-request validation.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">failedRequest</span><span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestError.html">RequestError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Request.html">Request</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Request/RequestCreation.swift#L163-L166">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF"></a>
-                    <a name="//apple_ref/swift/Method/configurationPattern(for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF">configurationPattern(for:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Matches this specific resource when passed as a pattern to <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">Service.configure(...)</a></code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configurationPattern</span><span class="p">(</span><span class="k">for</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="kt">URL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/ConfigurationPatternConvertible.swift#L121-L125">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6Siesta8ResourceC30entityForTypedContentAccessorsAA6EntityVyypGSgv"></a>
-                    <a name="//apple_ref/swift/Property/entityForTypedContentAccessors" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta8ResourceC30entityForTypedContentAccessorsAA6EntityVyypGSgv">entityForTypedContentAccessors</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Typed content accessors such as <code>.text</code> and <code>.jsonDict</code> apply to <code>latestData?.content</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">entityForTypedContentAccessors</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L252">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/ResourceObserver.swift#L249-L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1943,8 +2158,8 @@ your own custom requests that perform pre-request validation.</p>
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

@@ -1,6 +1,13 @@
 {
   "warnings": [
     {
+      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Pipeline/ResponseTransformer.swift",
+      "line": 21,
+      "symbol": "Image",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
       "line": 140,
       "symbol": "RequestError.Cause.InvalidURL.urlSource",
@@ -37,42 +44,42 @@
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 177,
+      "line": 181,
       "symbol": "RequestError.Cause.InvalidTextEncoding.encodingName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 183,
+      "line": 187,
       "symbol": "RequestError.Cause.UndecodableText.encoding",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 190,
+      "line": 194,
       "symbol": "RequestError.Cause.JSONResponseIsNotDictionaryOrArray.actualType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 201,
+      "line": 205,
       "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.expectedType",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 202,
+      "line": 206,
       "symbol": "RequestError.Cause.WrongInputTypeInTranformerPipeline.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
-      "line": 208,
+      "line": 212,
       "symbol": "RequestError.Cause.TransformerReturnedNil.transformer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"

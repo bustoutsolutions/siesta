@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>StandardTransformer Struct Reference</title>
+    <title>StandardTransformer Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -16,7 +16,7 @@
 
     <a name="//apple_ref/swift/Struct/StandardTransformer" class="dashAnchor"></a>
 
-    <a title="StandardTransformer Struct Reference"></a>
+    <a title="StandardTransformer Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Siesta Reference</a>
       <img class="carat" src="../img/carat.png" />
-      StandardTransformer Struct Reference
+      StandardTransformer Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -100,6 +100,9 @@
                 <a class="nav-group-task-link" href="../Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -111,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -138,7 +152,7 @@
                 <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="../Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
@@ -151,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -181,18 +206,10 @@
                 <a class="nav-group-task-link" href="../Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -201,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
@@ -228,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -244,7 +267,7 @@
             <h1>StandardTransformer</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StandardTransformer</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">StandardTransformer</span></code></pre>
 
                 </div>
               </div>
@@ -266,9 +289,9 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta19StandardTransformerV4jsonACvZ"></a>
+                    <a name="/s:6Siesta19StandardTransformerV4jsonACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/json" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta19StandardTransformerV4jsonACvZ">json</a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV4jsonACvpZ">json</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -276,7 +299,7 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Uses Foundation’s <code>JSONSerialization</code> to transform responses</p>
+                        <p>Uses Foundation’s <code><a href="https://developer.apple.com/documentation/foundation/jsonserialization/">JSONSerialization</a></code> to transform responses</p>
 
 <ul>
 <li>with content type of <code>*​/json</code> or <code>*​/​*+json</code></li>
@@ -284,19 +307,19 @@ Use this to individually opt in to Siesta’s built-in response transformers.</p
 <li>at the parsing stage.</li>
 </ul>
 
-<p>Disable this if you want to use a different parser, such as Swift 4’s <code>JSONDecoder</code>:</p>
-<pre class="highlight plaintext"><code>let service = Service(
-  baseURL: "https://example.com",
-  standardTransformers: [.image, .text])  // no .json
+<p>Disable this if you want to use a different parser, such as Swift 4’s <code><a href="https://developer.apple.com/documentation/foundation/jsondecoder/">JSONDecoder</a></code>:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">service</span> <span class="o">=</span> <span class="kt">Service</span><span class="p">(</span>
+  <span class="nv">baseURL</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">,</span>
+  <span class="nv">standardTransformers</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="o">.</span><span class="n">text</span><span class="p">])</span>  <span class="c1">// no .json</span>
 
-let jsonDecoder = JSONDecoder()
-service.configureTransformer("/foo") {
-  try jsonDecoder.decode(Foo.self, from: $0.content)
-}
+<span class="k">let</span> <span class="nv">jsonDecoder</span> <span class="o">=</span> <span class="kt">JSONDecoder</span><span class="p">()</span>
+<span class="n">service</span><span class="o">.</span><span class="nf">configureTransformer</span><span class="p">(</span><span class="s">"/foo"</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="n">jsonDecoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Foo</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="nv">$0</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>JSONResponseTransformer</code> to configure a JSON parser with different options, at a different stage,
+    <code><a href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a></code> to configure a JSON parser with different options, at a different stage,
 or for different content types.
 
 </div>
@@ -306,12 +329,12 @@ or for different content types.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">json</span> <span class="o">=</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">StandardTransformer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/StandardTransformers.swift#L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -319,9 +342,9 @@ or for different content types.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta19StandardTransformerV4textACvZ"></a>
+                    <a name="/s:6Siesta19StandardTransformerV4textACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/text" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta19StandardTransformerV4textACvZ">text</a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV4textACvpZ">text</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -329,10 +352,11 @@ or for different content types.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses responses with content type <code>text/​*</code> as a swift String.</p>
+                        <p>Parses responses with content type <code>text/​*</code> as a Swift <code><a href="https://developer.apple.com/documentation/swift/string/">String</a></code>.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>TextResponseTransformer</code> for details
+    <code><a href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a></code> to configure a text parser with different options, at a different stage,
+or for different content types.
 
 </div>
 
@@ -341,12 +365,12 @@ or for different content types.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">text</span> <span class="o">=</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">StandardTransformer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L59">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/StandardTransformers.swift#L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -354,9 +378,9 @@ or for different content types.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta19StandardTransformerV5imageACvZ"></a>
+                    <a name="/s:6Siesta19StandardTransformerV5imageACvpZ"></a>
                     <a name="//apple_ref/swift/Variable/image" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta19StandardTransformerV5imageACvZ">image</a>
+                    <a class="token" href="#/s:6Siesta19StandardTransformerV5imageACvpZ">image</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -364,10 +388,11 @@ or for different content types.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Parses responses with content type <code>image/​*</code> as a UIKit / Appkit image.</p>
+                        <p>Parses responses with content type <code>image/​*</code> as a UIKit / AppKit image.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code>ImageResponseTransformer</code> for details
+    <code><a href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a></code> to configure an image parser with different options, at a different stage,
+or for different content types.
 
 </div>
 
@@ -376,12 +401,12 @@ or for different content types.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">image</span><span class="p">:</span> <span class="kt">StandardTransformer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Pipeline/StandardTransformers.swift#L68">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Pipeline/StandardTransformers.swift#L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -394,8 +419,8 @@ or for different content types.
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

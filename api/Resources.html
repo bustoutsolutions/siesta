@@ -14,6 +14,7 @@
   </head>
   <body>
 
+    <a name="//apple_ref/swift/Section/Resources" class="dashAnchor"></a>
 
     <a title="Resources  Reference"></a>
 
@@ -99,6 +100,9 @@
                 <a class="nav-group-task-link" href="Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -110,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -137,7 +152,7 @@
                 <a class="nav-group-task-link" href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/StandardTransformer.html">StandardTransformer</a>
@@ -150,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -180,18 +206,10 @@
                 <a class="nav-group-task-link" href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -200,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/String.html">String</a>
@@ -227,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -283,12 +307,13 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">class</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc(BOSService)</span>
+<span class="kd">open</span> <span class="kd">class</span> <span class="kt">Service</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Service.swift#L29-L481">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L29-L481">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -329,12 +354,13 @@ questions changes.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc(BOSResource)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Resource</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Resource/Resource.swift#L28-L697">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Resource/Resource.swift#L28-L731">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -367,12 +393,12 @@ the content’s type and freshness.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entity</span><span class="o">&lt;</span><span class="kt">ContentType</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Entity</span><span class="o">&lt;</span><span class="kt">ContentType</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L17-L156">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L17-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -393,21 +419,21 @@ the content’s type and freshness.</p>
                         <p>Mixin that provides convenience accessors for the content of an optional contained entity.</p>
 
 <p>Allows you to replace the following:</p>
-<pre class="highlight plaintext"><code>resource.latestData?.content as? String
-(resource.latestError?.entity?.content as? [String:AnyObject])?["error.detail"]
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="n">latestData</span><span class="p">?</span><span class="o">.</span><span class="n">content</span> <span class="k">as?</span> <span class="kt">String</span>
+<span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">latestError</span><span class="p">?</span><span class="o">.</span><span class="n">entity</span><span class="p">?</span><span class="o">.</span><span class="n">content</span> <span class="k">as?</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">AnyObject</span><span class="p">])?[</span><span class="s">"error.detail"</span><span class="p">]</span>
 </code></pre>
 
 <p>…with:</p>
-<pre class="highlight plaintext"><code>resource.text
-resource.latestError?.jsonDict["error.detail"]
+<pre class="highlight swift"><code><span class="n">resource</span><span class="o">.</span><span class="n">text</span>
+<span class="n">resource</span><span class="o">.</span><span class="n">latestError</span><span class="p">?</span><span class="o">.</span><span class="n">jsonDict</span><span class="p">[</span><span class="s">"error.detail"</span><span class="p">]</span>
 </code></pre>
 
 <p>You can extend this protocol to provide your own convenience accessors. For example:</p>
-<pre class="highlight plaintext"><code>extension TypedContentAccessors {
-  var doorknob: UIDoorknob {
-    return typedContent(ifNone: placeholderKnob)
-  }
-}
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypedContentAccessors</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">doorknob</span><span class="p">:</span> <span class="kt">UIDoorknob</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">typedContent</span><span class="p">(</span><span class="nv">ifNone</span><span class="p">:</span> <span class="n">placeholderKnob</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 
 <p>Note that the sample code above is <em>only</em> a convenience accessor. It checks whether the entity already has a
@@ -420,12 +446,12 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TypedContentAccessors</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Entity.swift#L184-L191">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L184-L191">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -460,12 +486,12 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Configuration</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Configuration</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Configuration.swift#L16-L102">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Configuration.swift#L16-L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -489,7 +515,7 @@ a custom <code><a href="Protocols/ResponseTransformer.html">ResponseTransformer<
                       <div class="abstract">
                         <p>A type that can serve as a URL matcher for service configuration.</p>
 
-<p>Siesta provides implementations of this protocol for <code>String</code> (for glob-based matching) and <code><a href="Classes/Resource.html">Resource</a></code> (to configure
+<p>Siesta provides implementations of this protocol for <code><a href="https://developer.apple.com/documentation/swift/string/">String</a></code> (for glob-based matching) and <code><a href="Classes/Resource.html">Resource</a></code> (to configure
 one specific resource).</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
@@ -513,12 +539,12 @@ one specific resource).</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationPatternConvertible</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationPatternConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/ConfigurationPatternConvertible.swift#L22-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -531,8 +557,8 @@ one specific resource).</p>
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

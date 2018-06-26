@@ -14,6 +14,7 @@
   </head>
   <body>
 
+    <a name="//apple_ref/swift/Section/Network Layer" class="dashAnchor"></a>
 
     <a title="Network Layer  Reference"></a>
 
@@ -99,6 +100,9 @@
                 <a class="nav-group-task-link" href="Enums/RequestMethod.html">RequestMethod</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RequestState.html">RequestState</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/RequestError.html">RequestError</a>
               </li>
               <li class="nav-group-task">
@@ -110,8 +114,19 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ResponseInfo.html">ResponseInfo</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Request Customization.html">Request Customization</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/RequestChainAction.html">RequestChainAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestDelegate.html">RequestDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/RequestCompletionHandler.html">RequestCompletionHandler</a>
               </li>
             </ul>
           </li>
@@ -137,7 +152,7 @@
                 <a class="nav-group-task-link" href="Structs/ResponseContentTransformer.html">ResponseContentTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/InputTypeMismatchAction.html">InputTypeMismatchAction</a>
+                <a class="nav-group-task-link" href="Structs/ResponseContentTransformer/InputTypeMismatchAction.html">– InputTypeMismatchAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/StandardTransformer.html">StandardTransformer</a>
@@ -150,6 +165,17 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Logging.html">Logging</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog.html">SiestaLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SiestaLog/Category.html">– Category</a>
               </li>
             </ul>
           </li>
@@ -180,18 +206,10 @@
                 <a class="nav-group-task-link" href="Structs/RequestTransferMetrics.html">RequestTransferMetrics</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/SessionTaskContainer.html">SessionTaskContainer</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Logging.html">Logging</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/LogCategory.html">LogCategory</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Logging.html#/s:6Siesta6loggeryAA11LogCategoryO_SStcv">logger</a>
               </li>
             </ul>
           </li>
@@ -200,6 +218,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/NSRegularExpression.html">NSRegularExpression</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Set.html">Set</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/String.html">String</a>
@@ -227,10 +248,13 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Structs.html">Other Structs</a>
+            <a class="nav-group-name-link" href="Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/URLSessionProvider.html">URLSessionProvider</a>
+                <a class="nav-group-task-link" href="Other Typealiases.html#/Image">Image</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other Typealiases.html#/s:6Siesta5Imagea">Image</a>
               </li>
             </ul>
           </li>
@@ -273,12 +297,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span><span class="p">:</span> <span class="kt"><a href="Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProvider</span> <span class="p">:</span> <span class="kt"><a href="Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking.swift#L17-L37">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L17-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -300,15 +324,15 @@
 Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.</p>
 
 <p>For example, instead of having to do this:</p>
-<pre class="highlight plaintext"><code>Service(baseURL: "http://foo.bar", networking:
-  URLSessionProvider(session:
-      URLSession(configuration:
-          URLSessionConfiguration.default)))
+<pre class="highlight swift"><code><span class="kt">Service</span><span class="p">(</span><span class="nv">baseURL</span><span class="p">:</span> <span class="s">"http://foo.bar"</span><span class="p">,</span> <span class="nv">networking</span><span class="p">:</span>
+  <span class="kt">URLSessionProvider</span><span class="p">(</span><span class="nv">session</span><span class="p">:</span>
+      <span class="kt">URLSession</span><span class="p">(</span><span class="nv">configuration</span><span class="p">:</span>
+          <span class="kt">URLSessionConfiguration</span><span class="o">.</span><span class="k">default</span><span class="p">)))</span>
 </code></pre>
 
 <p>…you can do this:</p>
-<pre class="highlight plaintext"><code>Service(baseURL: "http://foo.bar", networking:
-  URLSessionConfiguration.default)
+<pre class="highlight swift"><code><span class="kt">Service</span><span class="p">(</span><span class="nv">baseURL</span><span class="p">:</span> <span class="s">"http://foo.bar"</span><span class="p">,</span> <span class="nv">networking</span><span class="p">:</span>
+  <span class="kt">URLSessionConfiguration</span><span class="o">.</span><span class="k">default</span><span class="p">)</span>
 </code></pre>
 
 <p>Siesta supports conversion of the following types into a networking provider:</p>
@@ -327,12 +351,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProviderConvertible</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NetworkingProviderConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking.swift#L117-L121">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L117-L121">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -364,12 +388,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestNetworking</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RequestNetworking</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking.swift#L46-L53">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L46-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -394,12 +418,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="kt">HTTPURLResponse</span><span class="p">?,</span> <span class="kt">Data</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="https://developer.apple.com/documentation/foundation/httpurlresponse/">HTTPURLResponse</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking.swift#L91">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -425,12 +449,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestTransferMetrics</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestTransferMetrics</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking.swift#L56-L88">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L56-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -439,6 +463,39 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
             </div>
             <div class="task-group">
               <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Siesta18URLSessionProviderV"></a>
+                    <a name="//apple_ref/swift/Struct/URLSessionProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Siesta18URLSessionProviderV">URLSessionProvider</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Uses <code>URLSessionDataTask</code> for Siesta networking.</p>
+
+<p>This is Siesta’s default networking provider.</p>
+
+                        <a href="Structs/URLSessionProvider.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">URLSessionProvider</span> <span class="p">:</span> <span class="kt"><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking-URLSession.swift#L16-L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -452,7 +509,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience for <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementations that ultimate rely on an <code>URLSessionTask</code>.</p>
+                        <p>Convenience for <code><a href="Protocols/NetworkingProvider.html">NetworkingProvider</a></code> implementations that ultimate rely on a <code><a href="https://developer.apple.com/documentation/foundation/urlsessiontask/">URLSessionTask</a></code>.</p>
 
                         <a href="Protocols/SessionTaskContainer.html" class="slightly-smaller">See more</a>
                       </div>
@@ -460,12 +517,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SessionTaskContainer</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SessionTaskContainer</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.3.0/Source/Siesta/Networking-URLSession.swift#L66-L70">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking-URLSession.swift#L66-L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -478,8 +535,8 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
       </article>
     </div>
     <section class="footer">
-      <p>© 2016 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>© 2018 <a class="link" href="http://bustoutsolutions.com" target="_blank" rel="external">Bust Out Solutions</a> under <a class="link" href="https://github.com/bustoutsolutions/siesta/blob/master/LICENSE" target="_blank" rel="external">open source license</a>.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
