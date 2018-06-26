@@ -32,8 +32,8 @@ For example, if you want to drive yourself and everyone around you into a wild r
 
 ```swift
 let speechSynth = AVSpeechSynthesizer()
-let originalLogger = Siesta.logger
-Siesta.logger = { category, message in
+let originalLogger = SiestaLog.messageHandler
+SiestaLog.messageHandler = { category, message in
     originalLogger(category, message)
     speechSynth.speak(AVSpeechUtterance(string: message))
 }
