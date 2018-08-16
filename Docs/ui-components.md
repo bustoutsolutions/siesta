@@ -6,7 +6,7 @@ The business of showing an activity indicator and error message can get repetiti
 
 The overlay is designed to cover your entire content view when there is an error, by you can position it as you like. It comes with a tidy standard layout:
 
-<img alt="Standard error overlay view" src="/siesta/guide/images/standard-error-overlay@2x.png" width="320" height="136">
+<img alt="Standard error overlay view" src="https://github.com/bustoutsolutions/siesta/blob/master/Docs/images/standard-error-overlay%402x.png" width="320" height="136">
 
 …and you can also provide your own custom nib.
 
