@@ -5,6 +5,7 @@
 //  Created by Paul on 2018/3/7.
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
+import Foundation
 
 extension Resource
     {
