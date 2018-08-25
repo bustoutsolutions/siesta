@@ -20,8 +20,12 @@ class SiestaSpec: QuickSpec
         beforeSuite
             {
             SiestaLog.Category.enabled = .all
-            SiestaLog.messageHandler = { currentLogMessages.append($1) }
-            }
+            SiestaLog.messageHandler =
+                {
+                _, message in
+                DispatchQueue.main.async
+                    { currentLogMessages.append(message) }
+                }
             }
 
         afterEach

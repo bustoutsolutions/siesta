@@ -9,8 +9,7 @@ import Foundation
 
 
 // Overridable for testing
-internal var fakeNow: TimeInterval?
-internal let now = { fakeNow ?? Date.timeIntervalSinceReferenceDate }
+internal var now = { Date.timeIntervalSinceReferenceDate }
 
 /**
   An in-memory cache of a RESTful resource, plus information about the status of network requests related to it.

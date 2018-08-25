@@ -12,6 +12,23 @@ import Nimble
 import Nocilla
 import Alamofire
 
+private let _fakeNowLock = NSObject()
+private var _fakeNow: Double?
+private var fakeNow: Double?
+    {
+    get {
+        objc_sync_enter(_fakeNowLock)
+        defer { objc_sync_exit(_fakeNowLock) }
+        return _fakeNow
+        }
+    set {
+        objc_sync_enter(_fakeNowLock)
+        defer { objc_sync_exit(_fakeNowLock) }
+        _fakeNow = newValue
+        }
+    }
+
+
 class ResourceSpecBase: SiestaSpec
     {
     func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
@@ -39,6 +56,11 @@ class ResourceSpecBase: SiestaSpec
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
 
+        let realNow = Siesta.now
+        Siesta.now =
+            {
+            return fakeNow ?? realNow()
+            }
         afterEach { fakeNow = nil }
 
         if envFlag("TestMultipleNetworkProviders")
