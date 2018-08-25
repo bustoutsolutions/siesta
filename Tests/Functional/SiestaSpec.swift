@@ -11,6 +11,7 @@ import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
+private var activeSuites = 0
 
 class SiestaSpec: QuickSpec
     {
@@ -21,16 +22,11 @@ class SiestaSpec: QuickSpec
             SiestaLog.Category.enabled = .all
             SiestaLog.messageHandler = { currentLogMessages.append($1) }
             }
-
-        beforeEach
-            {
-            currentTestFailed = false
-            currentLogMessages.removeAll(keepingCapacity: true)
             }
 
         afterEach
             {
-            (exampleMetadata: Quick.ExampleMetadata) in
+            exampleMetadata in
 
             resultsAggregator.recordResult(self, example: exampleMetadata.example, passed: !currentTestFailed)
 
@@ -43,11 +39,24 @@ class SiestaSpec: QuickSpec
                 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                 print("")
                 }
+
+            currentTestFailed = false
+            currentLogMessages.removeAll(keepingCapacity: true)
+            }
+
+        beforeSuite
+            {
+            activeSuites += 1
             }
 
         afterSuite
             {
-            resultsAggregator.flush()
+            activeSuites -= 1
+            if activeSuites <= 0
+                {
+                simulateMemoryWarning()
+                resultsAggregator.flush()
+                }
             }
         }
 
