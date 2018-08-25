@@ -125,6 +125,12 @@ class ResourcePathsSpec: ResourceSpecBase
                 expectRelativeOf(resourceWithParam, "?baz=fez", toResolveTo: "https://zingle.frotz/v1/a/b?baz=fez")
                 expectRelativeOf(resourceWithParam, "./c",      toResolveTo: "https://zingle.frotz/v1/a/c")
                 }
+
+            it("allows duplicate param keys in supplied query string")
+                {
+                let resourceWithParam = resource().withParam("foo", "bar")
+                expectRelativeOf(resourceWithParam, "?baz=fez&baz=fuzz", toResolveTo: "https://zingle.frotz/v1/a/b?baz=fez&baz=fuzz")
+                }
             }
 
         describe("optionalRelative()")
