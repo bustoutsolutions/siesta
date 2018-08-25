@@ -76,10 +76,34 @@ class ResourceSpecBase: SiestaSpec
 
     private func runSpecsWithService(_ serviceBuilder: @escaping () -> Service)
         {
-        let service  = specVar(serviceBuilder),
-            resource = specVar { service().resource("/a/b") }
+        weak var weakService: Service?
 
-        resourceSpec(service, resource)
+        let service = specVar
+                {
+                () -> Service in
+
+                let result = serviceBuilder()
+                weakService = result
+                return result
+                }
+
+        let resource = specVar
+                { service().resource("/a/b") }
+
+        describe("")
+            { resourceSpec(service, resource) }
+
+        afterEach
+            {
+            awaitObserverCleanup()
+            weakService?.flushUnusedResources()
+
+            if weakService != nil
+                {
+                fail("Service instance leaked by test")
+                weakService = nil
+                }
+            }
         }
 
     var baseURL: String
