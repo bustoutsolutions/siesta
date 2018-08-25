@@ -420,5 +420,5 @@ private struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
 extension Resource: WeakCacheValue
     {
     func allowRemovalFromCache()
-        { cleanDefunctObservers() }
+        { cleanDefunctObservers(force: true) }
     }
