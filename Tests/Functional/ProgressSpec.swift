@@ -54,8 +54,10 @@ class ProgressSpec: ResourceSpecBase
                 let req = resource().load()
                 req.cancel()
                 expect(req.progress) == 1.0
-                _ = reqStub.go()
                 awaitFailure(req, initialState: .completed)
+
+                _ = reqStub.go()
+                awaitCancelledRequests()
                 }
             }
 

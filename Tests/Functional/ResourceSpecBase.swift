@@ -223,8 +223,8 @@ func setResourceTime(_ time: TimeInterval)
 //
 // Since there’s no way to directly detect the cleanup, and thus no positive indicator to
 // wait for, we just wait for all tasks currently queued on the main thread to complete.
-
-func awaitObserverCleanup(for resource: Resource?)
+//
+func awaitObserverCleanup(for resource: Resource? = nil)
     {
     let cleanupExpectation = QuickSpec.current.expectation(description: "awaitObserverCleanup")
     DispatchQueue.main.async
@@ -232,3 +232,18 @@ func awaitObserverCleanup(for resource: Resource?)
     QuickSpec.current.waitForExpectations(timeout: 1)
     }
 
+// Request cancellation can cause a race condition in specs:
+//
+// 1. Network request starts chugging
+// 2. Request is cancelled on the Siesta side, but background network machinery already in motion
+// 3. Spec completes, we clear Nocilla stubs
+// 4. Request (which still hasn't received the cancellation) hits Nocilla, causing it to throw
+//    an unstubbed request error
+//
+// Nocilla doesn't provide any way to actually guard against this, or to wait for pending requests
+// to finish, so we solve it with a timeout (pending a better network stubbing lib).
+//
+func awaitCancelledRequests()
+    {
+    Thread.sleep(forTimeInterval: 0.1)
+    }

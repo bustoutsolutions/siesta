@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import Nocilla
 
-class ResourceRequestsSpec: ResourceSpecBase
+class ResourceStateSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
@@ -432,6 +432,8 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 awaitNewData(request())
                 expect(observerNotified) == true
+
+                resource().removeObservers(ownedBy: request())
                 }
             }
 
@@ -460,6 +462,8 @@ class ResourceRequestsSpec: ResourceSpecBase
 
                 _ = reqStub().go()
                 awaitFailure(req(), initialState: .completed)
+
+                awaitCancelledRequests()
                 }
 
             it("does not cancel if resource has an observer")
@@ -734,6 +738,8 @@ class ResourceRequestsSpec: ResourceSpecBase
                 expect(resource().isLoading) == false
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
+
+                awaitCancelledRequests()
                 }
 
             it("cancels requests attached with load(using:) even if they came from another resource")

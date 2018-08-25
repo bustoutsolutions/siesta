@@ -86,6 +86,7 @@ class EntityCacheSpec: ResourceSpecBase
                     if let firstRequest = requests.first!
                         { awaitNewData(firstRequest) }
                     expect(resource().isLoading).toEventually(beFalse())
+                    resource().removeObservers(ownedBy: eventRecorder())
                     awaitObserverCleanup(for: resource())
                     }
 
