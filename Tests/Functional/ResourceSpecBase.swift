@@ -100,6 +100,9 @@ class ResourceSpecBase: SiestaSpec
         {
         weak var weakService: Service?
 
+        // Standard service and resource test instances
+        // (These use configurable net provider and embed the spec name in the baseURL.)
+
         let service = specVar
             {
             () -> Service in
@@ -112,8 +115,10 @@ class ResourceSpecBase: SiestaSpec
         let resource = specVar
             { service().resource("/a/b") }
 
-        describe("")
-            { resourceSpec(service, resource) }
+        // Make sure that Service is deallocated after each spec (which also catches Resource and Request leaks,
+        // since they ultimately retain their associated service)
+        //
+        // NB: This must come _after_ the specVars above, which use afterEach to clear the service and resource.
 
         afterEach
             {
@@ -126,6 +131,11 @@ class ResourceSpecBase: SiestaSpec
                 weakService = nil
                 }
             }
+
+        // Run the actual specs
+
+        context("")  // Separate context for service and resource above, so they’re cleaned up before leak check below
+            { resourceSpec(service, resource) }
         }
 
     var baseURL: String

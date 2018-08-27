@@ -98,7 +98,10 @@ private class ResultsAggregator
     func recordResult(_ spec: QuickSpec, example: Example, passed: Bool)
         {
         recordResult(
-            [specDescription(spec)] + example.name.components(separatedBy: ", "),
+            [specDescription(spec)]                 // Test class name
+                + example.name
+                    .components(separatedBy: ", ")  // Quick reports individual test case names separated by commas
+                    .filter { !$0.isEmpty },        // Siesta uses context("") to order its before/after blocks
             subtree: results,
             callsite: example.callsite,
             passed: passed)
