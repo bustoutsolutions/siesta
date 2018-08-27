@@ -101,16 +101,16 @@ class ResourceSpecBase: SiestaSpec
         weak var weakService: Service?
 
         let service = specVar
-                {
-                () -> Service in
+            {
+            () -> Service in
 
-                let result = serviceBuilder()
-                weakService = result
-                return result
-                }
+            let result = serviceBuilder()
+            weakService = result
+            return result
+            }
 
         let resource = specVar
-                { service().resource("/a/b") }
+            { service().resource("/a/b") }
 
         describe("")
             { resourceSpec(service, resource) }
