@@ -120,6 +120,12 @@ class ResourceSpecBase: SiestaSpec
         //
         // NB: This must come _after_ the specVars above, which use afterEach to clear the service and resource.
 
+        aroundEach
+            {
+            example in
+            autoreleasepool { example() }  // Alamofire relies on autorelease, so each spec needs its own pool for leak checking
+            }
+
         afterEach
             {
             awaitObserverCleanup()
@@ -134,8 +140,10 @@ class ResourceSpecBase: SiestaSpec
 
         // Run the actual specs
 
-        context("")  // Separate context for service and resource above, so they’re cleaned up before leak check below
-            { resourceSpec(service, resource) }
+        context("")  // Make specVars above run in a separate context so their afterEach cleans up _before_ the leak check
+            {
+            resourceSpec(service, resource)
+            }
         }
 
     var baseURL: String
