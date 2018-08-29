@@ -83,7 +83,6 @@ script: |
   echo —————— Running tests for $platform ...
   echo
 
-  Siesta_DelayAfterEachSpec=1 \
   Siesta_TestMultipleNetworkProviders=1 \
   travis_retry xcodebuild test \
       -project Siesta.xcodeproj \

@@ -9,8 +9,7 @@ import Foundation
 
 
 // Overridable for testing
-internal var fakeNow: TimeInterval?
-internal let now = { fakeNow ?? Date.timeIntervalSinceReferenceDate }
+internal var now = { Date.timeIntervalSinceReferenceDate }
 
 /**
   An in-memory cache of a RESTful resource, plus information about the status of network requests related to it.
@@ -376,13 +375,27 @@ public final class Resource: NSObject
 
         if case .inProgress(let cacheRequest) = cacheCheckStatus
             {
+            // isLoading needs to be:
+            //  - false at first,
+            //  - true after loadIfNeeded() while the cache check is in progress, but
+            //  - false again before observers receive a cache hit.
+            //
+            // To make this happen, we need to add the chained cacheThenNetwork below
+            // to loadRequests after it’s created, but remove it _before_ the request
+            // chain proceeds. The trickery with trackedRequest below makes this happen.
+
             var trackedRequest: Request?
+            cacheRequest.onCompletion
+                {
+                _ in self.loadRequests.remove { $0 === trackedRequest }
+                }
+
+            // Now we're ready to construct a chained request that will return either a
+            // cache hit or a bona fide network result.
+
             let cacheThenNetwork = cacheRequest.chained
                 {
                 _ in // We don’t need the result of the cache request here; resource state is already updated
-
-                // Ensure isLoading is false for last event observers receive
-                self.loadRequests.remove { $0 === trackedRequest }
 
                 if self.isUpToDate                 // If cached data is up to date...
                     {
@@ -394,8 +407,10 @@ public final class Resource: NSObject
                     return .passTo(self.load())    // Cache was a bust, so make the real request
                     }
                 }
+
             loadRequests.append(cacheThenNetwork)
             trackedRequest = cacheThenNetwork
+
             return cacheThenNetwork
             }
 

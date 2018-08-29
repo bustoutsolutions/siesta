@@ -12,6 +12,23 @@ import Nimble
 import Nocilla
 import Alamofire
 
+private let _fakeNowLock = NSObject()
+private var _fakeNow: Double?
+private var fakeNow: Double?
+    {
+    get {
+        objc_sync_enter(_fakeNowLock)
+        defer { objc_sync_exit(_fakeNowLock) }
+        return _fakeNow
+        }
+    set {
+        objc_sync_enter(_fakeNowLock)
+        defer { objc_sync_exit(_fakeNowLock) }
+        _fakeNow = newValue
+        }
+    }
+
+
 class ResourceSpecBase: SiestaSpec
     {
     func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
@@ -27,18 +44,15 @@ class ResourceSpecBase: SiestaSpec
             return value == "1" || value == "true"
             }
 
-        if envFlag("DelayAfterEachSpec")
-            {
-            // Nocilla’s threading is broken, and Travis exposes a race condition in it.
-            // This delay is a workaround.
-            print("Using awful sleep workaround for Nocilla’s thread safety problems \u{1f4a9}")
-            afterEach { Thread.sleep(forTimeInterval: 0.02) }  // must happen before clearStubs()
-            }
-
         beforeSuite { LSNocilla.sharedInstance().start() }
         afterSuite  { LSNocilla.sharedInstance().stop() }
         afterEach   { LSNocilla.sharedInstance().clearStubs() }
 
+        let realNow = Siesta.now
+        Siesta.now =
+            {
+            return fakeNow ?? realNow()
+            }
         afterEach { fakeNow = nil }
 
         if envFlag("TestMultipleNetworkProviders")
@@ -76,10 +90,66 @@ class ResourceSpecBase: SiestaSpec
 
     private func runSpecsWithService(_ serviceBuilder: @escaping () -> Service)
         {
-        let service  = specVar(serviceBuilder),
-            resource = specVar { service().resource("/a/b") }
+        weak var weakService: Service?
 
-        resourceSpec(service, resource)
+        // Standard service and resource test instances
+        // (These use configurable net provider and embed the spec name in the baseURL.)
+
+        let service = specVar
+            {
+            () -> Service in
+
+            let result = serviceBuilder()
+            weakService = result
+            return result
+            }
+
+        let resource = specVar
+            { service().resource("/a/b") }
+
+        // Make sure that Service is deallocated after each spec (which also catches Resource and Request leaks,
+        // since they ultimately retain their associated service)
+        //
+        // NB: This must come _after_ the specVars above, which use afterEach to clear the service and resource.
+
+        aroundEach
+            {
+            example in
+            autoreleasepool { example() }  // Alamofire relies on autorelease, so each spec needs its own pool for leak checking
+            }
+
+        afterEach
+            {
+            exampleMetadata in
+
+            for attempt in 0...
+                {
+                if weakService == nil
+                    { break }  // yay!
+
+                if attempt > 4
+                    {
+                    fail("Service instance leaked by test")
+                    weakService = nil
+                    break
+                    }
+
+                if attempt > 0  // waiting for one cleanup cycle is normal
+                    {
+                    print("Test may have leaked service instance; will wait for cleanup and check again (attempt \(attempt))")
+                    Thread.sleep(forTimeInterval: 0.02 * pow(3, Double(attempt)))
+                    }
+                awaitObserverCleanup()
+                weakService?.flushUnusedResources()
+                }
+            }
+
+        // Run the actual specs
+
+        context("")  // Make specVars above run in a separate context so their afterEach cleans up _before_ the leak check
+            {
+            resourceSpec(service, resource)
+            }
         }
 
     var baseURL: String
@@ -199,8 +269,8 @@ func setResourceTime(_ time: TimeInterval)
 //
 // Since there’s no way to directly detect the cleanup, and thus no positive indicator to
 // wait for, we just wait for all tasks currently queued on the main thread to complete.
-
-func awaitObserverCleanup(for resource: Resource?)
+//
+func awaitObserverCleanup(for resource: Resource? = nil)
     {
     let cleanupExpectation = QuickSpec.current.expectation(description: "awaitObserverCleanup")
     DispatchQueue.main.async
@@ -208,3 +278,18 @@ func awaitObserverCleanup(for resource: Resource?)
     QuickSpec.current.waitForExpectations(timeout: 1)
     }
 
+// Request cancellation can cause a race condition in specs:
+//
+// 1. Network request starts chugging
+// 2. Request is cancelled on the Siesta side, but background network machinery already in motion
+// 3. Spec completes, we clear Nocilla stubs
+// 4. Request (which still hasn't received the cancellation) hits Nocilla, causing it to throw
+//    an unstubbed request error
+//
+// Nocilla doesn't provide any way to actually guard against this, or to wait for pending requests
+// to finish, so we solve it with a timeout (pending a better network stubbing lib).
+//
+func awaitCancelledRequests()
+    {
+    Thread.sleep(forTimeInterval: 0.1)
+    }

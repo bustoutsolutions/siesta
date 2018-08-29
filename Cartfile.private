@@ -1,10 +1,10 @@
 # Optional integrations
 
-github "Alamofire/Alamofire" ~> 4.0
+github "Alamofire/Alamofire"
 # github "ReactiveCocoa/ReactiveCocoa" "master"  # add to Cartfile if/when it has tests
 
 # Testing
 
-github "Quick/Quick"
+github "pcantrell/Quick" "around-each"
 github "Quick/Nimble"
 github "pcantrell/Nocilla" "siesta"                     # fork adds delay() / go(), nullability annotations

@@ -11,6 +11,7 @@ import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
+private var activeSuites = 0
 
 class SiestaSpec: QuickSpec
     {
@@ -19,18 +20,17 @@ class SiestaSpec: QuickSpec
         beforeSuite
             {
             SiestaLog.Category.enabled = .all
-            SiestaLog.messageHandler = { currentLogMessages.append($1) }
-            }
-
-        beforeEach
-            {
-            currentTestFailed = false
-            currentLogMessages.removeAll(keepingCapacity: true)
+            SiestaLog.messageHandler =
+                {
+                _, message in
+                DispatchQueue.main.async
+                    { currentLogMessages.append(message) }
+                }
             }
 
         afterEach
             {
-            (exampleMetadata: Quick.ExampleMetadata) in
+            exampleMetadata in
 
             resultsAggregator.recordResult(self, example: exampleMetadata.example, passed: !currentTestFailed)
 
@@ -43,11 +43,24 @@ class SiestaSpec: QuickSpec
                 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                 print("")
                 }
+
+            currentTestFailed = false
+            currentLogMessages.removeAll(keepingCapacity: true)
+            }
+
+        beforeSuite
+            {
+            activeSuites += 1
             }
 
         afterSuite
             {
-            resultsAggregator.flush()
+            activeSuites -= 1
+            if activeSuites <= 0
+                {
+                simulateMemoryWarning()
+                resultsAggregator.flush()
+                }
             }
         }
 
@@ -85,7 +98,10 @@ private class ResultsAggregator
     func recordResult(_ spec: QuickSpec, example: Example, passed: Bool)
         {
         recordResult(
-            [specDescription(spec)] + example.name.components(separatedBy: ", "),
+            [specDescription(spec)]                 // Test class name
+                + example.name
+                    .components(separatedBy: ", ")  // Quick reports individual test case names separated by commas
+                    .filter { !$0.isEmpty },        // Siesta uses context("") to order its before/after blocks
             subtree: results,
             callsite: example.callsite,
             passed: passed)

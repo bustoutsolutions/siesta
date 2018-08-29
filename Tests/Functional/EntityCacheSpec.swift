@@ -86,6 +86,7 @@ class EntityCacheSpec: ResourceSpecBase
                     if let firstRequest = requests.first!
                         { awaitNewData(firstRequest) }
                     expect(resource().isLoading).toEventually(beFalse())
+                    resource().removeObservers(ownedBy: eventRecorder())
                     awaitObserverCleanup(for: resource())
                     }
 
@@ -281,7 +282,8 @@ private class TestCache: EntityCache
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05)
             { self.receivedCacheRead = true }
 
-        return entries[key]
+        return DispatchQueue.main.sync
+            { entries[key] }
         }
 
     func writeEntity(_ entity: Entity<Any>, forKey key: TestCacheKey)
@@ -294,7 +296,10 @@ private class TestCache: EntityCache
         }
 
     func removeEntity(forKey key: TestCacheKey)
-        { entries.removeValue(forKey: key) }
+        {
+        _ = DispatchQueue.main.sync
+            { entries.removeValue(forKey: key) }
+        }
     }
 
 private struct TestCacheKey
