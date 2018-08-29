@@ -231,7 +231,9 @@ class ResourceStateSpec: ResourceSpecBase
 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
-                expect(resource().latestError?.cause as NSError?) == sampleError
+                let nserror = resource().latestError?.cause as NSError?
+                expect(nserror?.domain) == sampleError.domain
+                expect(nserror?.code) == sampleError.code
                 }
 
             // Testing all these HTTP codes individually because Apple likes
