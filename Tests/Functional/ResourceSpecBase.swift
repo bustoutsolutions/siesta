@@ -128,13 +128,27 @@ class ResourceSpecBase: SiestaSpec
 
         afterEach
             {
-            awaitObserverCleanup()
-            weakService?.flushUnusedResources()
+            exampleMetadata in
 
-            if weakService != nil
+            for attempt in 0...
                 {
-                fail("Service instance leaked by test")
-                weakService = nil
+                if weakService == nil
+                    { break }  // yay!
+
+                if attempt > 4
+                    {
+                    fail("Service instance leaked by test")
+                    weakService = nil
+                    break
+                    }
+
+                if attempt > 0  // waiting for one cleanup cycle is normal
+                    {
+                    print("Test may have leaked service instance; will wait for cleanup and check again (attempt \(attempt))")
+                    Thread.sleep(forTimeInterval: 0.02 * pow(3, Double(attempt)))
+                    }
+                awaitObserverCleanup()
+                weakService?.flushUnusedResources()
                 }
             }
 
