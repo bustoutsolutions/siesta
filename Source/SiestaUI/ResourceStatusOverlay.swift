@@ -89,8 +89,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             {
             addSubview(containerView)
             containerView.frame = bounds
-            containerView.autoresizingMask = [UIViewAutoresizing.flexibleWidth,
-                                              UIViewAutoresizing.flexibleHeight]
+            containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             }
 
         showSuccess()

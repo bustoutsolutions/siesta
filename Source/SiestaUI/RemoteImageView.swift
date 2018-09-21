@@ -28,7 +28,7 @@ open class RemoteImageView: UIImageView
 
     /// The default service to cache `RemoteImageView` images.
     @objc
-    open static var defaultImageService: Service = Service()
+    public static var defaultImageService: Service = Service()
 
     /// The service this view should use to request & cache its images.
     @objc

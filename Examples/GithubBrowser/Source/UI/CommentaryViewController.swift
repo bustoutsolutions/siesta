@@ -24,7 +24,7 @@ class CommentaryViewController: UIViewController, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardChangedFrame),
-            name: .UIKeyboardWillChangeFrame,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil)
 
         NotificationCenter.default.addObserver(
@@ -116,7 +116,7 @@ class CommentaryViewController: UIViewController, UIScrollViewDelegate {
 
     @objc private func keyboardChangedFrame(notification: Notification) {
         guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         else {
             return
         }
