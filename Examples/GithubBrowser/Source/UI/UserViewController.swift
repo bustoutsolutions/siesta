@@ -160,7 +160,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
     }
 
     private func updateLoginButton() {
-        loginButton.setTitle(GitHubAPI.isAuthenticated ? "Log Out" : "Log In", for: UIControlState())
+        loginButton.setTitle(GitHubAPI.isAuthenticated ? "Log Out" : "Log In", for: .normal)
         userResource?.loadIfNeeded()
     }
 }

@@ -11,7 +11,7 @@ import Foundation
     internal let MemoryWarningNotification = NSNotification.Name("Siesta.MemoryWarningNotification")
 #elseif os(iOS) || os(tvOS)
     import UIKit
-    internal let MemoryWarningNotification = NSNotification.Name.UIApplicationDidReceiveMemoryWarning
+    internal let MemoryWarningNotification = UIApplication.didReceiveMemoryWarningNotification
 #endif
 
 /**
