@@ -520,7 +520,7 @@ class ResourceStateSpec: ResourceSpecBase
                     {
                     let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().cancelLoadIfUnobserved(afterDelay: 0.2)
-                    { expectation.fulfill() }
+                        { expectation.fulfill() }
                     QuickSpec.current.waitForExpectations(timeout: 0.3)
 
                     _ = reqStub().go()
@@ -532,7 +532,7 @@ class ResourceStateSpec: ResourceSpecBase
                     let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     expectation.isInverted = true
                     resource().cancelLoadIfUnobserved(afterDelay: 0.2)
-                    { expectation.fulfill() }
+                        { expectation.fulfill() }
                     QuickSpec.current.waitForExpectations(timeout: 0.1)
 
                     _ = reqStub().go()
