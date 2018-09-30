@@ -491,7 +491,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             describe("(afterDelay:)")
                 {
-                it("cancels load if resource has loses observers during delay")
+                it("cancels load if resource loses its observers during delay")
                     {
                     let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().addObserver(owner: owner!) { _,_ in }
@@ -511,6 +511,29 @@ class ResourceStateSpec: ResourceSpecBase
                         { expectation.fulfill() }
                     resource().addObserver(owner: owner!) { _,_ in }
                     QuickSpec.current.waitForExpectations(timeout: 1)
+
+                    _ = reqStub().go()
+                    awaitNewData(req())
+                    }
+
+                it("cancels load after the delay")
+                    {
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    resource().cancelLoadIfUnobserved(afterDelay: 0.2)
+                        { expectation.fulfill() }
+                    QuickSpec.current.waitForExpectations(timeout: 0.3)
+
+                    _ = reqStub().go()
+                    awaitFailure(req(), initialState: .completed)
+                    }
+
+                it("does not cancel load before the delay")
+                    {
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    expectation.isInverted = true
+                    resource().cancelLoadIfUnobserved(afterDelay: 0.2)
+                        { expectation.fulfill() }
+                    QuickSpec.current.waitForExpectations(timeout: 0.1)
 
                     _ = reqStub().go()
                     awaitNewData(req())

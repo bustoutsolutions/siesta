@@ -506,12 +506,12 @@ public final class Resource: NSObject
       where views are being rapidly discarded and recreated, and you no longer need the resource, but want to give other
       views a chance to express interest in it before canceling any requests.
 
-      The `callback` is called aftrer the given delay, regardless of whether the request was cancelled.
+      The `callback` is called after the given delay, regardless of whether the request was cancelled.
     */
     @objc
     public func cancelLoadIfUnobserved(afterDelay delay: TimeInterval, then callback: @escaping () -> Void = {})
         {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay)
             {
             self.cancelLoadIfUnobserved()
             callback()
