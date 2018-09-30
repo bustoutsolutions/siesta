@@ -491,7 +491,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             describe("(afterDelay:)")
                 {
-                it("cancels load if resource has loses observers during delay")
+                it("cancels load if resource loses its observers during delay")
                     {
                     let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
                     resource().addObserver(owner: owner!) { _,_ in }
