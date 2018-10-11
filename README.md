@@ -126,15 +126,15 @@ Siesta requires Swift 4, so make sure you have [Xcode 9](https://developer.apple
 
 In your `Podfile`:
 
-    pod 'Siesta', '~> 1.0'
+    pod 'Siesta', '~> 1.4.2'
 
 If you want to use the UI helpers:
 
-    pod 'Siesta/UI', '~> 1.0'
+    pod 'Siesta/UI', '~> 1.4.2'
 
 If you want to use Alamofire as your networking provider instead of Foundation’s `URLSession`:
 
-    pod 'Siesta/Alamofire', '~> 1.0'
+    pod 'Siesta/Alamofire', '~> 1.4.2'
 
 (You’ll also need to pass an `Alamofire.Manager` when you configure your `Siesta.Service`. See the [API docs](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)) for more info.)
 
