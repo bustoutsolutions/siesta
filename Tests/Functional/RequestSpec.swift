@@ -778,9 +778,77 @@ class RequestSpec: ResourceSpecBase
                     }
                 }
             }
+
+        describe("with custom delegate")
+            {
+            let dummyResponse =
+                ResponseInfo(
+                    response: .success(Entity<Any>(
+                        content: "dummy response",
+                        contentType: "text/whatever")))
+
+            it("doesn't automatically start")
+                {
+                let delegate = RequestDelegateStub()
+                    { _ in fail("should not execute") }
+                _ = Resource.prepareRequest(using: delegate)
+                }
+
+            it("doesn't complete until completion handler called")
+                {
+                let delegate = RequestDelegateStub()
+                    { _ in }
+                _ = Resource.prepareRequest(using: delegate)
+                    .onCompletion { _ in fail("should not execute") }
+                    .start()
+                }
+
+            it("yields the response from the completion handler")
+                {
+                let delegate = RequestDelegateStub()
+                    { $0.broadcastResponse(dummyResponse) }
+                let req = Resource.prepareRequest(using: delegate)
+                    .onSuccess { expect($0.content as? String) == "dummy response" }
+                    .start()
+                awaitNewData(req, initialState: .completed)
+                }
+
+            it("will ignore the response after one is already broadcast")
+                {
+                let delegate = RequestDelegateStub()
+                    {
+                    completionHandler in
+                    expect(completionHandler.willIgnore(dummyResponse)) == false
+                    completionHandler.broadcastResponse(dummyResponse)
+                    expect(completionHandler.willIgnore(dummyResponse)) == true
+                    }
+                Resource.prepareRequest(using: delegate).start()
+                }
+
+            // TODO: What else needs testing here?
+            }
         }
     }
 
 // MARK: - Helpers
 
 private struct DummyError: Error { }
+
+private class RequestDelegateStub: RequestDelegate
+    {
+    private let startOperation: (RequestCompletionHandler) -> Void
+
+    init(startOperation: @escaping (RequestCompletionHandler) -> Void)
+        { self.startOperation = startOperation }
+
+    func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
+        { startOperation(completionHandler) }
+
+    func cancelUnderlyingOperation()
+        { }
+
+    func repeated() -> RequestDelegate
+        { fatalError("unsupported") }
+
+    let requestDescription = "DummyRequestDelegate"
+    }
