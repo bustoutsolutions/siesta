@@ -201,9 +201,9 @@ class ResourcePathsSpec: ResourceSpecBase
 // MARK: - Custom matchers
 
 private func resourceExpansionMatcher(
-             _ expectedURL: String,
+        _ expectedURL: String,
         relationshipName: String,
-            relationship: @escaping (Resource,String) -> Resource)
+        relationship: @escaping (Resource,String) -> Resource)
     -> Predicate<(Resource,String)>
     {
     return Predicate
