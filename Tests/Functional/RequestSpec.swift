@@ -396,7 +396,7 @@ class RequestSpec: ResourceSpecBase
 
             it("picks up header config changes")
                 {
-                var flavor: String? = nil
+                var flavor: String?
                 service().configure
                     { $0.headers["X-Flavor"] = flavor }
 
@@ -586,7 +586,7 @@ class RequestSpec: ResourceSpecBase
 
             func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
                 {
-                var actualResult: String? = nil
+                var actualResult: String?
                 req.onSuccess { actualResult = $0.text }
                 awaitNewData(req, initialState: initialState)
 

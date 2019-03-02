@@ -542,7 +542,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withHeader("Content-Type", "text/plain")
                         .withBody(string as NSString)
 
-                    var result: Entity<Any>? = nil
+                    var result: Entity<Any>?
                     let req = resource().request(method)
                     req.onSuccess { result = $0 }
                     awaitNewData(req)

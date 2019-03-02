@@ -25,7 +25,7 @@ import Foundation
 internal final class WeakCache<K: Hashable, V: AnyObject>
     {
     private var entriesByKey = [K : WeakCacheEntry<V>]()
-    private var lowMemoryObserver: AnyObject? = nil
+    private var lowMemoryObserver: AnyObject?
 
     internal var countLimit = 2048
         {
