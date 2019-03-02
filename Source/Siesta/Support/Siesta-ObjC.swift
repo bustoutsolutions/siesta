@@ -42,6 +42,8 @@ import Foundation
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via overrideLocalData() so that observers always know about changes.)
 
+// swiftlint:disable identifier_name type_name
+
 @objc(BOSEntity)
 public class _objc_Entity: NSObject
     {

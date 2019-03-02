@@ -266,6 +266,8 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 
 // MARK: Transformers for standard types
 
+// swiftlint:disable identifier_name
+
 /// Parses `Data` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
@@ -311,3 +313,5 @@ public func ImageResponseTransformer(_ transformErrors: Bool = false) -> Respons
         return image
         }
     }
+
+// swiftlint:enable identifier_name

@@ -36,6 +36,7 @@ extension ResourceStatusOverlay: _objc_ResourceObserver
         }
     }
 
+// swiftlint:disable identifier_name
 extension ResourceStatusOverlay
     {
     @objc(displayPriority)
@@ -56,5 +57,6 @@ extension ResourceStatusOverlay
             }
         }
     }
+// swiftlint:enable identifier_name
 
 #endif

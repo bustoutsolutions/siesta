@@ -76,5 +76,3 @@ private final class HardWiredRequest: Request
     func repeated() -> Request
         { return self }
     }
-
-

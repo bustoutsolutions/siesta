@@ -27,7 +27,7 @@ func simulateMemoryWarning()
     {
     NotificationCenter.default
         .post(
-            name: Siesta.MemoryWarningNotification,
+            name: Siesta.memoryWarningNotification,
             object: nil)
     }
 

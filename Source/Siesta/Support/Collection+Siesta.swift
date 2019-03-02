@@ -22,10 +22,12 @@ internal extension Dictionary
     {
     static func fromArray<K, V>(_ arrayOfTuples: [(K, V)]) -> [K:V]
         {
+        // swiftlint:disable syntactic_sugar
         var dict = Dictionary<K, V>(minimumCapacity: arrayOfTuples.count)
         for (k, v) in arrayOfTuples
             { dict[k] = v }
         return dict
+        // swiftlint:enable syntactic_sugar
         }
 
     func mapDict<MappedKey, MappedValue>(transform: (Key, Value) -> (MappedKey, MappedValue))
