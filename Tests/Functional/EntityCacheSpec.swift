@@ -302,7 +302,7 @@ private class TestCache: EntityCache
         }
     }
 
-private struct TestCacheKey
+private struct TestCacheKey: Hashable
     {
     let string: String
 
@@ -314,17 +314,6 @@ private struct TestCacheKey
 
     init(cache: TestCache, path: String)
         { string = "\(cache.name)•\(path)" }
-    }
-
-extension TestCacheKey: Hashable
-    {
-    var hashValue: Int
-        { return string.hashValue }
-    }
-
-private func ==(lhs: TestCacheKey, rhs: TestCacheKey) -> Bool
-    {
-    return lhs.string == rhs.string
     }
 
 private class MainThreadCache: EntityCache

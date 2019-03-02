@@ -21,6 +21,6 @@ extension _OpenEnum
         { return lhs === rhs }
 
     /// :nodoc:
-    public var hashValue: Int
-        { return ObjectIdentifier(self).hashValue }
+    public func hash(into hasher: inout Hasher)
+        { hasher.combine(ObjectIdentifier(self)) }
     }
