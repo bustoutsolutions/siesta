@@ -387,7 +387,7 @@ public final class Resource: NSObject
             var trackedRequest: Request?
             cacheRequest.onCompletion
                 {
-                _ in self.loadRequests.remove { $0 === trackedRequest }
+                _ in self.loadRequests.removeAll { $0 === trackedRequest }
                 }
 
             // Now we're ready to construct a chained request that will return either a
@@ -524,8 +524,8 @@ public final class Resource: NSObject
         req.onCompletion
             {
             [weak self] _ in
-            self?.allRequests.remove { $0.state == .completed }
-            self?.loadRequests.remove { $0.state == .completed }
+            self?.allRequests.removeAll { $0.state == .completed }
+            self?.loadRequests.removeAll { $0.state == .completed }
             }
         }
 
