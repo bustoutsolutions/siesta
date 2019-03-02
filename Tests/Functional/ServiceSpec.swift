@@ -490,7 +490,7 @@ class ServiceSpec: SiestaSpec
 
             it("wipes only resources matched by predicate")
                 {
-                service().wipeResources() { $0 === resource1() }
+                service().wipeResources { $0 === resource1() }
                 expect(resource0().latestData).notTo(beNil())
                 expect(resource1().latestData).to(beNil())
                 }

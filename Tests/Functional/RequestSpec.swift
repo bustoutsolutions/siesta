@@ -789,14 +789,14 @@ class RequestSpec: ResourceSpecBase
 
             it("doesn't automatically start")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { _ in fail("should not execute") }
                 _ = Resource.prepareRequest(using: delegate)
                 }
 
             it("doesn't complete until completion handler called")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { _ in }
                 _ = Resource.prepareRequest(using: delegate)
                     .onCompletion { _ in fail("should not execute") }
@@ -805,7 +805,7 @@ class RequestSpec: ResourceSpecBase
 
             it("yields the response from the completion handler")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { $0.broadcastResponse(dummyResponse) }
                 let req = Resource.prepareRequest(using: delegate)
                     .onSuccess { expect($0.content as? String) == "dummy response" }
@@ -815,7 +815,7 @@ class RequestSpec: ResourceSpecBase
 
             it("will ignore the response after one is already broadcast")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     {
                     completionHandler in
                     expect(completionHandler.willIgnore(dummyResponse)) == false
