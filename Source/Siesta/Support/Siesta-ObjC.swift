@@ -340,7 +340,7 @@ public extension Resource
         return _objc_wrapRequest(methodString) { closure($0, json) }
         }
 
-    private static func apply(requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?, to request: inout URLRequest)
+    private static func apply(requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?, to request: inout URLRequest)
         {
         let mutableReq = (request as NSURLRequest).mutableCopy() as! NSMutableURLRequest
         requestMutation?(mutableReq)
@@ -350,7 +350,7 @@ public extension Resource
     @objc(requestWithMethod:requestMutation:)
     public func _objc_request(
             _ method:          String,
-            requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+            requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
         return _objc_wrapRequest(method)
@@ -373,7 +373,7 @@ public extension Resource
             _ method:        String,
             data:            Data,
             contentType:     String,
-            requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+            requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
         return _objc_wrapRequest(method)
@@ -399,7 +399,7 @@ public extension Resource
              text:            String,
              contentType:     String,
              encoding:        UInt = String.Encoding.utf8.rawValue,
-             requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapRequest(method)
@@ -424,7 +424,7 @@ public extension Resource
              _ method:        String,
              json:            NSObject?,
              contentType:     String,
-             requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapJSONRequest(method, json)
@@ -438,7 +438,7 @@ public extension Resource
      public func _objc_request(
              _ method:          String,
              urlEncoded params: [String:String],
-             requestMutation:   (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation:   (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapRequest(method)

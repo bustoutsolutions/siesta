@@ -90,7 +90,7 @@ public extension ResourceObserver
 
   See `Resource.addObserver(owner:file:line:closure:)`.
 */
-public typealias ResourceObserverClosure = (Resource, ResourceEvent) -> ()
+public typealias ResourceObserverClosure = (Resource, ResourceEvent) -> Void
 
 /**
   The possible causes of a call to `ResourceObserver.resourceChanged(_:event:)`.

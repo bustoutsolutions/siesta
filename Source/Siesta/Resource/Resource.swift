@@ -219,7 +219,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `Resource.request(...)`
     */
-    public typealias RequestMutation = (inout URLRequest) -> ()
+    public typealias RequestMutation = (inout URLRequest) -> Void
 
     /**
       Initiates a network request for the given resource.
