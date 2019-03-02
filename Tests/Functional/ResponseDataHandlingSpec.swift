@@ -184,6 +184,24 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     }
                 }
 
+            it("can parse JSON atoms with custom configuration")
+                {
+                service().configure
+                    { $0.pipeline[.parsing].removeTransformers() }
+
+                service().configureTransformer("**", atStage: .parsing)
+                    { try JSONSerialization.jsonObject(with: $0.content as Data, options: [.allowFragments]) }
+
+                for atom in ["17", "\"foo\"", "null"]
+                    {
+                    _ = stubRequest(resource, "GET").andReturn(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(atom as NSString)
+                    awaitNewData(resource().load())
+                    print(resource().latestData?.content)
+                    }
+                }
+
             it("transforms error responses")
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
