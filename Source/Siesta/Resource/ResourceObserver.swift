@@ -65,14 +65,6 @@ struct UniqueObserverIdentity: Hashable
         id = UniqueObserverIdentity.idSeq
         UniqueObserverIdentity.idSeq += 1
         }
-
-    static func == (lhs: UniqueObserverIdentity, rhs: UniqueObserverIdentity) -> Bool
-        {
-        return lhs.id == rhs.id
-        }
-
-    var hashValue: Int
-        { return id }
     }
 
 public extension ResourceObserver

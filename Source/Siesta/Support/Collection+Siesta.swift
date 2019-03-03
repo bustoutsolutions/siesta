@@ -18,25 +18,6 @@ internal extension Collection
         { return !contains(where: { !predicate($0) }) }
     }
 
-internal extension Array
-    {
-    // Wat? There’s really no in-place counterpart for filter()?
-    mutating func remove(matching predicate: (Iterator.Element) -> Bool)
-        {
-        var dst = startIndex
-        for src in indices
-            {
-            let elem = self[src]
-            if !predicate(elem)
-                {
-                self[dst] = elem
-                dst = dst.advanced(by: 1)
-                }
-            }
-        removeSubrange(dst ..< endIndex)
-        }
-    }
-
 internal extension Dictionary
     {
     static func fromArray<K, V>(_ arrayOfTuples: [(K, V)]) -> [K:V]
