@@ -80,7 +80,7 @@ public class _objc_Entity: NSObject
         { return debugStr(Entity<Any>.convertedFromObjc(self)) }
     }
 
-internal extension Entity
+extension Entity
     {
     static func convertedFromObjc(_ entity: _objc_Entity) -> Entity<Any>
         {
@@ -108,7 +108,7 @@ public class _objc_Error: NSObject
         }
     }
 
-public extension Service
+extension Service
     {
     @objc(resourceWithAbsoluteURL:)
     public final func _objc_resourceWithAbsoluteURL(absoluteURL url: URL?) -> Resource
@@ -119,7 +119,7 @@ public extension Service
         { return resource(absoluteURL: url) }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(latestData)
     public var _objc_latestData: _objc_Entity?
@@ -219,7 +219,7 @@ public class _objc_Request: NSObject
         { return debugStr(request) }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(load)
     public func _objc_load() -> _objc_Request
@@ -287,7 +287,7 @@ extension ResourceEvent
         }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(addObserver:)
     public func _objc_addObserver(_ observerAndOwner: _objc_ResourceObserver & AnyObject) -> Self
@@ -305,7 +305,7 @@ public extension Resource
         }
     }
 
-public extension Resource
+extension Resource
     {
     private func _objc_wrapRequest(
             _ methodString: String,
@@ -458,7 +458,7 @@ public extension Resource
         }
     }
 
-public extension _objc_Error
+extension _objc_Error
     {
     public enum Cause
         {

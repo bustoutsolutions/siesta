@@ -29,7 +29,7 @@ extension URL: URLConvertible
         { return self }
     }
 
-internal extension URL
+extension URL
     {
     func alterPath(_ pathMutator: (inout String) -> Void) -> URL?
         {

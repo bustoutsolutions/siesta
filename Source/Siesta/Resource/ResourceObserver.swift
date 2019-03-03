@@ -67,16 +67,16 @@ struct UniqueObserverIdentity: Hashable
         }
     }
 
-public extension ResourceObserver
+extension ResourceObserver
     {
     /// Does nothing.
-    func resourceRequestProgress(for resource: Resource, progress: Double) { }
+    public func resourceRequestProgress(for resource: Resource, progress: Double) { }
 
     /// Does nothing.
-    func stoppedObserving(resource: Resource) { }
+    public func stoppedObserving(resource: Resource) { }
 
     /// True iff self and other are (1) both objects and (2) are the _same_ object.
-    var observerIdentity: AnyHashable
+    public var observerIdentity: AnyHashable
         {
         if isObject(self)
             { return AnyHashable(ObjectIdentifier(self as AnyObject)) }
@@ -145,7 +145,7 @@ public enum ResourceEvent
         }
     }
 
-public extension Resource
+extension Resource
     {
     // MARK: - Observing Resources
 

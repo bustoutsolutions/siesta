@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension String
+extension String
     {
     func contains(regex: String) -> Bool
         {
@@ -32,7 +32,7 @@ internal extension String
         }
     }
 
-internal extension NSRegularExpression
+extension NSRegularExpression
     {
     func matches(_ string: String) -> Bool
         {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension Collection
+extension Collection
     {
     // Just for readability
     func any(match predicate: (Iterator.Element) -> Bool) -> Bool
@@ -18,7 +18,7 @@ internal extension Collection
         { return !contains(where: { !predicate($0) }) }
     }
 
-internal extension Dictionary
+extension Dictionary
     {
     static func fromArray<K, V>(_ arrayOfTuples: [(K, V)]) -> [K:V]
         {
@@ -77,7 +77,7 @@ internal extension Dictionary
         }
     }
 
-internal extension Set
+extension Set
     {
     mutating func filterInPlace(predicate: (Iterator.Element) -> Bool)
         {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension String
+extension String
     {
     func strippingPrefix(_ prefix: String) -> String
         {

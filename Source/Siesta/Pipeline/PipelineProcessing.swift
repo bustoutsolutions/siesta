@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension Pipeline
+extension Pipeline
     {
     private var stagesInOrder: [PipelineStage]
         { return order.compactMap { self[$0] } }

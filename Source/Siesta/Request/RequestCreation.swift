@@ -7,7 +7,7 @@
 //
 import Foundation
 
-public extension Resource
+extension Resource
     {
     // MARK: Request Creation Conveniences
 

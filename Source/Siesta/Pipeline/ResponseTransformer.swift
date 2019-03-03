@@ -40,7 +40,7 @@ public protocol ResponseTransformer: CustomDebugStringConvertible
     func process(_ response: Response) -> Response
     }
 
-public extension ResponseTransformer
+extension ResponseTransformer
     {
     /// Prints the name of the transformer’s Swift type.
     public var debugDescription: String
