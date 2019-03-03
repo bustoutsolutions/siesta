@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+// swiftlint:disable identifier_name type_name missing_docs
+
 import Foundation
 
 /*
@@ -41,8 +43,6 @@ import Foundation
 // shenanigans? Because Swift’s lovely mutable/immutable struct handling lets Resource
 // expose the full struct to Swift clients sans copying, yet still force mutations to
 // happen via overrideLocalData() so that observers always know about changes.)
-
-// swiftlint:disable identifier_name type_name
 
 @objc(BOSEntity)
 public class _objc_Entity: NSObject

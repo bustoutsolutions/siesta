@@ -18,6 +18,8 @@ import Foundation
 #elseif os(iOS) || os(tvOS) || os(watchOS)
     import UIKit
 
+    /// A cross-platform alias for the output type of Siesta’s image content transformer.
+    /// `UIImage` on iOS; `NSImage` on macOS.
     public typealias Image = UIImage
 #endif
 

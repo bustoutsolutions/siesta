@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+// swiftlint:disable missing_docs
+
 import Foundation
 #if !COCOAPODS
     import Siesta

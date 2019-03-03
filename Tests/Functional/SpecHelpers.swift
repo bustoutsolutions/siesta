@@ -11,7 +11,7 @@ import Nimble
 import Nocilla
 @testable import Siesta
 
-public func specVar<T>(_ builder: @escaping () -> T) -> () -> T
+func specVar<T>(_ builder: @escaping () -> T) -> () -> T
     {
     var value: T?
     afterEach { value = nil }
