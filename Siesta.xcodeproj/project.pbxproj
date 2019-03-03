@@ -825,6 +825,7 @@
 			buildConfigurationList = 9F0FAFA91D033FCD00CE1B61 /* Build configuration list for PBXNativeTarget "SiestaTests macOS" */;
 			buildPhases = (
 				9F0FAF8F1D033FCD00CE1B61 /* Sources */,
+				DA34E2C6222A50BD0025A77A /* Run SwiftLint */,
 				9F0FAF9D1D033FCD00CE1B61 /* Frameworks */,
 				9F0FAFA31D033FCD00CE1B61 /* Resources */,
 				9F0FAFA41D033FCD00CE1B61 /* CopyFiles */,
@@ -954,6 +955,7 @@
 			buildConfigurationList = DA336E661B2E6DDB006F702A /* Build configuration list for PBXNativeTarget "SiestaTests iOS" */;
 			buildPhases = (
 				DA336E551B2E6DDB006F702A /* Sources */,
+				DA34E2D2222C72B10025A77A /* Run SwiftLint */,
 				DA336E561B2E6DDB006F702A /* Frameworks */,
 				DA336E571B2E6DDB006F702A /* Resources */,
 				DA60F5F81B2F728900D76DC6 /* CopyFiles */,
@@ -1156,6 +1158,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA34E2C6222A50BD0025A77A /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftlint\n";
+		};
+		DA34E2D2222C72B10025A77A /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftlint\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9F0FAF8F1D033FCD00CE1B61 /* Sources */ = {
