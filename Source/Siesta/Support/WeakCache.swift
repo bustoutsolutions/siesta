@@ -87,7 +87,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
         return AnySequence(
             entriesByKey.compactMap
                 {
-                (key, entry) -> (K, V)? in
+                key, entry in
 
                 if let value = entry.value
                     { return (key, value) }

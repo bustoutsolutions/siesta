@@ -76,7 +76,7 @@ private let resultsAggregator = ResultsAggregator()
 
 private class ResultsAggregator
     {
-    private var results: Result = Result(name: "Root")
+    private var results = Result(name: "Root")
     private var resultsDirty = false
 
     func flush()

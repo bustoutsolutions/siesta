@@ -98,7 +98,6 @@ class ResourceSpecBase: SiestaSpec
         let service = specVar
             {
             () -> Service in
-
             let result = serviceBuilder()
             weakService = result
             return result

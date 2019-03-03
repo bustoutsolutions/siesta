@@ -89,8 +89,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                 if let wrongTypeError = resource().latestError?.cause as? RequestError.Cause.WrongInputTypeInTranformerPipeline
                     {
-                    expect(wrongTypeError.expectedType == Data.self).to(beTrue())
-                    expect(wrongTypeError.actualType == String.self).to(beTrue())
+                    expect(wrongTypeError.expectedType == Data.self) == true
+                    expect(wrongTypeError.actualType == String.self) == true
                     }
                 }
 

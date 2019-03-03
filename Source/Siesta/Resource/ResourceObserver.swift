@@ -55,7 +55,7 @@ public protocol ResourceObserver
     var observerIdentity: AnyHashable { get }
     }
 
-struct UniqueObserverIdentity: Hashable
+internal struct UniqueObserverIdentity: Hashable
     {
     private static var idSeq = 0
     private let id: Int

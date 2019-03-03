@@ -17,8 +17,11 @@ import Foundation
 
 extension ResourceEvent
     {
-    internal static let all = [observerAdded, requested, requestCancelled, notModified, error,
-                               newData(.network), newData(.cache), newData(.localOverride), newData(.wipe)]
+    internal static let all =
+        [
+        observerAdded, requested, requestCancelled, notModified, error,
+        newData(.network), newData(.cache), newData(.localOverride), newData(.wipe)
+        ]
 
     internal static func fromDescription(_ description: String) -> ResourceEvent?
         {
