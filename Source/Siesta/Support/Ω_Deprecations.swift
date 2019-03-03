@@ -1,5 +1,5 @@
 //
-//  ΩDeprecations.swift  ← Ω prefix forces CocoaPods to build this last, which matters for nested type extensions
+//  Ω_Deprecations.swift  ← Ω prefix forces CocoaPods to build this last, which matters for nested type extensions
 //  Siesta
 //
 //  Created by Paul on 2015/12/12.

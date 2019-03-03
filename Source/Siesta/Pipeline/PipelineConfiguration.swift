@@ -201,7 +201,7 @@ public struct PipelineStage
       Removes any caching that had been configured at this stage.
     */
     public mutating func doNotCache()
-        { cacheBox = nil}
+        { cacheBox = nil }
     }
 
 extension PipelineStage

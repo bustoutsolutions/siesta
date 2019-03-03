@@ -1,6 +1,6 @@
 //
 //  ResourceStatusOverlay.swift
-//  SiestaExample
+//  Siesta
 //
 //  Created by Paul on 2015/7/9.
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.

@@ -10,7 +10,7 @@ import Foundation
 
 //  A protocol for enum-like types that allow third-party modules to add values.
 /// :nodoc:
-public protocol _OpenEnum: class, Hashable
+public protocol _OpenEnum: AnyObject, Hashable
     {
     }
 

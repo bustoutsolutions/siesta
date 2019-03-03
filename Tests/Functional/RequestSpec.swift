@@ -244,7 +244,7 @@ class RequestSpec: ResourceSpecBase
                                     {
                                     var responseInfo = $0
                                     guard case .success(var entity) = responseInfo.response else
-                                        { fatalError() }
+                                        { fatalError("first request in chain should have succeeded") }
                                     entity.content = entity.text + " redux"
                                     responseInfo.response = .success(entity)
                                     return .useResponse(responseInfo)

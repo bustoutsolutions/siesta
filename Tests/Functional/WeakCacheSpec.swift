@@ -26,20 +26,20 @@ class WeakCacheSpec: SiestaSpec
 
             it("returns a newly created instance")
                 {
-                let retrieved = cache().get("foo") { return doodad0() }
+                let retrieved = cache().get("foo") { doodad0() }
                 expect(retrieved) === doodad0()
                 }
 
             it("returns the same instance on the second fetch")
                 {
-                _ = cache().get("foo") { return doodad0() }
-                let retrieved = cache().get("foo") { return doodad1() }
+                _ = cache().get("foo") { doodad0() }
+                let retrieved = cache().get("foo") { doodad1() }
                 expect(retrieved) === doodad0()
                 }
 
             it("does not call the cache miss block on the second fetch")
                 {
-                _ = cache().get("foo") { return doodad0() }
+                _ = cache().get("foo") { doodad0() }
                 _ = cache().get("foo")
                     {
                     XCTFail("Block should not have been called")
@@ -49,11 +49,11 @@ class WeakCacheSpec: SiestaSpec
 
             it("returns different instances for different keys")
                 {
-                _ = cache().get("foo") { return doodad0() }
-                _ = cache().get("bar") { return doodad1() }
+                _ = cache().get("foo") { doodad0() }
+                _ = cache().get("bar") { doodad1() }
 
-                let retrieved1 = cache().get("bar") { return doodad2() }
-                let retrieved0 = cache().get("foo") { return doodad2() }
+                let retrieved1 = cache().get("bar") { doodad2() }
+                let retrieved0 = cache().get("foo") { doodad2() }
                 expect(retrieved0) === doodad0()
                 expect(retrieved1) === doodad1()
                 }
@@ -67,7 +67,7 @@ class WeakCacheSpec: SiestaSpec
                 {
                 Doodad.count = 0
                 expendable = Doodad()
-                _ = cache().get("foo") { return expendable! }
+                _ = cache().get("foo") { expendable! }
                 }
 
             afterEach
@@ -80,7 +80,7 @@ class WeakCacheSpec: SiestaSpec
                 expect(Doodad.count) == 0
 
                 let newDoodad = Doodad()
-                let secondFetch = cache().get("foo") { return newDoodad }
+                let secondFetch = cache().get("foo") { newDoodad }
                 expect(secondFetch) === newDoodad
                 }
 
@@ -90,7 +90,7 @@ class WeakCacheSpec: SiestaSpec
                 expect(Doodad.count) == 1
 
                 let newDoodad = Doodad()
-                let secondFetch = cache().get("foo") { return newDoodad }
+                let secondFetch = cache().get("foo") { newDoodad }
                 expect(secondFetch) === expendable
                 }
 
@@ -112,7 +112,7 @@ class WeakCacheSpec: SiestaSpec
                     {
                     entryID += 1
                     _ = cache().get("Entry \(entryID)")
-                        { return Doodad() }
+                        { Doodad() }
                     }
                 }
 
@@ -131,12 +131,12 @@ class WeakCacheSpec: SiestaSpec
                 {
                 let retainedDoodad = Doodad()
                 _ = cache().get("sticky")
-                    { return retainedDoodad }
+                    { retainedDoodad }
 
                 makeEntries(101)
 
                 expect(Doodad.count) == 3  // 1 sticky + 2 after total hit 100
-                let refetched = cache().get("sticky") { return Doodad() }
+                let refetched = cache().get("sticky") { Doodad() }
                 expect(refetched) === retainedDoodad
                 }
 

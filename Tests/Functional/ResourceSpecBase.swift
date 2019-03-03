@@ -51,7 +51,7 @@ class ResourceSpecBase: SiestaSpec
         let realNow = Siesta.now
         Siesta.now =
             {
-            return fakeNow ?? realNow()
+            fakeNow ?? realNow()
             }
         afterEach { fakeNow = nil }
 
