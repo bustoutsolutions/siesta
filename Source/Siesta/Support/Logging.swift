@@ -72,7 +72,9 @@ public enum SiestaLog
             var threadID = abs(ObjectIdentifier(Thread.current).hashValue &* 524287)
             for _ in 0..<4
                 {
-                threadName.append(Character(UnicodeScalar(threadID % 0x55 + 0x13a0)!))
+                threadName.append(Character(
+                    UnicodeScalar(threadID % 0x55 + 0x13a0)
+                        .forceUnwrapped(because: "Modulus always maps thread IDs to valid unicode scalars")))
                 threadID /= 0x55
                 }
             threadName += "]"

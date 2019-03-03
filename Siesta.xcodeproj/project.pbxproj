@@ -149,6 +149,10 @@
 		DA336E531B2E6DDB006F702A /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA336E4F1B2E6DDB006F702A /* Siesta.framework */; };
 		DA336E711B2F6659006F702A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA336E701B2F6659006F702A /* Service.swift */; };
+		DA34E2C8222BA8650025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
+		DA34E2C9222BAAE70025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
+		DA34E2CA222BAAEA0025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
+		DA34E2CB222BAAEB0025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
 		DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBDB01B55BF0E00161A25 /* Logging.swift */; };
 		DA3FD66C1D0DF5DE00C75742 /* PipelineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */; };
@@ -369,6 +373,7 @@
 		DA336E591B2E6DDB006F702A /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA336E601B2E6DDB006F702A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Siesta.swift"; sourceTree = "<group>"; };
 		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
 		DA3FBDB01B55BF0E00161A25 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		DA4353511B6AD63C00543843 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
@@ -675,6 +680,7 @@
 				DA33142E1B4DBADA00A7A175 /* Regex+Siesta.swift */,
 				DACE0BAF1D02046500607F3E /* OpenEnum.swift */,
 				DACD23451D618CE300848C04 /* Ω_Deprecations.swift */,
+				DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -1181,6 +1187,7 @@
 			files = (
 				9F2FB5281C2864970068DFFA /* Progress.swift in Sources */,
 				9F2FB5401C2864CB0068DFFA /* ResourceObserver.swift in Sources */,
+				DA34E2C9222BAAE70025A77A /* Optional+Siesta.swift in Sources */,
 				9F2FB53E1C2864CB0068DFFA /* Entity.swift in Sources */,
 				9F9628841CF1D7AF008092B7 /* ConfigurationPatternConvertible.swift in Sources */,
 				9F2FB5301C2864970068DFFA /* Regex+Siesta.swift in Sources */,
@@ -1224,6 +1231,7 @@
 			files = (
 				CDCCAFB61E6A387200860D18 /* Regex+Siesta.swift in Sources */,
 				CDCCAFC21E6A389200860D18 /* ProgressTracker.swift in Sources */,
+				DA34E2CA222BAAEA0025A77A /* Optional+Siesta.swift in Sources */,
 				CDCCAFBB1E6A388D00860D18 /* ResourceObserver.swift in Sources */,
 				CDCCAF911E6A384900860D18 /* Entity.swift in Sources */,
 				CDCCAFB01E6A387200860D18 /* DebugFormatting.swift in Sources */,
@@ -1267,6 +1275,7 @@
 			files = (
 				CDCCAFAA1E6A387100860D18 /* Regex+Siesta.swift in Sources */,
 				CDCCAFC81E6A389300860D18 /* ProgressTracker.swift in Sources */,
+				DA34E2CB222BAAEB0025A77A /* Optional+Siesta.swift in Sources */,
 				CDCCAFBE1E6A388E00860D18 /* ResourceObserver.swift in Sources */,
 				CDCCAF951E6A384A00860D18 /* Entity.swift in Sources */,
 				CDCCAFA41E6A387100860D18 /* DebugFormatting.swift in Sources */,
@@ -1337,6 +1346,7 @@
 			files = (
 				DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */,
 				DA4353521B6AD63C00543843 /* Networking.swift in Sources */,
+				DA34E2C8222BA8650025A77A /* Optional+Siesta.swift in Sources */,
 				DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */,
 				DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */,
 				DAC0B3731D63880600D25C44 /* ResourceNavigation.swift in Sources */,

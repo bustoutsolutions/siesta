@@ -39,7 +39,7 @@ opt_in_rules:
   - fatal_error_message
   - file_header
   - first_where
-  # - force_unwrapping   # Consider enabling and defining !!
+  - force_unwrapping
   - identical_operands
   - implicit_return
   - implicitly_unwrapped_optional
