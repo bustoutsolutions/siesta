@@ -179,7 +179,7 @@ public final class Resource: NSObject
         DispatchQueue.mainThreadPrecondition()
 
         self.service = service
-        self.url = URL(string: ":")!
+        self.url = URL(string: ":").forceUnwrapped(because: "Foundation considers single colon to be a valid URL")
 
         permanentFailure = RequestError(
             userMessage: NSLocalizedString("Cannot send request with invalid URL", comment: "userMessage"),
@@ -219,7 +219,7 @@ public final class Resource: NSObject
 
       - SeeAlso: `Resource.request(...)`
     */
-    public typealias RequestMutation = (inout URLRequest) -> ()
+    public typealias RequestMutation = (inout URLRequest) -> Void
 
     /**
       Initiates a network request for the given resource.

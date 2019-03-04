@@ -61,7 +61,7 @@ public enum RequestMethod: String
       **do not need to worry** about where the request is in its lifecycle. Except for how soon it’s called, your hook
       will see the same behavior regardless of whether the request has not started yet, is in progress, or is completed.
 */
-public protocol Request: class
+public protocol Request: AnyObject
     {
     /**
       Call the closure once when the request finishes for any reason.

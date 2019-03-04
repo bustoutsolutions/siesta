@@ -201,7 +201,7 @@ public struct PipelineStage
       Removes any caching that had been configured at this stage.
     */
     public mutating func doNotCache()
-        { cacheBox = nil}
+        { cacheBox = nil }
     }
 
 extension PipelineStage
@@ -252,7 +252,7 @@ public final class PipelineStageKey: _OpenEnum, CustomStringConvertible
     }
 
 // MARK: Default Stages
-public extension PipelineStageKey
+extension PipelineStageKey
     {
     /// Response data still unprocessed. The stage typically contains no transformers.
     public static let rawData = PipelineStageKey(description: "rawData")

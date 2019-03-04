@@ -1,6 +1,6 @@
 //
 //  StandardTransformers.swift
-//  Siesta iOS
+//  Siesta
 //
 //  Created by Paul on 2017/8/4.
 //  Copyright © 2017 Bust Out Solutions. All rights reserved.
@@ -64,8 +64,8 @@ extension StandardTransformer
     /**
       Parses responses with content type `image/​*` as a UIKit / AppKit image.
 
-      - SeeAlso: `ImageResponseTransformer(_:)` to configure an image parser with different options, at a different stage,
-          or for different content types.
+      - SeeAlso: `ImageResponseTransformer(_:)` to configure an image parser with different options, at a different
+          stage, or for different content types.
     */
     public static let image =
         StandardTransformer(

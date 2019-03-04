@@ -51,7 +51,7 @@ class ResourceSpecBase: SiestaSpec
         let realNow = Siesta.now
         Siesta.now =
             {
-            return fakeNow ?? realNow()
+            fakeNow ?? realNow()
             }
         afterEach { fakeNow = nil }
 
@@ -98,7 +98,6 @@ class ResourceSpecBase: SiestaSpec
         let service = specVar
             {
             () -> Service in
-
             let result = serviceBuilder()
             weakService = result
             return result

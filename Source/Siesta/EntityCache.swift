@@ -110,7 +110,7 @@ public protocol EntityCache
 internal var defaultEntityCacheWorkQueue: DispatchQueue =
     DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
 
-public extension EntityCache
+extension EntityCache
     {
     /// Returns a concurrent queue with priority `QOS_CLASS_USER_INITIATED`.
     public var workQueue: DispatchQueue

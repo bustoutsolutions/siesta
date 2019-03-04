@@ -1,0 +1,12 @@
+disabled_rules:
+  - type_body_length
+  - function_body_length
+  - explicit_top_level_acl
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - unavailable_function
+
+custom_rules:
+  focused_spec:
+    name: "Focused spec in effect"
+    regex: '(fit|fdescribe)\s*\('

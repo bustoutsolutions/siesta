@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension Pipeline
+extension Pipeline
     {
     private var stagesInOrder: [PipelineStage]
         { return order.compactMap { self[$0] } }
@@ -165,7 +165,8 @@ internal struct CacheBox
 
     init?<T: EntityCache>(cache: T?)
         {
-        guard let cache = cache else { return nil }
+        guard let cache = cache else
+            { return nil }
         buildEntry = { CacheEntry(cache: cache, resource: $0) }
         description = String(describing: type(of: cache))
         }
@@ -189,8 +190,8 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
         {
         DispatchQueue.mainThreadPrecondition()
 
-        guard let key = cache.key(for: resource) else { return nil }
-
+        guard let key = cache.key(for: resource) else
+            { return nil }
         self.cache = cache
         self.key = key
         }

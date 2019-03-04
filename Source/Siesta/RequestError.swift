@@ -93,7 +93,7 @@ public struct RequestError: Error
         }
     }
 
-public extension RequestError
+extension RequestError
     {
     /**
       Underlying causes of errors reported by Siesta. You will find these on the `RequestError.cause` property.

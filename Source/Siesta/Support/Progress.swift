@@ -19,8 +19,8 @@ internal struct RequestProgressComputation: Progress
         {
         uploadProgress   = TaskProgress(estimatedTotal: 8192)   // bytes
         downloadProgress = TaskProgress(estimatedTotal: 65536)
-        connectLatency  = WaitingProgress(estimatedTotal: 2.5)  // seconds to reach 75%
-        responseLatency = WaitingProgress(estimatedTotal: 1.2)
+        connectLatency   = WaitingProgress(estimatedTotal: 2.5)  // seconds to reach 75%
+        responseLatency  = WaitingProgress(estimatedTotal: 1.2)
 
         overallProgress =
             MonotonicProgress(

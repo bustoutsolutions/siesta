@@ -117,9 +117,9 @@ func configureStageNameAppenders(in service: Service)
         }
     }
 
-private extension PipelineStageKey
+extension PipelineStageKey
     {
-    static let
+    fileprivate static let
         funk    = PipelineStageKey(description: "funk"),
         silence = PipelineStageKey(description: "silence")
     }

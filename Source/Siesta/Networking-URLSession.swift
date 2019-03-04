@@ -69,10 +69,10 @@ public protocol SessionTaskContainer
     var task: URLSessionTask { get }
     }
 
-public extension SessionTaskContainer
+extension SessionTaskContainer
     {
     /// Extracts transfer metrics using bytes counts from `URLSessionTask`.
-    var transferMetrics: RequestTransferMetrics
+    public var transferMetrics: RequestTransferMetrics
         {
         return RequestTransferMetrics(
             requestBytesSent:      task.countOfBytesSent,

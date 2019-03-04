@@ -244,7 +244,7 @@ class RequestSpec: ResourceSpecBase
                                     {
                                     var responseInfo = $0
                                     guard case .success(var entity) = responseInfo.response else
-                                        { fatalError() }
+                                        { fatalError("first request in chain should have succeeded") }
                                     entity.content = entity.text + " redux"
                                     responseInfo.response = .success(entity)
                                     return .useResponse(responseInfo)
@@ -396,7 +396,7 @@ class RequestSpec: ResourceSpecBase
 
             it("picks up header config changes")
                 {
-                var flavor: String? = nil
+                var flavor: String?
                 service().configure
                     { $0.headers["X-Flavor"] = flavor }
 
@@ -586,7 +586,7 @@ class RequestSpec: ResourceSpecBase
 
             func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
                 {
-                var actualResult: String? = nil
+                var actualResult: String?
                 req.onSuccess { actualResult = $0.text }
                 awaitNewData(req, initialState: initialState)
 
@@ -789,14 +789,14 @@ class RequestSpec: ResourceSpecBase
 
             it("doesn't automatically start")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { _ in fail("should not execute") }
                 _ = Resource.prepareRequest(using: delegate)
                 }
 
             it("doesn't complete until completion handler called")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { _ in }
                 _ = Resource.prepareRequest(using: delegate)
                     .onCompletion { _ in fail("should not execute") }
@@ -805,7 +805,7 @@ class RequestSpec: ResourceSpecBase
 
             it("yields the response from the completion handler")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     { $0.broadcastResponse(dummyResponse) }
                 let req = Resource.prepareRequest(using: delegate)
                     .onSuccess { expect($0.content as? String) == "dummy response" }
@@ -815,7 +815,7 @@ class RequestSpec: ResourceSpecBase
 
             it("will ignore the response after one is already broadcast")
                 {
-                let delegate = RequestDelegateStub()
+                let delegate = RequestDelegateStub
                     {
                     completionHandler in
                     expect(completionHandler.willIgnore(dummyResponse)) == false

@@ -166,7 +166,7 @@ extension RequestError
         if let content = entity?.content
             { result += " content: \(type(of: content))" }
         if let cause = cause
-            { result += " cause: " + debugStr(cause, truncate: 32)}
+            { result += " cause: " + debugStr(cause, truncate: 32) }
         return result
         }
     }

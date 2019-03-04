@@ -8,6 +8,7 @@ Want to _do_ something instead of just talking about it? Fantastic! Be bold. Ope
 - Please **follow the formatting conventions of the existing code**. Yes, that includes Paul’s idiosyncratic taste in brace placement:
   - Matching braces always go in either the same row or the same column, and
   - always align with the code they enclose.
+- You will need to install [SwiftLint](https://github.com/realm/SwiftLint) to run the test target.
 - Please make sure the tests pass locally (cmd-U in Xcode).
 - Expect a little back and forth on your PR before it’s accepted. Don’t be discouraged by this. Questioning is not a sign you did bad work; on the contrary, it’s a sign of interest!
 

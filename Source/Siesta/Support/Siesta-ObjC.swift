@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+// swiftlint:disable identifier_name type_name missing_docs
+
 import Foundation
 
 /*
@@ -78,7 +80,7 @@ public class _objc_Entity: NSObject
         { return debugStr(Entity<Any>.convertedFromObjc(self)) }
     }
 
-internal extension Entity
+extension Entity
     {
     static func convertedFromObjc(_ entity: _objc_Entity) -> Entity<Any>
         {
@@ -106,7 +108,7 @@ public class _objc_Error: NSObject
         }
     }
 
-public extension Service
+extension Service
     {
     @objc(resourceWithAbsoluteURL:)
     public final func _objc_resourceWithAbsoluteURL(absoluteURL url: URL?) -> Resource
@@ -117,7 +119,7 @@ public extension Service
         { return resource(absoluteURL: url) }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(latestData)
     public var _objc_latestData: _objc_Entity?
@@ -217,7 +219,7 @@ public class _objc_Request: NSObject
         { return debugStr(request) }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(load)
     public func _objc_load() -> _objc_Request
@@ -285,7 +287,7 @@ extension ResourceEvent
         }
     }
 
-public extension Resource
+extension Resource
     {
     @objc(addObserver:)
     public func _objc_addObserver(_ observerAndOwner: _objc_ResourceObserver & AnyObject) -> Self
@@ -303,7 +305,7 @@ public extension Resource
         }
     }
 
-public extension Resource
+extension Resource
     {
     private func _objc_wrapRequest(
             _ methodString: String,
@@ -340,7 +342,7 @@ public extension Resource
         return _objc_wrapRequest(methodString) { closure($0, json) }
         }
 
-    private static func apply(requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?, to request: inout URLRequest)
+    private static func apply(requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?, to request: inout URLRequest)
         {
         let mutableReq = (request as NSURLRequest).mutableCopy() as! NSMutableURLRequest
         requestMutation?(mutableReq)
@@ -350,7 +352,7 @@ public extension Resource
     @objc(requestWithMethod:requestMutation:)
     public func _objc_request(
             _ method:          String,
-            requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+            requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
         return _objc_wrapRequest(method)
@@ -373,7 +375,7 @@ public extension Resource
             _ method:        String,
             data:            Data,
             contentType:     String,
-            requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+            requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
         return _objc_wrapRequest(method)
@@ -399,7 +401,7 @@ public extension Resource
              text:            String,
              contentType:     String,
              encoding:        UInt = String.Encoding.utf8.rawValue,
-             requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapRequest(method)
@@ -424,7 +426,7 @@ public extension Resource
              _ method:        String,
              json:            NSObject?,
              contentType:     String,
-             requestMutation: (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapJSONRequest(method, json)
@@ -438,7 +440,7 @@ public extension Resource
      public func _objc_request(
              _ method:          String,
              urlEncoded params: [String:String],
-             requestMutation:   (@convention(block) (NSMutableURLRequest) -> ())?)
+             requestMutation:   (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
          return _objc_wrapRequest(method)
@@ -456,7 +458,7 @@ public extension Resource
         }
     }
 
-public extension _objc_Error
+extension _objc_Error
     {
     public enum Cause
         {

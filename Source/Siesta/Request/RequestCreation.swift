@@ -7,7 +7,7 @@
 //
 import Foundation
 
-public extension Resource
+extension Resource
     {
     // MARK: Request Creation Conveniences
 
@@ -142,7 +142,8 @@ public extension Resource
                       .sorted()
                       .joined(separator: "&")
             return request(method,
-                data: paramString.data(using: String.Encoding.ascii)!,  // Reason for !: ASCII guaranteed safe because of escaping
+                data: paramString.data(using: String.Encoding.ascii)
+                    .forceUnwrapped(because: "URL-escaped strings are always ASCII-representable"),
                 contentType: "application/x-www-form-urlencoded",
                 requestMutation: requestMutation)
             }

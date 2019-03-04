@@ -89,8 +89,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 expect(resource().latestError?.cause is RequestError.Cause.WrongInputTypeInTranformerPipeline) == true
                 if let wrongTypeError = resource().latestError?.cause as? RequestError.Cause.WrongInputTypeInTranformerPipeline
                     {
-                    expect(wrongTypeError.expectedType == Data.self).to(beTrue())
-                    expect(wrongTypeError.actualType == String.self).to(beTrue())
+                    expect(wrongTypeError.expectedType == Data.self) == true
+                    expect(wrongTypeError.actualType == String.self) == true
                     }
                 }
 
@@ -542,7 +542,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         .withHeader("Content-Type", "text/plain")
                         .withBody(string as NSString)
 
-                    var result: Entity<Any>? = nil
+                    var result: Entity<Any>?
                     let req = resource().request(method)
                     req.onSuccess { result = $0 }
                     awaitNewData(req)

@@ -1,5 +1,5 @@
 //
-//  RequestChain.swift
+//  RequestChaining.swift
 //  Siesta
 //
 //  Created by Paul on 2016/8/2.

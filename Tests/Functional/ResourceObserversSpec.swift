@@ -512,7 +512,8 @@ private class TestObserverWithExpectations: ResourceObserver
 
     private func consume(event: String)
         {
-        guard testing else { return }
+        guard testing else
+            { return }
 
         if expectedEvents.isEmpty
             { XCTFail("Received unexpected observer event: \(event)") }

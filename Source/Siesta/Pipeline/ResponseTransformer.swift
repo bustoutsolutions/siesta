@@ -18,6 +18,8 @@ import Foundation
 #elseif os(iOS) || os(tvOS) || os(watchOS)
     import UIKit
 
+    /// A cross-platform alias for the output type of Siesta’s image content transformer.
+    /// `UIImage` on iOS; `NSImage` on macOS.
     public typealias Image = UIImage
 #endif
 
@@ -40,7 +42,7 @@ public protocol ResponseTransformer: CustomDebugStringConvertible
     func process(_ response: Response) -> Response
     }
 
-public extension ResponseTransformer
+extension ResponseTransformer
     {
     /// Prints the name of the transformer’s Swift type.
     public var debugDescription: String
@@ -266,6 +268,8 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 
 // MARK: Transformers for standard types
 
+// swiftlint:disable identifier_name
+
 /// Parses `Data` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
@@ -311,3 +315,5 @@ public func ImageResponseTransformer(_ transformErrors: Bool = false) -> Respons
         return image
         }
     }
+
+// swiftlint:enable identifier_name

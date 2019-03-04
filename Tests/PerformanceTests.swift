@@ -286,7 +286,7 @@ struct RequestStub: RequestNetworking
 
 class TestObserver: ResourceObserver
     {
-    public var eventCount = 0
+    var eventCount = 0
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent)
         { eventCount += 1 }

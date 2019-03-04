@@ -190,7 +190,7 @@ public protocol TypedContentAccessors
     var entityForTypedContentAccessors: Entity<ContentType>? { get }
     }
 
-public extension TypedContentAccessors
+extension TypedContentAccessors
     {
     /**
       A convenience for retrieving the content in this container when you expect it to be of a specific type.
