@@ -12,7 +12,7 @@ import Foundation
 #elseif os(iOS) || os(tvOS)
     import UIKit
     #if swift(>=4.2)
-        internal let memoryWarningNotification = UIApplication.didReceivememoryWarningNotification
+        internal let memoryWarningNotification = UIApplication.didReceiveMemoryWarningNotification
     #else
         internal let memoryWarningNotification = NSNotification.Name.UIApplicationDidReceiveMemoryWarning
     #endif
