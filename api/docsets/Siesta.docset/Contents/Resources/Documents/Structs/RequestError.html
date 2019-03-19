@@ -158,13 +158,13 @@
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformeryAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformeryAA0cD0_pSbF">TextResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformeryAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -267,7 +267,7 @@
             <h1>RequestError</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestError</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RequestError</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></span></code></pre>
 
                 </div>
               </div>
@@ -286,7 +286,7 @@
 <p><code>RequestError</code> presents all these errors in a uniform structure. Several properties preserve diagnostic information,
 which you can use to intercept specific known errors, but these diagnostic properties are all optional. They are not
 even mutually exclusive: Siesta errors do not break cleanly into HTTP-based vs. Error / NSError-based, for example,
-because network implementations may sometimes provide <em>both</em> an underlying <code><a href="https://developer.apple.com/documentation/swift/error/">Error</a></code> <em>and</em> an HTTP diagnostic.</p>
+because network implementations may sometimes provide <em>both</em> an underlying <code><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></code> <em>and</em> an HTTP diagnostic.</p>
 
 <p>The one ironclad guarantee that <code>RequestError</code> makes is the presence of a <code>userMessage</code>.</p>
 
@@ -330,7 +330,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -360,7 +360,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L42">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -390,7 +390,7 @@ a default error message for your UI.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L45">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -416,12 +416,12 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L49">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -451,7 +451,7 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L52">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -459,9 +459,9 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta12RequestErrorVACSo15HTTPURLResponseCSg8response_ypSg7contents0C0_pSg5causeSSSg11userMessagetcfc"></a>
+                    <a name="/s:6Siesta12RequestErrorV8response7content5cause11userMessageACSo17NSHTTPURLResponseCSg_ypSgs0C0_pSgSSSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(response:content:cause:userMessage:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta12RequestErrorVACSo15HTTPURLResponseCSg8response_ypSg7contents0C0_pSg5causeSSSg11userMessagetcfc">init(response:content:cause:userMessage:)</a>
+                    <a class="token" href="#/s:6Siesta12RequestErrorV8response7content5cause11userMessageACSo17NSHTTPURLResponseCSg_ypSgs0C0_pSgSSSgtcfc">init(response:content:cause:userMessage:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -471,7 +471,7 @@ Errors originating from the <code><a href="../Protocols/NetworkingProvider.html"
                       <div class="abstract">
                         <p>Initializes the error using a network response.</p>
 
-<p>If the <code><a href="../Structs/RequestError.html#/s:6Siesta12RequestErrorV11userMessageSSvp">userMessage</a></code> parameter is nil, this initializer uses <code><a href="https://developer.apple.com/documentation/swift/error/">error</a></code> or the response’s status code to generate
+<p>If the <code><a href="../Structs/RequestError.html#/s:6Siesta12RequestErrorV11userMessageSSvp">userMessage</a></code> parameter is nil, this initializer uses <code><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">error</a></code> or the response’s status code to generate
 a user message. That failing, it gives a generic failure message.</p>
 
                       </div>
@@ -482,13 +482,13 @@ a user message. That failing, it gives a generic failure message.</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
         <span class="nv">response</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/httpurlresponse/">HTTPURLResponse</a></span><span class="p">?,</span>
         <span class="nv">content</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
-        <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span><span class="p">?,</span>
+        <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></span><span class="p">?,</span>
         <span class="nv">userMessage</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L60-L80">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L60-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -496,9 +496,9 @@ a user message. That failing, it gives a generic failure message.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta12RequestErrorVACSS11userMessage_s0C0_p5causeAA6EntityVyypGSg6entitytcfc"></a>
+                    <a name="/s:6Siesta12RequestErrorV11userMessage5cause6entityACSS_s0C0_pAA6EntityVyypGSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(userMessage:cause:entity:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta12RequestErrorVACSS11userMessage_s0C0_p5causeAA6EntityVyypGSg6entitytcfc">init(userMessage:cause:entity:)</a>
+                    <a class="token" href="#/s:6Siesta12RequestErrorV11userMessage5cause6entityACSS_s0C0_pAA6EntityVyypGSgtcfc">init(userMessage:cause:entity:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -515,13 +515,13 @@ a user message. That failing, it gives a generic failure message.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
         <span class="nv">userMessage</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">,</span>
-        <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span><span class="p">,</span>
+        <span class="nv">cause</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></span><span class="p">,</span>
         <span class="nv">entity</span><span class="p">:</span> <span class="kt"><a href="../Structs/Entity.html">Entity</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L85-L93">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L85-L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -555,7 +555,7 @@ a user message. That failing, it gives a generic failure message.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Entity.swift#L258">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Entity.swift#L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -622,7 +622,7 @@ and you want to show users a placeholder message instead of an error, then (1) g
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/RequestError.swift#L133-L214">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/RequestError.swift#L133-L214">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

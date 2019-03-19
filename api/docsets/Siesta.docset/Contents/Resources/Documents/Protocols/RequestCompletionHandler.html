@@ -158,13 +158,13 @@
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformeryAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformeryAA0cD0_pSbF">TextResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformeryAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -289,9 +289,9 @@ to report.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyAA0F4InfoVF"></a>
+                    <a name="/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyyAA0F4InfoVF"></a>
                     <a name="//apple_ref/swift/Method/broadcastResponse(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyAA0F4InfoVF">broadcastResponse(_:)</a>
+                    <a class="token" href="#/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyyAA0F4InfoVF">broadcastResponse(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -301,7 +301,7 @@ to report.</p>
                       <div class="abstract">
                         <p>Indicates that the <code><a href="../Protocols/RequestDelegate.html">RequestDelegate</a></code>’s underlying operation has produced a response, and the request is thus
 complete. <code><a href="../Protocols/RequestDelegate.html">RequestDelegate</a></code>s MUST eventually call this method <em>at least</em> once after the call to
-<code><a href="../Protocols/RequestDelegate.html#/s:6Siesta15RequestDelegateP24startUnderlyingOperationyAA0B17CompletionHandler_p17passingResponseTo_tF">RequestDelegate.startUnderlyingOperation(...)</a></code>, and SHOULD call it <em>exactly</em> once.</p>
+<code><a href="../Protocols/RequestDelegate.html#/s:6Siesta15RequestDelegateP24startUnderlyingOperation17passingResponseToyAA0B17CompletionHandler_p_tF">RequestDelegate.startUnderlyingOperation(...)</a></code>, and SHOULD call it <em>exactly</em> once.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>The <code><a href="../Protocols/Request.html">Request</a></code> will pass this data on to the request hooks exactly as is. The pipeline only applies to standard
@@ -325,7 +325,7 @@ times, but Siesta will ignore all subsequent calls.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L132">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L133">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -333,9 +333,9 @@ times, but Siesta will ignore all subsequent calls.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta24RequestCompletionHandlerP10willIgnoreSbAA12ResponseInfoVF"></a>
+                    <a name="/s:6Siesta24RequestCompletionHandlerP10willIgnoreySbAA12ResponseInfoVF"></a>
                     <a name="//apple_ref/swift/Method/willIgnore(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta24RequestCompletionHandlerP10willIgnoreSbAA12ResponseInfoVF">willIgnore(_:)</a>
+                    <a class="token" href="#/s:6Siesta24RequestCompletionHandlerP10willIgnoreySbAA12ResponseInfoVF">willIgnore(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -343,7 +343,7 @@ times, but Siesta will ignore all subsequent calls.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Indicates whether Siesta would ignore the given response info if it were passed to <code><a href="../Protocols/RequestCompletionHandler.html#/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyAA0F4InfoVF">broadcastResponse(_:)</a></code>.</p>
+                        <p>Indicates whether Siesta would ignore the given response info if it were passed to <code><a href="../Protocols/RequestCompletionHandler.html#/s:6Siesta24RequestCompletionHandlerP17broadcastResponseyyAA0F4InfoVF">broadcastResponse(_:)</a></code>.</p>
 
 <p><code><a href="../Protocols/RequestDelegate.html">RequestDelegate</a></code>s SHOULD use this to avoid doing unnecessary post-processing or follow-up operations after
 the underlying operation has produced a response.</p>
@@ -358,7 +358,7 @@ the underlying operation has produced a response.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L140">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L141">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -158,13 +158,13 @@
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformeryAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformeryAA0cD0_pSbF">TextResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformeryAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -273,7 +273,7 @@
               </div>
             <p>Allows you to create <code><a href="../Protocols/Request.html">Request</a></code>s with custom logic. This is useful for taking things that are not standard network
 requests, and wrapping them so they look to Siesta as if they are. To create a custom request, pass your delegate to
-<code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
+<code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequest5usingAA0D0_pAA0D8Delegate_p_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
 
 <p>You can also implement Siesta’s <code><a href="../Protocols/Request.html">Request</a></code> protocol yourself, but this is a daunting task full of pitfalls and
 redundant effort. This protocol provides customization points for only the things custom requests typically need to
@@ -291,7 +291,7 @@ customize, and provides standard behavior and sanity checks. In particular, usin
 <code>RequestChainDelgate</code> in Siesta’s source code for examples of implementing this protocol.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>
+    <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequest5usingAA0D0_pAA0D8Delegate_p_tFZ">Resource.prepareRequest(using:)</a></code>
 
 </div>
 
@@ -305,9 +305,9 @@ customize, and provides standard behavior and sanity checks. In particular, usin
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta15RequestDelegateP24startUnderlyingOperationyAA0B17CompletionHandler_p17passingResponseTo_tF"></a>
+                    <a name="/s:6Siesta15RequestDelegateP24startUnderlyingOperation17passingResponseToyAA0B17CompletionHandler_p_tF"></a>
                     <a name="//apple_ref/swift/Method/startUnderlyingOperation(passingResponseTo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta15RequestDelegateP24startUnderlyingOperationyAA0B17CompletionHandler_p17passingResponseTo_tF">startUnderlyingOperation(passingResponseTo:)</a>
+                    <a class="token" href="#/s:6Siesta15RequestDelegateP24startUnderlyingOperation17passingResponseToyAA0B17CompletionHandler_p_tF">startUnderlyingOperation(passingResponseTo:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -317,7 +317,7 @@ customize, and provides standard behavior and sanity checks. In particular, usin
                       <div class="abstract">
                         <p>The delegate should commence the operation (e.g. network call) that will eventually produce a response.</p>
 
-<p>Siesta will call this method at most once per call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequestAA0D0_pAA0D8Delegate_p5using_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
+<p>Siesta will call this method at most once per call to <code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC14prepareRequest5usingAA0D0_pAA0D8Delegate_p_tFZ">Resource.prepareRequest(using:)</a></code>.</p>
 
 <p>Implementations of this method MUST eventually call <code>completionHandler.broadcastResponse(...)</code>. They will
 typically want to hold on to the <code>completionHandler</code> for the duration of a long-running operation in order to
@@ -333,7 +333,7 @@ broadcast the response at the end.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L61">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -364,7 +364,7 @@ operation as well.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L67">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L68">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -397,7 +397,7 @@ operation” is delegate-specific; for example, the new delegate may re-read rel
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L75">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -438,7 +438,7 @@ as they wish. Values returned by this method SHOULD increase monotonically.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L83">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L84">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -476,7 +476,7 @@ as they wish. Values returned by this method SHOULD increase monotonically.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L88">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -506,7 +506,7 @@ as they wish. Values returned by this method SHOULD increase monotonically.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Request/LiveRequest.swift#L93">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Request/LiveRequest.swift#L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

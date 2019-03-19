@@ -158,13 +158,13 @@
                 <a class="nav-group-task-link" href="../Structs/StandardTransformer.html">StandardTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23JSONResponseTransformeryAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta23TextResponseTransformeryAA0cD0_pSbF">TextResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="../Response Pipeline.html#/s:6Siesta24ImageResponseTransformeryAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -268,15 +268,15 @@
               <div class="declaration">
                 <div class="language">
                   <pre class="highlight swift"><code><span class="kd">@objc(BOSService)</span>
-<span class="kd">open</span> <span class="kd">class</span> <span class="kt">Service</span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
+<span class="kd">open</span> <span class="kd">class</span> <span class="kt"><a href="https://developer.apple.com/documentation/network/nwlistener/service/">Service</a></span> <span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/objectivec/nsobject/">NSObject</a></span></code></pre>
 
                 </div>
               </div>
             <p>A set of logically connected RESTful resources. Resources within a service share caching, configuration, and a
 “same URL → same resource” uniqueness guarantee.</p>
 
-<p>You will typically create a separate instance of <code>Service</code> for each REST API you use. You can either subclass
-<code>Service</code> or encapsulte it inside a wrapper. Regardless, to reap the benefits of Siesta, you’ll want to ensure that
+<p>You will typically create a separate instance of <code><a href="https://developer.apple.com/documentation/network/nwlistener/service/">Service</a></code> for each REST API you use. You can either subclass
+<code><a href="https://developer.apple.com/documentation/network/nwlistener/service/">Service</a></code> or encapsulte it inside a wrapper. Regardless, to reap the benefits of Siesta, you’ll want to ensure that
 all the observers of an API share a single instance.</p>
 
 <p>You can optionally specify a <code>baseURL</code>, which allows you to get endpoints by path: <code>service.resource(&quot;/foo&quot;)</code>.
@@ -284,7 +284,7 @@ Specifying a <code>baseURL</code> does <em>not</em> limit the service only to su
 the starting point for <code>resource(_:)</code>.</p>
 
 <p>Note that <code>baseURL</code> is only a convenience, and is optional.
-If you want to group multiple base URLs in a single <code>Service</code> instance, use <code>resource(baseURL:path:)</code>.
+If you want to group multiple base URLs in a single <code><a href="https://developer.apple.com/documentation/network/nwlistener/service/">Service</a></code> instance, use <code>resource(baseURL:path:)</code>.
 If you want to feed your service arbitrary URLs with no common root, use <code>resource(absoluteURL:)</code>.</p>
 
           </div>
@@ -320,7 +320,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L33">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -328,9 +328,9 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceCAcA14URLConvertible_pSg7baseURL_SayAA19StandardTransformerVG20standardTransformersAA29NetworkingProviderConvertible_p10networkingtcfc"></a>
+                    <a name="/s:6Siesta7ServiceC7baseURL20standardTransformers10networkingAcA14URLConvertible_pSg_SayAA19StandardTransformerVGAA29NetworkingProviderConvertible_ptcfc"></a>
                     <a name="//apple_ref/swift/Method/init(baseURL:standardTransformers:networking:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceCAcA14URLConvertible_pSg7baseURL_SayAA19StandardTransformerVG20standardTransformersAA29NetworkingProviderConvertible_p10networkingtcfc">init(baseURL:standardTransformers:networking:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC7baseURL20standardTransformers10networkingAcA14URLConvertible_pSg_SayAA19StandardTransformerVGAA29NetworkingProviderConvertible_ptcfc">init(baseURL:standardTransformers:networking:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -347,7 +347,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
         <span class="nv">baseURL</span><span class="p">:</span> <span class="kt"><a href="../Protocols/URLConvertible.html">URLConvertible</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-        <span class="nv">standardTransformers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/StandardTransformer.html">StandardTransformer</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">json</span><span class="p">,</span> <span class="o">.</span><span class="n"><a href="https://developer.apple.com/documentation/webkitjs/text/">text</a></span><span class="p">,</span> <span class="o">.</span><span class="n">image</span><span class="p">],</span>
+        <span class="nv">standardTransformers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/StandardTransformer.html">StandardTransformer</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">json</span><span class="p">,</span> <span class="o">.</span><span class="n"><a href="https://developer.apple.com/documentation/tvml/text_elements/text/">text</a></span><span class="p">,</span> <span class="o">.</span><span class="n">image</span><span class="p">],</span>
         <span class="nv">networking</span><span class="p">:</span> <span class="kt"><a href="../Protocols/NetworkingProviderConvertible.html">NetworkingProviderConvertible</a></span> <span class="o">=</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/urlsessionconfiguration/">URLSessionConfiguration</a></span><span class="o">.</span><span class="n">ephemeral</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -365,7 +365,7 @@ If you want to feed your service arbitrary URLs with no common root, use <code>r
                               <td>
                                 <div>
                                   <p>The URL underneath which the API exposes its endpoints. If nil, there is no base URL, and thus you must use
-only <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg11absoluteURL_tF">resource(absoluteURL:)</a></code> and <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg7baseURL_SS4pathtF">resource(baseURL:path:)</a></code> to acquire resources.</p>
+only <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resource11absoluteURLAA8ResourceCAA14URLConvertible_pSg_tF">resource(absoluteURL:)</a></code> and <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resource7baseURL4pathAA8ResourceCAA14URLConvertible_pSg_SStF">resource(baseURL:path:)</a></code> to acquire resources.</p>
                                 </div>
                               </td>
                             </tr>
@@ -383,7 +383,7 @@ only <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resourceAA8Resou
 <li>JSON → <code>Dictionary</code>/<code>Array</code></li>
 <li>text → <code><a href="https://developer.apple.com/documentation/swift/string/">String</a></code></li>
 <li>image → <code>UIImage</code>/<code>NSImage</code>.
-If empty, leaves all responses as <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> (unless you add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code>).
+If empty, leaves all responses as <code><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></code> (unless you add your own <code><a href="../Protocols/ResponseTransformer.html">ResponseTransformer</a></code> using <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code>).
 For more details on the various standard parsing options, see <code><a href="../Structs/StandardTransformer.html">StandardTransformer</a></code>.</li>
 </ul></p>
                                 </div>
@@ -407,7 +407,7 @@ custom configuration. You can also use your own networking library of choice by 
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L56-L78">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L56-L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -437,7 +437,7 @@ custom configuration. You can also use your own networking library of choice by 
 such as <code>..</code>, <code>//</code>, <code>?</code>, and <code>https:</code> have no special meaning; they go directly into the resulting
 resource’s path, with escaping if necessary.</p>
 
-<p>If you want to pass an absolute URL, use <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg11absoluteURL_tF">resource(absoluteURL:)</a></code>.</p>
+<p>If you want to pass an absolute URL, use <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC8resource11absoluteURLAA8ResourceCAA14URLConvertible_pSg_tF">resource(absoluteURL:)</a></code>.</p>
 
 <p>If you want to pass a relative URL to be resolved against <code><a href="../Classes/Service.html#/c:@M@Siesta@objc(cs)BOSService(py)baseURL">baseURL</a></code>, use <code>resource(&quot;/&quot;).relative(relativeURL)</code>.</p>
 
@@ -454,7 +454,7 @@ resource’s path, with escaping if necessary.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L98-L101">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L98-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -462,9 +462,9 @@ resource’s path, with escaping if necessary.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg7baseURL_SS4pathtF"></a>
+                    <a name="/s:6Siesta7ServiceC8resource7baseURL4pathAA8ResourceCAA14URLConvertible_pSg_SStF"></a>
                     <a name="//apple_ref/swift/Method/resource(baseURL:path:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg7baseURL_SS4pathtF">resource(baseURL:path:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC8resource7baseURL4pathAA8ResourceCAA14URLConvertible_pSg_SStF">resource(baseURL:path:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -493,7 +493,7 @@ query string or a relative URL.</li>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L113-L118">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L113-L118">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -501,9 +501,9 @@ query string or a relative URL.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg11absoluteURL_tF"></a>
+                    <a name="/s:6Siesta7ServiceC8resource11absoluteURLAA8ResourceCAA14URLConvertible_pSg_tF"></a>
                     <a name="//apple_ref/swift/Method/resource(absoluteURL:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC8resourceAA8ResourceCAA14URLConvertible_pSg11absoluteURL_tF">resource(absoluteURL:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC8resource11absoluteURLAA8ResourceCAA14URLConvertible_pSg_tF">resource(absoluteURL:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -514,7 +514,7 @@ query string or a relative URL.</li>
                         <p>Returns the unique resource with the given URL, ignoring <code><a href="../Classes/Service.html#/c:@M@Siesta@objc(cs)BOSService(py)baseURL">baseURL</a></code>.</p>
 
 <p>This method will <em>always</em> return the same instance of <code><a href="../Classes/Resource.html">Resource</a></code> for the same URL within
-the context of a <code>Service</code> as long as anyone retains a reference to that resource.
+the context of a <code><a href="https://developer.apple.com/documentation/network/nwlistener/service/">Service</a></code> as long as anyone retains a reference to that resource.
 Unreferenced resources remain in memory (with their cached data) until a low memory event
 occurs, at which point they are summarily evicted.</p>
 <div class="aside aside-note">
@@ -534,7 +534,7 @@ occurs, at which point they are summarily evicted.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L131-L154">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L131-L154">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -553,9 +553,9 @@ occurs, at which point they are summarily evicted.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF"></a>
+                    <a name="/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF"></a>
                     <a name="//apple_ref/swift/Method/configure(_:requestMethods:description:configurer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(_:requestMethods:description:configurer:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(_:requestMethods:description:configurer:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -585,7 +585,7 @@ means that you will usually want to add your global configuration first, then re
 of this method that takes a predicate as its first argument.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <p><code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureySb10Foundation3URLVc14whenURLMatches_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA13ConfigurationVzc10configurertF">configure(whenURLMatches:requestMethods:description:configurer:)</a></code>
+    <p><code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure14whenURLMatches14requestMethods11description10configurerySb10Foundation3URLVc_SayAA13RequestMethodOGSgSSSgyAA13ConfigurationVzctF">configure(whenURLMatches:requestMethods:description:configurer:)</a></code>
 for global config and more fine-grained matching</p>
 
 </div>
@@ -599,9 +599,9 @@ for global config and more fine-grained matching</p>
     <p>For more details about the rules of pattern matching:</p>
 
 <ul>
-<li><code><a href="../Extensions/String.html#/s:SS6SiestaE20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF">String.configurationPattern(for:)</a></code></li>
-<li><code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC20configurationPatternSb10Foundation3URLVcAA7ServiceC3for_tF">Resource.configurationPattern(for:)</a></code></li>
-<li><code><a href="../Extensions/NSRegularExpression.html#/s:So19NSRegularExpressionC6SiestaE20configurationPatternSb10Foundation3URLVcAC7ServiceC3for_tF">NSRegularExpression.configurationPattern(for:)</a></code></li>
+<li><code><a href="../Extensions/String.html#/s:SS6SiestaE20configurationPattern3forSb10Foundation3URLVcAA7ServiceC_tF">String.configurationPattern(for:)</a></code></li>
+<li><code><a href="../Classes/Resource.html#/s:6Siesta8ResourceC20configurationPattern3forSb10Foundation3URLVcAA7ServiceC_tF">Resource.configurationPattern(for:)</a></code></li>
+<li><code><a href="../Extensions/NSRegularExpression.html#/s:So19NSRegularExpressionC6SiestaE20configurationPattern3forSb10Foundation3URLVcAC7ServiceC_tF">NSRegularExpression.configurationPattern(for:)</a></code></li>
 </ul>
 
 </div>
@@ -680,7 +680,7 @@ not rely on it being called at any particular time, and should avoid making it c
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L208-L219">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L208-L219">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -688,9 +688,9 @@ not rely on it being called at any particular time, and should avoid making it c
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC9configureySb10Foundation3URLVc14whenURLMatches_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA13ConfigurationVzc10configurertF"></a>
+                    <a name="/s:6Siesta7ServiceC9configure14whenURLMatches14requestMethods11description10configurerySb10Foundation3URLVc_SayAA13RequestMethodOGSgSSSgyAA13ConfigurationVzctF"></a>
                     <a name="//apple_ref/swift/Method/configure(whenURLMatches:requestMethods:description:configurer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC9configureySb10Foundation3URLVc14whenURLMatches_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA13ConfigurationVzc10configurertF">configure(whenURLMatches:requestMethods:description:configurer:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC9configure14whenURLMatches14requestMethods11description10configurerySb10Foundation3URLVc_SayAA13RequestMethodOGSgSSSgyAA13ConfigurationVzctF">configure(whenURLMatches:requestMethods:description:configurer:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -699,12 +699,12 @@ not rely on it being called at any particular time, and should avoid making it c
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Applies configuration to resources whose URL matches an arbitrary predicate.
-Use this if the wildcards in other flavor of <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code> aren’t robust enough.</p>
+Use this if the wildcards in other flavor of <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code> aren’t robust enough.</p>
 
 <p>If you do not supply a predicate, then the configuration applies globally to all resources in this service.</p>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <p><code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(_:requestMethods:description:configurer:)</a></code>
+    <p><code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(_:requestMethods:description:configurer:)</a></code>
 for pattern-based matching, and for details about the parameters.</p>
 
 </div>
@@ -747,7 +747,7 @@ for pattern-based matching, and for details about the parameters.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L234-L249">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L234-L249">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -755,9 +755,9 @@ for pattern-based matching, and for details about the parameters.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC20configureTransformeryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsAA16PipelineStageKeyC02atM0AA0lM0V14MutationActionO6actionAA015ResponseContentD0V017InputTypeMismatchQ0Oyxq__G02onuvW0Sb15transformErrorsSSSg11descriptionq_SgAA6EntityVyxGKc16contentTransformtr0_lF"></a>
+                    <a name="/s:6Siesta7ServiceC20configureTransformer_14requestMethods7atStage6action19onInputTypeMismatch15transformErrors11description16contentTransformyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgAA08PipelineH3KeyCAA0xH0V14MutationActionOAA015ResponseContentD0V0klM6ActionOyxq__GSbSSSgq_SgAA6EntityVyxGKctr0_lF"></a>
                     <a name="//apple_ref/swift/Method/configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC20configureTransformeryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsAA16PipelineStageKeyC02atM0AA0lM0V14MutationActionO6actionAA015ResponseContentD0V017InputTypeMismatchQ0Oyxq__G02onuvW0Sb15transformErrorsSSSg11descriptionq_SgAA6EntityVyxGKc16contentTransformtr0_lF">configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC20configureTransformer_14requestMethods7atStage6action19onInputTypeMismatch15transformErrors11description16contentTransformyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgAA08PipelineH3KeyCAA0xH0V14MutationActionOAA015ResponseContentD0V0klM6ActionOyxq__GSbSSSgq_SgAA6EntityVyxGKctr0_lF">configureTransformer(_:requestMethods:atStage:action:onInputTypeMismatch:transformErrors:description:contentTransform:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -789,7 +789,7 @@ which the app models with an <code>UpdateResult</code> struct:</p>
 <span class="p">}</span>
 </code></pre>
 
-<p>Note that <code>configureTransformer(...)</code> does <em>not</em> apply to HEAD and OPTIONS by default, but <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code> does.</p>
+<p>Note that <code>configureTransformer(...)</code> does <em>not</em> apply to HEAD and OPTIONS by default, but <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code> does.</p>
 
 <p>Siesta checks that the incoming <code><a href="../Structs/Entity.html#/s:6Siesta6EntityV7contentxvp">Entity.content</a></code> matches the type of the closure’s <code>content</code> parameter. In the
 example code above, if the <code>json</code> parameter of <code>FooModel.init</code> takes a <code><a href="https://developer.apple.com/documentation/swift/dictionary/">Dictionary</a></code>, but the transformer pipeline
@@ -803,7 +803,7 @@ a transformer that passes the content through unmodified, but requires a specifi
 </code></pre>
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
-    <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(_:requestMethods:description:configurer:)</a></code>
+    <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(_:requestMethods:description:configurer:)</a></code>
 for more into about the parameters and configuration pattern matching.
 
 </div>
@@ -822,9 +822,9 @@ for more robust transformation options.
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="n">configureTransformer</span><span class="o">&lt;</span><span class="kt">I</span><span class="p">,</span> <span class="kt">O</span><span class="o">&gt;</span><span class="p">(</span>
         <span class="n">_</span> <span class="nv">pattern</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ConfigurationPatternConvertible.html">ConfigurationPatternConvertible</a></span><span class="p">,</span>
         <span class="nv">requestMethods</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Enums/RequestMethod.html">RequestMethod</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-        <span class="n">atStage</span> <span class="nv">stage</span><span class="p">:</span> <span class="kt"><a href="../Classes/PipelineStageKey.html">PipelineStageKey</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">atStage</span> <span class="nv">stage</span><span class="p">:</span> <span class="kt"><a href="../Classes/PipelineStageKey.html">PipelineStageKey</a></span> <span class="o">=</span> <span class="o">.</span><span class="n"><a href="https://developer.apple.com/documentation/appkit/nscolorspace/model/">model</a></span><span class="p">,</span>
         <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Structs/PipelineStage.html">PipelineStage</a></span><span class="o">.</span><span class="kt">MutationAction</span> <span class="o">=</span> <span class="o">.</span><span class="n">replaceExisting</span><span class="p">,</span>
-        <span class="n">onInputTypeMismatch</span> <span class="nv">mismatchAction</span><span class="p">:</span> <span class="kt"><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></span><span class="o">&lt;</span><span class="kt">I</span><span class="p">,</span><span class="kt">O</span><span class="o">&gt;.</span><span class="kt">InputTypeMismatchAction</span> <span class="o">=</span> <span class="o">.</span><span class="n"><a href="https://developer.apple.com/documentation/swift/error/">error</a></span><span class="p">,</span>
+        <span class="n">onInputTypeMismatch</span> <span class="nv">mismatchAction</span><span class="p">:</span> <span class="kt"><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></span><span class="o">&lt;</span><span class="kt">I</span><span class="p">,</span><span class="kt">O</span><span class="o">&gt;.</span><span class="kt">InputTypeMismatchAction</span> <span class="o">=</span> <span class="o">.</span><span class="n"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">error</a></span><span class="p">,</span>
         <span class="nv">transformErrors</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/bool/">Bool</a></span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
         <span class="nv">description</span><span class="p">:</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/string/">String</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
         <span class="nv">contentTransform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Structs/ResponseContentTransformer.html">ResponseContentTransformer</a></span><span class="o">&lt;</span><span class="kt">I</span><span class="p">,</span> <span class="kt">O</span><span class="o">&gt;.</span><span class="kt">Processor</span><span class="p">)</span></code></pre>
@@ -832,7 +832,7 @@ for more robust transformation options.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L294-L331">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L294-L331">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -852,14 +852,14 @@ for more robust transformation options.
                       <div class="abstract">
                         <p>Signals that all resources need to recompute their configuration next time they need it.</p>
 
-<p>Because the <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code> methods accept an arbitrary closure, it is possible that the results of
+<p>Because the <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code> methods accept an arbitrary closure, it is possible that the results of
 that closure could change over time. However, resources cache their configuration after it is computed. Therefore,
 if you do anything that would change the result of a configuration closure, you must call
 <code>invalidateConfiguration()</code> in order for the changes to take effect.</p>
 
 <p><em>《insert your functional programming purist rant here if you so desire》</em></p>
 
-<p>Note that you do <em>not</em> need to call this method after calling any of the <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code> methods.
+<p>Note that you do <em>not</em> need to call this method after calling any of the <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code> methods.
 You only need to call it if one of the previously passed closures will now behave differently.</p>
 
 <p>For example, to make a header track the value of a modifiable property:</p>
@@ -890,7 +890,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L371-L380">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L371-L380">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -934,7 +934,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L417-L425">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L417-L425">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -942,9 +942,9 @@ over subsequent resource interactions.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Siesta7ServiceC13wipeResourcesyAA31ConfigurationPatternConvertible_p8matching_tF"></a>
+                    <a name="/s:6Siesta7ServiceC13wipeResources8matchingyAA31ConfigurationPatternConvertible_p_tF"></a>
                     <a name="//apple_ref/swift/Method/wipeResources(matching:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Siesta7ServiceC13wipeResourcesyAA31ConfigurationPatternConvertible_p8matching_tF">wipeResources(matching:)</a>
+                    <a class="token" href="#/s:6Siesta7ServiceC13wipeResources8matchingyAA31ConfigurationPatternConvertible_p_tF">wipeResources(matching:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -967,7 +967,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L433-L436">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L433-L436">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -987,7 +987,7 @@ over subsequent resource interactions.</p>
                       <div class="abstract">
                         <p>Wipes the state of a subset of this service’s resources, matching based on URLs (instead of <code><a href="../Classes/Resource.html">Resource</a></code> instances).</p>
 
-<p>Useful for making shared predicates that you can pass to both <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configureyAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSg14requestMethodsSSSg11descriptionyAA0D0Vzc10configurertF">configure(...)</a></code> and this method.</p>
+<p>Useful for making shared predicates that you can pass to both <code><a href="../Classes/Service.html#/s:6Siesta7ServiceC9configure_14requestMethods11description10configureryAA31ConfigurationPatternConvertible_p_SayAA13RequestMethodOGSgSSSgyAA0H0VzctF">configure(...)</a></code> and this method.</p>
 
                       </div>
                       <div class="declaration">
@@ -1000,7 +1000,7 @@ over subsequent resource interactions.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L444-L447">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L444-L447">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1044,7 +1044,7 @@ in the cache, no matter how many there are.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L457-L461">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L457-L461">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1087,7 +1087,7 @@ preemptively before a memory-intensive operation, to prevent memory churn.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Service.swift#L477-L480">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Service.swift#L477-L480">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

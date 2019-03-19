@@ -1,13 +1,6 @@
 {
   "warnings": [
     {
-      "file": "/Users/paul/work/bustout/siesta/Source/Siesta/Pipeline/ResponseTransformer.swift",
-      "line": 21,
-      "symbol": "Image",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/paul/work/bustout/siesta/Source/Siesta/RequestError.swift",
       "line": 140,
       "symbol": "RequestError.Cause.InvalidURL.urlSource",

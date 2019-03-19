@@ -158,13 +158,13 @@
                 <a class="nav-group-task-link" href="Structs/StandardTransformer.html">StandardTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta23JSONResponseTransformerAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta23JSONResponseTransformeryAA08ResponseC0_pSbF">JSONResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta23TextResponseTransformerAA0cD0_pSbF">TextResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta23TextResponseTransformeryAA0cD0_pSbF">TextResponseTransformer(_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformerAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
+                <a class="nav-group-task-link" href="Response Pipeline.html#/s:6Siesta24ImageResponseTransformeryAA0cD0_pSbF">ImageResponseTransformer(_:)</a>
               </li>
             </ul>
           </li>
@@ -287,7 +287,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If you want to use a different networking library, implement this protocol and pass your implementation to
-<code><a href="Classes/Service.html#/s:6Siesta7ServiceCAcA14URLConvertible_pSg7baseURL_SayAA19StandardTransformerVG20standardTransformersAA29NetworkingProviderConvertible_p10networkingtcfc">Service.init(...)</a></code>.</p>
+<code><a href="Classes/Service.html#/s:6Siesta7ServiceC7baseURL20standardTransformers10networkingAcA14URLConvertible_pSg_SayAA19StandardTransformerVGAA29NetworkingProviderConvertible_ptcfc">Service.init(...)</a></code>.</p>
 
 <p>See <code><a href="Structs/URLSessionProvider.html">URLSessionProvider</a></code> and <code>Extensions/Alamofire/Networking-Alamofire.swift</code> for implementation examples.</p>
 
@@ -302,7 +302,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L17-L37">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking.swift#L17-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -356,7 +356,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L117-L121">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking.swift#L117-L121">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -378,7 +378,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
 
 <ul>
 <li>start the request on creation,</li>
-<li>call the closure passed to <code><a href="Protocols/NetworkingProvider.html#/s:6Siesta18NetworkingProviderP12startRequestAA0eB0_p10Foundation10URLRequestV_ySo15HTTPURLResponseCSg_AF4DataVSgs5Error_pSgtc10completiontF">NetworkingProvider.startRequest(...)</a></code> when the request is complete, and</li>
+<li>call the closure passed to <code><a href="Protocols/NetworkingProvider.html#/s:6Siesta18NetworkingProviderP12startRequest_10completionAA0eB0_p10Foundation10URLRequestV_ySo17NSHTTPURLResponseCSg_AG4DataVSgs5Error_pSgtctF">NetworkingProvider.startRequest(...)</a></code> when the request is complete, and</li>
 <li>optionally support cancelling requests in progress.</li>
 </ul>
 
@@ -393,7 +393,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L46-L53">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking.swift#L46-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -418,12 +418,12 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="https://developer.apple.com/documentation/foundation/httpurlresponse/">HTTPURLResponse</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/swift/error/">Error</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RequestNetworkingCompletionCallback</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="https://developer.apple.com/documentation/foundation/httpurlresponse/">HTTPURLResponse</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/foundation/data/">Data</a></span><span class="p">?,</span> <span class="kt"><a href="https://developer.apple.com/documentation/metalkit/mtktextureloader/error/">Error</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L91">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking.swift#L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -454,7 +454,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking.swift#L56-L88">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking.swift#L56-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -491,7 +491,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking-URLSession.swift#L16-L35">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking-URLSession.swift#L16-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -522,7 +522,7 @@ Used by the <code><a href="Classes/Service.html">Service</a></code> initializer.
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.0/Source/Siesta/Networking-URLSession.swift#L66-L70">Show on GitHub</a>
+                        <a href="https://github.com/bustoutsolutions/siesta/blob/1.4.3/Source/Siesta/Networking-URLSession.swift#L66-L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
