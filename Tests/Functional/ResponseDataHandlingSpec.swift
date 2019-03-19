@@ -192,14 +192,17 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 service().configureTransformer("**", atStage: .parsing)
                     { try JSONSerialization.jsonObject(with: $0.content as Data, options: [.allowFragments]) }
 
-                for atom in ["17", "\"foo\"", "null"]
+                func expectJson<T: Equatable>(_ atom: String, toParseAs expectedValue: T)
                     {
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(atom as NSString)
                     awaitNewData(resource().load())
-                    print(resource().latestData?.content)
+                    expect(resource().latestData?.content as? T) == expectedValue
                     }
+                expectJson("17",      toParseAs: 17)
+                expectJson("\"foo\"", toParseAs: "foo")
+                expectJson("null",    toParseAs: NSNull())
                 }
 
             it("transforms error responses")
