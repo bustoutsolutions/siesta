@@ -470,8 +470,8 @@ open class Service: NSObject
       - there is a low memory event (iOS and tvOS only).
 
       It is unusual for apps to call this method directly. You might need it if you want to first fiddle with Siesta
-      resources yourself during a low memory, then tell Siesta to release them when you are done. You might also call it
-      preemptively before a memory-intensive operation, to prevent memory churn.
+      resources yourself during a low memory event, then tell Siesta to release them when you are done. You might also
+      call it preemptively before a memory-intensive operation, to prevent memory churn.
      */
     @objc
     public final func flushUnusedResources()

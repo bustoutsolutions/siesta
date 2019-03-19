@@ -14,8 +14,8 @@ extension Resource
     /**
       Returns a request that immedately fails, without ever touching the network or applying the transformer pipeline.
 
-      This is useful for performing pre-request validation: if you know a request is valid before you even send it, you
-      can return an immediate error response that looks just like any other Siesta error.
+      This is useful for performing pre-request validation: if you know a request is invalid before you even send it,
+      you can return an immediate error response that looks just like any other Siesta error.
      */
     public static func failedRequest(returning error: RequestError) -> Request
         {
