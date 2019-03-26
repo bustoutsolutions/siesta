@@ -567,9 +567,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("does not touch the transformer pipeline")
                 {
-                let rawData = "a string".data(using: String.Encoding.ascii)
-                resource().overrideLocalData(with: Entity<Any>(content: rawData!, contentType: "text/plain"))
-                expect(resource().latestData?.content as? Data) === rawData
+                let rawData = DummyObject()
+                resource().overrideLocalData(with: Entity<Any>(content: rawData, contentType: "text/plain"))
+                expect(resource().latestData?.content as? DummyObject) === rawData
                 }
             }
 
