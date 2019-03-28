@@ -1,9 +1,12 @@
 PODS:
   - Siesta/Core (1.4.3)
+  - Siesta/Tools (1.4.3):
+    - Siesta/Core
   - Siesta/UI (1.4.3):
     - Siesta/Core
 
 DEPENDENCIES:
+  - Siesta/Tools (from `../..`)
   - Siesta/UI (from `../..`)
 
 EXTERNAL SOURCES:
@@ -11,8 +14,8 @@ EXTERNAL SOURCES:
     :path: "../.."
 
 SPEC CHECKSUMS:
-  Siesta: 83795fdf6a43232d1d2909e1a3dfb92ab5916d26
+  Siesta: 155ac7e6e7501c4e605f696a6f74984d4b9281b3
 
-PODFILE CHECKSUM: ae415ad9ad375272eab63ab45853da2148a7aa21
+PODFILE CHECKSUM: dcd41fbb493c0ab37222fba68287d0e620fb57a4
 
 COCOAPODS: 1.7.0.beta.3

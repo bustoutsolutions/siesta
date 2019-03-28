@@ -4,4 +4,5 @@ target 'GithubBrowser' do
   use_frameworks!
 
   pod 'Siesta/UI', path: '../..'
+  pod 'Siesta/Tools', path: '../..'
 end
