@@ -74,7 +74,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody(Data(bytes: [0xD8]) as NSData)
+                    .withBody(Data([0xD8]) as NSData)
                 awaitFailure(resource().load())
 
                 let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
@@ -98,7 +98,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
-                    .withBody(Data(bytes: [0xD8, 0x3D, 0xDC, 0xA3]) as NSData)
+                    .withBody(Data([0xD8, 0x3D, 0xDC, 0xA3]) as NSData)
                 awaitFailure(resource().load())
                 expect(resource().latestError?.text) == "💣"
                 }
@@ -312,7 +312,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     let resource = service.resource(contentType)
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", contentType)
-                        .withBody(Data(bytes: [0xD8]) as NSData)
+                        .withBody(Data([0xD8]) as NSData)
                     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
                     awaitRequest(resource.load(), .inProgress)
                     expect(resource.latestData?.content is Data) == expectSuccess

@@ -68,7 +68,7 @@ script: |
 
   # Optional pre-download, because builds are so slow on Travis, and Carthage builds _everything_:
   echo "Downloading prebuilt dependencies"
-  curl https://innig.net/tmp/siesta-deps-swift-4.tar.bz2 | bzcat | tar xv
+  curl https://innig.net/tmp/siesta-deps-swift-5.tar.bz2 | bzcat | tar xv
 
   # Uncomment to build with Carthage instead:
   #echo "Building dependencies"

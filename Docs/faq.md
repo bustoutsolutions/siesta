@@ -52,7 +52,7 @@ From the time that it has constructed a request until the time it has a complete
 
 One big future wish for Siesta is more static type safety when using custom transformers that map specific routes to specific model classes. Unfortunately, limitations of Swift’s generic type system prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice.
 
-The missing feature is support for generalized existential types. There has been extensive discussion of this on [swift-evolution](https://github.com/apple/swift-evolution) ([here](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17418/focus=18810), for example), but the problem proved [too large to solve in time for Swift 3](http://thread.gmane.org/gmane.comp.lang.swift.evolution/17276). That means we won’t be getting `Resource<T>` until at least Swift 4.
+The missing feature is support for generalized existentials. There has been extensive discussion of this — there’s even a [manifesto](https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)! — but the problem has proved large and has been repeatedly deferred. That means we won’t be getting `Resource<T>` until some far future version of Swift.
 
 In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#//apple_ref/swift/Method/typedContent(ifNone:)) and friends get the job done.
 
