@@ -55,7 +55,7 @@ RESULTS_ORDER = %w(
 )
 
 def dump_results(results)
-  return unless results
+  return unless results && !results.empty?
 
   ul do
     results.sort_by { |r| RESULTS_ORDER.index(r["name"]) || 1.0/0 }.each do |result|
