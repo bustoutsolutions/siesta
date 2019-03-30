@@ -34,7 +34,7 @@ opt_in_rules:
   - empty_string
   - empty_xctest_method
   - explicit_init
-  - explicit_top_level_acl
+  # - explicit_top_level_acl  # flags extensions with errors in Swift 5, but extensions in Siesta don't use ACL
   - fallthrough
   - fatal_error_message
   - file_header
