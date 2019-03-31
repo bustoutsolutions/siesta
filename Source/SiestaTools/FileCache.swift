@@ -85,9 +85,8 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
         do  {
             return try
                 decoder.decode(
-                    EncodableEntity<ContentType>.self,
+                    Entity<ContentType>.self,
                     from: Data(contentsOf: file(for: key)))
-                .entity
             }
         catch CocoaError.fileReadNoSuchFile
             { }  // a cache miss is just fine; don't log it
@@ -102,7 +101,7 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
             let options: Data.WritingOptions = [.atomic, .completeFileProtection]
         #endif
 
-        try encoder.encode(EncodableEntity(entity))
+        try encoder.encode(entity)
             .write(to: file(for: key), options: options)
         }
 
@@ -122,6 +121,7 @@ extension FileCache
             {
             keyPrefix =
                 fileCacheFormatVersion         // prevents us from parsing old cache entries using some new future format
+                                               // TODO: include pipeline stage name here
                  + "\(ContentType.self)".utf8  // prevent data collision when caching at multiple pipeline stages
                  + [0]                         // null-terminate ContentType to prevent bleed into username
                  + keyIsolator                 // prevents one user from seeing another’s cached requests
@@ -143,33 +143,6 @@ extension FileCache
                 keyIsolator: try encoder.encode([partitionID]))
             }
         }
-    }
-
-/// Ideally, Entity itself would be codable when its ContentType is codable. To do this, Swift would need to:
-///
-///   1. allow conditional conformance, and
-///   2. allow extensions to synthesize encode/decode.
-///
-/// This struct is a stopgap until the language can do all that.
-///
-private struct EncodableEntity<ContentType>: Codable
-    where ContentType: Codable
-    {
-    var timestamp: TimeInterval
-    var headers: [String:String]
-    var charset: String?
-    var content: ContentType
-
-    init(_ entity: Entity<ContentType>)
-        {
-        timestamp = entity.timestamp
-        headers = entity.headers
-        charset = entity.charset
-        content = entity.content
-        }
-
-    var entity: Entity<ContentType>
-        { Entity(content: content, charset: charset, headers: headers, timestamp: timestamp) }
     }
 
 // MARK: - Encryption helpers
