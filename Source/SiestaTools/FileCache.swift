@@ -85,7 +85,7 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
         do  {
             return try
                 decoder.decode(
-                    EncodableEntity<ContentType>.self,
+                    Entity<ContentType>.self,
                     from: Data(contentsOf: file(for: key)))
                 .entity
             }
@@ -96,7 +96,7 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
 
     public func writeEntity(_ entity: Entity<ContentType>, forKey key: Key) throws
         {
-        try encoder.encode(EncodableEntity(entity))
+        try encoder.encode(entity)
             .write(to: file(for: key), options: [.atomic, .completeFileProtection])
         }
 
@@ -116,6 +116,7 @@ extension FileCache
             {
             keyPrefix =
                 fileCacheFormatVersion         // prevents us from parsing old cache entries using some new future format
+                                               // TODO: include pipeline stage name here
                  + "\(ContentType.self)".utf8  // prevent data collision when caching at multiple pipeline stages
                  + [0]                         // null-terminate ContentType to prevent bleed into username
                  + keyIsolator                 // prevents one user from seeing another’s cached requests
@@ -139,51 +140,24 @@ extension FileCache
         }
     }
 
-/// Ideally, Entity itself would be codable when its ContentType is codable. To do this, Swift would need to:
-///
-///   1. allow conditional conformance, and
-///   2. allow extensions to synthesize encode/decode.
-///
-/// This struct is a stopgap until the language can do all that.
-///
-private struct EncodableEntity<ContentType>: Codable
-    where ContentType: Codable
-    {
-    var timestamp: TimeInterval
-    var headers: [String:String]
-    var charset: String?
-    var content: ContentType
-
-    init(_ entity: Entity<ContentType>)
-        {
-        timestamp = entity.timestamp
-        headers = entity.headers
-        charset = entity.charset
-        content = entity.content
-        }
-
-    var entity: Entity<ContentType>
-        { return Entity(content: content, charset: charset, headers: headers, timestamp: timestamp) }
-    }
-
 // MARK: - Encryption helpers
 
-private extension Data
+extension Data
     {
-    var sha256: Data
+    fileprivate var sha256: Data
         {
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
         _ = withUnsafeBytes
-            { CC_SHA256($0, CC_LONG(count), &hash) }
+            { CC_SHA256($0.baseAddress, CC_LONG(count), &hash) }
         return Data(hash)
         }
 
-    var shortenWithSHA256: Data
+    fileprivate var shortenWithSHA256: Data
         {
         return count > 32 ? sha256 : self
         }
 
-    var urlSafeBase64EncodedString: String
+    fileprivate var urlSafeBase64EncodedString: String
         {
         return base64EncodedString()
             .replacingOccurrences(of: "/", with: "_")
