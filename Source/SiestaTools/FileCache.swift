@@ -87,7 +87,6 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
                 decoder.decode(
                     Entity<ContentType>.self,
                     from: Data(contentsOf: file(for: key)))
-                .entity
             }
         catch CocoaError.fileReadNoSuchFile
             { }  // a cache miss is just fine; don't log it

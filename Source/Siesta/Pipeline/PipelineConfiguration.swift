@@ -195,7 +195,18 @@ public struct PipelineStage
       - Note: Siesta may ask your cache for content before any load requests run. This means that your observer may
               initially see an empty resources and then get a `newData(Cache)` event — even if you never call `load()`.
     */
-    public mutating func cacheUsing<T: EntityCache>(_ cache: @autoclosure () throws -> T)
+    public mutating func cacheUsing<T: EntityCache>(_ cache: T)
+        {
+        cacheBox = CacheBox(cache: cache)
+        }
+
+    /**
+      Convenience for `cacheUsing(_:)` that takes a failable closure, for situations where caching is optional.
+
+      Configures a persistent cache at this stage if the given closure succeeds. Disables caching at this stage if the
+      closure throws an error.
+    */
+    public mutating func cacheUsing<T: EntityCache>(_ cache: () throws -> T)
         {
         do
             { cacheBox = CacheBox(cache: try cache()) }
