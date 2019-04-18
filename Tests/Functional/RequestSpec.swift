@@ -638,7 +638,7 @@ class RequestSpec: ResourceSpecBase
                 expectResult("yoyo", for: chainedReq)
                 }
 
-            it("isCompleted is false until a “use” action")
+            it("state is inProgress until callback returns a “use response” action")
                 {
                 let reqStub = stubText("yo").delay()
                 let req = resource().request(.get).chained

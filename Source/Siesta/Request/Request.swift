@@ -120,7 +120,7 @@ public protocol Request: AnyObject
 
       The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
       not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
-      by now. Use the `isCompleted` property to test for actual completion.
+      by now. Use the `state` property to test for actual completion.
     */
     var progress: Double { get }
 
