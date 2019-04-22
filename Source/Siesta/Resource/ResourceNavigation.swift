@@ -98,4 +98,12 @@ extension Resource
             url.alterQuery
                 { $0[name] = value })
         }
+
+    public func withParams(_ params: [String:String?]) -> Resource
+        {
+        var result = self
+        for (key,value) in params
+            { result = result.withParam(key,value) }
+        return result
+        }
     }

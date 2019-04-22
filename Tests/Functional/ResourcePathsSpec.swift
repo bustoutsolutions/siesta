@@ -193,6 +193,13 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url.absoluteString)
                      == "https://zingle.frotz/v1/a/b"
                 }
+
+            it("accepts multiple parameters")
+                {
+                let paramDict = ["foo": "bar", "bear": "grrrr", "programmer": "rrrrrg"]
+                expect(resource().withParams(paramDict).url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?bear=grrrr&foo=bar&programmer=rrrrrg"
+                }
             }
         }
     }
