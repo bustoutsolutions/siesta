@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
                    ## Stats
 
-                   * **OS:** iOS 8+, OS X / macOS 10.11+
+                   * **OS:** iOS 8+, OS X / macOS 10.11+, tvOS 9.0+
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
                    * **Tool requirements:** Xcode 8, Swift 3.0
                    * **License:** MIT
@@ -68,6 +68,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.11"
+  s.tvos.deployment_target = "9.0"
 
   s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.4.3" }
 
