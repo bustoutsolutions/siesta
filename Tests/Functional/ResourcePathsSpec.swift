@@ -194,11 +194,16 @@ class ResourcePathsSpec: ResourceSpecBase
                      == "https://zingle.frotz/v1/a/b"
                 }
 
-            it("accepts multiple parameters")
+            it("accepts multiple parameters as a dictionary")
                 {
-                let paramDict = ["foo": "bar", "bear": "grrrr", "programmer": "rrrrrg"]
-                expect(resource().withParams(paramDict).url.absoluteString)
-                     == "https://zingle.frotz/v1/a/b?bear=grrrr&foo=bar&programmer=rrrrrg"
+                expect(resourceWithParams().withParams(["dogcow": "moof", "frogbear": "grribbit"]).url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?dogcow=moof&foo=bar&frogbear=grribbit&zoogle=oogle"
+                }
+
+            it("allows parameter alteration and removal via dictionary")
+                {
+                expect(resourceWithParams().withParams(["foo": "oof", "zoogle": nil]).url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?foo=oof"
                 }
             }
         }

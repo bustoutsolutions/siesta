@@ -52,6 +52,7 @@
         _ = [resource child:@"bar"];
         _ = [resource relative:@"../bar"];
         _ = [resource withParam:@"foo" value:@"bar"];
+        _ = [resource withParams:@{@"foo": @"bar", @"baz": NSNull.null}];
         });
 
     it(@"handles requests", ^
