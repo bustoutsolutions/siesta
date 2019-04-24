@@ -35,6 +35,7 @@ import Foundation
      * Custom ResponseTransformers
      * Custom NetworkingProviders
      * Logging config
+     * Just about anything else configuration-related
 */
 
 // MARK: - Because Swift structs aren’t visible to Obj-C

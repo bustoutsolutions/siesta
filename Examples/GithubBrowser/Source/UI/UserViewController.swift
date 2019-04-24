@@ -116,7 +116,7 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
 
     func showUser(_ user: User?) {
         // It's often easiest to make the same code path handle both the “data” and “no data” states.
-        // If this UI update were more expensive, we could choose to do it only on ObserverAdded or NewData.
+        // If this UI update were more expensive, we could choose to do it only on observerAdded or newData.
 
         fullNameLabel.text = user?.name
         avatar.imageURL = user?.avatarURL
