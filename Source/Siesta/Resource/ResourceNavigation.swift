@@ -94,16 +94,16 @@ extension Resource
     @objc(withParam:value:)
     public func withParam(_ name: String, _ value: String?) -> Resource
         {
-        return service.resource(absoluteURL:
-            url.alterQuery
-                { $0[name] = value })
+        return withParams([name: value])
         }
 
     public func withParams(_ params: [String:String?]) -> Resource
         {
-        var result = self
-        for (key,value) in params
-            { result = result.withParam(key,value) }
-        return result
+        return service.resource(absoluteURL:
+            url.alterQuery
+                {
+                for (name,value) in params
+                    { $0[name] = value }
+                })
         }
     }
