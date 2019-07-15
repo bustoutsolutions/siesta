@@ -167,6 +167,27 @@
 		DA5A90302054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
 		DA5A90312054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
 		DA5A90322054E0C500309D8B /* EntityCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */; };
+		DA5E4B3D22DCE9670059ED10 /* Ω_UI_Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFFA2201DDBA7FF00F0EE2A /* Ω_UI_Deprecations.swift */; };
+		DA5E4B3E22DCE9670059ED10 /* SiestaUI-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3D81D6529A900D25C44 /* SiestaUI-ObjC.swift */; };
+		DA5E4B3F22DCE9670059ED10 /* ResourceStatusOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE490991B4E51C1004D97D6 /* ResourceStatusOverlay.swift */; };
+		DA5E4B4022DCE9670059ED10 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3DD1D652AD300D25C44 /* Collection+Siesta.swift */; };
+		DA5E4B4122DCE9670059ED10 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */; };
+		DA5E4B4222DCE9670059ED10 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
+		DA5E4B4522DCE9670059ED10 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; };
+		DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; };
+		DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; };
+		DA5E4B5922DCEFE40059ED10 /* Nocilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */; };
+		DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */; };
+		DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */; };
+		DA5E4B5D22DCF12E0059ED10 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
+		DA5E4B5E22DCF12E0059ED10 /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
+		DA5E4B5F22DCF12E0059ED10 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61991B7521B900F6BB9C /* TestService.swift */; };
+		DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
+		DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA5E4B6422DCF48D0059ED10 /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA5EC2741B91E39000DC33C8 /* Networking-URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
 		DA6022841D65591500FB5673 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -267,6 +288,20 @@
 			remoteGlobalIDString = 9F2FB51D1C28645E0068DFFA;
 			remoteInfo = "Siesta macOS";
 		};
+		DA5E4B4D22DCEA610059ED10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDCCAF711E6A31D900860D18;
+			remoteInfo = "Siesta tvOS";
+		};
+		DA5E4B5022DCEFCA0059ED10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA5E4B3922DCE9670059ED10;
+			remoteInfo = "SiestaUI tvOS";
+		};
 		DAC4CFCA1DAC10EC00EECEDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
@@ -320,6 +355,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA5E4B6122DCF4740059ED10 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */,
+				DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */,
+				DA5E4B6422DCF48D0059ED10 /* Nocilla.framework in CopyFiles */,
+				DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA60F5F81B2F728900D76DC6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,7 +402,7 @@
 		CDCCAF681E6A313800860D18 /* Info-watchOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-watchOS.plist"; path = "../../Info-watchOS.plist"; sourceTree = "<group>"; };
 		CDCCAF721E6A31D900860D18 /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDCCAF751E6A31D900860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-tvOS.plist"; path = "../../Info-tvOS.plist"; sourceTree = "<group>"; };
-		CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiestaTests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDCCAF811E6A31DA00860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
@@ -383,6 +431,11 @@
 		DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcCompatibilitySpec.m; sourceTree = "<group>"; };
 		DA4D61991B7521B900F6BB9C /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
 		DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCacheSpec.swift; sourceTree = "<group>"; };
+		DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/tvOS/Alamofire.framework; sourceTree = "<group>"; };
+		DA5E4B5322DCEFE40059ED10 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
+		DA5E4B5422DCEFE40059ED10 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
+		DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/tvOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-URLSession.swift"; sourceTree = "<group>"; };
 		DA5FE9F31BB9E3EF00B6688A /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA6022801D65590800FB5673 /* SiestaUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SiestaUI.h; sourceTree = "<group>"; };
@@ -472,6 +525,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDCCAF7B1E6A31DA00860D18 /* Siesta.framework in Frameworks */,
+				DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */,
+				DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */,
+				DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */,
+				DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */,
+				DA5E4B5922DCEFE40059ED10 /* Nocilla.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +558,13 @@
 				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
 				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
 				DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5E4B4322DCE9670059ED10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,7 +666,8 @@
 				DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */,
 				CDCCAF651E6A313800860D18 /* Siesta.framework */,
 				CDCCAF721E6A31D900860D18 /* Siesta.framework */,
-				CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */,
+				CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */,
+				DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -641,6 +707,7 @@
 			children = (
 				DA38E4F11D088515008023ED /* iOS */,
 				9F0FAFB31D03464F00CE1B61 /* macOS */,
+				DA5E4B5A22DCF0150059ED10 /* tvOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -656,6 +723,17 @@
 				570C77E71D3846A800226F92 /* Result.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		DA5E4B5A22DCF0150059ED10 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */,
+				DA5E4B5322DCEFE40059ED10 /* Nimble.framework */,
+				DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */,
+				DA5E4B5422DCEFE40059ED10 /* Quick.framework */,
+			);
+			name = tvOS;
 			sourceTree = "<group>";
 		};
 		DA99B5C61B38C356009C6937 /* Support */ = {
@@ -801,6 +879,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA5E4B4422DCE9670059ED10 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5E4B4522DCE9670059ED10 /* SiestaUI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B3A31D651CB500D25C44 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -900,17 +986,20 @@
 			buildConfigurationList = CDCCAF861E6A31DA00860D18 /* Build configuration list for PBXNativeTarget "SiestaTests tvOS" */;
 			buildPhases = (
 				CDCCAF761E6A31DA00860D18 /* Sources */,
+				DA5E4B4F22DCECEA0059ED10 /* Run SwiftLint */,
 				CDCCAF771E6A31DA00860D18 /* Frameworks */,
 				CDCCAF781E6A31DA00860D18 /* Resources */,
+				DA5E4B6122DCF4740059ED10 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				CDCCAF7D1E6A31DA00860D18 /* PBXTargetDependency */,
+				DA5E4B5122DCEFCA0059ED10 /* PBXTargetDependency */,
 			);
 			name = "SiestaTests tvOS";
 			productName = "Siesta TvOSTests";
-			productReference = CDCCAF7A1E6A31DA00860D18 /* SiestaTests tvOS.xctest */;
+			productReference = CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		DA19D04C1D9ADC1800D15F3A /* SiestaPerformanceTests macOS */ = {
@@ -970,6 +1059,25 @@
 			productName = SiestaTests;
 			productReference = DA336E591B2E6DDB006F702A /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DA5E4B3922DCE9670059ED10 /* SiestaUI tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA5E4B4822DCE9670059ED10 /* Build configuration list for PBXNativeTarget "SiestaUI tvOS" */;
+			buildPhases = (
+				DA5E4B3C22DCE9670059ED10 /* Sources */,
+				DA5E4B4322DCE9670059ED10 /* Frameworks */,
+				DA5E4B4422DCE9670059ED10 /* Headers */,
+				DA5E4B4622DCE9670059ED10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA5E4B4E22DCEA610059ED10 /* PBXTargetDependency */,
+			);
+			name = "SiestaUI tvOS";
+			productName = Siesta;
+			productReference = DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */ = {
 			isa = PBXNativeTarget;
@@ -1034,7 +1142,7 @@
 					CDCCAF711E6A31D900860D18 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					CDCCAF791E6A31DA00860D18 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1051,6 +1159,9 @@
 						CreatedOnToolsVersion = 7.0;
 						LastSwiftMigration = 1000;
 					};
+					DA5E4B3922DCE9670059ED10 = {
+						ProvisioningStyle = Manual;
+					};
 					DAC0B37D1D651CB500D25C44 = {
 						LastSwiftMigration = 1000;
 					};
@@ -1064,6 +1175,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DA336E451B2E6DDB006F702A;
@@ -1077,6 +1189,7 @@
 				CDCCAF711E6A31D900860D18 /* Siesta tvOS */,
 				DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */,
 				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
+				DA5E4B3922DCE9670059ED10 /* SiestaUI tvOS */,
 				DA336E581B2E6DDB006F702A /* SiestaTests iOS */,
 				9F0FAF8C1D033FCD00CE1B61 /* SiestaTests macOS */,
 				CDCCAF791E6A31DA00860D18 /* SiestaTests tvOS */,
@@ -1142,6 +1255,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA5E4B4622DCE9670059ED10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B3A51D651CB500D25C44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1195,6 +1315,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "swiftlint\n\n";
+		};
+		DA5E4B4F22DCECEA0059ED10 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftlint\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1363,13 +1501,18 @@
 				CD5651F71E6F306B009F224A /* ResponseDataHandlingSpec.swift in Sources */,
 				CD5651F21E6F306B009F224A /* ResourcePathsSpec.swift in Sources */,
 				CD5651F81E6F306B009F224A /* ProgressSpec.swift in Sources */,
+				DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */,
 				CD5651F11E6F306B009F224A /* ResourceSpecBase.swift in Sources */,
 				CD5651F41E6F306B009F224A /* ResourceObserversSpec.swift in Sources */,
 				CD5651F91E6F306B009F224A /* WeakCacheSpec.swift in Sources */,
 				DA5A90322054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				CD5651FA1E6F306D009F224A /* ObjcCompatibilitySpec.m in Sources */,
 				CD5651F61E6F306B009F224A /* PipelineSpec.swift in Sources */,
+				DA5E4B5E22DCF12E0059ED10 /* SpecHelpers.swift in Sources */,
+				DA5E4B5F22DCF12E0059ED10 /* TestService.swift in Sources */,
+				DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */,
 				CD5651F31E6F306B009F224A /* ResourceStateSpec.swift in Sources */,
+				DA5E4B5D22DCF12E0059ED10 /* SiestaSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1449,6 +1592,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA5E4B3C22DCE9670059ED10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5E4B3D22DCE9670059ED10 /* Ω_UI_Deprecations.swift in Sources */,
+				DA5E4B3E22DCE9670059ED10 /* SiestaUI-ObjC.swift in Sources */,
+				DA5E4B3F22DCE9670059ED10 /* ResourceStatusOverlay.swift in Sources */,
+				DA5E4B4022DCE9670059ED10 /* Collection+Siesta.swift in Sources */,
+				DA5E4B4122DCE9670059ED10 /* NetworkActivityIndicator.swift in Sources */,
+				DA5E4B4222DCE9670059ED10 /* RemoteImageView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B37E1D651CB500D25C44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1491,6 +1647,16 @@
 			isa = PBXTargetDependency;
 			target = 9F2FB51D1C28645E0068DFFA /* Siesta macOS */;
 			targetProxy = DA507ADB1D9CD07D00B5F5BF /* PBXContainerItemProxy */;
+		};
+		DA5E4B4E22DCEA610059ED10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDCCAF711E6A31D900860D18 /* Siesta tvOS */;
+			targetProxy = DA5E4B4D22DCEA610059ED10 /* PBXContainerItemProxy */;
+		};
+		DA5E4B5122DCEFCA0059ED10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA5E4B3922DCE9670059ED10 /* SiestaUI tvOS */;
+			targetProxy = DA5E4B5022DCEFCA0059ED10 /* PBXContainerItemProxy */;
 		};
 		DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1634,20 +1800,22 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Source/Info-tvOS.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-tvOS";
 				PRODUCT_NAME = Siesta;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
@@ -1657,19 +1825,21 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Source/Info-tvOS.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-tvOS";
 				PRODUCT_NAME = Siesta;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -1679,12 +1849,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				INFOPLIST_FILE = "Tests/Info-tvOS.plist";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-tvOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-TvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiestaTests;
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -1695,11 +1870,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				INFOPLIST_FILE = "Tests/Info-tvOS.plist";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-tvOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-TvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SiestaTests;
 				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1789,6 +1969,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1846,6 +2027,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1905,6 +2087,49 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
+			};
+			name = Release;
+		};
+		DA5E4B4922DCE9670059ED10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
+				PRODUCT_NAME = SiestaUI;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Debug;
+		};
+		DA5E4B4A22DCE9670059ED10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
+				PRODUCT_NAME = SiestaUI;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
 		};
@@ -2057,6 +2282,15 @@
 			buildConfigurations = (
 				DA336E671B2E6DDB006F702A /* Debug */,
 				DA336E681B2E6DDB006F702A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA5E4B4822DCE9670059ED10 /* Build configuration list for PBXNativeTarget "SiestaUI tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA5E4B4922DCE9670059ED10 /* Debug */,
+				DA5E4B4A22DCE9670059ED10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
