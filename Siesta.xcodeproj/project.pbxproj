@@ -206,6 +206,9 @@
 		DA788A8F1D6AC1590085C820 /* ObjcCompatibilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */; };
 		DA7D05C41D57C2B500431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
 		DA7D05C51D57C30400431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
+		DA8B5B5522DEAC93008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
+		DA8B5B6422DEADDB008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
+		DA8C83581FC6096100C947F9 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
 		DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
@@ -301,6 +304,48 @@
 			proxyType = 1;
 			remoteGlobalIDString = DA5E4B3922DCE9670059ED10;
 			remoteInfo = "SiestaUI tvOS";
+		};
+		DA8B5B5C22DEACA4008E47B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F2FB51D1C28645E0068DFFA;
+			remoteInfo = "Siesta macOS";
+		};
+		DA8B5B6B22DEAE72008E47B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDCCAF711E6A31D900860D18;
+			remoteInfo = "Siesta tvOS";
+		};
+		DA8B5B6D22DEAE97008E47B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA8B5B4F22DEAC93008E47B0;
+			remoteInfo = "SiestaTools macOS";
+		};
+		DA8B5B6F22DEAEA2008E47B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA8B5B5E22DEADDB008E47B0;
+			remoteInfo = "SiestaTools tvOS";
+		};
+		DA8C83421FC600A900C947F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA336E4E1B2E6DDB006F702A;
+			remoteInfo = "SiestaTools iOS";
+		};
+		DA8C83591FC60A2900C947F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA336E461B2E6DDB006F702A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA8C83401FC600A900C947F9;
+			remoteInfo = "SiestaTools iOS";
 		};
 		DAC4CFCA1DAC10EC00EECEDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -443,6 +488,10 @@
 		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineProcessing.swift; sourceTree = "<group>"; };
+		DA8B5B5A22DEAC93008E47B0 /* SiestaTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA8B5B6922DEADDB008E47B0 /* SiestaTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA8C83521FC600A900C947F9 /* SiestaTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA8C83571FC6096100C947F9 /* SiestaTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiestaTools.h; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
 		DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationPatternConvertible.swift; sourceTree = "<group>"; };
@@ -568,6 +617,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA8B5B5322DEAC93008E47B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8B5B6222DEADDB008E47B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8C834A1FC600A900C947F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B3A21D651CB500D25C44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -668,6 +738,9 @@
 				CDCCAF721E6A31D900860D18 /* Siesta.framework */,
 				CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */,
 				DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */,
+				DA8C83521FC600A900C947F9 /* SiestaTools.framework */,
+				DA8B5B5A22DEAC93008E47B0 /* SiestaTools.framework */,
+				DA8B5B6922DEADDB008E47B0 /* SiestaTools.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -676,6 +749,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC0B37B1D651A4600D25C44 /* Core */,
+				DA8C833F1FC5FFDA00C947F9 /* Tools */,
 				DAE490981B4E51AA004D97D6 /* UI (iOS) */,
 			);
 			path = Source;
@@ -736,6 +810,14 @@
 			name = tvOS;
 			sourceTree = "<group>";
 		};
+		DA8C833F1FC5FFDA00C947F9 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tools;
+			path = SiestaTools;
+			sourceTree = "<group>";
+		};
 		DA99B5C61B38C356009C6937 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +826,7 @@
 				CDCCAF681E6A313800860D18 /* Info-watchOS.plist */,
 				CDCCAF751E6A31D900860D18 /* Info-tvOS.plist */,
 				DA336E521B2E6DDB006F702A /* Siesta.h */,
+				DA8C83571FC6096100C947F9 /* SiestaTools.h */,
 				DA6022801D65590800FB5673 /* SiestaUI.h */,
 				DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */,
 				DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */,
@@ -887,6 +970,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA8B5B5422DEAC93008E47B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8B5B5522DEAC93008E47B0 /* SiestaTools.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8B5B6322DEADDB008E47B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8B5B6422DEADDB008E47B0 /* SiestaTools.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8C834B1FC600A900C947F9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8C83581FC6096100C947F9 /* SiestaTools.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B3A31D651CB500D25C44 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -920,6 +1027,7 @@
 			);
 			dependencies = (
 				9F0FAFAF1D033FE800CE1B61 /* PBXTargetDependency */,
+				DA8B5B6E22DEAE97008E47B0 /* PBXTargetDependency */,
 				DAC4CFCD1DAC10F500EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests macOS";
@@ -995,6 +1103,7 @@
 			);
 			dependencies = (
 				CDCCAF7D1E6A31DA00860D18 /* PBXTargetDependency */,
+				DA8B5B7022DEAEA2008E47B0 /* PBXTargetDependency */,
 				DA5E4B5122DCEFCA0059ED10 /* PBXTargetDependency */,
 			);
 			name = "SiestaTests tvOS";
@@ -1053,6 +1162,7 @@
 			);
 			dependencies = (
 				DA336E5C1B2E6DDB006F702A /* PBXTargetDependency */,
+				DA8C835A1FC60A2900C947F9 /* PBXTargetDependency */,
 				DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests iOS";
@@ -1077,6 +1187,63 @@
 			name = "SiestaUI tvOS";
 			productName = Siesta;
 			productReference = DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DA8B5B4F22DEAC93008E47B0 /* SiestaTools macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA8B5B5722DEAC93008E47B0 /* Build configuration list for PBXNativeTarget "SiestaTools macOS" */;
+			buildPhases = (
+				DA8B5B5222DEAC93008E47B0 /* Sources */,
+				DA8B5B5322DEAC93008E47B0 /* Frameworks */,
+				DA8B5B5422DEAC93008E47B0 /* Headers */,
+				DA8B5B5622DEAC93008E47B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA8B5B5D22DEACA4008E47B0 /* PBXTargetDependency */,
+			);
+			name = "SiestaTools macOS";
+			productName = Siesta;
+			productReference = DA8B5B5A22DEAC93008E47B0 /* SiestaTools.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DA8B5B5E22DEADDB008E47B0 /* SiestaTools tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA8B5B6622DEADDB008E47B0 /* Build configuration list for PBXNativeTarget "SiestaTools tvOS" */;
+			buildPhases = (
+				DA8B5B6122DEADDB008E47B0 /* Sources */,
+				DA8B5B6222DEADDB008E47B0 /* Frameworks */,
+				DA8B5B6322DEADDB008E47B0 /* Headers */,
+				DA8B5B6522DEADDB008E47B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA8B5B6C22DEAE72008E47B0 /* PBXTargetDependency */,
+			);
+			name = "SiestaTools tvOS";
+			productName = Siesta;
+			productReference = DA8B5B6922DEADDB008E47B0 /* SiestaTools.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DA8C83401FC600A900C947F9 /* SiestaTools iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA8C834F1FC600A900C947F9 /* Build configuration list for PBXNativeTarget "SiestaTools iOS" */;
+			buildPhases = (
+				DA8C83431FC600A900C947F9 /* Sources */,
+				DA8C834A1FC600A900C947F9 /* Frameworks */,
+				DA8C834B1FC600A900C947F9 /* Headers */,
+				DA8C834D1FC600A900C947F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA8C83411FC600A900C947F9 /* PBXTargetDependency */,
+			);
+			name = "SiestaTools iOS";
+			productName = Siesta;
+			productReference = DA8C83521FC600A900C947F9 /* SiestaTools.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */ = {
@@ -1188,6 +1355,9 @@
 				9F2FB51D1C28645E0068DFFA /* Siesta macOS */,
 				CDCCAF641E6A313800860D18 /* Siesta watchOS */,
 				CDCCAF711E6A31D900860D18 /* Siesta tvOS */,
+				DA8C83401FC600A900C947F9 /* SiestaTools iOS */,
+				DA8B5B4F22DEAC93008E47B0 /* SiestaTools macOS */,
+				DA8B5B5E22DEADDB008E47B0 /* SiestaTools tvOS */,
 				DAC0B37D1D651CB500D25C44 /* SiestaUI iOS */,
 				DAC0B3AC1D651CC700D25C44 /* SiestaUI macOS */,
 				DA5E4B3922DCE9670059ED10 /* SiestaUI tvOS */,
@@ -1257,6 +1427,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DA5E4B4622DCE9670059ED10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8B5B5622DEAC93008E47B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8B5B6522DEADDB008E47B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8C834D1FC600A900C947F9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1606,6 +1797,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA8B5B5222DEAC93008E47B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8B5B6122DEADDB008E47B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA8C83431FC600A900C947F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAC0B37E1D651CB500D25C44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1658,6 +1870,36 @@
 			isa = PBXTargetDependency;
 			target = DA5E4B3922DCE9670059ED10 /* SiestaUI tvOS */;
 			targetProxy = DA5E4B5022DCEFCA0059ED10 /* PBXContainerItemProxy */;
+		};
+		DA8B5B5D22DEACA4008E47B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F2FB51D1C28645E0068DFFA /* Siesta macOS */;
+			targetProxy = DA8B5B5C22DEACA4008E47B0 /* PBXContainerItemProxy */;
+		};
+		DA8B5B6C22DEAE72008E47B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDCCAF711E6A31D900860D18 /* Siesta tvOS */;
+			targetProxy = DA8B5B6B22DEAE72008E47B0 /* PBXContainerItemProxy */;
+		};
+		DA8B5B6E22DEAE97008E47B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA8B5B4F22DEAC93008E47B0 /* SiestaTools macOS */;
+			targetProxy = DA8B5B6D22DEAE97008E47B0 /* PBXContainerItemProxy */;
+		};
+		DA8B5B7022DEAEA2008E47B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA8B5B5E22DEADDB008E47B0 /* SiestaTools tvOS */;
+			targetProxy = DA8B5B6F22DEAEA2008E47B0 /* PBXContainerItemProxy */;
+		};
+		DA8C83411FC600A900C947F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA336E4E1B2E6DDB006F702A /* Siesta iOS */;
+			targetProxy = DA8C83421FC600A900C947F9 /* PBXContainerItemProxy */;
+		};
+		DA8C835A1FC60A2900C947F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA8C83401FC600A900C947F9 /* SiestaTools iOS */;
+			targetProxy = DA8C83591FC60A2900C947F9 /* PBXContainerItemProxy */;
 		};
 		DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2140,6 +2382,109 @@
 			};
 			name = Release;
 		};
+		DA8B5B5822DEAC93008E47B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/macOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA8B5B5922DEAC93008E47B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/macOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DA8B5B6722DEADDB008E47B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/tvOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA8B5B6822DEADDB008E47B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/tvOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DA8C83501FC600A900C947F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA8C83511FC600A900C947F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTools;
+				PRODUCT_NAME = SiestaTools;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		DAC0B3A81D651CB500D25C44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2298,6 +2643,33 @@
 			buildConfigurations = (
 				DA5E4B4922DCE9670059ED10 /* Debug */,
 				DA5E4B4A22DCE9670059ED10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA8B5B5722DEAC93008E47B0 /* Build configuration list for PBXNativeTarget "SiestaTools macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA8B5B5822DEAC93008E47B0 /* Debug */,
+				DA8B5B5922DEAC93008E47B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA8B5B6622DEADDB008E47B0 /* Build configuration list for PBXNativeTarget "SiestaTools tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA8B5B6722DEADDB008E47B0 /* Debug */,
+				DA8B5B6822DEADDB008E47B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA8C834F1FC600A900C947F9 /* Build configuration list for PBXNativeTarget "SiestaTools iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA8C83501FC600A900C947F9 /* Debug */,
+				DA8C83511FC600A900C947F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
