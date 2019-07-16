@@ -2,10 +2,11 @@ branches:
   only:
   - master
   - travis
+  - swift-5
 
 language: objective-c
 os: osx
-osx_image: xcode10.1
+osx_image: xcode10.2
 env:
   - scheme='Siesta macOS' platform='OS X'
   - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='12.0'  sim_device='iPhone XR'
@@ -19,6 +20,8 @@ env:
   - scheme='Siesta tvOS'  platform='tvOS Simulator' sim_os='tvOS' sim_os_version='12.1'  sim_device='Apple TV 1080p'
 
 before_install: |
+  set -x
+
   if [[ "$platform" =~ \ Simulator$ ]]; then
     sim_simulator_udid=$(
       xcrun simctl create "Siesta testing device" \
@@ -27,6 +30,11 @@ before_install: |
     )
     echo "Prelaunching iOS simulator with UDID $sim_simulator_udid"
     xcrun simctl boot $sim_simulator_udid
+
+    # Working for “Library not loaded: /usr/lib/libauto.dylib”; see:
+    #   https://stackoverflow.com/questions/55389080/xcode-10-2-failed-to-run-app-on-simulator-with-ios-10
+    #   https://developer.apple.com/documentation/xcode_release_notes/xcode_10_2_1_release_notes
+    sudo mkdir "/Library/Developer/CoreSimulator/Profiles/Runtimes/${sim_os} ${sim_os_version}.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift"
   fi
 
 script: |
@@ -68,7 +76,7 @@ script: |
 
   # Optional pre-download, because builds are so slow on Travis, and Carthage builds _everything_:
   echo "Downloading prebuilt dependencies"
-  curl https://innig.net/tmp/siesta-deps-swift-4.tar.bz2 | bzcat | tar xv
+  curl https://innig.net/tmp/siesta-deps-swift-5.tar.bz2 | bzcat | tar xv
 
   # Uncomment to build with Carthage instead:
   #echo "Building dependencies"

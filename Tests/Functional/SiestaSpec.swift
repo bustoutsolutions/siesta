@@ -85,8 +85,7 @@ private class ResultsAggregator
             { return }
 
         do  {
-            let json = ["results": results.toJson["children"]!]
-            let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+            let jsonData = try! JSONEncoder().encode(["results": results.children])
             try jsonData.write(to: URL(fileURLWithPath: "/tmp/siesta-spec-results.json"), options: [.atomic])
             }
         catch
@@ -120,7 +119,8 @@ private class ResultsAggregator
             }
         else
             {
-            subtree.callsite = callsite
+            subtree.file = callsite.file
+            subtree.line = callsite.line
             subtree.passed = passed
             }
         }
@@ -133,10 +133,11 @@ private class ResultsAggregator
         }
     }
 
-private class Result
+private class Result: Codable
     {
     let name: String
-    var callsite: Quick.Callsite?
+    var file: String?
+    var line: UInt?
     var passed: Bool?
     var children: [Result] = []
 
@@ -151,20 +152,5 @@ private class Result
         let newChild = Result(name: named)
         children.append(newChild)
         return newChild
-        }
-
-    var toJson: [String:Any]
-        {
-        var json: [String:Any] = ["name": name]
-        if let callsite = callsite
-            {
-            json["file"] = callsite.file
-            json["line"] = callsite.line
-            }
-        if let passed = passed
-            { json["passed"] = passed }
-        if !children.isEmpty
-            { json["children"] = children.map { $0.toJson } }
-        return json
         }
     }
