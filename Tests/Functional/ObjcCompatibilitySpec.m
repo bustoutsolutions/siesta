@@ -29,7 +29,7 @@
     __block BOSService *service;
     __block BOSResource *resource;
 
-    __block id _;  // Fake Swift’s `_ = foo()` idiom for @discardableResult functions
+    __block id _;  // Fake Swift’s `_ = foo()` idiom for non-@discardableResult functions
 
     beforeEach(^
         {
@@ -52,6 +52,7 @@
         _ = [resource child:@"bar"];
         _ = [resource relative:@"../bar"];
         _ = [resource withParam:@"foo" value:@"bar"];
+        _ = [resource withParams:@{@"foo": @"bar", @"baz": NSNull.null}];
         });
 
     it(@"handles requests", ^

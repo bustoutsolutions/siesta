@@ -75,27 +75,47 @@ extension Resource
         }
 
     /**
-      Returns this resource with the given parameter added or changed in the query string.
+      Returns this resource with the given parameter added to or changed in the query string.
 
-      If `value` is an empty string, the parameter goes in the query string with no value (e.g. `?foo`).
-      If `value` is nil, the parameter is removed.
+      If `value` is an empty string, the parameter appears in the query string with no value (e.g. `?foo`).
+
+      If `value` is nil, however, the parameter is removed.
 
       There is no support for parameters with an equal sign but an empty value (e.g. `?foo=`).
       There is also no support for repeated keys in the query string (e.g. `?foo=1&foo=2`).
-      If you need to circumvent either of these restrictions, you can create the query string yourself and pass
-      it to `relative(_:)` instead of using `withParam(_:_:)`.
+      If you need to circumvent either of these restrictions, you can create the query string yourself and pass it to
+      `relative(_:)` instead of using this method. For example:
 
-      Note that `Service` gives out unique `Resource` instances according to the full URL in string form, and thus
-      considers query string parameter order significant. Therefore, to ensure that you get the same `Resource`
-      instance no matter the order in which you specify parameters, `withParam(_:_:)` sorts all parameters by name.
-      Note that _only_ `withParam(_:_:)` does this sorting; if you use other methods to create query strings, it is
-      up to you to canonicalize your parameter order.
+          resource.relative("?foo=1&foo=2")
+
+      - Note: `Service` gives out unique `Resource` instances according to the full URL in string form, and thus
+        considers query string parameter order significant. Therefore, to ensure that you get the same `Resource`
+        instance no matter the order in which you specify parameters, `withParam(_:_:)` sorts _all_ parameters by name,
+        including existing ones. Note that _only_ `withParam(_:_:)` and `withParams(_:)` do this sorting; if you use
+        other methods to create query strings, it is up to you to canonicalize your parameter order.
+
+      - SeeAlso: `withParams(_:)`
     */
     @objc(withParam:value:)
     public func withParam(_ name: String, _ value: String?) -> Resource
         {
+        return withParams([name: value])
+        }
+
+    /**
+      Returns this resource with all the entries in the given dictionary added to or changed in the query string.
+      Equivalent to chained calls to `withParam(_:_:)` using each key-value pair in the dictionary.
+
+      See `withParam(_:_:)` for information about the meaning of nil values and empty strings, multi-values params,
+      and canonical parameter ordering.
+    */
+    public func withParams(_ params: [String:String?]) -> Resource
+        {
         return service.resource(absoluteURL:
             url.alterQuery
-                { $0[name] = value })
+                {
+                for (name,value) in params
+                    { $0[name] = value }
+                })
         }
     }

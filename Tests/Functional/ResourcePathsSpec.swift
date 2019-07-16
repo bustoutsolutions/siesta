@@ -193,6 +193,18 @@ class ResourcePathsSpec: ResourceSpecBase
                 expect(resourceWithParams().withParam("foo", nil).withParam("zoogle", nil).url.absoluteString)
                      == "https://zingle.frotz/v1/a/b"
                 }
+
+            it("accepts multiple parameters as a dictionary")
+                {
+                expect(resourceWithParams().withParams(["dogcow": "moof", "frogbear": "grribbit"]).url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?dogcow=moof&foo=bar&frogbear=grribbit&zoogle=oogle"
+                }
+
+            it("allows parameter alteration and removal via dictionary")
+                {
+                expect(resourceWithParams().withParams(["foo": "oof", "zoogle": nil]).url.absoluteString)
+                     == "https://zingle.frotz/v1/a/b?foo=oof"
+                }
             }
         }
     }

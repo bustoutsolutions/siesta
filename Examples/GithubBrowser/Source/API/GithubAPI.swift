@@ -155,9 +155,11 @@ class _GitHubAPI {
     var activeRepositories: Resource {
         return service
             .resource("/search/repositories")
-            .withParam("q", "stars:>0")
-            .withParam("sort", "updated")
-            .withParam("order", "desc")
+            .withParams([
+                "q": "stars:>0",
+                "sort": "updated",
+                "order": "desc"
+            ])
     }
 
     func user(_ username: String) -> Resource {

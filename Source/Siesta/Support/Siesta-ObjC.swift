@@ -35,6 +35,7 @@ import Foundation
      * Custom ResponseTransformers
      * Custom NetworkingProviders
      * Logging config
+     * Just about anything else configuration-related
 */
 
 // MARK: - Because Swift structs aren’t visible to Obj-C
@@ -154,6 +155,26 @@ extension Resource
     @objc(overrideLocalData:)
     public func _objc_overrideLocalData(_ entity: _objc_Entity)
         { overrideLocalData(with: Entity<Any>.convertedFromObjc(entity)) }
+
+    @objc(withParams:)
+    public func _objc_withParams(_ params: [String:NSObject]) -> Resource
+        {
+        return withParams(
+            params.mapValues
+                {
+                switch $0
+                    {
+                    case let string as String:
+                        return string
+
+                    case is NSNull:
+                        return nil
+
+                    default:
+                        fatalError("Received parameter value that is neither string nor null: \($0)")
+                    }
+                })
+        }
     }
 
 // MARK: - Because Swift closures aren’t exposed as Obj-C blocks
