@@ -79,7 +79,7 @@ public enum RequestChainAction
     case useThisResponse
     }
 
-internal struct RequestChainDelgate: RequestDelegate
+internal class RequestChainDelgate: RequestDelegate
     {
     typealias ActionCallback = (ResponseInfo) -> RequestChainAction
 
@@ -87,6 +87,8 @@ internal struct RequestChainDelgate: RequestDelegate
 
     private let wrappedRequest: Request
     private let determineAction: ActionCallback
+    
+    private var nextRequestProgress: Double?
 
     init(wrapping request: Request, whenCompleted determineAction: @escaping ActionCallback)
         {
@@ -126,10 +128,14 @@ internal struct RequestChainDelgate: RequestDelegate
                 request.start()  // Necessary if we are passing to deferred original request
                 request.onCompletion
                     { completionHandler.broadcastResponse($0) }
+                request.onProgress
+                    { progress in self.nextRequestProgress = progress }
             }
         }
 
-    // TODO: progress reporting
+    func computeProgress() -> Double {
+        return nextRequestProgress ?? wrappedRequest.progress
+    }
 
     func repeated() -> RequestDelegate
         {
