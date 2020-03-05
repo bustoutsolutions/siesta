@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,8 @@
 		DA15FFAB2411AE9F00F9931A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF992411AE9F00F9931A /* User.swift */; };
 		DA15FFAC2411AE9F00F9931A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9A2411AE9F00F9931A /* Repository.swift */; };
 		DA15FFAD2411AE9F00F9931A /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9C2411AE9F00F9931A /* GithubAPI.swift */; };
+		DA15FFB52411AFAC00F9931A /* Siesta in Frameworks */ = {isa = PBXBuildFile; productRef = DA15FFB42411AFAC00F9931A /* Siesta */; };
+		DA15FFB72411AFAC00F9931A /* SiestaUI in Frameworks */ = {isa = PBXBuildFile; productRef = DA15FFB62411AFAC00F9931A /* SiestaUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA15FFB52411AFAC00F9931A /* Siesta in Frameworks */,
+				DA15FFB72411AFAC00F9931A /* SiestaUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +146,10 @@
 			dependencies = (
 			);
 			name = GithubBrowser;
+			packageProductDependencies = (
+				DA15FFB42411AFAC00F9931A /* Siesta */,
+				DA15FFB62411AFAC00F9931A /* SiestaUI */,
+			);
 			productName = GithubBrowser;
 			productReference = DA15FF702411AE6500F9931A /* GithubBrowser.app */;
 			productType = "com.apple.product-type.application";
@@ -170,6 +178,9 @@
 				Base,
 			);
 			mainGroup = DA15FF672411AE6500F9931A;
+			packageReferences = (
+				DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */,
+			);
 			productRefGroup = DA15FF712411AE6500F9931A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -408,6 +419,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "file:../../../..";
+			requirement = {
+				branch = "githubbrowser-using-swiftpm";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA15FFB42411AFAC00F9931A /* Siesta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */;
+			productName = Siesta;
+		};
+		DA15FFB62411AFAC00F9931A /* SiestaUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */;
+			productName = SiestaUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA15FF682411AE6500F9931A /* Project object */;
 }
