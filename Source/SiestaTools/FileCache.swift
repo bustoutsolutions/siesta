@@ -96,8 +96,14 @@ public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
 
     public func writeEntity(_ entity: Entity<ContentType>, forKey key: Key) throws
         {
+        #if os(macOS)
+            let options: Data.WritingOptions = [.atomic]
+        #else
+            let options: Data.WritingOptions = [.atomic, .completeFileProtection]
+        #endif
+
         try encoder.encode(entity)
-            .write(to: file(for: key), options: [.atomic, .completeFileProtection])
+            .write(to: file(for: key), options: options)
         }
 
     public func removeEntity(forKey key: Key) throws
