@@ -9,7 +9,6 @@
 @testable import Siesta
 import Quick
 import Nimble
-import Nocilla
 
 class ProgressSpec: ResourceSpecBase
     {

@@ -200,6 +200,9 @@
 		DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
+		DA62C9842428670400398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
+		DA62C9852428670500398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
+		DA62C9862428670500398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
 		DA7285E61D0DF2D900132CD9 /* OpenEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAF1D02046500607F3E /* OpenEnum.swift */; };
 		DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD191001D0394E300304193 /* PipelineSpec.swift */; };
 		DA788A8E1D6AC1580085C820 /* ObjcCompatibilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */; };
@@ -442,6 +445,7 @@
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
+		DA62C97C2428589B00398674 /* NetworkStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
 		DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineProcessing.swift; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
@@ -769,6 +773,7 @@
 				DAFA89271B8172920090D283 /* SiestaSpec.swift */,
 				DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */,
 				DA4D61991B7521B900F6BB9C /* TestService.swift */,
+				DA62C97C2428589B00398674 /* NetworkStub.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -1357,6 +1362,7 @@
 				DA5A90312054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				9F0FAF9B1D033FCD00CE1B61 /* ResourcePathsSpec.swift in Sources */,
 				DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */,
+				DA62C9852428670500398674 /* NetworkStub.swift in Sources */,
 				9F0FAF9C1D033FCD00CE1B61 /* ResourceSpecBase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1503,6 +1509,7 @@
 				CD5651F21E6F306B009F224A /* ResourcePathsSpec.swift in Sources */,
 				CD5651F81E6F306B009F224A /* ProgressSpec.swift in Sources */,
 				DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */,
+				DA62C9862428670500398674 /* NetworkStub.swift in Sources */,
 				CD5651F11E6F306B009F224A /* ResourceSpecBase.swift in Sources */,
 				CD5651F41E6F306B009F224A /* ResourceObserversSpec.swift in Sources */,
 				CD5651F91E6F306B009F224A /* WeakCacheSpec.swift in Sources */,
@@ -1579,6 +1586,7 @@
 				DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */,
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
+				DA62C9842428670400398674 /* NetworkStub.swift in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */,
 				DA3314311B4DC11900A7A175 /* ResponseDataHandlingSpec.swift in Sources */,
 				DA9E515420DD7A45000923BA /* RemoteImageViewSpec.swift in Sources */,

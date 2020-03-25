@@ -76,10 +76,10 @@ class ServiceSpec: SiestaSpec
                 }
 
             addSpecsForBareServce("with no baseURL")
-                { Service() }
+                { Service(networking: NetworkStub.defaultConfiguration) }
 
             addSpecsForBareServce("with an invalid baseURL")
-                { Service(baseURL: "\0") }
+                { Service(baseURL: "\0", networking: NetworkStub.defaultConfiguration) }
             }
 
         describe("resource(_:)")

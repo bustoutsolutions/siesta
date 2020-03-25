@@ -8,7 +8,6 @@
 
 import Quick
 import Nimble
-import Nocilla
 @testable import Siesta
 
 func specVar<T>(_ builder: @escaping () -> T) -> () -> T

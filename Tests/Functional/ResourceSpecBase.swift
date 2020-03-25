@@ -9,7 +9,6 @@
 @testable import Siesta
 import Quick
 import Nimble
-import Nocilla
 import Alamofire
 
 private let _fakeNowLock = NSObject()
@@ -44,9 +43,7 @@ class ResourceSpecBase: SiestaSpec
             return value == "1" || value == "true"
             }
 
-        beforeSuite { LSNocilla.sharedInstance().start() }
-        afterSuite  { LSNocilla.sharedInstance().stop() }
-        afterEach   { LSNocilla.sharedInstance().clearStubs() }
+        beforeEach { NetworkStub.clearAll() }
 
         let realNow = Siesta.now
         Siesta.now =
@@ -57,13 +54,13 @@ class ResourceSpecBase: SiestaSpec
 
         if envFlag("TestMultipleNetworkProviders")
             {
-            runSpecsWithNetworkingProvider("default URLSession",   networking: URLSessionConfiguration.default)
-            runSpecsWithNetworkingProvider("ephemeral URLSession", networking: URLSessionConfiguration.ephemeral)
+            runSpecsWithNetworkingProvider("default URLSession",   networking: NetworkStub.wrap(URLSessionConfiguration.default))
+            runSpecsWithNetworkingProvider("ephemeral URLSession", networking: NetworkStub.wrap(URLSessionConfiguration.ephemeral))
             runSpecsWithNetworkingProvider("threaded URLSession",  networking:
                 {
                 let backgroundQueue = OperationQueue()
                 return URLSession(
-                    configuration: URLSessionConfiguration.default,
+                    configuration: NetworkStub.wrap(URLSessionConfiguration.default),
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
@@ -85,7 +82,7 @@ class ResourceSpecBase: SiestaSpec
     private func runSpecsWithDefaultProvider()
         {
         runSpecsWithService
-            { Service(baseURL: self.baseURL) }
+            { Service(baseURL: self.baseURL, networking: NetworkStub.defaultConfiguration) }
         }
 
     private func runSpecsWithService(_ serviceBuilder: @escaping () -> Service)
@@ -156,7 +153,7 @@ class ResourceSpecBase: SiestaSpec
         // Embedding the spec name in the API’s URL makes it easier to track down unstubbed requests, which sometimes
         // don’t arrive until a following spec has already started.
 
-        return "https://" + QuickSpec.current.description
+        return "test://" + QuickSpec.current.description
             .replacing(regex: "_[A-Za-z]+Specswift_\\d+\\]$", with: "")
             .replacing(regex: "[^A-Za-z0-9_]+", with: ".")
             .replacing(regex: "^\\.+|\\.+$", with: "")
@@ -169,13 +166,13 @@ class ResourceSpecBase: SiestaSpec
 @discardableResult
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    return stubRequest(resource(), method)
+    stubRequest(resource(), method)
     }
 
 @discardableResult
 func stubRequest(_ resource: Resource, _ method: String) -> LSStubRequestDSL
     {
-    return stubRequest(method, resource.url.absoluteString as NSString)
+    stubRequest(method, resource.url.absoluteString as NSString)
     }
 
 func awaitNewData(_ req: Siesta.Request, initialState: RequestState = .inProgress)

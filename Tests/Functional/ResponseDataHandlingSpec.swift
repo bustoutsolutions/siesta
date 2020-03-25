@@ -9,7 +9,6 @@
 import Siesta
 import Quick
 import Nimble
-import Nocilla
 
 class ResponseDataHandlingSpec: ResourceSpecBase
     {
@@ -303,7 +302,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
         describe("standard transformers")
             {
-            let url = "https://pars.ing"
+            let url = "test://pars.ing"
 
             func checkStandardParsing(for service: Service, json: Bool, text: Bool, images: Bool)
                 {
@@ -326,26 +325,26 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             it("include JSON, text, and images by default")
                 {
                 checkStandardParsing(
-                    for: Service(baseURL: url),
+                    for: Service(baseURL: url, networking: NetworkStub.defaultConfiguration),
                     json: true, text: true, images: true)
                 }
 
             it("can be selectively disabled on Service creation")
                 {
                 checkStandardParsing(
-                    for: Service(baseURL: url, standardTransformers: [.text, .image]),
+                    for: Service(baseURL: url, standardTransformers: [.text, .image], networking: NetworkStub.defaultConfiguration),
                     json: false, text: true, images: true)
                 checkStandardParsing(
-                    for: Service(baseURL: url, standardTransformers: [.json]),
+                    for: Service(baseURL: url, standardTransformers: [.json], networking: NetworkStub.defaultConfiguration),
                     json: true, text: false, images: false)
                 checkStandardParsing(
-                    for: Service(baseURL: url, standardTransformers: []),
+                    for: Service(baseURL: url, standardTransformers: [], networking: NetworkStub.defaultConfiguration),
                     json: false, text: false, images: false)
                 }
 
             it("can be cleared and re-added in configuration")
                 {
-                let service = Service(baseURL: url)
+                let service = Service(baseURL: url, networking: NetworkStub.defaultConfiguration)
                 service.configure
                     {
                     $0.pipeline.clear()

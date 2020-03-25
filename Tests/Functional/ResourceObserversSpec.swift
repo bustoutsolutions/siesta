@@ -9,7 +9,6 @@
 import Siesta
 import Quick
 import Nimble
-import Nocilla
 
 class ResourceObserversSpec: ResourceSpecBase
     {

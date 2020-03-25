@@ -9,7 +9,6 @@
 import Siesta
 import Quick
 import Nimble
-import Nocilla
 
 class RequestSpec: ResourceSpecBase
     {
@@ -701,10 +700,6 @@ class RequestSpec: ResourceSpecBase
                     _ = reqStub.go()
                     awaitFailure(originalReq, initialState: .completed)
                     expectResult("custom", for: chainedReq, initialState: .completed)
-
-                    // For whatever reason, this spec is especially prone to hitting Nocilla’s
-                    // quirk of making cancelled requests go through anyway
-                    Thread.sleep(forTimeInterval: 0.05)
                     }
                 }
 

@@ -43,9 +43,9 @@
         resource = nil;
         });
 
-    beforeSuite(^{ [LSNocilla.sharedInstance start]; });
-    afterSuite( ^{ [LSNocilla.sharedInstance stop]; });
-    afterEach(  ^{ [LSNocilla.sharedInstance clearStubs]; });
+    beforeEach(^{ [LSNocilla.sharedInstance start]; });
+    afterEach( ^{ [LSNocilla.sharedInstance clearStubs]; });
+    afterEach( ^{ [LSNocilla.sharedInstance stop]; });
 
     it(@"handles resource paths", ^
         {
