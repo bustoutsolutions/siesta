@@ -38,11 +38,20 @@ final class NetworkStub: URLProtocol
             _ resource: @escaping () -> Resource,
             status: Int = 200)
         {
-        add(RequestStub(
-            matcher: RequestMatcher(
+        add(
+            matching: RequestPattern(
                 method: method.rawValue.uppercased(),
                 url: resource().url.absoluteString),
-            responseData: HTTPResponse(statusCode: status)))
+            returning: HTTPResponse(statusCode: status))
+        }
+
+    static func add(
+            matching matcher: RequestPattern,
+            returning stubResponse: NetworkStubResponse)
+        {
+        add(RequestStub(
+            matcher: matcher,
+            response: stubResponse))
         }
 
     static func add(_ stub: RequestStub)
@@ -100,14 +109,14 @@ final class NetworkStub: URLProtocol
 
         Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 1...1000), 2))
 
-        stub.responseData.send(to: self.client!, for: self, url: request.url!)
+        stub.response.send(to: self.client!, for: self, url: request.url!)
         }
 
     override func stopLoading()
         { }
     }
 
-struct RequestMatcher
+struct RequestPattern
     {
     var method: String
     var url: String
@@ -126,12 +135,12 @@ struct RequestMatcher
         }
     }
 
-protocol StubResponse
+protocol NetworkStubResponse
     {
     func send(to client: URLProtocolClient, for sender: URLProtocol, url: URL)
     }
 
-struct ErrorResponse: StubResponse
+struct ErrorResponse: NetworkStubResponse
     {
     var error: Error
 
@@ -141,7 +150,7 @@ struct ErrorResponse: StubResponse
         }
     }
 
-struct HTTPResponse: StubResponse
+struct HTTPResponse: NetworkStubResponse
     {
     var statusCode: Int
     var headers = [String:String]()
@@ -166,27 +175,27 @@ struct HTTPResponse: StubResponse
 
 class RequestStub
     {
-    var matcher: RequestMatcher
-    var responseData: StubResponse
+    var matcher: RequestPattern
+    var response: NetworkStubResponse
 
-    init(matcher: RequestMatcher, responseData: StubResponse)
+    init(matcher: RequestPattern, response: NetworkStubResponse)
         {
         self.matcher = matcher
-        self.responseData = responseData
+        self.response = response
         }
 
     let delayLatch = Latch(name: "delayed request")
 
     var description: String
-        { "\(matcher) → \(responseData)" }
+        { "\(matcher) → \(response)" }
     }
 
 @discardableResult
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
     let stub = RequestStub(
-        matcher: RequestMatcher(method: method, url: resource().url.absoluteString),
-        responseData: HTTPResponse(statusCode: 200))
+        matcher: RequestPattern(method: method, url: resource().url.absoluteString),
+        response: HTTPResponse(statusCode: 200))
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)
     }
@@ -216,15 +225,15 @@ class LSStubRequestDSL
 
     func andReturn(_ statusCode: Int) -> LSStubResponseDSL
         {
-        var response = stub.responseData as! HTTPResponse
+        var response = stub.response as! HTTPResponse
         response.statusCode = statusCode
-        stub.responseData = response
+        stub.response = response
         return LSStubResponseDSL(stub: stub)
         }
 
     func andFailWithError(_ error: Error)
         {
-        stub.responseData = ErrorResponse(error: error)
+        stub.response = ErrorResponse(error: error)
         }
     }
 
@@ -237,9 +246,9 @@ class LSStubResponseDSL
 
     func withHeader(_ key: String, _ value: String?) -> Self
         {
-        var response = stub.responseData as! HTTPResponse
+        var response = stub.response as! HTTPResponse
         response.headers[key] = value
-        stub.responseData = response
+        stub.response = response
         return self
         }
 
@@ -248,9 +257,9 @@ class LSStubResponseDSL
 
     func withBody(_ data: Data?) -> Self
         {
-        var response = stub.responseData as! HTTPResponse
+        var response = stub.response as! HTTPResponse
         response.body = data
-        stub.responseData = response
+        stub.response = response
         return self
         }
 
