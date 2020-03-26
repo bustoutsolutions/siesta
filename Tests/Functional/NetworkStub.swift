@@ -33,10 +33,12 @@ final class NetworkStub: URLProtocol
         return configuration
         }
 
+    @discardableResult
     static func add(
             _ method: RequestMethod,
             _ resource: @escaping () -> Resource,
             status: Int = 200)
+        -> RequestStub
         {
         add(
             method,
@@ -44,23 +46,27 @@ final class NetworkStub: URLProtocol
             returning: HTTPResponse(status: status))
         }
 
+    @discardableResult
     static func add(
             _ method: RequestMethod,
             _ resource: @escaping () -> Resource,
             returning response: NetworkStubResponse)
+        -> RequestStub
         {
         add(
             matching: RequestPattern(method, resource),
             returning: response)
         }
 
+    @discardableResult
     static func add(
             matching matcher: RequestPattern,
             returning stubResponse: NetworkStubResponse = HTTPResponse(status: 200))
+        -> RequestStub
         {
-        add(RequestStub(
-            matcher: matcher,
-            response: stubResponse))
+        let stub = RequestStub(matcher: matcher, response: stubResponse)
+        add(stub)
+        return stub
         }
 
     static func add(_ stub: RequestStub)
@@ -239,13 +245,24 @@ class RequestStub
     var matcher: RequestPattern
     var response: NetworkStubResponse
 
+    let delayLatch = Latch(name: "delayed request")
+
     init(matcher: RequestPattern, response: NetworkStubResponse)
         {
         self.matcher = matcher
         self.response = response
         }
 
-    let delayLatch = Latch(name: "delayed request")
+    func delay() -> Self
+        {
+        delayLatch.increment()
+        return self
+        }
+
+    func go()
+        {
+        delayLatch.decrement()
+        }
 
     var description: String
         { "\(matcher) → \(response)" }

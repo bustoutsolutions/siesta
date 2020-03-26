@@ -52,7 +52,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on cancellation")
                 {
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
                 expect(req.progress) == 1.0
@@ -279,7 +279,7 @@ class ProgressSpec: ResourceSpecBase
                 let expectation = QuickSpec.current.expectation(description: "recordProgressUntil")
                 var fulfilled = false
 
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load().onProgress
                     {
                     progressReports.append($0)

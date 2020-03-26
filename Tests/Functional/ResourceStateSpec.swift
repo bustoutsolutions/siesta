@@ -41,11 +41,13 @@ class ResourceStateSpec: ResourceSpecBase
             it("tracks concurrent requests")
                 {
                 @discardableResult
-                func stubDelayedAndRequest(_ ident: String) -> (LSStubResponseDSL, Request)
+                func stubDelayedAndRequest(_ ident: String) -> (RequestStub, Request)
                     {
-                    let reqStub = stubRequest(resource, "GET")
-                        .withHeader("Request-ident", ident)
-                        .andReturn(200)
+                    let reqStub =
+                        NetworkStub.add(
+                            matching: RequestPattern(
+                                .get, resource,
+                                headers: ["Request-ident": ident]))
                         .delay()
                     let req = resource().request(.get)
                         { $0.setValue(ident, forHTTPHeaderField: "Request-ident") }
@@ -289,7 +291,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
 
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
                 _ = reqStub.go()
@@ -356,8 +358,8 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("initiates a new request if a non-load request is in progress")
                 {
-                let postReqStub = stubRequest(resource, "POST").andReturn(200).delay(),
-                    loadReqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let postReqStub = NetworkStub.add(.post, resource).delay(),
+                    loadReqStub = NetworkStub.add(.get, resource).delay()
                 let postReq = resource().request(.post),
                     loadReq = resource().loadIfNeeded()
 
@@ -464,7 +466,7 @@ class ResourceStateSpec: ResourceSpecBase
 
         describe("cancelLoadIfUnobserved()")
             {
-            let reqStub = specVar { stubRequest(resource, "GET").andReturn(200).delay() }
+            let reqStub = specVar { NetworkStub.add(.get, resource).delay() }
             let req = specVar { resource().load() }
             var owner: AnyObject?
 
@@ -714,7 +716,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 resource().invalidate()
 
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
                 _ = reqStub.go()
@@ -769,9 +771,9 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 let reqStubs =
                     [
-                    stubRequest(resource, "GET").andReturn(200).delay(),
-                    stubRequest(resource, "PUT").andReturn(200).delay(),
-                    stubRequest(resource, "POST").andReturn(500).delay()
+                    NetworkStub.add(.get,  resource).delay(),
+                    NetworkStub.add(.put,  resource).delay(),
+                    NetworkStub.add(.post, resource).delay()
                     ]
                 let reqs =
                     [
@@ -799,7 +801,7 @@ class ResourceStateSpec: ResourceSpecBase
             it("cancels requests attached with load(using:) even if they came from another resource")
                 {
                 let otherResource = resource().relative("/second_cousin_twice_removed")
-                let stub = stubRequest({ otherResource }, "PUT").andReturn(200).delay()
+                let stub = NetworkStub.add(.put, { otherResource }).delay()
                 let otherResourceReq = otherResource.request(.put)
                 resource().load(using: otherResourceReq)
 

@@ -181,8 +181,8 @@ class ResourceObserversSpec: ResourceSpecBase
 
             it("receives cancel event")
                 {
-                // delay prevents race condition between cancel() and Nocilla
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                // delay prevents race condition between cancel() and network response
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 observer.expect(.requested)
                 observer.expect(.requestCancelled)
                     {
@@ -418,7 +418,7 @@ class ResourceObserversSpec: ResourceSpecBase
 
                 // Start request; observer should hear about it
 
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 observer().checkForUnfulfilledExpectations()
 

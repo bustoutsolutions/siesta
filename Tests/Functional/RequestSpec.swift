@@ -306,14 +306,14 @@ class RequestSpec: ResourceSpecBase
 
         it("can be cancelled")
             {
-            let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+            let reqStub = NetworkStub.add(.get, resource).delay()
             let req = resource().request(.get)
             req.onFailure
                 { expect($0.cause is RequestError.Cause.RequestCancelled) == true }
             req.onCompletion
                 { expect($0.response.isCancellation) == true }
             req.cancel()
-            _ = reqStub.go()
+            reqStub.go()
             awaitFailure(req, initialState: .completed)
             }
 
@@ -604,11 +604,14 @@ class RequestSpec: ResourceSpecBase
         describe("chained()")
             {
             @discardableResult
-            func stubText(_ body: String, method: String = "GET") -> LSStubResponseDSL
+            func stubText(_ body: String, method: RequestMethod = .get) -> RequestStub
                 {
-                return stubRequest(resource, method).andReturn(200)
-                    .withHeader("Content-Type", "text/plain")
-                    .withBody(body)
+                NetworkStub.add(
+                    method,
+                    resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "text/plain"],
+                        body: body))
                 }
 
             func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
@@ -645,7 +648,7 @@ class RequestSpec: ResourceSpecBase
             it("it can chain to a new request")
                 {
                 stubText("yo")
-                stubText("oy", method: "POST")
+                stubText("oy", method: .post)
                 let req = resource().request(.get)
                     .chained { _ in .passTo(resource().request(.post)) }
                 expectResult("oy", for: req)
@@ -757,7 +760,7 @@ class RequestSpec: ResourceSpecBase
                 it("reruns the chain’s logic afresh")
                     {
                     stubText("yo")
-                    stubText("oy", method: "PATCH")
+                    stubText("oy", method: .patch)
 
                     var responseCount = 0
                     let req = resource().request(.get).chained
@@ -778,7 +781,7 @@ class RequestSpec: ResourceSpecBase
                 it("does not rerun chained requests wrapped outside of the restart")
                     {
                     stubText("yo")
-                    stubText("oy", method: "PATCH")
+                    stubText("oy", method: .patch)
 
                     var req0Count = 0, req1Count = 0
                     let req0 = resource().request(.get).chained
