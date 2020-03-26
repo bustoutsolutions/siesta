@@ -28,7 +28,7 @@ class ResourceStateSpec: ResourceSpecBase
             {
             it("does not update the resource state")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().request(.get))
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
@@ -76,7 +76,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 expect(resource().isLoading) == false
 
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 let req = resource().load()
                 expect(resource().isLoading) == true
 
@@ -134,7 +134,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("defaults content type to raw binary")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().load())
 
                 // Although Apple's URLResponse.contentType defaults to text/plain,
@@ -157,7 +157,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("handles missing etag")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.etag).to(beNil())
@@ -170,6 +170,7 @@ class ResourceStateSpec: ResourceSpecBase
                     .withHeader("eTaG", "123 456 xyz")
                     .withHeader("Content-Type", "applicaiton/zoogle+plotz")
                     .withBody("zoogleplotz")
+
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
@@ -214,7 +215,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("handles subsequent 304 by keeping existing data")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(304)
+                    NetworkStub.add(.get, resource, status: 304)
                     awaitNotModified(resource().load())
 
                     expectDataToBeUnchanged()
@@ -255,7 +256,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 sendAndWaitForSuccessfulRequest()
 
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 awaitFailure(resource().load())
 
                 expectDataToBeUnchanged()
@@ -290,7 +291,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("generates error messages from HTTP status codes")
                 {
-                _ = stubRequest(resource, "GET").andReturn(404)
+                NetworkStub.add(.get, resource, status: 404)
                 awaitFailure(resource().load())
 
                 expect(resource().latestError?.userMessage) == "Not found"
@@ -303,7 +304,7 @@ class ResourceStateSpec: ResourceSpecBase
             {
             func expectToLoad(_ reqClosure: @autoclosure () -> Request?, returning loadReq: Request? = nil)
                 {
-                _ = stubRequest(resource, "GET").andReturn(200) // Stub first...
+                NetworkStub.add(.get, resource) // Stub first...
                 let reqReturned = reqClosure()                  // ...then allow loading
                 expect(resource().isLoading) == true
                 expect(reqReturned).notTo(beNil())
@@ -326,7 +327,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("returns the existing request if one is already in progress")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 let existingReq = resource().load()
                 expectToLoad(resource().loadIfNeeded(), returning: existingReq)
                 }
@@ -379,7 +380,7 @@ class ResourceStateSpec: ResourceSpecBase
                 beforeEach
                     {
                     setResourceTime(1000)
-                    _ = stubRequest(resource, "GET").andReturn(404)
+                    NetworkStub.add(.get, resource, status: 404)
                     awaitFailure(resource().load())
                     LSNocilla.sharedInstance().clearStubs()
                     }
@@ -555,7 +556,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("clears the latest error")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 
@@ -619,12 +620,12 @@ class ResourceStateSpec: ResourceSpecBase
             beforeEach
                 {
                 setResourceTime(dataTimestamp)
-                _ = stubRequest(resource, "GET")
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
 
                 setResourceTime(errorTimestamp)
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 awaitFailure(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
@@ -638,7 +639,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 resource().invalidate()
 
-                _ = stubRequest(resource, "GET")
+                NetworkStub.add(.get, resource)
                 let req = resource().loadIfNeeded()
                 expect(req).notTo(beNil())
                 awaitNewData(req!)
@@ -658,19 +659,19 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("if loadIfNeeded() succeeds")
                     {
-                    _ = stubRequest(resource, "GET")
+                    NetworkStub.add(.get, resource)
                     awaitNewData(resource().loadIfNeeded()!)
                     }
 
                 it("if loadIfNeeded() fails")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(500)
+                    NetworkStub.add(.get, resource, status: 500)
                     awaitFailure(resource().loadIfNeeded()!)
                     }
 
                 it("if load() completes")
                     {
-                    _ = stubRequest(resource, "GET")
+                    NetworkStub.add(.get, resource)
                     awaitNewData(resource().load())
                     }
 
@@ -715,7 +716,7 @@ class ResourceStateSpec: ResourceSpecBase
             {
             it("clears latestData")
                 {
-                _ = stubRequest(resource, "GET")
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().load())
                 expect(resource().latestData).notTo(beNil())
 
@@ -726,7 +727,7 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("clears latestError")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 awaitFailure(resource().load())
                 expect(resource().latestError).notTo(beNil())
 

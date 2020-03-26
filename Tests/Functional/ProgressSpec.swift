@@ -18,7 +18,7 @@ class ProgressSpec: ResourceSpecBase
             {
             it("on success")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 let req = resource().load()
                 awaitNewData(req)
                 expect(req.progress) == 1.0
@@ -33,7 +33,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on server error")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0

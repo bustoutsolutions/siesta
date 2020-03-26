@@ -125,7 +125,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("gives empty string on error")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(404)
+                    NetworkStub.add(.get, resource, status: 404)
                     expect(resource().text) == ""
                     }
                 }
@@ -240,7 +240,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("gives empty dict on error")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(500)
+                    NetworkStub.add(.get, resource, status: 500)
                     expect(resource().jsonDict as NSObject) == [:] as NSObject
                     }
                 }
@@ -377,7 +377,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 it("can transform errors")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(401)
+                    NetworkStub.add(.get, resource, status: 401)
                     awaitFailure(resource().load())
                     expect(resource().latestError?.userMessage) == "Unauthorized processed"
                     expect(transformer().callCount) == 1
@@ -388,7 +388,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     stubText("ahoy")
 
                     LSNocilla.sharedInstance().clearStubs()
-                    _ = stubRequest(resource, "GET").andReturn(304)
+                    NetworkStub.add(.get, resource, status: 304)
                     awaitNotModified(resource().load())
 
                     expect(resource().typedContent()) == "ahoy processed"

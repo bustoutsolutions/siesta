@@ -33,6 +33,17 @@ final class NetworkStub: URLProtocol
         return configuration
         }
 
+    static func add(
+            _ method: RequestMethod,
+            _ resource: @escaping () -> Resource,
+            status: Int = 200)
+        {
+        add(RequestStub(
+            method: method.rawValue.uppercased(),
+            url: resource().url.absoluteString,
+            status: status))
+        }
+
     static func add(_ stub: RequestStub)
         {
         synchronized
@@ -119,17 +130,18 @@ class RequestStub
     var method: String
     var url: String
 
-    init(method: String, url: String)
+    init(method: String, url: String, status: Int = 200)
         {
         self.method = method
         self.url = url
+        self.responseCode = status
         }
 
     var requestHeaders = [String:String]()
     var requestBody: Data?
 
     var responseError: Error?
-    var responseCode = 200
+    var responseCode: Int
     var responseHeaders = [String:String]()
     var responseBody: Data?
 

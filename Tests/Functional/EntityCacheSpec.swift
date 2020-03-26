@@ -209,7 +209,7 @@ class EntityCacheSpec: ResourceSpecBase
                 stubAndAwaitRequest(for: resource())
 
                 setResourceTime(2000)
-                _ = stubRequest(resource, "GET").andReturn(304)
+                NetworkStub.add(.get, resource, status: 304)
                 awaitNotModified(resource().load())
                 expect(testCache.entries[TestCacheKey(forTestResourceIn: testCache)]?.timestamp)
                     .toEventually(equal(2000))

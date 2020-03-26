@@ -18,13 +18,13 @@ class RequestSpec: ResourceSpecBase
             {
             it("initates a network call")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().request(.get))
                 }
 
             it("handles various HTTP methods")
                 {
-                _ = stubRequest(resource, "PATCH").andReturn(200)
+                NetworkStub.add(.patch, resource)
                 awaitNewData(resource().request(.patch))
                 }
 
@@ -32,7 +32,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 it("represents response without body as zero-length Data for \(method) → \(httpCode)")
                     {
-                    _ = stubRequest(resource, "HEAD").andReturn(200)
+                    NetworkStub.add(.head, resource)
                     let req = resource().request(.head)
                     awaitNewData(req)
                     req.onSuccess { expect($0.typedContent()) == Data() }
@@ -142,8 +142,8 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "GET").andReturn(200)
-                    _ = stubRequest(resource, "POST").andReturn(200)
+                    NetworkStub.add(.get, resource)
+                    NetworkStub.add(.post, resource)
                     awaitNewData(resource().load())
                     awaitNewData(resource().request(.post))
 
@@ -159,7 +159,7 @@ class RequestSpec: ResourceSpecBase
                             { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
-                    _ = stubRequest(resource, "GET").andReturn(200)
+                    NetworkStub.add(.get, resource)
                     awaitNewData(resource().load())
 
                     expect(successHookCalled) == true
@@ -280,7 +280,7 @@ class RequestSpec: ResourceSpecBase
                     it("runs the original request if it is deferred but used by a chain")
                         {
                         configureDeferredRequestChain(passToOriginalRequest: true)
-                        _ = stubRequest(resource, "GET").andReturn(200)
+                        NetworkStub.add(.get, resource)
                         awaitNewData(resource().load())
                         }
 
@@ -308,7 +308,7 @@ class RequestSpec: ResourceSpecBase
 
         it(".cancel() has no effect if it already succeeded")
             {
-            _ = stubRequest(resource, "GET").andReturn(200)
+            NetworkStub.add(.get, resource)
             let req = resource().request(.get)
             req.onCompletion
                 { expect($0.response.isCancellation) == false }

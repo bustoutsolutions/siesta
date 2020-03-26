@@ -69,7 +69,7 @@ class ServiceSpec: SiestaSpec
                     it("allows requests for absolute URLs")
                         {
                         let resource = bareService().resource(absoluteURL: "http://foo.bar")
-                        _ = stubRequest({ resource }, "GET").andReturn(200)
+                        NetworkStub.add(.get, { resource })
                         awaitNewData(resource.load())
                         }
                     }
