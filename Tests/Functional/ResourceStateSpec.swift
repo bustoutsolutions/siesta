@@ -203,9 +203,11 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("sends the etag with subsequent requests")
                     {
-                    _ = stubRequest(resource, "GET")
-                        .withHeader("If-None-Match", "123 456 xyz")
-                        .andReturn(304)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .get, resource,
+                            headers: ["If-None-Match": "123 456 xyz"]),
+                        returning: HTTPResponse(status: 304))
                     awaitNotModified(resource().load())
                     }
 

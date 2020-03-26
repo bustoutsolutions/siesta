@@ -50,15 +50,13 @@ final class NetworkStub: URLProtocol
             returning response: NetworkStubResponse)
         {
         add(
-            matching: RequestPattern(
-                method: method.rawValue.uppercased(),
-                url: resource().url.absoluteString),
+            matching: RequestPattern(method, resource),
             returning: response)
         }
 
     static func add(
             matching matcher: RequestPattern,
-            returning stubResponse: NetworkStubResponse)
+            returning stubResponse: NetworkStubResponse = HTTPResponse(status: 200))
         {
         add(RequestStub(
             matcher: matcher,
@@ -170,9 +168,20 @@ struct RequestPattern
     {
     var method: String
     var url: String
-    var headers = [String:String]()
+    var headers: [String:String?]
     var body: HTTPBodyConvertible?
 
+    init(
+            _ method: RequestMethod,
+            _ resource: () -> Resource,
+            headers: [String:String?] = [:],
+            body: HTTPBodyConvertible? = nil)
+        {
+        self.method = method.rawValue.uppercased()
+        self.url = resource().url.absoluteString
+        self.headers = headers
+        self.body = body
+        }
 
     func matches(_ request: URLRequest, withBody requestBody: Data?) -> Bool
         {
@@ -246,7 +255,7 @@ class RequestStub
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
     let stub = RequestStub(
-        matcher: RequestPattern(method: method, url: resource().url.absoluteString),
+        matcher: RequestPattern(RequestMethod(rawValue: method.lowercased())!, resource),
         response: HTTPResponse(status: 200))
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)

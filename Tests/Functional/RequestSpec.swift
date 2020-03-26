@@ -42,9 +42,10 @@ class RequestSpec: ResourceSpecBase
             it("sends headers from configuration")
                 {
                 service().configure { $0.headers["Zoogle"] = "frotz" }
-                _ = stubRequest(resource, "GET")
-                    .withHeader("Zoogle", "frotz")
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .get, resource,
+                        headers: ["Zoogle": "frotz"]))
                 awaitNewData(resource().request(.get))
                 }
 
@@ -65,7 +66,10 @@ class RequestSpec: ResourceSpecBase
                     for counter in ["malkovich", "malkovichmalkovich", "malkovichmalkovichmalkovich"]
                         {
                         LSNocilla.sharedInstance().clearStubs()
-                        _ = stubRequest(resource, "GET").withHeader("X-Malkoviches", counter).andReturn(200)
+                        NetworkStub.add(
+                            matching: RequestPattern(
+                                .get, resource,
+                                headers: ["X-Malkoviches": counter]))
                         awaitNewData(resource().request(.get))
                         }
                     }
@@ -86,10 +90,11 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "POST")
-                        .withHeader("Content-Length", "4")
-                        .withBody(Data([0, 1, 2, 42]))
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .post, resource,
+                            headers: ["Content-Length": "4"],
+                            body: Data([0, 1, 2, 42])))
                     awaitNewData(resource().request(.post, data: Data([0, 1, 2]), contentType: "foo/bar"))
                     }
 
@@ -117,10 +122,14 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "POST")
-                        .withHeader("Original-Method", "GET")
-                        .withHeader("Mutated-Method", "POST")
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .post, resource,
+                            headers:
+                                [
+                                "Original-Method": "GET",
+                                "Mutated-Method": "POST"
+                                ]))
                     awaitNewData(resource().request(.get))
                     expect(decorated) == 1
                     }
@@ -333,12 +342,14 @@ class RequestSpec: ResourceSpecBase
             func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
                 LSNocilla.sharedInstance().clearStubs()
-                _ = stubRequest(resource, "PATCH")
-                    .withBody("Is there an echo in here?")
-                    .withHeader("X-Flavor", flavorHeader)
-                    .andReturn(200)
-                    .withHeader("Content-Type", "text/plain")
-                    .withBody(answer)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .patch, resource,
+                        headers: ["X-Flavor": flavorHeader],
+                        body: "Is there an echo in here?"),
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "text/plain"],
+                        body: answer))
                 }
 
             func expectResonseText(_ request: Request, text: String)
@@ -452,22 +463,24 @@ class RequestSpec: ResourceSpecBase
             {
             it("handles raw data")
                 {
-                let nsdata = Data([0x00, 0xFF, 0x17, 0xCA])
+                let data = Data([0x00, 0xFF, 0x17, 0xCA])
 
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "application/monkey")
-                    .withBody(nsdata)
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "application/monkey"],
+                        body: data))
 
-                awaitNewData(resource().request(.post, data: nsdata, contentType: "application/monkey"))
+                awaitNewData(resource().request(.post, data: data, contentType: "application/monkey"))
                 }
 
             it("handles string data")
                 {
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody("Très bien!")
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "text/plain; charset=utf-8"],
+                        body: "Très bien!"))
 
                 awaitNewData(resource().request(.post, text: "Très bien!"))
                 }
@@ -486,10 +499,11 @@ class RequestSpec: ResourceSpecBase
 
             it("handles JSON data")
                 {
-                _ = stubRequest(resource, "PUT")
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .put, resource,
+                        headers: ["Content-Type": "application/json"],
+                        body: #"{"question":[[2,"be"],["not",2,"be"]]}"#))
 
                 awaitNewData(resource().request(.put, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
                 }
@@ -506,20 +520,22 @@ class RequestSpec: ResourceSpecBase
                 {
                 it("encodes parameters")
                     {
-                    _ = stubRequest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("brown=cow&foo=bar&how=now")
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .patch, resource,
+                            headers: ["Content-Type": "application/x-www-form-urlencoded"],
+                            body: "brown=cow&foo=bar&how=now"))
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
                     }
 
                 it("escapes unsafe characters")
                     {
-                    _ = stubRequest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .patch, resource,
+                            headers: ["Content-Type": "application/x-www-form-urlencoded"],
+                            body: "%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r"))
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
@@ -546,15 +562,21 @@ class RequestSpec: ResourceSpecBase
             it("overrides any Content-Type set in configuration headers")
                 {
                 service().configure { $0.headers["Content-Type"] = "frotzle/ooglatz" }
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "application/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "application/json"],
+                        body: #"{"foo":"bar"}"#))
                 awaitNewData(resource().request(.post, json: ["foo": "bar"]))
                 }
 
             it("lets ad hoc request mutation override the Content-Type")
                 {
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "person/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "person/json"],
+                        body: #"{"foo":"bar"}"#))
                 let req = resource().request(.post, json: ["foo": "bar"])
                     { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }
                 awaitNewData(req)
@@ -568,7 +590,11 @@ class RequestSpec: ResourceSpecBase
                         { $0.setValue("argonaut/json", forHTTPHeaderField: "Content-Type") }  // This one wins, even though...
                     }
 
-                _ = stubRequest(resource, "POST").withHeader("Content-Type", "argonaut/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "argonaut/json"],
+                        body: #"{"foo":"bar"}"#))
                 let req = resource().request(.post, json: ["foo": "bar"])                     // ...request(json:) sets it to "application/json"...
                     { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }        // ...and ad hoc mutation overrides that.
                 awaitNewData(req)
