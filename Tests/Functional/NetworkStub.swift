@@ -90,15 +90,17 @@ final class NetworkStub: URLProtocol
             defer
                 { Self.requestInitialization.decrement() }
 
+            let body = extractBody(from: request)
+
             let stubs = Self.stubs
-            guard let stub = stubs.first(where: { $0.matcher.matches(request) }) else
+            guard let stub = stubs.first(where: { $0.matcher.matches(request, withBody: body) }) else
                 {
                 fatalError(
                     """
                     Unstubbed network request:
                         \(request.httpMethod ?? "<nil method>") \(request.url?.absoluteString ?? "<nil URL>")
                         headers: \(request.allHTTPHeaderFields ?? [:])
-                        body: \(request.httpBody?.description ?? "nil")
+                        body: \(body?.description ?? "nil")
 
                     Available stubs:
                         \(stubs.map { $0.description }.joined(separator: "\n    "))
@@ -111,6 +113,26 @@ final class NetworkStub: URLProtocol
             URLProtocol.setProperty(stub, forKey: stubPropertyKey, in: mutableRequest)
             return mutableRequest as URLRequest
             }
+        }
+
+    private static func extractBody(from request: URLRequest) -> Data?
+        {
+        if let data = request.httpBody
+            { return data }
+        if let stream = request.httpBodyStream
+            {
+            // adapted from https://forums.swift.org/t/pitch-make-inputstream-and-outputstream-methods-safe-and-swifty/23726
+            var buffer = [UInt8](repeating: 0, count: 65536)
+
+            stream.open()
+            defer { stream.close() }
+
+            let bytesRead = stream.read(&buffer, maxLength: buffer.count)
+            if bytesRead < 0
+                { fatalError("Unable to ready HTTP body stream: \(stream.streamError?.localizedDescription ?? "unknown error")") }
+            return Data(buffer.prefix(bytesRead))
+            }
+        return nil
         }
 
     override func startLoading()
@@ -151,7 +173,8 @@ struct RequestPattern
     var headers = [String:String]()
     var body: HTTPBodyConvertible?
 
-    func matches(_ request: URLRequest) -> Bool
+
+    func matches(_ request: URLRequest, withBody requestBody: Data?) -> Bool
         {
         return request.httpMethod == method
             && request.url?.absoluteString == url
@@ -160,6 +183,7 @@ struct RequestPattern
                 key, value in
                 request.allHTTPHeaderFields?[key] == value
                 }
+            && body?.httpData == requestBody
         }
     }
 
