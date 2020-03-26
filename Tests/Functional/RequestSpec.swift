@@ -339,7 +339,7 @@ class RequestSpec: ResourceSpecBase
 
         describe("repeated()")
             {
-            func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
+            func stubRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
                 NetworkStub.clearAll()
                 NetworkStub.add(
@@ -363,44 +363,44 @@ class RequestSpec: ResourceSpecBase
                 QuickSpec.current.waitForExpectations(timeout: 1)
                 }
 
-            let oldRequest = specVar
+            let originalRequest = specVar
                 {
                 () -> Request in
-                stubRepeatedRequest()
+                stubRequest()
                 let req = resource().request(.patch, text: "Is there an echo in here?")
                 awaitNewData(req)
                 return req
                 }
 
-            let repeatedRequest = specVar { oldRequest().repeated() }
+            let repeatedRequest = specVar { originalRequest().repeated() }
 
             it("does not send the repeated request automatically")
                 {
-                _ = repeatedRequest()  // Nocilla will flag any request
+                _ = originalRequest()  // Wait for original go through
+                NetworkStub.clearAll() // Tell NetworkStub not to allow any more requests...
+                _ = repeatedRequest()  // ...so that a request here would cause an error
                 }
 
             it("sends a new network request on start()")
                 {
-                stubRepeatedRequest()
                 awaitNewData(repeatedRequest().start())
                 }
 
             it("leaves the old request’s result intact")
                 {
-                _ = oldRequest()
-                stubRepeatedRequest("OK, maybe.")
+                _ = originalRequest()
+                stubRequest("OK, maybe.")
                 awaitNewData(repeatedRequest().start())
 
-                expectResonseText(oldRequest(), text: "No.")        // still has old result
+                expectResonseText(originalRequest(), text: "No.")        // still has old result
                 expectResonseText(repeatedRequest(), text: "OK, maybe.") // has new result
                 }
 
             it("does not call the old request’s callbacks")
                 {
                 var oldRequestHookCalls = 0
-                oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
+                originalRequest().onCompletion { _ in oldRequestHookCalls += 1 }
 
-                stubRepeatedRequest()
                 awaitNewData(repeatedRequest().start())
 
                 expect(oldRequestHookCalls) == 1
@@ -412,18 +412,18 @@ class RequestSpec: ResourceSpecBase
                 service().configure
                     { $0.headers["X-Flavor"] = flavor }
 
-                _ = oldRequest()
+                _ = originalRequest()
 
                 flavor = "iced maple ginger chcocolate pasta swirl"
                 service().invalidateConfiguration()
 
-                stubRepeatedRequest(flavorHeader: flavor)
+                stubRequest(flavorHeader: flavor)
                 awaitNewData(repeatedRequest().start())
                 }
 
             it("repeats custom response mutation")
                 {
-                stubRepeatedRequest(flavorHeader: "mutant flavor 0")
+                stubRequest(flavorHeader: "mutant flavor 0")
 
                 var mutationCount = 0
                 let req = resource().request(.patch, text: "Is there an echo in here?")
@@ -436,7 +436,7 @@ class RequestSpec: ResourceSpecBase
 
                 awaitNewData(req)
 
-                stubRepeatedRequest(flavorHeader: "mutant flavor 1")
+                stubRequest(flavorHeader: "mutant flavor 1")
                 awaitNewData(req.repeated().start())
                 }
 
@@ -452,7 +452,7 @@ class RequestSpec: ResourceSpecBase
                         }
                     }
 
-                stubRepeatedRequest()
+                stubRequest()
                 awaitNewData(repeatedRequest().start())
 
                 expect(decorations) == 1
