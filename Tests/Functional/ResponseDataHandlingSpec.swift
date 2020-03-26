@@ -71,9 +71,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("treats illegal byte sequence for encoding as an error")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody(Data([0xD8]))
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "text/plain; charset=utf-8"],
+                        body: Data([0xD8])))
                 awaitFailure(resource().load())
 
                 let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
@@ -95,9 +97,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("transforms error responses")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
-                    .withHeader("Content-Type", "text/plain; charset=UTF-16")
-                    .withBody(Data([0xD8, 0x3D, 0xDC, 0xA3]))
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        status: 500,
+                        headers: ["Content-Type": "text/plain; charset=UTF-16"],
+                        body: Data([0xD8, 0x3D, 0xDC, 0xA3])))
                 awaitFailure(resource().load())
                 expect(resource().latestError?.text) == "💣"
                 }
@@ -174,9 +179,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 for atom in ["17", "\"foo\"", "null"]
                     {
-                    _ = stubRequest(resource, "GET").andReturn(200)
-                        .withHeader("Content-Type", "application/json")
-                        .withBody(atom)
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            headers: ["Content-Type": "application/json"],
+                            body: atom))
                     awaitFailure(resource().load())
 
                     expect(resource().latestError?.cause is RequestError.Cause.JSONResponseIsNotDictionaryOrArray) == true
@@ -193,9 +200,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
                 func expectJson<T: Equatable>(_ atom: String, toParseAs expectedValue: T)
                     {
-                    _ = stubRequest(resource, "GET").andReturn(200)
-                        .withHeader("Content-Type", "application/json")
-                        .withBody(atom)
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            headers: ["Content-Type": "application/json"],
+                            body: atom))
                     awaitNewData(resource().load())
                     expect(resource().latestData?.content as? T) == expectedValue
                     }
@@ -206,9 +215,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("transforms error responses")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{ \"error\": \"pigeon drove bus\" }")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        status: 500,
+                        headers: ["Content-Type": "application/json"],
+                        body: "{ \"error\": \"pigeon drove bus\" }"))
                 awaitFailure(resource().load())
                 expect(resource().latestError?.jsonDict as? [String:String])
                      == ["error": "pigeon drove bus"]
@@ -216,9 +228,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("preserves root error if error response is unparsable")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{ malformed JSON[[{{#$!@")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        status: 500,
+                        headers: ["Content-Type": "application/json"],
+                        body: "{ malformed JSON[[{{#$!@"))
                 awaitFailure(resource().load())
                 expect(resource().latestError?.userMessage) == "Internal server error"
                 expect(resource().latestError?.entity?.content as? Data).notTo(beNil())
@@ -249,9 +264,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 it("gives JSON data")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(200)
-                        .withHeader("Content-Type", "application/json")
-                        .withBody("[1,\"two\"]")
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            headers: ["Content-Type": "application/json"],
+                            body: "[1,\"two\"]"))
                     awaitNewData(resource().load())
                     expect(resource().jsonArray as NSObject) == [1,"two"] as NSObject
                     }
@@ -278,10 +295,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             {
             it("parses images")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", "image/gif")
-                    .withBody(Data(
-                        base64Encoded: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=")!)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "image/gif"],
+                        body: Data(base64Encoded: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=")!))
                 awaitNewData(resource().load())
                 let image: Image? = resource().typedContent()
                 expect(image).notTo(beNil())
@@ -290,9 +308,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
 
             it("gives an error for unparsable images")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-Type", "image/gif")
-                    .withBody("Ceci n’est pas une image")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "image/gif"],
+                        body: "Ceci n’est pas une image"))
                 awaitFailure(resource().load())
 
                 expect(resource().latestError?.cause is RequestError.Cause.UnparsableImage) == true
@@ -308,9 +328,11 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 func stubMalformedResponse(contentType: String, expectSuccess: Bool)
                     {
                     let resource = service.resource(contentType)
-                    _ = stubRequest({ resource }, "GET").andReturn(200)
-                        .withHeader("Content-Type", contentType)
-                        .withBody(Data([0xD8]))
+                    NetworkStub.add(
+                        .get, { resource },
+                        returning: HTTPResponse(
+                            headers: ["Content-Type": contentType],
+                            body: Data([0xD8])))
                     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
                     awaitRequest(resource.load(), .inProgress)
                     expect(resource.latestData?.content is Data) == expectSuccess
@@ -421,9 +443,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 it("leaves errors untouched by default")
                     {
                     configureModelTransformer()
-                    _ = stubRequest(resource, "GET").andReturn(500)
-                        .withHeader("Content-Type", "text/plain")
-                        .withBody("I am not a model")
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            status: 500,
+                            headers: ["Content-Type": "text/plain"],
+                            body: "I am not a model"))
                     awaitFailure(resource().load())
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError?.text) == "I am not a model"
@@ -433,9 +458,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     service().configureTransformer("**", transformErrors: true)
                         { TestModel(name: $0.content) }
-                    _ = stubRequest(resource, "GET").andReturn(500)
-                        .withHeader("Content-Type", "text/plain")
-                        .withBody("Fred T. Error")
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            status: 500,
+                            headers: ["Content-Type": "text/plain"],
+                            body: "Fred T. Error"))
                     awaitFailure(resource().load())
                     let model: TestModel? = resource().latestError?.typedContent()
                     expect(model?.name) == "Fred T. Error"
@@ -539,9 +567,12 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 @discardableResult
                 func stubTextRequest(_ string: String, method: RequestMethod) -> Entity<Any>
                     {
-                    _ = stubRequest(resource, method.rawValue.uppercased()).andReturn(200)
-                        .withHeader("Content-Type", "text/plain")
-                        .withBody(string)
+                    NetworkStub.add(
+                        method,
+                        resource,
+                        returning: HTTPResponse(
+                            headers: ["Content-Type": "text/plain"],
+                            body: string))
 
                     var result: Entity<Any>?
                     let req = resource().request(method)

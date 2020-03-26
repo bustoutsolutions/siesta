@@ -86,8 +86,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("stores the response data")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withBody("eep eep")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(body: "eep eep"))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData).notTo(beNil())
@@ -96,8 +97,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("stores the content type")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("cOnTeNt-TyPe", "text/monkey")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["cOnTeNt-TyPe": "text/monkey"]))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.contentType) == "text/monkey"
@@ -105,8 +107,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("extracts the charset if present")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-type", "text/monkey; charset=utf-8")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/monkey; charset=utf-8"]))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.charset) == "utf-8"
@@ -114,8 +117,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("includes the charset in the content type")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-type", "text/monkey; charset=utf-8")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/monkey; charset=utf-8"]))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.contentType) == "text/monkey; charset=utf-8"
@@ -124,8 +128,9 @@ class ResourceStateSpec: ResourceSpecBase
             it("parses the charset")
                 {
                 let monkeyType = "text/monkey; body=fuzzy; charset=euc-jp; arms=long"
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Content-type", monkeyType)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": monkeyType]))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.contentType) == monkeyType
@@ -146,8 +151,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("stores headers")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
-                    .withHeader("Personal-Disposition", "Quirky")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Personal-Disposition": "Quirky"]))
                 awaitNewData(resource().load())
 
                 expect(resource().latestData?.header(forKey: "Personal-Disposition")) == "Quirky"
@@ -594,7 +600,9 @@ class ResourceStateSpec: ResourceSpecBase
             it("updates latestData’s timestamp")
                 {
                 setResourceTime(1000)
-                _ = stubRequest(resource, "GET").andReturn(200).withBody("hello")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(body: "hello"))
                 awaitNewData(resource().load())
 
                 setResourceTime(2000)

@@ -36,16 +36,24 @@ final class NetworkStub: URLProtocol
     static func add(
             _ method: RequestMethod,
             _ resource: @escaping () -> Resource,
-            status: Int = 200,
-            responseBody: HTTPBodyConvertible? = nil)
+            status: Int = 200)
+        {
+        add(
+            method,
+            resource,
+            returning: HTTPResponse(status: status))
+        }
+
+    static func add(
+            _ method: RequestMethod,
+            _ resource: @escaping () -> Resource,
+            returning response: NetworkStubResponse)
         {
         add(
             matching: RequestPattern(
                 method: method.rawValue.uppercased(),
                 url: resource().url.absoluteString),
-            returning: HTTPResponse(
-                statusCode: status,
-                body: responseBody))
+            returning: response)
         }
 
     static func add(
@@ -172,7 +180,7 @@ struct ErrorResponse: NetworkStubResponse
 
 struct HTTPResponse: NetworkStubResponse
     {
-    var statusCode: Int
+    var status = 200
     var headers = [String:String]()
     var body: HTTPBodyConvertible?
 
@@ -180,7 +188,7 @@ struct HTTPResponse: NetworkStubResponse
         {
         let response = HTTPURLResponse(
             url: url,
-            statusCode: statusCode,
+            statusCode: status,
             httpVersion: "1.1",
             headerFields: headers)!
 
@@ -215,7 +223,7 @@ func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestD
     {
     let stub = RequestStub(
         matcher: RequestPattern(method: method, url: resource().url.absoluteString),
-        response: HTTPResponse(statusCode: 200))
+        response: HTTPResponse(status: 200))
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)
     }
@@ -240,10 +248,10 @@ class LSStubRequestDSL
         return self
         }
 
-    func andReturn(_ statusCode: Int) -> LSStubResponseDSL
+    func andReturn(_ status: Int) -> LSStubResponseDSL
         {
         var response = stub.response as! HTTPResponse
-        response.statusCode = statusCode
+        response.status = status
         stub.response = response
         return LSStubResponseDSL(stub: stub)
         }

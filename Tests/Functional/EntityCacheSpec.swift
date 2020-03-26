@@ -73,7 +73,9 @@ class EntityCacheSpec: ResourceSpecBase
 
                 func loadIfNeededAndRecordEvents(expectingContent content: String)
                     {
-                    _ = stubRequest(resource, "GET").andReturn(200).withBody("net")
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(body: "net"))
                     resource().addObserver(eventRecorder())
                     let requests = (1...callCount).map
                         {
