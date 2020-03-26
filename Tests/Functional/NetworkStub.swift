@@ -42,7 +42,7 @@ final class NetworkStub: URLProtocol
             matcher: RequestMatcher(
                 method: method.rawValue.uppercased(),
                 url: resource().url.absoluteString),
-            status: status))
+            responseData: HTTPResponse(statusCode: status)))
         }
 
     static func add(_ stub: RequestStub)
@@ -98,28 +98,9 @@ final class NetworkStub: URLProtocol
         let stub = URLProtocol.property(forKey: stubPropertyKey, in: request) as! RequestStub
         stub.delayLatch.await()
 
-        let client = self.client!
+        Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 1...1000), 2))
 
-        if let error = stub.responseError
-            {
-            client.urlProtocol(self, didFailWithError: error)
-            return
-            }
-        else
-            {
-            Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 1...1000), 2))
-
-            let response = HTTPURLResponse(
-                url: request.url!,
-                statusCode: stub.responseCode,
-                httpVersion: "1.1",
-                headerFields: stub.responseHeaders)!
-            client.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-            if let data = stub.responseBody
-                { client.urlProtocol(self, didLoad: data) }
-            }
-
-        client.urlProtocolDidFinishLoading(self)
+        stub.responseData.send(to: self.client!, for: self, url: request.url!)
         }
 
     override func stopLoading()
@@ -145,31 +126,67 @@ struct RequestMatcher
         }
     }
 
+protocol StubResponse
+    {
+    func send(to client: URLProtocolClient, for sender: URLProtocol, url: URL)
+    }
+
+struct ErrorResponse: StubResponse
+    {
+    var error: Error
+
+    func send(to client: URLProtocolClient, for sender: URLProtocol, url: URL)
+        {
+        client.urlProtocol(sender, didFailWithError: error)
+        }
+    }
+
+struct HTTPResponse: StubResponse
+    {
+    var statusCode: Int
+    var headers = [String:String]()
+    var body: Data?
+
+    func send(to client: URLProtocolClient, for sender: URLProtocol, url: URL)
+        {
+        let response = HTTPURLResponse(
+            url: url,
+            statusCode: statusCode,
+            httpVersion: "1.1",
+            headerFields: headers)!
+
+        client.urlProtocol(sender, didReceive: response, cacheStoragePolicy: .notAllowed)
+
+        if let bodyData = body
+            { client.urlProtocol(sender, didLoad: bodyData) }
+
+        client.urlProtocolDidFinishLoading(sender) // TODO: Should error do this as well?
+        }
+    }
+
 class RequestStub
     {
     var matcher: RequestMatcher
+    var responseData: StubResponse
 
-    init(matcher: RequestMatcher, status: Int = 200)
+    init(matcher: RequestMatcher, responseData: StubResponse)
         {
         self.matcher = matcher
-        self.responseCode = status
+        self.responseData = responseData
         }
-
-    var responseError: Error?
-    var responseCode: Int
-    var responseHeaders = [String:String]()
-    var responseBody: Data?
 
     let delayLatch = Latch(name: "delayed request")
 
     var description: String
-        { "\(matcher) → \(responseCode)" }
+        { "\(matcher) → \(responseData)" }
     }
 
 @discardableResult
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    let stub = RequestStub(matcher: RequestMatcher(method: method, url: resource().url.absoluteString))
+    let stub = RequestStub(
+        matcher: RequestMatcher(method: method, url: resource().url.absoluteString),
+        responseData: HTTPResponse(statusCode: 200))
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)
     }
@@ -199,13 +216,15 @@ class LSStubRequestDSL
 
     func andReturn(_ statusCode: Int) -> LSStubResponseDSL
         {
-        stub.responseCode = statusCode
+        var response = stub.responseData as! HTTPResponse
+        response.statusCode = statusCode
+        stub.responseData = response
         return LSStubResponseDSL(stub: stub)
         }
 
     func andFailWithError(_ error: Error)
         {
-        stub.responseError = error
+        stub.responseData = ErrorResponse(error: error)
         }
     }
 
@@ -218,7 +237,9 @@ class LSStubResponseDSL
 
     func withHeader(_ key: String, _ value: String?) -> Self
         {
-        stub.responseHeaders[key] = value
+        var response = stub.responseData as! HTTPResponse
+        response.headers[key] = value
+        stub.responseData = response
         return self
         }
 
@@ -227,7 +248,9 @@ class LSStubResponseDSL
 
     func withBody(_ data: Data?) -> Self
         {
-        stub.responseBody = data
+        var response = stub.responseData as! HTTPResponse
+        response.body = data
+        stub.responseData = response
         return self
         }
 
