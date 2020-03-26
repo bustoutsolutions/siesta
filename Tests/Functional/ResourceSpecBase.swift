@@ -161,19 +161,7 @@ class ResourceSpecBase: SiestaSpec
     }
 
 
-// MARK: - Request stubbing
-
-@discardableResult
-func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
-    {
-    stubRequest(resource(), method)
-    }
-
-@discardableResult
-func stubRequest(_ resource: Resource, _ method: String) -> LSStubRequestDSL
-    {
-    stubRequest(method, resource.url.absoluteString)
-    }
+// MARK: - Awaiting requests
 
 func awaitNewData(_ req: Siesta.Request, initialState: RequestState = .inProgress)
     {
@@ -247,7 +235,7 @@ private func pollUnderlyingCompletion(_ req: Siesta.Request, expectation: XCTest
 
 func stubAndAwaitRequest(for resource: Resource, expectSuccess: Bool = true)
     {
-    _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕")
+    _ = stubRequest({ resource }, "GET").andReturn(200).withBody("🍕")
     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
     awaitRequest(resource.load(), .inProgress)
     }

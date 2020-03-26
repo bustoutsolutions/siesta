@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Siesta
 
 private let stubPropertyKey = "\(NetworkStub.self).stub"
 
@@ -149,10 +150,10 @@ class RequestStub
         { "\(method) \(url) requestHeaders=\(requestHeaders) body=\(requestBody?.description ?? "<any>")" }
     }
 
-
-func stubRequest(_ method: String, _ url: String) -> LSStubRequestDSL
+@discardableResult
+func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    let stub = RequestStub(method: method, url: url)
+    let stub = RequestStub(method: method, url: resource().url.absoluteString)
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)
     }

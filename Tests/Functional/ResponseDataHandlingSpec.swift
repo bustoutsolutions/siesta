@@ -308,7 +308,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 func stubMalformedResponse(contentType: String, expectSuccess: Bool)
                     {
                     let resource = service.resource(contentType)
-                    _ = stubRequest(resource, "GET").andReturn(200)
+                    _ = stubRequest({ resource }, "GET").andReturn(200)
                         .withHeader("Content-Type", contentType)
                         .withBody(Data([0xD8]))
                     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
