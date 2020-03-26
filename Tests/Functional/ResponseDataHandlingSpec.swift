@@ -16,14 +16,18 @@ class ResponseDataHandlingSpec: ResourceSpecBase
         {
         func stubText(
                 _ string: String? = "zwobble",
-                method: String = "GET",
                 contentType: String = "text/plain",
                 expectSuccess: Bool = true)
             {
-            _ = stubRequest(resource, method).andReturn(200)
-                .withHeader("Content-Type", contentType)
-                .withHeader("X-Custom-Header", "Sprotzle")
-                .withBody(string)
+            NetworkStub.add(
+                .get, resource,
+                returning: HTTPResponse(
+                    headers:
+                        [
+                        "Content-Type": contentType,
+                        "X-Custom-Header": "Sprotzle"
+                        ],
+                    body: string))
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), .inProgress)
             }

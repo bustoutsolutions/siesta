@@ -251,9 +251,11 @@ class RequestSpec: ResourceSpecBase
                                 }
                             }
 
-                        _ = stubRequest(resource, "GET").andReturn(200)
-                            .withHeader("Content-Type", "text/plain")
-                            .withBody("ducks")
+                        NetworkStub.add(
+                            .get, resource,
+                            returning: HTTPResponse(
+                                headers: ["Content-Type": "text/plain"],
+                                body: "ducks"))
                         awaitNewData(resource().load())
                         expect(resource().text) == "ducks redux"
                         }

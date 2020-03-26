@@ -171,11 +171,15 @@ class ResourceStateSpec: ResourceSpecBase
 
             func sendAndWaitForSuccessfulRequest()
                 {
-                _ = stubRequest(resource, "GET")
-                    .andReturn(200)
-                    .withHeader("eTaG", "123 456 xyz")
-                    .withHeader("Content-Type", "applicaiton/zoogle+plotz")
-                    .withBody("zoogleplotz")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers:
+                            [
+                            "eTaG": "123 456 xyz",
+                            "Content-Type": "applicaiton/zoogle+plotz"
+                            ],
+                        body: "zoogleplotz"))
 
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
@@ -207,11 +211,15 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("handles subsequent 200 by replacing data")
                     {
-                    _ = stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("eTaG", "ABC DEF 789")
-                        .withHeader("Content-Type", "applicaiton/ploogle+zotz")
-                        .withBody("plooglezotz")
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(
+                            headers:
+                                [
+                                "eTaG": "ABC DEF 789",
+                                "Content-Type": "applicaiton/ploogle+zotz"
+                                ],
+                            body: "plooglezotz"))
                     awaitNewData(resource().load())
 
                     expect(dataAsString(resource().latestData?.content)) == "plooglezotz"
@@ -256,7 +264,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 it("treats HTTP \(statusCode) as an error")
                     {
-                    _ = stubRequest(resource, "GET").andReturn(statusCode)
+                    NetworkStub.add(.get, resource, status: statusCode)
                     awaitFailure(resource().load())
 
                     expect(resource().latestData).to(beNil())
@@ -424,10 +432,11 @@ class ResourceStateSpec: ResourceSpecBase
 
             beforeEach
                 {
-                _ = stubRequest(resource, "POST")
-                    .andReturn(200)
-                    .withHeader("Content-type", "text/plain")
-                    .withBody("Posted!")
+                NetworkStub.add(
+                    .post, resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-type": "text/plain"],
+                        body: "Posted!"))
                 }
 
             it("updates resource state")
@@ -589,11 +598,15 @@ class ResourceStateSpec: ResourceSpecBase
             {
             it("updates latestData’s content without altering headers")
                 {
-                _ = stubRequest(resource, "GET")
-                    .andReturn(200)
-                    .withHeader("Content-type", "food/pasta")
-                    .withHeader("Sauce-disposition", "garlic")
-                    .withBody("linguine")
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers:
+                            [
+                            "Content-type": "food/pasta",
+                            "Sauce-disposition": "garlic"
+                            ],
+                        body: "linguine"))
 
                 awaitNewData(resource().load())
 
