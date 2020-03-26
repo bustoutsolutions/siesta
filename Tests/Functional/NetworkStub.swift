@@ -36,13 +36,16 @@ final class NetworkStub: URLProtocol
     static func add(
             _ method: RequestMethod,
             _ resource: @escaping () -> Resource,
-            status: Int = 200)
+            status: Int = 200,
+            responseBody: HTTPBodyConvertible? = nil)
         {
         add(
             matching: RequestPattern(
                 method: method.rawValue.uppercased(),
                 url: resource().url.absoluteString),
-            returning: HTTPResponse(statusCode: status))
+            returning: HTTPResponse(
+                statusCode: status,
+                body: responseBody))
         }
 
     static func add(
@@ -116,12 +119,29 @@ final class NetworkStub: URLProtocol
         { }
     }
 
+protocol HTTPBodyConvertible
+    {
+    var httpData: Data { get }
+    }
+
+extension Data: HTTPBodyConvertible
+    {
+    var httpData: Data
+        { self }
+    }
+
+extension String: HTTPBodyConvertible
+    {
+    var httpData: Data
+        { data(using: .utf8)! }
+    }
+
 struct RequestPattern
     {
     var method: String
     var url: String
     var headers = [String:String]()
-    var body: Data?
+    var body: HTTPBodyConvertible?
 
     func matches(_ request: URLRequest) -> Bool
         {
@@ -154,7 +174,7 @@ struct HTTPResponse: NetworkStubResponse
     {
     var statusCode: Int
     var headers = [String:String]()
-    var body: Data?
+    var body: HTTPBodyConvertible?
 
     func send(to client: URLProtocolClient, for sender: URLProtocol, url: URL)
         {
@@ -166,7 +186,7 @@ struct HTTPResponse: NetworkStubResponse
 
         client.urlProtocol(sender, didReceive: response, cacheStoragePolicy: .notAllowed)
 
-        if let bodyData = body
+        if let bodyData = body?.httpData
             { client.urlProtocol(sender, didLoad: bodyData) }
 
         client.urlProtocolDidFinishLoading(sender) // TODO: Should error do this as well?
@@ -214,10 +234,7 @@ class LSStubRequestDSL
         return self
         }
 
-    func withBody(_ string: String) -> Self
-        { withBody(string.data(using: .utf8)!) }
-
-    func withBody(_ data: Data) -> Self
+    func withBody(_ data: HTTPBodyConvertible) -> Self
         {
         stub.matcher.body = data
         return self
@@ -252,10 +269,7 @@ class LSStubResponseDSL
         return self
         }
 
-    func withBody(_ string: String?) -> Self
-        { withBody(string?.data(using: .utf8)!) }
-
-    func withBody(_ data: Data?) -> Self
+    func withBody(_ data: HTTPBodyConvertible?) -> Self
         {
         var response = stub.response as! HTTPResponse
         response.body = data
