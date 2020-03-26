@@ -37,12 +37,6 @@ class ResourceSpecBase: SiestaSpec
         {
         super.spec()
 
-        func envFlag(_ key: String) -> Bool
-            {
-            let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
-            return value == "1" || value == "true"
-            }
-
         beforeEach { NetworkStub.clearAll() }
 
         let realNow = Siesta.now
@@ -52,7 +46,7 @@ class ResourceSpecBase: SiestaSpec
             }
         afterEach { fakeNow = nil }
 
-        if envFlag("TestMultipleNetworkProviders")
+        if SiestaSpec.envFlag("TestMultipleNetworkProviders")
             {
             runSpecsWithNetworkingProvider("default URLSession",   networking: NetworkStub.wrap(URLSessionConfiguration.default))
             runSpecsWithNetworkingProvider("ephemeral URLSession", networking: NetworkStub.wrap(URLSessionConfiguration.ephemeral))

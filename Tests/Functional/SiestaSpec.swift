@@ -15,6 +15,12 @@ private var activeSuites = 0
 
 class SiestaSpec: QuickSpec
     {
+    static func envFlag(_ key: String) -> Bool
+        {
+        let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
+        return value == "1" || value == "true"
+        }
+
     override func spec()
         {
         beforeSuite

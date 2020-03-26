@@ -134,7 +134,8 @@ final class NetworkStub: URLProtocol
         let stub = URLProtocol.property(forKey: stubPropertyKey, in: request) as! RequestStub
         stub.awaitPermissionToGo()
 
-        Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 1...1000), 2))
+        if SiestaSpec.envFlag("RandomTimeDelayInNetworkStubs")
+            { Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 5...100), 2)) }
 
         stub.response.send(to: self.client!, for: self, url: request.url!)
         }
