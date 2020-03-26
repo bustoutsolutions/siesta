@@ -9,19 +9,17 @@
 import Foundation
 import Siesta
 
-private let stubPropertyKey = "\(NetworkStub.self).stub"
-
-final class NetworkStub: URLProtocol
+final class NetworkStub
     {
-    private static var stubs = [RequestStub]()
-    private static var requestInitialization = Latch(name: "initialization of requests")
+    private static var _stubs = [RequestStub]()
+    private static let stubsAccessQueue = DispatchQueue(label: "NetworkStub.stubs access")
 
     static var defaultConfiguration: URLSessionConfiguration
         { wrap(URLSessionConfiguration.ephemeral) }
 
     static func wrap(_ configuration: URLSessionConfiguration) -> URLSessionConfiguration
         {
-        configuration.protocolClasses = [Self.self]
+        configuration.protocolClasses = [StubbedNetworkProtocol.self]
         return configuration
         }
 
@@ -61,18 +59,43 @@ final class NetworkStub: URLProtocol
         return stub
         }
 
-    static func add(_ stub: RequestStub)
+    fileprivate static var stubs: [RequestStub]
         {
-        synchronized
-            { stubs.insert(stub, at: 0) }
+        stubsAccessQueue.sync { _stubs }
+        }
+
+    private static func add(_ stub: RequestStub)
+        {
+        stubsAccessQueue.sync
+            { _stubs.insert(stub, at: 0) }
         }
 
     static func clearAll()
         {
-        Self.requestInitialization.await
+        StubbedNetworkProtocol.afterPendingRequestsStubbed
             {
-            synchronized { stubs = [] }
+            stubsAccessQueue.sync
+                { _stubs = [] }
             }
+        }
+
+    static func synchronized<T>(_ action: () -> T) -> T
+        {
+        objc_sync_enter(NetworkStub.self)
+        defer { objc_sync_exit(NetworkStub.self) }
+        return action()
+        }
+    }
+
+private final class StubbedNetworkProtocol: URLProtocol
+    {
+    private static let stubPropertyKey = "\(NetworkStub.self).stub"
+
+    private static var requestInitialization = Latch(name: "initialization of requests")
+
+    static func afterPendingRequestsStubbed(perform action: () -> Void)
+        {
+        Self.requestInitialization.await(whileLocked: action)
         }
 
     override class func canInit(with request: URLRequest) -> Bool
@@ -87,7 +110,7 @@ final class NetworkStub: URLProtocol
 
         let body = extractBody(from: request)
 
-        let stubs = synchronized { Self.stubs }
+        let stubs = NetworkStub.stubs
         guard let stub = stubs.first(where: { $0.matcher.matches(request, withBody: body) }) else
             {
             fatalError(
@@ -131,7 +154,7 @@ final class NetworkStub: URLProtocol
 
     override func startLoading()
         {
-        let stub = URLProtocol.property(forKey: stubPropertyKey, in: request) as! RequestStub
+        let stub = URLProtocol.property(forKey: Self.stubPropertyKey, in: request) as! RequestStub
         stub.awaitPermissionToGo()
 
         if SiestaSpec.envFlag("RandomTimeDelayInNetworkStubs")
@@ -142,13 +165,6 @@ final class NetworkStub: URLProtocol
 
     override func stopLoading()
         { }
-
-    static func synchronized<T>(_ action: () -> T) -> T
-        {
-        objc_sync_enter(NetworkStub.self)
-        defer { objc_sync_exit(NetworkStub.self) }
-        return action()
-        }
     }
 
 struct RequestStub
