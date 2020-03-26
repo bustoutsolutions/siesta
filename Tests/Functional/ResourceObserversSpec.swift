@@ -159,7 +159,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 observer.expect(.requested)
                 observer.expect(.newData(.network))
                 awaitNewData(resource().load())
-                LSNocilla.sharedInstance().clearStubs()
+                NetworkStub.clearAll()
 
                 NetworkStub.add(.get, resource, status: 304)
                 observer.expect(.requested)

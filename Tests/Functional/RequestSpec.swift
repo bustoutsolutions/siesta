@@ -65,7 +65,7 @@ class RequestSpec: ResourceSpecBase
 
                     for counter in ["malkovich", "malkovichmalkovich", "malkovichmalkovichmalkovich"]
                         {
-                        LSNocilla.sharedInstance().clearStubs()
+                        NetworkStub.clearAll()
                         NetworkStub.add(
                             matching: RequestPattern(
                                 .get, resource,
@@ -341,7 +341,7 @@ class RequestSpec: ResourceSpecBase
             {
             func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
-                LSNocilla.sharedInstance().clearStubs()
+                NetworkStub.clearAll()
                 NetworkStub.add(
                     matching: RequestPattern(
                         .patch, resource,
@@ -661,7 +661,7 @@ class RequestSpec: ResourceSpecBase
                 let chainedReq = originalReq.chained
                     {
                     _ in
-                    LSNocilla.sharedInstance().clearStubs()
+                    NetworkStub.clearAll()
                     stubText("yoyo")
                     return .passTo(originalReq.repeated())
                     }

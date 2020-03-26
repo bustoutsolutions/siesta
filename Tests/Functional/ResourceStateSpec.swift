@@ -184,7 +184,7 @@ class ResourceStateSpec: ResourceSpecBase
                         body: "zoogleplotz"))
 
                 awaitNewData(resource().load())
-                LSNocilla.sharedInstance().clearStubs()
+                NetworkStub.clearAll()
                 }
 
             func expectDataToBeUnchanged()
@@ -406,7 +406,7 @@ class ResourceStateSpec: ResourceSpecBase
                     setResourceTime(1000)
                     NetworkStub.add(.get, resource, status: 404)
                     awaitFailure(resource().load())
-                    LSNocilla.sharedInstance().clearStubs()
+                    NetworkStub.clearAll()
                     }
 
                 it("does not retry soon")
@@ -653,12 +653,12 @@ class ResourceStateSpec: ResourceSpecBase
                 setResourceTime(dataTimestamp)
                 NetworkStub.add(.get, resource)
                 awaitNewData(resource().load())
-                LSNocilla.sharedInstance().clearStubs()
+                NetworkStub.clearAll()
 
                 setResourceTime(errorTimestamp)
                 NetworkStub.add(.get, resource, status: 500)
                 awaitFailure(resource().load())
-                LSNocilla.sharedInstance().clearStubs()
+                NetworkStub.clearAll()
                 }
 
             it("does not trigger an immediate request")
@@ -683,7 +683,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 afterEach
                     {
-                    LSNocilla.sharedInstance().clearStubs()
+                    NetworkStub.clearAll()
                     let req = resource().loadIfNeeded()
                     expect(req).to(beNil())
                     }

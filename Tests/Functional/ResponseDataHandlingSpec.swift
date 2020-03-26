@@ -413,7 +413,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     stubText("ahoy")
 
-                    LSNocilla.sharedInstance().clearStubs()
+                    NetworkStub.clearAll()
                     NetworkStub.add(.get, resource, status: 304)
                     awaitNotModified(resource().load())
 
