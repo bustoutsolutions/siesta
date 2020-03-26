@@ -11,14 +11,6 @@ import Siesta
 
 private let stubPropertyKey = "\(NetworkStub.self).stub"
 
-private let lock = NSObject()
-func synchronized<T>(_ action: () -> T) -> T
-    {
-    objc_sync_enter(lock)
-    defer { objc_sync_exit(lock) }
-    return action()
-    }
-
 final class NetworkStub: URLProtocol
     {
     private static var stubs = [RequestStub]()
@@ -29,7 +21,7 @@ final class NetworkStub: URLProtocol
 
     static func wrap(_ configuration: URLSessionConfiguration) -> URLSessionConfiguration
         {
-        configuration.protocolClasses = [NetworkStub.self]
+        configuration.protocolClasses = [Self.self]
         return configuration
         }
 
@@ -78,7 +70,9 @@ final class NetworkStub: URLProtocol
     static func clearAll()
         {
         Self.requestInitialization.await
-            { stubs = [] }
+            {
+            synchronized { stubs = [] }
+            }
         }
 
     override class func canInit(with request: URLRequest) -> Bool
@@ -89,34 +83,30 @@ final class NetworkStub: URLProtocol
 
     override class func canonicalRequest(for request: URLRequest) -> URLRequest
         {
-        synchronized
+        defer { Self.requestInitialization.decrement() }
+
+        let body = extractBody(from: request)
+
+        let stubs = synchronized { Self.stubs }
+        guard let stub = stubs.first(where: { $0.matcher.matches(request, withBody: body) }) else
             {
-            defer
-                { Self.requestInitialization.decrement() }
+            fatalError(
+                """
+                Unstubbed network request:
+                    \(request.httpMethod ?? "<nil method>") \(request.url?.absoluteString ?? "<nil URL>")
+                    headers: \(request.allHTTPHeaderFields ?? [:])
+                    body: \(body?.description ?? "nil")
 
-            let body = extractBody(from: request)
+                Available stubs:
+                    \(stubs.map { $0.description }.joined(separator: "\n    "))
 
-            let stubs = Self.stubs
-            guard let stub = stubs.first(where: { $0.matcher.matches(request, withBody: body) }) else
-                {
-                fatalError(
-                    """
-                    Unstubbed network request:
-                        \(request.httpMethod ?? "<nil method>") \(request.url?.absoluteString ?? "<nil URL>")
-                        headers: \(request.allHTTPHeaderFields ?? [:])
-                        body: \(body?.description ?? "nil")
-
-                    Available stubs:
-                        \(stubs.map { $0.description }.joined(separator: "\n    "))
-
-                    Halting tests
-                    """)
-                }
-
-            let mutableRequest = request as! NSMutableURLRequest
-            URLProtocol.setProperty(stub, forKey: stubPropertyKey, in: mutableRequest)
-            return mutableRequest as URLRequest
+                Halting tests
+                """)
             }
+
+        let mutableRequest = request as! NSMutableURLRequest
+        URLProtocol.setProperty(stub, forKey: stubPropertyKey, in: mutableRequest)
+        return mutableRequest as URLRequest
         }
 
     private static func extractBody(from request: URLRequest) -> Data?
@@ -151,9 +141,16 @@ final class NetworkStub: URLProtocol
 
     override func stopLoading()
         { }
+
+    static func synchronized<T>(_ action: () -> T) -> T
+        {
+        objc_sync_enter(NetworkStub.self)
+        defer { objc_sync_exit(NetworkStub.self) }
+        return action()
+        }
     }
 
-class RequestStub
+struct RequestStub
     {
     let matcher: RequestPattern
     let response: NetworkStubResponse
