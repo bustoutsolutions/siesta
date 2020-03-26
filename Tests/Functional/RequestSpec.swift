@@ -185,7 +185,7 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
+                    awaitFailure(resource().load(), initialState: .completed)  // NetworkStub will flag if network call goes through
                     }
 
                 context("substituting a request")
@@ -239,7 +239,7 @@ class RequestSpec: ResourceSpecBase
                             $0.decorateRequests
                                 { _,_  in dummyReq0() }
                             }
-                        awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
+                        awaitFailure(resource().load(), initialState: .completed)  // NetworkStub will flag if network call goes through
                         }
 
                     it("starts the original request if it is the first in a chain")

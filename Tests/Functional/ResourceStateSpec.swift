@@ -489,8 +489,6 @@ class ResourceStateSpec: ResourceSpecBase
 
                 _ = reqStub().go()
                 awaitFailure(req(), initialState: .completed)
-
-                awaitCancelledRequests()
                 }
 
             it("does not cancel if resource has an observer")
@@ -794,8 +792,6 @@ class ResourceStateSpec: ResourceSpecBase
                 expect(resource().isLoading) == false
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).to(beNil())
-
-                awaitCancelledRequests()
                 }
 
             it("cancels requests attached with load(using:) even if they came from another resource")

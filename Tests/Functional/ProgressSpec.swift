@@ -59,7 +59,6 @@ class ProgressSpec: ResourceSpecBase
                 awaitFailure(req, initialState: .completed)
 
                 _ = reqStub.go()
-                awaitCancelledRequests()
                 }
             }
 

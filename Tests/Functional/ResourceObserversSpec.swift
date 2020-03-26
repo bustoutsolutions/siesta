@@ -121,7 +121,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
 
-                // Let Nocilla check off request without any further observing
+                // Let request finish without any further observing
                 observer.expectStoppedObserving()
                 resource().removeObservers(ownedBy: observer)
                 awaitNewData(req)
@@ -192,8 +192,6 @@ class ResourceObserversSpec: ResourceSpecBase
                 req.cancel()
                 _ = reqStub.go()
                 awaitFailure(req, initialState: .completed)
-
-                awaitCancelledRequests()
                 }
 
             it("receives failure event")

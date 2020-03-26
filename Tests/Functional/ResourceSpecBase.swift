@@ -206,31 +206,6 @@ func awaitFailure(_ req: Siesta.Request, initialState: RequestState = .inProgres
 
     QuickSpec.current.waitForExpectations(timeout: 1)
     expect(req.state) == .completed
-
-    // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
-    // network layer without waiting for a response. This causes spurious spec failures if LSNocilla’s clearStubs() gets
-    // called before the network has a chance to finish, so we have to wait for the underlying request as well as Siesta.
-
-    if initialState == .completed
-        { awaitUnderlyingNetworkRequest(req) }
-    }
-
-func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
-    {
-    let networkExpectation = QuickSpec.current.expectation(description: "awaiting underlying network response: \(req)")
-    pollUnderlyingCompletion(req, expectation: networkExpectation)
-    QuickSpec.current.waitForExpectations(timeout: 1.0)
-    }
-
-private func pollUnderlyingCompletion(_ req: Siesta.Request, expectation: XCTestExpectation)
-    {
-    if req.state == .completed
-        { expectation.fulfill() }
-    else
-        {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0001)
-            { pollUnderlyingCompletion(req, expectation: expectation) }
-        }
     }
 
 func stubAndAwaitRequest(for resource: Resource, expectSuccess: Bool = true)
@@ -262,20 +237,4 @@ func awaitObserverCleanup(for resource: Resource? = nil)
     DispatchQueue.main.async
         { cleanupExpectation.fulfill() }
     QuickSpec.current.waitForExpectations(timeout: 1)
-    }
-
-// Request cancellation can cause a race condition in specs:
-//
-// 1. Network request starts chugging
-// 2. Request is cancelled on the Siesta side, but background network machinery already in motion
-// 3. Spec completes, we clear Nocilla stubs
-// 4. Request (which still hasn't received the cancellation) hits Nocilla, causing it to throw
-//    an unstubbed request error
-//
-// Nocilla doesn't provide any way to actually guard against this, or to wait for pending requests
-// to finish, so we solve it with a timeout (pending a better network stubbing lib).
-//
-func awaitCancelledRequests()
-    {
-    Thread.sleep(forTimeInterval: 0.1)
     }
