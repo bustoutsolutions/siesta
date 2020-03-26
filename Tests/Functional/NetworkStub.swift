@@ -142,7 +142,7 @@ final class NetworkStub: URLProtocol
     override func startLoading()
         {
         let stub = URLProtocol.property(forKey: stubPropertyKey, in: request) as! RequestStub
-        stub.delayLatch.await()
+        stub.awaitPermissionToGo()
 
         Thread.sleep(forTimeInterval: 1.0 / pow(.random(in: 1...1000), 2))
 
@@ -242,12 +242,12 @@ struct HTTPResponse: NetworkStubResponse
 
 class RequestStub
     {
-    var matcher: RequestPattern
-    var response: NetworkStubResponse
+    let matcher: RequestPattern
+    let response: NetworkStubResponse
 
-    let delayLatch = Latch(name: "delayed request")
+    private let delayLatch = Latch(name: "delayed request")
 
-    init(matcher: RequestPattern, response: NetworkStubResponse)
+    fileprivate init(matcher: RequestPattern, response: NetworkStubResponse)
         {
         self.matcher = matcher
         self.response = response
@@ -260,104 +260,16 @@ class RequestStub
         }
 
     func go()
-        {
-        delayLatch.decrement()
-        }
+        { delayLatch.decrement() }
+
+    fileprivate func awaitPermissionToGo()
+        { delayLatch.await() }
 
     var description: String
         { "\(matcher) → \(response)" }
     }
 
-@discardableResult
-func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
-    {
-    let stub = RequestStub(
-        matcher: RequestPattern(RequestMethod(rawValue: method.lowercased())!, resource),
-        response: HTTPResponse(status: 200))
-    NetworkStub.add(stub)
-    return LSStubRequestDSL(stub: stub)
-    }
-
-class LSStubRequestDSL
-    {
-    var stub: RequestStub
-
-    init(stub: RequestStub)
-        { self.stub = stub }
-
-    func withHeader(_ key: String, _ value: String?) -> Self
-        {
-        synchronized
-            { stub.matcher.headers[key] = value }
-        return self
-        }
-
-    func withBody(_ data: HTTPBodyConvertible) -> Self
-        {
-        stub.matcher.body = data
-        return self
-        }
-
-    func andReturn(_ status: Int) -> LSStubResponseDSL
-        {
-        var response = stub.response as! HTTPResponse
-        response.status = status
-        stub.response = response
-        return LSStubResponseDSL(stub: stub)
-        }
-
-    func andFailWithError(_ error: Error)
-        {
-        stub.response = ErrorResponse(error: error)
-        }
-    }
-
-class LSStubResponseDSL
-    {
-    var stub: RequestStub
-
-    init(stub: RequestStub)
-        { self.stub = stub }
-
-    func withHeader(_ key: String, _ value: String?) -> Self
-        {
-        var response = stub.response as! HTTPResponse
-        response.headers[key] = value
-        stub.response = response
-        return self
-        }
-
-    func withBody(_ data: HTTPBodyConvertible?) -> Self
-        {
-        var response = stub.response as! HTTPResponse
-        response.body = data
-        stub.response = response
-        return self
-        }
-
-    func delay() -> Self
-        {
-        stub.delayLatch.increment()
-        return self
-        }
-
-    func go() -> Self
-        {
-        stub.delayLatch.decrement()
-        return self
-        }
-    }
-
-struct LSNocilla
-    {
-    static func sharedInstance() -> Self
-        { LSNocilla() }
-
-    func clearStubs()
-        { NetworkStub.clearAll() }
-    }
-
-struct Latch
+private struct Latch
     {
     private var lock = NSConditionLock(condition: 0)
 
