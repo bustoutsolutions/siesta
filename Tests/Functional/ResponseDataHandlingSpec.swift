@@ -23,7 +23,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
             _ = stubRequest(resource, method).andReturn(200)
                 .withHeader("Content-Type", contentType)
                 .withHeader("X-Custom-Header", "Sprotzle")
-                .withBody(string as NSString?)
+                .withBody(string)
             let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
             awaitRequest(resource().load(), .inProgress)
             }
@@ -73,7 +73,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody(Data([0xD8]) as NSData)
+                    .withBody(Data([0xD8]))
                 awaitFailure(resource().load())
 
                 let cause = resource().latestError?.cause as? RequestError.Cause.UndecodableText
@@ -97,7 +97,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "text/plain; charset=UTF-16")
-                    .withBody(Data([0xD8, 0x3D, 0xDC, 0xA3]) as NSData)
+                    .withBody(Data([0xD8, 0x3D, 0xDC, 0xA3]))
                 awaitFailure(resource().load())
                 expect(resource().latestError?.text) == "💣"
                 }
@@ -176,7 +176,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody(atom as NSString)
+                        .withBody(atom)
                     awaitFailure(resource().load())
 
                     expect(resource().latestError?.cause is RequestError.Cause.JSONResponseIsNotDictionaryOrArray) == true
@@ -195,7 +195,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody(atom as NSString)
+                        .withBody(atom)
                     awaitNewData(resource().load())
                     expect(resource().latestData?.content as? T) == expectedValue
                     }
@@ -208,7 +208,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "application/json")
-                    .withBody("{ \"error\": \"pigeon drove bus\" }" as NSString)
+                    .withBody("{ \"error\": \"pigeon drove bus\" }")
                 awaitFailure(resource().load())
                 expect(resource().latestError?.jsonDict as? [String:String])
                      == ["error": "pigeon drove bus"]
@@ -218,7 +218,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(500)
                     .withHeader("Content-Type", "application/json")
-                    .withBody("{ malformed JSON[[{{#$!@" as NSString)
+                    .withBody("{ malformed JSON[[{{#$!@")
                 awaitFailure(resource().load())
                 expect(resource().latestError?.userMessage) == "Internal server error"
                 expect(resource().latestError?.entity?.content as? Data).notTo(beNil())
@@ -251,7 +251,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody("[1,\"two\"]" as NSString)
+                        .withBody("[1,\"two\"]")
                     awaitNewData(resource().load())
                     expect(resource().jsonArray as NSObject) == [1,"two"] as NSObject
                     }
@@ -280,9 +280,8 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "image/gif")
-                    .withBody(NSData(
-                        base64Encoded: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=",
-                        options: [])!)
+                    .withBody(Data(
+                        base64Encoded: "R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=")!)
                 awaitNewData(resource().load())
                 let image: Image? = resource().typedContent()
                 expect(image).notTo(beNil())
@@ -293,7 +292,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
                     .withHeader("Content-Type", "image/gif")
-                    .withBody("Ceci n’est pas une image" as NSString)
+                    .withBody("Ceci n’est pas une image")
                 awaitFailure(resource().load())
 
                 expect(resource().latestError?.cause is RequestError.Cause.UnparsableImage) == true
@@ -311,7 +310,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     let resource = service.resource(contentType)
                     _ = stubRequest(resource, "GET").andReturn(200)
                         .withHeader("Content-Type", contentType)
-                        .withBody(Data([0xD8]) as NSData)
+                        .withBody(Data([0xD8]))
                     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
                     awaitRequest(resource.load(), .inProgress)
                     expect(resource.latestData?.content is Data) == expectSuccess
@@ -424,7 +423,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     configureModelTransformer()
                     _ = stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
-                        .withBody("I am not a model" as NSString)
+                        .withBody("I am not a model")
                     awaitFailure(resource().load())
                     expect(resource().latestData).to(beNil())
                     expect(resource().latestError?.text) == "I am not a model"
@@ -436,7 +435,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                         { TestModel(name: $0.content) }
                     _ = stubRequest(resource, "GET").andReturn(500)
                         .withHeader("Content-Type", "text/plain")
-                        .withBody("Fred T. Error" as NSString)
+                        .withBody("Fred T. Error")
                     awaitFailure(resource().load())
                     let model: TestModel? = resource().latestError?.typedContent()
                     expect(model?.name) == "Fred T. Error"
@@ -542,7 +541,7 @@ class ResponseDataHandlingSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, method.rawValue.uppercased()).andReturn(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBody(string as NSString)
+                        .withBody(string)
 
                     var result: Entity<Any>?
                     let req = resource().request(method)

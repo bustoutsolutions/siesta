@@ -87,7 +87,7 @@ class ResourceStateSpec: ResourceSpecBase
             it("stores the response data")
                 {
                 _ = stubRequest(resource, "GET").andReturn(200)
-                    .withBody("eep eep" as NSString)
+                    .withBody("eep eep")
                 awaitNewData(resource().load())
 
                 expect(resource().latestData).notTo(beNil())
@@ -169,7 +169,7 @@ class ResourceStateSpec: ResourceSpecBase
                     .andReturn(200)
                     .withHeader("eTaG", "123 456 xyz")
                     .withHeader("Content-Type", "applicaiton/zoogle+plotz")
-                    .withBody("zoogleplotz" as NSString)
+                    .withBody("zoogleplotz")
                 awaitNewData(resource().load())
                 LSNocilla.sharedInstance().clearStubs()
                 }
@@ -204,7 +204,7 @@ class ResourceStateSpec: ResourceSpecBase
                         .andReturn(200)
                         .withHeader("eTaG", "ABC DEF 789")
                         .withHeader("Content-Type", "applicaiton/ploogle+zotz")
-                        .withBody("plooglezotz" as NSString)
+                        .withBody("plooglezotz")
                     awaitNewData(resource().load())
 
                     expect(dataAsString(resource().latestData?.content)) == "plooglezotz"
@@ -414,7 +414,7 @@ class ResourceStateSpec: ResourceSpecBase
                 _ = stubRequest(resource, "POST")
                     .andReturn(200)
                     .withHeader("Content-type", "text/plain")
-                    .withBody("Posted!" as NSString)
+                    .withBody("Posted!")
                 }
 
             it("updates resource state")
@@ -580,7 +580,7 @@ class ResourceStateSpec: ResourceSpecBase
                     .andReturn(200)
                     .withHeader("Content-type", "food/pasta")
                     .withHeader("Sauce-disposition", "garlic")
-                    .withBody("linguine" as NSString)
+                    .withBody("linguine")
 
                 awaitNewData(resource().load())
 
@@ -593,7 +593,7 @@ class ResourceStateSpec: ResourceSpecBase
             it("updates latestData’s timestamp")
                 {
                 setResourceTime(1000)
-                _ = stubRequest(resource, "GET").andReturn(200).withBody("hello" as NSString)
+                _ = stubRequest(resource, "GET").andReturn(200).withBody("hello")
                 awaitNewData(resource().load())
 
                 setResourceTime(2000)

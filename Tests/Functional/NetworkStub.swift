@@ -118,10 +118,10 @@ class RequestStub
     var method: String
     var url: String
 
-    init(method: String, url: NSString)
+    init(method: String, url: String)
         {
         self.method = method
-        self.url = url as String
+        self.url = url
         }
 
     var requestHeaders = [String:String]()
@@ -150,7 +150,7 @@ class RequestStub
     }
 
 
-func stubRequest(_ method: String, _ url: NSString) -> LSStubRequestDSL
+func stubRequest(_ method: String, _ url: String) -> LSStubRequestDSL
     {
     let stub = RequestStub(method: method, url: url)
     NetworkStub.add(stub)
@@ -171,11 +171,8 @@ class LSStubRequestDSL
         return self
         }
 
-    func withBody(_ string: NSString) -> Self
-        { withBody(string.data(using: String.Encoding.utf8.rawValue)!) }
-
-    func withBody(_ data: NSData) -> Self
-        { withBody(data as Data) }
+    func withBody(_ string: String) -> Self
+        { withBody(string.data(using: .utf8)!) }
 
     func withBody(_ data: Data) -> Self
         {
@@ -208,11 +205,8 @@ class LSStubResponseDSL
         return self
         }
 
-    func withBody(_ string: NSString?) -> Self
-        { withBody(string?.data(using: String.Encoding.utf8.rawValue)!) }
-
-    func withBody(_ data: NSData?) -> Self
-        { withBody(data as Data?) }
+    func withBody(_ string: String?) -> Self
+        { withBody(string?.data(using: .utf8)!) }
 
     func withBody(_ data: Data?) -> Self
         {

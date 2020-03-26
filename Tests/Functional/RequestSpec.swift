@@ -88,7 +88,7 @@ class RequestSpec: ResourceSpecBase
 
                     _ = stubRequest(resource, "POST")
                         .withHeader("Content-Length", "4")
-                        .withBody(Data([0, 1, 2, 42]) as NSData)
+                        .withBody(Data([0, 1, 2, 42]))
                         .andReturn(200)
                     awaitNewData(resource().request(.post, data: Data([0, 1, 2]), contentType: "foo/bar"))
                     }
@@ -253,7 +253,7 @@ class RequestSpec: ResourceSpecBase
 
                         _ = stubRequest(resource, "GET").andReturn(200)
                             .withHeader("Content-Type", "text/plain")
-                            .withBody("ducks" as NSString)
+                            .withBody("ducks")
                         awaitNewData(resource().load())
                         expect(resource().text) == "ducks redux"
                         }
@@ -332,11 +332,11 @@ class RequestSpec: ResourceSpecBase
                 {
                 LSNocilla.sharedInstance().clearStubs()
                 _ = stubRequest(resource, "PATCH")
-                    .withBody("Is there an echo in here?" as NSString)
+                    .withBody("Is there an echo in here?")
                     .withHeader("X-Flavor", flavorHeader)
                     .andReturn(200)
                     .withHeader("Content-Type", "text/plain")
-                    .withBody(answer as NSString)
+                    .withBody(answer)
                 }
 
             func expectResonseText(_ request: Request, text: String)
@@ -454,7 +454,7 @@ class RequestSpec: ResourceSpecBase
 
                 _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "application/monkey")
-                    .withBody(nsdata as NSData)
+                    .withBody(nsdata)
                     .andReturn(200)
 
                 awaitNewData(resource().request(.post, data: nsdata, contentType: "application/monkey"))
@@ -464,7 +464,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "POST")
                     .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody("Très bien!" as NSString)
+                    .withBody("Très bien!")
                     .andReturn(200)
 
                 awaitNewData(resource().request(.post, text: "Très bien!"))
@@ -486,7 +486,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 _ = stubRequest(resource, "PUT")
                     .withHeader("Content-Type", "application/json")
-                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}" as NSString)
+                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}")
                     .andReturn(200)
 
                 awaitNewData(resource().request(.put, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
@@ -506,7 +506,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("brown=cow&foo=bar&how=now" as NSString)
+                        .withBody("brown=cow&foo=bar&how=now")
                         .andReturn(200)
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
@@ -516,7 +516,7 @@ class RequestSpec: ResourceSpecBase
                     {
                     _ = stubRequest(resource, "PATCH")
                         .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r" as NSString)
+                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r")
                         .andReturn(200)
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
@@ -580,7 +580,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 return stubRequest(resource, method).andReturn(200)
                     .withHeader("Content-Type", "text/plain")
-                    .withBody(body as NSString)
+                    .withBody(body)
                 }
 
             func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
