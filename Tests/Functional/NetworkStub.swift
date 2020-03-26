@@ -39,8 +39,9 @@ final class NetworkStub: URLProtocol
             status: Int = 200)
         {
         add(RequestStub(
-            method: method.rawValue.uppercased(),
-            url: resource().url.absoluteString,
+            matcher: RequestMatcher(
+                method: method.rawValue.uppercased(),
+                url: resource().url.absoluteString),
             status: status))
         }
 
@@ -70,7 +71,7 @@ final class NetworkStub: URLProtocol
                 { Self.requestInitialization.decrement() }
 
             let stubs = Self.stubs
-            guard let stub = stubs.first(where: { $0.matches(request) }) else
+            guard let stub = stubs.first(where: { $0.matcher.matches(request) }) else
                 {
                 fatalError(
                     """
@@ -125,20 +126,34 @@ final class NetworkStub: URLProtocol
         { }
     }
 
-class RequestStub
+struct RequestMatcher
     {
     var method: String
     var url: String
+    var headers = [String:String]()
+    var body: Data?
 
-    init(method: String, url: String, status: Int = 200)
+    func matches(_ request: URLRequest) -> Bool
         {
-        self.method = method
-        self.url = url
+        return request.httpMethod == method
+            && request.url?.absoluteString == url
+            && headers.allSatisfy
+                {
+                key, value in
+                request.allHTTPHeaderFields?[key] == value
+                }
+        }
+    }
+
+class RequestStub
+    {
+    var matcher: RequestMatcher
+
+    init(matcher: RequestMatcher, status: Int = 200)
+        {
+        self.matcher = matcher
         self.responseCode = status
         }
-
-    var requestHeaders = [String:String]()
-    var requestBody: Data?
 
     var responseError: Error?
     var responseCode: Int
@@ -147,25 +162,14 @@ class RequestStub
 
     let delayLatch = Latch(name: "delayed request")
 
-    func matches(_ request: URLRequest) -> Bool
-        {
-        return request.httpMethod == method
-            && request.url?.absoluteString == url
-            && requestHeaders.allSatisfy
-                {
-                key, value in
-                request.allHTTPHeaderFields?[key] == value
-                }
-        }
-
     var description: String
-        { "\(method) \(url) requestHeaders=\(requestHeaders) body=\(requestBody?.description ?? "<any>")" }
+        { "\(matcher) → \(responseCode)" }
     }
 
 @discardableResult
 func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
     {
-    let stub = RequestStub(method: method, url: resource().url.absoluteString)
+    let stub = RequestStub(matcher: RequestMatcher(method: method, url: resource().url.absoluteString))
     NetworkStub.add(stub)
     return LSStubRequestDSL(stub: stub)
     }
@@ -180,7 +184,7 @@ class LSStubRequestDSL
     func withHeader(_ key: String, _ value: String?) -> Self
         {
         synchronized
-            { stub.requestHeaders[key] = value }
+            { stub.matcher.headers[key] = value }
         return self
         }
 
@@ -189,7 +193,7 @@ class LSStubRequestDSL
 
     func withBody(_ data: Data) -> Self
         {
-        stub.requestBody = data
+        stub.matcher.body = data
         return self
         }
 
