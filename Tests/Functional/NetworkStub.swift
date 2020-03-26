@@ -153,21 +153,33 @@ final class NetworkStub: URLProtocol
         { }
     }
 
-protocol HTTPBodyConvertible
+class RequestStub
     {
-    var httpData: Data { get }
-    }
+    let matcher: RequestPattern
+    let response: NetworkStubResponse
 
-extension Data: HTTPBodyConvertible
-    {
-    var httpData: Data
-        { self }
-    }
+    private let delayLatch = Latch(name: "delayed request")
 
-extension String: HTTPBodyConvertible
-    {
-    var httpData: Data
-        { data(using: .utf8)! }
+    fileprivate init(matcher: RequestPattern, response: NetworkStubResponse)
+        {
+        self.matcher = matcher
+        self.response = response
+        }
+
+    func delay() -> Self
+        {
+        delayLatch.increment()
+        return self
+        }
+
+    func go()
+        { delayLatch.decrement() }
+
+    fileprivate func awaitPermissionToGo()
+        { delayLatch.await() }
+
+    var description: String
+        { "\(matcher) → \(response)" }
     }
 
 struct RequestPattern
@@ -240,33 +252,21 @@ struct HTTPResponse: NetworkStubResponse
         }
     }
 
-class RequestStub
+protocol HTTPBodyConvertible
     {
-    let matcher: RequestPattern
-    let response: NetworkStubResponse
+    var httpData: Data { get }
+    }
 
-    private let delayLatch = Latch(name: "delayed request")
+extension Data: HTTPBodyConvertible
+    {
+    var httpData: Data
+        { self }
+    }
 
-    fileprivate init(matcher: RequestPattern, response: NetworkStubResponse)
-        {
-        self.matcher = matcher
-        self.response = response
-        }
-
-    func delay() -> Self
-        {
-        delayLatch.increment()
-        return self
-        }
-
-    func go()
-        { delayLatch.decrement() }
-
-    fileprivate func awaitPermissionToGo()
-        { delayLatch.await() }
-
-    var description: String
-        { "\(matcher) → \(response)" }
+extension String: HTTPBodyConvertible
+    {
+    var httpData: Data
+        { data(using: .utf8)! }
     }
 
 private struct Latch
