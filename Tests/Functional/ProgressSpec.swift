@@ -41,7 +41,10 @@ class ProgressSpec: ResourceSpecBase
 
             it("on connection error")
                 {
-                _ = stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
+                NetworkStub.add(
+                    .get, resource,
+                    returning: ErrorResponse(
+                        error: NSError(domain: "foo", code: 1, userInfo: nil)))
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0

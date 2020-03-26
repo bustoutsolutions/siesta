@@ -229,17 +229,24 @@ class ResourceStateSpec: ResourceSpecBase
                     }
                 }
 
+            func stubError(_ error: Error)
+                {
+                NetworkStub.add(
+                    .get, resource,
+                    returning: ErrorResponse(
+                        error: error))
+                }
+
             it("handles request errors")
                 {
-                let sampleError = NSError(domain: "TestDomain", code: 12345, userInfo: nil)
-                _ = stubRequest(resource, "GET").andFailWithError(sampleError)
+                stubError(NSError(domain: "TestDomain", code: 12345, userInfo: nil))
                 awaitFailure(resource().load())
 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
                 let nserror = resource().latestError?.cause as NSError?
-                expect(nserror?.domain) == sampleError.domain
-                expect(nserror?.code) == sampleError.code
+                expect(nserror?.domain) == "TestDomain"
+                expect(nserror?.code) == 12345
                 }
 
             // Testing all these HTTP codes individually because Apple likes
@@ -286,10 +293,9 @@ class ResourceStateSpec: ResourceSpecBase
 
             it("generates error messages from NSError message")
                 {
-                let sampleError = NSError(
+                stubError(NSError(
                     domain: "TestDomain", code: 12345,
-                    userInfo: [NSLocalizedDescriptionKey: "KABOOM"])
-                _ = stubRequest(resource, "GET").andFailWithError(sampleError)
+                    userInfo: [NSLocalizedDescriptionKey: "KABOOM"]))
                 awaitFailure(resource().load())
 
                 expect(resource().latestError?.userMessage) == "KABOOM"
