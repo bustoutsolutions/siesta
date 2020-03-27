@@ -24,11 +24,9 @@
 		9F0FB04C1D04179600CE1B61 /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F0FB0571D04184F00CE1B61 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0531D04184F00CE1B61 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F0FB0581D04184F00CE1B61 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0541D04184F00CE1B61 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F0FB0591D04184F00CE1B61 /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0551D04184F00CE1B61 /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F0FB05A1D04184F00CE1B61 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0561D04184F00CE1B61 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0531D04184F00CE1B61 /* Alamofire.framework */; };
 		9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0541D04184F00CE1B61 /* Nimble.framework */; };
-		9F0FB05E1D0418AF00CE1B61 /* Nocilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0551D04184F00CE1B61 /* Nocilla.framework */; };
 		9F0FB05F1D0418AF00CE1B61 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0561D04184F00CE1B61 /* Quick.framework */; };
 		9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		9F2FB5271C2864970068DFFA /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
@@ -180,7 +178,6 @@
 		DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; };
 		DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; };
 		DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; };
-		DA5E4B5922DCEFE40059ED10 /* Nocilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */; };
 		DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */; };
 		DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */; };
 		DA5E4B5D22DCF12E0059ED10 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
@@ -189,7 +186,6 @@
 		DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
 		DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA5E4B6422DCF48D0059ED10 /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA5EC2741B91E39000DC33C8 /* Networking-URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
@@ -199,8 +195,6 @@
 		DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60F5FB1B30B2F800D76DC6 /* Resource.swift */; };
-		DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; };
-		DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E441B38AD2100DE9A9F /* Nocilla.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 		DA62C9842428670400398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
@@ -347,7 +341,6 @@
 			files = (
 				9F0FB0571D04184F00CE1B61 /* Alamofire.framework in CopyFiles */,
 				9F0FB0581D04184F00CE1B61 /* Nimble.framework in CopyFiles */,
-				9F0FB0591D04184F00CE1B61 /* Nocilla.framework in CopyFiles */,
 				9F0FB05A1D04184F00CE1B61 /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,7 +362,6 @@
 			files = (
 				DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */,
 				DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */,
-				DA5E4B6422DCF48D0059ED10 /* Nocilla.framework in CopyFiles */,
 				DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,7 +374,6 @@
 			files = (
 				DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */,
 				DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */,
-				DA612E461B38AD3F00DE9A9F /* Nocilla.framework in CopyFiles */,
 				DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,7 +391,6 @@
 		9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		9F0FB0531D04184F00CE1B61 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		9F0FB0541D04184F00CE1B61 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
-		9F0FB0551D04184F00CE1B61 /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/Mac/Nocilla.framework; sourceTree = "<group>"; };
 		9F0FB0561D04184F00CE1B61 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		9F2FB51E1C28645E0068DFFA /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F2FB5221C28645E0068DFFA /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-macOS.plist"; path = "Source/Info-macOS.plist"; sourceTree = SOURCE_ROOT; };
@@ -442,13 +432,11 @@
 		DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/tvOS/Alamofire.framework; sourceTree = "<group>"; };
 		DA5E4B5322DCEFE40059ED10 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
 		DA5E4B5422DCEFE40059ED10 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
-		DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/tvOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-URLSession.swift"; sourceTree = "<group>"; };
 		DA5FE9F31BB9E3EF00B6688A /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA6022801D65590800FB5673 /* SiestaUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SiestaUI.h; sourceTree = "<group>"; };
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		DA612E441B38AD2100DE9A9F /* Nocilla.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nocilla.framework; path = Carthage/Build/iOS/Nocilla.framework; sourceTree = "<group>"; };
 		DA62C97C2428589B00398674 /* NetworkStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
 		DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineProcessing.swift; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
@@ -502,7 +490,6 @@
 				DAC4CFCE1DAC10FD00EECEDE /* SiestaUI.framework in Frameworks */,
 				9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */,
 				9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */,
-				9F0FB05E1D0418AF00CE1B61 /* Nocilla.framework in Frameworks */,
 				9F0FB05F1D0418AF00CE1B61 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,7 +524,6 @@
 				DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */,
 				DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */,
 				DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */,
-				DA5E4B5922DCEFE40059ED10 /* Nocilla.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +551,6 @@
 				DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */,
 				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
 				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
-				DA612E451B38AD2100DE9A9F /* Nocilla.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,7 +591,6 @@
 			children = (
 				9F0FB0531D04184F00CE1B61 /* Alamofire.framework */,
 				9F0FB0541D04184F00CE1B61 /* Nimble.framework */,
-				9F0FB0551D04184F00CE1B61 /* Nocilla.framework */,
 				9F0FB0561D04184F00CE1B61 /* Quick.framework */,
 				570C77E31D38466900226F92 /* ReactiveCocoa.framework */,
 				570C77E51D38468A00226F92 /* Result.framework */,
@@ -725,7 +709,6 @@
 			children = (
 				DA612E421B38AD1000DE9A9F /* Alamofire.framework */,
 				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
-				DA612E441B38AD2100DE9A9F /* Nocilla.framework */,
 				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
 				570C77E01D38463200226F92 /* ReactiveCocoa.framework */,
 				570C77E71D3846A800226F92 /* Result.framework */,
@@ -738,7 +721,6 @@
 			children = (
 				DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */,
 				DA5E4B5322DCEFE40059ED10 /* Nimble.framework */,
-				DA5E4B5522DCEFE40059ED10 /* Nocilla.framework */,
 				DA5E4B5422DCEFE40059ED10 /* Quick.framework */,
 			);
 			name = tvOS;

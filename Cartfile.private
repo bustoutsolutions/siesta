@@ -7,4 +7,3 @@ github "Alamofire/Alamofire"
 
 github "pcantrell/Quick" "around-each"
 github "Quick/Nimble"
-github "pcantrell/Nocilla" "siesta"                     # fork adds delay() / go(), nullability annotations
