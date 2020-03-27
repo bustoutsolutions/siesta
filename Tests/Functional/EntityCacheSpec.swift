@@ -9,7 +9,6 @@
 import Siesta
 import Quick
 import Nimble
-import Nocilla
 
 class EntityCacheSpec: ResourceSpecBase
     {
@@ -74,7 +73,9 @@ class EntityCacheSpec: ResourceSpecBase
 
                 func loadIfNeededAndRecordEvents(expectingContent content: String)
                     {
-                    _ = stubRequest(resource, "GET").andReturn(200).withBody("net" as NSString)
+                    NetworkStub.add(
+                        .get, resource,
+                        returning: HTTPResponse(body: "net"))
                     resource().addObserver(eventRecorder())
                     let requests = (1...callCount).map
                         {
@@ -210,7 +211,7 @@ class EntityCacheSpec: ResourceSpecBase
                 stubAndAwaitRequest(for: resource())
 
                 setResourceTime(2000)
-                _ = stubRequest(resource, "GET").andReturn(304)
+                NetworkStub.add(.get, resource, status: 304)
                 awaitNotModified(resource().load())
                 expect(testCache.entries[TestCacheKey(forTestResourceIn: testCache)]?.timestamp)
                     .toEventually(equal(2000))

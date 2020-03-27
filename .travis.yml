@@ -6,18 +6,18 @@ branches:
 
 language: objective-c
 os: osx
-osx_image: xcode10.2
+osx_image: xcode11.3
 env:
   - scheme='Siesta macOS' platform='OS X'
-  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='12.0'  sim_device='iPhone XR'
-  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='11.1'  sim_device='iPhone SE'
-  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='9.3'   sim_device='iPhone 6'
-  # As of XC 9.4, any framework tests (not just Siesta) fail on iOS 8.1 simulator with
-  # "Timed out trying to establish connection to IDE" (radar 40756466). Reenable this if Apple fixes:
-  #- scheme='Siesta iOS'   platform='iOS Simulator' sim_os='iOS'  sim_os_version='8.1'   sim_device='iPhone 4s'
-  # For now, using 9.3 on 4s instead (which is important bc some bugs are 32-bit-specific):
-  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='9.3'   sim_device='iPhone 4s'
-  - scheme='Siesta tvOS'  platform='tvOS Simulator' sim_os='tvOS' sim_os_version='12.1'  sim_device='Apple TV 1080p'
+  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='13.3'  sim_device='iPhone 11 Pro'
+  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='12.4'  sim_device='iPhone SE'
+  - scheme='Siesta iOS'   platform='iOS Simulator'  sim_os='iOS'  sim_os_version='11.4'   sim_device='iPhone 6'
+
+  ## Travis doesn't include iOS 9 anymore, so we unfortunately can't regression test on a 32-bit device:
+  # - scheme='Siesta iOS'   platform='iOS Simulator' sim_os='iOS'  sim_os_version='9.3'   sim_device='iPhone 4s'
+
+  ## Bundled libraries for tvOS on swift 5.1 are broken; restore when Travis publishes xcode11.4:
+  # - scheme='Siesta tvOS'  platform='tvOS Simulator' sim_os='tvOS' sim_os_version='13.3'  sim_device='Apple TV 4K 1080p'
 
 before_install: |
   set -x
@@ -34,7 +34,7 @@ before_install: |
     # Working for “Library not loaded: /usr/lib/libauto.dylib”; see:
     #   https://stackoverflow.com/questions/55389080/xcode-10-2-failed-to-run-app-on-simulator-with-ios-10
     #   https://developer.apple.com/documentation/xcode_release_notes/xcode_10_2_1_release_notes
-    sudo mkdir "/Library/Developer/CoreSimulator/Profiles/Runtimes/${sim_os} ${sim_os_version}.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift"
+    # sudo mkdir "/Library/Developer/CoreSimulator/Profiles/Runtimes/${sim_os} ${sim_os_version}.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift"
   fi
 
 script: |
@@ -60,8 +60,9 @@ script: |
 
   # Import our development certificate.
   security import ".ios-dev-cert.p12" -k "$KEYCHAIN" -P "$KEY_PASSWORD" -T /usr/bin/codesign
-  echo "Available identities after import:"
-  security find-identity
+  ## Slow:
+  # echo "Available identities after import:"
+  # security find-identity
 
   # ------ Tools ------
 

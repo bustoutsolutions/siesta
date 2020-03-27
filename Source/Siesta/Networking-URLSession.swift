@@ -28,7 +28,7 @@ public struct URLSessionProvider: NetworkingProvider
             completion: @escaping RequestNetworkingCompletionCallback)
         -> RequestNetworking
         {
-        let task = self.session.dataTask(with: request)
+        let task = session.dataTask(with: request)
             { completion($1 as? HTTPURLResponse, $0, $2) }
         return URLSessionRequestNetworking(task: task)
         }

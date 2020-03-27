@@ -11,7 +11,6 @@ import Foundation
 import SiestaUI
 import Quick
 import Nimble
-import Nocilla
 
 class RemoteImageViewSpec: SiestaSpec
     {
