@@ -159,6 +159,9 @@
 		DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */; };
 		DA3FD66E1D0DF67E00C75742 /* OpenEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAF1D02046500607F3E /* OpenEnum.swift */; };
 		DA4353521B6AD63C00543843 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4353511B6AD63C00543843 /* Networking.swift */; };
+		DA489AF2242D9B1100BAF782 /* NetworkStub-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA489AF1242D9A4700BAF782 /* NetworkStub-ObjC.swift */; };
+		DA489AF3242D9B1200BAF782 /* NetworkStub-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA489AF1242D9A4700BAF782 /* NetworkStub-ObjC.swift */; };
+		DA489AF4242D9B1200BAF782 /* NetworkStub-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA489AF1242D9A4700BAF782 /* NetworkStub-ObjC.swift */; };
 		DA49EA7C1B35FE5F00AE1B8F /* ServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */; };
 		DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
 		DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
@@ -428,6 +431,7 @@
 		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
 		DA3FBDB01B55BF0E00161A25 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		DA4353511B6AD63C00543843 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		DA489AF1242D9A4700BAF782 /* NetworkStub-ObjC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkStub-ObjC.swift"; sourceTree = "<group>"; };
 		DA49EA7B1B35FE5F00AE1B8F /* ServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSpec.swift; sourceTree = "<group>"; };
 		DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceSpecBase.swift; sourceTree = "<group>"; };
 		DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelpers.swift; sourceTree = "<group>"; };
@@ -774,6 +778,7 @@
 				DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */,
 				DA4D61991B7521B900F6BB9C /* TestService.swift */,
 				DA62C97C2428589B00398674 /* NetworkStub.swift */,
+				DA489AF1242D9A4700BAF782 /* NetworkStub-ObjC.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -1347,6 +1352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA489AF3242D9B1200BAF782 /* NetworkStub-ObjC.swift in Sources */,
 				DACD23411D60D0FF00848C04 /* RequestSpec.swift in Sources */,
 				9F0FAF901D033FCD00CE1B61 /* ResourceStateSpec.swift in Sources */,
 				9F0FAF911D033FCD00CE1B61 /* Networking-Alamofire.swift in Sources */,
@@ -1521,6 +1527,7 @@
 				DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */,
 				CD5651F31E6F306B009F224A /* ResourceStateSpec.swift in Sources */,
 				DA5E4B5D22DCF12E0059ED10 /* SiestaSpec.swift in Sources */,
+				DA489AF4242D9B1200BAF782 /* NetworkStub-ObjC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1598,6 +1605,7 @@
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
 				DAD191021D03950100304193 /* PipelineSpec.swift in Sources */,
 				DA49EA7E1B35FE7E00AE1B8F /* ResourceSpecBase.swift in Sources */,
+				DA489AF2242D9B1100BAF782 /* NetworkStub-ObjC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

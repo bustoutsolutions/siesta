@@ -9,7 +9,7 @@
 import Foundation
 import Siesta
 
-final class NetworkStub
+public final class NetworkStub: NSObject  // Could be enum but for Obj-C compatibility
     {
     private static var _stubs = [RequestStub]()
     private static let stubsAccessQueue = DispatchQueue(label: "NetworkStub.stubs access")
@@ -70,7 +70,8 @@ final class NetworkStub
             { _stubs.insert(stub, at: 0) }
         }
 
-    static func clearAll()
+    @objc
+    public static func clearAll()
         {
         StubbedNetworkProtocol.afterPendingRequestsStubbed
             {
@@ -118,7 +119,7 @@ private final class StubbedNetworkProtocol: URLProtocol
                 Unstubbed network request:
                     \(request.httpMethod ?? "<nil method>") \(request.url?.absoluteString ?? "<nil URL>")
                     headers: \(request.allHTTPHeaderFields ?? [:])
-                    body: \(body?.description ?? "nil")
+                    body: \(body?.dataDump ?? "nil")
 
                 Available stubs:
                     \(stubs.map { $0.description }.joined(separator: "\n    "))
@@ -310,5 +311,14 @@ private struct Latch
             { fatalError("timed out waiting for \(name)") }
         action()
         lock.unlock()
+        }
+    }
+
+extension Data
+    {
+    var dataDump: String
+        {
+        String(data: self, encoding: .utf8)
+            ?? map { String(format: "%02hhx ", $0) }.joined()
         }
     }

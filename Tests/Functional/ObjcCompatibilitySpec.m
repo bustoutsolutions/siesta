@@ -9,7 +9,6 @@
 #import <Siesta/Siesta.h>
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import <Nocilla/Nocilla.h>
 #import "SiestaTests-Swift.h"
 
 @interface ObjcCompatibilitySpec : QuickSpec
@@ -26,10 +25,12 @@
     // These specs are mostly just concerned with whether the code compiles.
     // They don't make many assertions about behavior, which is tested elsewhere.
 
-    __block BOSService *service;
+    __block TestService *service;
     __block BOSResource *resource;
 
-    __block id _;  // Fake Swift’s `_ = foo()` idiom for non-@discardableResult functions
+    __block id _;  // Fake version of Swift’s `_ = foo()` idiom for non-@discardableResult functions
+
+    __block NSMutableArray *allRequests;
 
     beforeEach(^
         {
@@ -37,15 +38,18 @@
         resource = [service resource:@"/foo"];
         });
 
+    beforeEach(^
+        {
+        allRequests = [NSMutableArray array];
+        });
+
     afterEach(^
         {
+        [service awaitAllRequests];
+        [NetworkStub clearAll];
         service = nil;
         resource = nil;
         });
-
-    beforeEach(^{ [LSNocilla.sharedInstance start]; });
-    afterEach( ^{ [LSNocilla.sharedInstance clearStubs]; });
-    afterEach( ^{ [LSNocilla.sharedInstance stop]; });
 
     it(@"handles resource paths", ^
         {
@@ -57,31 +61,44 @@
 
     it(@"handles requests", ^
         {
-        stubRequest(@"GET", @"http://example.api/foo").andReturn(200);
-        stubRequest(@"POST", @"http://example.api/foo").andReturn(200);
-
+        [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:200];
         expect([resource loadIfNeeded]).notTo(beNil());
         _ = [resource load];
+
+        [NetworkStub addForMethod:@"POST" resource:resource returningStatusCode:200];
         _ = [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
                 { req.HTTPMethod = @"POST"; }];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"application/json"} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"foo/bar"} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} contentType:@"foo/bar" requestMutation:nil];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"text/plain; charset=utf-8"} body:@"Ahoy" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" text:@"Ahoy"];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"foo/bar; charset=us-ascii"} body:@"Ahoy" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"application/x-www-form-urlencoded"} body:@"foo=bar" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
+
+        [NetworkStub addForMethod:@"POST" resource:resource headers:@{} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
 
-        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
+        XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"callback called"];
         BOSRequest *req = [[[[[[resource load]
             onCompletion:
                 ^(BOSEntity *entity, BOSError *error)
                     { [expectation fulfill]; }]
             onSuccess: ^(BOSEntity *entity) { }]
-            onNewData: ^(BOSEntity *entity) { }]  // TODO: This line leaks Resource instances, but the previous line doesn't. ‽‽‽
+            onNewData: ^(BOSEntity *entity) { }]
             onNotModified: ^{ }]
             onFailure: ^(BOSError *error) { }];
         [[QuickSpec current] waitForExpectationsWithTimeout:1 handler:nil];
+
         [req cancel];
         });
 
@@ -115,10 +132,7 @@
 
     it(@"handles resource data", ^
         {
-        stubRequest(@"GET", @"http://example.api/foo")
-            .andReturn(200)
-            .withHeader(@"Content-type", @"application/json")
-            .withBody(@"{\"foo\": \"bar\"}");
+        [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:200 headers:@{@"Content-type": @"application/json"} body:@"{\"foo\": \"bar\"}"];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         _ = [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
@@ -144,7 +158,7 @@
 
     it(@"handles HTTP errors", ^
         {
-        stubRequest(@"GET", @"http://example.api/foo").andReturn(507);
+        [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:507];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         _ = [[resource load] onFailure:^(BOSError *error) { [expectation fulfill]; }];
@@ -186,10 +200,7 @@
             blockObserverCalls++;
         }];
 
-        stubRequest(@"GET", @"http://example.api/foo")
-            .andReturn(200)
-            .withHeader(@"Content-type", @"application/json")
-            .withBody(@"{\"foo\": \"bar\"}");
+        [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:200 headers:@{@"Content-type": @"application/json"} body:@"{\"foo\": \"bar\"}"];
 
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"network calls finished"];
         _ = [[resource load] onSuccess:^(BOSEntity *entity) { [expectation fulfill]; }];
