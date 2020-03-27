@@ -45,7 +45,7 @@
 
     afterEach(^
         {
-        [service awaitAllRequests];
+        [service awaitAllRequests];  // because unlike the Swift specs, the individual specs here don't wait for them
         [NetworkStub clearAll];
         service = nil;
         resource = nil;
@@ -59,35 +59,60 @@
         _ = [resource withParams:@{@"foo": @"bar", @"baz": NSNull.null}];
         });
 
-    it(@"handles requests", ^
+    it(@"handles basic request", ^
         {
         [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:200];
         expect([resource loadIfNeeded]).notTo(beNil());
         _ = [resource load];
+        });
 
+    it(@"handles request mutation", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource returningStatusCode:200];
         _ = [resource requestWithMethod:@"DELETE" data:[[NSData alloc] init] contentType:@"foo/bar" requestMutation:
             ^(NSMutableURLRequest *req)
                 { req.HTTPMethod = @"POST"; }];
+        });
 
+    it(@"handles JSON request", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"application/json"} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}];
+        });
 
+    it(@"handles JSON request with custom content type", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"foo/bar"} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" json:@{@"foo": @"bar"} contentType:@"foo/bar" requestMutation:nil];
+        });
 
+    it(@"handles text request", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"text/plain; charset=utf-8"} body:@"Ahoy" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" text:@"Ahoy"];
+        });
 
+    it(@"handles test request with custom content type and encoding", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"foo/bar; charset=us-ascii"} body:@"Ahoy" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" text:@"Ahoy" contentType:@"foo/bar" encoding:NSASCIIStringEncoding requestMutation:nil];
+        });
 
+    it(@"handles URL-encoded request", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{@"Content-Type": @"application/x-www-form-urlencoded"} body:@"foo=bar" returningStatusCode:200];
         _ = [resource requestWithMethod:@"POST" urlEncoded:@{@"foo": @"bar"} requestMutation:nil];
+        });
 
+    it(@"handles loadUsingRequest:", ^
+        {
         [NetworkStub addForMethod:@"POST" resource:resource headers:@{} body:@"{\"foo\":\"bar\"}" returningStatusCode:200];
         _ = [resource loadUsingRequest:[resource requestWithMethod:@"POST" json:@{@"foo": @"bar"}]];
+        });
 
+    it(@"handles callbacks", ^
+        {
+        [NetworkStub addForMethod:@"GET" resource:resource returningStatusCode:200];
         XCTestExpectation *expectation = [[QuickSpec current] expectationWithDescription:@"callback called"];
         BOSRequest *req = [[[[[[resource load]
             onCompletion:
