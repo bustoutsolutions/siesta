@@ -11,8 +11,9 @@
 import Foundation
 import Quick
 import Nimble
-#if canImport(Alamofire)
-    import Alamofire
+import Alamofire
+#if canImport(Siesta_Alamofire)  // SwiftPM builds it as a separate module
+    import Siesta_Alamofire
 #endif
 
 private let _fakeNowLock = NSObject()

@@ -5,7 +5,7 @@ let package = Package(
     name: "Siesta",
     platforms: [
         .iOS(.v8),
-        .macOS(.v10_11),
+        .macOS(.v10_12),
         .tvOS(.v9),
     ],
     products: [
@@ -13,7 +13,12 @@ let package = Package(
         .library(name: "SiestaUI", targets: ["SiestaUI"]),
     ],
     dependencies: [
-        // .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.5")),
+        // Siesta has no required third-party dependencies for use in downstream projects.
+
+        // For optional Siesta-Alamofire module:
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.5")),
+
+        // For tests:
         .package(url: "https://github.com/pcantrell/Quick", .branch("around-each")), 
         .package(url: "https://github.com/Quick/Nimble", from: "8.0.1"),
     ],
@@ -25,9 +30,14 @@ let package = Package(
             name: "SiestaUI",
             dependencies: ["Siesta"]
         ),
+        .target(
+            name: "Siesta_Alamofire",
+            dependencies: ["Siesta", "Alamofire"],
+            path: "Extensions/Alamofire"
+        ),
         .testTarget(
             name: "SiestaTests",
-            dependencies: ["SiestaUI", "Quick", "Nimble"],
+            dependencies: ["SiestaUI", "Siesta_Alamofire", "Quick", "Nimble"],
             path: "Tests/Functional",
             exclude: ["ObjcCompatibilitySpec.m"]  // SwiftPM currently only supports Swift
         ),
