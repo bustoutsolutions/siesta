@@ -58,7 +58,10 @@ class ResourceSpecBase: SiestaSpec
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
-            runSpecsWithNetworkingProvider("Alamofire networking", networking: Alamofire.SessionManager.default)
+            runSpecsWithNetworkingProvider("Alamofire networking", networking:
+                Alamofire.SessionManager(
+                    configuration: NetworkStub.wrap(
+                        Alamofire.SessionManager.default.session.configuration)))
             }
         else
             { runSpecsWithDefaultProvider() }
