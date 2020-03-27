@@ -7,9 +7,13 @@
 //
 
 @testable import Siesta
+
+import Foundation
 import Quick
 import Nimble
-import Alamofire
+#if canImport(Alamofire)
+    import Alamofire
+#endif
 
 private let _fakeNowLock = NSObject()
 private var _fakeNow: Double?
@@ -58,11 +62,13 @@ class ResourceSpecBase: SiestaSpec
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
+            #if canImport(Alamofire)
             let afSession = Alamofire.Session(
                 configuration: NetworkStub.wrap(
                     Alamofire.Session.default.session.configuration),
                 startRequestsImmediately: false)
             runSpecsWithNetworkingProvider("Alamofire networking", networking: afSession)
+            #endif
             }
         else
             { runSpecsWithDefaultProvider() }

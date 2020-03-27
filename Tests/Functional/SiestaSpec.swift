@@ -6,8 +6,10 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Quick
 @testable import Siesta
+
+import Foundation
+import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
@@ -125,7 +127,7 @@ private class ResultsAggregator
             }
         else
             {
-            subtree.file = callsite.file
+            subtree.file = callsite.file.description
             subtree.line = callsite.line
             subtree.passed = passed
             }

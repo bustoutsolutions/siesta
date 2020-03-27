@@ -6,6 +6,8 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
+#if os(iOS)
+
 import Foundation
 
 import SiestaUI
@@ -35,3 +37,5 @@ class RemoteImageViewSpec: SiestaSpec
         // TODO: build out SiestaUI tests
         }
     }
+
+#endif
