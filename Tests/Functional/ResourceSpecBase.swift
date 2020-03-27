@@ -58,10 +58,11 @@ class ResourceSpecBase: SiestaSpec
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
-            runSpecsWithNetworkingProvider("Alamofire networking", networking:
-                Alamofire.SessionManager(
-                    configuration: NetworkStub.wrap(
-                        Alamofire.SessionManager.default.session.configuration)))
+            let afSession = Alamofire.Session(
+                configuration: NetworkStub.wrap(
+                    Alamofire.Session.default.session.configuration),
+                startRequestsImmediately: false)
+            runSpecsWithNetworkingProvider("Alamofire networking", networking: afSession)
             }
         else
             { runSpecsWithDefaultProvider() }
@@ -234,4 +235,15 @@ func awaitObserverCleanup(for resource: Resource? = nil)
     DispatchQueue.main.async
         { cleanupExpectation.fulfill() }
     QuickSpec.current.waitForExpectations(timeout: 1)
+    }
+
+extension Error
+    {
+    var unwrapAlamofireError: NSError
+        {
+        if case .sessionTaskFailed(let wrappedError) = self as? AFError
+            { return wrappedError as NSError }
+        else
+            { return self as NSError }
+        }
     }
