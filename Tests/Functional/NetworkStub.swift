@@ -6,8 +6,9 @@
 //  Copyright © 2020 Bust Out Solutions. All rights reserved.
 //
 
-import Foundation
 import Siesta
+
+import Foundation
 
 public final class NetworkStub: NSObject  // Could be enum but for Obj-C compatibility
     {

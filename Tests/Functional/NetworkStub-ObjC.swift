@@ -8,8 +8,9 @@
 
 // swiftlint:disable function_parameter_count missing_docs
 
-import Foundation
 import Siesta
+
+import Foundation
 
 extension NetworkStub
     {

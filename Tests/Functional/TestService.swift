@@ -7,6 +7,8 @@
 //
 
 import Siesta
+
+import Foundation
 import Quick
 
 @objc
