@@ -256,7 +256,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 expect(resource().latestData).to(beNil())
                 expect(resource().latestError).notTo(beNil())
-                let nserror = resource().latestError?.cause as NSError?
+                let nserror = resource().latestError?.cause?.unwrapAlamofireError as NSError?
                 expect(nserror?.domain) == "TestDomain"
                 expect(nserror?.code) == 12345
                 }
@@ -310,7 +310,8 @@ class ResourceStateSpec: ResourceSpecBase
                     userInfo: [NSLocalizedDescriptionKey: "KABOOM"]))
                 awaitFailure(resource().load())
 
-                expect(resource().latestError?.userMessage) == "KABOOM"
+                expect(resource().latestError?.userMessage)
+                    .to(match("^(URLSessionTask failed with error: )?KABOOM$")) // Alamofire adds this prefix 😒
                 }
 
             it("generates error messages from HTTP status codes")
