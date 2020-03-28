@@ -67,7 +67,8 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
         {
         session.rootQueue.sync
             {
-            let requestTask = alamofireRequest.task!
+            guard let requestTask = alamofireRequest.task else
+                { return ZeroProgressURLSessionTask() }
             if requestTask.state == .suspended
                 { alamofireRequest.resume() }   // in case session.startRequestsImmediately is false
             return requestTask
@@ -83,4 +84,10 @@ extension Alamofire.Session: NetworkingProviderConvertible
     /// You can pass an `AlamoFire.Manager` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
         { return AlamofireProvider(session: self) }
+    }
+
+private class ZeroProgressURLSessionTask: URLSessionTask
+    {
+    override var countOfBytesSent: Int64
+        { return 0 }
     }
