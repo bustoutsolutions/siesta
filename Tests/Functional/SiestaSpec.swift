@@ -31,8 +31,12 @@ class SiestaSpec: QuickSpec
             SiestaLog.messageHandler =
                 {
                 _, message in
+
+                let messageWithTimestamp = String(format: "%1.9f %@", ProcessInfo.processInfo.systemUptime, message)
+                if Self.envFlag("ShowTestOutputImmediately")
+                    { print(messageWithTimestamp) }
                 DispatchQueue.main.async
-                    { currentLogMessages.append(message) }
+                    { currentLogMessages.append(messageWithTimestamp) }
                 }
             }
 
