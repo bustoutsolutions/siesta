@@ -6,7 +6,7 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
 
 import Foundation
 

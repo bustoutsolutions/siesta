@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
 
 #if !COCOAPODS
     import Siesta
@@ -88,4 +88,4 @@ open class RemoteImageView: UIImageView
         }
     }
 
-#endif // OS(iOS)
+#endif // OS
