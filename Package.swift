@@ -4,13 +4,14 @@ import PackageDescription
 let package = Package(
     name: "Siesta",
     platforms: [
-        .iOS(.v8),
+        .iOS(.v10),
         .macOS(.v10_12),
         .tvOS(.v9),
     ],
     products: [
         .library(name: "Siesta", targets: ["Siesta"]),
         .library(name: "SiestaUI", targets: ["SiestaUI"]),
+        .library(name: "Siesta_Alamofire", targets: ["Siesta_Alamofire"]),
     ],
     dependencies: [
         // Siesta has no required third-party dependencies for use in downstream projects.

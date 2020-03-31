@@ -308,7 +308,7 @@ private struct Latch
 
     func await(target: Int = 0, whileLocked action: () -> Void = {})
         {
-        guard lock.lock(whenCondition: target, before: Date(timeIntervalSinceNow: 1)) else
+        guard lock.lock(whenCondition: target, before: Date(timeIntervalSinceNow: 10)) else
             { fatalError("timed out waiting for \(name)") }
         action()
         lock.unlock()

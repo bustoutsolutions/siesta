@@ -1,4 +1,4 @@
-name: Swift
+name: SwiftPM regression tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  run_tests:
 
     runs-on: macos-latest
 

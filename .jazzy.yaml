@@ -9,9 +9,9 @@ exclude:
   - "Source/SiestaUI/SiestaUI-ObjC.swift"         # ditto
   - "Source/Siesta/Support/Ω_Deprecations.swift"  # ditto
 
-copyright: '© 2018 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
+copyright: '© 2020 [Bust Out Solutions](http://bustoutsolutions.com) under [open source license](https://github.com/bustoutsolutions/siesta/blob/master/LICENSE).'
 
-swift_version: 4.2.1
+swift_version: 5.2
 
 theme: fullwidth
 

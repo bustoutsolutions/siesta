@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(OSX) || os(watchOS)
+#if os(macOS) || os(watchOS)
     internal let memoryWarningNotification = NSNotification.Name("Siesta.memoryWarningNotification")
 #elseif os(iOS) || os(tvOS)
     import UIKit

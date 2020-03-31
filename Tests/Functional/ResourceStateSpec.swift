@@ -544,10 +544,10 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("cancels load after the delay")
                     {
-                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:)")
                     resource().cancelLoadIfUnobserved(afterDelay: 0.2)
                         { expectation.fulfill() }
-                    QuickSpec.current.waitForExpectations(timeout: 0.3)
+                    QuickSpec.current.waitForExpectations(timeout: 1.0)
 
                     _ = reqStub().go()
                     awaitFailure(req(), initialState: .completed)
@@ -555,7 +555,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 it("does not cancel load before the delay")
                     {
-                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:")
+                    let expectation = QuickSpec.current.expectation(description: "cancelLoadIfUnobserved(afterDelay:)")
                     expectation.isInverted = true
                     resource().cancelLoadIfUnobserved(afterDelay: 0.3)
                         { expectation.fulfill() }

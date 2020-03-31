@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(OSX)
+#if os(macOS)
     import AppKit
 
     /// A cross-platform alias for the output type of Siesta’s image content transformer.

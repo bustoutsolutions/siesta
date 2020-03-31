@@ -11,9 +11,9 @@
 
 Drastically simplifies app code by providing a client-side cache of observable models for RESTful resources.
 
-* **OS:** iOS 8+, macOS 10.11+
+* **OS:** iOS 10+, macOS 10.11+, tvOS 9.0+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-* **Tool requirements:** Xcode 10, Swift 4 (See `swift-2.x` and `swift-3` branches for legacy support)
+* **Tool requirements:** Xcode 11.3+, Swift 5.1+ (See [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) for legacy support)
 * **License:** MIT
 
 ## Table of Contents
@@ -89,7 +89,7 @@ Siesta handles all the transitions and corner cases to deliver these answers wra
 
 - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`URLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](https://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
 - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
-- It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor you prefer, or work directly with parsed JSON.
+- It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor your app prefers, or work directly with parsed JSON.
 
 ## Origin
 
@@ -120,7 +120,29 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 4 and Xcode 10. (Use the `swift-2.x` and `swift-3` branches if you are still on an older version.)
+Siesta requires Swift 5 and Xcode 11. (Use the [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) branches if you are still on an older version.)
+
+### Swift Package Manager
+
+In Xcode:
+
+* File → Swift Packages → Add Package Dependency…
+* Enter `https://github.com/bustoutsolutions/siesta` in the URL field and click Next.
+* The defaults for the version settings are good for most projects. Click Next.
+* Check the checkbox next to “Siesta.”
+    - Also check “SiestaUI” if you want to use any of the [UI helpers](https://github.com/bustoutsolutions/siesta/tree/master/Source/SiestaUI).
+    - Also check “Siesta_Alamofire” if you want to use the Alamofire extension for Siesta.
+* Click “Finish.”
+* SwiftPM does not yet support resources supplied by dependencies. This means that if:
+    - you included `SiestaUI` above
+    - and you plan to use `ResourceStatusOverlay`
+    - and you are using its default initializer instead of providing your own custom UI layout,
+
+    …then you’ll need to copy [`ResourceStatusOverlay.xib`](https://github.com/bustoutsolutions/siesta/raw/master/Source/SiestaUI/ResourceStatusOverlay.xib) into your own project.
+
+    SwiftPM has support for this coming, but it hasn’t arrived yet as of Swift 5.2.
+
+Please note that Xcode will show _all_ of Siesta’s optional and test-only dependencies, including Quick, Nimble, and Alamofire. Don’t worry: these won’t actually be bundled into your app (except Alamofire, if you use it).
 
 ### CocoaPods
 
@@ -372,7 +394,7 @@ With all that in mind, here is a capabilities comparison¹:
 | Hides HTTP                  |                    |                |               | ✓         |                 |                |
 | UI helpers                  | ✓                  |                |               |           | ✓               |                |
 | Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
-| Nontrivial lines of code²   | 2500               | 3020           | 13291         | 965       | 4025            | ?              |
+| Nontrivial lines of code²   | 2609               | 3980           | 13220         | 1178      | 3936            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
 <small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
