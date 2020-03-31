@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.4.3"
+  s.version      = "1.5.0"
   s.summary      = "Swift REST client library"
 
   s.description  = <<-DESC
@@ -66,11 +66,13 @@ Pod::Spec.new do |s|
 
   s.documentation_url = "https://bustoutsolutions.github.io/siesta/"
 
+  s.swift_version = "5.0"
+
   s.ios.deployment_target = "10.0"
   s.osx.deployment_target = "10.12"
-  s.tvos.deployment_target = "9.0"
+  s.tvos.deployment_target = "10.0"
 
-  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.4.3" }
+  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.5.0" }
 
   s.subspec "Core" do |s|
     s.source_files = "Source/Siesta/**/*"
@@ -87,7 +89,7 @@ Pod::Spec.new do |s|
   s.subspec "Alamofire" do |s|
     s.source_files = "Extensions/Alamofire/**/*.{swift,m,h}"
     s.dependency "Siesta/Core"
-    s.dependency "Alamofire", "> 4.1"
+    s.dependency "Alamofire", "> 5.0"
   end
 
   s.default_subspecs = 'Core'
