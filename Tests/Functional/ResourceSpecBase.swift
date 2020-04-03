@@ -7,10 +7,14 @@
 //
 
 @testable import Siesta
+
+import Foundation
 import Quick
 import Nimble
-import Nocilla
 import Alamofire
+#if canImport(Siesta_Alamofire)  // SwiftPM builds it as a separate module
+    import Siesta_Alamofire
+#endif
 
 private let _fakeNowLock = NSObject()
 private var _fakeNow: Double?
@@ -38,15 +42,7 @@ class ResourceSpecBase: SiestaSpec
         {
         super.spec()
 
-        func envFlag(_ key: String) -> Bool
-            {
-            let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
-            return value == "1" || value == "true"
-            }
-
-        beforeSuite { LSNocilla.sharedInstance().start() }
-        afterSuite  { LSNocilla.sharedInstance().stop() }
-        afterEach   { LSNocilla.sharedInstance().clearStubs() }
+        beforeEach { NetworkStub.clearAll() }
 
         let realNow = Siesta.now
         Siesta.now =
@@ -55,19 +51,25 @@ class ResourceSpecBase: SiestaSpec
             }
         afterEach { fakeNow = nil }
 
-        if envFlag("TestMultipleNetworkProviders")
+        if SiestaSpec.envFlag("TestMultipleNetworkProviders")
             {
-            runSpecsWithNetworkingProvider("default URLSession",   networking: URLSessionConfiguration.default)
-            runSpecsWithNetworkingProvider("ephemeral URLSession", networking: URLSessionConfiguration.ephemeral)
+            runSpecsWithNetworkingProvider("default URLSession",   networking: NetworkStub.wrap(URLSessionConfiguration.default))
+            runSpecsWithNetworkingProvider("ephemeral URLSession", networking: NetworkStub.wrap(URLSessionConfiguration.ephemeral))
             runSpecsWithNetworkingProvider("threaded URLSession",  networking:
                 {
                 let backgroundQueue = OperationQueue()
                 return URLSession(
-                    configuration: URLSessionConfiguration.default,
+                    configuration: NetworkStub.wrap(URLSessionConfiguration.default),
                     delegate: nil,
                     delegateQueue: backgroundQueue)
                 }())
-            runSpecsWithNetworkingProvider("Alamofire networking", networking: Alamofire.SessionManager.default)
+            #if canImport(Alamofire)
+            let afSession = Alamofire.Session(
+                configuration: NetworkStub.wrap(
+                    Alamofire.Session.default.session.configuration),
+                startRequestsImmediately: false)
+            runSpecsWithNetworkingProvider("Alamofire networking", networking: afSession)
+            #endif
             }
         else
             { runSpecsWithDefaultProvider() }
@@ -85,7 +87,7 @@ class ResourceSpecBase: SiestaSpec
     private func runSpecsWithDefaultProvider()
         {
         runSpecsWithService
-            { Service(baseURL: self.baseURL) }
+            { Service(baseURL: self.baseURL, networking: NetworkStub.defaultConfiguration) }
         }
 
     private func runSpecsWithService(_ serviceBuilder: @escaping () -> Service)
@@ -156,7 +158,7 @@ class ResourceSpecBase: SiestaSpec
         // Embedding the spec name in the API’s URL makes it easier to track down unstubbed requests, which sometimes
         // don’t arrive until a following spec has already started.
 
-        return "https://" + QuickSpec.current.description
+        return "test://" + QuickSpec.current.description
             .replacing(regex: "_[A-Za-z]+Specswift_\\d+\\]$", with: "")
             .replacing(regex: "[^A-Za-z0-9_]+", with: ".")
             .replacing(regex: "^\\.+|\\.+$", with: "")
@@ -164,19 +166,7 @@ class ResourceSpecBase: SiestaSpec
     }
 
 
-// MARK: - Request stubbing
-
-@discardableResult
-func stubRequest(_ resource: () -> Resource, _ method: String) -> LSStubRequestDSL
-    {
-    return stubRequest(resource(), method)
-    }
-
-@discardableResult
-func stubRequest(_ resource: Resource, _ method: String) -> LSStubRequestDSL
-    {
-    return stubRequest(method, resource.url.absoluteString as NSString)
-    }
+// MARK: - Awaiting requests
 
 func awaitNewData(_ req: Siesta.Request, initialState: RequestState = .inProgress)
     {
@@ -221,36 +211,13 @@ func awaitFailure(_ req: Siesta.Request, initialState: RequestState = .inProgres
 
     QuickSpec.current.waitForExpectations(timeout: 1)
     expect(req.state) == .completed
-
-    // When cancelling a request, Siesta immediately kills its end of the request, then sends a cancellation to the
-    // network layer without waiting for a response. This causes spurious spec failures if LSNocilla’s clearStubs() gets
-    // called before the network has a chance to finish, so we have to wait for the underlying request as well as Siesta.
-
-    if initialState == .completed
-        { awaitUnderlyingNetworkRequest(req) }
-    }
-
-func awaitUnderlyingNetworkRequest(_ req: Siesta.Request)
-    {
-    let networkExpectation = QuickSpec.current.expectation(description: "awaiting underlying network response: \(req)")
-    pollUnderlyingCompletion(req, expectation: networkExpectation)
-    QuickSpec.current.waitForExpectations(timeout: 1.0)
-    }
-
-private func pollUnderlyingCompletion(_ req: Siesta.Request, expectation: XCTestExpectation)
-    {
-    if req.state == .completed
-        { expectation.fulfill() }
-    else
-        {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0001)
-            { pollUnderlyingCompletion(req, expectation: expectation) }
-        }
     }
 
 func stubAndAwaitRequest(for resource: Resource, expectSuccess: Bool = true)
     {
-    _ = stubRequest(resource, "GET").andReturn(200).withBody("🍕" as NSString)
+    NetworkStub.add(
+        .get, { resource },
+        returning: HTTPResponse(body: "🍕"))
     let awaitRequest = expectSuccess ? awaitNewData : awaitFailure
     awaitRequest(resource.load(), .inProgress)
     }
@@ -277,18 +244,13 @@ func awaitObserverCleanup(for resource: Resource? = nil)
     QuickSpec.current.waitForExpectations(timeout: 1)
     }
 
-// Request cancellation can cause a race condition in specs:
-//
-// 1. Network request starts chugging
-// 2. Request is cancelled on the Siesta side, but background network machinery already in motion
-// 3. Spec completes, we clear Nocilla stubs
-// 4. Request (which still hasn't received the cancellation) hits Nocilla, causing it to throw
-//    an unstubbed request error
-//
-// Nocilla doesn't provide any way to actually guard against this, or to wait for pending requests
-// to finish, so we solve it with a timeout (pending a better network stubbing lib).
-//
-func awaitCancelledRequests()
+extension Error
     {
-    Thread.sleep(forTimeInterval: 0.1)
+    var unwrapAlamofireError: NSError
+        {
+        if case .sessionTaskFailed(let wrappedError) = self as? AFError
+            { return wrappedError as NSError }
+        else
+            { return self as NSError }
+        }
     }

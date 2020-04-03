@@ -13,7 +13,7 @@ import Foundation
     import Siesta
 #endif
 
-#if !os(OSX)
+#if !os(macOS)
 
 extension ResourceEvent
     {

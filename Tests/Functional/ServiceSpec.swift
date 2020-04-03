@@ -7,6 +7,9 @@
 //
 
 import Siesta
+
+import Foundation
+import XCTest
 import Quick
 import Nimble
 
@@ -69,17 +72,17 @@ class ServiceSpec: SiestaSpec
                     it("allows requests for absolute URLs")
                         {
                         let resource = bareService().resource(absoluteURL: "http://foo.bar")
-                        _ = stubRequest({ resource }, "GET").andReturn(200)
+                        NetworkStub.add(.get, { resource })
                         awaitNewData(resource.load())
                         }
                     }
                 }
 
             addSpecsForBareServce("with no baseURL")
-                { Service() }
+                { Service(networking: NetworkStub.defaultConfiguration) }
 
             addSpecsForBareServce("with an invalid baseURL")
-                { Service(baseURL: "\0") }
+                { Service(baseURL: "\0", networking: NetworkStub.defaultConfiguration) }
             }
 
         describe("resource(_:)")

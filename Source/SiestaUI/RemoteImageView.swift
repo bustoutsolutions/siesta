@@ -6,11 +6,13 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+#if os(iOS) || os(tvOS)
+
 #if !COCOAPODS
     import Siesta
 #endif
-import Foundation
 import UIKit
+import Foundation
 
 /**
   A `UIImageView` that asynchronously loads and displays remote images.
@@ -85,3 +87,5 @@ open class RemoteImageView: UIImageView
         alternateView?.isHidden = (image != nil) || isLoading
         }
     }
+
+#endif // OS

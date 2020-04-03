@@ -6,12 +6,13 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
+#if os(iOS) || os(tvOS)
+
 import Foundation
 
 import SiestaUI
 import Quick
 import Nimble
-import Nocilla
 
 class RemoteImageViewSpec: SiestaSpec
     {
@@ -36,3 +37,5 @@ class RemoteImageViewSpec: SiestaSpec
         // TODO: build out SiestaUI tests
         }
     }
+
+#endif

@@ -7,9 +7,10 @@
 //
 
 import Siesta
+
+import Foundation
 import Quick
 import Nimble
-import Nocilla
 
 class RequestSpec: ResourceSpecBase
     {
@@ -19,13 +20,13 @@ class RequestSpec: ResourceSpecBase
             {
             it("initates a network call")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 awaitNewData(resource().request(.get))
                 }
 
             it("handles various HTTP methods")
                 {
-                _ = stubRequest(resource, "PATCH").andReturn(200)
+                NetworkStub.add(.patch, resource)
                 awaitNewData(resource().request(.patch))
                 }
 
@@ -33,7 +34,7 @@ class RequestSpec: ResourceSpecBase
                 {
                 it("represents response without body as zero-length Data for \(method) → \(httpCode)")
                     {
-                    _ = stubRequest(resource, "HEAD").andReturn(200)
+                    NetworkStub.add(.head, resource)
                     let req = resource().request(.head)
                     awaitNewData(req)
                     req.onSuccess { expect($0.typedContent()) == Data() }
@@ -43,9 +44,10 @@ class RequestSpec: ResourceSpecBase
             it("sends headers from configuration")
                 {
                 service().configure { $0.headers["Zoogle"] = "frotz" }
-                _ = stubRequest(resource, "GET")
-                    .withHeader("Zoogle", "frotz")
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .get, resource,
+                        headers: ["Zoogle": "frotz"]))
                 awaitNewData(resource().request(.get))
                 }
 
@@ -65,8 +67,11 @@ class RequestSpec: ResourceSpecBase
 
                     for counter in ["malkovich", "malkovichmalkovich", "malkovichmalkovichmalkovich"]
                         {
-                        LSNocilla.sharedInstance().clearStubs()
-                        _ = stubRequest(resource, "GET").withHeader("X-Malkoviches", counter).andReturn(200)
+                        NetworkStub.clearAll()
+                        NetworkStub.add(
+                            matching: RequestPattern(
+                                .get, resource,
+                                headers: ["X-Malkoviches": counter]))
                         awaitNewData(resource().request(.get))
                         }
                     }
@@ -87,10 +92,11 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "POST")
-                        .withHeader("Content-Length", "4")
-                        .withBody(Data([0, 1, 2, 42]) as NSData)
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .post, resource,
+                            headers: ["Content-Length": "4"],
+                            body: Data([0, 1, 2, 42])))
                     awaitNewData(resource().request(.post, data: Data([0, 1, 2]), contentType: "foo/bar"))
                     }
 
@@ -118,10 +124,14 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "POST")
-                        .withHeader("Original-Method", "GET")
-                        .withHeader("Mutated-Method", "POST")
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .post, resource,
+                            headers:
+                                [
+                                "Original-Method": "GET",
+                                "Mutated-Method": "POST"
+                                ]))
                     awaitNewData(resource().request(.get))
                     expect(decorated) == 1
                     }
@@ -143,8 +153,8 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    _ = stubRequest(resource, "GET").andReturn(200)
-                    _ = stubRequest(resource, "POST").andReturn(200)
+                    NetworkStub.add(.get, resource)
+                    NetworkStub.add(.post, resource)
                     awaitNewData(resource().load())
                     awaitNewData(resource().request(.post))
 
@@ -160,7 +170,7 @@ class RequestSpec: ResourceSpecBase
                             { $1.onSuccess { _ in successHookCalled = true } }
                         }
 
-                    _ = stubRequest(resource, "GET").andReturn(200)
+                    NetworkStub.add(.get, resource)
                     awaitNewData(resource().load())
 
                     expect(successHookCalled) == true
@@ -177,7 +187,7 @@ class RequestSpec: ResourceSpecBase
                             }
                         }
 
-                    awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
+                    awaitFailure(resource().load(), initialState: .completed)  // NetworkStub will flag if network call goes through
                     }
 
                 context("substituting a request")
@@ -231,7 +241,7 @@ class RequestSpec: ResourceSpecBase
                             $0.decorateRequests
                                 { _,_  in dummyReq0() }
                             }
-                        awaitFailure(resource().load(), initialState: .completed)  // Nocilla will flag if network call goes through
+                        awaitFailure(resource().load(), initialState: .completed)  // NetworkStub will flag if network call goes through
                         }
 
                     it("starts the original request if it is the first in a chain")
@@ -252,9 +262,11 @@ class RequestSpec: ResourceSpecBase
                                 }
                             }
 
-                        _ = stubRequest(resource, "GET").andReturn(200)
-                            .withHeader("Content-Type", "text/plain")
-                            .withBody("ducks" as NSString)
+                        NetworkStub.add(
+                            .get, resource,
+                            returning: HTTPResponse(
+                                headers: ["Content-Type": "text/plain"],
+                                body: "ducks"))
                         awaitNewData(resource().load())
                         expect(resource().text) == "ducks redux"
                         }
@@ -281,7 +293,7 @@ class RequestSpec: ResourceSpecBase
                     it("runs the original request if it is deferred but used by a chain")
                         {
                         configureDeferredRequestChain(passToOriginalRequest: true)
-                        _ = stubRequest(resource, "GET").andReturn(200)
+                        NetworkStub.add(.get, resource)
                         awaitNewData(resource().load())
                         }
 
@@ -296,20 +308,20 @@ class RequestSpec: ResourceSpecBase
 
         it("can be cancelled")
             {
-            let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+            let reqStub = NetworkStub.add(.get, resource).delay()
             let req = resource().request(.get)
             req.onFailure
                 { expect($0.cause is RequestError.Cause.RequestCancelled) == true }
             req.onCompletion
                 { expect($0.response.isCancellation) == true }
             req.cancel()
-            _ = reqStub.go()
+            reqStub.go()
             awaitFailure(req, initialState: .completed)
             }
 
         it(".cancel() has no effect if it already succeeded")
             {
-            _ = stubRequest(resource, "GET").andReturn(200)
+            NetworkStub.add(.get, resource)
             let req = resource().request(.get)
             req.onCompletion
                 { expect($0.response.isCancellation) == false }
@@ -329,15 +341,17 @@ class RequestSpec: ResourceSpecBase
 
         describe("repeated()")
             {
-            func stubRepeatedRequest(_ answer: String = "No.", flavorHeader: String? = nil)
+            func stubRequest(_ answer: String = "No.", flavorHeader: String? = nil)
                 {
-                LSNocilla.sharedInstance().clearStubs()
-                _ = stubRequest(resource, "PATCH")
-                    .withBody("Is there an echo in here?" as NSString)
-                    .withHeader("X-Flavor", flavorHeader)
-                    .andReturn(200)
-                    .withHeader("Content-Type", "text/plain")
-                    .withBody(answer as NSString)
+                NetworkStub.clearAll()
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .patch, resource,
+                        headers: ["X-Flavor": flavorHeader],
+                        body: "Is there an echo in here?"),
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "text/plain"],
+                        body: answer))
                 }
 
             func expectResonseText(_ request: Request, text: String)
@@ -351,44 +365,44 @@ class RequestSpec: ResourceSpecBase
                 QuickSpec.current.waitForExpectations(timeout: 1)
                 }
 
-            let oldRequest = specVar
+            let originalRequest = specVar
                 {
                 () -> Request in
-                stubRepeatedRequest()
+                stubRequest()
                 let req = resource().request(.patch, text: "Is there an echo in here?")
                 awaitNewData(req)
                 return req
                 }
 
-            let repeatedRequest = specVar { oldRequest().repeated() }
+            let repeatedRequest = specVar { originalRequest().repeated() }
 
             it("does not send the repeated request automatically")
                 {
-                _ = repeatedRequest()  // Nocilla will flag any request
+                _ = originalRequest()  // Wait for original go through
+                NetworkStub.clearAll() // Tell NetworkStub not to allow any more requests...
+                _ = repeatedRequest()  // ...so that a request here would cause an error
                 }
 
             it("sends a new network request on start()")
                 {
-                stubRepeatedRequest()
                 awaitNewData(repeatedRequest().start())
                 }
 
             it("leaves the old request’s result intact")
                 {
-                _ = oldRequest()
-                stubRepeatedRequest("OK, maybe.")
+                _ = originalRequest()
+                stubRequest("OK, maybe.")
                 awaitNewData(repeatedRequest().start())
 
-                expectResonseText(oldRequest(), text: "No.")        // still has old result
+                expectResonseText(originalRequest(), text: "No.")        // still has old result
                 expectResonseText(repeatedRequest(), text: "OK, maybe.") // has new result
                 }
 
             it("does not call the old request’s callbacks")
                 {
                 var oldRequestHookCalls = 0
-                oldRequest().onCompletion { _ in oldRequestHookCalls += 1 }
+                originalRequest().onCompletion { _ in oldRequestHookCalls += 1 }
 
-                stubRepeatedRequest()
                 awaitNewData(repeatedRequest().start())
 
                 expect(oldRequestHookCalls) == 1
@@ -400,18 +414,18 @@ class RequestSpec: ResourceSpecBase
                 service().configure
                     { $0.headers["X-Flavor"] = flavor }
 
-                _ = oldRequest()
+                _ = originalRequest()
 
                 flavor = "iced maple ginger chcocolate pasta swirl"
                 service().invalidateConfiguration()
 
-                stubRepeatedRequest(flavorHeader: flavor)
+                stubRequest(flavorHeader: flavor)
                 awaitNewData(repeatedRequest().start())
                 }
 
             it("repeats custom response mutation")
                 {
-                stubRepeatedRequest(flavorHeader: "mutant flavor 0")
+                stubRequest(flavorHeader: "mutant flavor 0")
 
                 var mutationCount = 0
                 let req = resource().request(.patch, text: "Is there an echo in here?")
@@ -424,7 +438,7 @@ class RequestSpec: ResourceSpecBase
 
                 awaitNewData(req)
 
-                stubRepeatedRequest(flavorHeader: "mutant flavor 1")
+                stubRequest(flavorHeader: "mutant flavor 1")
                 awaitNewData(req.repeated().start())
                 }
 
@@ -440,7 +454,7 @@ class RequestSpec: ResourceSpecBase
                         }
                     }
 
-                stubRepeatedRequest()
+                stubRequest()
                 awaitNewData(repeatedRequest().start())
 
                 expect(decorations) == 1
@@ -451,22 +465,24 @@ class RequestSpec: ResourceSpecBase
             {
             it("handles raw data")
                 {
-                let nsdata = Data([0x00, 0xFF, 0x17, 0xCA])
+                let data = Data([0x00, 0xFF, 0x17, 0xCA])
 
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "application/monkey")
-                    .withBody(nsdata as NSData)
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "application/monkey"],
+                        body: data))
 
-                awaitNewData(resource().request(.post, data: nsdata, contentType: "application/monkey"))
+                awaitNewData(resource().request(.post, data: data, contentType: "application/monkey"))
                 }
 
             it("handles string data")
                 {
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "text/plain; charset=utf-8")
-                    .withBody("Très bien!" as NSString)
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "text/plain; charset=utf-8"],
+                        body: "Très bien!"))
 
                 awaitNewData(resource().request(.post, text: "Très bien!"))
                 }
@@ -485,10 +501,11 @@ class RequestSpec: ResourceSpecBase
 
             it("handles JSON data")
                 {
-                _ = stubRequest(resource, "PUT")
-                    .withHeader("Content-Type", "application/json")
-                    .withBody("{\"question\":[[2,\"be\"],[\"not\",2,\"be\"]]}" as NSString)
-                    .andReturn(200)
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .put, resource,
+                        headers: ["Content-Type": "application/json"],
+                        body: #"{"question":[[2,"be"],["not",2,"be"]]}"#))
 
                 awaitNewData(resource().request(.put, json: ["question": [[2, "be"], ["not", 2, "be"]]]))
                 }
@@ -505,20 +522,22 @@ class RequestSpec: ResourceSpecBase
                 {
                 it("encodes parameters")
                     {
-                    _ = stubRequest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("brown=cow&foo=bar&how=now" as NSString)
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .patch, resource,
+                            headers: ["Content-Type": "application/x-www-form-urlencoded"],
+                            body: "brown=cow&foo=bar&how=now"))
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["foo": "bar", "how": "now", "brown": "cow"]))
                     }
 
                 it("escapes unsafe characters")
                     {
-                    _ = stubRequest(resource, "PATCH")
-                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .withBody("%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r" as NSString)
-                        .andReturn(200)
+                    NetworkStub.add(
+                        matching: RequestPattern(
+                            .patch, resource,
+                            headers: ["Content-Type": "application/x-www-form-urlencoded"],
+                            body: "%E2%84%A5%3D%26=%E2%84%8C%E2%84%91%3D%26&f%E2%80%A2%E2%80%A2=b%20r"))
 
                     awaitNewData(resource().request(.patch, urlEncoded: ["f••": "b r", "℥=&": "ℌℑ=&"]))
                     }
@@ -545,15 +564,21 @@ class RequestSpec: ResourceSpecBase
             it("overrides any Content-Type set in configuration headers")
                 {
                 service().configure { $0.headers["Content-Type"] = "frotzle/ooglatz" }
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "application/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "application/json"],
+                        body: #"{"foo":"bar"}"#))
                 awaitNewData(resource().request(.post, json: ["foo": "bar"]))
                 }
 
             it("lets ad hoc request mutation override the Content-Type")
                 {
-                _ = stubRequest(resource, "POST")
-                    .withHeader("Content-Type", "person/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "person/json"],
+                        body: #"{"foo":"bar"}"#))
                 let req = resource().request(.post, json: ["foo": "bar"])
                     { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }
                 awaitNewData(req)
@@ -567,7 +592,11 @@ class RequestSpec: ResourceSpecBase
                         { $0.setValue("argonaut/json", forHTTPHeaderField: "Content-Type") }  // This one wins, even though...
                     }
 
-                _ = stubRequest(resource, "POST").withHeader("Content-Type", "argonaut/json")
+                NetworkStub.add(
+                    matching: RequestPattern(
+                        .post, resource,
+                        headers: ["Content-Type": "argonaut/json"],
+                        body: #"{"foo":"bar"}"#))
                 let req = resource().request(.post, json: ["foo": "bar"])                     // ...request(json:) sets it to "application/json"...
                     { $0.setValue("person/json", forHTTPHeaderField: "Content-Type") }        // ...and ad hoc mutation overrides that.
                 awaitNewData(req)
@@ -577,11 +606,14 @@ class RequestSpec: ResourceSpecBase
         describe("chained()")
             {
             @discardableResult
-            func stubText(_ body: String, method: String = "GET") -> LSStubResponseDSL
+            func stubText(_ body: String, method: RequestMethod = .get) -> RequestStub
                 {
-                return stubRequest(resource, method).andReturn(200)
-                    .withHeader("Content-Type", "text/plain")
-                    .withBody(body as NSString)
+                NetworkStub.add(
+                    method,
+                    resource,
+                    returning: HTTPResponse(
+                        headers: ["Content-Type": "text/plain"],
+                        body: body))
                 }
 
             func expectResult(_ expectedResult: String, for req: Request, initialState: RequestState = .inProgress)
@@ -618,7 +650,7 @@ class RequestSpec: ResourceSpecBase
             it("it can chain to a new request")
                 {
                 stubText("yo")
-                stubText("oy", method: "POST")
+                stubText("oy", method: .post)
                 let req = resource().request(.get)
                     .chained { _ in .passTo(resource().request(.post)) }
                 expectResult("oy", for: req)
@@ -631,7 +663,7 @@ class RequestSpec: ResourceSpecBase
                 let chainedReq = originalReq.chained
                     {
                     _ in
-                    LSNocilla.sharedInstance().clearStubs()
+                    NetworkStub.clearAll()
                     stubText("yoyo")
                     return .passTo(originalReq.repeated())
                     }
@@ -701,10 +733,6 @@ class RequestSpec: ResourceSpecBase
                     _ = reqStub.go()
                     awaitFailure(originalReq, initialState: .completed)
                     expectResult("custom", for: chainedReq, initialState: .completed)
-
-                    // For whatever reason, this spec is especially prone to hitting Nocilla’s
-                    // quirk of making cancelled requests go through anyway
-                    Thread.sleep(forTimeInterval: 0.05)
                     }
                 }
 
@@ -734,7 +762,7 @@ class RequestSpec: ResourceSpecBase
                 it("reruns the chain’s logic afresh")
                     {
                     stubText("yo")
-                    stubText("oy", method: "PATCH")
+                    stubText("oy", method: .patch)
 
                     var responseCount = 0
                     let req = resource().request(.get).chained
@@ -755,7 +783,7 @@ class RequestSpec: ResourceSpecBase
                 it("does not rerun chained requests wrapped outside of the restart")
                     {
                     stubText("yo")
-                    stubText("oy", method: "PATCH")
+                    stubText("oy", method: .patch)
 
                     var req0Count = 0, req1Count = 0
                     let req0 = resource().request(.get).chained
