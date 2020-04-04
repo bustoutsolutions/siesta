@@ -21,7 +21,7 @@ extension Pipeline
             { stage in (stage, stage.cacheBox?.buildEntry(resource)) }
         }
 
-    internal func makeProcessor(_ rawResponse: Response, resource: Resource) -> () -> Response
+    internal func makeProcessor(_ rawResponse: Response, resource: Resource) -> () -> ResponseInfo
         {
         // Generate cache keys on main thread (because this touches Resource)
         let stagesAndEntries = self.stagesAndEntries(for: resource)
@@ -29,37 +29,37 @@ extension Pipeline
         // Return deferred processor to run on background queue
         return
             {
-            let result = Pipeline.processAndCache(rawResponse, using: stagesAndEntries)
+            let result = Pipeline.process(rawResponse, using: stagesAndEntries)
 
-            SiestaLog.log(.pipeline,       ["  └╴Response after pipeline:", result.summary()])
-            SiestaLog.log(.networkDetails, ["    Details:", result.dump("      ")])
+            SiestaLog.log(.pipeline,       ["  └╴Response after pipeline:", result.response.summary()])
+            SiestaLog.log(.networkDetails, ["    Details:", result.response.dump("      ")])
 
             return result
             }
         }
 
     // Runs on a background queue
-    private static func processAndCache<StagesAndEntries: Collection>(
+    private static func process<StagesAndEntries: Collection>(
             _ rawResponse: Response,
             using stagesAndEntries: StagesAndEntries)
-        -> Response
+        -> ResponseInfo
         where StagesAndEntries.Iterator.Element == StageAndEntry
         {
-        return stagesAndEntries.reduce(rawResponse)
+        stagesAndEntries.reduce(into: ResponseInfo(response: rawResponse))
             {
-            let input = $0,
-                (stage, cacheEntry) = $1
+            let (stage, cacheEntry) = $1
 
-            let output = stage.process(input)
+            $0.response = stage.process($0.response)
 
-            if case .success(let entity) = output,
+            if case .success(let entity) = $0.response,
                let cacheEntry = cacheEntry
                 {
-                SiestaLog.log(.cache, ["  ├╴Caching entity with", type(of: entity.content), "content for", cacheEntry])
-                cacheEntry.write(entity)
+                $0.cacheActions.append(
+                    {
+                    SiestaLog.log(.cache, ["Caching entity with", type(of: entity.content), "content for", cacheEntry])
+                    cacheEntry.write(entity)
+                    })
                 }
-
-            return output
             }
         }
 
@@ -136,11 +136,11 @@ extension Pipeline
                     {
                     SiestaLog.log(.cache, ["Cache hit for", cacheEntry])
 
-                    let processed = Pipeline.processAndCache(
+                    let processed = Pipeline.process(
                         .success(result),
                         using: stagesAndEntries.suffix(from: index + 1))
 
-                    switch processed
+                    switch processed.response
                         {
                         case .failure:
                             SiestaLog.log(.cache, ["Error processing cached entity; will ignore cached value. Error:", processed])

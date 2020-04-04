@@ -474,6 +474,12 @@ public final class Resource: NSObject
 
         req.onProgress(notifyObservers(ofProgress:))
 
+        req.onCompletion
+            {
+            for action in $0.cacheActions
+                { action() }
+            }
+
         req.onNewData(receiveNewDataFromNetwork)
         req.onNotModified(receiveDataNotModified)
         req.onFailure(receiveError)
