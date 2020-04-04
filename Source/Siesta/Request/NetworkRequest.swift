@@ -160,7 +160,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
                 {
                 processedInfo = processor()
                 processedInfo.isNew = true
-                processedInfo.configurationSource = (self.method, self.resource)
+                processedInfo.configurationSource = .init(method: self.method, resource: self.resource)
                 }
             else
                 { processedInfo = rawInfo }  // result from a 304 is already transformed, cached, etc.

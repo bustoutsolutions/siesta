@@ -253,7 +253,7 @@ public struct ResponseInfo
     public var isNew: Bool
 
     /// Used to determine whether the response is suitable for caching when loaded by a particular resource
-    var configurationSource: (method: RequestMethod, resource: Resource)?
+    var configurationSource: ConfigurationSource?
 
     /// Callbacks to cache this response according to the pipeline config originally used to process it
     var cacheActions: [() -> Void] = []
@@ -270,4 +270,10 @@ public struct ResponseInfo
             response: .failure(RequestError(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
                 cause: RequestError.Cause.RequestCancelled(networkError: nil))))
+
+    struct ConfigurationSource: Equatable
+        {
+        var method: RequestMethod
+        weak var resource: Resource?
+        }
     }
