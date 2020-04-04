@@ -255,6 +255,9 @@ public struct ResponseInfo
     /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 
+    /// Used to determine whether the response is suitable for caching when loaded by a particular resource
+    var configurationSource: (method: RequestMethod, resource: Resource)?
+
     /// Callbacks to cache this response according to the pipeline config originally used to process it
     var cacheActions: [() -> ()] = []
 

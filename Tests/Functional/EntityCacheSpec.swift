@@ -6,7 +6,7 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+@testable import Siesta
 
 import Foundation
 import Quick
@@ -16,9 +16,12 @@ class EntityCacheSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
+        func configureCache<C: EntityCache>(
+                _ cache: C,
+                for pattern: ConfigurationPatternConvertible = "**",
+                at stageKey: PipelineStageKey)
             {
-            service().configure
+            service().configure(pattern)
                 { $0.pipeline[stageKey].cacheUsing(cache) }
             }
 
@@ -168,6 +171,15 @@ class EntityCacheSpec: ResourceSpecBase
 
         describe("write")
             {
+            @discardableResult
+            func stubAndAwaitRequestWithoutLoading(for resource: Resource, method: RequestMethod) -> Request
+                {
+                NetworkStub.add(method, { resource })
+                let req = resource.request(method)
+                awaitNewData(req, initialState: .inProgress)
+                return req
+                }
+
             func expectCacheWrite(to cache: TestCache, content: String)
                 {
                 waitForCacheWrite(cache)
@@ -175,7 +187,7 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(cache.entries.values.first?.typedContent()) == content
                 }
 
-            it("caches new data on success")
+            it("caches new data on a successful load()")
                 {
                 let testCache = TestCache("new data")
                 configureCache(testCache, at: .cleanup)
@@ -230,6 +242,40 @@ class EntityCacheSpec: ResourceSpecBase
                     with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
 
                 expect(testCache.entries).toEventually(beEmpty())
+                }
+
+            it("does not cache anything for call to Resource.request() without load()")
+                {
+                configureCache(UnwritableCache(), at: .cleanup)
+                stubAndAwaitRequestWithoutLoading(for: resource(), method: .get)
+                }
+
+            it("caches new data for a GET on the same resource passed to load(using:)")
+                {
+                let testCache = TestCache("new data from load(using:)")
+                configureCache(testCache, at: .cleanup)
+                let req = stubAndAwaitRequestWithoutLoading(for: resource(), method: .get)
+                resource().load(using: req)
+                expectCacheWrite(to: testCache, content: "decparmodcle")
+                }
+
+            it("does not cache anything for a non-GET request, even if passed to load(using:)")
+                {
+                configureCache(UnwritableCache(), at: .cleanup)
+                for method in RequestMethod.all
+                    where method != .get
+                        {
+                        let req = stubAndAwaitRequestWithoutLoading(for: resource(), method: method)
+                        resource().load(using: req)
+                        }
+                }
+
+            it("does not cache anything for a GET request for a different resource, even if passed to load(using:)")
+                {
+                let otherResource = service().resource("/otherResource")
+                configureCache(UnwritableCache(), at: .cleanup)
+                let req = stubAndAwaitRequestWithoutLoading(for: otherResource, method: .get)
+                resource().load(using: req)
                 }
             }
 
@@ -376,10 +422,10 @@ private struct UnwritableCache: EntityCache
         { return nil }
 
     func writeEntity(_ entity: Entity<Any>, forKey key: URL)
-        { fatalError("cache should never be written to") }
+        { fail("cache should never be written to") }
 
     func removeEntity(forKey key: URL)
-        { fatalError("cache should never be written to") }
+        { fail("cache should never be written to") }
     }
 
 private class ObserverEventRecorder: ResourceObserver

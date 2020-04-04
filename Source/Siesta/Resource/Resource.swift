@@ -68,13 +68,6 @@ public final class Resource: NSObject
             { service.configuration(forResource: self, requestMethod: method) }
         }
 
-    internal func configuration(for request: URLRequest) -> Configuration
-        {
-        return configuration(for:
-            RequestMethod(rawValue: request.httpMethod?.lowercased() ?? "")
-                ?? .get)  // All unrecognized methods default to .get
-        }
-
     private var cachedConfig: [RequestMethod:Configuration] = [:]
     private var configVersion: UInt64 = 0
 
@@ -476,8 +469,19 @@ public final class Resource: NSObject
 
         req.onCompletion
             {
-            for action in $0.cacheActions
-                { action() }
+            // TODO: explain this
+            if let configurationSource = $0.configurationSource
+                {
+                if configurationSource == (.get, self)
+                    {
+                    for action in $0.cacheActions
+                        { action() }
+                    }
+                else
+                    {
+                    SiestaLog.log(.cache, ["Resource.load(using:) will not cache the results of this request because it is not a GET and/or is for a different resource:", configurationSource.method, configurationSource.resource])
+                    }
+                }
             }
 
         req.onNewData(receiveNewDataFromNetwork)
