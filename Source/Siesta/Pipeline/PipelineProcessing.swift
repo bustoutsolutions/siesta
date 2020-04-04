@@ -55,11 +55,20 @@ extension Pipeline
                let cacheEntry = cacheEntry
                 {
                 $0.cacheActions.append(
-                    {
-                    SiestaLog.log(.cache, ["Caching entity with", type(of: entity.content), "content for", cacheEntry])
-                    cacheEntry.write(entity)
-                    })
+                    cacheAction(writing: entity, into: cacheEntry))
                 }
+            }
+        }
+
+    fileprivate static func cacheAction(
+            writing entity: Entity<Any>,
+            into cacheEntry: CacheEntryProtocol)
+        -> () -> ()
+        {
+        return
+            {
+            SiestaLog.log(.cache, ["Caching entity with", type(of: entity.content), "content for", cacheEntry])
+            cacheEntry.write(entity)
             }
         }
 
@@ -92,11 +101,13 @@ extension Pipeline
     private struct CacheRequestDelegate: RequestDelegate
         {
         let requestDescription: String
+        private weak var resource: Resource?
         private let stagesAndEntries: [StageAndEntry]
 
         init(for resource: Resource, searching stagesAndEntries: [StageAndEntry])
             {
             requestDescription = "Cache request for \(resource)"
+            self.resource = resource
             self.stagesAndEntries = stagesAndEntries
             }
 
@@ -104,19 +115,18 @@ extension Pipeline
             {
             defaultEntityCacheWorkQueue.async
                 {
-                let response: Response
-                if let entity = self.performCacheLookup()
-                    { response = .success(entity) }
-                else
-                    {
-                    response = .failure(RequestError(
-                        userMessage: NSLocalizedString("Cache miss", comment: "userMessage"),
-                        cause: RequestError.Cause.CacheMiss()))
-                    }
+                var result = self.performCacheLookup()
+                    ?? ResponseInfo(
+                        response: .failure(RequestError(
+                            userMessage: NSLocalizedString("Cache miss", comment: "userMessage"),
+                            cause: RequestError.Cause.CacheMiss())))
+
+                if let resource = self.resource
+                    { result.configurationSource = .init(method: .get, resource: resource) }
 
                 DispatchQueue.main.async
                     {
-                    completionHandler.broadcastResponse(ResponseInfo(response: response))
+                    completionHandler.broadcastResponse(result)
                     }
                 }
             }
@@ -128,7 +138,7 @@ extension Pipeline
             { return self }
 
         // Runs on a background queue
-        private func performCacheLookup() -> Entity<Any>?
+        private func performCacheLookup() -> ResponseInfo?
             {
             for (index, (_, cacheEntry)) in stagesAndEntries.enumerated().reversed()
                 {
@@ -136,17 +146,25 @@ extension Pipeline
                     {
                     SiestaLog.log(.cache, ["Cache hit for", cacheEntry])
 
-                    let processed = Pipeline.process(
+                    var processed = Pipeline.process(
                         .success(result),
                         using: stagesAndEntries.suffix(from: index + 1))
+
+                    // TODO: explain this
+                    if let cacheEntry = cacheEntry
+                        {
+                        processed.cacheActions.insert(
+                            Pipeline.cacheAction(writing: result, into: cacheEntry),
+                            at: 0)
+                        }
 
                     switch processed.response
                         {
                         case .failure:
                             SiestaLog.log(.cache, ["Error processing cached entity; will ignore cached value. Error:", processed])
 
-                        case .success(let entity):
-                            return entity
+                        case .success:
+                            return processed
                         }
                     }
                 }

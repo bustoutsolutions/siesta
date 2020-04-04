@@ -26,10 +26,16 @@ class EntityCacheSpec: ResourceSpecBase
             }
 
         func waitForCacheRead(_ cache: TestCache)
-            { expect(cache.receivedCacheRead).toEventually(beTrue()) }
+            {
+            expect(cache.receivedCacheRead).toEventually(beTrue())
+            cache.receivedCacheRead = false
+            }
 
         func waitForCacheWrite(_ cache: TestCache)
-            { expect(cache.receivedCacheWrite).toEventually(beTrue()) }
+            {
+            expect(cache.receivedCacheWrite).toEventually(beTrue())
+            cache.receivedCacheWrite = false
+            }
 
         beforeEach
             {
@@ -244,6 +250,19 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(testCache.entries).toEventually(beEmpty())
                 }
 
+            it("does not write previously cached data back to the cache when reading it")
+                {
+                let testCache = TestCache("does not write previously cached")
+                configureCache(testCache, at: .parsing)
+                configureCache(UnwritableCache(), at: .model)
+                configureCache(UnwritableCache(), at: .cleanup)
+
+                testCache.entries[TestCacheKey(forTestResourceIn: testCache)] =
+                    Entity(content: "🌮", contentType: "text/plain")
+                awaitNewData(resource().loadIfNeeded()!, initialState: .inProgress)
+                expect(resource().typedContent()) == "🌮modcle"
+                }
+
             it("does not cache anything for call to Resource.request() without load()")
                 {
                 configureCache(UnwritableCache(), at: .cleanup)
@@ -276,6 +295,66 @@ class EntityCacheSpec: ResourceSpecBase
                 configureCache(UnwritableCache(), at: .cleanup)
                 let req = stubAndAwaitRequestWithoutLoading(for: otherResource, method: .get)
                 resource().load(using: req)
+                }
+
+            func stubText(_ text: String)
+                {
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers: ["content-type": "text/plain; charset=utf-8"],
+                        body: text))
+                }
+
+            it("will restore cache state to an older request if passed to load(using:)")
+                {
+                let testCache = TestCache("restore cache state")
+                configureCache(testCache, at: .model)
+                service().configure
+                    {
+                    $0.pipeline[.decoding].removeTransformers()
+                    $0.pipeline[.decoding].add(TextResponseTransformer())
+                    }
+
+                stubText("🌮")
+                let originalReq = resource().load()
+                awaitNewData(originalReq, initialState: .inProgress)
+                expectCacheWrite(to: testCache, content: "🌮parmod")
+
+                stubText("🧇")
+                awaitNewData(resource().load(), initialState: .inProgress)
+                expectCacheWrite(to: testCache, content: "🧇parmod")
+
+                resource().load(using: originalReq)
+                expectCacheWrite(to: testCache, content: "🌮parmod")
+                }
+
+            it("will restore cache state to original state if original cache request is passed to load(using:)")
+                {
+                let testCacheDec = TestCache("restore cache state - dec")
+                let testCacheCle = TestCache("restore cache state - cle")
+                configureCache(testCacheDec, at: .model)
+                configureCache(testCacheCle, at: .cleanup)
+                service().configure
+                    {
+                    $0.pipeline[.decoding].removeTransformers()
+                    $0.pipeline[.decoding].add(TextResponseTransformer())
+                    }
+
+                testCacheDec.entries[TestCacheKey(forTestResourceIn: testCacheDec)] =
+                    Entity(content: "🌮", contentType: "text/plain")
+                let originalReq = resource().loadIfNeeded()!
+                awaitNewData(originalReq, initialState: .inProgress)
+                expect(resource().typedContent()) == "🌮cle"
+
+                stubText("🧇")
+                awaitNewData(resource().load(), initialState: .inProgress)
+                expectCacheWrite(to: testCacheDec, content: "🧇parmod")
+                expectCacheWrite(to: testCacheCle, content: "🧇parmodcle")
+
+                resource().load(using: originalReq)
+                expectCacheWrite(to: testCacheDec, content: "🌮")
+                expectCacheWrite(to: testCacheCle, content: "🌮cle")
                 }
             }
 

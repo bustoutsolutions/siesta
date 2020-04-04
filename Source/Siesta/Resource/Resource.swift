@@ -472,7 +472,7 @@ public final class Resource: NSObject
             // TODO: explain this
             if let configurationSource = $0.configurationSource
                 {
-                if configurationSource == (.get, self)
+                if configurationSource == .init(method: .get, resource: self)
                     {
                     for action in $0.cacheActions
                         { action() }
@@ -720,18 +720,24 @@ public final class Resource: NSObject
         {
         if case .notStarted = cacheCheckStatus
             {
+            if _latestData != nil
+                {
+                cacheCheckStatus = .completed
+                return
+                }
+
             cacheCheckStatus = .inProgress(
                 configuration.pipeline.checkCache(for: self)
                     .onCompletion
                         {
                         [weak self] result in
-                        guard let resource = self, resource.latestData == nil else
+                        self?.cacheCheckStatus = .completed
+
+                        guard let resource = self, resource._latestData == nil else
                             {
                             SiestaLog.log(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
                             return
                             }
-
-                        resource.cacheCheckStatus = .completed
 
                         if case .success(let entity) = result.response
                             { resource.receiveNewData(entity, source: .cache) }
