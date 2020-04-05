@@ -13,7 +13,7 @@ extension Pipeline
     private var stagesInOrder: [PipelineStage]
         { order.compactMap { self[$0] } }
 
-    private typealias StageAndEntry = (PipelineStage, CacheEntryProtocol?)
+    private typealias StageAndEntry = (stage: PipelineStage, cacheEntry: CacheEntryProtocol?)
 
     private func stagesAndEntries(for resource: Resource) -> [StageAndEntry]
         {
@@ -155,12 +155,17 @@ extension Pipeline
                         using: stagesAndEntries.suffix(from: index + 1))
 
                     // TODO: explain this
+
                     if let cacheEntry = cacheEntry
                         {
                         processed.cacheActions.insert(
                             Pipeline.cacheAction(writing: result, into: cacheEntry),
                             at: 0)
                         }
+
+                    processed.cacheActions.append(contentsOf:
+                        stagesAndEntries.prefix(upTo: index)
+                            .compactMap { $0.cacheEntry?.remove })  // Can't use keypath due to https://bugs.swift.org/browse/SR-12519
 
                     switch processed.response
                         {
@@ -201,6 +206,9 @@ private protocol CacheEntryProtocol
     func updateTimestamp(_ timestamp: TimeInterval)
     func remove()
     }
+
+
+// MARK: Cache Entry
 
 private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertible
     where Cache: EntityCache, Cache.Key == Key

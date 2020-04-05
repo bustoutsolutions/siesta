@@ -342,9 +342,10 @@ class EntityCacheSpec: ResourceSpecBase
 
             it("will restore cache state to original state if original cache request is passed to load(using:)")
                 {
+                let testCacheDec = TestCache("restore cache state - dec")
                 let testCacheMod = TestCache("restore cache state - mod")
                 let testCacheCle = TestCache("restore cache state - cle")
-                configureCache(testCacheMod, at: .model)
+                configureCache(testCacheDec, at: .decoding)
                 configureCache(testCacheMod, at: .model)
                 configureCache(testCacheCle, at: .cleanup)
                 service().configure
@@ -361,12 +362,16 @@ class EntityCacheSpec: ResourceSpecBase
 
                 stubText("🧇")
                 awaitNewData(resource().load(), initialState: .inProgress)
+                expectCacheWrite(to: testCacheDec, content: "🧇")
                 expectCacheWrite(to: testCacheMod, content: "🧇parmod")
                 expectCacheWrite(to: testCacheCle, content: "🧇parmodcle")
 
                 resource().load(using: originalReq)
                 expectCacheWrite(to: testCacheMod, content: "🌮")
                 expectCacheWrite(to: testCacheCle, content: "🌮cle")
+                waitForCacheWrite(testCacheDec)
+                expect(testCacheDec.entries[TestCacheKey(forTestResourceIn: testCacheDec)])
+                    .toEventually(beNil())
                 }
             }
 
@@ -437,8 +442,11 @@ private class TestCache: EntityCache
 
     func removeEntity(forKey key: TestCacheKey)
         {
-        _ = DispatchQueue.main.sync
-            { entries.removeValue(forKey: key) }
+        DispatchQueue.main.sync
+            {
+            entries.removeValue(forKey: key)
+            self.receivedCacheWrite = true
+            }
         }
     }
 
