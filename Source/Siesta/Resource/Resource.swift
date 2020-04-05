@@ -369,8 +369,8 @@ public final class Resource: NSObject
         if case .inProgress(let cacheRequest) = cacheCheckStatus
             {
             // isLoading needs to be:
-            //  - false at first,
-            //  - true after loadIfNeeded() while the cache check is in progress, but
+            //  - false at first, even if a cache check has already started,
+            //  - true after loadIfNeeded() while the cache check is still in progress, but
             //  - false again before observers receive a cache hit.
             //
             // To make this happen, we need to add the chained cacheThenNetwork below
@@ -390,10 +390,10 @@ public final class Resource: NSObject
                 {
                 _ in // We don’t need the result of the cache request here; resource state is already updated
 
-                if self.isUpToDate                 // If cached data is up to date...
+                if self.isUpToDate                      // If cached data is up to date...
                     {
-                    self.receiveDataNotModified()  // ...tell observers isLoading is false...
-                    return .useThisResponse        // ...and no need to make a network call!
+                    self.notifyObservers(.notModified)  // ...tell observers isLoading is false...
+                    return .useThisResponse             // ...and no need to make a network call!
                     }
                 else
                     {

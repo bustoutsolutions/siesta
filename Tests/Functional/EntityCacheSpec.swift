@@ -237,6 +237,17 @@ class EntityCacheSpec: ResourceSpecBase
                     .toEventually(equal(2000))
                 }
 
+            it("preserves the timestamp of cached data")
+                {
+                let testCache = UnwritableCache(cachedValue:
+                    Entity(content: "hi", charset: nil, headers: [:], timestamp: 2001))
+                configureCache(testCache, at: .cleanup)
+
+                setResourceTime(2010)
+                awaitNewData(resource().loadIfNeeded()!)
+                expect(resource().latestData?.timestamp) == 2001
+                }
+
             it("clears cached data on local override")
                 {
                 let testCache = TestCache("local override")
@@ -331,9 +342,10 @@ class EntityCacheSpec: ResourceSpecBase
 
             it("will restore cache state to original state if original cache request is passed to load(using:)")
                 {
-                let testCacheDec = TestCache("restore cache state - dec")
+                let testCacheMod = TestCache("restore cache state - mod")
                 let testCacheCle = TestCache("restore cache state - cle")
-                configureCache(testCacheDec, at: .model)
+                configureCache(testCacheMod, at: .model)
+                configureCache(testCacheMod, at: .model)
                 configureCache(testCacheCle, at: .cleanup)
                 service().configure
                     {
@@ -341,7 +353,7 @@ class EntityCacheSpec: ResourceSpecBase
                     $0.pipeline[.decoding].add(TextResponseTransformer())
                     }
 
-                testCacheDec.entries[TestCacheKey(forTestResourceIn: testCacheDec)] =
+                testCacheMod.entries[TestCacheKey(forTestResourceIn: testCacheMod)] =
                     Entity(content: "🌮", contentType: "text/plain")
                 let originalReq = resource().loadIfNeeded()!
                 awaitNewData(originalReq, initialState: .inProgress)
@@ -349,11 +361,11 @@ class EntityCacheSpec: ResourceSpecBase
 
                 stubText("🧇")
                 awaitNewData(resource().load(), initialState: .inProgress)
-                expectCacheWrite(to: testCacheDec, content: "🧇parmod")
+                expectCacheWrite(to: testCacheMod, content: "🧇parmod")
                 expectCacheWrite(to: testCacheCle, content: "🧇parmodcle")
 
                 resource().load(using: originalReq)
-                expectCacheWrite(to: testCacheDec, content: "🌮")
+                expectCacheWrite(to: testCacheMod, content: "🌮")
                 expectCacheWrite(to: testCacheCle, content: "🌮cle")
                 }
             }
@@ -494,11 +506,16 @@ private class KeylessCache: EntityCache
 
 private struct UnwritableCache: EntityCache
     {
+    let cachedValue: Entity<Any>?
+
+    init(cachedValue: Entity<Any>? = nil)
+        { self.cachedValue = cachedValue }
+
     func key(for resource: Resource) -> URL?
         { return resource.url }
 
     func readEntity(forKey key: URL) -> Entity<Any>?
-        { return nil }
+        { return cachedValue }
 
     func writeEntity(_ entity: Entity<Any>, forKey key: URL)
         { fail("cache should never be written to") }
