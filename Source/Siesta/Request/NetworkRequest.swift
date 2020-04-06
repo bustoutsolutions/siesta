@@ -94,7 +94,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         {
         DispatchQueue.mainThreadPrecondition()
 
-        SiestaLog.log(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        SiestaLog.log(.network, ["Response:", underlyingResponse?.statusCode ?? error, "←", requestDescription])
         SiestaLog.log(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
         SiestaLog.log(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
