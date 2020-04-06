@@ -83,6 +83,9 @@ class _GitHubAPI {
         service.configure("/search/**") {
             // Refresh search results after 10 seconds (Siesta default is 30)
             $0.expirationTime = 10
+
+            // Don't cache search results between runs, so we don't see stale results on launch
+            $0.pipeline.removeAllCaches()
         }
 
         // –––––– Auth configuration ––––––

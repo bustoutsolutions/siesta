@@ -53,6 +53,8 @@ class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserve
         view.backgroundColor = SiestaTheme.darkColor
 
         statusOverlay.embed(in: self)
+        statusOverlay.displayPriority = [.anyData, .loading, .error]
+
         showUser(nil)
 
         searchBar.becomeFirstResponder()
