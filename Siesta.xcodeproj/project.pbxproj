@@ -151,6 +151,12 @@
 		DA34E2C9222BAAE70025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
 		DA34E2CA222BAAEA0025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
 		DA34E2CB222BAAEB0025A77A /* Optional+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */; };
+		DA3E165F243C24A3001F7CCA /* FileCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3E165E243C24A3001F7CCA /* FileCacheSpec.swift */; };
+		DA3E1660243C24A3001F7CCA /* FileCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3E165E243C24A3001F7CCA /* FileCacheSpec.swift */; };
+		DA3E1661243C24A3001F7CCA /* FileCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3E165E243C24A3001F7CCA /* FileCacheSpec.swift */; };
+		DA3E1662243D6D00001F7CCA /* SiestaTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8B5B5A22DEAC93008E47B0 /* SiestaTools.framework */; };
+		DA3E1663243D6D0E001F7CCA /* SiestaTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8C83521FC600A900C947F9 /* SiestaTools.framework */; };
+		DA3E1664243D6D18001F7CCA /* SiestaTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8B5B6922DEADDB008E47B0 /* SiestaTools.framework */; };
 		DA3FBD9B1B55917600161A25 /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		DA3FBDB11B55BF0E00161A25 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBDB01B55BF0E00161A25 /* Logging.swift */; };
 		DA3FD66C1D0DF5DE00C75742 /* PipelineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */; };
@@ -466,6 +472,7 @@
 		DA336E601B2E6DDB006F702A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		DA336E701B2F6659006F702A /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		DA34E2C7222BA8650025A77A /* Optional+Siesta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Siesta.swift"; sourceTree = "<group>"; };
+		DA3E165E243C24A3001F7CCA /* FileCacheSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheSpec.swift; sourceTree = "<group>"; };
 		DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta-ObjC.swift"; sourceTree = "<group>"; };
 		DA3FBDB01B55BF0E00161A25 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		DA4353511B6AD63C00543843 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
@@ -540,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F0FAFB01D033FF400CE1B61 /* Siesta.framework in Frameworks */,
+				DA3E1662243D6D00001F7CCA /* SiestaTools.framework in Frameworks */,
 				DAC4CFCE1DAC10FD00EECEDE /* SiestaUI.framework in Frameworks */,
 				9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */,
 				9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */,
@@ -573,6 +581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDCCAF7B1E6A31DA00860D18 /* Siesta.framework in Frameworks */,
+				DA3E1664243D6D18001F7CCA /* SiestaTools.framework in Frameworks */,
 				DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */,
 				DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */,
 				DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */,
@@ -600,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
+				DA3E1663243D6D0E001F7CCA /* SiestaTools.framework in Frameworks */,
 				DAC4CFCF1DAC110500EECEDE /* SiestaUI.framework in Frameworks */,
 				DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */,
 				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
@@ -768,6 +778,7 @@
 				DA9F4BDD1B3F8E2E00E8966F /* WeakCacheSpec.swift */,
 				DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */,
 				DA99B5C71B38C36A009C6937 /* Support */,
+				DA3E165E243C24A3001F7CCA /* FileCacheSpec.swift */,
 			);
 			path = Functional;
 			sourceTree = "<group>";
@@ -1546,6 +1557,7 @@
 				DA788A8F1D6AC1590085C820 /* ObjcCompatibilitySpec.m in Sources */,
 				9F0FAF991D033FCD00CE1B61 /* TestService.swift in Sources */,
 				9F0FAF9A1D033FCD00CE1B61 /* SiestaSpec.swift in Sources */,
+				DA3E1660243C24A3001F7CCA /* FileCacheSpec.swift in Sources */,
 				DA5A90312054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				9F0FAF9B1D033FCD00CE1B61 /* ResourcePathsSpec.swift in Sources */,
 				DA7285E71D0DF46600132CD9 /* PipelineSpec.swift in Sources */,
@@ -1695,6 +1707,7 @@
 				CD5651F71E6F306B009F224A /* ResponseDataHandlingSpec.swift in Sources */,
 				CD5651F21E6F306B009F224A /* ResourcePathsSpec.swift in Sources */,
 				CD5651F81E6F306B009F224A /* ProgressSpec.swift in Sources */,
+				DA3E1661243C24A3001F7CCA /* FileCacheSpec.swift in Sources */,
 				DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */,
 				DA62C9862428670500398674 /* NetworkStub.swift in Sources */,
 				CD5651F11E6F306B009F224A /* ResourceSpecBase.swift in Sources */,
@@ -1773,6 +1786,7 @@
 				DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */,
 				DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */,
 				DAC0CE6D1B4A3ADA004FBB4B /* ResourceObserversSpec.swift in Sources */,
+				DA3E165F243C24A3001F7CCA /* FileCacheSpec.swift in Sources */,
 				DA49EA801B36174700AE1B8F /* SpecHelpers.swift in Sources */,
 				DA62C9842428670400398674 /* NetworkStub.swift in Sources */,
 				DA9F4BDE1B3F8E2E00E8966F /* WeakCacheSpec.swift in Sources */,
