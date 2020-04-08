@@ -5,30 +5,13 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
 
     // MARK: Interesting Siesta stuff
 
-    var repositoriesResource: Resource? {
-        didSet {
-            oldValue?.removeObservers(ownedBy: self)
-
-            repositoriesResource?
-                .addObserver(self)
-                .addObserver(statusOverlay, owner: self)
-                .loadIfNeeded()
-        }
-    }
-
-    var repositories: [Repository] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    @ResourceBacked(default: [])
+    var repositories: [Repository]
 
     var statusOverlay = ResourceStatusOverlay()
 
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
-        // Siesta’s typedContent() infers from the type of the repositories property that
-        // repositoriesResource should hold content of type [Repository].
-
-        repositories = repositoriesResource?.typedContent() ?? []
+        tableView.reloadData()
     }
 
     // MARK: Standard table view stuff
@@ -40,6 +23,9 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
 
         statusOverlay.embed(in: self)
         statusOverlay.displayPriority = [.anyData, .loading, .error]
+
+        $repositories.addObserver(self)
+        $repositories.addObserver(statusOverlay)
     }
 
     override func viewDidLayoutSubviews() {
@@ -67,8 +53,8 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
             if let repositoryVC = segue.destination as? RepositoryViewController,
                let cell = sender as? RepositoryTableViewCell {
 
-                repositoryVC.repositoryResource =
-                    repositoriesResource?.optionalRelative(
+                repositoryVC.$repository.resource =
+                    $repositories.resource?.optionalRelative(
                         cell.repository?.url)
             }
         }

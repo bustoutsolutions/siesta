@@ -25,48 +25,25 @@ class RepositoryViewController: UIViewController, ResourceObserver {
 
     // MARK: Resources
 
-    var repositoryResource: Resource? {
-        didSet {
-            updateObservation(from: oldValue, to: repositoryResource)
-        }
-    }
+    @ResourceBacked(default: nil)
+    var repository: Repository?
 
-    var starredResource: Resource? {
-        didSet {
-            updateObservation(from: oldValue, to: starredResource)
-        }
-    }
+    @ResourceBacked(default: false)
+    var isStarred: Bool
 
-    var languagesResource: Resource? {
-        didSet {
-            updateObservation(from: oldValue, to: languagesResource)
-        }
-    }
+    @ResourceBacked(default: [:])
+    var languages: [String:Int]
 
-    var contributorsResource: Resource? {
-        didSet {
-            updateObservation(from: oldValue, to: contributorsResource)
-        }
-    }
+    @ResourceBacked(default: [])
+    var contributors: [User]
 
     private func updateObservation(from oldResource: Resource?, to newResource: Resource?) {
         guard oldResource != newResource else { return }
 
-        oldResource?.removeObservers(ownedBy: self)
-        newResource?
-            .addObserver(self)
-            .addObserver(statusOverlay, owner: self)
-            .loadIfNeeded()
-    }
-
-    // MARK: Content conveniences
-
-    var repository: Repository? {
-        return repositoryResource?.typedContent()
-    }
-
-    var isStarred: Bool {
-        return starredResource?.typedContent() ?? false
+        for resourceBox in [$repository, $isStarred, $languages, $contributors] as [AnyResourceBacked] {
+            resourceBox.addObserver(self)
+            resourceBox.addObserver(statusOverlay)
+        }
     }
 
     // MARK: Display
@@ -118,37 +95,30 @@ class RepositoryViewController: UIViewController, ResourceObserver {
         descriptionLabel?.text = repository?.description
         homepageButton?.setTitle(repository?.homepage, for: .normal)
 
-        if let contributors: [User] = contributorsResource?.typedContent() {
-            contributorsLabel?.text = contributors
-                .map { $0.login }
-                .joined(separator: "\n")
-        } else {
-            contributorsLabel?.text = "–"
-        }
+        contributorsLabel?.text = contributors
+            .map { $0.login }
+            .joined(separator: "\n")
 
-        if let languages: [String:Int] = languagesResource?.typedContent() {
-            languagesLabel?.text = languages.keys.joined(separator: " • ")
-        } else {
-            languagesLabel?.text = "–"
-        }
+        languagesLabel?.text = languages.keys.joined(separator: " • ")
     }
 
     func showStarred() {
         if let repository = repository {
-            starredResource = GitHubAPI.currentUserStarred(repository)
+            $isStarred.resource = GitHubAPI.currentUserStarred(repository)
         } else {
-            starredResource = nil
+            $isStarred.resource = nil
         }
 
-        contributorsResource = repositoryResource?.optionalRelative(
+        $contributors.resource = $repository.resource?.optionalRelative(
             repository?.contributorsURL)
-        languagesResource = repositoryResource?.optionalRelative(
+        $languages.resource = $repository.resource?.optionalRelative(
             repository?.languagesURL)
 
         starCountLabel?.text = repository?.starCount?.description
         starIcon?.text = isStarred ? "★" : "☆"
         starButton?.setTitle(isStarred ? "Unstar" : "Star", for: .normal)
-        starButton?.isEnabled = (repository != nil)
+        starButton?.isEnabled = ($isStarred.resource != nil)
+        starButton?.alpha = ($isStarred.resource != nil) ? 1 : 0.3
     }
 
     // MARK: Actions
