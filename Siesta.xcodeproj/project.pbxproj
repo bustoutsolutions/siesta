@@ -135,6 +135,10 @@
 		CDCCAFCE1E6A389800860D18 /* PipelineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACE0BAD1D0201F800607F3E /* PipelineConfiguration.swift */; };
 		CDCCAFCF1E6A389800860D18 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
 		CDCCAFD01E6A389800860D18 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
+		DA02C9252433BDA00098EDC6 /* ResourceBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */; };
+		DA02C9262433BDA00098EDC6 /* ResourceBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */; };
+		DA02C9272433BDA00098EDC6 /* ResourceBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */; };
+		DA02C9282433BDA00098EDC6 /* ResourceBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */; };
 		DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
 		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
@@ -454,6 +458,7 @@
 		CDCCAF751E6A31D900860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-tvOS.plist"; path = "../../Info-tvOS.plist"; sourceTree = "<group>"; };
 		CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDCCAF811E6A31DA00860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
+		DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBacked.swift; sourceTree = "<group>"; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
 		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
@@ -870,6 +875,7 @@
 				DA60F5FB1B30B2F800D76DC6 /* Resource.swift */,
 				DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */,
 				DA9F4BDF1B41C9CC00E8966F /* ResourceObserver.swift */,
+				DA02C9242433BDA00098EDC6 /* ResourceBacked.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -1605,6 +1611,7 @@
 				9F2FB53B1C2864CB0068DFFA /* Service.swift in Sources */,
 				DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */,
 				9F2FB52B1C2864970068DFFA /* String+Siesta.swift in Sources */,
+				DA02C9262433BDA00098EDC6 /* ResourceBacked.swift in Sources */,
 				9F2FB5331C2864BD0068DFFA /* Networking.swift in Sources */,
 				DACD23471D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
 			);
@@ -1649,6 +1656,7 @@
 				CDCCAF981E6A384E00860D18 /* Networking.swift in Sources */,
 				DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCB1E6A389700860D18 /* PipelineConfiguration.swift in Sources */,
+				DA02C9272433BDA00098EDC6 /* ResourceBacked.swift in Sources */,
 				CDCCAFC31E6A389200860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFCD1E6A389700860D18 /* ResponseTransformer.swift in Sources */,
 			);
@@ -1693,6 +1701,7 @@
 				CDCCAF9B1E6A384F00860D18 /* Networking.swift in Sources */,
 				DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */,
 				CDCCAFCE1E6A389800860D18 /* PipelineConfiguration.swift in Sources */,
+				DA02C9282433BDA00098EDC6 /* ResourceBacked.swift in Sources */,
 				CDCCAFC91E6A389300860D18 /* NetworkRequest.swift in Sources */,
 				CDCCAFD01E6A389800860D18 /* ResponseTransformer.swift in Sources */,
 			);
@@ -1772,6 +1781,7 @@
 				DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */,
 				DAF19BC71F355606000B9734 /* StandardTransformers.swift in Sources */,
 				DA9F7B1F1B8BC3B000A604C3 /* EntityCache.swift in Sources */,
+				DA02C9252433BDA00098EDC6 /* ResourceBacked.swift in Sources */,
 				DA3FD66D1D0DF65B00C75742 /* PipelineConfiguration.swift in Sources */,
 				DACD23461D618CE300848C04 /* Ω_Deprecations.swift in Sources */,
 			);

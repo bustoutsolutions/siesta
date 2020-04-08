@@ -398,7 +398,7 @@ internal class ObserverEntry: CustomStringConvertible
         }
     }
 
-private struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
+struct ClosureObserver: ResourceObserver, CustomDebugStringConvertible
     {
     let closure: ResourceObserverClosure
     let debugDescription: String
