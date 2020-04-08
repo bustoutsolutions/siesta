@@ -63,7 +63,7 @@ extension Pipeline
     fileprivate static func cacheAction(
             writing entity: Entity<Any>,
             into cacheEntry: CacheEntryProtocol)
-        -> () -> ()
+        -> () -> Void
         {
         return
             {

@@ -285,7 +285,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
     // MARK: Debug
 
-    public func logDelegateStateChange(_ messageParts: @autoclosure () -> [Any?])
+    func logDelegateStateChange(_ messageParts: @autoclosure () -> [Any?])
         {
         if let category = delegate.logCategory
             { SiestaLog.log(category, messageParts()) }

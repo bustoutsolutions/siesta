@@ -259,7 +259,7 @@ public struct ResponseInfo
     var configurationSource: ConfigurationSource?
 
     /// Callbacks to cache this response according to the pipeline config originally used to process it
-    var cacheActions: [() -> ()] = []
+    var cacheActions: [() -> Void] = []
 
     /// Creates new responseInfo, with `isNew` true by default.
     public init(response: Response, isNew: Bool = true)
