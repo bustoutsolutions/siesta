@@ -9,6 +9,7 @@
 #if !COCOAPODS
     import Siesta
 #endif
+import Foundation
 import CommonCrypto
 
 private typealias File = URL
