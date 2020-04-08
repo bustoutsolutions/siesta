@@ -43,5 +43,6 @@ public class TestService: Service  // for Obj-C tests only
             req.onCompletion { _ in responseExpectation.fulfill() }
             QuickSpec.current.waitForExpectations(timeout: 1)
             }
+        allRequests = []
         }
     }

@@ -8,5 +8,5 @@ disabled_rules:
 
 custom_rules:
   focused_spec:
-    name: "Focused spec in effect"
-    regex: '(fit|fdescribe)\s*\('
+    name: "Remember not to commit any focused or disabled specs!"
+    regex: '\b[fx](it|describe)\s*\('

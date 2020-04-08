@@ -77,7 +77,7 @@ public enum SiestaLog
                         .forceUnwrapped(because: "Modulus always maps thread IDs to valid unicode scalars")))
                 threadID /= 0x55
                 }
-            threadName += "]"
+            threadName += "] "
             }
         let prefix = "Siesta:\(paddedCategory) │ \(threadName)"
         let indentedMessage = $1.replacingOccurrences(of: "\n", with: "\n" + prefix)

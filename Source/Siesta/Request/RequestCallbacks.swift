@@ -90,7 +90,7 @@ internal struct CallbackGroup<CallbackArguments>
         completedValue = arguments
 
         // We need to let this mutating method finish before calling the callbacks. Some of them inspect
-        // completeValue (via isCompleted), which causes a simultaneous access error at runtime.
+        // completeValue (via request.state), which causes a simultaneous access error at runtime.
         // See https://github.com/apple/swift-evolution/blob/master/proposals/0176-enforce-exclusive-access-to-memory.md
 
         let snapshot = self
