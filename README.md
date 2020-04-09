@@ -128,7 +128,7 @@ In Xcode:
 
 * File → Swift Packages → Add Package Dependency…
 * Enter `https://github.com/bustoutsolutions/siesta` in the URL field and click Next.
-* The defaults for the version settings are good for most projects. Click Next.
+* For now, depend on the `master` branch. (A branch-based test-only dependency of Siesta currently prevents a versioned dependency on Siesta from working properly. Until this is fixed, you can’t point SwiftPM at Siesta by version.) Click Next.
 * Check the checkbox next to “Siesta.”
     - Also check “SiestaUI” if you want to use any of the [UI helpers](https://github.com/bustoutsolutions/siesta/tree/master/Source/SiestaUI).
     - Also check “Siesta_Alamofire” if you want to use the Alamofire extension for Siesta.
