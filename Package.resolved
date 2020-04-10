@@ -41,9 +41,9 @@
         "package": "Quick",
         "repositoryURL": "https://github.com/pcantrell/Quick",
         "state": {
-          "branch": "around-each",
-          "revision": "d91676d00600c42f9b55349765b1f1099141bfba",
-          "version": null
+          "branch": null,
+          "revision": "39b75c1cd536acb95f643bde93de45e272ccaf86",
+          "version": "0.0.0"
         }
       }
     ]
