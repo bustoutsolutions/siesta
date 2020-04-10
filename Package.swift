@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.5")),
 
         // For tests:
-        .package(url: "https://github.com/pcantrell/Quick", .branch("around-each")), 
+        .package(url: "https://github.com/pcantrell/Quick", .exact("0.0.0")), 
         .package(url: "https://github.com/Quick/Nimble", from: "8.0.1"),
     ],
     targets: [
