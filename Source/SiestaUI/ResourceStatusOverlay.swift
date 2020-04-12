@@ -233,7 +233,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             switch mode
                 {
                 case .loading:
-                    if observedResources.any(match: { $0.isLoading })
+                    if observedResources.any(match: \.isLoading)
                         { return showLoading() }
 
                 case .manualLoading:
@@ -249,7 +249,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
                         { return showSuccess() }
 
                 case .error:
-                    if let error = observedResources.compactMap({ $0.latestError }).first
+                    if let error = observedResources.lazy.compactMap({ $0.latestError }).first
                         { return showError(error) }
                 }
             }

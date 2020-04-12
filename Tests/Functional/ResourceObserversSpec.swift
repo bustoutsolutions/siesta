@@ -492,7 +492,7 @@ private class TestObserverWithExpectations: ResourceObserver
     func checkForUnfulfilledExpectations()
         {
         if !expectedEvents.isEmpty
-            { XCTFail("Expected observer events, but never received them: \(expectedEvents.map { $0.event })") }
+            { XCTFail("Expected observer events, but never received them: \(expectedEvents.map(\.event))") }
         }
 
     func stopTesting()

@@ -291,7 +291,7 @@ extension Resource
         for observer in observers.values
             { observer.cleanUp() }
 
-        if observers.removeValues(matching: { $0.isDefunct })
+        if observers.removeValues(matching: \.isDefunct)
             { observersChanged() }
         }
 

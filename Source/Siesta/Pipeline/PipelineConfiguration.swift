@@ -66,7 +66,7 @@ public struct Pipeline
 
             let nonEmptyStages = stages
                 .filter { _, stage in !stage.isEmpty }
-                .map { key, _ in key }
+                .map(\.key)
             let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
                 { SiestaLog.log(.pipeline, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }

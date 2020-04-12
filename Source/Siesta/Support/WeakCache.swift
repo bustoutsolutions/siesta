@@ -82,7 +82,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
             }
         }
 
-    var entries: AnySequence<(K, V)>
+    var entries: AnySequence<(key: K, value: V)>
         {
         AnySequence(
             entriesByKey.compactMap
@@ -99,12 +99,12 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     var keys: AnySequence<K>
         {
-        AnySequence(entries.map { $0.0 })
+        AnySequence(entries.map(\.key))
         }
 
     var values: AnySequence<V>
         {
-        AnySequence(entries.map { $0.1 })
+        AnySequence(entries.map(\.value))
         }
     }
 

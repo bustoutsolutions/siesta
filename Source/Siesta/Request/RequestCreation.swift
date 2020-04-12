@@ -138,7 +138,7 @@ extension Resource
         do
             {
             let paramString = try
-                params.map { try urlEscape($0.0) + "=" + urlEscape($0.1) }
+                params.map { try urlEscape($0.key) + "=" + urlEscape($0.value) }
                       .sorted()
                       .joined(separator: "&")
             return request(method,

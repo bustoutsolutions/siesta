@@ -123,7 +123,7 @@ private final class StubbedNetworkProtocol: URLProtocol
                     body: \(body?.dataDump ?? "nil")
 
                 Available stubs:
-                    \(stubs.map { $0.description }.joined(separator: "\n    "))
+                    \(stubs.map(\.description).joined(separator: "\n    "))
 
                 Halting tests
                 """)
