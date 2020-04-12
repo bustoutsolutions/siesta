@@ -176,12 +176,6 @@ struct RequestStub
 
     private let delayLatch = Latch(name: "delayed request")
 
-    fileprivate init(matcher: RequestPattern, response: NetworkStubResponse)
-        {
-        self.matcher = matcher
-        self.response = response
-        }
-
     func delay() -> Self
         {
         delayLatch.increment()
@@ -287,12 +281,9 @@ extension String: HTTPBodyConvertible
 
 private struct Latch
     {
-    private var lock = NSConditionLock(condition: 0)
+    var lock = NSConditionLock(condition: 0)
 
     let name: String
-
-    init(name: String)
-        { self.name = name }
 
     func increment()
         { add(1) }
