@@ -2,6 +2,7 @@
 
 github "Alamofire/Alamofire"
 # github "ReactiveCocoa/ReactiveCocoa" "master"  # add to Cartfile if/when it has tests
+github "ReactiveX/RxSwift"
 
 # Testing
 
