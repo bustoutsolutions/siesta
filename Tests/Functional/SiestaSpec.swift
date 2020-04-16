@@ -6,8 +6,10 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
-import Quick
 @testable import Siesta
+
+import Foundation
+import Quick
 
 private var currentLogMessages: [String] = []
 private var currentTestFailed: Bool = false
@@ -15,6 +17,12 @@ private var activeSuites = 0
 
 class SiestaSpec: QuickSpec
     {
+    static func envFlag(_ key: String) -> Bool
+        {
+        let value = ProcessInfo.processInfo.environment["Siesta_\(key)"] ?? ""
+        return value == "1" || value == "true"
+        }
+
     override func spec()
         {
         beforeSuite
@@ -23,8 +31,12 @@ class SiestaSpec: QuickSpec
             SiestaLog.messageHandler =
                 {
                 _, message in
+
+                let messageWithTimestamp = String(format: "%1.9f %@", ProcessInfo.processInfo.systemUptime, message)
+                if Self.envFlag("ShowTestOutputImmediately")
+                    { print(messageWithTimestamp) }
                 DispatchQueue.main.async
-                    { currentLogMessages.append(message) }
+                    { currentLogMessages.append(messageWithTimestamp) }
                 }
             }
 
@@ -119,7 +131,7 @@ private class ResultsAggregator
             }
         else
             {
-            subtree.file = callsite.file
+            subtree.file = callsite.file.description
             subtree.line = callsite.line
             subtree.passed = passed
             }

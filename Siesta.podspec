@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Siesta"
-  s.version      = "1.4.3"
+  s.version      = "1.5.1"
   s.summary      = "Swift REST client library"
 
   s.description  = <<-DESC
@@ -15,18 +15,18 @@ Pod::Spec.new do |s|
 
                    …then provides notifications whenever the answers to these questions change.
 
-                   Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your UI.
+                   Siesta handles all the transitions and corner cases to deliver these answers wrapped up with a pretty bow on top, letting you focus on your logic and UI.
 
                    ## Stats
 
-                   * **OS:** iOS 8+, OS X / macOS 10.11+, tvOS 9.0+
+                   * **OS:** iOS 10+, macOS 10.11+, tvOS 9.0+
                    * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-                   * **Tool requirements:** Xcode 8, Swift 3.0
+                   * **Tool requirements:** Xcode 11.3+, Swift 5.1+
                    * **License:** MIT
 
                    ## Features
 
-                   - Decouples view and model lifecycle from network request lifecycle
+                   - Decouples view, model, and controller lifecycle from network request lifecycle
                    - Decouples request initiation from request configuration
                    - Eliminates error-prone state tracking logic
                    - Eliminates redundant network requests
@@ -41,13 +41,13 @@ Pod::Spec.new do |s|
                    - …also works great from Objective-C thanks to a compatibility layer.
                    - Lightweight. Won’t achieve sentience and attempt to destroy you.
                    - [Robust regression tests](https://bustoutsolutions.github.io/siesta/specs/)
-                   - [Documentation](https://bustoutsolutions.github.io/siesta/guide/)
+                   - [Documentation](https://bustoutsolutions.github.io/siesta/guide/) and [more documentation](https://bustoutsolutions.github.io/siesta/api/)
 
                    ## What it doesn’t do
 
                    - It **doesn’t reinvent networking.** Siesta delegates network operations to your library of choice (`URLSession` by default, or [Alamofire](https://github.com/Alamofire/Alamofire), or inject your own [custom adapter](http://bustoutsolutions.github.io/siesta/api/Protocols/NetworkingProvider.html)).
                    - It **doesn’t hide HTTP**. On the contrary, Siesta strives to expose the full richness of HTTP while providing conveniences to simplify common usage patterns. You can devise an abstraction layer to suit your own particular needs, or work directly with Siesta’s nice APIs for requests and response entities.
-                   - It **doesn’t do response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to work with your model library of choice, or work directly with parsed JSON.
+                   - It **doesn’t do automatic response ↔ model mapping.** This means that Siesta doesn’t constrain your response models, or force you to have any at all. Add a response transformer to output models of whatever flavor your app prefers, or work directly with parsed JSON.
 
                    ## Documentation
 
@@ -66,11 +66,13 @@ Pod::Spec.new do |s|
 
   s.documentation_url = "https://bustoutsolutions.github.io/siesta/"
 
-  s.ios.deployment_target = "8.0"
-  s.osx.deployment_target = "10.11"
-  s.tvos.deployment_target = "9.0"
+  s.swift_version = "5.0"
 
-  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.4.3" }
+  s.ios.deployment_target = "10.0"
+  s.osx.deployment_target = "10.12"
+  s.tvos.deployment_target = "10.0"
+
+  s.source = { :git => "https://github.com/bustoutsolutions/siesta.git", :tag => "1.5.1" }
 
   s.subspec "Core" do |s|
     s.source_files = "Source/Siesta/**/*"
@@ -87,7 +89,7 @@ Pod::Spec.new do |s|
   s.subspec "Alamofire" do |s|
     s.source_files = "Extensions/Alamofire/**/*.{swift,m,h}"
     s.dependency "Siesta/Core"
-    s.dependency "Alamofire", "> 4.1"
+    s.dependency "Alamofire", "> 5.0"
   end
 
   s.default_subspecs = 'Core'

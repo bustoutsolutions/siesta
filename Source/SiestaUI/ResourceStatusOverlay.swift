@@ -6,6 +6,8 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+#if os(iOS) || os(tvOS)
+
 #if !COCOAPODS
     import Siesta
 #endif
@@ -108,7 +110,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
 
         // For explanations of the os() function:
         // https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-XID_20
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             layer.zPosition = 10000
         #endif
         parentVC?.view.addSubview(self)
@@ -322,3 +324,5 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             }
         }
     }
+
+#endif // OS(iOS)

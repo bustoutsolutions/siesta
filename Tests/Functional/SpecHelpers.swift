@@ -6,10 +6,11 @@
 //  Copyright © 2016 Bust Out Solutions. All rights reserved.
 //
 
+@testable import Siesta
+
+import Foundation
 import Quick
 import Nimble
-import Nocilla
-@testable import Siesta
 
 func specVar<T>(_ builder: @escaping () -> T) -> () -> T
     {

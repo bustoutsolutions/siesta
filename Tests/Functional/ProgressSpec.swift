@@ -7,9 +7,10 @@
 //
 
 @testable import Siesta
+
+import Foundation
 import Quick
 import Nimble
-import Nocilla
 
 class ProgressSpec: ResourceSpecBase
     {
@@ -19,7 +20,7 @@ class ProgressSpec: ResourceSpecBase
             {
             it("on success")
                 {
-                _ = stubRequest(resource, "GET").andReturn(200)
+                NetworkStub.add(.get, resource)
                 let req = resource().load()
                 awaitNewData(req)
                 expect(req.progress) == 1.0
@@ -34,7 +35,7 @@ class ProgressSpec: ResourceSpecBase
 
             it("on server error")
                 {
-                _ = stubRequest(resource, "GET").andReturn(500)
+                NetworkStub.add(.get, resource, status: 500)
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0
@@ -42,7 +43,10 @@ class ProgressSpec: ResourceSpecBase
 
             it("on connection error")
                 {
-                _ = stubRequest(resource, "GET").andFailWithError(NSError(domain: "foo", code: 1, userInfo: nil))
+                NetworkStub.add(
+                    .get, resource,
+                    returning: ErrorResponse(
+                        error: NSError(domain: "foo", code: 1, userInfo: nil)))
                 let req = resource().load()
                 awaitFailure(req)
                 expect(req.progress) == 1.0
@@ -50,14 +54,13 @@ class ProgressSpec: ResourceSpecBase
 
             it("on cancellation")
                 {
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
                 expect(req.progress) == 1.0
                 awaitFailure(req, initialState: .completed)
 
                 _ = reqStub.go()
-                awaitCancelledRequests()
                 }
             }
 
@@ -277,7 +280,7 @@ class ProgressSpec: ResourceSpecBase
                 let expectation = QuickSpec.current.expectation(description: "recordProgressUntil")
                 var fulfilled = false
 
-                let reqStub = stubRequest(resource, "GET").andReturn(200).delay()
+                let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load().onProgress
                     {
                     progressReports.append($0)
