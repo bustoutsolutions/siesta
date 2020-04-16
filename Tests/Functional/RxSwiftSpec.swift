@@ -12,8 +12,6 @@ import Nimble
 import Nocilla
 import RxSwift
 
-// todo add to macOS and tvOS
-
 class RxSwiftSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
@@ -22,10 +20,9 @@ class RxSwiftSpec: ResourceSpecBase
             {
             it("outputs content when the request succeeds")
                 {
-                _ = stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("Content-type", "text/plain")
-                        .withBody("pee hoo" as NSString)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "pee hoo"))
 
                 let loadingExpectation = QuickSpec.current.expectation(description: "isLoading set")
                 let requestingExpectation = QuickSpec.current.expectation(description: "isRequesting set")
@@ -51,10 +48,9 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("outputs content again when it changes")
                 {
-                _ = stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("Content-type", "text/plain")
-                        .withBody("pee hoo" as NSString)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "pee hoo"))
 
                 let observableExpectation = QuickSpec.current.expectation(description: "awaiting observable")
 
@@ -64,11 +60,9 @@ class RxSwiftSpec: ResourceSpecBase
                         .do(onNext:
                             {
                             _ in
-                            // would be nice if Nocilla let us tee up a series of responses
-                            _ = stubRequest(resource, "GET")
-                                    .andReturn(200)
-                                    .withHeader("Content-type", "text/plain")
-                                    .withBody("whoo baa" as NSString)
+                            NetworkStub.add(
+                                .get, resource,
+                                returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
 
                             resource().load()
                             })
@@ -86,8 +80,7 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("outputs an error when the request fails")
                 {
-                _ = stubRequest(resource, "GET")
-                        .andReturn(404)
+                NetworkStub.add(.get, resource, status: 404)
 
                 resource().rx.state()
                         .subscribeUntilTested
@@ -101,10 +94,9 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("outputs an error if the content type is wrong")
                 {
-                _ = stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("Content-type", "application/json")
-                        .withBody("{}" as NSString)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-Type": "application/json"], body: "{}"))
 
                 resource().rx.state()
                         .subscribeUntilTested
@@ -125,10 +117,9 @@ class RxSwiftSpec: ResourceSpecBase
             {
             it("outputs content changes")
                 {
-                _ = stubRequest(resource, "GET")
-                        .andReturn(200)
-                        .withHeader("Content-type", "text/plain")
-                        .withBody("pee hoo" as NSString)
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "pee hoo"))
 
                 let observableExpectation = QuickSpec.current.expectation(description: "awaiting observable")
 
@@ -136,11 +127,9 @@ class RxSwiftSpec: ResourceSpecBase
                         .do(onNext:
                             {
                             (_: String) in
-                            // would be nice if Nocilla let us tee up a series of responses
-                            _ = stubRequest(resource, "GET")
-                                    .andReturn(200)
-                                    .withHeader("Content-type", "text/plain")
-                                    .withBody("whoo baa" as NSString)
+                            NetworkStub.add(
+                                .get, resource,
+                                returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
 
                             resource().load()
                             })
@@ -161,8 +150,7 @@ class RxSwiftSpec: ResourceSpecBase
             {
             it("completes when the request succeeds")
                 {
-                _ = stubRequest(resource, "POST")
-                        .andReturn(200)
+                NetworkStub.add(.post, resource, status: 200)
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
@@ -174,8 +162,7 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("fails when the request fails")
                 {
-                _ = stubRequest(resource, "POST")
-                        .andReturn(500)
+                NetworkStub.add(.post, resource, status: 500)
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
@@ -190,10 +177,9 @@ class RxSwiftSpec: ResourceSpecBase
             {
             it("outputs content when the request succeeds")
                 {
-                _ = stubRequest(resource, "POST")
-                        .andReturn(200)
-                        .withHeader("Content-type", "text/plain")
-                        .withBody("whoo baa" as NSString)
+                NetworkStub.add(
+                    .post, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
@@ -210,8 +196,7 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("fails when the request fails")
                 {
-                _ = stubRequest(resource, "POST")
-                        .andReturn(500)
+                NetworkStub.add(.post, resource, status: 500)
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
