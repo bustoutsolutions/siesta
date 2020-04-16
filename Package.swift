@@ -22,6 +22,7 @@ let package = Package(
         // For tests:
         .package(url: "https://github.com/pcantrell/Quick", .exact("0.0.0")), 
         .package(url: "https://github.com/Quick/Nimble", from: "8.0.1"),
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "5.1.1"),
     ],
     targets: [
         .target(
@@ -38,7 +39,7 @@ let package = Package(
         ),
         .testTarget(
             name: "SiestaTests",
-            dependencies: ["SiestaUI", "Siesta_Alamofire", "Quick", "Nimble"],
+            dependencies: ["SiestaUI", "Siesta_Alamofire", "Quick", "Nimble", "RxSwift"],
             path: "Tests/Functional",
             exclude: ["ObjcCompatibilitySpec.m"]  // SwiftPM currently only supports Swift
         ),
