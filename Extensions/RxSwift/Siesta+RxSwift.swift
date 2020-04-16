@@ -39,7 +39,13 @@ public struct ResourceState<T>
         }
     }
 
-/// As per RxSwift's convention, we add methods to `myResource.rx`, not to `myResource` directly.
+/**
+RxSwift methods for Resource.
+
+For basic usage examples see the following method comments and `RxSwiftSpec.swift`.
+
+Following RxSwift's convention, we add methods to `myResource.rx`, not to `myResource` directly.
+*/
 extension Reactive where Base: Resource
     {
     /**
