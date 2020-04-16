@@ -2,17 +2,23 @@
 //  Siesta+RxSwift.swift
 //  Siesta
 //
-//  Created by Adrian Ross on 15/04/20.
-//  Copyright (c) 2020 Bust Out Solutions. All rights reserved.
+//  Created by Adrian on 2020/4/15.
+//  Copyright © 2020 Bust Out Solutions. All rights reserved.
 //
 
 import Siesta
 import RxSwift
 
-public struct ResourceState<T> {
+/// Immutable state of a resource at a point in time
+public struct ResourceState<T>
+    {
+    /// Resource.latestData?.typedContent(). If the resource produces content of a different type you get an error.
     public let content: T?
+    /// Resource.latestError
     public let latestError: RequestError?
+    /// Resource.isLoading
     public let isLoading: Bool
+    /// Resource.isRequesting
     public let isRequesting: Bool
 
     /**
@@ -21,14 +27,21 @@ public struct ResourceState<T> {
     */
     public let latestEvent: ResourceEvent
 
-    public func map<Other>(transform: (T) -> Other) -> ResourceState<Other> {
-        ResourceState<Other>(content: content.map(transform), latestError: latestError, isLoading: isLoading, isRequesting: isRequesting, latestEvent: latestEvent)
+    /// Transform state into a different content type
+    public func map<Other>(transform: (T) -> Other) -> ResourceState<Other>
+        {
+        ResourceState<Other>(
+            content: content.map(transform),
+            latestError: latestError,
+            isLoading: isLoading,
+            isRequesting: isRequesting,
+            latestEvent: latestEvent)
+        }
     }
-}
 
 /// As per RxSwift's convention, we add methods to `myResource.rx`, not to `myResource` directly.
-public extension Reactive where Base: Resource {
-
+extension Reactive where Base: Resource
+    {
     /**
     The changing state of the resource, corresponding to the resource's events.
 
@@ -74,11 +87,10 @@ public extension Reactive where Base: Resource {
     - you get the resource state as soon as you subscribe (via the observerAdded event), so you effectively
       have replay(1) here too
     */
-    func state<T>() -> Observable<ResourceState<T>> {
-        events().map { resource, event in
-            resource.snapshot(latestEvent: event)
+    public func state<T>() -> Observable<ResourceState<T>>
+        {
+        events().map { resource, event in resource.snapshot(latestEvent: event) }
         }
-    }
 
     /**
     Just the content, when present. Note this doesn't error out either - by using this, you're saying you
@@ -86,25 +98,25 @@ public extension Reactive where Base: Resource {
 
     Otherwise, see comments for `state()`
     */
-    func content<T>() -> Observable<T> {
+    public func content<T>() -> Observable<T>
+        {
         state().content()
-    }
+        }
 
-    fileprivate func events() -> Observable<(Resource, ResourceEvent)> {
-        Observable<(Resource, ResourceEvent)>.create { observer in
+    private func events() -> Observable<(Resource, ResourceEvent)>
+        {
+        Observable<(Resource, ResourceEvent)>.create
+            {
+            observer in
             let owner = SyntheticOwner()
 
-            self.base.addObserver(owner: owner) {
-                observer.onNext(($0, $1))
-            }
+            self.base.addObserver(owner: owner) { observer.onNext(($0, $1)) }
 
             self.base.loadIfNeeded()
 
-            return Disposables.create {
-                self.base.removeObservers(ownedBy: owner)
+            return Disposables.create { self.base.removeObservers(ownedBy: owner) }
             }
-        }
-        .observeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
     }
 
     private class SyntheticOwner {}
@@ -120,7 +132,6 @@ public extension Reactive where Base: Resource {
         .andThen(api.doSomethingNext.request(.post).rx.completable) // Nooooo. Started immediately, not after doSomething.
         .subscribe { ... }
     ```
-
     --
 
     A working version of sequential requests looks like this:
@@ -131,21 +142,20 @@ public extension Reactive where Base: Resource {
         .subscribe { ... }
     ```
     */
-    func request(createRequest: @escaping (Resource) -> Request) -> Completable {
-        Completable.create { observer in
-                    let request = createRequest(self.base)
-                    request.onSuccess { _ in
-                        observer(.completed)
-                    }
+    public func request(createRequest: @escaping (Resource) -> Request) -> Completable
+        {
+        Completable.create
+            {
+            observer in
+            let request = createRequest(self.base)
+            request.onSuccess { _ in observer(.completed) }
 
-                    request.onFailure {
-                        observer(.error($0))
-                    }
+            request.onFailure { observer(.error($0)) }
 
-                    return Disposables.create()
-                }
-                .observeOn(MainScheduler.instance)
-    }
+            return Disposables.create()
+            }
+            .observeOn(MainScheduler.instance)
+        }
 
     /**
     Specifically for requests that return data. If you have one that doesn't, use `request()`. (Don't
@@ -153,29 +163,32 @@ public extension Reactive where Base: Resource {
 
     Otherwise, see comments on `request()`.
     */
-    func requestWithData<T>(createRequest: @escaping (Resource) -> Request) -> Single<T> {
-        Single<T>.create { observer -> Disposable in
-                    let request = createRequest(self.base)
-                    request.onSuccess {
-                        guard let result: T = $0.typedContent() else {
-                            observer(.error(RequestError.Cause.WrongContentType()))
-                            return
-                        }
-                        observer(.success(result))
+    public func requestWithData<T>(createRequest: @escaping (Resource) -> Request) -> Single<T>
+        {
+        Single<T>.create
+            {
+            observer -> Disposable in
+            let request = createRequest(self.base)
+            request.onSuccess
+                {
+                guard let result: T = $0.typedContent() else
+                    {
+                    observer(.error(RequestError.Cause.WrongContentType()))
+                    return
                     }
-
-                    request.onFailure {
-                        observer(.error($0))
-                    }
-
-                    return Disposables.create()
+                observer(.success(result))
                 }
-                .observeOn(MainScheduler.instance)
+
+            request.onFailure { observer(.error($0)) }
+
+            return Disposables.create()
+            }
+            .observeOn(MainScheduler.instance)
     }
 }
 
-extension Resource {
-
+extension Resource
+    {
     fileprivate func snapshot<T>(latestEvent: ResourceEvent)
         -> ResourceState<T>
         {
@@ -194,19 +207,19 @@ extension Resource {
                 isRequesting: isRequesting,
                 latestEvent: latestEvent
         )
-
         }
-}
+    }
 
-public extension ObservableType {
-
+extension ObservableType
+    {
     /// See comments on `Resource.rx.content()`
-    func content<T>() -> Observable<T> where Element == ResourceState<T> {
+    public func content<T>() -> Observable<T> where Element == ResourceState<T>
+        {
         compactMap { $0.content }
+        }
     }
-}
 
-public extension RequestError.Cause {
-    struct WrongContentType: Error {
+extension RequestError.Cause
+    {
+    public struct WrongContentType: Error { }
     }
-}
