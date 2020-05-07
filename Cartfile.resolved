@@ -1,3 +1,4 @@
 github "Alamofire/Alamofire" "5.0.5"
 github "Quick/Nimble" "v8.0.5"
+github "ReactiveX/RxSwift" "5.1.1"
 github "pcantrell/Quick" "d91676d00600c42f9b55349765b1f1099141bfba"
