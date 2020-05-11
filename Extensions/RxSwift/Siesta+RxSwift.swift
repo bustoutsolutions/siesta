@@ -9,10 +9,12 @@
 import Siesta
 import RxSwift
 
-/**
-RxSwift extensions for Resource. You need ../ReactiveCommon.swift as well as this file.
+// MARK: - Resources
 
-For basic usage examples see the following method comments and `RxSwiftSpec.swift`.
+/**
+RxSwift extensions for Resource.
+
+For usage examples see the following method comments, `RxSwiftSpec.swift` and the GitHubBrowser example project.
 
 Following RxSwift's convention, we add methods to `myResource.rx`, not to `myResource` directly.
 */
@@ -46,13 +48,7 @@ extension Reactive where Base: Resource
     The sequence will never error out, or in fact complete at all. Please dispose of your subscriptions
     appropriately, otherwise you'll have a permanent reference to the resource.
 
-    Events are published on the main thread. Make sure you subscribe on the main thread.
-
-    Note that as befits network operations, the methods in this extension produce cold observables. What
-    that means here is that network ops don't happen until subscription time. This is particularly
-    important when dealing with `Request` (see request methods below). (If you don't know about hot and cold
-    observables, stop putting it off and read
-    https://github.com/ReactiveX/RxSwift/blob/master/Documentation/HotAndColdObservables.md)
+    Events are published on the main thread.
 
     Why doesn't this return `Driver`, especially since the request methods use traits rather than plain
     observables? Mainly because Driver is in RxCocoa, and I didn't want to import that here. (There's probably
@@ -79,6 +75,12 @@ extension Reactive where Base: Resource
         state().content()
         }
 
+    /// The content, if it's present, otherwise nil. You'll get output from this for every event.
+    public func optionalContent<T>() -> Observable<T?>
+        {
+        state().map { $0.content }
+        }
+
     private func events() -> Observable<(Resource, ResourceEvent)>
         {
         Observable<(Resource, ResourceEvent)>.create
@@ -93,76 +95,10 @@ extension Reactive where Base: Resource
             return Disposables.create { self.base.removeObservers(ownedBy: owner) }
             }
             .observeOn(MainScheduler.instance)
-    }
-
-    private class SyntheticOwner {}
-
-
-    /**
-    This isn't an extension of `Request`, as requests are started when they're created, effectively
-    creating hot observables (see comments on `state()`). Here's why an `rx.completable` extension
-    on `Request` would be bad:
-
-    ```
-    api.doSomething.request(.post).rx.completable
-        .andThen(api.doSomethingNext.request(.post).rx.completable) // Nooooo. Started immediately, not after doSomething.
-        .subscribe { ... }
-    ```
-    --
-
-    A working version of sequential requests looks like this:
-
-    ```
-    api.doSomething.rx.request { $0.request(.post) }
-        .andThen(api.doSomethingNext.request { $0.request(.post) }
-        .subscribe { ... }
-    ```
-    */
-    public func request(createRequest: @escaping (Resource) -> Request) -> Completable
-        {
-        Completable.create
-            {
-            observer in
-            let request = createRequest(self.base)
-            request.onSuccess { _ in observer(.completed) }
-
-            request.onFailure { observer(.error($0)) }
-
-            return Disposables.create()
-            }
-            .observeOn(MainScheduler.instance)
         }
 
-    /**
-    Specifically for requests that return data. If you have one that doesn't, use `request()`. (Don't
-    instead try using `Void` for your `T` here - that will fail.)
-
-    Otherwise, see comments on `request()`.
-    */
-    public func requestWithData<T>(createRequest: @escaping (Resource) -> Request) -> Single<T>
-        {
-        Single<T>.create
-            {
-            observer -> Disposable in
-            let request = createRequest(self.base)
-            request.onSuccess
-                {
-                guard let result: T = $0.typedContent() else
-                    {
-                    observer(.error(RequestError(userMessage: "Wrong content type",
-                            cause: RequestError.Cause.WrongContentType())))
-                    return
-                    }
-                observer(.success(result))
-                }
-
-            request.onFailure { observer(.error($0)) }
-
-            return Disposables.create()
-            }
-            .observeOn(MainScheduler.instance)
+    private class SyntheticOwner {}
     }
-}
 
 extension ObservableType
     {
@@ -195,5 +131,129 @@ extension Resource
                 isRequesting: isRequesting,
                 latestEvent: latestEvent
         )
+        }
+    }
+
+
+// MARK: - Requests
+
+extension Reactive where Base: Resource
+    {
+    /**
+    These methods produce cold observables - the request isn't started until subscription time. This will often be what
+    you want, and you should at least consider preferring these methods over the Request.rx ones. This is particularly
+    true when chaining requests using `Completable` - see `requestCompletable()`.
+
+    If your request doesn't return data, you can ask for `Void`, in which case you'll get an element on completion, or
+    `Never`, in which case you won't. Or you might prefer `requestCompletable()`.
+    */
+    public func request<T>(createRequest: @escaping (Resource) -> Request) -> Observable<T>
+        {
+        Observable.deferred { createRequest(self.base).rx.observable() }
+        }
+
+    /**
+    (See also comments on `request()`.)
+
+    If your request doesn't return data you can ask for `Void` - or you might prefer `requestCompletable()`.
+    */
+    public func requestSingle<T>(createRequest: @escaping (Resource) -> Request) -> Single<T>
+        {
+        Single.deferred { createRequest(self.base).rx.single() }
+        }
+
+    /**
+    (See also comments on `request()`.)
+
+    If you want to chain Completables to perform sequential requests, you're in the right place. `Request.rx.completable()`
+    won't work for that (see its comments for an example).
+
+    ```
+    doSomethingResource.rx.requestCompletable { $0.request(.post) }
+        .andThen(doSomethingNextResource.requestCompletable { $0.request(.post) }
+        .subscribe { ... }
+    ```
+    */
+    public func requestCompletable(createRequest: @escaping (Resource) -> Request) -> Completable
+        {
+        Completable.deferred { createRequest(self.base).rx.completable() }
+        }
+}
+
+extension Request
+    {
+    /// Let's keep with the .rx convention. This can't be an extension of Reactive though because Request is a protocol.
+    public var rx: RequestReactive { RequestReactive(request: self) }
+    }
+
+public struct RequestReactive
+    {
+    let request: Request
+
+    /**
+    Be cautious with these methods - Requests are started when they're created, so we're effectively creating hot observables here.
+    Consider using the `Resource.rx.request*()` methods, which produce cold observables - requests won't start until subscription time.
+
+    However, if you've been handed a Request and you want to make it reactive, these methods are here for you.
+
+    If your request doesn't return data, you can ask for `Void`, in which case you'll get an element on completion, or
+    `Never`, in which case you won't.
+    */
+    public func observable<T>() -> Observable<T>
+        {
+        Observable.create
+            {
+            observer in
+            self.request.onSuccess
+                {
+                if T.self == Never.self
+                    { /* no output */ }
+                else if let result = () as? T
+                    { observer.onNext(result) }
+                else
+                    {
+                    guard let result: T = $0.typedContent() else
+                        {
+                        observer.onError(RequestError(userMessage: "Wrong content type",
+                                cause: RequestError.Cause.WrongContentType()))
+                        return
+                        }
+                    observer.onNext(result)
+                    }
+                observer.onCompleted()
+                }
+
+            self.request.onFailure { observer.onError($0) }
+
+            return Disposables.create()
+            }
+            .observeOn(MainScheduler.instance)
+        }
+
+    /**
+    Caution - see comments on `observable()`.
+
+    You can get yourself into trouble trying to chain requests with this method (see `Resource.rx.requestCompletable()`
+    for a working version of this code):
+
+    ```
+    doSomethingResource.request(.post).rxCompletable
+        .andThen(api.doSomethingNextResource.request(.post).rxCompletable) // Nooooo. Started immediately, not after doSomething.
+        .subscribe { ... }
+    ```
+    */
+    public func completable() -> Completable
+        {
+        (observable() as Observable<Never>).asCompletable()
+        }
+
+    /**
+    Caution - see comments on `observable()`.
+
+    If your request doesn't return data, you can ask for `Void`.
+    */
+    public func single<T>() -> Single<T>
+        {
+        observable().asSingle()
         }
     }

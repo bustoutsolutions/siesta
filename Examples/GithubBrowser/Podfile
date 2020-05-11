@@ -5,3 +5,20 @@ target 'GithubBrowser' do
 
   pod 'Siesta/UI', path: '../..'
 end
+
+target "GithubBrowserCombine" do
+	use_frameworks!
+	platform :ios, '13.0'
+	pod 'Siesta/UI', path: '../..'
+	pod 'CombineCocoa'
+	pod 'CombineExt'
+	pod 'CombineDataSources'
+end
+
+target "GithubBrowserRx" do
+	use_frameworks!
+	pod 'Siesta/UI', path: '../..'
+	pod 'RxSwift'
+	pod 'RxCocoa'
+	pod 'RxOptional'
+end
