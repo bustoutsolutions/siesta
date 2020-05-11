@@ -15,7 +15,7 @@ class RxSwiftSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        describe("state()")
+        describe("Resource.rx.state()")
             {
             it("outputs content when the request succeeds")
                 {
@@ -140,7 +140,7 @@ class RxSwiftSpec: ResourceSpecBase
             }
 
 
-        describe("content()")
+        describe("Resource.rx.content()")
             {
             it("outputs content changes")
                 {
@@ -195,15 +195,94 @@ class RxSwiftSpec: ResourceSpecBase
                 }
             }
 
-        describe("request()")
+
+        // ------------ Resource.rx.request* ------------
+
+        describe("Resource.rx.request()")
             {
-            it("completes when the request succeeds")
+            it("outputs content then completes")
                 {
-                NetworkStub.add(.post, resource, status: 200)
+                NetworkStub.add(
+                    .put, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "ree sult"))
+
+                let outputExpectation = QuickSpec.current.expectation(description: "awaiting completion")
+                let completionExpectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                _ = resource().rx.request { $0.request(.put) }
+                        .subscribe(
+                                onNext: { (result: String) in
+                                    expect(result) == "ree sult"
+                                    outputExpectation.fulfill()
+                                },
+                                onCompleted: { completionExpectation.fulfill() }
+                        )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+
+            it("fails when the request fails")
+                {
+                NetworkStub.add(.put, resource, status: 500)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                _ = resource().rx.request { $0.request(.put) }
+                        .subscribe(
+                                onNext: { (_: String) in },
+                                onError: { _ in expectation.fulfill() }
+                        )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+            }
+
+
+        describe("Resource.rx.requestSingle()")
+            {
+            it("outputs content")
+                {
+                NetworkStub.add(
+                    .put, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "ree sult"))
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
-                _ = resource().rx.request { $0.request(.post) }
+                _ = resource().rx.requestSingle { $0.request(.put) }
+                        .subscribe(onSuccess: { (result: String) in
+                            expect(result) == "ree sult"
+                            expectation.fulfill()
+                        })
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+
+            it("fails when the request fails")
+                {
+                NetworkStub.add(.put, resource, status: 500)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                _ = resource().rx.requestSingle { $0.request(.put) }
+                        .subscribe(
+                                onSuccess: { (_: String) in },
+                                onError: { _ in expectation.fulfill() }
+                        )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+            }
+
+
+        describe("Resource.rx.requestCompletable()")
+            {
+            it("completes when the request succeeds")
+                {
+                NetworkStub.add(.put, resource, status: 200)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                _ = resource().rx.requestCompletable { $0.request(.put) }
                         .subscribe(onCompleted: { expectation.fulfill() })
 
                 QuickSpec.current.waitForExpectations(timeout: 1)
@@ -211,28 +290,29 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("fails when the request fails")
                 {
-                NetworkStub.add(.post, resource, status: 500)
+                NetworkStub.add(.put, resource, status: 500)
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
-                _ = resource().rx.request { $0.request(.post) }
+                _ = resource().rx.requestCompletable { $0.request(.put) }
                         .subscribe(onError: { _ in expectation.fulfill() })
 
                 QuickSpec.current.waitForExpectations(timeout: 1)
                 }
             }
 
-        describe("requestWithData()")
+
+        describe("Resource.rx.requestSingle()")
             {
             it("outputs content when the request succeeds")
                 {
                 NetworkStub.add(
-                    .post, resource,
+                    .put, resource,
                     returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
-                _ = resource().rx.requestWithData { $0.request(.post) }
+                _ = resource().rx.requestSingle { $0.request(.put) }
                         .subscribe(onSuccess:
                             {
                             (s: String) in
@@ -245,15 +325,120 @@ class RxSwiftSpec: ResourceSpecBase
 
             it("fails when the request fails")
                 {
-                NetworkStub.add(.post, resource, status: 500)
+                NetworkStub.add(.put, resource, status: 500)
 
                 let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
-                _ = resource().rx.requestWithData { $0.request(.post) }
+                _ = resource().rx.requestSingle { $0.request(.put) }
                         .subscribe(
                                 onSuccess: { (_: String) in },
                                 onError: { _ in expectation.fulfill() }
                         )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+            }
+
+
+        // ------------ Request.rx.* ------------
+
+        describe("Request.rx.observable()")
+            {
+            it("outputs content then completes")
+                {
+                NetworkStub.add(
+                    .put, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "ree sult"))
+
+                let outputExpectation = QuickSpec.current.expectation(description: "awaiting completion")
+                let completionExpectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                _ = resource().request(.put).rx.observable().subscribe(
+                        onNext: { (result: String) in
+                            expect(result) == "ree sult"
+                            outputExpectation.fulfill()
+                        },
+                        onCompleted: { completionExpectation.fulfill() }
+                    )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+
+            it("fails when the request fails")
+                {
+                NetworkStub.add(.put, resource, status: 500)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                _ = resource().request(.put).rx.observable().subscribe(
+                        onNext: { (_: String) in },
+                        onError: { _ in expectation.fulfill() }
+                    )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+            }
+
+        describe("Request.rx.completable()")
+            {
+            it("completes when the request succeeds")
+                {
+                NetworkStub.add(.put, resource, status: 200)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                _ = resource()
+                    .request(.put).rx.completable().subscribe(
+                        onCompleted: { expectation.fulfill() }
+                    )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+
+            it("fails when the request fails")
+                {
+                NetworkStub.add(.put, resource, status: 500)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                _ = resource()
+                    .request(.put).rx.completable().subscribe(
+                        onError: { _ in expectation.fulfill() }
+                    )
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+        }
+
+        describe("Request.rx.single()") {
+            it("outputs content when the request succeeds")
+                {
+                NetworkStub.add(
+                    .put, resource,
+                    returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                _ = resource()
+                    .request(.put).rx.single().subscribe(
+                        onSuccess: { (s: String) in
+                            expect(s) == "whoo baa"
+                            expectation.fulfill()
+                        })
+
+                QuickSpec.current.waitForExpectations(timeout: 1)
+                }
+
+            it("fails when the request fails")
+                {
+                NetworkStub.add(.put, resource, status: 500)
+
+                let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                _ = resource().request(.put).rx.single().subscribe(
+                        onSuccess: { (_: String) in },
+                        onError: { _ in expectation.fulfill() }
+                    )
 
                 QuickSpec.current.waitForExpectations(timeout: 1)
                 }
@@ -267,9 +452,7 @@ extension Observable
         {
         let observableExpectation = QuickSpec.current.expectation(description: "awaiting observable")
 
-        _ = takeUntil(.inclusive)
-            {
-            elt in
+        _ = takeUntil(.inclusive) { elt in
             var res: Bool?
             let fe = gatherFailingExpectations { res = testNext(elt) }
             return res! || !fe.isEmpty

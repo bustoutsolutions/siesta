@@ -13,7 +13,7 @@ import Combine
 /**
 Combine extensions for Resource.
 
-For basic usage examples see `CombineSpec.swift`.
+For usage examples see `CombineSpec.swift` and the GitHubBrowser example project.
 */
 @available(iOS 13, tvOS 13, OSX 10.15, watchOS 6.0, *)
 extension Resource
@@ -21,7 +21,7 @@ extension Resource
     /**
     The changing state of the resource, corresponding to the resource's events.
 
-    Note that content is typed; you'll get an error (in latestError) if your resource doesn't produce
+    Note that content is typed; you'll get an error (in `latestError`) if your resource doesn't produce
     the type you specify.
 
     Subscribing to this publisher triggers a call to `loadIfNeeded()`, which is probably what you want.
@@ -29,16 +29,10 @@ extension Resource
     As with non-reactive Siesta, you'll immediately get an event (`observerAdded`) describing the current
     state of the resource.
 
-    The publisher will never error out, or in fact complete at all. Please dispose of your subscriptions
-    appropriately, otherwise you'll have a permanent reference to the resource.
+    The publisher will never complete. Please dispose of your subscriptions appropriately otherwise you'll have
+    a permanent reference to the resource.
 
     Events are published on the main thread.
-
-    Note that as befits network operations, Siesta's Combine methods produce cold observables. What
-    that means here is that network ops don't happen until subscription time. This is particularly
-    important when dealing with `Request` (see request methods below). (If you don't know about hot
-    and cold observables, stop putting it off and read
-    https://github.com/ReactiveX/RxSwift/blob/master/Documentation/HotAndColdObservables.md)
     */
     public func statePublisher<T>() -> AnyPublisher<ResourceState<T>,Never>
         {
@@ -49,14 +43,18 @@ extension Resource
         }
 
     /**
-    Just the content, when present. Note this doesn't error out - by using this, you're saying you
-    don't care about errors at all.
-
-    Otherwise, see comments for `statePublisher()`
+    Just the content, when present. See also `statePublisher()`.
     */
     public func contentPublisher<T>() -> AnyPublisher<T,Never>
         {
         statePublisher().content()
+        }
+
+    /// The content, if it's present, otherwise nil. You'll get output from this for every event.
+    /// See also `statePublisher()`.
+    public func optionalContentPublisher<T>() -> AnyPublisher<T?,Never>
+        {
+        statePublisher().optionalContent()
         }
 
     fileprivate struct EventPublisher: Publisher
@@ -110,64 +108,18 @@ extension Resource
 
         func cancel()
 			{ subscriber = nil }
-    }
-
-    // MARK: - Requests
-
-    /**
-	Publisher for a request whose response body we don't care about.
-    This isn't an extension of `Request`, as requests are started when they're created, effectively
-    creating hot publishers (see comments on `state()`). We want to defer request creation until
-    subscription time.
-    */
-    public func requestPublisher(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<Void, RequestError>
-		{
-        Deferred
-			{
-            Future
-				{
-                promise in
-                createRequest(self)
-                        .onSuccess { _ in promise(.success(())) }
-                        .onFailure { promise(.failure($0)) }
-        		}
-			}
-            .eraseToAnyPublisher()
-    	}
-
-	/// Publisher for a request that returns data. Strongly typed, like the Resource publishers.
-    public func dataRequestPublisher<T>(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<T, RequestError>
-		{
-        Deferred
-			{
-            Future
-				{
-                promise in
-                createRequest(self)
-                        .onSuccess
-                        {
-                        guard let result: T = $0.typedContent() else
-							{
-                            promise(.failure(RequestError(userMessage: "Wrong content type",
-                                    cause: RequestError.Cause.WrongContentType())))
-                            return
-                        	}
-                        promise(.success(result))
-                        }
-
-                        .onFailure
-							{ promise(.failure($0)) }
-    			}
-	        }
-            .eraseToAnyPublisher()
-    	}
+        }
     }
 
 @available(iOS 13, tvOS 13, OSX 10.15, watchOS 6.0, *)
 extension AnyPublisher
     {
     /// See comments on `Resource.contentPublisher()`
-    public func content<T>() -> AnyPublisher<T,Failure> where Output == ResourceState<T>
+    public func content<T>() -> AnyPublisher<T, Failure> where Output == ResourceState<T>
+        { compactMap { $0.content }.eraseToAnyPublisher() }
+
+    /// See comments on `Resource.optionalContentPublisher()`
+    public func optionalContent<T>() -> AnyPublisher<T?, Failure> where Output == ResourceState<T>
         { compactMap { $0.content }.eraseToAnyPublisher() }
     }
 
@@ -249,7 +201,85 @@ extension Resource
 
 extension RequestError.Cause
     {
-    public struct WrongContentType: Error {
+    public struct WrongContentType: Error
+        {
         public init() {}
+        }
     }
+
+
+// MARK: - Requests
+
+@available(iOS 13, tvOS 13, OSX 10.15, watchOS 6.0, *)
+extension Resource
+    {
+    /**
+    These methods produce cold observables - the request isn't started until subscription time. This will often be what
+    you want, and you should at least consider preferring these methods over the Request publishers.
+
+    Publisher for a request that doesn't return data.
+    */
+    public func requestPublisher(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<Void, RequestError>
+		{
+        Deferred { createRequest(self).publisher() }.eraseToAnyPublisher()
+    	}
+
+	/**
+	Publisher for a request that returns data. Strongly typed, like the Resource publishers.
+
+	See also `requestPublisher()`
+	*/
+    public func dataRequestPublisher<T>(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<T, RequestError>
+		{
+        Deferred { createRequest(self).dataPublisher() }.eraseToAnyPublisher()
+    	}
+    }
+
+@available(iOS 13, tvOS 13, OSX 10.15, watchOS 6.0, *)
+extension Request
+    {
+    /**
+    Be cautious with these methods - Requests are started when they're created, so we're effectively creating hot observables here.
+    Consider using the `Resource.*requestPublisher()` methods, which produce cold observables - requests won't start until
+    subscription time.
+
+    However, if you've been handed a Request and you want to make it reactive, these methods are here for you.
+
+    Publisher for a request that doesn't return data.
+    */
+    public func publisher() -> AnyPublisher<Void, RequestError>
+        {
+        dataPublisher()
+        }
+
+    /**
+   	Publisher for a request that returns data. Strongly typed, like the Resource publishers.
+
+   	See also `publisher()`
+   	*/
+    public func dataPublisher<T>() -> AnyPublisher<T, RequestError>
+        {
+        Future
+            {
+            promise in
+            self.onSuccess
+                {
+                if let result = () as? T
+                    { promise(.success(result)) }
+                else
+                    {
+                    guard let result: T = $0.typedContent() else
+                        {
+                        promise(.failure(RequestError(userMessage: "Wrong content type",
+                                cause: RequestError.Cause.WrongContentType())))
+                        return
+                        }
+                    promise(.success(result))
+                    }
+                }
+
+            self.onFailure { promise(.failure($0)) }
+            }
+            .eraseToAnyPublisher()
+        }
     }

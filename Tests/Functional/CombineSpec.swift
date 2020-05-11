@@ -18,7 +18,7 @@ class ResourceCombineSpec: ResourceSpecBase
 
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        describe("state()")
+        describe("statePublisher()")
             {
             it("outputs content when the request succeeds")
                 {
@@ -172,7 +172,7 @@ class ResourceCombineSpec: ResourceSpecBase
             }
 
 
-            describe("content()")
+            describe("contentPublisher()")
                 {
                 it("outputs content changes")
                     {
@@ -229,24 +229,115 @@ class ResourceCombineSpec: ResourceSpecBase
                     }
                 }
 
-            describe("request()")
-                {
-                it("outputs content when the request succeeds")
-                    {
+
+            // -- Resource requests --
+
+            describe("Resource.dataRequestPublisher()") {
+                it("outputs content when the request succeeds") {
                     NetworkStub.add(
-                        .post, resource,
-                        returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
+                            .post, resource,
+                            returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
 
                     let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
                     resource().dataRequestPublisher { $0.request(.post) }
+                            .sink(
+                                    receiveCompletion: { _ in },
+                                    receiveValue:
+                                    {
+                                        (s: String) in
+                                        expect(s) == "whoo baa"
+                                        expectation.fulfill()
+                                    })
+                            .store(in: &self.subs)
+
+                    QuickSpec.current.waitForExpectations(timeout: 1)
+                    self.subs.removeAll()
+                }
+
+                it("fails when the request fails") {
+                    NetworkStub.add(.post, resource, status: 500)
+
+                    let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                    resource().dataRequestPublisher { $0.request(.post) }
+                            .sink(
+                                    receiveCompletion:
+                                    { if case .failure = $0 { expectation.fulfill() } },
+                                    receiveValue:
+                                    { (_: String) in })
+                            .store(in: &self.subs)
+
+                    QuickSpec.current.waitForExpectations(timeout: 1)
+                    self.subs.removeAll()
+                }
+            }
+
+
+            describe("Resource.requestPublisher()")
+                {
+                it("completes successfully without output when the request has no output")
+                    {
+                    NetworkStub.add(
+                        .post, resource,
+                        status: 200)
+
+                    let expectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                    resource()
+                        .requestPublisher { $0.request(.post) }
                         .sink(
-                                receiveCompletion: { _ in },
-                                receiveValue:
-                            {
-                            (s: String) in
-                            expect(s) == "whoo baa"
-                            expectation.fulfill()
+                            receiveCompletion:
+                                { _ in expectation.fulfill() },
+                            receiveValue:
+                                { _ in })
+                        .store(in: &self.subs)
+
+                    QuickSpec.current.waitForExpectations(timeout: 1)
+                        self.subs.removeAll()
+                    }
+
+                it("fails when a request without output fails")
+                    {
+                    NetworkStub.add(.post, resource, status: 500)
+
+                    let expectation = QuickSpec.current.expectation(description: "awaiting error")
+
+                    resource()
+                        .requestPublisher { $0.request(.post) }
+                        .sink(
+                            receiveCompletion:
+                                { if case .failure = $0 { expectation.fulfill() } },
+                            receiveValue:
+                                { _ in })
+                        .store(in: &self.subs)
+
+                    QuickSpec.current.waitForExpectations(timeout: 1)
+                    self.subs.removeAll()
+                    }
+				}
+
+
+            // -- Request publishers --
+
+            describe("Request.dataPublisher()")
+                {
+                it("outputs content when the request succeeds")
+                    {
+                    NetworkStub.add(
+                            .post, resource,
+                            returning: HTTPResponse(headers: ["Content-type": "text/plain"], body: "whoo baa"))
+
+                    let expectation = QuickSpec.current.expectation(description: "awaiting completion")
+
+                    resource()
+                        .request(.post)
+                        .dataPublisher()
+                        .sink(
+                            receiveCompletion: { _ in },
+                            receiveValue: { (s: String) in
+                                expect(s) == "whoo baa"
+                                expectation.fulfill()
                             })
                         .store(in: &self.subs)
 
@@ -260,18 +351,25 @@ class ResourceCombineSpec: ResourceSpecBase
 
                     let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
-                    resource().dataRequestPublisher { $0.request(.post) }
-                            .sink(
-                                    receiveCompletion:
-										{ if case .failure = $0 { expectation.fulfill() } },
-                                    receiveValue:
-										{ (_: String) in })
-                            .store(in: &self.subs)
+                    resource()
+                        .request(.post)
+                        .dataPublisher()
+                        .sink(
+                            receiveCompletion:
+                                { if case .failure = $0 { expectation.fulfill() } },
+                            receiveValue:
+                                { (_: String) in }
+                        )
+                        .store(in: &self.subs)
 
-                        QuickSpec.current.waitForExpectations(timeout: 1)
-                        self.subs.removeAll()
+                    QuickSpec.current.waitForExpectations(timeout: 1)
+                    self.subs.removeAll()
                     }
+                }
 
+
+            describe("Request.publisher()")
+                {
                 it("completes successfully without output when the request has no output")
                     {
                     NetworkStub.add(
@@ -280,13 +378,15 @@ class ResourceCombineSpec: ResourceSpecBase
 
                     let expectation = QuickSpec.current.expectation(description: "awaiting completion")
 
-                        resource().requestPublisher { $0.request(.post) }
-                            .sink(
-                                    receiveCompletion:
-										{ _ in expectation.fulfill() },
-                                    receiveValue:
-										{ _ in })
-                            .store(in: &self.subs)
+                    resource()
+                        .request(.post)
+                        .publisher()
+                        .sink(
+                            receiveCompletion:
+                                { _ in expectation.fulfill() },
+                            receiveValue:
+                                { _ in })
+                        .store(in: &self.subs)
 
                     QuickSpec.current.waitForExpectations(timeout: 1)
                         self.subs.removeAll()
@@ -298,13 +398,15 @@ class ResourceCombineSpec: ResourceSpecBase
 
                     let expectation = QuickSpec.current.expectation(description: "awaiting error")
 
-                    resource().requestPublisher { $0.request(.post) }
-                            .sink(
-                                    receiveCompletion:
-										{ if case .failure = $0 { expectation.fulfill() } },
-                                    receiveValue:
-										{ _ in })
-                            .store(in: &self.subs)
+                    resource()
+                        .request(.post)
+                        .publisher()
+                        .sink(
+                            receiveCompletion:
+                                { if case .failure = $0 { expectation.fulfill() } },
+                            receiveValue:
+                                { _ in })
+                        .store(in: &self.subs)
 
                     QuickSpec.current.waitForExpectations(timeout: 1)
                     self.subs.removeAll()
