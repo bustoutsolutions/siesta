@@ -51,3 +51,9 @@ Siesta solves all these problems transparently, with minimal code.
 If you hit the GitHub API’s rate limit while running the demo, press the “Log In” button. If you’re experimenting with the demo a lot, you can set `GITHUB_USER` and `GITHUB_PASS` environment variables in the “Run” build scheme to make the app automatically log you in on launch.
 
 You can use a [personal access token](https://github.com/settings/tokens) in place of your password. You don’t need to grant any permissions to your token for this app; just the public access will do.
+
+## Combine and RxSwift
+
+The main view controllers have *Combine and *Rx variants to demonstrate the use of Siesta's reactive extensions, and the project has accompanying Combine and Rx targets.
+
+You might find it instructive to compare the reactive controllers with their non-reactive versions, particularly if you're an existing Siesta user thinking of adopting the reactive extensions.
