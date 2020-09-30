@@ -8,6 +8,7 @@
 
 #if canImport(Combine)
 
+import Foundation
 import Combine
 
 /**
