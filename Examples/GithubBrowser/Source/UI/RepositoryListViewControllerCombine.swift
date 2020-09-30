@@ -38,10 +38,18 @@ class RepositoryListViewController: UITableViewController {
         - populate the table.
         */
         repositories
+                // In this project we have an extension to tell Siesta's status overlay to be
+                // interested in the latest Resource output by a Resource publisher. The following
+                // line gives us a progress spinner, error display and retry functionality.
                 .watchedBy(statusOverlay: statusOverlay)
+
+                // Transform the sequence of Resources into a sequence of their content: [Repository].
                 .flatMapLatest { resource -> AnyPublisher<[Repository], Never> in
                     resource?.contentPublisher() ?? Just([]).eraseToAnyPublisher()
                 }
+
+                // This is everything we need to populate the table with the list of repos,
+                // courtesy of CombineDataSources.
                 .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: "repo", cellType: RepositoryTableViewCell.self, cellConfig: { cell, indexPath, repo in
                     cell.repository = repo
                 }))

@@ -28,24 +28,31 @@ class RepositoryListViewController: UITableViewController {
     Whether it's better to pass in a resource or an observable here is much the same argument as whether to define
     APIs in terms of resources or observables. See UserViewController for a discussion about that.
     */
-    func configure(repositories: Observable<Resource? /* [Repository] */>) {
-        /*
-        Oh hey, in the next small handful of lines, let's:
-        - make an api call if necessary to fetch the latest repo list we're to show
-        - display progress and errors while doing that, and
-        - populate the table.
-        */
-        repositories
-                .watchedBy(statusOverlay: statusOverlay)
-                .flatMapLatest { resource -> Observable<[Repository]> in
-                    resource?.rx.content() ?? .just([])
-                }
-                .bind(to: tableView.rx.items(cellIdentifier: "repo", cellType: RepositoryTableViewCell.self)) { 
-                    (row, repo, cell) in
-                    cell.repository = repo
-                }
-                .disposed(by: disposeBag)
-    }
+func configure(repositories: Observable<Resource? /* [Repository] */>) {
+    /*
+    Oh hey, in the next small handful of lines, let's:
+    - make an api call if necessary to fetch the latest repo list we're to show
+    - display progress and errors while doing that, and
+    - populate the table.
+    */
+    repositories
+        // In this project we have an extension to tell Siesta's status overlay to be
+        // interested in the latest Resource output by a Resource sequence. The following
+        // line gives us a progress spinner, error display and retry functionality.
+        .watchedBy(statusOverlay: statusOverlay)
+
+        // Transform the sequence of Resources into a sequence of their content: [Repository].
+        .flatMapLatest { resource -> Observable<[Repository]> in
+            resource?.rx.content() ?? .just([])
+        }
+
+        // This is everything we need to populate the table with the list of repos.
+        .bind(to: tableView.rx.items(cellIdentifier: "repo", cellType: RepositoryTableViewCell.self)) { 
+            (row, repo, cell) in
+            cell.repository = repo
+        }
+        .disposed(by: disposeBag)
+}
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "repoDetail" {
