@@ -59,7 +59,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
         super.init(frame: CGRect.zero)
         load(
             fromNib: "ResourceStatusOverlay",
-            bundle: Bundle(for: ResourceStatusOverlay.self))
+            bundle: Bundle.module)
         }
 
     /**

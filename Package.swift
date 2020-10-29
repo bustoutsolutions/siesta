@@ -29,7 +29,8 @@ let package = Package(
         ),
         .target(
             name: "SiestaUI",
-            dependencies: ["Siesta"]
+            dependencies: ["Siesta"],
+            resources: [.process("ResourceStatusOverlay.xib")]
         ),
         .target(
             name: "Siesta_Alamofire",
