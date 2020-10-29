@@ -119,13 +119,13 @@ extension Pipeline
             {
             defaultEntityCacheWorkQueue.async
                 {
-                var result = self.performCacheLookup()
+                var result = performCacheLookup()
                     ?? ResponseInfo(
                         response: .failure(RequestError(
                             userMessage: NSLocalizedString("Cache miss", comment: "userMessage"),
                             cause: RequestError.Cause.CacheMiss())))
 
-                if let resource = self.resource
+                if let resource = resource
                     { result.configurationSource = .init(method: .get, resource: resource) }
 
                 DispatchQueue.main.async
@@ -223,7 +223,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertib
         cache.workQueue.sync
             {
             catchAndLogErrors(attemptingTo: "read cached entity")
-                { try self.cache.readEntity(forKey: self.key)?.withContentRetyped() }
+                { try cache.readEntity(forKey: key)?.withContentRetyped() }
             }
         }
 
@@ -237,8 +237,8 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertib
 
         cache.workQueue.async
             {
-            self.catchAndLogErrors(attemptingTo: "write cached entity")
-                { try self.cache.writeEntity(cacheableEntity, forKey: self.key) }
+            catchAndLogErrors(attemptingTo: "write cached entity")
+                { try cache.writeEntity(cacheableEntity, forKey: key) }
             }
         }
 
@@ -246,8 +246,8 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertib
         {
         cache.workQueue.async
             {
-            self.catchAndLogErrors(attemptingTo: "update entity timestamp")
-                { try self.cache.updateEntityTimestamp(timestamp, forKey: self.key) }
+            catchAndLogErrors(attemptingTo: "update entity timestamp")
+                { try cache.updateEntityTimestamp(timestamp, forKey: key) }
             }
         }
 
@@ -255,8 +255,8 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol, CustomStringConvertib
         {
         cache.workQueue.async
             {
-            self.catchAndLogErrors(attemptingTo: "remove entity from cache")
-                { try self.cache.removeEntity(forKey: self.key) }
+            catchAndLogErrors(attemptingTo: "remove entity from cache")
+                { try cache.removeEntity(forKey: key) }
             }
         }
 
