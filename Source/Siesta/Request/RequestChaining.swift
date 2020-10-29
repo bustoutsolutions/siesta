@@ -99,7 +99,7 @@ internal struct RequestChainDelgate: RequestDelegate
     func startUnderlyingOperation(passingResponseTo completionHandler: RequestCompletionHandler)
         {
         wrappedRequest.onCompletion
-            { self.processResponse($0, completionHandler: completionHandler) }
+            { processResponse($0, completionHandler: completionHandler) }
 
         wrappedRequest.start()
         }

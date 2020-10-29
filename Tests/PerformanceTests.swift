@@ -163,7 +163,7 @@ class SiestaPerformanceTests: XCTestCase
         let resources = (0 ..< resourceCount).map
             { service.resource("/zlerp\($0)") }
 
-        let load = self.expectation(description: "load")
+        let load = expectation(description: "load")
         var responsesPending = reps * resources.count
         for _ in 0 ..< reps
             {
@@ -178,7 +178,7 @@ class SiestaPerformanceTests: XCTestCase
                     }
                 }
             }
-        self.waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 1)
         }
 
     func testNotifyManyObservers()
@@ -212,9 +212,9 @@ class SiestaPerformanceTests: XCTestCase
         {
         networkStub.responses["/bjempf"] = ResponseStub(data: Data())
         let resource = service.resource("/bjempf")
-        let load = self.expectation(description: "load")
+        let load = expectation(description: "load")
         resource.load().onCompletion { _ in load.fulfill() }
-        self.waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 1)
 
         measure
             {
