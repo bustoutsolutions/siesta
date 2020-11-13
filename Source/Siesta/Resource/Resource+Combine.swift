@@ -211,6 +211,8 @@ extension RequestError.Cause
 
 // MARK: - Requests
 
+#if canImport(Combine)
+
 @available(iOS 13, tvOS 13, OSX 10.15, watchOS 6.0, *)
 extension Resource
     {
@@ -284,3 +286,5 @@ extension Request
             .eraseToAnyPublisher()
         }
     }
+#endif
+
