@@ -133,14 +133,14 @@ In Xcode:
     - Also check “SiestaUI” if you want to use any of the [UI helpers](https://github.com/bustoutsolutions/siesta/tree/master/Source/SiestaUI).
     - Also check “Siesta_Alamofire” if you want to use the Alamofire extension for Siesta.
 * Click “Finish.”
-* SwiftPM does not yet support resources supplied by dependencies. This means that if:
+* Siesta does not yet support resources supplied by dependencies. This means that if:
     - you included `SiestaUI` above
     - and you plan to use `ResourceStatusOverlay`
     - and you are using its default initializer instead of providing your own custom UI layout,
 
     …then you’ll need to copy [`ResourceStatusOverlay.xib`](https://github.com/bustoutsolutions/siesta/raw/master/Source/SiestaUI/ResourceStatusOverlay.xib) into your own project.
 
-    SwiftPM has support for this coming, but it hasn’t arrived yet as of Swift 5.2.
+    SwiftPM just recently added support for this, and Siesta will add it in the next release.
 
 Please note that Xcode will show _all_ of Siesta’s optional and test-only dependencies, including Quick, Nimble, and Alamofire. Don’t worry: these won’t actually be bundled into your app (except Alamofire, if you use it).
 
