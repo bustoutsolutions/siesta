@@ -11,9 +11,6 @@
 		3A0058442447FA9000FC421F /* Siesta+RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058432447FA9000FC421F /* Siesta+RxSwift.swift */; };
 		3A0058452447FA9000FC421F /* Siesta+RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058432447FA9000FC421F /* Siesta+RxSwift.swift */; };
 		3A0058462447FA9000FC421F /* Siesta+RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058432447FA9000FC421F /* Siesta+RxSwift.swift */; };
-		3A0058482447FAA900FC421F /* RxSwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058472447FAA900FC421F /* RxSwiftSpec.swift */; };
-		3A0058492447FAA900FC421F /* RxSwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058472447FAA900FC421F /* RxSwiftSpec.swift */; };
-		3A00584A2447FAA900FC421F /* RxSwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0058472447FAA900FC421F /* RxSwiftSpec.swift */; };
 		3A00584E2447FB7700FC421F /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A00584B2447FAE700FC421F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A00584F2447FB7F00FC421F /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A00584C2447FAFA00FC421F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A0058502447FB8800FC421F /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A00584D2447FB0D00FC421F /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1381,7 +1378,6 @@
 				9F0FAF911D033FCD00CE1B61 /* Networking-Alamofire.swift in Sources */,
 				9F0FAF921D033FCD00CE1B61 /* ProgressSpec.swift in Sources */,
 				9F0FAF931D033FCD00CE1B61 /* ResourceObserversSpec.swift in Sources */,
-				3A0058492447FAA900FC421F /* RxSwiftSpec.swift in Sources */,
 				3A0058452447FA9000FC421F /* Siesta+RxSwift.swift in Sources */,
 				9F0FAF941D033FCD00CE1B61 /* SpecHelpers.swift in Sources */,
 				9F0FAF961D033FCD00CE1B61 /* WeakCacheSpec.swift in Sources */,
@@ -1554,7 +1550,6 @@
 				CD5651FA1E6F306D009F224A /* ObjcCompatibilitySpec.m in Sources */,
 				CD5651F61E6F306B009F224A /* PipelineSpec.swift in Sources */,
 				DA5E4B5E22DCF12E0059ED10 /* SpecHelpers.swift in Sources */,
-				3A00584A2447FAA900FC421F /* RxSwiftSpec.swift in Sources */,
 				DA5E4B5F22DCF12E0059ED10 /* TestService.swift in Sources */,
 				DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */,
 				CD5651F31E6F306B009F224A /* ResourceStateSpec.swift in Sources */,
@@ -1636,7 +1631,6 @@
 				DA788A8E1D6AC1580085C820 /* ObjcCompatibilitySpec.m in Sources */,
 				DA4D619B1B7521EE00F6BB9C /* TestService.swift in Sources */,
 				DAFA89281B8172920090D283 /* SiestaSpec.swift in Sources */,
-				3A0058482447FAA900FC421F /* RxSwiftSpec.swift in Sources */,
 				DA5A90302054E0C500309D8B /* EntityCacheSpec.swift in Sources */,
 				DAC0CE691B4A39B0004FBB4B /* ResourcePathsSpec.swift in Sources */,
 				DAD191021D03950100304193 /* PipelineSpec.swift in Sources */,

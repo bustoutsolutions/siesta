@@ -6,10 +6,13 @@
 //  Copyright © 2020 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+import XCTest
 import Siesta
 import Quick
 import Nimble
 import RxSwift
+import Siesta_RxSwift
 
 class RxSwiftSpec: ResourceSpecBase
     {

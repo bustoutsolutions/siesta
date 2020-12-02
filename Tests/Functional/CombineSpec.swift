@@ -6,6 +6,8 @@
 //  Copyright © 2020 Bust Out Solutions. All rights reserved.
 //
 
+import Foundation
+import XCTest
 import Siesta
 import Quick
 import Nimble
