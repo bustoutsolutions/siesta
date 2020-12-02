@@ -4,3 +4,4 @@ xcuserdata
 Carthage/
 .build
 Siesta.xcodeproj/xcshareddata/xcbaselines
+.idea/

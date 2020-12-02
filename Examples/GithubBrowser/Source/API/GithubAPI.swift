@@ -5,7 +5,7 @@ import Siesta
 
 let GitHubAPI = _GitHubAPI()
 
-class _GitHubAPI {
+class _GitHubAPI: NSObject { /* NSObject just for reactive extensions */
 
     // MARK: - Configuration
 
@@ -13,7 +13,9 @@ class _GitHubAPI {
         baseURL: "https://api.github.com",
         standardTransformers: [.text, .image])  // No .json because we use Swift 4 JSONDecoder instead of older JSONSerialization
 
-    fileprivate init() {
+    fileprivate override init() {
+        super.init()
+
         #if DEBUG
             // Bare-bones logging of which network calls Siesta makes:
             SiestaLog.Category.enabled = [.network]
@@ -128,7 +130,8 @@ class _GitHubAPI {
         return basicAuthHeader != nil
     }
 
-    private var basicAuthHeader: String? {
+    /* "@objc dynamic" just for reactive extensions */
+    @objc dynamic var basicAuthHeader: String? {
         didSet {
             // These two calls are almost always necessary when you have changing auth for your API:
 
@@ -179,6 +182,16 @@ class _GitHubAPI {
         return repository(
             ownedBy: repositoryModel.owner.login,
             named: repositoryModel.name)
+    }
+
+    func contributors(_ repositoryModel: Repository) -> Resource? {
+        return repository(repositoryModel)
+                .optionalRelative(repositoryModel.contributorsURL)
+    }
+
+    func languages(_ repositoryModel: Repository) -> Resource? {
+        return repository(repositoryModel)
+                .optionalRelative(repositoryModel.languagesURL)
     }
 
     func currentUserStarred(_ repositoryModel: Repository) -> Resource {

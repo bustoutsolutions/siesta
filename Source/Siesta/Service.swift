@@ -478,4 +478,20 @@ open class Service: NSObject
         {
         resourceCache.flushUnused()
         }
+
+
+    // MARK: Reloading
+
+    /**
+      Call reloadIfNeeded() on all resources.
+    */
+    @objc
+    public final func reloadAllResourcesIfNeeded()
+        {
+        DispatchQueue.mainThreadPrecondition()
+
+        resourceCache.flushUnused()  // Little point in keeping Resource instance if we’re discarding its content
+        for resource in resourceCache.values
+                { resource.loadIfNeeded() }
+        }
     }
