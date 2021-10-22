@@ -1,6 +1,6 @@
 xcuserdata
 .*cache*
 *.log
-Carthage/
 .build
+.swiftpm
 Siesta.xcodeproj/xcshareddata/xcbaselines
