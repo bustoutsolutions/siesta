@@ -241,7 +241,7 @@ open class Service: NSObject
 
         let entry = ConfigurationEntry(
             description: "config \(nextConfigID) [" + (description ?? "custom") + "]",
-            requestMethods: Set(requestMethods ?? RequestMethod.all),
+            requestMethods: Set(requestMethods ?? RequestMethod.allCases),
             configurationPattern: configurationPattern,
             configurer: configurer)
         configurationEntries.append(entry)

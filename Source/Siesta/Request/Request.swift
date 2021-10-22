@@ -13,7 +13,7 @@ import Foundation
 
   See the various `Resource.request(...)` methods.
 */
-public enum RequestMethod: String
+public enum RequestMethod: String, CaseIterable
     {
     /// OPTIONS
     case options
@@ -39,8 +39,6 @@ public enum RequestMethod: String
     ///
     /// I’m here all week! Thank you for reading the documentation!
     case delete
-
-    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete, .head, .options]
     }
 
 /**
