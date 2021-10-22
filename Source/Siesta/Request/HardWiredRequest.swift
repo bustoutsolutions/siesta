@@ -19,7 +19,7 @@ extension Resource
      */
     public static func failedRequest(returning error: RequestError) -> Request
         {
-        return hardWiredRequest(returning: .failure(error))
+        hardWiredRequest(returning: .failure(error))
         }
 
     /**
@@ -28,7 +28,7 @@ extension Resource
      */
     public static func hardWiredRequest(returning response: Response) -> Request
         {
-        return HardWiredRequest(returning: response)
+        HardWiredRequest(returning: response)
         }
     }
 
@@ -68,11 +68,11 @@ private final class HardWiredRequest: Request
         }
 
     func start() -> Request
-        { return self }
+        { self }
 
     func cancel()
         { DispatchQueue.mainThreadPrecondition() }
 
     func repeated() -> Request
-        { return self }
+        { self }
     }

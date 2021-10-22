@@ -30,7 +30,7 @@ extension Resource
             requestMutation: @escaping RequestMutation = { _ in })
         -> Request
         {
-        return request(method)
+        request(method)
             {
             underlyingRequest in
 

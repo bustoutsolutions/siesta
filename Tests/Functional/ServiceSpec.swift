@@ -413,7 +413,7 @@ class ServiceSpec: SiestaSpec
             describe("using regexps")
                 {
                 func regexp(_ pattern: String, options: NSRegularExpression.Options = []) -> NSRegularExpression
-                    { return try! NSRegularExpression(pattern: pattern, options: options) }
+                    { try! NSRegularExpression(pattern: pattern, options: options) }
 
                 it("matches substrings")
                     {
@@ -506,7 +506,7 @@ class ServiceSpec: SiestaSpec
 
 func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
     {
-    return Predicate
+    Predicate
         {
         actual in
 
@@ -527,7 +527,7 @@ func expandToBaseURL(_ expectedURL: String) -> Predicate<String>
 
 func expandToResourceURL(_ expectedURL: String) -> Predicate<(String,String)>
     {
-    return Predicate
+    Predicate
         {
         actual in
 

@@ -78,12 +78,12 @@ public struct Pipeline
     */
     public subscript(key: PipelineStageKey) -> PipelineStage
         {
-        get { return stages[key] ?? PipelineStage() }
+        get { stages[key] ?? PipelineStage() }
         set { stages[key] = newValue }
         }
 
     internal var containsCaches: Bool
-        { return stages.any { $1.cacheBox != nil } }
+        { stages.any { $1.cacheBox != nil } }
 
     /**
       Removes all transformers from all stages in the pipeline. Leaves caches intact.
@@ -174,11 +174,11 @@ public struct PipelineStage
         { transformers.removeAll() }
 
     fileprivate var isEmpty: Bool
-        { return cacheBox == nil && transformers.isEmpty }
+        { cacheBox == nil && transformers.isEmpty }
 
     internal func process(_ response: Response) -> Response
         {
-        return transformers.reduce(response)
+        transformers.reduce(response)
             { $1.process($0) }
         }
 

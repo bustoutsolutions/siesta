@@ -219,7 +219,7 @@ struct RequestPattern
 
     func matches(_ request: URLRequest, withBody requestBody: Data?) -> Bool
         {
-        return request.httpMethod == method
+        request.httpMethod == method
             && request.url?.absoluteString == url
             && headers.allSatisfy
                 {

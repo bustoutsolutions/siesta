@@ -97,7 +97,7 @@ open class Service: NSObject
     @objc(resource:)
     public final func resource(_ path: String) -> Resource
         {
-        return resource(baseURL: baseURL, path: path)
+        resource(baseURL: baseURL, path: path)
         }
 
     /**
@@ -112,7 +112,7 @@ open class Service: NSObject
     */
     public final func resource(baseURL customBaseURL: URLConvertible?, path: String) -> Resource
         {
-        return resource(absoluteURL:
+        resource(absoluteURL:
             customBaseURL?.url?.appendingPathComponent(
               path.strippingPrefix("/")))
         }
@@ -456,7 +456,7 @@ open class Service: NSObject
     @objc
     public var cachedResourceCountLimit: Int
         {
-        get { return resourceCache.countLimit }
+        get { resourceCache.countLimit }
         set { resourceCache.countLimit = newValue }
         }
 

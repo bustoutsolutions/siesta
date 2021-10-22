@@ -133,6 +133,6 @@ internal struct RequestChainDelgate: RequestDelegate
 
     func repeated() -> RequestDelegate
         {
-        return RequestChainDelgate(wrapping: wrappedRequest.repeated(), whenCompleted: determineAction)
+        RequestChainDelgate(wrapping: wrappedRequest.repeated(), whenCompleted: determineAction)
         }
     }

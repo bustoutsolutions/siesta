@@ -12,14 +12,14 @@ extension String
     {
     func strippingPrefix(_ prefix: String) -> String
         {
-        return hasPrefix(prefix)
+        hasPrefix(prefix)
             ? String(suffix(from: index(startIndex, offsetBy: prefix.count)))
             : self
         }
 
     func replacingPrefix(_ prefix: String, with replacement: String) -> String
         {
-        return hasPrefix(prefix)
+        hasPrefix(prefix)
             ? replacement + strippingPrefix(prefix)
             : self
         }
@@ -34,7 +34,5 @@ extension String
         }
 
     var nilIfEmpty: String?
-        {
-        return isEmpty ? nil : self
-        }
+        { isEmpty ? nil : self }
     }

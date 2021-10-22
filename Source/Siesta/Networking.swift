@@ -126,5 +126,5 @@ extension NetworkingProvider
     /// You can pass a `NetworkingProvider` when creating a `Service` to override the default networking behavior.
     /// - SeeAlso: NetworkingProviderConvertible
     public var siestaNetworkingProvider: NetworkingProvider
-        { return self }
+        { self }
     }

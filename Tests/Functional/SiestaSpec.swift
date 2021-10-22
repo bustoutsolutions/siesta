@@ -139,7 +139,7 @@ private class ResultsAggregator
 
     private func specDescription(_ spec: QuickSpec) -> String
         {
-        return type(of: spec).description()
+        type(of: spec).description()
             .replacing(regex: "^[A-Za-z]+Tests\\.", with: "")
             .replacing(regex: "\\.Type$",           with: "")
         }

@@ -75,17 +75,17 @@ public class _objc_Entity: NSObject
         }
 
     @objc public func header(_ key: String) -> String?
-        { return headers[key.lowercased()] }
+        { headers[key.lowercased()] }
 
     @objc public override var description: String
-        { return debugStr(Entity<Any>.convertedFromObjc(self)) }
+        { debugStr(Entity<Any>.convertedFromObjc(self)) }
     }
 
 extension Entity
     {
     static func convertedFromObjc(_ entity: _objc_Entity) -> Entity<Any>
         {
-        return Entity<Any>(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
+        Entity<Any>(content: entity.content, contentType: entity.contentType, charset: entity.charset, headers: entity.headers)
         }
     }
 
@@ -113,11 +113,11 @@ extension Service
     {
     @objc(resourceWithAbsoluteURL:)
     public final func _objc_resourceWithAbsoluteURL(absoluteURL url: URL?) -> Resource
-        { return resource(absoluteURL: url) }
+        { resource(absoluteURL: url) }
 
     @objc(resourceWithAbsoluteURLString:)
     public final func _objc_resourceWithAbsoluteURLString(absoluteURL url: String?) -> Resource
-        { return resource(absoluteURL: url) }
+        { resource(absoluteURL: url) }
     }
 
 extension Resource
@@ -142,15 +142,15 @@ extension Resource
 
     @objc(jsonDict)
     public var _objc_jsonDict: NSDictionary
-        { return jsonDict as NSDictionary }
+        { jsonDict as NSDictionary }
 
     @objc(jsonArray)
     public var _objc_jsonArray: NSArray
-        { return jsonArray as NSArray }
+        { jsonArray as NSArray }
 
     @objc(text)
     public var _objc_text: String
-        { return text }
+        { text }
 
     @objc(overrideLocalData:)
     public func _objc_overrideLocalData(_ entity: _objc_Entity)
@@ -159,7 +159,7 @@ extension Resource
     @objc(withParams:)
     public func _objc_withParams(_ params: [String:NSObject]) -> Resource
         {
-        return withParams(
+        withParams(
             params.mapValues
                 {
                 switch $0
@@ -237,14 +237,14 @@ public class _objc_Request: NSObject
         { request.cancel() }
 
     @objc public override var description: String
-        { return debugStr(request) }
+        { debugStr(request) }
     }
 
 extension Resource
     {
     @objc(load)
     public func _objc_load() -> _objc_Request
-        { return _objc_Request(load()) }
+        { _objc_Request(load()) }
 
     @objc(loadIfNeeded)
     public func _objc_loadIfNeeded() -> _objc_Request?
@@ -291,10 +291,10 @@ private class _objc_ResourceObserverGlue: ResourceObserver, CustomDebugStringCon
         { objcObserver.resourceRequestProgress?(resource, progress: progress) }
 
     var observerIdentity: AnyHashable
-        { return ObjectIdentifier(objcObserver) }
+        { ObjectIdentifier(objcObserver) }
 
     var debugDescription: String
-        { return debugStr(objcObserver) }
+        { debugStr(objcObserver) }
     }
 
 extension ResourceEvent
@@ -312,16 +312,16 @@ extension Resource
     {
     @objc(addObserver:)
     public func _objc_addObserver(_ observerAndOwner: _objc_ResourceObserver & AnyObject) -> Self
-        { return addObserver(_objc_ResourceObserverGlue(objcObserver: observerAndOwner), owner: observerAndOwner) }
+        { addObserver(_objc_ResourceObserverGlue(objcObserver: observerAndOwner), owner: observerAndOwner) }
 
     @objc(addObserver:owner:)
     public func _objc_addObserver(_ objcObserver: _objc_ResourceObserver, owner: AnyObject) -> Self
-        { return addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
+        { addObserver(_objc_ResourceObserverGlue(objcObserver: objcObserver), owner: owner) }
 
     @objc(addObserverWithOwner:callback:)
     public func _objc_addObserver(owner: AnyObject, block: @escaping @convention(block) (Resource, String) -> Void) -> Self
         {
-        return addObserver(owner: owner)
+        addObserver(owner: owner)
             { block($0, $1._objc_stringForm) }
         }
     }
@@ -376,7 +376,7 @@ extension Resource
             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
-        return _objc_wrapRequest(method)
+        _objc_wrapRequest(method)
             {
             request($0)
                 { Resource.apply(requestMutation: requestMutation, to: &$0) }
@@ -387,7 +387,7 @@ extension Resource
     public func _objc_request(_ method: String)
         -> _objc_Request
         {
-        return _objc_wrapRequest(method)
+        _objc_wrapRequest(method)
             { request($0) }
         }
 
@@ -399,7 +399,7 @@ extension Resource
             requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
         -> _objc_Request
         {
-        return _objc_wrapRequest(method)
+        _objc_wrapRequest(method)
             {
             request($0, data: data, contentType: contentType)
                 { Resource.apply(requestMutation: requestMutation, to: &$0) }
@@ -412,7 +412,7 @@ extension Resource
              text:            String)
          -> _objc_Request
          {
-         return _objc_wrapRequest(method)
+         _objc_wrapRequest(method)
             { request($0, text: text) }
          }
 
@@ -425,7 +425,7 @@ extension Resource
              requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
-         return _objc_wrapRequest(method)
+         _objc_wrapRequest(method)
             {
             request($0, text: text, contentType: contentType, encoding: String.Encoding(rawValue: encoding))
                 { Resource.apply(requestMutation: requestMutation, to: &$0) }
@@ -438,7 +438,7 @@ extension Resource
              json:            NSObject?)
          -> _objc_Request
          {
-         return _objc_wrapJSONRequest(method, json)
+         _objc_wrapJSONRequest(method, json)
             { request($0, json: $1) }
          }
 
@@ -450,7 +450,7 @@ extension Resource
              requestMutation: (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
-         return _objc_wrapJSONRequest(method, json)
+         _objc_wrapJSONRequest(method, json)
             {
             request($0, json: $1, contentType: contentType)
                 { Resource.apply(requestMutation: requestMutation, to: &$0) }
@@ -464,7 +464,7 @@ extension Resource
              requestMutation:   (@convention(block) (NSMutableURLRequest) -> Void)?)
          -> _objc_Request
          {
-         return _objc_wrapRequest(method)
+         _objc_wrapRequest(method)
             {
             request($0, urlEncoded: params)
                 { Resource.apply(requestMutation: requestMutation, to: &$0) }

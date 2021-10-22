@@ -533,6 +533,6 @@ private class TestObserverWithExpectations: ResourceObserver
         let callback: (() -> Void)
 
         func description() -> String
-            { return event }
+            { event }
         }
     }

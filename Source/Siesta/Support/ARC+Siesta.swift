@@ -15,7 +15,7 @@ import Foundation
 */
 internal func isObject(_ val: Any) -> Bool
     {
-    return type(of: val) is AnyObject.Type
+    type(of: val) is AnyObject.Type
     }
 
 /**
@@ -34,7 +34,7 @@ internal struct StrongOrWeakRef<T>
     private var strongRef: T?
     private weak var weakRef: AnyObject?
     var value: T?
-        { return strongRef ?? (weakRef as? T) }
+        { strongRef ?? (weakRef as? T) }
 
     init(_ value: T)
         {
@@ -49,7 +49,7 @@ internal struct StrongOrWeakRef<T>
 
     var strong: Bool
         {
-        get { return strongRef != nil }
+        get { strongRef != nil }
         set { strongRef = newValue ? value : nil }
         }
     }
@@ -76,7 +76,5 @@ internal struct WeakRef<T: AnyObject>: Hashable
         { hasher.combine(originalHash) }
 
     internal static func == <T>(lhs: WeakRef<T>, rhs: WeakRef<T>) -> Bool
-        {
-        return lhs.originalIdentity == rhs.originalIdentity
-        }
+        { lhs.originalIdentity == rhs.originalIdentity }
     }

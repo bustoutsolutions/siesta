@@ -13,7 +13,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
     // Basic metadata
     private let resource: Resource
     internal var config: Configuration
-        { return resource.configuration(for: underlyingRequest) }
+        { resource.configuration(for: underlyingRequest) }
     internal let requestDescription: String
 
     // Networking
@@ -64,7 +64,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
 
     func repeated() -> RequestDelegate
         {
-        return NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder)
+        NetworkRequestDelegate(resource: resource, requestBuilder: requestBuilder)
         }
 
     // MARK: Progress
@@ -77,7 +77,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         }
 
     var progressReportingInterval: TimeInterval
-        { return config.progressReportingInterval }
+        { config.progressReportingInterval }
 
     // MARK: Response handling
 

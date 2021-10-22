@@ -276,11 +276,11 @@ struct RequestStub: RequestNetworking
     /// Returns raw data used for progress calculation.
     var transferMetrics: RequestTransferMetrics
         {
-        return RequestTransferMetrics(
-                requestBytesSent: 0,
-                requestBytesTotal: nil,
-                responseBytesReceived: 0,
-                responseBytesTotal: nil)
+        RequestTransferMetrics(
+            requestBytesSent: 0,
+            requestBytesTotal: nil,
+            responseBytesReceived: 0,
+            responseBytesTotal: nil)
         }
     }
 

@@ -53,7 +53,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     func get(_ key: K, onMiss: () -> V) -> V
         {
-        return entriesByKey[key]?.value ??
+        entriesByKey[key]?.value ??
             {
             checkLimit()
             let value = onMiss()
@@ -84,7 +84,7 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     var entries: AnySequence<(K, V)>
         {
-        return AnySequence(
+        AnySequence(
             entriesByKey.compactMap
                 {
                 key, entry in
@@ -99,12 +99,12 @@ internal final class WeakCache<K: Hashable, V: AnyObject>
 
     var keys: AnySequence<K>
         {
-        return AnySequence(entries.map { $0.0 })
+        AnySequence(entries.map { $0.0 })
         }
 
     var values: AnySequence<V>
         {
-        return AnySequence(entries.map { $0.1 })
+        AnySequence(entries.map { $0.1 })
         }
     }
 

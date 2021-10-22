@@ -19,14 +19,14 @@ extension String: URLConvertible
     {
     /// Returns the URL represented by this string, if it is a valid URL.
     public var url: URL?
-        { return URL(string: self) }
+        { URL(string: self) }
     }
 
 extension URL: URLConvertible
     {
     /// Returns self.
     public var url: URL?
-        { return self }
+        { self }
     }
 
 extension URL

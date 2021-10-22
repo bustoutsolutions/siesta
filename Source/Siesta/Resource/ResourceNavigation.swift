@@ -34,7 +34,7 @@ extension Resource
     @objc
     public func child(_ subpath: String) -> Resource
         {
-        return service.resource(absoluteURL: url.appendingPathComponent(subpath))
+        service.resource(absoluteURL: url.appendingPathComponent(subpath))
         }
 
     /**
@@ -52,7 +52,7 @@ extension Resource
     @objc
     public func relative(_ href: String) -> Resource
         {
-        return service.resource(absoluteURL: URL(string: href, relativeTo: url))
+        service.resource(absoluteURL: URL(string: href, relativeTo: url))
         }
 
     /**
@@ -99,7 +99,7 @@ extension Resource
     @objc(withParam:value:)
     public func withParam(_ name: String, _ value: String?) -> Resource
         {
-        return withParams([name: value])
+        withParams([name: value])
         }
 
     /**
@@ -111,7 +111,7 @@ extension Resource
     */
     public func withParams(_ params: [String:String?]) -> Resource
         {
-        return service.resource(absoluteURL:
+        service.resource(absoluteURL:
             url.alterQuery
                 {
                 for (name,value) in params

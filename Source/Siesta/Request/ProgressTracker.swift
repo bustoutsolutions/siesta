@@ -53,7 +53,7 @@ internal class ProgressTracker
         }
 
     var progress: Double
-        { return lastProgressBroadcast ?? 0 }
+        { lastProgressBroadcast ?? 0 }
 
     func complete()
         {

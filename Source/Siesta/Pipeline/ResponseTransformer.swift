@@ -46,7 +46,7 @@ extension ResponseTransformer
     {
     /// Prints the name of the transformer’s Swift type.
     public var debugDescription: String
-        { return String(describing: type(of: self)) }
+        { String(describing: type(of: self)) }
 
     /// Helper to log a transformation. Call this in your custom transformer.
     public func logTransformation(_ result: Response) -> Response
@@ -102,7 +102,7 @@ internal struct ContentTypeMatchTransformer: ResponseTransformer
 
     var debugDescription: String
         {
-        return "⟨\(contentTypes.joined(separator: " "))⟩ \(delegate)"
+        "⟨\(contentTypes.joined(separator: " "))⟩ \(delegate)"
         }
     }
 
@@ -223,7 +223,7 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 
     private func contentTypeMismatchError(_ entityFromUpstream: Entity<Any>) -> Response
         {
-        return .failure(RequestError(
+        .failure(RequestError(
             userMessage: NSLocalizedString("Cannot parse server response", comment: "userMessage"),
             cause: RequestError.Cause.WrongInputTypeInTranformerPipeline(
                 expectedType: InputContentType.self,
@@ -273,7 +273,7 @@ public struct ResponseContentTransformer<InputContentType, OutputContentType>: R
 /// Parses `Data` content as text, using the encoding specified in the content type, or ISO-8859-1 by default.
 public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data, String>(transformErrors: transformErrors)
+    ResponseContentTransformer<Data, String>(transformErrors: transformErrors)
         {
         let charsetName = $0.charset ?? "ISO-8859-1"
         let encodingID = CFStringConvertEncodingToNSStringEncoding(
@@ -293,7 +293,7 @@ public func TextResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `Data` content as JSON using JSONSerialization, outputting either a dictionary or an array.
 public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data, JSONConvertible>(transformErrors: transformErrors)
+    ResponseContentTransformer<Data, JSONConvertible>(transformErrors: transformErrors)
         {
         let rawObj = try JSONSerialization.jsonObject(with: $0.content, options: [.allowFragments])
 
@@ -307,7 +307,7 @@ public func JSONResponseTransformer(_ transformErrors: Bool = true) -> ResponseT
 /// Parses `Data` content as an image, yielding a `UIImage`.
 public func ImageResponseTransformer(_ transformErrors: Bool = false) -> ResponseTransformer
     {
-    return ResponseContentTransformer<Data, Image>(transformErrors: transformErrors)
+    ResponseContentTransformer<Data, Image>(transformErrors: transformErrors)
         {
         guard let image = Image(data: $0.content) else
             { throw RequestError.Cause.UnparsableImage() }

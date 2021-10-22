@@ -12,10 +12,10 @@ extension Collection
     {
     // Just for readability
     func any(match predicate: (Iterator.Element) -> Bool) -> Bool
-        { return contains(where: predicate) }
+        { contains(where: predicate) }
 
     func all(match predicate: (Iterator.Element) -> Bool) -> Bool
-        { return !contains(where: { !predicate($0) }) }
+        { !contains(where: { !predicate($0) }) }
     }
 
 extension Dictionary
@@ -33,13 +33,13 @@ extension Dictionary
     func mapDict<MappedKey, MappedValue>(transform: (Key, Value) -> (MappedKey, MappedValue))
         -> [MappedKey:MappedValue]
         {
-        return Dictionary.fromArray(map(transform))
+        Dictionary.fromArray(map(transform))
         }
 
     func flatMapDict<MappedKey, MappedValue>(transform: (Key, Value) -> (MappedKey?, MappedValue?))
         -> [MappedKey:MappedValue]
         {
-        return Dictionary.fromArray(
+        Dictionary.fromArray(
             compactMap
                 {
                 let (k, v) = transform($0, $1)
@@ -54,7 +54,7 @@ extension Dictionary
     mutating func cacheValue(forKey key: Key, ifNone newValue: () -> Value)
         -> Value
         {
-        return self[key] ??
+        self[key] ??
             {
             let newValue = newValue()
             self[key] = newValue

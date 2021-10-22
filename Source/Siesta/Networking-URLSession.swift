@@ -52,14 +52,14 @@ extension URLSession: NetworkingProviderConvertible
     {
     /// You can pass a `URLSession` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
-        { return URLSessionProvider(session: self) }
+        { URLSessionProvider(session: self) }
     }
 
 extension URLSessionConfiguration: NetworkingProviderConvertible
     {
     /// You can pass a `URLSessionConfiguration` when creating a `Service`.
     public var siestaNetworkingProvider: NetworkingProvider
-        { return URLSession(configuration: self).siestaNetworkingProvider }
+        { URLSession(configuration: self).siestaNetworkingProvider }
     }
 
 /// Convenience for `NetworkingProvider` implementations that ultimate rely on a `URLSessionTask`.
@@ -74,7 +74,7 @@ extension SessionTaskContainer
     /// Extracts transfer metrics using bytes counts from `URLSessionTask`.
     public var transferMetrics: RequestTransferMetrics
         {
-        return RequestTransferMetrics(
+        RequestTransferMetrics(
             requestBytesSent:      task.countOfBytesSent,
             requestBytesTotal:     task.countOfBytesExpectedToSend,
             responseBytesReceived: task.countOfBytesReceived,
