@@ -193,7 +193,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
-                _ = reqStub.go()
+                reqStub.go()
                 awaitFailure(req, initialState: .completed)
                 }
 
@@ -426,7 +426,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
-                _ = reqStub.go()
+                reqStub.go()
                 awaitNewData(req)
                 }
 

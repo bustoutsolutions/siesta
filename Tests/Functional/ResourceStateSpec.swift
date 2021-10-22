@@ -62,12 +62,12 @@ class ResourceStateSpec: ResourceSpecBase
                 expect(resource().isRequesting) == true
                 expect(resource().allRequests).to(beIdentialObjects([req0, req1]))
 
-                _ = reqStub0.go()
+                reqStub0.go()
                 awaitNewData(req0)
                 expect(resource().isRequesting) == true
                 expect(resource().allRequests).to(beIdentialObjects([req1]))
 
-                _ = reqStub1.go()
+                reqStub1.go()
                 awaitNewData(req1)
                 expect(resource().isLoading) == false
                 expect(resource().allRequests).to(beIdentialObjects([]))
@@ -296,7 +296,7 @@ class ResourceStateSpec: ResourceSpecBase
                 let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
-                _ = reqStub.go()
+                reqStub.go()
                 awaitFailure(req, initialState: .completed)
 
                 expectDataToBeUnchanged()
@@ -368,9 +368,9 @@ class ResourceStateSpec: ResourceSpecBase
 
                 expect(loadReq).toNot(beNil())
 
-                _ = postReqStub.go()
+                postReqStub.go()
                 awaitNewData(postReq)
-                _ = loadReqStub.go()
+                loadReqStub.go()
                 awaitNewData(loadReq!)
                 }
 
@@ -490,7 +490,7 @@ class ResourceStateSpec: ResourceSpecBase
                 {
                 resource().cancelLoadIfUnobserved()
 
-                _ = reqStub().go()
+                reqStub().go()
                 awaitFailure(req(), initialState: .completed)
                 }
 
@@ -499,7 +499,7 @@ class ResourceStateSpec: ResourceSpecBase
                 resource().addObserver(owner: owner!) { _,_ in }
                 resource().cancelLoadIfUnobserved()
 
-                _ = reqStub().go()
+                reqStub().go()
                 awaitNewData(req())
                 }
 
@@ -510,7 +510,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 resource().cancelLoadIfUnobserved()
 
-                _ = reqStub().go()
+                reqStub().go()
                 awaitFailure(req0, initialState: .completed)
                 awaitFailure(req1, initialState: .completed)
                 }
@@ -526,7 +526,7 @@ class ResourceStateSpec: ResourceSpecBase
                     owner = nil
                     QuickSpec.current.waitForExpectations(timeout: 1)
 
-                    _ = reqStub().go()
+                    reqStub().go()
                     awaitFailure(req(), initialState: .completed)
                     }
 
@@ -538,7 +538,7 @@ class ResourceStateSpec: ResourceSpecBase
                     resource().addObserver(owner: owner!) { _,_ in }
                     QuickSpec.current.waitForExpectations(timeout: 1)
 
-                    _ = reqStub().go()
+                    reqStub().go()
                     awaitNewData(req())
                     }
 
@@ -549,7 +549,7 @@ class ResourceStateSpec: ResourceSpecBase
                         { expectation.fulfill() }
                     QuickSpec.current.waitForExpectations(timeout: 1.0)
 
-                    _ = reqStub().go()
+                    reqStub().go()
                     awaitFailure(req(), initialState: .completed)
                     }
 
@@ -561,7 +561,7 @@ class ResourceStateSpec: ResourceSpecBase
                         { expectation.fulfill() }
                     QuickSpec.current.waitForExpectations(timeout: 0.05)
 
-                    _ = reqStub().go()
+                    reqStub().go()
                     awaitNewData(req())
                     }
                 }
@@ -720,7 +720,7 @@ class ResourceStateSpec: ResourceSpecBase
                 let reqStub = NetworkStub.add(.get, resource).delay()
                 let req = resource().load()
                 req.cancel()
-                _ = reqStub.go()
+                reqStub.go()
                 awaitFailure(req, initialState: .completed)
 
                 awaitNewData(resource().loadIfNeeded()!)
@@ -788,7 +788,7 @@ class ResourceStateSpec: ResourceSpecBase
                 resource().wipe()
 
                 for reqStub in reqStubs
-                    { _ = reqStub.go() }
+                    { reqStub.go() }
                 for req in reqs
                     { awaitFailure(req, initialState: .completed) }
 
@@ -806,7 +806,7 @@ class ResourceStateSpec: ResourceSpecBase
 
                 resource().wipe()
 
-                _ = stub.go()
+                stub.go()
                 awaitFailure(otherResourceReq, initialState: .completed)
                 expect(resource().loadRequests.count) == 0
                 }
