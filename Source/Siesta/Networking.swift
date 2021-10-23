@@ -53,6 +53,9 @@ public protocol RequestNetworking
     }
 
 /// Used by `NetworkingProvider` implementations to report request progress.
+///
+/// - SeeAlso: `SessionTaskContainer.transferMetrics` if your custom provider uses Foundation’s `URLSessionTask`.
+///
 public struct RequestTransferMetrics
     {
     /// Bytes of HTTP request body sent.
@@ -68,23 +71,6 @@ public struct RequestTransferMetrics
 
     /// Total expected size of HTTP response body. Negative or nil indicates unknown size.
     public var responseBytesTotal: Int64?
-
-    /**
-      Full-width initializer. Useful for custom `NetworkingProvider` implementations.
-
-      - SeeAlso: `SessionTaskContainer.transferMetrics` if your custom provider uses Foundation’s `URLSessionTask`.
-    */
-    public init(
-            requestBytesSent: Int64,
-            requestBytesTotal: Int64?,
-            responseBytesReceived: Int64,
-            responseBytesTotal: Int64?)
-        {
-        self.requestBytesSent = requestBytesSent
-        self.requestBytesTotal = requestBytesTotal
-        self.responseBytesReceived = responseBytesReceived
-        self.responseBytesTotal = responseBytesTotal
-        }
     }
 
 /// Used by a `NetworkingProvider` implementation to pass the result of a network request back to Siesta.
@@ -126,5 +112,5 @@ extension NetworkingProvider
     /// You can pass a `NetworkingProvider` when creating a `Service` to override the default networking behavior.
     /// - SeeAlso: NetworkingProviderConvertible
     public var siestaNetworkingProvider: NetworkingProvider
-        { return self }
+        { self }
     }

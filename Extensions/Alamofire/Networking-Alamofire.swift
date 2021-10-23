@@ -47,7 +47,7 @@ public struct AlamofireProvider: NetworkingProvider
         {
         AlamofireRequestNetworking(
             session: session,
-            request: session.request(request)
+            alamofireRequest: session.request(request)
                 .response { completion($0.response, $0.data, $0.error) })
         }
     }
@@ -56,12 +56,6 @@ internal struct AlamofireRequestNetworking: RequestNetworking, SessionTaskContai
     {
     let session: Alamofire.Session
     let alamofireRequest: Alamofire.Request
-
-    init(session: Alamofire.Session, request alamofireRequest: Alamofire.Request)
-        {
-        self.session = session
-        self.alamofireRequest = alamofireRequest
-        }
 
     var task: URLSessionTask
         {

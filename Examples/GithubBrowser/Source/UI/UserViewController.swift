@@ -1,5 +1,6 @@
 import UIKit
 import Siesta
+import SiestaUI
 
 class UserViewController: UIViewController, UISearchBarDelegate, ResourceObserver {
 

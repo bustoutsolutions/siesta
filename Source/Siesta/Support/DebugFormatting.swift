@@ -41,7 +41,7 @@ internal func debugStr(
         truncate: Int? = 300)
     -> String
     {
-    return messageParts
+    messageParts
         .map
             {
             ($0 as? String)
@@ -52,7 +52,7 @@ internal func debugStr(
 
 internal func conciseSourceLocation(file: String, line: Int) -> String
     {
-    return "\((file as NSString).lastPathComponent):\(line)"
+    "\((file as NSString).lastPathComponent):\(line)"
     }
 
 internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> String
@@ -67,6 +67,8 @@ internal func dumpHeaders(_ headers: [String:String], indent: String = "") -> St
 
 extension Configuration
     {
+    // swiftlint:disable implicit_return
+
     internal func dump(_ indent: String = "") -> String
         {
         return "\n" + indent + "expirationTime:            \(expirationTime) sec"
@@ -77,6 +79,8 @@ extension Configuration
              + "\n" + indent + "pipeline"
              + pipeline.dump(indent + "  ")
         }
+
+    // swiftlint:enable implicit_return
     }
 
 extension Pipeline
@@ -124,7 +128,9 @@ extension Response
 
 extension Entity
     {
-    internal func dump(_ indent: String = "") -> String
+     // swiftlint:disable implicit_return
+
+   internal func dump(_ indent: String = "") -> String
         {
         return "\n" + indent + "contentType: \(contentType)"
              + "\n" + indent + "charset:     \(debugStr(charset))"
@@ -132,6 +138,8 @@ extension Entity
              + "\n" + indent + "content: (\(type(of: content)))\n"
              + formattedContent.replacing(regex: "^|\n", with: "$0  " + indent)
         }
+
+    // swiftlint:enable implicit_return
 
     private var formattedContent: String
         {

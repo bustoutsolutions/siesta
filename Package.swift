@@ -20,8 +20,8 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.0.5")),
 
         // For tests:
-        .package(url: "https://github.com/pcantrell/Quick", .exact("0.0.0")), 
-        .package(url: "https://github.com/Quick/Nimble", from: "8.0.1"),
+        .package(url: "https://github.com/pcantrell/Quick", .branch("siesta")), 
+        .package(url: "https://github.com/Quick/Nimble", from: "9.0.0"),
     ],
     targets: [
         .target(
@@ -29,7 +29,11 @@ let package = Package(
         ),
         .target(
             name: "SiestaUI",
-            dependencies: ["Siesta"]
+            dependencies: ["Siesta"],
+            resources: [.process("ResourceStatusOverlay.xib")],
+            swiftSettings: [
+                .define("SIESTA_USE_MODULE_BUNDLE"),
+            ]
         ),
         .target(
             name: "Siesta_Alamofire",

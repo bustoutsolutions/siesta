@@ -33,7 +33,7 @@ extension Request
     {
     @available(*, deprecated, message: "Replaced by `state` property; check `request.state == .completed`")
     public var isCompleted: Bool
-        { return state == .completed }
+        { state == .completed }
     }
 
 @available(*, deprecated, renamed: "ResponseContentTransformer.InputTypeMismatchAction")
@@ -44,7 +44,7 @@ public typealias InputTypeMismatchAction = ResponseContentTransformer<Any,Any>.I
 extension Resource
     {
     public static func failedRequest(_ error: RequestError) -> Request
-        { return failedRequest(returning: error) }
+        { failedRequest(returning: error) }
     }
 
 @available(*, deprecated, renamed: "SiestaLog.Category")
@@ -53,6 +53,6 @@ public typealias LogCategory = SiestaLog.Category
 @available(*, deprecated, renamed: "SiestaLog.messageHandler")
 public var logger: (LogCategory, String) -> Void
     {
-    get { return SiestaLog.messageHandler }
+    get { SiestaLog.messageHandler }
     set { SiestaLog.messageHandler = newValue }
     }

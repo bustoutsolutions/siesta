@@ -13,7 +13,7 @@ extension Request
     {
     func onSuccess(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
-        return onCompletion
+        onCompletion
             {
             if case .success(let entity) = $0.response
                 { callback(entity) }
@@ -22,7 +22,7 @@ extension Request
 
     func onNewData(_ callback: @escaping (Entity<Any>) -> Void) -> Request
         {
-        return onCompletion
+        onCompletion
             {
             if $0.isNew, case .success(let entity) = $0.response
                 { callback(entity) }
@@ -31,7 +31,7 @@ extension Request
 
     func onNotModified(_ callback: @escaping () -> Void) -> Request
         {
-        return onCompletion
+        onCompletion
             {
             if !$0.isNew, case .success = $0.response
                 { callback() }
@@ -40,7 +40,7 @@ extension Request
 
     func onFailure(_ callback: @escaping (RequestError) -> Void) -> Request
         {
-        return onCompletion
+        onCompletion
             {
             if case .failure(let error) = $0.response
                 { callback(error) }

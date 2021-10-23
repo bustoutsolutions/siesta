@@ -60,7 +60,7 @@ class ProgressSpec: ResourceSpecBase
                 expect(req.progress) == 1.0
                 awaitFailure(req, initialState: .completed)
 
-                _ = reqStub.go()
+                reqStub.go()
                 }
             }
 
@@ -293,7 +293,7 @@ class ProgressSpec: ResourceSpecBase
                 setup(req)
                 QuickSpec.current.waitForExpectations(timeout: 1)
 
-                _ = reqStub.go()
+                reqStub.go()
                 awaitNewData(req)
 
                 return progressReports

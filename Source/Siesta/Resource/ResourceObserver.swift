@@ -141,7 +141,7 @@ public enum ResourceEvent
         case wipe
 
         public var description: String
-            { return rawValue }
+            { rawValue }
         }
     }
 
@@ -164,7 +164,7 @@ extension Resource
     @discardableResult
     public func addObserver(_ observerAndOwner: ResourceObserver & AnyObject) -> Self
         {
-        return addObserver(observerAndOwner, owner: observerAndOwner)
+        addObserver(observerAndOwner, owner: observerAndOwner)
         }
 
     /**
@@ -227,7 +227,7 @@ extension Resource
             closure: @escaping ResourceObserverClosure)
         -> Self
         {
-        return addObserver(
+        addObserver(
             ClosureObserver(
                 closure: closure,
                 debugDescription: "ClosureObserver(\(conciseSourceLocation(file: file, line: line)))"),
@@ -291,7 +291,7 @@ extension Resource
         for observer in observers.values
             { observer.cleanUp() }
 
-        if observers.removeValues(matching: { $0.isDefunct })
+        if observers.removeValues(matching: \.isDefunct)
             { observersChanged() }
         }
 
@@ -324,7 +324,7 @@ internal class ObserverEntry: CustomStringConvertible
 
     private var observerRef: StrongOrWeakRef<ResourceObserver>  // strong iff there are external owners
     var observer: ResourceObserver?
-        { return observerRef.value }
+        { observerRef.value }
 
     private var externalOwners = Set<WeakRef<AnyObject>>()
     private var observerIsOwner: Bool = false
@@ -384,7 +384,7 @@ internal class ObserverEntry: CustomStringConvertible
 
     var isDefunct: Bool
         {
-        return observer == nil
+        observer == nil
             || (!observerIsOwner && externalOwners.isEmpty)
         }
 

@@ -9,8 +9,10 @@
 import Siesta
 
 import Foundation
+import CoreGraphics
 import Quick
 import Nimble
+
 
 class ResponseDataHandlingSpec: ResourceSpecBase
     {
@@ -701,10 +703,10 @@ private class TestTransformer: ResponseTransformer
 private struct TestModel
     {
     var name: String
+    }
 
-    init(name: String)
-        { self.name = name }
-
+extension TestModel
+    {
     init?(anythingButOrange name: String)
         {
         guard name != "Orange" else

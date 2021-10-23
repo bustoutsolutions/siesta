@@ -1,9 +1,0 @@
-# Optional integrations
-
-github "Alamofire/Alamofire"
-# github "ReactiveCocoa/ReactiveCocoa" "master"  # add to Cartfile if/when it has tests
-
-# Testing
-
-github "pcantrell/Quick" "around-each"
-github "Quick/Nimble"

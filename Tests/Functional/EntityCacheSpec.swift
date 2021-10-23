@@ -278,7 +278,7 @@ private class TestCache: EntityCache
         }
 
     func key(for resource: Resource) -> TestCacheKey?
-        { return TestCacheKey(cache: self, path: resource.url.path) }
+        { TestCacheKey(cache: self, path: resource.url.path) }
 
     func readEntity(forKey key: TestCacheKey) -> Entity<Any>?
         {
@@ -324,7 +324,7 @@ private class MainThreadCache: EntityCache
     var calls: [String] = []
 
     func key(for resource: Resource) -> String?
-        { return "bi" }
+        { "bi" }
 
     func readEntity(forKey key: String) -> Entity<Any>?
         {
@@ -339,7 +339,7 @@ private class MainThreadCache: EntityCache
         { recordCall("removeEntity") }
 
     var workQueue: DispatchQueue
-        { return DispatchQueue.main }
+        { DispatchQueue.main }
 
     private func recordCall(_ name: String)
         {
@@ -352,7 +352,7 @@ private class MainThreadCache: EntityCache
 private class KeylessCache: EntityCache
     {
     func key(for resource: Resource) -> String?
-        { return nil }
+        { nil }
 
     func readEntity(forKey key: String) -> Entity<Any>?
         { fatalError("should not be called") }
@@ -370,10 +370,10 @@ private class KeylessCache: EntityCache
 private struct UnwritableCache: EntityCache
     {
     func key(for resource: Resource) -> URL?
-        { return resource.url }
+        { resource.url }
 
     func readEntity(forKey key: URL) -> Entity<Any>?
-        { return nil }
+        { nil }
 
     func writeEntity(_ entity: Entity<Any>, forKey key: URL)
         { fatalError("cache should never be written to") }

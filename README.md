@@ -13,7 +13,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 * **OS:** iOS 10+, macOS 10.11+, tvOS 9.0+
 * **Languages:** Written in Swift, supports apps in both Swift and Objective-C
-* **Tool requirements:** Xcode 11.3+, Swift 5.1+ (See [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) for legacy support)
+* **Tool requirements:** Xcode 12+, Swift 5.3+ (See [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) for legacy support)
 * **License:** MIT
 
 ## Table of Contents
@@ -34,7 +34,7 @@ Drastically simplifies app code by providing a client-side cache of observable m
 
 - [User Guide](https://bustoutsolutions.github.io/siesta/guide/) — Extensive! Thrilling! Full of examples!
 - [API Docs](https://bustoutsolutions.github.io/siesta/api/) — Lascivious detail! Hidden treasure! More examples!
-- [Specs](https://bustoutsolutions.github.io/siesta/specs/) — OK, doesn’t sound glamorous, but surprisingly informative.
+- [Specs](https://bustoutsolutions.github.io/siesta/specs/) — OK, doesn’t sound glamorous, but surprisingly informative.
 
 ## What’s It For?
 
@@ -44,7 +44,7 @@ Want your app to talk to a remote API? Welcome to your state nightmare!
 
 You need to display response data whenever it arrives. Unless the requesting screen is no longer visible. Unless some other currently visible bit of UI happens to need the same data. Or is about to need it.
 
-You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds.
+You should show a loading indicator (but watch out for race conditions that leave it stuck spinning forever), display user-friendly errors (but not redundantly — no modal alert dogpiles!), give users a retry mechanism … and hide all of that when a subsequent request succeeds.
 
 Be sure to avoid redundant requests — and redundant response deserialization. Deserialization should be on a background thread, of course. Oh, and remember not to retain your ViewController / model / helper thingy by accident in your callback closures. Unless you’re supposed to.
 
@@ -120,29 +120,21 @@ _…in that order of priority._
 
 ## Installation
 
-Siesta requires Swift 5 and Xcode 11. (Use the [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) branches if you are still on an older version.)
+Siesta requires Swift 5.3+ and Xcode 12+. (Use the [`swift-*` branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-) branches if you are still on an older version.)
 
 ### Swift Package Manager
 
 In Xcode:
 
-* File → Swift Packages → Add Package Dependency…
+* File → Swift Packages → Add Package Dependency…
 * Enter `https://github.com/bustoutsolutions/siesta` in the URL field and click Next.
 * The defaults for the version settings are good for most projects. Click Next.
 * Check the checkbox next to “Siesta.”
     - Also check “SiestaUI” if you want to use any of the [UI helpers](https://github.com/bustoutsolutions/siesta/tree/master/Source/SiestaUI).
     - Also check “Siesta_Alamofire” if you want to use the Alamofire extension for Siesta.
 * Click “Finish.”
-* Siesta does not yet support resources supplied by dependencies. This means that if:
-    - you included `SiestaUI` above
-    - and you plan to use `ResourceStatusOverlay`
-    - and you are using its default initializer instead of providing your own custom UI layout,
 
-    …then you’ll need to copy [`ResourceStatusOverlay.xib`](https://github.com/bustoutsolutions/siesta/raw/master/Source/SiestaUI/ResourceStatusOverlay.xib) into your own project.
-
-    SwiftPM just recently added support for this, and Siesta will add it in the next release.
-
-Please note that Xcode will show _all_ of Siesta’s optional and test-only dependencies, including Quick, Nimble, and Alamofire. Don’t worry: these won’t actually be bundled into your app (except Alamofire, if you use it).
+Please note that Xcode will show _all_ of Siesta’s optional and test-only dependencies, including Quick, Nimble, and Alamofire. Don’t worry: *these won’t actually be bundled into your app* (except Alamofire, if you use it).
 
 ### CocoaPods
 
@@ -170,11 +162,11 @@ Follow the [Carthage instructions](https://github.com/Carthage/Carthage#adding-f
 
 As of this writing, there is one additional step you need to follow that isn’t in the Carthage docs:
 
-* Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
+* Build settings → Framework search paths → `$(PROJECT_DIR)/Carthage/Build/iOS/`
 
 (In-depth discussion of Carthage in recent Xcode versions is [here](https://github.com/Carthage/Carthage/issues/536).)
 
-The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This currently includes only Alamofire support.) You will need to include those source files in your project manually if you want to use them.
+The code in `Extensions/` is _not_ part of the `Siesta.framework` that Carthage builds. (This includes optional integrations for other libraries, such as Alamofire.) You will need to include those source files in your project manually if you want to use them.
 
 ### Git Submodule
 
@@ -208,7 +200,7 @@ Make a shared service instance for the REST API you want to use:
 let MyAPI = Service(baseURL: "https://api.example.com")
 ```
 
-Now register your view controller — or view, internal glue class, reactive signal/sequence, anything you like — to receive notifications whenever a particular resource’s state changes:
+Now register your view controller — or view, internal glue class, reactive signal/sequence, anything you like — to receive notifications whenever a particular resource’s state changes:
 
 ```swift
 override func viewDidLoad() {
@@ -359,7 +351,7 @@ The same functionality. Yes, really.
 
 <small>(Well, OK, they’re not _exactly_ identical. The Siesta version has more robust caching behavior, and will automatically update an image everywhere it is displayed if it’s refreshed.)</small>
 
-There’s a more featureful version of `RemoteImageView` [already included with Siesta](https://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
+There’s a more featureful version of `RemoteImageView` [already included with Siesta](https://bustoutsolutions.github.io/siesta/api/Classes/RemoteImageView.html) — but the UI freebies aren’t the point. “Less code” isn’t even the point. The point is that Siesta gives you an **elegant abstraction** that **solves problems you actually have**, making your code **simpler and less brittle**.
 
 ## Comparison With Other Frameworks
 
@@ -380,34 +372,34 @@ With all that in mind, here is a capabilities comparison¹:
 
 |                             | Siesta             | Alamofire      | RestKit       | Moya      | AFNetworking    | URLSession   |
 |:----------------------------|:------------------:|:--------------:|:-------------:|:---------:|:---------------:|:--------------:|
-| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
-| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
-| Prevents redundant requests | ✓                  |                |               |           |                 |                |
-| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
-| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
-| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
-| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
-| File upload/download tasks  |                    | ✓              | ~             |           | ✓               | ✓              |
-| Object model mapping        |                    |                | ✓             |           |                 |                |
-| Core data integration       |                    |                | ✓             |           |                 |                |
-| Hides HTTP                  |                    |                |               | ✓         |                 |                |
-| UI helpers                  | ✓                  |                |               |           | ✓               |                |
-| Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
+| HTTP requests               | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Async response callbacks    | ✓                  | ✓              | ✓             | ✓         | ✓               | ✓              |
+| Observable in-memory cache  | ✓                  |                |               |           |                 |                |
+| Prevents redundant requests | ✓                  |                |               |           |                 |                |
+| Prevents redundant parsing  | ✓                  |                |               |           |                 |                |
+| Parsing for common formats  | ✓                  | ✓              |               |           | ✓               |                |
+| Route-based parsing         | ✓                  |                | ✓             |           |                 |                |
+| Content-type-based parsing  | ✓                  |                |               |           |                 |                |
+| File upload/download tasks  |                    | ✓              | ~             |           | ✓               | ✓              |
+| Object model mapping        |                    |                | ✓             |           |                 |                |
+| Core data integration       |                    |                | ✓             |           |                 |                |
+| Hides HTTP                  |                    |                |               | ✓         |                 |                |
+| UI helpers                  | ✓                  |                |               |           | ✓               |                |
+| Primary language            | Swift              | Swift          | Obj-C         | Swift     | Obj-C           | Obj-C          |
 | Nontrivial lines of code²   | 2609               | 3980           | 13220         | 1178      | 3936            | ?              |
 | Built on top of | <small>any (injectable)</small>| <small>URLSession</small> | <small>AFNetworking</small> | <small>Alamofire</small> | <small>NSURLSession / NSURLConnection</small>| <small>Apple guts</small>
 
-<small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
+<small>1. Disclaimer: table compiled by Siesta’s non-omniscient author. Corrections / additions? Please [submit a PR](https://github.com/bustoutsolutions/siesta/edit/master/README%2Emd#L280).</small>
 <br>
 <small>2. “Trivial” means lines containing only whitespace, comments, parens, semicolons, and braces.</small>
 
-Despite this capabilities list, Siesta is a relatively lean codebase — smaller than Alamofire, and 5.5x lighter than RestKit.
+Despite this capabilities list, Siesta is a relatively lean codebase — smaller than Alamofire, and 5.5x lighter than RestKit.
 
 ### What sets Siesta apart?
 
 It’s not just the features. Siesta **solves a different problem** than other REST frameworks.
 
-Other frameworks essentially view HTTP as a form of [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call). New information arrives only in responses that are coupled to requests — the return values of asynchronous functions.
+Other frameworks essentially view HTTP as a form of [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call). New information arrives only in responses that are coupled to requests — the return values of asynchronous functions.
 
 Siesta **puts the the “ST” back in “REST”**, embracing the notion of _state transfer_ as an architectural principle, and decoupling the act of _observing_ state from the act of _transferring_ it.
 

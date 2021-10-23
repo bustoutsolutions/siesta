@@ -19,14 +19,14 @@ extension String: URLConvertible
     {
     /// Returns the URL represented by this string, if it is a valid URL.
     public var url: URL?
-        { return URL(string: self) }
+        { URL(string: self) }
     }
 
 extension URL: URLConvertible
     {
     /// Returns self.
     public var url: URL?
-        { return self }
+        { self }
     }
 
 extension URL
@@ -54,9 +54,9 @@ extension URL
         queryMutator(&queryDict)
 
         let newItems = queryDict
-            .sorted { $0.0 < $1.0 }   // canonicalize order to help resource URLs be unique
+            .sorted { $0.key < $1.key }   // canonicalize order to help resource URLs be unique
             .filter { $1 != nil }
-            .map { URLQueryItem(name: $0.0, value: $0.1?.nilIfEmpty) }
+            .map { URLQueryItem(name: $0.key, value: $0.value?.nilIfEmpty) }
 
         components.queryItems = newItems.isEmpty ? nil : newItems
 

@@ -96,7 +96,7 @@ class PipelineSpec: ResourceSpecBase
 
 private func stringAppendingTransformer(_ word: String) -> ResponseContentTransformer<Any,String>
     {
-    return ResponseContentTransformer
+    ResponseContentTransformer
         {
         let stringContent = $0.text
         guard !stringContent.contains("error on \(word)") else

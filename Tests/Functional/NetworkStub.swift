@@ -123,7 +123,7 @@ private final class StubbedNetworkProtocol: URLProtocol
                     body: \(body?.dataDump ?? "nil")
 
                 Available stubs:
-                    \(stubs.map { $0.description }.joined(separator: "\n    "))
+                    \(stubs.map(\.description).joined(separator: "\n    "))
 
                 Halting tests
                 """)
@@ -176,12 +176,6 @@ struct RequestStub
 
     private let delayLatch = Latch(name: "delayed request")
 
-    fileprivate init(matcher: RequestPattern, response: NetworkStubResponse)
-        {
-        self.matcher = matcher
-        self.response = response
-        }
-
     func delay() -> Self
         {
         delayLatch.increment()
@@ -219,7 +213,7 @@ struct RequestPattern
 
     func matches(_ request: URLRequest, withBody requestBody: Data?) -> Bool
         {
-        return request.httpMethod == method
+        request.httpMethod == method
             && request.url?.absoluteString == url
             && headers.allSatisfy
                 {
@@ -287,12 +281,9 @@ extension String: HTTPBodyConvertible
 
 private struct Latch
     {
-    private var lock = NSConditionLock(condition: 0)
+    var lock = NSConditionLock(condition: 0)
 
     let name: String
-
-    init(name: String)
-        { self.name = name }
 
     func increment()
         { add(1) }

@@ -18,7 +18,7 @@ extension _OpenEnum
     {
     /// :nodoc:
     public static func == (lhs: Self, rhs: Self) -> Bool
-        { return lhs === rhs }
+        { lhs === rhs }
 
     /// :nodoc:
     public func hash(into hasher: inout Hasher)

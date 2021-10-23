@@ -1,0 +1,113 @@
+name: Xcode regression tests
+
+on:
+  push:
+    branches: [ $default-branch, main, master, ci-experiments ]
+  pull_request:
+    branches: [ $default-branch, main, master ]
+
+jobs:
+  test:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        include:
+
+          - scheme: 'Siesta macOS'
+            platform: 'OS X'
+
+          - scheme: 'Siesta iOS'
+            platform: 'iOS Simulator'
+            sim_os: 'iOS'
+            sim_os_version: 14.4
+            sim_device: 'iPhone 11 Pro'
+            xcode_sim_version: 12.4
+
+          - scheme: 'Siesta iOS'
+            platform: 'iOS Simulator'
+            sim_os: 'iOS'
+            sim_os_version: 13.7
+            sim_device: 'iPhone SE'
+            xcode_sim_version: 11.7
+
+          - scheme: 'Siesta iOS'
+            platform: 'iOS Simulator'
+            sim_os: 'iOS'
+            sim_os_version: 12.4
+            sim_device: 'iPhone 6'
+            xcode_sim_version: 10.3.0
+
+          - scheme: 'Siesta tvOS'
+            platform: 'tvOS Simulator'
+            sim_os: 'tvOS'
+            sim_os_version: 14.3
+            sim_device: 'Apple TV 4K 1080p'
+            xcode_sim_version: 12.4
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up environment
+        env:
+          scheme: ${{ matrix.scheme }}
+          platform: ${{ matrix.platform }}
+          sim_os: ${{ matrix.sim_os }}
+          sim_os_version: ${{ matrix.sim_os_version }}
+          sim_device: ${{ matrix.sim_device }}
+          xcode_sim_version: ${{ matrix.xcode_sim_version }}
+        run: |
+          set -x
+
+          echo "–––––– Available Xcode versions ––––––"
+          ls /Applications | grep Xcode
+
+          if [[ "$platform" =~ \ Simulator$ ]]; then
+            sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+            sudo ln -s \
+              /Applications/Xcode_$xcode_sim_version.app/Contents/Developer/Platforms/iPhoneOS.platform/*/*/CoreSimulator/Profiles/Runtimes/$sim_os.simruntime \
+              /Library/Developer/CoreSimulator/Profiles/Runtimes/$sim_os\ $sim_os_version.simruntime
+
+            echo "–––––– Available runtimes ––––––"
+            xcrun simctl list runtimes
+
+            sim_os_version_minor=$(echo $sim_os_version | ruby -ne '$_ =~ /^(\d+\.\d+)/; puts $1')  # spec below doesn't include patch version number
+            sim_simulator_udid=$(
+              xcrun simctl create "Siesta testing device" \
+                  "com.apple.CoreSimulator.SimDeviceType.${sim_device// /-}" \
+                  "com.apple.CoreSimulator.SimRuntime.${sim_os}-${sim_os_version_minor//./-}"
+            )
+
+            echo "–––––– Available devices after device create ––––––"
+            xcrun xctrace list devices 2>&1
+
+            echo "Prelaunching $sim_os simulator with UDID $sim_simulator_udid"
+            xcrun simctl boot $sim_simulator_udid
+          fi
+
+          git clone https://github.com/supermarin/xcpretty.git /tmp/xcpretty
+
+      - name: Build and test
+        env:
+          scheme: ${{ matrix.scheme }}
+          platform: ${{ matrix.platform }}
+          sim_os: ${{ matrix.sim_os }}
+          sim_os_version: ${{ matrix.sim_os_version }}
+          sim_device: ${{ matrix.sim_device }}
+        run: |
+          if [[ "$platform" =~ \ Simulator$ ]]; then
+            platform="$platform,OS=$sim_os_version,name=Siesta testing device"
+          fi
+
+          Siesta_TestMultipleNetworkProviders=1 \
+          xcodebuild test \
+              -project Siesta.xcodeproj \
+              -scheme "$scheme" \
+              -destination "platform=$platform" \
+            | /tmp/xcpretty/bin/xcpretty -c
+          
+          buildresult=${PIPESTATUS[0]}
+          exit $buildresult

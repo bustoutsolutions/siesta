@@ -193,7 +193,7 @@ class ResourceObserversSpec: ResourceSpecBase
                     }
                 let req = resource().load()
                 req.cancel()
-                _ = reqStub.go()
+                reqStub.go()
                 awaitFailure(req, initialState: .completed)
                 }
 
@@ -426,7 +426,7 @@ class ResourceObserversSpec: ResourceSpecBase
                 callbackThatShouldCauseRemoval()
 
                 // No observer expectations left, so this will fail if Resource still notifies observer
-                _ = reqStub.go()
+                reqStub.go()
                 awaitNewData(req)
                 }
 
@@ -492,7 +492,7 @@ private class TestObserverWithExpectations: ResourceObserver
     func checkForUnfulfilledExpectations()
         {
         if !expectedEvents.isEmpty
-            { XCTFail("Expected observer events, but never received them: \(expectedEvents.map { $0.event })") }
+            { XCTFail("Expected observer events, but never received them: \(expectedEvents.map(\.event))") }
         }
 
     func stopTesting()
@@ -533,6 +533,6 @@ private class TestObserverWithExpectations: ResourceObserver
         let callback: (() -> Void)
 
         func description() -> String
-            { return event }
+            { event }
         }
     }

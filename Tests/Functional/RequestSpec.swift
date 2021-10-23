@@ -676,7 +676,7 @@ class RequestSpec: ResourceSpecBase
                 let req = resource().request(.get).chained
                     { _ in .useThisResponse }
                 expect(req.state) == .inProgress
-                _ = reqStub.go()
+                reqStub.go()
                 expect(req.state).toEventually(equal(.completed))
                 }
 
@@ -696,7 +696,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     chainedReq.cancel()
-                    _ = reqStub.go()
+                    reqStub.go()
                     awaitFailure(originalReq, initialState: .completed)
                     }
 
@@ -714,7 +714,7 @@ class RequestSpec: ResourceSpecBase
 
                     chainedReq.cancel()
                     awaitFailure(chainedReq, initialState: .completed)
-                    _ = reqStub.go()
+                    reqStub.go()
                     awaitFailure(originalReq, initialState: .completed)
                     }
 
@@ -730,7 +730,7 @@ class RequestSpec: ResourceSpecBase
                         }
 
                     originalReq.cancel()
-                    _ = reqStub.go()
+                    reqStub.go()
                     awaitFailure(originalReq, initialState: .completed)
                     expectResult("custom", for: chainedReq, initialState: .completed)
                     }

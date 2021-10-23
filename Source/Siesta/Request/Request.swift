@@ -13,7 +13,7 @@ import Foundation
 
   See the various `Resource.request(...)` methods.
 */
-public enum RequestMethod: String
+public enum RequestMethod: String, CaseIterable
     {
     /// OPTIONS
     case options
@@ -39,8 +39,6 @@ public enum RequestMethod: String
     ///
     /// I’m here all week! Thank you for reading the documentation!
     case delete
-
-    internal static let all: [RequestMethod] = [.get, .post, .put, .patch, .delete, .head, .options]
     }
 
 /**
@@ -217,14 +215,10 @@ public enum RequestState
   The outcome of a network request: either success (with an entity representing the resource’s current state), or
   failure (with an error).
 */
-public enum Response: CustomStringConvertible
+public typealias Response = Result<Entity<Any>, RequestError>
+
+extension Response
     {
-    /// The request succeeded, and returned the given entity.
-    case success(Entity<Any>)
-
-    /// The request failed because of the given error.
-    case failure(RequestError)
-
     /// True if this is a cancellation response
     public var isCancellation: Bool
         {
@@ -233,7 +227,10 @@ public enum Response: CustomStringConvertible
         else
             { return false }
         }
+    }
 
+extension Response: CustomStringConvertible
+    {
     /// :nodoc:
     public var description: String
         {

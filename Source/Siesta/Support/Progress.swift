@@ -84,9 +84,7 @@ internal struct RequestProgressComputation: Progress
         { overallProgress.child = TaskProgress.completed }
 
     var rawFractionDone: Double
-        {
-        return overallProgress.fractionDone
-        }
+        { overallProgress.fractionDone }
     }
 
 // MARK: Generic progress computation
@@ -143,10 +141,10 @@ private class TaskProgress: Progress
         }
 
     static var completed: TaskProgress
-        { return TaskProgress(completed: 1, actualTotal: 1) }
+        { TaskProgress(completed: 1, actualTotal: 1) }
 
     static var unknown: TaskProgress
-        { return TaskProgress(completed: 0, estimatedTotal: Double.nan) }
+        { TaskProgress(completed: 0, estimatedTotal: Double.nan) }
     }
 
 /// Several individual progress measurements combined into one.
@@ -184,7 +182,7 @@ private struct MonotonicProgress: Progress
         { self.child = child }
 
     var rawFractionDone: Double
-        { return (child.fractionDone - 1) * adjustment + 1 }
+        { (child.fractionDone - 1) * adjustment + 1 }
 
     func heldConstant(withRespectTo changes: () -> Void) -> MonotonicProgress
         {
@@ -209,7 +207,7 @@ private class WaitingProgress: Progress
         { progress = TaskProgress(estimatedTotal: estimatedTotal) }
 
     var rawFractionDone: Double
-        { return progress.rawFractionDone }
+        { progress.rawFractionDone }
 
     func tick()
         {

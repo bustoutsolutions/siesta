@@ -11,13 +11,13 @@ import Foundation
 extension Pipeline
     {
     private var stagesInOrder: [PipelineStage]
-        { return order.compactMap { self[$0] } }
+        { order.compactMap { self[$0] } }
 
     private typealias StageAndEntry = (PipelineStage, CacheEntryProtocol?)
 
     private func stagesAndEntries(for resource: Resource) -> [StageAndEntry]
         {
-        return stagesInOrder.map
+        stagesInOrder.map
             { stage in (stage, stage.cacheBox?.buildEntry(resource)) }
         }
 
@@ -45,7 +45,7 @@ extension Pipeline
         -> Response
         where StagesAndEntries.Iterator.Element == StageAndEntry
         {
-        return stagesAndEntries.reduce(rawResponse)
+        stagesAndEntries.reduce(rawResponse)
             {
             let input = $0,
                 (stage, cacheEntry) = $1
@@ -65,7 +65,7 @@ extension Pipeline
 
     internal func checkCache(for resource: Resource) -> Request
         {
-        return Resource
+        Resource
             .prepareRequest(using:
                 CacheRequestDelegate(for: resource, searching: stagesAndEntries(for: resource)))
             .start()
@@ -125,7 +125,7 @@ extension Pipeline
             { }
 
         func repeated() -> RequestDelegate
-            { return self }
+            { self }
 
         // Runs on a background queue
         private func performCacheLookup() -> Entity<Any>?
@@ -198,7 +198,7 @@ private struct CacheEntry<Cache, Key>: CacheEntryProtocol
 
     func read() -> Entity<Any>?
         {
-        return cache.workQueue.sync
+        cache.workQueue.sync
             { self.cache.readEntity(forKey: self.key) }
         }
 

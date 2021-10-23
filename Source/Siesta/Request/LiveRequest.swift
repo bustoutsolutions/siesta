@@ -24,7 +24,7 @@ extension Resource
     */
     public static func prepareRequest(using delegate: RequestDelegate) -> Request
         {
-        return LiveRequest(delegate: delegate)
+        LiveRequest(delegate: delegate)
         }
     }
 
@@ -100,13 +100,13 @@ extension RequestDelegate
       Returns a constant 0.
     */
     public func computeProgress() -> Double
-        { return 0 }
+        { 0 }
 
     /**
       1/20th of a second.
     */
     public var progressReportingInterval: TimeInterval
-        { return 0.05 }
+        { 0.05 }
     }
 
 /**
@@ -200,7 +200,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         }
 
     var progress: Double
-        { return progressTracker.progress }
+        { progressTracker.progress }
 
     final func onCompletion(_ callback: @escaping (ResponseInfo) -> Void) -> Request
         {
@@ -269,14 +269,14 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
 
     func repeated() -> Request
         {
-        return Resource.prepareRequest(using: delegate.repeated())
+        Resource.prepareRequest(using: delegate.repeated())
         }
 
     // MARK: Debug
 
     final var debugDescription: String
         {
-        return "Request:"
+        "Request:"
             + String(UInt(bitPattern: ObjectIdentifier(self)), radix: 16)
             + "("
             + delegate.requestDescription
