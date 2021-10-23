@@ -30,7 +30,10 @@ let package = Package(
         .target(
             name: "SiestaUI",
             dependencies: ["Siesta"],
-            resources: [.process("ResourceStatusOverlay.xib")]
+            resources: [.process("ResourceStatusOverlay.xib")],
+            swiftSettings: [
+                .define("SIESTA_USE_MODULE_BUNDLE"),
+            ]
         ),
         .target(
             name: "Siesta_Alamofire",
