@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,12 +22,6 @@
 		9F0FAF9C1D033FCD00CE1B61 /* ResourceSpecBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7D1B35FE7E00AE1B8F /* ResourceSpecBase.swift */; };
 		9F0FAFB01D033FF400CE1B61 /* Siesta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */; };
 		9F0FB04C1D04179600CE1B61 /* Siesta.h in Headers */ = {isa = PBXBuildFile; fileRef = DA336E521B2E6DDB006F702A /* Siesta.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9F0FB0571D04184F00CE1B61 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0531D04184F00CE1B61 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F0FB0581D04184F00CE1B61 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0541D04184F00CE1B61 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F0FB05A1D04184F00CE1B61 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9F0FB0561D04184F00CE1B61 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0531D04184F00CE1B61 /* Alamofire.framework */; };
-		9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0541D04184F00CE1B61 /* Nimble.framework */; };
-		9F0FB05F1D0418AF00CE1B61 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0FB0561D04184F00CE1B61 /* Quick.framework */; };
 		9F2FB5261C2864970068DFFA /* Siesta-ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FBD9A1B55917600161A25 /* Siesta-ObjC.swift */; };
 		9F2FB5271C2864970068DFFA /* WeakCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F4BDB1B3DFE3700E8966F /* WeakCache.swift */; };
 		9F2FB5281C2864970068DFFA /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
@@ -137,7 +131,6 @@
 		CDCCAFD01E6A389800860D18 /* ResponseTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA33142A1B4DA04900A7A175 /* ResponseTransformer.swift */; };
 		DA0AB90B1B5B5DD9006A3067 /* ARC+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */; };
 		DA0AB90D1B5C0090006A3067 /* Collection+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */; };
-		DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; };
 		DA19D0751D9ADDD800D15F3A /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */; };
 		DA28464A1B59EF9F004BD535 /* URL+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2846491B59EF9F004BD535 /* URL+Siesta.swift */; };
 		DA2FF1061C0F97F600C98FF1 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
@@ -175,28 +168,17 @@
 		DA5E4B4122DCE9670059ED10 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */; };
 		DA5E4B4222DCE9670059ED10 /* RemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE96F791B8ECB3D00506AE7 /* RemoteImageView.swift */; };
 		DA5E4B4522DCE9670059ED10 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; };
-		DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; };
-		DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; };
 		DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */; };
 		DA5E4B5C22DCF1260059ED10 /* RemoteImageViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E515320DD7A45000923BA /* RemoteImageViewSpec.swift */; };
 		DA5E4B5D22DCF12E0059ED10 /* SiestaSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA89271B8172920090D283 /* SiestaSpec.swift */; };
 		DA5E4B5E22DCF12E0059ED10 /* SpecHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EA7F1B36174700AE1B8F /* SpecHelpers.swift */; };
 		DA5E4B5F22DCF12E0059ED10 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61991B7521B900F6BB9C /* TestService.swift */; };
 		DA5E4B6022DCF2610059ED10 /* Networking-Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2FF1051C0F97F600C98FF1 /* Networking-Alamofire.swift */; };
-		DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5322DCEFE40059ED10 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5E4B5422DCEFE40059ED10 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA5EC2741B91E39000DC33C8 /* Networking-URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */; };
 		DA5FE9F41BB9E3EF00B6688A /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5FE9F31BB9E3EF00B6688A /* Progress.swift */; };
 		DA6022841D65591500FB5673 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6022851D65591600FB5673 /* SiestaUI.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6022801D65590800FB5673 /* SiestaUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; };
-		DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49961B2F68DC00BFBF38 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA0B49971B2F68DC00BFBF38 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA60F5FC1B30B2F800D76DC6 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA60F5FB1B30B2F800D76DC6 /* Resource.swift */; };
-		DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA612E421B38AD1000DE9A9F /* Alamofire.framework */; };
 		DA62C9842428670400398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
 		DA62C9852428670500398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
 		DA62C9862428670500398674 /* NetworkStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97C2428589B00398674 /* NetworkStub.swift */; };
@@ -222,6 +204,12 @@
 		DAA573682050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
 		DAA573692050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
 		DAA5736A2050FBEC002D7B8B /* HardWiredRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA573662050FBEC002D7B8B /* HardWiredRequest.swift */; };
+		DAA9101A27239BD700B2211D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9101927239BD700B2211D /* Alamofire */; };
+		DAA9101C27239BD700B2211D /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9101B27239BD700B2211D /* Quick */; };
+		DAA9101E27239BD700B2211D /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9101D27239BD700B2211D /* Nimble */; };
+		DAA9102027239BDE00B2211D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9101F27239BDE00B2211D /* Alamofire */; };
+		DAA9102227239BDE00B2211D /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9102127239BDE00B2211D /* Quick */; };
+		DAA9102427239BDE00B2211D /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = DAA9102327239BDE00B2211D /* Nimble */; };
 		DAAB482A1B5D7B770059C047 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB48291B5D7B770059C047 /* Request.swift */; };
 		DAADA6B91B76F6E7009A3EF5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAADA6B81B76F6E7009A3EF5 /* Configuration.swift */; };
 		DAC0B3731D63880600D25C44 /* ResourceNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC0B3721D63880600D25C44 /* ResourceNavigation.swift */; };
@@ -248,6 +236,9 @@
 		DAF19BC81F355611000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
 		DAF19BCA1F355614000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
 		DAF19BCB1F355615000B9734 /* StandardTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF19BC61F355606000B9734 /* StandardTransformers.swift */; };
+		DAF2B7A627189B5A00E5B31A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DAF2B7A527189B5A00E5B31A /* Alamofire */; };
+		DAF2B7A827189B5A00E5B31A /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = DAF2B7A727189B5A00E5B31A /* Quick */; };
+		DAF2B7AD27189BA700E5B31A /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = DAF2B7AC27189BA700E5B31A /* Nimble */; };
 		DAFA42031C20AF940020AC5E /* RequestCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42021C20AF940020AC5E /* RequestCallbacks.swift */; };
 		DAFA42051C20AFCF0020AC5E /* ProgressTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42041C20AFCF0020AC5E /* ProgressTracker.swift */; };
 		DAFA42071C20B0E50020AC5E /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFA42061C20B0E50020AC5E /* NetworkRequest.swift */; };
@@ -339,9 +330,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9F0FB0571D04184F00CE1B61 /* Alamofire.framework in CopyFiles */,
-				9F0FB0581D04184F00CE1B61 /* Nimble.framework in CopyFiles */,
-				9F0FB05A1D04184F00CE1B61 /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,9 +348,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DA5E4B6222DCF48D0059ED10 /* Alamofire.framework in CopyFiles */,
-				DA5E4B6322DCF48D0059ED10 /* Nimble.framework in CopyFiles */,
-				DA5E4B6522DCF48D0059ED10 /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,9 +357,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DA60F5F91B2F729300D76DC6 /* Nimble.framework in CopyFiles */,
-				DA60F5FA1B2F729300D76DC6 /* Quick.framework in CopyFiles */,
-				DA612E471B38AD6400DE9A9F /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,16 +364,9 @@
 
 /* Begin PBXFileReference section */
 		00B394481DC5FD67002CD5B7 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicator.swift; sourceTree = "<group>"; };
-		570C77E01D38463200226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
-		570C77E31D38466900226F92 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/Mac/ReactiveCocoa.framework; sourceTree = "<group>"; };
-		570C77E51D38468A00226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
-		570C77E71D3846A800226F92 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Siesta+ReactiveCocoa.swift"; sourceTree = "<group>"; };
 		9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SiestaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F0FAFAD1D033FCD00CE1B61 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
-		9F0FB0531D04184F00CE1B61 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
-		9F0FB0541D04184F00CE1B61 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
-		9F0FB0561D04184F00CE1B61 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
 		9F2FB51E1C28645E0068DFFA /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F2FB5221C28645E0068DFFA /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-macOS.plist"; path = "Source/Info-macOS.plist"; sourceTree = SOURCE_ROOT; };
 		CDCCAF651E6A313800860D18 /* Siesta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Siesta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -402,8 +377,6 @@
 		CDCCAF811E6A31DA00860D18 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		DA0AB90A1B5B5DD9006A3067 /* ARC+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ARC+Siesta.swift"; sourceTree = "<group>"; };
 		DA0AB90C1B5C0090006A3067 /* Collection+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Siesta.swift"; sourceTree = "<group>"; };
-		DA0B49961B2F68DC00BFBF38 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
-		DA0B49971B2F68DC00BFBF38 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		DA19D06E1D9ADC1800D15F3A /* SiestaPerformanceTests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SiestaPerformanceTests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA19D0731D9ADDC900D15F3A /* PerformanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		DA2846491B59EF9F004BD535 /* URL+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Siesta.swift"; sourceTree = "<group>"; };
@@ -429,14 +402,10 @@
 		DA4D61991B7521B900F6BB9C /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
 		DA5A902F2054E0C500309D8B /* EntityCacheSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCacheSpec.swift; sourceTree = "<group>"; };
 		DA5E4B4B22DCE9670059ED10 /* SiestaUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/tvOS/Alamofire.framework; sourceTree = "<group>"; };
-		DA5E4B5322DCEFE40059ED10 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
-		DA5E4B5422DCEFE40059ED10 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
 		DA5EC2731B91E39000DC33C8 /* Networking-URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Networking-URLSession.swift"; sourceTree = "<group>"; };
 		DA5FE9F31BB9E3EF00B6688A /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA6022801D65590800FB5673 /* SiestaUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SiestaUI.h; sourceTree = "<group>"; };
 		DA60F5FB1B30B2F800D76DC6 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
-		DA612E421B38AD1000DE9A9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DA62C97C2428589B00398674 /* NetworkStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
 		DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineProcessing.swift; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
@@ -488,9 +457,9 @@
 			files = (
 				9F0FAFB01D033FF400CE1B61 /* Siesta.framework in Frameworks */,
 				DAC4CFCE1DAC10FD00EECEDE /* SiestaUI.framework in Frameworks */,
-				9F0FB05C1D0418AF00CE1B61 /* Alamofire.framework in Frameworks */,
-				9F0FB05D1D0418AF00CE1B61 /* Nimble.framework in Frameworks */,
-				9F0FB05F1D0418AF00CE1B61 /* Quick.framework in Frameworks */,
+				DAF2B7A827189B5A00E5B31A /* Quick in Frameworks */,
+				DAF2B7A627189B5A00E5B31A /* Alamofire in Frameworks */,
+				DAF2B7AD27189BA700E5B31A /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,9 +490,9 @@
 			files = (
 				CDCCAF7B1E6A31DA00860D18 /* Siesta.framework in Frameworks */,
 				DA5E4B5B22DCF0BB0059ED10 /* SiestaUI.framework in Frameworks */,
-				DA5E4B5622DCEFE40059ED10 /* Alamofire.framework in Frameworks */,
-				DA5E4B5722DCEFE40059ED10 /* Nimble.framework in Frameworks */,
-				DA5E4B5822DCEFE40059ED10 /* Quick.framework in Frameworks */,
+				DAA9102427239BDE00B2211D /* Nimble in Frameworks */,
+				DAA9102027239BDE00B2211D /* Alamofire in Frameworks */,
+				DAA9102227239BDE00B2211D /* Quick in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,9 +517,9 @@
 			files = (
 				DA336E5A1B2E6DDB006F702A /* Siesta.framework in Frameworks */,
 				DAC4CFCF1DAC110500EECEDE /* SiestaUI.framework in Frameworks */,
-				DA612E4A1B38ADBA00DE9A9F /* Alamofire.framework in Frameworks */,
-				DA0B49991B2F68DC00BFBF38 /* Quick.framework in Frameworks */,
-				DA60F5F51B2F723900D76DC6 /* Nimble.framework in Frameworks */,
+				DAA9101E27239BD700B2211D /* Nimble in Frameworks */,
+				DAA9101A27239BD700B2211D /* Alamofire in Frameworks */,
+				DAA9101C27239BD700B2211D /* Quick in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,18 +553,6 @@
 				574156971D393B11009A2EC8 /* Siesta+ReactiveCocoa.swift */,
 			);
 			path = ReactiveCocoa;
-			sourceTree = "<group>";
-		};
-		9F0FAFB31D03464F00CE1B61 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				9F0FB0531D04184F00CE1B61 /* Alamofire.framework */,
-				9F0FB0541D04184F00CE1B61 /* Nimble.framework */,
-				9F0FB0561D04184F00CE1B61 /* Quick.framework */,
-				570C77E31D38466900226F92 /* ReactiveCocoa.framework */,
-				570C77E51D38468A00226F92 /* Result.framework */,
-			);
-			name = macOS;
 			sourceTree = "<group>";
 		};
 		DA19D0711D9ADC5A00D15F3A /* Tests */ = {
@@ -641,8 +598,8 @@
 				DA336E511B2E6DDB006F702A /* Source */,
 				DA2FF1031C0F97F600C98FF1 /* Extensions */,
 				DA19D0711D9ADC5A00D15F3A /* Tests */,
-				DA336E6F1B2F65D2006F702A /* Frameworks */,
 				DA336E501B2E6DDB006F702A /* Products */,
+				DAF2B7A027189AC800E5B31A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -692,38 +649,6 @@
 				DA99B5C71B38C36A009C6937 /* Support */,
 			);
 			path = Functional;
-			sourceTree = "<group>";
-		};
-		DA336E6F1B2F65D2006F702A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DA38E4F11D088515008023ED /* iOS */,
-				9F0FAFB31D03464F00CE1B61 /* macOS */,
-				DA5E4B5A22DCF0150059ED10 /* tvOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DA38E4F11D088515008023ED /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				DA612E421B38AD1000DE9A9F /* Alamofire.framework */,
-				DA0B49961B2F68DC00BFBF38 /* Nimble.framework */,
-				DA0B49971B2F68DC00BFBF38 /* Quick.framework */,
-				570C77E01D38463200226F92 /* ReactiveCocoa.framework */,
-				570C77E71D3846A800226F92 /* Result.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		DA5E4B5A22DCF0150059ED10 /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				DA5E4B5222DCEFE40059ED10 /* Alamofire.framework */,
-				DA5E4B5322DCEFE40059ED10 /* Nimble.framework */,
-				DA5E4B5422DCEFE40059ED10 /* Quick.framework */,
-			);
-			name = tvOS;
 			sourceTree = "<group>";
 		};
 		DA99B5C61B38C356009C6937 /* Support */ = {
@@ -821,6 +746,13 @@
 			path = SiestaUI;
 			sourceTree = "<group>";
 		};
+		DAF2B7A027189AC800E5B31A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DAFA42011C20AF2B0020AC5E /* Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -915,6 +847,11 @@
 				DAC4CFCD1DAC10F500EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests macOS";
+			packageProductDependencies = (
+				DAF2B7A527189B5A00E5B31A /* Alamofire */,
+				DAF2B7A727189B5A00E5B31A /* Quick */,
+				DAF2B7AC27189BA700E5B31A /* Nimble */,
+			);
 			productName = SiestaTests;
 			productReference = 9F0FAFAC1D033FCD00CE1B61 /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -933,6 +870,8 @@
 			dependencies = (
 			);
 			name = "Siesta macOS";
+			packageProductDependencies = (
+			);
 			productName = "Siesta macOS";
 			productReference = 9F2FB51E1C28645E0068DFFA /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
@@ -990,6 +929,11 @@
 				DA5E4B5122DCEFCA0059ED10 /* PBXTargetDependency */,
 			);
 			name = "SiestaTests tvOS";
+			packageProductDependencies = (
+				DAA9101F27239BDE00B2211D /* Alamofire */,
+				DAA9102127239BDE00B2211D /* Quick */,
+				DAA9102327239BDE00B2211D /* Nimble */,
+			);
 			productName = "Siesta TvOSTests";
 			productReference = CDCCAF7A1E6A31DA00860D18 /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1027,6 +971,8 @@
 			dependencies = (
 			);
 			name = "Siesta iOS";
+			packageProductDependencies = (
+			);
 			productName = Siesta;
 			productReference = DA336E4F1B2E6DDB006F702A /* Siesta.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1048,6 +994,11 @@
 				DAC4CFCB1DAC10EC00EECEDE /* PBXTargetDependency */,
 			);
 			name = "SiestaTests iOS";
+			packageProductDependencies = (
+				DAA9101927239BD700B2211D /* Alamofire */,
+				DAA9101B27239BD700B2211D /* Quick */,
+				DAA9101D27239BD700B2211D /* Nimble */,
+			);
 			productName = SiestaTests;
 			productReference = DA336E591B2E6DDB006F702A /* SiestaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1171,6 +1122,11 @@
 				Base,
 			);
 			mainGroup = DA336E451B2E6DDB006F702A;
+			packageReferences = (
+				DAF2B79A27189A3800E5B31A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DAF2B79D27189A6800E5B31A /* XCRemoteSwiftPackageReference "quick" */,
+				DAF2B7A927189B9F00E5B31A /* XCRemoteSwiftPackageReference "Nimble" */,
+			);
 			productRefGroup = DA336E501B2E6DDB006F702A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1684,9 +1640,12 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
@@ -1698,9 +1657,12 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = macosx;
@@ -1714,11 +1676,14 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
@@ -1733,11 +1698,14 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = macosx;
@@ -1758,7 +1726,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Source/Info-watchOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-watchOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = watchos;
@@ -1782,7 +1754,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Source/Info-watchOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-watchOS";
 				PRODUCT_NAME = Siesta;
 				SDKROOT = watchos;
@@ -1806,7 +1782,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-tvOS";
 				PRODUCT_NAME = Siesta;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1831,7 +1811,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-tvOS";
 				PRODUCT_NAME = Siesta;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1847,12 +1831,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-tvOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-TvOSTests";
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = appletvos;
@@ -1868,12 +1852,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-tvOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-TvOSTests";
 				PRODUCT_NAME = SiestaTests;
 				SDKROOT = appletvos;
@@ -1886,9 +1870,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1899,9 +1886,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2025,7 +2015,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2042,10 +2033,13 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
@@ -2058,10 +2052,13 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.Siesta;
 				PRODUCT_NAME = Siesta;
 				SKIP_INSTALL = YES;
@@ -2072,9 +2069,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-iOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 			};
@@ -2084,9 +2084,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-iOS.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaTests;
 				PRODUCT_NAME = SiestaTests;
 			};
@@ -2100,10 +2103,13 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2122,10 +2128,13 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2141,10 +2150,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
@@ -2158,10 +2170,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS/";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bustoutsolutions.SiestaUI;
 				PRODUCT_NAME = SiestaUI;
 				SKIP_INSTALL = YES;
@@ -2174,11 +2189,14 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = SiestaUI;
 				SDKROOT = macosx;
@@ -2192,11 +2210,14 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac/";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info-macOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bustoutsolutions.Siesta-macOS";
 				PRODUCT_NAME = SiestaUI;
 				SDKROOT = macosx;
@@ -2316,6 +2337,81 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DAF2B79A27189A3800E5B31A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		DAF2B79D27189A6800E5B31A /* XCRemoteSwiftPackageReference "quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pcantrell/quick";
+			requirement = {
+				branch = siesta;
+				kind = branch;
+			};
+		};
+		DAF2B7A927189B9F00E5B31A /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DAA9101927239BD700B2211D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79A27189A3800E5B31A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DAA9101B27239BD700B2211D /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79D27189A6800E5B31A /* XCRemoteSwiftPackageReference "quick" */;
+			productName = Quick;
+		};
+		DAA9101D27239BD700B2211D /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B7A927189B9F00E5B31A /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+		DAA9101F27239BDE00B2211D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79A27189A3800E5B31A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DAA9102127239BDE00B2211D /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79D27189A6800E5B31A /* XCRemoteSwiftPackageReference "quick" */;
+			productName = Quick;
+		};
+		DAA9102327239BDE00B2211D /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B7A927189B9F00E5B31A /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+		DAF2B7A527189B5A00E5B31A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79A27189A3800E5B31A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DAF2B7A727189B5A00E5B31A /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B79D27189A6800E5B31A /* XCRemoteSwiftPackageReference "quick" */;
+			productName = Quick;
+		};
+		DAF2B7AC27189BA700E5B31A /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAF2B7A927189B9F00E5B31A /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA336E461B2E6DDB006F702A /* Project object */;
 }

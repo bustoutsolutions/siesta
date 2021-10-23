@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire",
         "state": {
           "branch": null,
-          "revision": "59037bfd28aa963a7916f1eb22a74107a3522f16",
-          "version": "5.0.5"
+          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
+          "version": "5.4.4"
         }
       },
       {
@@ -39,7 +39,7 @@
       },
       {
         "package": "Quick",
-        "repositoryURL": "https://github.com/pcantrell/Quick",
+        "repositoryURL": "https://github.com/pcantrell/quick",
         "state": {
           "branch": "siesta",
           "revision": "efedef8e8917ef7ac1495cb406cebbeddb66b6e9",

@@ -22,8 +22,8 @@
 		DA15FFAB2411AE9F00F9931A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF992411AE9F00F9931A /* User.swift */; };
 		DA15FFAC2411AE9F00F9931A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9A2411AE9F00F9931A /* Repository.swift */; };
 		DA15FFAD2411AE9F00F9931A /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA15FF9C2411AE9F00F9931A /* GithubAPI.swift */; };
-		DA15FFB52411AFAC00F9931A /* Siesta in Frameworks */ = {isa = PBXBuildFile; productRef = DA15FFB42411AFAC00F9931A /* Siesta */; };
-		DA15FFB72411AFAC00F9931A /* SiestaUI in Frameworks */ = {isa = PBXBuildFile; productRef = DA15FFB62411AFAC00F9931A /* SiestaUI */; };
+		DA3138B2271FDEDF0046964F /* Siesta in Frameworks */ = {isa = PBXBuildFile; productRef = DA3138B1271FDEDF0046964F /* Siesta */; };
+		DA3138B4271FDEDF0046964F /* SiestaUI in Frameworks */ = {isa = PBXBuildFile; productRef = DA3138B3271FDEDF0046964F /* SiestaUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +44,7 @@
 		DA15FF9A2411AE9F00F9931A /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		DA15FF9C2411AE9F00F9931A /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
 		DA15FF9E2411AE9F00F9931A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA3138AF271FDDC70046964F /* siesta */ = {isa = PBXFileReference; lastKnownFileType = folder; name = siesta; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA15FFB52411AFAC00F9931A /* Siesta in Frameworks */,
-				DA15FFB72411AFAC00F9931A /* SiestaUI in Frameworks */,
+				DA3138B2271FDEDF0046964F /* Siesta in Frameworks */,
+				DA3138B4271FDEDF0046964F /* SiestaUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				DA15FF872411AE9F00F9931A /* Source */,
+				DA3138AF271FDDC70046964F /* siesta */,
 				DA15FF712411AE6500F9931A /* Products */,
+				DA3138B0271FDEDF0046964F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +133,13 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		DA3138B0271FDEDF0046964F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,8 +157,8 @@
 			);
 			name = GithubBrowser;
 			packageProductDependencies = (
-				DA15FFB42411AFAC00F9931A /* Siesta */,
-				DA15FFB62411AFAC00F9931A /* SiestaUI */,
+				DA3138B1271FDEDF0046964F /* Siesta */,
+				DA3138B3271FDEDF0046964F /* SiestaUI */,
 			);
 			productName = GithubBrowser;
 			productReference = DA15FF702411AE6500F9931A /* GithubBrowser.app */;
@@ -179,7 +189,6 @@
 			);
 			mainGroup = DA15FF672411AE6500F9931A;
 			packageReferences = (
-				DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */,
 			);
 			productRefGroup = DA15FF712411AE6500F9931A /* Products */;
 			projectDirPath = "";
@@ -366,7 +375,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WMKNS4D9SU;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -385,7 +393,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WMKNS4D9SU;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -420,26 +427,13 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:../../../..";
-			requirement = {
-				branch = "githubbrowser-using-swiftpm";
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		DA15FFB42411AFAC00F9931A /* Siesta */ = {
+		DA3138B1271FDEDF0046964F /* Siesta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */;
 			productName = Siesta;
 		};
-		DA15FFB62411AFAC00F9931A /* SiestaUI */ = {
+		DA3138B3271FDEDF0046964F /* SiestaUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DA15FFB32411AFAC00F9931A /* XCRemoteSwiftPackageReference "." */;
 			productName = SiestaUI;
 		};
 /* End XCSwiftPackageProductDependency section */

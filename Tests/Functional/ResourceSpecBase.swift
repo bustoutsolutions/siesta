@@ -94,30 +94,10 @@ class ResourceSpecBase: SiestaSpec
         {
         weak var weakService: Service?
 
-        // Standard service and resource test instances
-        // (These use configurable net provider and embed the spec name in the baseURL.)
-
-        let service = specVar
-            {
-            () -> Service in
-            let result = serviceBuilder()
-            weakService = result
-            return result
-            }
-
-        let resource = specVar
-            { service().resource("/a/b") }
-
         // Make sure that Service is deallocated after each spec (which also catches Resource and Request leaks,
         // since they ultimately retain their associated service)
         //
         // NB: This must come _after_ the specVars above, which use afterEach to clear the service and resource.
-
-        aroundEach
-            {
-            example in
-            autoreleasepool { example() }  // Alamofire relies on autorelease, so each spec needs its own pool for leak checking
-            }
 
         afterEach
             {
@@ -144,6 +124,26 @@ class ResourceSpecBase: SiestaSpec
                 weakService?.flushUnusedResources()
                 }
             }
+
+        aroundEach
+            {
+            example in
+            autoreleasepool { example() }  // Alamofire relies on autorelease, so each spec needs its own pool for leak checking
+            }
+
+        // Standard service and resource test instances
+        // (These use configurable net provider and embed the spec name in the baseURL.)
+
+        let service = specVar
+            {
+            () -> Service in
+            let result = serviceBuilder()
+            weakService = result
+            return result
+            }
+
+        let resource = specVar
+            { service().resource("/a/b") }
 
         // Run the actual specs
 
