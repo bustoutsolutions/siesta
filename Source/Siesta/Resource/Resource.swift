@@ -48,7 +48,7 @@ public final class Resource: NSObject
 
     /// Configuration when there is no request method.
     public var configuration: Configuration
-        { return configuration(for: .get) }
+        { configuration(for: .get) }
 
     /// Configuration for requests with the given request method.
     public func configuration(for method: RequestMethod) -> Configuration
@@ -70,7 +70,7 @@ public final class Resource: NSObject
 
     internal func configuration(for request: URLRequest) -> Configuration
         {
-        return configuration(for:
+        configuration(for:
             RequestMethod(rawValue: request.httpMethod?.lowercased() ?? "")
                 ?? .get)  // All unrecognized methods default to .get
         }
@@ -735,7 +735,7 @@ public final class Resource: NSObject
     /// :nodoc:
     public override var description: String
         {
-        return "Resource("
+        "Resource("
             + urlDescription
             + ")["
             + (isLoading ? "L" : "")

@@ -44,7 +44,7 @@ public struct Entity<ContentType>
       for example, you might see “`text/plain`”, “`text/plain; charset=utf-8`”, or even “`text/foo+plain`”.
     */
     public var contentType: String
-        { return headers["content-type"] ?? "application/octet-stream" }
+        { headers["content-type"] ?? "application/octet-stream" }
 
     /**
       The charset given with the content type, if any.
@@ -55,7 +55,7 @@ public struct Entity<ContentType>
       The etag of this data. If non-nil, Siesta will send an `If-None-Match` header with subsequent loads.
     */
     public var etag: String?
-        { return header(forKey: "etag") }
+        { header(forKey: "etag") }
 
     /**
       Returns the value of the HTTP header with the given key. The key is case insensitive.
@@ -65,7 +65,7 @@ public struct Entity<ContentType>
       - Parameter key: The case-insensitive header name.
     */
     public func header(forKey key: String) -> String?
-        { return headers[key.lowercased()] }
+        { headers[key.lowercased()] }
 
     /**
       All HTTP headers sent with this entity. The keys are in lower case (and will be converted to lowercase if you
@@ -75,7 +75,7 @@ public struct Entity<ContentType>
     */
     public var headers: [String:String]
         {
-        get { return headersNormalized }
+        get { headersNormalized }
         set {
             headersNormalized = newValue.mapDict
                 { ($0.lowercased(), $1) }
@@ -206,13 +206,13 @@ extension TypedContentAccessors
     */
     public func typedContent<T>(ifNone defaultContent: @autoclosure () -> T) -> T
         {
-        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
+        (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
     /// Variant of `typedContent(ifNone:)` with optional input & output.
     public func typedContent<T>(ifNone defaultContent: @autoclosure () -> T?) -> T?
         {
-        return (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
+        (entityForTypedContentAccessors?.content as? T) ?? defaultContent()
         }
 
     /**
@@ -227,33 +227,36 @@ extension TypedContentAccessors
     */
     public func typedContent<T>() -> T?
         {
-        return typedContent(ifNone: nil)
+        typedContent(ifNone: nil)
         }
 
     /// Returns content if it is a dictionary with string keys; otherwise returns an empty dictionary.
-    public var jsonDict: [String:Any] { return typedContent(ifNone: [:]) }
+    public var jsonDict: [String:Any] { typedContent(ifNone: [:]) }
 
     /// Returns content if it is an array; otherwise returns an empty array.
-    public var jsonArray: [Any]       { return typedContent(ifNone: []) }
+    public var jsonArray: [Any]       { typedContent(ifNone: []) }
 
     /// Returns content if it is a string; otherwise returns an empty string.
-    public var text: String           { return typedContent(ifNone: "") }
+    public var text: String           { typedContent(ifNone: "") }
     }
 
 extension Entity: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to this entity’s content.
-    public var entityForTypedContentAccessors: Entity<ContentType>? { return self }
+    public var entityForTypedContentAccessors: Entity<ContentType>?
+        { self }
     }
 
 extension Resource: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to `latestData?.content`.
-    public var entityForTypedContentAccessors: Entity<Any>? { return latestData }
+    public var entityForTypedContentAccessors: Entity<Any>?
+        { latestData }
     }
 
 extension RequestError: TypedContentAccessors
     {
     /// Typed content accessors such as `.text` and `.jsonDict` apply to `entity?.content`.
-    public var entityForTypedContentAccessors: Entity<Any>? { return entity }
+    public var entityForTypedContentAccessors: Entity<Any>?
+        { entity }
     }

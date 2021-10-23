@@ -40,7 +40,7 @@ open class RemoteImageView: UIImageView
     @objc
     public var imageURL: String?
         {
-        get { return imageResource?.url.absoluteString }
+        get { imageResource?.url.absoluteString }
         set {
             imageResource = (newValue == nil)
                 ? nil

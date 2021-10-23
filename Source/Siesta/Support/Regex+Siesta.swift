@@ -12,23 +12,23 @@ extension String
     {
     func contains(regex: String) -> Bool
         {
-        return range(of: regex, options: .regularExpression) != nil
+        range(of: regex, options: .regularExpression) != nil
         }
 
     func replacing(regex: String, with replacement: String) -> String
         {
-        return replacingOccurrences(
+        replacingOccurrences(
             of: regex, with: replacement, options: .regularExpression, range: nil)
         }
 
     func replacing(regex: NSRegularExpression, with template: String) -> String
         {
-        return regex.stringByReplacingMatches(in: self, options: [], range: fullRange, withTemplate: template)
+        regex.stringByReplacingMatches(in: self, options: [], range: fullRange, withTemplate: template)
         }
 
     fileprivate var fullRange: NSRange
         {
-        return NSRange(location: 0, length: (self as NSString).length)
+        NSRange(location: 0, length: (self as NSString).length)
         }
     }
 

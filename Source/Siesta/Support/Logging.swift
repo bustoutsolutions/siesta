@@ -16,7 +16,7 @@ public enum SiestaLog
 
       - SeeAlso: [Logging Guide](https://github.com/bustoutsolutions/siesta/blob/master/Docs/logging.md)
     */
-    public enum Category
+    public enum Category: CaseIterable
         {
         /// Summary of network requests: HTTP method, URL, and result code.
         case network
@@ -56,7 +56,7 @@ public enum SiestaLog
         public static let detailed = all.subtracting([networkDetails])
 
         /// The whole schebang!
-        public static let all: Set<Category> = [network, networkDetails, pipeline, stateChanges, observers, staleness, cache, configuration]
+        public static let all = Set(Self.allCases)
         }
 
     private static let maxCategoryNameLength = Category.all.map { Int(String(describing: $0).count) }.max() ?? 0

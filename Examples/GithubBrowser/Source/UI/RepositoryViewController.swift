@@ -8,6 +8,7 @@
 
 import UIKit
 import Siesta
+import SiestaUI
 
 class RepositoryViewController: UIViewController, ResourceObserver {
 

@@ -114,7 +114,7 @@ extension EntityCache
     {
     /// Returns a concurrent queue with priority `QOS_CLASS_USER_INITIATED`.
     public var workQueue: DispatchQueue
-        { return defaultEntityCacheWorkQueue }
+        { defaultEntityCacheWorkQueue }
     }
 
 extension EntityCache

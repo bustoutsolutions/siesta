@@ -1,5 +1,6 @@
 import UIKit
 import Siesta
+import SiestaUI
 
 class RepositoryListViewController: UITableViewController, ResourceObserver {
 

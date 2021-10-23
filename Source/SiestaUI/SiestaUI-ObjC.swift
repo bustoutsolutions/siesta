@@ -48,7 +48,7 @@ extension ResourceStatusOverlay
     public var _objc_displayPriority: [String]
         {
         get {
-            return displayPriority.map { $0.rawValue }
+            displayPriority.map(\.rawValue)
             }
 
         set {

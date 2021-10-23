@@ -82,7 +82,7 @@ extension String: ConfigurationPatternConvertible
 
     /// :nodoc:
     public var configurationPatternDescription: String
-        { return self }
+        { self }
     }
 
 /**
@@ -90,6 +90,8 @@ extension String: ConfigurationPatternConvertible
 */
 extension NSRegularExpression: ConfigurationPatternConvertible
     {
+    // swiftlint:disable implicit_return
+
     /**
       Matches URLs if this regular expression matches any substring of the URL’s full, absolute form.
 
@@ -105,9 +107,11 @@ extension NSRegularExpression: ConfigurationPatternConvertible
         return { self.matches($0.absoluteString) }
         }
 
+    // swiftlint:enable implicit_return
+
     /// :nodoc:
     public var configurationPatternDescription: String
-        { return pattern }
+        { pattern }
     }
 
 /**
@@ -126,5 +130,5 @@ extension Resource: ConfigurationPatternConvertible
 
     /// :nodoc:
     public var configurationPatternDescription: String
-        { return url.absoluteString }
+        { url.absoluteString }
     }

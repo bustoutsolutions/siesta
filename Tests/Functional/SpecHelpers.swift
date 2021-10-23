@@ -36,7 +36,7 @@ func beIdentialObjects<T>(_ expectedArray: [T]) -> Predicate<[T]>
     {
     func makeIdent(_ x: T) -> ObjectIdentifier
         {
-        return ObjectIdentifier(x as AnyObject)
+        ObjectIdentifier(x as AnyObject)
         }
 
     return Predicate

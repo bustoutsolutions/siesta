@@ -1,4 +1,5 @@
 import Siesta
+import Foundation
 
 // Depending on your taste, a Service can be a global var, a static var singleton, or a piece of more carefully
 // controlled shared state passed between pieces of the app.

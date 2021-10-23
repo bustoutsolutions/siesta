@@ -15,7 +15,7 @@ import Nimble
 class ResourcePathsSpec: ResourceSpecBase
     {
     override var baseURL: String
-        { return "https://zingle.frotz/v1" }
+        { "https://zingle.frotz/v1" }
 
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
@@ -219,7 +219,7 @@ private func resourceExpansionMatcher(
         relationship: @escaping (Resource,String) -> Resource)
     -> Predicate<(Resource,String)>
     {
-    return Predicate
+    Predicate
         {
         inputs in
 
@@ -240,12 +240,12 @@ private func resourceExpansionMatcher(
 
 private func expandToChildURL(_ expectedURL: String) -> Predicate<(Resource,String)>
     {
-    return resourceExpansionMatcher(expectedURL, relationshipName: "child")
+    resourceExpansionMatcher(expectedURL, relationshipName: "child")
         { resource, path in resource.child(path) }
     }
 
 private func expandToRelativeURL(_ expectedURL: String) -> Predicate<(Resource,String)>
     {
-    return resourceExpansionMatcher(expectedURL, relationshipName: "relative")
+    resourceExpansionMatcher(expectedURL, relationshipName: "relative")
         { resource, path in resource.relative(path) }
     }

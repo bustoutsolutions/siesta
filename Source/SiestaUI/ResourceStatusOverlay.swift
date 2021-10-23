@@ -50,6 +50,12 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
 
     // MARK: Creating an overlay
 
+    #if SIESTA_USE_MODULE_BUNDLE
+        let bundleForNib = Bundle.module
+    #else
+        let bundleForNib = Bundle(for: ResourceStatusOverlay.self)
+    #endif
+
     /**
       Creates a status overlay with the default layout.
     */
@@ -59,7 +65,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
         super.init(frame: CGRect.zero)
         load(
             fromNib: "ResourceStatusOverlay",
-            bundle: Bundle(for: ResourceStatusOverlay.self))
+            bundle: bundleForNib)
         }
 
     /**
@@ -233,7 +239,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
             switch mode
                 {
                 case .loading:
-                    if observedResources.any(match: { $0.isLoading })
+                    if observedResources.any(match: \.isLoading)
                         { return showLoading() }
 
                 case .manualLoading:
@@ -249,7 +255,7 @@ open class ResourceStatusOverlay: UIView, ResourceObserver
                         { return showSuccess() }
 
                 case .error:
-                    if let error = observedResources.compactMap({ $0.latestError }).first
+                    if let error = observedResources.lazy.compactMap({ $0.latestError }).first
                         { return showError(error) }
                 }
             }

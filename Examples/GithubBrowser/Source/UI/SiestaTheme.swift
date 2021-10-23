@@ -1,5 +1,6 @@
 import UIKit
 import Siesta
+import SiestaUI
 
 enum SiestaTheme {
     static let
@@ -33,7 +34,7 @@ enum SiestaTheme {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = lightColor
 
         UILabel.appearance(whenContainedInInstancesOf: [ResourceStatusOverlay.self]).textColor = textColor
-        UIActivityIndicatorView.appearance(whenContainedInInstancesOf: [ResourceStatusOverlay.self]).style = .whiteLarge
+        UIActivityIndicatorView.appearance(whenContainedInInstancesOf: [ResourceStatusOverlay.self]).style = .large
     }
 
     static private func emptyView(withBackground color: UIColor) -> UIView {
