@@ -9,8 +9,10 @@
 import Siesta
 
 import Foundation
+import CoreGraphics
 import Quick
 import Nimble
+
 
 class ResponseDataHandlingSpec: ResourceSpecBase
     {
