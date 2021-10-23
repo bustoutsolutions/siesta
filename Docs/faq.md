@@ -9,9 +9,9 @@ To a large extent, this is driven by user questions & requests. Please file issu
 
 One high priority feature is the addition of standard [EntityCache](https://bustoutsolutions.github.io/siesta/api/Protocols/EntityCache.html) implementations, which will provide fast app start + _almost_ free offline access.
 
-#### What if I’m still on Swift 2?
+#### What if I’m still on an older version of Swift, and can’t build Siesta?
 
-Use the `swift-2.2` or `swift-2.3` branch.
+There are branches (e.g. `swift-2.2`) that mark versions of Siesta that work with older Swifts.
 
 CocoaPods:
 
@@ -25,10 +25,18 @@ Carthage:
 github "bustoutsolutions/siesta" "swift-2.2"
 ```
 
-(Or substitute `swift-2.3` above.)
+Look at the [list of project branches](https://github.com/bustoutsolutions/siesta/branches/all?query=swift-).
 
 
 ## Capabilities
+
+#### Why doesn’t Siesta provide a typesafe `Resource<T>`?
+
+One big future wish for Siesta is more static type safety when using custom transformers that map specific routes to specific model classes. Unfortunately, limitations of Swift’s generic type system prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice.
+
+The missing feature is support for generalized existentials. There has been extensive discussion of this — there’s even a [manifesto](https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)! — but the problem has proved large and has been repeatedly deferred. That means we won’t be getting `Resource<T>` until some far future version of Swift.
+
+In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#//apple_ref/swift/Method/typedContent(ifNone:)) and friends get the job done.
 
 #### How do I do a backgrounded multipart request that switches to streaming mode while pulling a double shot of espresso?
 
@@ -40,21 +48,13 @@ Siesta is a high-level library designed to make the common behaviors of REST ser
 
 Use a lower-level networking library.
 
-If you aren’t interested in holding a response entirely in memory, there’s little benefit to using Siesta. Siesta’s advantage over lower-level networking is the “parse once, share everywhere” nature of its observer architecture — which implies holding on to entire responses for reuse.
+If you aren’t interested in holding a response entirely in memory, there’s little benefit to using Siesta. Siesta’s advantage over lower-level networking is the “parse once, share everywhere” nature of its observer architecture — which implies holding on to entire responses for reuse.
 
 #### How do I control the number of concurrent requests? SSL validation? URLCache options?
 
 Configure them in the underlying networking library you are using with Siesta.
 
 From the time that it has constructed a request until the time it has a complete response, Siesta delegates all of its networking to the provider you specify. That is where all these options get configured. See the `networking:` parameter of [`Service.init(...)`](https://bustoutsolutions.github.io/siesta/api/Classes/Service.html#//apple_ref/swift/Method/init(baseURL:useDefaultTransformers:networking:)).
-
-#### Why doesn’t Siesta provide a typesafe `Resource<T>`?
-
-One big future wish for Siesta is more static type safety when using custom transformers that map specific routes to specific model classes. Unfortunately, limitations of Swift’s generic type system prevent the seemingly obvious solution of a genericized `Resource<T>` from being workable in practice.
-
-The missing feature is support for generalized existentials. There has been extensive discussion of this — there’s even a [manifesto](https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)! — but the problem has proved large and has been repeatedly deferred. That means we won’t be getting `Resource<T>` until some far future version of Swift.
-
-In the meantime, [`typedContent(…)`](https://bustoutsolutions.github.io/siesta/api/Protocols/TypedContentAccessors.html#//apple_ref/swift/Method/typedContent(ifNone:)) and friends get the job done.
 
 ## Contact
 
