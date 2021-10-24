@@ -252,6 +252,9 @@ public struct ResponseInfo
     /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 
+    /// Callbacks to cache this response according to the pipeline config originally used to process it
+    var cacheActions: [() -> Void] = []
+
     /// Creates new responseInfo, with `isNew` true by default.
     public init(response: Response, isNew: Bool = true)
         {

@@ -148,12 +148,17 @@ internal final class NetworkRequestDelegate: RequestDelegate
         {
         let processor = config.pipeline.makeProcessor(rawInfo.response, resource: resource)
 
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async
+        let processingQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
+        processingQueue.async
             {
-            let processedInfo =
-                rawInfo.isNew
-                    ? ResponseInfo(response: processor(), isNew: true)
-                    : rawInfo
+            var processedInfo: ResponseInfo
+            if rawInfo.isNew
+                {
+                processedInfo = processor()
+                processedInfo.isNew = true
+                }
+            else
+                { processedInfo = rawInfo }  // result from a 304 is already transformed, cached, etc.
 
             DispatchQueue.main.async
                 { afterTransformation(processedInfo) }
