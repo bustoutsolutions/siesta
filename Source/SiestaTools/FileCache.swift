@@ -23,11 +23,13 @@ private let encoder: PropertyListEncoder =
     return encoder
     }()
 
-public struct FileCache<ContentType>: EntityCache
+public struct FileCache<ContentType>: EntityCache, CustomStringConvertible
     where ContentType: Codable
     {
     private let isolationStrategy: DataIsolationStrategy
     private let cacheDir: File
+
+    public let description: String
 
     public init(poolName: String = "Default", dataIsolation isolationStrategy: DataIsolationStrategy) throws
         {
@@ -38,26 +40,30 @@ public struct FileCache<ContentType>: EntityCache
             .appendingPathComponent(poolName)
         try FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
 
-        self.init(inDirectory: cacheDir, dataIsolation: isolationStrategy)
+        self.init(inDirectory: cacheDir, dataIsolation: isolationStrategy, cacheName: "poolName: " + poolName)
         }
 
-    public init(inDirectory cacheDir: URL, dataIsolation isolationStrategy: DataIsolationStrategy)
+    public init(
+            inDirectory cacheDir: URL,
+            dataIsolation isolationStrategy: DataIsolationStrategy,
+            cacheName: String? = nil)
         {
         self.cacheDir = cacheDir
         self.isolationStrategy = isolationStrategy
+        self.description = "\(type(of: self))(\(cacheName ?? cacheDir.path))"
         }
 
     // MARK: - Keys and filenames
 
     public func key(for resource: Resource) -> Key?
-        { Key(resource: resource, isolatedUsing: isolationStrategy) }
+        { Key(resource: resource, isolationStrategy: isolationStrategy) }
 
     public struct Key: CustomStringConvertible
         {
         fileprivate var hash: String
         private var url: URL
 
-        fileprivate init(resource: Resource, isolatedUsing isolationStrategy: DataIsolationStrategy)
+        fileprivate init(resource: Resource, isolationStrategy: DataIsolationStrategy)
             {
             url = resource.url
             hash = isolationStrategy.keyData(for: url)
