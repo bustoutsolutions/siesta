@@ -135,4 +135,10 @@ internal struct RequestChainDelgate: RequestDelegate
         {
         RequestChainDelgate(wrapping: wrappedRequest.repeated(), whenCompleted: determineAction)
         }
+
+    /**
+      Chain requests are silent since their underlying requests are logged already.
+    */
+    var logCategory: SiestaLog.Category?
+        { nil }
     }

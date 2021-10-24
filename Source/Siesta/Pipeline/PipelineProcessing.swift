@@ -110,7 +110,7 @@ extension Pipeline
 
         init(for resource: Resource, searching stagesAndEntries: [StageAndEntry])
             {
-            requestDescription = "Cache request for \(resource)"
+            requestDescription = "Cache check for \(resource)"
             self.resource = resource
             self.stagesAndEntries = stagesAndEntries
             }
@@ -179,6 +179,9 @@ extension Pipeline
                 }
             return nil
             }
+
+        var logCategory: SiestaLog.Category?
+            { .cache }
         }
     }
 

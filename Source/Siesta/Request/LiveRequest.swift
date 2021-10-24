@@ -92,6 +92,11 @@ public protocol RequestDelegate
       A description of the underlying operation suitable for logging and debugging.
     */
     var requestDescription: String { get }
+
+    /**
+      Indicates where information about requests using this delegate should be logged.
+    */
+    var logCategory: SiestaLog.Category? { get }
     }
 
 extension RequestDelegate
@@ -107,6 +112,12 @@ extension RequestDelegate
     */
     public var progressReportingInterval: TimeInterval
         { 0.05 }
+
+    /**
+      Log info to `SiestaLog.Category.network`.
+     */
+    public var logCategory: SiestaLog.Category?
+        { .network }
     }
 
 /**
@@ -164,7 +175,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
             return self
             }
 
-        SiestaLog.log(.network, [delegate.requestDescription])
+        logDelegateStateChange([delegate.requestDescription])
 
         underlyingOperationStarted = true
         delegate.startUnderlyingOperation(passingResponseTo: self)
@@ -186,7 +197,7 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
             return
             }
 
-        SiestaLog.log(.network, ["Cancelled", delegate.requestDescription])
+        logDelegateStateChange(["Cancelled", delegate.requestDescription])
 
         delegate.cancelUnderlyingOperation()
 
@@ -273,6 +284,12 @@ private final class LiveRequest: Request, RequestCompletionHandler, CustomDebugS
         }
 
     // MARK: Debug
+
+    func logDelegateStateChange(_ messageParts: @autoclosure () -> [Any?])
+        {
+        if let category = delegate.logCategory
+            { SiestaLog.log(category, messageParts()) }
+        }
 
     final var debugDescription: String
         {
