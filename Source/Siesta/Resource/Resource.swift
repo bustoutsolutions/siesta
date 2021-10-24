@@ -68,13 +68,6 @@ public final class Resource: NSObject
             { service.configuration(forResource: self, requestMethod: method) }
         }
 
-    internal func configuration(for request: URLRequest) -> Configuration
-        {
-        configuration(for:
-            RequestMethod(rawValue: request.httpMethod?.lowercased() ?? "")
-                ?? .get)  // All unrecognized methods default to .get
-        }
-
     private var cachedConfig: [RequestMethod:Configuration] = [:]
     private var configVersion: UInt64 = 0
 
@@ -376,8 +369,8 @@ public final class Resource: NSObject
         if case .inProgress(let cacheRequest) = cacheCheckStatus
             {
             // isLoading needs to be:
-            //  - false at first,
-            //  - true after loadIfNeeded() while the cache check is in progress, but
+            //  - false at first, even if a cache check has already started,
+            //  - true after loadIfNeeded() while the cache check is still in progress, but
             //  - false again before observers receive a cache hit.
             //
             // To make this happen, we need to add the chained cacheThenNetwork below
@@ -397,10 +390,10 @@ public final class Resource: NSObject
                 {
                 _ in // We don’t need the result of the cache request here; resource state is already updated
 
-                if self.isUpToDate                 // If cached data is up to date...
+                if self.isUpToDate                      // If cached data is up to date...
                     {
-                    self.receiveDataNotModified()  // ...tell observers isLoading is false...
-                    return .useThisResponse        // ...and no need to make a network call!
+                    self.notifyObservers(.notModified)  // ...tell observers isLoading is false...
+                    return .useThisResponse             // ...and no need to make a network call!
                     }
                 else
                     {
@@ -473,6 +466,23 @@ public final class Resource: NSObject
         trackRequest(req, in: &loadRequests)
 
         req.onProgress(notifyObservers(ofProgress:))
+
+        req.onCompletion
+            {
+            // TODO: explain this
+            if let configurationSource = $0.configurationSource
+                {
+                if configurationSource == .init(method: .get, resource: self)
+                    {
+                    for action in $0.cacheActions
+                        { action() }
+                    }
+                else
+                    {
+                    SiestaLog.log(.cache, ["Resource.load(using:) will not cache the results of this request because it is not a GET and/or is for a different resource:", configurationSource.method, configurationSource.resource])
+                    }
+                }
+            }
 
         req.onNewData(receiveNewDataFromNetwork)
         req.onNotModified(receiveDataNotModified)
@@ -710,18 +720,24 @@ public final class Resource: NSObject
         {
         if case .notStarted = cacheCheckStatus
             {
+            if _latestData != nil
+                {
+                cacheCheckStatus = .completed
+                return
+                }
+
             cacheCheckStatus = .inProgress(
                 configuration.pipeline.checkCache(for: self)
                     .onCompletion
                         {
                         [weak self] result in
-                        guard let resource = self, resource.latestData == nil else
+                        self?.cacheCheckStatus = .completed
+
+                        guard let resource = self, resource._latestData == nil else
                             {
                             SiestaLog.log(.cache, ["Ignoring cache hit for", self, " because it is either deallocated or already has data"])
                             return
                             }
-
-                        resource.cacheCheckStatus = .completed
 
                         if case .success(let entity) = result.response
                             { resource.receiveNewData(entity, source: .cache) }

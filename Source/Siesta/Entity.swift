@@ -156,6 +156,12 @@ public struct Entity<ContentType>
     }
 
 
+extension Entity: Codable where ContentType: Codable
+    {
+    // codability synthesized
+    }
+
+
 /**
   Mixin that provides convenience accessors for the content of an optional contained entity.
 

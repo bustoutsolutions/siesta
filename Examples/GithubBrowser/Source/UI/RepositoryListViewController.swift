@@ -38,7 +38,9 @@ class RepositoryListViewController: UITableViewController, ResourceObserver {
         super.viewDidLoad()
 
         view.backgroundColor = SiestaTheme.darkColor
+
         statusOverlay.embed(in: self)
+        statusOverlay.displayPriority = [.anyData, .loading, .error]
     }
 
     override func viewDidLayoutSubviews() {

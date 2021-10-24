@@ -28,6 +28,10 @@ let package = Package(
             name: "Siesta"
         ),
         .target(
+            name: "SiestaTools",
+            dependencies: ["Siesta"]
+        ),
+        .target(
             name: "SiestaUI",
             dependencies: ["Siesta"],
             resources: [.process("ResourceStatusOverlay.xib")],
@@ -42,7 +46,7 @@ let package = Package(
         ),
         .testTarget(
             name: "SiestaTests",
-            dependencies: ["SiestaUI", "Siesta_Alamofire", "Quick", "Nimble"],
+            dependencies: ["SiestaUI", "SiestaTools", "Siesta_Alamofire", "Quick", "Nimble"],
             path: "Tests/Functional",
             exclude: ["ObjcCompatibilitySpec.m"]  // SwiftPM currently only supports Swift
         ),

@@ -17,7 +17,7 @@ class _GitHubAPI {
     fileprivate init() {
         #if DEBUG
             // Bare-bones logging of which network calls Siesta makes:
-            SiestaLog.Category.enabled = [.network]
+            SiestaLog.Category.enabled = [.network, .cache]
 
             // For more info about how Siesta decides whether to make a network call,
             // and which state updates it broadcasts to the app:
@@ -44,13 +44,48 @@ class _GitHubAPI {
 
             $0.pipeline[.cleanup].add(
               GitHubErrorMessageExtractor(jsonDecoder: jsonDecoder))
+
+            // Cache API results for fast launch & offline access:
+
+            $0.pipeline[.rawData].cacheUsing {
+                try FileCache<Data>(
+                    poolName: "api.github.com",
+                    dataIsolation: .perUser(identifiedBy: self.username))  // Show each user their own data
+            }
+
+            // Using the closure form of cacheUsing above signals that if we encounter an error trying create a cache
+            // directory or generate a cache isolation key from the username, we should simply proceed silently without
+            // having a persistent cache.
+
+            // Note that the dataIsolation uses only username. This means that users will not _see_ other users’ data;
+            // however, it does not _secure_ one user’s data from another. A user with permission to see the cache
+            // directory could in principle see all the cached data.
+            //
+            // To fully secure one user’s data from another, the application would need to generate some long-lived
+            // secret that is unique to each user. A password can work, though it will essentially empty the user’s
+            // cache if the password changes. The server could also send some kind of high-entropy per-user token in
+            // the authentication response.
         }
+
+        RemoteImageView.defaultImageService.configure {
+            // We can cache images offline too:
+
+            $0.pipeline[.rawData].cacheUsing {
+                try FileCache<Data>(
+                    poolName: "images",
+                    dataIsolation: .sharedByAllUsers)  // images aren't secret, so no need to isolate them
+            }
+        }
+
 
         // –––––– Resource-specific configuration ––––––
 
         service.configure("/search/**") {
             // Refresh search results after 10 seconds (Siesta default is 30)
             $0.expirationTime = 10
+
+            // Don't cache search results between runs, so we don't see stale results on launch
+            $0.pipeline.removeAllCaches()
         }
 
         // –––––– Auth configuration ––––––
@@ -116,18 +151,22 @@ class _GitHubAPI {
     // MARK: - Authentication
 
     func logIn(username: String, password: String) {
-        if let auth = "\(username):\(password)".data(using: String.Encoding.utf8) {
+        self.username = username
+        if let auth = "\(username):\(password)".data(using: .utf8) {
             basicAuthHeader = "Basic \(auth.base64EncodedString())"
         }
     }
 
     func logOut() {
+        username = nil
         basicAuthHeader = nil
     }
 
     var isAuthenticated: Bool {
         return basicAuthHeader != nil
     }
+
+    private var username: String?
 
     private var basicAuthHeader: String? {
         didSet {

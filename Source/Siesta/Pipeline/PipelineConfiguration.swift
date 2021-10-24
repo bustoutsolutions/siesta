@@ -69,7 +69,7 @@ public struct Pipeline
                 .map(\.key)
             let missingStages = Set(nonEmptyStages).subtracting(newValue)
             if !missingStages.isEmpty
-                { SiestaLog.log(.pipeline, ["WARNING: Stages", missingStages, "configured but not present in custom pipeline order, will be ignored:", newValue]) }
+                { SiestaLog.log(.pipeline, ["WARNING: Stages", missingStages, "are configured but not present in custom pipeline order", newValue, "and will be ignored"]) }
             }
         }
 
@@ -183,7 +183,8 @@ public struct PipelineStage
         }
 
     /**
-      An optional persistent cache for this stage.
+      Configures a persistent cache for responses after they pass this stage. Passing nil removes any previously
+      configured caching.
 
       When processing a response, the cache will receive the resulting entity after this stage’s transformers have run.
 
@@ -195,7 +196,26 @@ public struct PipelineStage
               initially see an empty resources and then get a `newData(Cache)` event — even if you never call `load()`.
     */
     public mutating func cacheUsing<T: EntityCache>(_ cache: T)
-        { cacheBox = CacheBox(cache: cache) }
+        {
+        cacheBox = CacheBox(cache: cache)
+        }
+
+    /**
+      Convenience for `cacheUsing(_:)` that takes a failable closure, for situations where caching is optional.
+
+      Configures a persistent cache at this stage if the given closure succeeds. Disables caching at this stage if the
+      closure throws an error.
+    */
+    public mutating func cacheUsing<T: EntityCache>(_ cache: () throws -> T)
+        {
+        do
+            { cacheBox = CacheBox(cache: try cache()) }
+        catch
+            {
+            SiestaLog.log(.cache, ["Error while attempting to create persistent cache for", self, "; caching disabled at this stage:", error])
+            doNotCache()
+            }
+        }
 
     /**
       Removes any caching that had been configured at this stage.

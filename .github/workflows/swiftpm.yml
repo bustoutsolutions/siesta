@@ -2,9 +2,9 @@ name: SwiftPM regression tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main, ci-experiments ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   test:

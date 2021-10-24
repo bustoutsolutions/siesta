@@ -2,9 +2,9 @@ name: Xcode regression tests
 
 on:
   push:
-    branches: [ $default-branch, main, master, ci-experiments ]
+    branches: [ main, ci-experiments ]
   pull_request:
-    branches: [ $default-branch, main, master ]
+    branches: [ main ]
 
 jobs:
   test:

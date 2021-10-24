@@ -12,8 +12,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
     {
     // Basic metadata
     private let resource: Resource
+    private let method: RequestMethod
     internal var config: Configuration
-        { resource.configuration(for: underlyingRequest) }
+        { resource.configuration(for: method) }
     internal let requestDescription: String
 
     // Networking
@@ -31,6 +32,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
         self.resource = resource
         self.requestBuilder = requestBuilder
         underlyingRequest = requestBuilder()
+
+        method = RequestMethod(rawValue: underlyingRequest.httpMethod?.lowercased() ?? "")
+            ?? .get  // All unrecognized methods default to .get
 
         requestDescription =
             SiestaLog.Category.enabled.contains(.network) || SiestaLog.Category.enabled.contains(.networkDetails)
@@ -90,7 +94,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
         {
         DispatchQueue.mainThreadPrecondition()
 
-        SiestaLog.log(.network, ["Response: ", underlyingResponse?.statusCode ?? error, "←", requestDescription])
+        SiestaLog.log(.network, ["Response:", underlyingResponse?.statusCode ?? error, "←", requestDescription])
         SiestaLog.log(.networkDetails, ["Raw response headers:", underlyingResponse?.allHeaderFields])
         SiestaLog.log(.networkDetails, ["Raw response body:", body?.count ?? 0, "bytes"])
 
@@ -148,12 +152,18 @@ internal final class NetworkRequestDelegate: RequestDelegate
         {
         let processor = config.pipeline.makeProcessor(rawInfo.response, resource: resource)
 
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async
+        let processingQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
+        processingQueue.async
             {
-            let processedInfo =
-                rawInfo.isNew
-                    ? ResponseInfo(response: processor(), isNew: true)
-                    : rawInfo
+            var processedInfo: ResponseInfo
+            if rawInfo.isNew
+                {
+                processedInfo = processor()
+                processedInfo.isNew = true
+                processedInfo.configurationSource = .init(method: self.method, resource: self.resource)
+                }
+            else
+                { processedInfo = rawInfo }  // result from a 304 is already transformed, cached, etc.
 
             DispatchQueue.main.async
                 { afterTransformation(processedInfo) }

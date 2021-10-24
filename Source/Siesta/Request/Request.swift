@@ -118,7 +118,7 @@ public protocol Request: AnyObject
 
       The property will always be 1 if a request is completed. Note that the converse is not true: a value of 1 does
       not necessarily mean the request is completed; it means only that we estimate the request _should_ be completed
-      by now. Use the `isCompleted` property to test for actual completion.
+      by now. Use the `state` property to test for actual completion.
     */
     var progress: Double { get }
 
@@ -252,6 +252,12 @@ public struct ResponseInfo
     /// Used to distinguish `ResourceEvent.newData` from `ResourceEvent.notModified`.
     public var isNew: Bool
 
+    /// Used to determine whether the response is suitable for caching when loaded by a particular resource
+    var configurationSource: ConfigurationSource?
+
+    /// Callbacks to cache this response according to the pipeline config originally used to process it
+    var cacheActions: [() -> Void] = []
+
     /// Creates new responseInfo, with `isNew` true by default.
     public init(response: Response, isNew: Bool = true)
         {
@@ -264,4 +270,10 @@ public struct ResponseInfo
             response: .failure(RequestError(
                 userMessage: NSLocalizedString("Request cancelled", comment: "userMessage"),
                 cause: RequestError.Cause.RequestCancelled(networkError: nil))))
+
+    struct ConfigurationSource: Equatable
+        {
+        var method: RequestMethod
+        weak var resource: Resource?
+        }
     }

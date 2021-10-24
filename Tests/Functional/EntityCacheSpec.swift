@@ -6,7 +6,7 @@
 //  Copyright © 2018 Bust Out Solutions. All rights reserved.
 //
 
-import Siesta
+@testable import Siesta
 
 import Foundation
 import Quick
@@ -16,17 +16,26 @@ class EntityCacheSpec: ResourceSpecBase
     {
     override func resourceSpec(_ service: @escaping () -> Service, _ resource: @escaping () -> Resource)
         {
-        func configureCache<C: EntityCache>(_ cache: C, at stageKey: PipelineStageKey)
+        func configureCache<C: EntityCache>(
+                _ cache: C,
+                for pattern: ConfigurationPatternConvertible = "**",
+                at stageKey: PipelineStageKey)
             {
-            service().configure
+            service().configure(pattern)
                 { $0.pipeline[stageKey].cacheUsing(cache) }
             }
 
         func waitForCacheRead(_ cache: TestCache)
-            { expect(cache.receivedCacheRead).toEventually(beTrue()) }
+            {
+            expect(cache.receivedCacheRead).toEventually(beTrue())
+            cache.receivedCacheRead = false
+            }
 
         func waitForCacheWrite(_ cache: TestCache)
-            { expect(cache.receivedCacheWrite).toEventually(beTrue()) }
+            {
+            expect(cache.receivedCacheWrite).toEventually(beTrue())
+            cache.receivedCacheWrite = false
+            }
 
         beforeEach
             {
@@ -168,6 +177,15 @@ class EntityCacheSpec: ResourceSpecBase
 
         describe("write")
             {
+            @discardableResult
+            func stubAndAwaitRequestWithoutLoading(for resource: Resource, method: RequestMethod) -> Request
+                {
+                NetworkStub.add(method, { resource })
+                let req = resource.request(method)
+                awaitNewData(req, initialState: .inProgress)
+                return req
+                }
+
             func expectCacheWrite(to cache: TestCache, content: String)
                 {
                 waitForCacheWrite(cache)
@@ -175,7 +193,7 @@ class EntityCacheSpec: ResourceSpecBase
                 expect(cache.entries.values.first?.typedContent()) == content
                 }
 
-            it("caches new data on success")
+            it("caches new data on a successful load()")
                 {
                 let testCache = TestCache("new data")
                 configureCache(testCache, at: .cleanup)
@@ -219,6 +237,17 @@ class EntityCacheSpec: ResourceSpecBase
                     .toEventually(equal(2000))
                 }
 
+            it("preserves the timestamp of cached data")
+                {
+                let testCache = UnwritableCache(cachedValue:
+                    Entity(content: "hi", charset: nil, headers: [:], timestamp: 2001))
+                configureCache(testCache, at: .cleanup)
+
+                setResourceTime(2010)
+                awaitNewData(resource().loadIfNeeded()!)
+                expect(resource().latestData?.timestamp) == 2001
+                }
+
             it("clears cached data on local override")
                 {
                 let testCache = TestCache("local override")
@@ -230,6 +259,119 @@ class EntityCacheSpec: ResourceSpecBase
                     with: Entity<Any>(content: "should not be cached", contentType: "text/string"))
 
                 expect(testCache.entries).toEventually(beEmpty())
+                }
+
+            it("does not write previously cached data back to the cache when reading it")
+                {
+                let testCache = TestCache("does not write previously cached")
+                configureCache(testCache, at: .parsing)
+                configureCache(UnwritableCache(), at: .model)
+                configureCache(UnwritableCache(), at: .cleanup)
+
+                testCache.entries[TestCacheKey(forTestResourceIn: testCache)] =
+                    Entity(content: "🌮", contentType: "text/plain")
+                awaitNewData(resource().loadIfNeeded()!, initialState: .inProgress)
+                expect(resource().typedContent()) == "🌮modcle"
+                }
+
+            it("does not cache anything for call to Resource.request() without load()")
+                {
+                configureCache(UnwritableCache(), at: .cleanup)
+                stubAndAwaitRequestWithoutLoading(for: resource(), method: .get)
+                }
+
+            it("caches new data for a GET on the same resource passed to load(using:)")
+                {
+                let testCache = TestCache("new data from load(using:)")
+                configureCache(testCache, at: .cleanup)
+                let req = stubAndAwaitRequestWithoutLoading(for: resource(), method: .get)
+                resource().load(using: req)
+                expectCacheWrite(to: testCache, content: "decparmodcle")
+                }
+
+            it("does not cache anything for a non-GET request, even if passed to load(using:)")
+                {
+                configureCache(UnwritableCache(), at: .cleanup)
+                for method in RequestMethod.allCases
+                    where method != .get
+                        {
+                        let req = stubAndAwaitRequestWithoutLoading(for: resource(), method: method)
+                        resource().load(using: req)
+                        }
+                }
+
+            it("does not cache anything for a GET request for a different resource, even if passed to load(using:)")
+                {
+                let otherResource = service().resource("/otherResource")
+                configureCache(UnwritableCache(), at: .cleanup)
+                let req = stubAndAwaitRequestWithoutLoading(for: otherResource, method: .get)
+                resource().load(using: req)
+                }
+
+            func stubText(_ text: String)
+                {
+                NetworkStub.add(
+                    .get, resource,
+                    returning: HTTPResponse(
+                        headers: ["content-type": "text/plain; charset=utf-8"],
+                        body: text))
+                }
+
+            it("will restore cache state to an older request if passed to load(using:)")
+                {
+                let testCache = TestCache("restore cache state")
+                configureCache(testCache, at: .model)
+                service().configure
+                    {
+                    $0.pipeline[.decoding].removeTransformers()
+                    $0.pipeline[.decoding].add(TextResponseTransformer())
+                    }
+
+                stubText("🌮")
+                let originalReq = resource().load()
+                awaitNewData(originalReq, initialState: .inProgress)
+                expectCacheWrite(to: testCache, content: "🌮parmod")
+
+                stubText("🧇")
+                awaitNewData(resource().load(), initialState: .inProgress)
+                expectCacheWrite(to: testCache, content: "🧇parmod")
+
+                resource().load(using: originalReq)
+                expectCacheWrite(to: testCache, content: "🌮parmod")
+                }
+
+            it("will restore cache state to original state if original cache request is passed to load(using:)")
+                {
+                let testCacheDec = TestCache("restore cache state - dec")
+                let testCacheMod = TestCache("restore cache state - mod")
+                let testCacheCle = TestCache("restore cache state - cle")
+                configureCache(testCacheDec, at: .decoding)
+                configureCache(testCacheMod, at: .model)
+                configureCache(testCacheCle, at: .cleanup)
+                service().configure
+                    {
+                    $0.pipeline[.decoding].removeTransformers()
+                    $0.pipeline[.decoding].add(TextResponseTransformer())
+                    }
+
+                testCacheMod.entries[TestCacheKey(forTestResourceIn: testCacheMod)] =
+                    Entity(content: "🌮", contentType: "text/plain")
+                let originalReq = resource().loadIfNeeded()!
+                awaitNewData(originalReq, initialState: .inProgress)
+                expect(resource().typedContent()) == "🌮cle"
+
+                stubText("🧇")
+                awaitNewData(resource().load(), initialState: .inProgress)
+                expectCacheWrite(to: testCacheDec, content: "🧇")
+                expectCacheWrite(to: testCacheMod, content: "🧇parmod")
+                expectCacheWrite(to: testCacheCle, content: "🧇parmodcle")
+
+                resource().load(using: originalReq)
+                expectCacheWrite(to: testCacheMod, content: "🌮")
+                expectCacheWrite(to: testCacheCle, content: "🌮cle")
+                waitForCacheWrite(testCacheDec)
+                expect(testCacheDec.entries[TestCacheKey(forTestResourceIn: testCacheDec)])
+                    .toEventually(beNil())
                 }
             }
 
@@ -300,8 +442,11 @@ private class TestCache: EntityCache
 
     func removeEntity(forKey key: TestCacheKey)
         {
-        _ = DispatchQueue.main.sync
-            { entries.removeValue(forKey: key) }
+        DispatchQueue.main.sync
+            {
+            entries.removeValue(forKey: key)
+            self.receivedCacheWrite = true
+            }
         }
     }
 
@@ -369,17 +514,22 @@ private class KeylessCache: EntityCache
 
 private struct UnwritableCache: EntityCache
     {
+    let cachedValue: Entity<Any>?
+
+    init(cachedValue: Entity<Any>? = nil)
+        { self.cachedValue = cachedValue }
+
     func key(for resource: Resource) -> URL?
         { resource.url }
 
     func readEntity(forKey key: URL) -> Entity<Any>?
-        { nil }
+        { cachedValue }
 
     func writeEntity(_ entity: Entity<Any>, forKey key: URL)
-        { fatalError("cache should never be written to") }
+        { fail("cache should never be written to") }
 
     func removeEntity(forKey key: URL)
-        { fatalError("cache should never be written to") }
+        { fail("cache should never be written to") }
     }
 
 private class ObserverEventRecorder: ResourceObserver
