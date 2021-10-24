@@ -83,5 +83,14 @@ extension Alamofire.Session: NetworkingProviderConvertible
 private class ZeroProgressURLSessionTask: URLSessionTask
     {
     override var countOfBytesSent: Int64
-        { return 0 }
+        { 0 }
+
+    override var countOfBytesExpectedToSend: Int64
+        { 1 }
+
+    override var countOfBytesReceived: Int64
+        { 0 }
+
+    override var countOfBytesExpectedToReceive: Int64
+        { 1 }
     }
