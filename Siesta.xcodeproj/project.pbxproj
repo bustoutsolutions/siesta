@@ -188,9 +188,12 @@
 		DA788A8F1D6AC1590085C820 /* ObjcCompatibilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4D61971B751FEE00F6BB9C /* ObjcCompatibilitySpec.m */; };
 		DA7D05C41D57C2B500431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
 		DA7D05C51D57C30400431980 /* PipelineProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7D05C31D57C2B500431980 /* PipelineProcessing.swift */; };
-		DA8B5B5522DEAC93008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
-		DA8B5B6422DEADDB008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
-		DA8C83581FC6096100C947F9 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; };
+		DA8B5B5522DEAC93008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA8B5B6422DEADDB008E47B0 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA8B5B7122DEB0DF008E47B0 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DEB491FC6763300555D92 /* FileCache.swift */; };
+		DA8B5B7222DEB0DF008E47B0 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DEB491FC6763300555D92 /* FileCache.swift */; };
+		DA8C83581FC6096100C947F9 /* SiestaTools.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8C83571FC6096100C947F9 /* SiestaTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA8DEB4A1FC6763300555D92 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DEB491FC6763300555D92 /* FileCache.swift */; };
 		DA8EF6D11BC20AFE002175EB /* ProgressSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */; };
 		DA99B5C91B38C8E6009C6937 /* String+Siesta.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */; };
 		DA9AA8151CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */; };
@@ -457,6 +460,7 @@
 		DA8B5B6922DEADDB008E47B0 /* SiestaTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8C83521FC600A900C947F9 /* SiestaTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SiestaTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8C83571FC6096100C947F9 /* SiestaTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiestaTools.h; sourceTree = "<group>"; };
+		DA8DEB491FC6763300555D92 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		DA8EF6CF1BC1A917002175EB /* ProgressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSpec.swift; sourceTree = "<group>"; };
 		DA99B5C81B38C8E6009C6937 /* String+Siesta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Siesta.swift"; sourceTree = "<group>"; };
 		DA9AA8141CCAFDD20016DB18 /* ConfigurationPatternConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationPatternConvertible.swift; sourceTree = "<group>"; };
@@ -728,6 +732,7 @@
 		DA8C833F1FC5FFDA00C947F9 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				DA8DEB491FC6763300555D92 /* FileCache.swift */,
 			);
 			name = Tools;
 			path = SiestaTools;
@@ -1272,6 +1277,9 @@
 					DA5E4B3922DCE9670059ED10 = {
 						ProvisioningStyle = Manual;
 					};
+					DA8C83401FC600A900C947F9 = {
+						LastSwiftMigration = 0910;
+					};
 					DAC0B37D1D651CB500D25C44 = {
 						LastSwiftMigration = 1000;
 					};
@@ -1754,6 +1762,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA8B5B7122DEB0DF008E47B0 /* FileCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1761,6 +1770,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA8B5B7222DEB0DF008E47B0 /* FileCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1768,6 +1778,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA8DEB4A1FC6763300555D92 /* FileCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1880,6 +1891,7 @@
 		9F0FAFAA1D033FCD00CE1B61 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
@@ -1897,6 +1909,7 @@
 		9F0FAFAB1D033FCD00CE1B61 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-macOS.plist";
@@ -2310,6 +2323,7 @@
 		DA336E671B2E6DDB006F702A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-iOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2325,6 +2339,7 @@
 		DA336E681B2E6DDB006F702A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info-iOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
