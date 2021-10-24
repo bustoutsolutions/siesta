@@ -69,7 +69,7 @@ public struct FileCache<ContentType>: EntityCache
 
     // MARK: - Reading and writing
 
-    public func readEntity(forKey key: Key) -> Entity<ContentType>?
+    public func readEntity(forKey key: Key) throws -> Entity<ContentType>?
         {
         do  {
             return try
@@ -78,13 +78,11 @@ public struct FileCache<ContentType>: EntityCache
                 .entity
             }
         catch CocoaError.fileReadNoSuchFile
-            { }  // a cache miss is just fine
-        catch
-            { SiestaLog.log(.cache, ["WARNING: FileCache unable to read cached entity for", key, ":", error]) }
+            { }  // a cache miss is just fine; don't log it
         return nil
         }
 
-    public func writeEntity(_ entity: Entity<ContentType>, forKey key: Key)
+    public func writeEntity(_ entity: Entity<ContentType>, forKey key: Key) throws
         {
         #if os(macOS)
             let options: Data.WritingOptions = [.atomic]
@@ -92,21 +90,13 @@ public struct FileCache<ContentType>: EntityCache
             let options: Data.WritingOptions = [.atomic, .completeFileProtection]
         #endif
 
-        do  {
-            try encoder.encode(EncodableEntity(entity))
-                .write(to: file(for: key), options: options)
-            }
-        catch
-            { SiestaLog.log(.cache, ["WARNING: FileCache unable to write entity for", key, ":", error]) }
+        try encoder.encode(EncodableEntity(entity))
+            .write(to: file(for: key), options: options)
         }
 
-    public func removeEntity(forKey key: Key)
+    public func removeEntity(forKey key: Key) throws
         {
-        do  {
-            try FileManager.default.removeItem(at: file(for: key))
-            }
-        catch
-            { SiestaLog.log(.cache, ["WARNING: FileCache unable to clear cache entity for", key, ":", error]) }
+        try FileManager.default.removeItem(at: file(for: key))
         }
     }
 
