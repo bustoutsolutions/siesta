@@ -12,8 +12,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
     {
     // Basic metadata
     private let resource: Resource
+    private let method: RequestMethod
     internal var config: Configuration
-        { resource.configuration(for: underlyingRequest) }
+        { resource.configuration(for: method) }
     internal let requestDescription: String
 
     // Networking
@@ -31,6 +32,9 @@ internal final class NetworkRequestDelegate: RequestDelegate
         self.resource = resource
         self.requestBuilder = requestBuilder
         underlyingRequest = requestBuilder()
+
+        method = RequestMethod(rawValue: underlyingRequest.httpMethod?.lowercased() ?? "")
+            ?? .get  // All unrecognized methods default to .get
 
         requestDescription =
             SiestaLog.Category.enabled.contains(.network) || SiestaLog.Category.enabled.contains(.networkDetails)
@@ -156,6 +160,7 @@ internal final class NetworkRequestDelegate: RequestDelegate
                 {
                 processedInfo = processor()
                 processedInfo.isNew = true
+                processedInfo.configurationSource = (self.method, self.resource)
                 }
             else
                 { processedInfo = rawInfo }  // result from a 304 is already transformed, cached, etc.
