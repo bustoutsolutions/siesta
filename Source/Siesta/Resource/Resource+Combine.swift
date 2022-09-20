@@ -224,7 +224,12 @@ extension Resource
     */
     public func requestPublisher(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<Void, RequestError>
 		{
-        Deferred { createRequest(self).publisher() }.eraseToAnyPublisher()
+        Deferred {
+            Just(())
+            .receive(on: DispatchQueue.main)
+            .setFailureType(to: RequestError.self)
+            .flatMap { _ in createRequest(self).publisher() }
+            }.eraseToAnyPublisher()
     	}
 
 	/**
@@ -234,7 +239,12 @@ extension Resource
 	*/
     public func dataRequestPublisher<T>(createRequest: @escaping (Resource) -> Request) -> AnyPublisher<T, RequestError>
 		{
-        Deferred { createRequest(self).dataPublisher() }.eraseToAnyPublisher()
+        Deferred {
+            Just(())
+            .receive(on: DispatchQueue.main)
+            .setFailureType(to: RequestError.self)
+            .flatMap { _ in createRequest(self).dataPublisher() }
+            }.eraseToAnyPublisher()
     	}
     }
 
