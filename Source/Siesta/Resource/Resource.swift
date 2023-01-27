@@ -88,7 +88,7 @@ public final class Resource: NSObject
        Note that this property represents the __full state__ of the resource. It therefore only holds entities fetched
        with `load()` and `loadIfNeeded()`, not any of the various flavors of `request(...)`.
 
-       Note that `latestData` will be present as long as there has _ever_ been a succesful request since the resource
+       Note that `latestData` will be present as long as there has _ever_ been a successful request since the resource
        was created or wiped. If an error occurs, `latestData` will still hold the latest (now stale) valid data.
 
        - SeeAlso: `TypedContentAccessors`
